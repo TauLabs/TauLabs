@@ -130,7 +130,7 @@ static const struct pios_hmc5883_cfg pios_hmc5883_external_cfg = {
 #define PIOS_COM_CAN_RX_BUF_LEN 256
 #define PIOS_COM_CAN_TX_BUF_LEN 256
 
-uintptr_t pios_com_logging_id;
+uintptr_t pios_com_spiflash_logging_id;
 uintptr_t pios_com_can_id;
 uintptr_t pios_internal_adc_id = 0;
 uintptr_t pios_uavo_settings_fs_id;
@@ -439,7 +439,7 @@ void PIOS_Board_Init(void) {
 			&pios_usart_com_driver, NULL, NULL, NULL, NULL,
 			PIOS_LED_ALARM,
 			&pios_usart_dsm_hsum_main_cfg, &pios_dsm_main_cfg,
-			hw_DSMxMode, NULL, NULL, false, 0);
+			hw_DSMxMode, NULL, NULL, false);
 
 	/* Configure FlexiPort */
 	uint8_t hw_flexiport;
@@ -451,7 +451,7 @@ void PIOS_Board_Init(void) {
 			&pios_i2c_flexiport_adapter_cfg, NULL, NULL,
 			PIOS_LED_ALARM,
 			&pios_usart_dsm_hsum_flexi_cfg, &pios_dsm_flexi_cfg,
-			hw_DSMxMode, NULL, NULL, false, 0);
+			hw_DSMxMode, NULL, NULL, false);
 
 #if defined(PIOS_INCLUDE_RFM22B)
 	HwSparky2Data hwSparky2;
@@ -488,7 +488,7 @@ void PIOS_Board_Init(void) {
 			&pios_usart_dsm_hsum_rcvr_cfg,
 			&pios_dsm_rcvr_cfg,
 			hw_DSMxMode, get_sbus_rcvr_cfg(bdinfo->board_rev),
-			&pios_sbus_cfg, get_sbus_toggle(bdinfo->board_rev), 0);
+			&pios_sbus_cfg, get_sbus_toggle(bdinfo->board_rev));
 
 #if defined(PIOS_INCLUDE_GCSRCVR)
 	GCSReceiverInitialize();
@@ -681,7 +681,7 @@ void PIOS_Board_Init(void) {
 		const uint32_t LOG_BUF_LEN = 256;
 		uint8_t *log_rx_buffer = PIOS_malloc(LOG_BUF_LEN);
 		uint8_t *log_tx_buffer = PIOS_malloc(LOG_BUF_LEN);
-		if (PIOS_COM_Init(&pios_com_logging_id, &pios_streamfs_com_driver, streamfs_id,
+		if (PIOS_COM_Init(&pios_com_spiflash_logging_id, &pios_streamfs_com_driver, streamfs_id,
 			log_rx_buffer, LOG_BUF_LEN, log_tx_buffer, LOG_BUF_LEN) != 0)
 			panic(9);
 	}

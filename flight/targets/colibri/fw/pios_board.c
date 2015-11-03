@@ -205,7 +205,7 @@ uintptr_t pios_com_hott_id;
 uintptr_t pios_com_frsky_sensor_hub_id;
 uintptr_t pios_com_lighttelemetry_id;
 uintptr_t pios_com_picoc_id;
-uintptr_t pios_com_logging_id;
+uintptr_t pios_com_spiflash_logging_id;
 uintptr_t pios_uavo_settings_fs_id;
 uintptr_t pios_waypoints_settings_fs_id;
 uintptr_t pios_internal_adc_id;
@@ -1627,7 +1627,7 @@ void PIOS_Board_Init(void)
 	const uint32_t LOG_BUF_LEN = 256;
 	uint8_t *log_rx_buffer = PIOS_malloc(LOG_BUF_LEN);
 	uint8_t *log_tx_buffer = PIOS_malloc(LOG_BUF_LEN);
-	if (PIOS_COM_Init(&pios_com_logging_id, &pios_streamfs_com_driver, streamfs_id,
+	if (PIOS_COM_Init(&pios_com_spiflash_logging_id, &pios_streamfs_com_driver, streamfs_id,
 	                  log_rx_buffer, LOG_BUF_LEN, log_tx_buffer, LOG_BUF_LEN) != 0)
 		panic(9);
 #endif /* PIOS_INCLUDE_FLASH */
