@@ -269,10 +269,11 @@ endif
 
 ifeq ($(UNAME), Darwin)
 openocd_install: OPENOCD_OPTIONS := $(OPENOCD_OPTIONS) --disable-option-checking
+openocd_install: OPENOCD_OPTIONS := MAKEINFO=true $(OPENOCD_OPTIONS)
 endif
 
 openocd_install: openocd_clean
-        # download the source
+	# download the source
 	$(V0) @echo " DOWNLOAD     $(OPENOCD_URL) @ $(OPENOCD_REV)"
 	$(V1) [ ! -d "$(OPENOCD_BUILD_DIR)" ] || $(RM) -rf "$(OPENOCD_BUILD_DIR)"
 	$(V1) mkdir -p "$(OPENOCD_BUILD_DIR)"
@@ -282,7 +283,16 @@ openocd_install: openocd_clean
 	  git checkout -q tags/$(OPENOCD_TAG) ; \
 	)
 
-        # build and install
+ifeq ($(UNAME), Darwin)
+	# apply clang build patch
+	$(V0) @echo " PATCH        $(OPENOCD_DIR)"
+	$(V1) ( \
+	  cd $(OPENOCD_BUILD_DIR) ; \
+	  git apply < $(ROOT_DIR)/flight/Project/OpenOCD/0005-clang-fix-build.patch ; \
+	)
+endif
+
+	# build and install
 	$(V0) @echo " BUILD        $(OPENOCD_DIR)"
 	$(V1) mkdir -p "$(OPENOCD_DIR)"
 	$(V1) ( \
@@ -293,7 +303,7 @@ openocd_install: openocd_clean
 	  $(MAKE) install ; \
 	)
 
-        # delete the extracted source when we're done
+	# delete the extracted source when we're done
 	$(V1) [ ! -d "$(OPENOCD_BUILD_DIR)" ] || $(RM) -rf "$(OPENOCD_BUILD_DIR)"
 
 .PHONY: openocd_clean
