@@ -576,8 +576,8 @@ static const struct pios_flash_internal_cfg flash_internal_cfg = {
 
 #include "pios_flash_priv.h"
 
-static const struct pios_flash_sector_range stm32f4_sectors[] = {
 #if defined(PIOS_INCLUDE_FLASH_INTERNAL)
+static const struct pios_flash_sector_range stm32f4_sectors[] = {
 	{
 		.base_sector = 0,
 		.last_sector = 3,
