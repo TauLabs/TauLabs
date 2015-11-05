@@ -475,7 +475,7 @@ void PIOS_Board_Init(void)
 	}
 #endif /* PIOS_INCLUDE_ADC */
 #if defined(PIOS_INCLUDE_PWM)
-	if (use_pwm_in > 0) {
+	if (use_pwm_in) {
 		if (number_of_adc_ports > 0)
 			pios_pwm_cfg.channels = &pios_tim_rcvrport_pwm[1];
 		uintptr_t pios_pwm_id;
