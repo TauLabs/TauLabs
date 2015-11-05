@@ -368,96 +368,96 @@ void PIOS_Board_Init(void) {
 	uint8_t hw_uart1;
 	HwQuantonUart1Get(&hw_uart1);
 
-    PIOS_HAL_ConfigurePort(hw_uart1,             // port type protocol
-            &pios_usart1_cfg,                    // usart_port_cfg
+	PIOS_HAL_ConfigurePort(hw_uart1,             // port type protocol
+			&pios_usart1_cfg,                    // usart_port_cfg
 			&pios_usart_com_driver,              // com_driver
-            &pios_i2c_usart1_adapter_id,         // i2c_id
-            &pios_i2c_usart1_adapter_cfg,        // i2c_cfg
-            NULL,                                // ppm_cfg
-            NULL,                                // pwm_cfg
-            PIOS_LED_ALARM,                      // led_id
-            &pios_usart1_dsm_hsum_cfg,           // usart_dsm_hsum_cfg
-            &pios_usart1_dsm_aux_cfg,            // dsm_cfg
-            hw_DSMxMode,                         // dsm_mode
-            NULL,                                // sbus_rcvr_cfg
-            NULL,                                // sbus_cfg    
-            false);                              // sbus_toggle
+			&pios_i2c_usart1_adapter_id,         // i2c_id
+			&pios_i2c_usart1_adapter_cfg,        // i2c_cfg
+			NULL,                                // ppm_cfg
+			NULL,                                // pwm_cfg
+			PIOS_LED_ALARM,                      // led_id
+			&pios_usart1_dsm_hsum_cfg,           // usart_dsm_hsum_cfg
+			&pios_usart1_dsm_aux_cfg,            // dsm_cfg
+			hw_DSMxMode,                         // dsm_mode
+			NULL,                                // sbus_rcvr_cfg
+			NULL,                                // sbus_cfg
+			false);                              // sbus_toggle
 
 	/* UART2 Port */
 	uint8_t hw_uart2;
 	HwQuantonUart2Get(&hw_uart2);
 
-    PIOS_HAL_ConfigurePort(hw_uart2,             // port type protocol
-            &pios_usart2_cfg,                    // usart_port_cfg
+	PIOS_HAL_ConfigurePort(hw_uart2,             // port type protocol
+			&pios_usart2_cfg,                    // usart_port_cfg
 			&pios_usart_com_driver,              // com_driver
-            NULL,                                // i2c_id
-            NULL,                                // i2c_cfg
-            NULL,                                // ppm_cfg
-            NULL,                                // pwm_cfg
-            PIOS_LED_ALARM,                      // led_id
-            &pios_usart2_dsm_hsum_cfg,           // usart_dsm_hsum_cfg
-            &pios_usart2_dsm_aux_cfg,            // dsm_cfg
-            hw_DSMxMode,                         // dsm_mode
-            &pios_usart2_sbus_cfg,               // sbus_rcvr_cfg
-            &pios_usart2_sbus_aux_cfg,           // sbus_cfg    
-            true);                               // sbus_toggle
+			NULL,                                // i2c_id
+			NULL,                                // i2c_cfg
+			NULL,                                // ppm_cfg
+			NULL,                                // pwm_cfg
+			PIOS_LED_ALARM,                      // led_id
+			&pios_usart2_dsm_hsum_cfg,           // usart_dsm_hsum_cfg
+			&pios_usart2_dsm_aux_cfg,            // dsm_cfg
+			hw_DSMxMode,                         // dsm_mode
+			&pios_usart2_sbus_cfg,               // sbus_rcvr_cfg
+			&pios_usart2_sbus_aux_cfg,           // sbus_cfg
+			true);                               // sbus_toggle
 
 	/* UART3 Port */
 	uint8_t hw_uart3;
 	HwQuantonUart3Get(&hw_uart3);
 
-    PIOS_HAL_ConfigurePort(hw_uart3,             // port type protocol
-            &pios_usart3_cfg,                    // usart_port_cfg
+	PIOS_HAL_ConfigurePort(hw_uart3,             // port type protocol
+			&pios_usart3_cfg,                    // usart_port_cfg
 			&pios_usart_com_driver,              // com_driver
-            &pios_i2c_usart3_adapter_id,         // i2c_id
-            &pios_i2c_usart3_adapter_cfg,        // i2c_cfg
-            NULL,                                // ppm_cfg
-            NULL,                                // pwm_cfg
-            PIOS_LED_ALARM,                      // led_id
-            &pios_usart3_dsm_hsum_cfg,           // usart_dsm_hsum_cfg
-            &pios_usart3_dsm_aux_cfg,            // dsm_cfg
-            hw_DSMxMode,                         // dsm_mode
-            NULL,                                // sbus_rcvr_cfg
-            NULL,                                // sbus_cfg    
-            false);                              // sbus_toggle
+			&pios_i2c_usart3_adapter_id,         // i2c_id
+			&pios_i2c_usart3_adapter_cfg,        // i2c_cfg
+			NULL,                                // ppm_cfg
+			NULL,                                // pwm_cfg
+			PIOS_LED_ALARM,                      // led_id
+			&pios_usart3_dsm_hsum_cfg,           // usart_dsm_hsum_cfg
+			&pios_usart3_dsm_aux_cfg,            // dsm_cfg
+			hw_DSMxMode,                         // dsm_mode
+			NULL,                                // sbus_rcvr_cfg
+			NULL,                                // sbus_cfg
+			false);                              // sbus_toggle
 
 	/* UART4 Port */
 	uint8_t hw_uart4;
 	HwQuantonUart4Get(&hw_uart4);
 
-    PIOS_HAL_ConfigurePort(hw_uart4,             // port type protocol
-            &pios_usart4_cfg,                    // usart_port_cfg
+	PIOS_HAL_ConfigurePort(hw_uart4,             // port type protocol
+			&pios_usart4_cfg,                    // usart_port_cfg
 			&pios_usart_com_driver,              // com_driver
-            NULL,                                // i2c_id
-            NULL,                                // i2c_cfg
-            NULL,                                // ppm_cfg
-            NULL,                                // pwm_cfg
-            PIOS_LED_ALARM,                      // led_id
-            &pios_usart4_dsm_hsum_cfg,           // usart_dsm_hsum_cfg
-            &pios_usart4_dsm_aux_cfg,            // dsm_cfg
-            hw_DSMxMode,                         // dsm_mode
-            NULL,                                // sbus_rcvr_cfg
-            NULL,                                // sbus_cfg    
-            false);                              // sbus_toggle
+			NULL,                                // i2c_id
+			NULL,                                // i2c_cfg
+			NULL,                                // ppm_cfg
+			NULL,                                // pwm_cfg
+			PIOS_LED_ALARM,                      // led_id
+			&pios_usart4_dsm_hsum_cfg,           // usart_dsm_hsum_cfg
+			&pios_usart4_dsm_aux_cfg,            // dsm_cfg
+			hw_DSMxMode,                         // dsm_mode
+			NULL,                                // sbus_rcvr_cfg
+			NULL,                                // sbus_cfg
+			false);                              // sbus_toggle
 
 	/* UART5 Port */
 	uint8_t hw_uart5;
 	HwQuantonUart5Get(&hw_uart5);
 
-    PIOS_HAL_ConfigurePort(hw_uart5,             // port type protocol
-            &pios_usart5_cfg,                    // usart_port_cfg
+	PIOS_HAL_ConfigurePort(hw_uart5,             // port type protocol
+			&pios_usart5_cfg,                    // usart_port_cfg
 			&pios_usart_com_driver,              // com_driver
-            NULL,                                // i2c_id
-            NULL,                                // i2c_cfg
-            NULL,                                // ppm_cfg
-            NULL,                                // pwm_cfg
-            PIOS_LED_ALARM,                      // led_id
-            &pios_usart5_dsm_hsum_cfg,           // usart_dsm_hsum_cfg
-            &pios_usart5_dsm_aux_cfg,            // dsm_cfg
-            hw_DSMxMode,                         // dsm_mode
-            NULL,                                // sbus_rcvr_cfg
-            NULL,                                // sbus_cfg    
-            false);                              // sbus_toggle
+			NULL,                                // i2c_id
+			NULL,                                // i2c_cfg
+			NULL,                                // ppm_cfg
+			NULL,                                // pwm_cfg
+			PIOS_LED_ALARM,                      // led_id
+			&pios_usart5_dsm_hsum_cfg,           // usart_dsm_hsum_cfg
+			&pios_usart5_dsm_aux_cfg,            // dsm_cfg
+			hw_DSMxMode,                         // dsm_mode
+			NULL,                                // sbus_rcvr_cfg
+			NULL,                                // sbus_cfg
+			false);                              // sbus_toggle
 
 	/* Configure the rcvr port */
 	uint8_t hw_rcvrport;
