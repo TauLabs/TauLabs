@@ -61,7 +61,7 @@ struct ObjectEventEntry {
 };
 
 struct ObjectEventEntryThrottled {
-	struct ObjectEventEntry   entry;
+	struct ObjectEventEntry   entry; // MUST be frist! So throttled entry can be interpreted as ObjectEventEntry
 
 	uint32_t                  due;
 	uint16_t                  interval;
@@ -1677,6 +1677,7 @@ static int32_t sendEvent(struct UAVOBase * obj, uint16_t instId,
 		if (event->eventMask == 0
 			|| (event->eventMask & triggered_event) != 0) {
 			if (event->hasThrottle) {
+				// This is a throttled event (triggered with a spacing of at least "interval" ms)
 				struct ObjectEventEntryThrottled *throtInfo =
 					(struct ObjectEventEntryThrottled *) event;
 
