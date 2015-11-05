@@ -1233,10 +1233,11 @@ static struct pios_openlrs_dev *pios_openlrs_alloc(void)
 	struct pios_openlrs_dev *openlrs_dev;
 
 	openlrs_dev = (struct pios_openlrs_dev *)PIOS_malloc(sizeof(*openlrs_dev));
-	openlrs_dev->spi_id = 0;
 	if (!openlrs_dev) {
 		return NULL;
 	}
+
+	openlrs_dev->spi_id = 0;
 
 	// Create the ISR signal
 	openlrs_dev->sema_isr = PIOS_Semaphore_Create();
