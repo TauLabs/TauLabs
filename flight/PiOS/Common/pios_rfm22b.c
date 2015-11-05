@@ -2451,10 +2451,11 @@ static struct pios_rfm22b_dev *pios_rfm22_alloc(void)
 	struct pios_rfm22b_dev *rfm22b_dev;
 
 	rfm22b_dev = (struct pios_rfm22b_dev *)PIOS_malloc(sizeof(*rfm22b_dev));
-	rfm22b_dev->spi_id = 0;
 	if (!rfm22b_dev) {
 		return NULL;
 	}
+
+	rfm22b_dev->spi_id = 0;
 
 	// Create the ISR signal
 	rfm22b_dev->sema_isr = PIOS_Semaphore_Create();
