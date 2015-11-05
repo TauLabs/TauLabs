@@ -42,6 +42,7 @@
 #include "actuatordesired.h"
 #include "flightstatus.h"
 #include "systemstats.h"
+#include "systemalarms.h"
 #include "homelocation.h"
 #include "baroaltitude.h"
 #include "pios_thread.h"
@@ -82,6 +83,7 @@
 #define  MSP_BOXIDS     119 // get the permanent IDs associated to BOXes
 #define  MSP_NAV_STATUS 121 // Returns navigation status
 #define  MSP_CELLS      130 // FrSky SPort Telemtry
+#define  MSP_ALARMS     242 // Alarm request
 
 typedef enum {
 	MSP_BOX_ARM,
@@ -146,13 +148,15 @@ struct msp_bridge {
 #endif
 #define TASK_PRIORITY               PIOS_THREAD_PRIO_LOW
 
+#define MAX_ALARM_LEN 30
+
 static bool module_enabled;
 extern uintptr_t pios_com_msp_id;
 static struct msp_bridge *msp;
 static int32_t uavoMSPBridgeInitialize(void);
 static void uavoMSPBridgeTask(void *parameters);
 
-static void msp_send(struct msp_bridge *m, uint8_t cmd, uint8_t *data, size_t len)
+static void msp_send(struct msp_bridge *m, uint8_t cmd, const uint8_t *data, size_t len)
 {
 	uint8_t buf[5];
 	uint8_t cs = (uint8_t)(len) ^ cmd;
@@ -391,6 +395,84 @@ static void msp_send_boxids(struct msp_bridge *m) {
 	msp_send(m, MSP_BOXIDS, boxes, len);
 }
 
+const char ALARM_NAMES[][8] = {
+	[SYSTEMALARMS_ALARM_OUTOFMEMORY] = "MEMORY",
+	[SYSTEMALARMS_ALARM_CPUOVERLOAD] = "CPU",
+	[SYSTEMALARMS_ALARM_STACKOVERFLOW] = "STACK",
+	[SYSTEMALARMS_ALARM_SYSTEMCONFIGURATION] = "CONFIG",
+	[SYSTEMALARMS_ALARM_EVENTSYSTEM] = "EVENT",
+	[SYSTEMALARMS_ALARM_TELEMETRY] = {0}, // ignored
+	[SYSTEMALARMS_ALARM_MANUALCONTROL] = "MANUAL",
+	[SYSTEMALARMS_ALARM_ACTUATOR] = "ACTUATOR",
+	[SYSTEMALARMS_ALARM_ATTITUDE] = "ATTITUDE",
+	[SYSTEMALARMS_ALARM_SENSORS] = "SENSORS",
+	[SYSTEMALARMS_ALARM_STABILIZATION] = "STAB",
+	[SYSTEMALARMS_ALARM_PATHFOLLOWER] = "PATH-F",
+	[SYSTEMALARMS_ALARM_PATHPLANNER] = "PATH-P",
+	[SYSTEMALARMS_ALARM_BATTERY] = "BATTERY",
+	[SYSTEMALARMS_ALARM_FLIGHTTIME] = "TIME",
+	[SYSTEMALARMS_ALARM_I2C] = "I2C",
+	[SYSTEMALARMS_ALARM_GPS] = "GPS",
+	[SYSTEMALARMS_ALARM_ALTITUDEHOLD] = "A-HOLD",
+	[SYSTEMALARMS_ALARM_BOOTFAULT] = "BOOT",
+	[SYSTEMALARMS_ALARM_GEOFENCE] = "GEOFENCE",
+	[SYSTEMALARMS_ALARM_TEMPBARO] = "TEMPBARO",
+	[SYSTEMALARMS_ALARM_GYROBIAS] = "GYROBIAS",
+	[SYSTEMALARMS_ALARM_ADC] = "ADC",
+};
+
+// If someone adds a new alarm, we'd like it added to the array above.
+DONT_BUILD_IF(NELEMENTS(ALARM_NAMES) != SYSTEMALARMS_ALARM_NUMELEM, AlarmArrayMismatch);
+
+#define ALARM_OK 0
+#define ALARM_WARN 1
+#define ALARM_ERROR 2
+#define ALARM_CRIT 3
+
+static void msp_send_alarms(struct msp_bridge *m) {
+	union {
+		uint8_t buf[0];
+		struct {
+			uint8_t state;
+			uint8_t msg[MAX_ALARM_LEN];
+		} __attribute__((packed)) alarm;
+	} data;
+
+	SystemAlarmsData alarm;
+	SystemAlarmsGet(&alarm);
+
+	data.alarm.state = ALARM_OK;
+
+	for (int i = 0; i < SYSTEMALARMS_ALARM_NUMELEM; i++) {
+		if (ALARM_NAMES[i][0] != 0 &&
+		    ((alarm.Alarm[i] == SYSTEMALARMS_ALARM_WARNING) ||
+		     (alarm.Alarm[i] == SYSTEMALARMS_ALARM_ERROR) ||
+		     (alarm.Alarm[i] == SYSTEMALARMS_ALARM_CRITICAL))) {
+
+			uint8_t state = ALARM_OK;
+			switch (alarm.Alarm[i]) {
+			case SYSTEMALARMS_ALARM_WARNING:
+				state = ALARM_WARN;
+				break;
+			case SYSTEMALARMS_ALARM_ERROR:
+				state = ALARM_ERROR;
+				break;
+			case SYSTEMALARMS_ALARM_CRITICAL:
+				state = ALARM_CRIT;
+			}
+
+			// Only take this alarm if it's worse than the previous one.
+			if (state > data.alarm.state) {
+				data.alarm.state = state;
+				strncpy((char*)data.alarm.msg, (const char*)ALARM_NAMES[i], sizeof(*ALARM_NAMES));
+				data.alarm.msg[sizeof(*ALARM_NAMES)] = 0;
+			}
+		}
+	}
+
+	msp_send(m, MSP_ALARMS, data.buf, strlen((char*)data.alarm.msg)+1);
+}
+
 static msp_state msp_state_checksum(struct msp_bridge *m, uint8_t b)
 {
 	if ((m->checksum ^ b) != 0) {
@@ -425,6 +507,9 @@ static msp_state msp_state_checksum(struct msp_bridge *m, uint8_t b)
 		break;
 	case MSP_BOXIDS:
 		msp_send_boxids(m);
+		break;
+	case MSP_ALARMS:
+		msp_send_alarms(m);
 		break;
 	}
 	return MSP_IDLE;
