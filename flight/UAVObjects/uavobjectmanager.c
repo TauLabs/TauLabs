@@ -61,7 +61,7 @@ struct ObjectEventEntry {
 };
 
 struct ObjectEventEntryThrottled {
-	struct ObjectEventEntry   entry; // MUST be frist! So throttled entry can be interpreted as ObjectEventEntry
+	struct ObjectEventEntry   entry; // MUST be first! So throttled entry can be interpreted as ObjectEventEntry
 
 	uint32_t                  due;
 	uint16_t                  interval;
