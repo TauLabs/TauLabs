@@ -125,6 +125,11 @@ typedef enum {
 	MSP_MAYBE_UAVTALK2,
 	MSP_MAYBE_UAVTALK3,
 	MSP_MAYBE_UAVTALK4,
+	MSP_MAYBE_UAVTALK_SLOW2,
+	MSP_MAYBE_UAVTALK_SLOW3,
+	MSP_MAYBE_UAVTALK_SLOW4,
+	MSP_MAYBE_UAVTALK_SLOW5,
+	MSP_MAYBE_UAVTALK_SLOW6
 } msp_state;
 
 struct msp_bridge {
@@ -498,6 +503,9 @@ static bool msp_receive_byte(struct msp_bridge *m, uint8_t b)
 	switch (m->state) {
 	case MSP_IDLE:
 		switch (b) {
+		case 0xe0: // uavtalk matching first part of 0x3c @ 57600 baud
+			m->state = MSP_MAYBE_UAVTALK_SLOW2;
+			break;
 		case '<': // uavtalk matching with 0x3c 0x2x 0xxx 0x0x
 			m->state = MSP_MAYBE_UAVTALK2;
 			break;
@@ -546,6 +554,27 @@ static bool msp_receive_byte(struct msp_bridge *m, uint8_t b)
 			return false;
 		}
 		break;
+	case MSP_MAYBE_UAVTALK_SLOW2:
+		m->state = b == 0x18 ? MSP_MAYBE_UAVTALK_SLOW3 : MSP_IDLE;
+		break;
+	case MSP_MAYBE_UAVTALK_SLOW3:
+		m->state = b == 0x98 ? MSP_MAYBE_UAVTALK_SLOW4 : MSP_IDLE;
+		break;
+	case MSP_MAYBE_UAVTALK_SLOW4:
+		m->state = b == 0x7e ? MSP_MAYBE_UAVTALK_SLOW5 : MSP_IDLE;
+		break;
+	case MSP_MAYBE_UAVTALK_SLOW5:
+		m->state = b == 0x00 ? MSP_MAYBE_UAVTALK_SLOW6 : MSP_IDLE;
+		break;
+	case MSP_MAYBE_UAVTALK_SLOW6:
+		m->state = MSP_IDLE;
+		// If this looks like the sixth possible 57600 baud uavtalk byte, we're done
+		if(b == 0x60) {
+			PIOS_COM_ChangeBaud(m->com, 57600);
+			PIOS_COM_TELEM_RF = m->com;
+			return false;
+		}
+		break;
 	}
 
 	return true;
@@ -557,8 +586,14 @@ static bool msp_receive_byte(struct msp_bridge *m, uint8_t b)
  */
 static int32_t uavoMSPBridgeStart(void)
 {
-	if (!module_enabled)
+	if (!module_enabled) {
+		// give port to telemetry if it doesn't have one
+		// stops board getting stuck in condition where it can't be connected to gcs
+		if(!PIOS_COM_TELEM_RF)
+			PIOS_COM_TELEM_RF = pios_com_msp_id;
+
 		return -1;
+	}
 
 	struct pios_thread *task = PIOS_Thread_Create(
 		uavoMSPBridgeTask, "uavoMSPBridge",
