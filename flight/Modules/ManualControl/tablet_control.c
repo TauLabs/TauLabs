@@ -145,7 +145,7 @@ int32_t tablet_control_select(bool reset_controller)
 
 			float DeltaN = NED[0] - positionActual.North;
 			float DeltaE = NED[1] - positionActual.East;
-			float dist = sqrt(DeltaN * DeltaN + DeltaE * DeltaE);
+			float dist = sqrtf(DeltaN * DeltaN + DeltaE * DeltaE);
 
 			// If outside the follow radius code to the nearest point on the border
 			// otherwise stay in the same location
