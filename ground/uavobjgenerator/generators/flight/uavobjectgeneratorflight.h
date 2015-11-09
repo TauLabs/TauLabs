@@ -34,13 +34,13 @@ class UAVObjectGeneratorFlight
 public:
     bool generate(UAVObjectParser* gen,QString templatepath,QString outputpath);
     QStringList fieldTypeStrC;
-    QString flightCodeTemplate, flightIncludeTemplate, flightInitTemplate, flightInitIncludeTemplate, flightMakeTemplate;
+    QString flightCodeTemplate, flightIncludeTemplate, flightInitTemplate, flightInitIncludeTemplate, flightVersionTemplate;
     QDir flightCodePath;
     QDir flightOutputPath;
 
 private:
     bool process_object(ObjectInfo* info);
-    QString form_enum_name(QString& objName, QString &fieldName, QString &option);
+    QString form_enum_name(const QString& objName, const QString &fieldName, const QString &option);
 
 };
 

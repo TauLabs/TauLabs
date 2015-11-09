@@ -81,6 +81,8 @@ SRC += $(DEBUG_CM3_DIR)/dcc_stdio.c
 SRC += $(DEBUG_CM3_DIR)/cm3_fault_handlers.c
 #endif
 
+SRC += $(MATHLIB)/misc_math.c
+
 SRC += $(FLIGHTLIB)/fifo_buffer.c
 SRC += $(FLIGHTLIB)/taskmonitor.c
 
@@ -248,6 +250,8 @@ ASFLAGS  = $(ARCHFLAGS) -mthumb -I. -x assembler-with-cpp
 ASFLAGS += $(ADEFS)
 ASFLAGS += -Wa,-adhlns=$(addprefix $(OUTDIR)/, $(notdir $(addsuffix .lst, $(basename $<))))
 ASFLAGS += $(patsubst %,-I%,$(EXTRAINCDIRS))
+
+LIBS += $(UAVOBJLIB)
 
 # Linker flags.
 #  -Wl,...:     tell GCC to pass this to linker.

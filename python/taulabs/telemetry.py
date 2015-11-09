@@ -30,8 +30,8 @@ class TelemetryBase():
     def __init__(self, githash=None, service_in_iter=True,
             iter_blocks=True, use_walltime=True, do_handshaking=False,
             gcs_timestamps=False, name=None):
+
         """Instantiates a telemetry instance.  Called only by derived classes.
-        
          - githash: revision control id of the UAVO's used to communicate.
              if unspecified, we use the version in this source tree.
          - service_in_iter: whether the actual iterator should service the
@@ -80,9 +80,15 @@ class TelemetryBase():
 
         self.eof = False
 
-    def as_numpy_array(self, match_class):
+        self.first_handshake_needed = self.do_handshaking
+
+        if do_handshaking:
+            self.GCSTelemetryStats = uavo_defs.find_by_name('UAVO_GCSTelemetryStats')
+            self.FlightTelemetryStats = uavo_defs.find_by_name('UAVO_FlightTelemetryStats')
+
+    def as_numpy_array(self, match_class, filter_cond=None):
         """ Transforms all received instances of a given object to a numpy array.
-        
+
         match_class: the UAVO_* class you'd like to match.
         """
 
@@ -90,11 +96,15 @@ class TelemetryBase():
 
         # Find the subset of this list that is of the requested class
         filtered_list = filter(lambda x: isinstance(x, match_class), self)
- 
+
+        # Perform any additional requested filtering
+        if filter_cond is not None:
+            filtered_list = filter(filter_cond, filtered_list)
+
         # Check for an empty list
         if filtered_list == []:
             return np.array([])
- 
+
         return np.array(filtered_list, dtype=match_class._dtype)
 
     def __iter__(self):
@@ -144,7 +154,8 @@ class TelemetryBase():
                         break
 
     def __make_handshake(self, handshake):
-        return uavo.UAVO_GCSTelemetryStats._make_to_send(0, 0, 0, 0, 0, handshake)
+        return self.GCSTelemetryStats._make_to_send(
+                Status=self.GCSTelemetryStats.ENUM_Status[handshake])
 
     def send_object(self, obj):
         self._send(uavtalk.send_object(obj))
@@ -153,19 +164,17 @@ class TelemetryBase():
         if obj.name == "UAVO_FlightTelemetryStats":
             # Handle the telemetry handshaking
 
-            (DISCONNECTED, HANDSHAKE_REQ, HANDSHAKE_ACK, CONNECTED) = (0,1,2,3)
-
-            if obj.Status == DISCONNECTED:
+            if obj.Status == obj.ENUM_Status['Disconnected']:
                 # Request handshake
                 print "Disconnected"
-                send_obj = self.__make_handshake(HANDSHAKE_REQ)
-            elif obj.Status == HANDSHAKE_ACK:
+                send_obj = self.__make_handshake('HandshakeReq')
+            elif obj.Status == obj.ENUM_Status['HandshakeAck']:
                 # Say connected
                 print "Handshake ackd"
-                send_obj = self.__make_handshake(CONNECTED)
-            elif obj.Status == CONNECTED:
+                send_obj = self.__make_handshake('Connected')
+            elif obj.Status == obj.ENUM_Status['Connected']:
                 print "Connected"
-                send_obj = self.__make_handshake(CONNECTED)
+                send_obj = self.__make_handshake('Connected')
 
             self.send_object(send_obj)
 
@@ -208,6 +217,19 @@ class TelemetryBase():
         with self.cond:
             return self.last_values.copy()
 
+    def wait_connection(self):
+        """ Waits for the connection handshaking to complete. """
+
+        with self.cond:
+            while True:
+                fts = self.last_values.get(self.FlightTelemetryStats)
+
+                if fts is not None:
+                    if fts.Status == fts.ENUM_Status['Connected']:
+                        return
+
+                self.cond.wait()
+
     def start_thread(self):
         """ Starts a separate thread to service this telemetry connection. """
         if self.service_in_iter:
@@ -240,6 +262,11 @@ class TelemetryBase():
         else:
             finish_time = None
 
+        if self.first_handshake_needed:
+            send_obj = self.__make_handshake('Disconnected')
+            self.send_object(send_obj)
+
+            self.first_handshake_needed = False
         data = self._receive(finish_time)
         self.__handle_frames(data)
 
@@ -255,31 +282,23 @@ class TelemetryBase():
         with self.cond:
             return self.eof
 
-class FDTelemetry(TelemetryBase):
+class BidirTelemetry(TelemetryBase):
     """
-    Implementation of bidirectional telemetry from a file descriptor.
-    
-    Intended for serial and network streams.
+    Stuff involved in buffering for bidirection telemetry.
     """
+    def __init__(self, *args, **kwargs):
+        """ Abstract instantiation of bidir telemetry
 
-    def __init__(self, fd, *args, **kwargs):
-        """ Instantiates a telemetry instance on a given fd.
-        
-        Probably should only be called by derived classes.
-        
-         - fd: the file descriptor to perform telemetry operations upon
-        
+        Should only be called by derived classes.
+
         Meaningful parameters passed up to TelemetryBase include: githash,
         service_in_iter, iter_blocks, use_walltime
         """
-
         TelemetryBase.__init__(self, do_handshaking=True,
                 gcs_timestamps=False,  *args, **kwargs)
 
         self.recv_buf = ''
         self.send_buf = ''
-
-        self.fd = fd
 
     def _receive(self, finish_time):
         """ Fetch available data from file descriptor. """
@@ -298,12 +317,46 @@ class FDTelemetry(TelemetryBase):
 
         return ret
 
+    def _send(self, msg):
+        """ Send a string to the controller """
+
+        self.send_buf += msg
+
+        self._do_io(0)
+
+    @abstractmethod
+    def _do_io(self, finish_time):
+        return
+
+
+class FDTelemetry(BidirTelemetry):
+    """
+    Implementation of bidirectional telemetry from a file descriptor.
+
+    Intended for network streams.
+    """
+
+    def __init__(self, fd, *args, **kwargs):
+        """ Instantiates a telemetry instance on a given fd.
+
+        Probably should only be called by derived classes.
+
+         - fd: the file descriptor to perform telemetry operations upon
+
+        Meaningful parameters passed up to TelemetryBase include: githash,
+        service_in_iter, iter_blocks, use_walltime
+        """
+
+        BidirTelemetry.__init__(self, *args, **kwargs)
+
+        self.fd = fd
+
     # Call select and do one set of IO operations.
     def _do_io(self, finish_time):
         rdSet = []
         wrSet = []
 
-        didStuff = False
+        did_stuff = False
 
         if len(self.recv_buf) < 1024:
             rdSet.append(self.fd)
@@ -323,13 +376,20 @@ class FDTelemetry(TelemetryBase):
         if r:
             # Shouldn't throw an exception-- they just told us
             # it was ready for read.
-            chunk = os.read(self.fd, 1024)
-            if chunk == '':
-                raise RuntimeError("stream closed")
+            # TODO: Figure out why read sometimes fails when using sockets
+            try:
+                chunk = os.read(self.fd, 1024)
+                if chunk == '':
+                    raise RuntimeError("stream closed")
 
-            self.recv_buf = self.recv_buf + chunk
+                self.recv_buf = self.recv_buf + chunk
 
-            didStuff = True
+                did_stuff = True
+            except OSError as err:
+                # For some reason, we sometimes get a
+                # "Resource temporarily unavailable" error
+                if err.errno != errno.EAGAIN:
+                    raise
 
         if w:
             written = os.write(self.fd, self.send_buf)
@@ -337,22 +397,15 @@ class FDTelemetry(TelemetryBase):
             if written > 0:
                 self.send_buf = self.send_buf[written:]
 
-            didStuff = True
+            did_stuff = True
 
-        return didStuff
-
-    def _send(self, msg):
-        """ Send a string out the TCP socket """
-
-        self.send_buf += msg
-
-        self._do_io(0)
+        return did_stuff
 
 class NetworkTelemetry(FDTelemetry):
     """ TCP telemetry interface. """
     def __init__(self, host="127.0.0.1", port=9000, *args, **kwargs):
         """ Creates a telemetry instance talking over TCP.
-        
+
          - host: hostname to connect to (default localhost)
          - port: port number to communicate on (default 9000)
 
@@ -371,25 +424,61 @@ class NetworkTelemetry(FDTelemetry):
 
 # TODO XXX : Plumb appropriate cleanup / file close for these classes
 
-class SerialTelemetry(FDTelemetry):
+class SerialTelemetry(BidirTelemetry):
     """ Serial telemetry interface """
     def __init__(self, port, speed=115200, *args, **kwargs):
         """ Creates telemetry instance talking over (real or virtual) serial port.
-        
+
          - port: Serial port path
          - speed: Baud rate (doesn't really matter for VCP, defaults 115200)
 
         Meaningful parameters passed up to TelemetryBase include: githash,
         service_in_iter, iter_blocks, use_walltime
-        
+
         Requires the module pyserial to provide OS independance.
         """
 
         import serial
 
-        self.ser = serial.Serial(port, speed)
+        self.ser = serial.Serial(port, speed, timeout=0, writeTimeout=0.001)
 
-        FDTelemetry.__init__(self, fd=self.ser.fileno(), *args, **kwargs)
+        BidirTelemetry.__init__(self, *args, **kwargs)
+
+    # Call select and do one set of IO operations.
+    def _do_io(self, finish_time):
+        import serial
+
+        did_stuff = False
+
+        while not did_stuff:
+            try:
+                chunk = self.ser.read(1024)
+
+                if chunk != '':
+                    did_stuff = True
+                    self.recv_buf = self.recv_buf + chunk
+            except serial.serialutil.SerialException:
+                # Ignore this; looks like a pyserial bug
+                pass
+
+            if self.send_buf != '':
+                try:
+                    written = self.ser.write(self.send_buf)
+
+                    if written > 0:
+                        self.send_buf = self.send_buf[written:]
+                        did_stuff = True
+                except pyserial.SerialTimeoutException:
+                    pass
+
+            now = time.time()
+            if finish_time is not None:
+                if now > finish_time:
+                    break
+
+            time.sleep(0.0025)    # 2.5ms, ~28 bytes of time at 115200
+
+        return did_stuff
 
 class FileTelemetry(TelemetryBase):
     """ Telemetry interface to data in a file """
@@ -397,7 +486,7 @@ class FileTelemetry(TelemetryBase):
     def __init__(self, file_obj, parse_header=False,
              *args, **kwargs):
         """ Instantiates a telemetry instance reading from a file.
-        
+
          - file_obj: the file object to read from
          - parse_header: whether to read a header like the GCS writes from the
            file.
@@ -506,7 +595,7 @@ def get_telemetry_by_args(desc="Process telemetry", service_in_iter=True,
     import os.path
 
     if os.path.isfile(args.source):
-        file_obj = file(args.source, 'r')
+        file_obj = file(args.source, 'rb')
 
         t = telemetry.FileTelemetry(file_obj, parse_header=parse_header,
             gcs_timestamps=args.timestamped, name=args.source)

@@ -102,8 +102,6 @@ ConfigAttitudeWidget::ConfigAttitudeWidget(QWidget *parent) :
             board_has_accelerometer = board->queryCapabilities(Core::IBoardType::BOARD_CAPABILITIES_ACCELS);
             board_has_magnetometer = board->queryCapabilities(Core::IBoardType::BOARD_CAPABILITIES_MAGS);
         }
-        else
-            qDebug() << "Board not found";
     }
 
     // Must set up the UI (above) before setting up the UAVO mappings or refreshWidgetValues

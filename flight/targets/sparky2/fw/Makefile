@@ -55,6 +55,7 @@ OPTMODULES += Battery
 OPTMODULES += ComUsbBridge
 OPTMODULES += VibrationAnalysis
 OPTMODULES += UAVOMavlinkBridge
+OPTMODULES += UAVOMSPBridge
 OPTMODULES += UAVOLighttelemetryBridge
 OPTMODULES += UAVORelay
 OPTMODULES += Airspeed/revolution
@@ -90,7 +91,6 @@ MAVLINKINC = $(FLIGHTLIB)/mavlink/v1.0/common
 SRC = 
 # optional component libraries
 include $(APPLIBDIR)/ChibiOS/library.mk
-#include $(PIOSCOMMONLIB)/dosfs/library.mk
 include $(FLIGHTLIB)/CMSIS3/DSP_Lib/library.mk
 
 
@@ -368,6 +368,8 @@ ASFLAGS += -Wa,-adhlns=$(addprefix $(OUTDIR)/, $(notdir $(addsuffix .lst, $(base
 ASFLAGS += $(patsubst %,-I%,$(EXTRAINCDIRS))
 
 MATH_LIB = -lm
+
+LIBS += $(UAVOBJLIB)
 
 # Linker flags.
 #  -Wl,...:     tell GCC to pass this to linker.

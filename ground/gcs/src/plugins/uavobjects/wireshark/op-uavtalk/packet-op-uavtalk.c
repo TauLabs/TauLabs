@@ -66,7 +66,7 @@ void proto_reg_handoff_op_uavtalk(void);
 
 #define UAVTALK_HEADER_SIZE 8
 #define UAVTALK_TRAILER_SIZE 1
-static int dissect_op_uavtalk(tvbuff_t *tvb, packet_info *pinfo, proto_tree *tree)
+static int dissect_op_uavtalk(tvbuff_t *tvb, packet_info *pinfo, proto_tree *tree, void *data _U_)
 {
   gint offset = 0;
 
@@ -191,7 +191,7 @@ void proto_register_op_uavtalk(void)
 
 void proto_reg_handoff_op_uavtalk(void)
 {
-   static dissector_handle_t op_uavtalk_handle;
+   dissector_handle_t op_uavtalk_handle;
 
    op_uavtalk_handle = new_create_dissector_handle(dissect_op_uavtalk, proto_op_uavtalk);
    dissector_add_handle("udp.port", op_uavtalk_handle);  /* for "decode as" */

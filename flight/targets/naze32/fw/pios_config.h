@@ -59,6 +59,7 @@
 #define PIOS_INCLUDE_GPS_NMEA_PARSER /* Include the NMEA protocol parser */
 #define PIOS_INCLUDE_GPS_UBX_PARSER  /* Include the UBX protocol parser */
 #define PIOS_INCLUDE_MAVLINK
+#define PIOS_INCLUDE_MSP_BRIDGE
 
 #define PIOS_INCLUDE_SERVO
 #define PIOS_INCLUDE_HPWM
@@ -96,7 +97,7 @@
 #define CPULOAD_LIMIT_CRITICAL		95
 
 /* Task stack sizes */
-#define PIOS_ACTUATOR_STACK_SIZE        800
+#define PIOS_ACTUATOR_STACK_SIZE        600
 #define PIOS_MANUAL_STACK_SIZE          700
 #define PIOS_SYSTEM_STACK_SIZE          660
 #define PIOS_STABILIZATION_STACK_SIZE   624

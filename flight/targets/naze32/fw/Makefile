@@ -61,6 +61,7 @@ USE_TXPID ?= YES
 USE_ALTITUDE ?= NO
 USE_AUTOTUNE ?= YES
 USE_UAVOMAVLINKBRIDGE ?= YES
+USE_UAVOMSPBRIDGE ?= YES
 USE_UAVOLIGHTTELEMETRYBRIDGE ?= NO
 USE_UAVOFRSKYSENSORHUBBRIDGE ?= YES
 USE_BATTERY ?= NO
@@ -85,6 +86,9 @@ OPTMODULES += Autotune
 endif
 ifeq ($(USE_UAVOMAVLINKBRIDGE), YES)
 OPTMODULES += UAVOMavlinkBridge
+endif
+ifeq ($(USE_UAVOMSPBRIDGE), YES)
+OPTMODULES += UAVOMSPBridge
 endif
 ifeq ($(USE_UAVOFRSKYSENSORHUBBRIDGE), YES)
 OPTMODULES += UAVOFrSKYSensorHubBridge
@@ -120,7 +124,6 @@ STMSPDINCDIR = $(STMSPDDIR)/inc
 STMUSBSRCDIR = $(STMUSBDIR)/src
 STMUSBINCDIR = $(STMUSBDIR)/inc
 CMSISDIR  = $(STMLIBDIR)/CMSIS/Core/CM3
-DOSFSDIR  = $(APPLIBDIR)/dosfs
 MSDDIR  = $(APPLIBDIR)/msd
 RTOSDIR = $(PIOSCOMMON)/Libraries/FreeRTOS
 RTOSSRCDIR = $(RTOSDIR)/Source
@@ -136,8 +139,6 @@ PYMITEVM = $(PYMITE)/vm
 PYMITEINC = $(PYMITEVM)
 PYMITEINC += $(PYMITEPLAT)
 PYMITEINC += $(OUTDIR)
-FLIGHTPLANLIB = $(OPMODULEDIR)/FlightPlan/lib
-FLIGHTPLANS = $(OPMODULEDIR)/FlightPlan/flightplans
 
 # List C source files here. (C dependencies are automatically generated.)
 # use file-extension c for "c-only"-files
@@ -176,6 +177,7 @@ SRC += $(PIOSSTM32F10X)/pios_pwm.c
 SRC += $(PIOSSTM32F10X)/pios_debug.c
 SRC += $(PIOSSTM32F10X)/pios_gpio.c
 SRC += $(PIOSSTM32F10X)/pios_exti.c
+SRC += $(PIOSSTM32F10X)/pios_reset.c
 SRC += $(PIOSSTM32F10X)/pios_rtc.c
 SRC += $(PIOSSTM32F10X)/pios_wdg.c
 SRC += $(PIOSSTM32F10X)/pios_iap.c
@@ -250,10 +252,6 @@ SRC += $(RTOSSRCDIR)/tasks.c
 ## RTOS Portable
 SRC += $(RTOSPORTDIR)/portable/GCC/ARM_CM3/port.c
 
-## Dosfs file system
-#SRC += $(DOSFSDIR)/dosfs.c
-#SRC += $(DOSFSDIR)/dfs_sdcard.c
-
 ## PyMite files
 #SRC += $(wildcard ${PYMITEVM}/*.c)
 #SRC += $(wildcard ${PYMITEPLAT}/*.c)
@@ -316,7 +314,6 @@ EXTRAINCDIRS  += $(BOARD_INFO_DIR)
 EXTRAINCDIRS  += $(STMSPDINCDIR)
 EXTRAINCDIRS  += $(STMUSBINCDIR)
 EXTRAINCDIRS  += $(CMSISDIR)
-EXTRAINCDIRS  += $(DOSFSDIR)
 EXTRAINCDIRS  += $(MSDDIR)
 EXTRAINCDIRS  += $(RTOSINCDIR)
 EXTRAINCDIRS  += $(APPLIBDIR)
@@ -497,6 +494,8 @@ ASFLAGS += $(patsubst %,-I%,$(EXTRAINCDIRS))
 
 MATH_LIB = -lm
 
+LIBS += $(UAVOBJLIB)
+
 # Linker flags.
 #  -Wl,...:     tell GCC to pass this to linker.
 #    -Map:      create map file
@@ -516,12 +515,3 @@ LDFLAGS += -T$(LINKERSCRIPTPATH)/link_$(BOARD)_sections.ld
 
 include ./UAVObjects.inc
 include $(MAKE_INC_DIR)/firmware-common.mk
-
-# Hack to place firmware info at correct location in flash
-$(OUTDIR)/$(TARGET).padded.bin: FW_DESC_BASE := $(shell echo $$(($(FW_BANK_BASE)+$(FW_BANK_SIZE)-$(FW_DESC_SIZE))))
-$(OUTDIR)/$(TARGET).padded.bin: $(OUTDIR)/$(TARGET).elf
-	$(V1) $(OBJCOPY) --pad-to=$(FW_DESC_BASE) -O binary $< $@
-
-$(OUTDIR)/$(TARGET).tlfw: $(OUTDIR)/$(TARGET).padded.bin $(OUTDIR)/$(TARGET).bin.firmwareinfo.bin
-	@echo $(MSG_TLFIRMWARE) $(call toprel, $@)
-	$(V1) cat $^ > $@

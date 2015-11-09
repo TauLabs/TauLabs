@@ -120,8 +120,6 @@ RTOSDIR = $(APPLIBDIR)/FreeRTOS
 RTOSSRCDIR = $(RTOSDIR)/Source
 RTOSINCDIR = $(RTOSSRCDIR)/include
 DOXYGENDIR = ../Doc/Doxygen
-FLIGHTPLANLIB = $(OPMODULEDIR)/FlightPlan/lib
-FLIGHTPLANS = $(OPMODULEDIR)/FlightPlan/flightplans
 
 SRC = 
 include $(PIOSPOSIXLIB)/ChibiOS/library.mk
@@ -180,6 +178,7 @@ SRC += $(PIOSPOSIX)/pios_led.c
 SRC += $(PIOSPOSIX)/pios_wdg.c
 SRC += $(PIOSPOSIX)/pios_bl_helper.c
 SRC += $(PIOSPOSIX)/pios_iap.c
+SRC += $(PIOSPOSIX)/pios_reset.c
 SRC += $(PIOSPOSIX)/pios_servo.c
 SRC += $(PIOSPOSIX)/pios_sys.c
 SRC += $(PIOSPOSIX)/pios_tcp.c
@@ -388,5 +387,7 @@ include ./UAVObjects.inc
 
 BUILD_FWFILES=NO
 UAVO_NAV = YES
+BUILD_UAVO = YES
+
 
 include $(MAKE_INC_DIR)/firmware-common.mk

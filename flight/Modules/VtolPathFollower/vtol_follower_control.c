@@ -396,7 +396,7 @@ static int32_t vtol_follower_control_accel(float dT)
 static float vtol_follower_control_altitude(float downCommand) {
 	AltitudeHoldStateData altitudeHoldState;
 	altitudeHoldState.VelocityDesired = downCommand;
-	altitudeHoldState.Integral = vtol_pids[DOWN_VELOCITY].iAccumulator / 1000.0f;
+	altitudeHoldState.Integral = vtol_pids[DOWN_VELOCITY].iAccumulator;
 	altitudeHoldState.AngleGain = 1.0f;
 
 	if (altitudeHoldSettings.AttitudeComp > 0) {

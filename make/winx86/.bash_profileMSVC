@@ -1,0 +1,77 @@
+# bashrc for TauLabs development on Windows using MSVC
+
+QT_VERSION_FULL=5.5.0
+QT_VERSION=`echo "$QT_VERSION_FULL" | cut -d '.' -f1-2`
+QT_BASEDIR="/C/Qt"
+
+if [ -d "$QT_BASEDIR/Qt$QT_VERSION_FULL" ] ; then
+  QT_BASEDIR="$QT_BASEDIR/Qt$QT_VERSION_FULL"
+fi
+
+CROSS_COMPILE=false
+if [ $(uname -m)="x86_64" ]; then
+  VS_PLATFORM="amd64"
+  WK_PLATFORM="x64"
+  VC_PLATFORM="/amd64"
+  if [ $CROSS_COMPILE = true ]; then
+    VS_PLATFORM="amd64_x86"
+    WK_PLATFORM="x86"
+    VC_PLATFORM=""
+  fi
+else
+  VS_PLATFORM="x86"
+  WK_PLATFORM="x86"
+  VC_PLATFORM=""
+  if [ $CROSS_COMPILE = true ]; then
+    VS_PLATFORM="x86_amd64"
+    WK_PLATFORM="x64"
+    VC_PLATFORM="/amd64"
+  fi
+fi
+
+QT_MSVCVER="msvc2013_64"
+QT_MINGWVER="mingw492_32"
+
+VS_PATH="/C/Program Files (x86)/Microsoft Visual Studio 12.0"
+VS_INCLUDE_PATH="C:/Program Files (x86)/Microsoft Visual Studio 12.0"
+WK_PATH="/C/Program Files (x86)/Windows Kits/8.1"
+WK_INCLUDE_PATH="C:/Program Files (x86)/Windows Kits/8.1"
+
+test_and_add_to_path ()
+{
+  if which $2 >/dev/null 2>&1 ; then
+    return
+  fi
+
+  if [ -f "$1/$2" ] ; then
+    PATH=$1\:$PATH
+    return
+  fi
+}
+test_and_add_to_path "$QT_BASEDIR/Tools/$QT_MINGWVER/bin" "mingw32-make.exe"
+PATH="$QT_BASEDIR/$QT_VERSION/$QT_MSVCVER/bin"\:$PATH
+PATH="$VS_PATH/VC/BIN/$VS_PLATFORM"\:$PATH
+test_and_add_to_path "$VS_PATH/VC/VCPackages" "VCProject.dll"
+PATH="$VS_PATH/VC/include"\:$PATH
+test_and_add_to_path "$QT_BASEDIR/Tools/QtCreator/bin" "jom.exe"
+test_and_add_to_path "$WK_PATH/bin/$WK_PLATFORM" "rc.exe"
+
+test_and_add_to_path "/C/Python27" "python.exe"
+test_and_add_to_path "/C/OpenOCD/0.4.0/bin/" "openocd.exe"
+test_and_add_to_path "/C/Program Files/NSIS/Unicode" "makensis.exe"
+test_and_add_to_path "/C/Program Files (x86)/NSIS/Unicode" "makensis.exe"
+
+
+if ! which make >/dev/null 2>&1 ; then
+  alias make=mingw32-make
+fi
+
+export INCLUDE="$VS_INCLUDE_PATH/VC/INCLUDE;$VS_INCLUDE_PATH/VC/ATLMFC/INCLUDE;$WK_INCLUDE_PATH/include/shared;$WK_INCLUDE_PATH/include/um;$WK_INCLUDE_PATH/include/winrt;"
+export LIB="$VS_INCLUDE_PATH/VC/LIB$VC_PLATFORM;$VS_INCLUDE_PATH/VC/ATLMFC/LIB$VC_PLATFORM;$WK_INCLUDE_PATH/lib/winv6.3/um/$WK_PLATFORM;"
+export LIBPATH="$VS_INCLUDE_PATH/VC/LIB$VC_PLATFORM;$VS_INCLUDE_PATH/VC/ATLMFC/LIB$VC_PLATFORM;$WK_INCLUDE_PATH/References/CommonConfiguration/Neutral;/C/Program Files (x86)/Microsoft SDKs/Windows/v8.1/ExtensionSDKs/Microsoft.VCLibs/12.0/References/CommonConfiguration/neutral;"
+export MACHINE_TYPE=$(uname -m)
+export VCINSTALLDIR=$VS_INCLUDE_PATH
+export GMAKE="MAKEFLAGS= jom -j3"
+#-call :which UNSIS         "%ProgramFiles%\NSIS\Unicode"  makensis.exe
+
+#echo $PATH

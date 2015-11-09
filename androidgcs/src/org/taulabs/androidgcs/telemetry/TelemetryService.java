@@ -166,6 +166,11 @@ public class TelemetryService extends Service {
 				telemTask = new SerialUAVTalk(this);
 				activeTelem = new Thread(telemTask, "Serial telemetry thread");
 				break;
+			case 6:
+				Toast.makeText(getApplicationContext(), "Attempting TauLinkModule connection", Toast.LENGTH_SHORT).show();
+				telemTask = new BluetoothLowEnergyUAVTalk(this);
+				activeTelem = new Thread(telemTask, "BT LE telemetry thread");
+				break;
 			default:
 				throw new Error("Unsupported");
 			}

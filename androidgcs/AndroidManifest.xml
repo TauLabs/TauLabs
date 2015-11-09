@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
 	package="com.brainfpv.androidgcs" android:versionCode="24"
 	android:versionName="Phoenix">
-	<uses-sdk android:minSdkVersion="14" />
+	<uses-sdk android:minSdkVersion="14" android:targetSdkVersion="19"/>
 
 	<uses-feature
   		android:glEsVersion="0x00020000"

@@ -143,7 +143,7 @@ class VehicleConfig: public ConfigTaskWidget
         QStringList mixerVectors;
         QStringList mixerTypeDescriptions;
 
-        static const quint32 CHANNEL_NUMELEM = 10;
+        const static double mixerRange;
 
     private:
 
@@ -159,5 +159,4 @@ class VehicleConfig: public ConfigTaskWidget
 protected:
 
 };
-
 #endif // GUIVEHICLECONFIG_H

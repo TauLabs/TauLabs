@@ -2,15 +2,17 @@
 	<object name="HwNaze" singleinstance="true" settings="true" category="HardwareSettings">
 		<description>Selection of optional hardware configurations.</description>
 
+		<field name="MainPort" units="function" type="enum" elements="1" options="Telemetry,MSP" defaultvalue="Telemetry"/>
+
 		<field name="RcvrPort" units="function" type="enum" elements="1" options="Disabled,PWM,PPM,PPM+PWM,PPM+Serial,PPM+Outputs,Outputs" defaultvalue="PPM"/>
 
-		<field name="RcvrSerial" units="function" type="enum" elements="1" options="Disabled,Telemetry,GPS,DSM,DebugConsole,ComBridge,MavLinkTX,FrSKY Sensor Hub,LighttelemetryTx,HoTT SUMD,HoTT SUMH" parent="HwShared.PortTypes" defaultvalue="Disabled"/>
+		<field name="RcvrSerial" units="function" type="enum" elements="1" options="Disabled,Telemetry,GPS,DSM,DebugConsole,ComBridge,MavLinkTX,MSP,FrSKY Sensor Hub,LighttelemetryTx,HoTT SUMD,HoTT SUMH" parent="HwShared.PortTypes" defaultvalue="Disabled"/>
 		<field name="DSMxMode" units="mode" type="enum" elements="1" parent="HwShared.DSMxMode" defaultvalue="Autodetect"/>
 
-		<field name="GyroRange" units="deg/s" type="enum" elements="1" options="250,500,1000,2000" defaultvalue="500"/>
+		<field name="GyroRange" units="deg/s" type="enum" elements="1" options="250,500,1000,2000" defaultvalue="1000"/>
 		<field name="AccelRange" units="*gravity m/s^2" type="enum" elements="1" options="2G,4G,8G,16G" defaultvalue="8G"/>
-		<field name="MPU6000Rate" units="" type="enum" elements="1" options="200,333,500,666,1000,2000,4000,8000" defaultvalue="500"/>
-		<field name="MPU6000DLPF" units="" type="enum" elements="1" options="256,188,98,42,20,10,5" defaultvalue="256"/>
+		<field name="MPU6050Rate" units="" type="enum" elements="1" options="200,333,500" defaultvalue="500"/>
+		<field name="MPU6050DLPF" units="" type="enum" elements="1" options="256,188,98,42,20,10,5" defaultvalue="188"/>
 
 		<access gcs="readwrite" flight="readwrite"/>
 		<telemetrygcs acked="true" updatemode="onchange" period="0"/>

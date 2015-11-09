@@ -25,6 +25,7 @@
  * with this program; if not, write to the Free Software Foundation, Inc.,
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
+#include "actuatorcommand.h"
 #include "configgroundvehiclewidget.h"
 #include "configvehicletypewidget.h"
 #include "mixersettings.h"
@@ -164,7 +165,7 @@ QStringList ConfigGroundVehicleWidget::getChannelDescriptions()
     QStringList channelDesc;
 
     // init a channel_numelem list of channel desc defaults
-    for (i=0; i < (int)(ConfigGroundVehicleWidget::CHANNEL_NUMELEM); i++)
+    for (i=0; i < (int)(ActuatorCommand::CHANNEL_NUMELEM); i++)
     {
         channelDesc.append(QString("-"));
     }
@@ -295,20 +296,20 @@ bool ConfigGroundVehicleWidget::setupGroundVehicleMotorcycle(SystemSettings::Air
     //motor
     int channel = m_aircraft->gvMotor2ChannelBox->currentIndex()-1;
     setMixerType(mixerSettings, channel, MixerSettings::MIXER1TYPE_MOTOR);
-    setMixerVectorValue(mixerSettings, channel, MixerSettings::MIXER1VECTOR_THROTTLECURVE1, 127);
-    setMixerVectorValue(mixerSettings, channel, MixerSettings::MIXER1VECTOR_YAW, 127);
+    setMixerVectorValue(mixerSettings, channel, MixerSettings::MIXER1VECTOR_THROTTLECURVE1, mixerRange);
+    setMixerVectorValue(mixerSettings, channel, MixerSettings::MIXER1VECTOR_YAW, mixerRange);
 
     //steering
     channel = m_aircraft->gvSteering1ChannelBox->currentIndex()-1;
     setMixerType(mixerSettings, channel, MixerSettings::MIXER1TYPE_SERVO);
-    setMixerVectorValue(mixerSettings, channel, MixerSettings::MIXER1VECTOR_YAW, -127);
-    setMixerVectorValue(mixerSettings, channel, MixerSettings::MIXER1VECTOR_ROLL, -127);
+    setMixerVectorValue(mixerSettings, channel, MixerSettings::MIXER1VECTOR_YAW, -mixerRange);
+    setMixerVectorValue(mixerSettings, channel, MixerSettings::MIXER1VECTOR_ROLL, -mixerRange);
 
     //balance
     channel = m_aircraft->gvSteering2ChannelBox->currentIndex()-1;
     setMixerType(mixerSettings, channel, MixerSettings::MIXER1TYPE_SERVO);
-    setMixerVectorValue(mixerSettings, channel, MixerSettings::MIXER1VECTOR_YAW, 127);
-    setMixerVectorValue(mixerSettings, channel, MixerSettings::MIXER1VECTOR_ROLL, 127);
+    setMixerVectorValue(mixerSettings, channel, MixerSettings::MIXER1VECTOR_YAW, mixerRange);
+    setMixerVectorValue(mixerSettings, channel, MixerSettings::MIXER1VECTOR_ROLL, mixerRange);
 
 	m_aircraft->gvStatusLabel->setText("Mixer generated");
 	
@@ -346,14 +347,14 @@ bool ConfigGroundVehicleWidget::setupGroundVehicleDifferential(SystemSettings::A
     //left motor
     int channel = m_aircraft->gvMotor1ChannelBox->currentIndex()-1;
     setMixerType(mixerSettings, channel, MixerSettings::MIXER1TYPE_MOTOR);
-    setMixerVectorValue(mixerSettings, channel, MixerSettings::MIXER1VECTOR_THROTTLECURVE1, 127);
-    setMixerVectorValue(mixerSettings, channel, MixerSettings::MIXER1VECTOR_YAW, 127);
+    setMixerVectorValue(mixerSettings, channel, MixerSettings::MIXER1VECTOR_THROTTLECURVE1, mixerRange);
+    setMixerVectorValue(mixerSettings, channel, MixerSettings::MIXER1VECTOR_YAW, mixerRange);
 
     //right motor
     channel = m_aircraft->gvMotor2ChannelBox->currentIndex()-1;
     setMixerType(mixerSettings, channel, MixerSettings::MIXER1TYPE_MOTOR);
-    setMixerVectorValue(mixerSettings, channel, MixerSettings::MIXER1VECTOR_THROTTLECURVE2, 127);
-    setMixerVectorValue(mixerSettings, channel, MixerSettings::MIXER1VECTOR_YAW, -127);
+    setMixerVectorValue(mixerSettings, channel, MixerSettings::MIXER1VECTOR_THROTTLECURVE2, mixerRange);
+    setMixerVectorValue(mixerSettings, channel, MixerSettings::MIXER1VECTOR_YAW, -mixerRange);
 
 	//Output success message
 	m_aircraft->gvStatusLabel->setText("Mixer generated");
@@ -394,19 +395,19 @@ bool ConfigGroundVehicleWidget::setupGroundVehicleCar(SystemSettings::AirframeTy
 
     int channel = m_aircraft->gvSteering1ChannelBox->currentIndex()-1;
     setMixerType(mixerSettings,channel, MixerSettings::MIXER1TYPE_SERVO);
-    setMixerVectorValue(mixerSettings, channel, MixerSettings::MIXER1VECTOR_YAW, 127);
+    setMixerVectorValue(mixerSettings, channel, MixerSettings::MIXER1VECTOR_YAW, mixerRange);
 
     channel = m_aircraft->gvSteering2ChannelBox->currentIndex()-1;
     setMixerType(mixerSettings,channel, MixerSettings::MIXER1TYPE_SERVO);
-    setMixerVectorValue(mixerSettings, channel, MixerSettings::MIXER1VECTOR_YAW, -127);
+    setMixerVectorValue(mixerSettings, channel, MixerSettings::MIXER1VECTOR_YAW, -mixerRange);
 
     channel = m_aircraft->gvMotor1ChannelBox->currentIndex()-1;
     setMixerType(mixerSettings,channel, MixerSettings::MIXER1TYPE_MOTOR);
-    setMixerVectorValue(mixerSettings, channel, MixerSettings::MIXER1VECTOR_THROTTLECURVE1, 127);
+    setMixerVectorValue(mixerSettings, channel, MixerSettings::MIXER1VECTOR_THROTTLECURVE1, mixerRange);
 
     channel = m_aircraft->gvMotor2ChannelBox->currentIndex()-1;
     setMixerType(mixerSettings,channel, MixerSettings::MIXER1TYPE_MOTOR);
-    setMixerVectorValue(mixerSettings, channel, MixerSettings::MIXER1VECTOR_THROTTLECURVE2, 127);
+    setMixerVectorValue(mixerSettings, channel, MixerSettings::MIXER1VECTOR_THROTTLECURVE2, mixerRange);
 
 	//Output success message
     m_aircraft->gvStatusLabel->setText("Mixer generated");

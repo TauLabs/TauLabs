@@ -31,6 +31,7 @@
 
 #include <stddef.h>
 #include <stdbool.h>
+#include <stdint.h>
 
 #if defined(PIOS_INCLUDE_FREERTOS)
 

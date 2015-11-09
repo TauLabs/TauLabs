@@ -44,7 +44,6 @@
 #include "manualcontrolsettings.h"
 #include "modulesettings.h"
 
-
 /**
  * Sensor configurations
  */
@@ -191,6 +190,8 @@ uintptr_t pios_rcvr_group_map[MANUALCONTROLSETTINGS_CHANNELGROUPS_NONE];
 #define PIOS_COM_FRSKYSPORT_TX_BUF_LEN 16
 #define PIOS_COM_FRSKYSPORT_RX_BUF_LEN 16
 
+#define PIOS_COM_OPENLOG_TX_BUF_LEN 256
+
 #if defined(PIOS_INCLUDE_DEBUG_CONSOLE)
 #define PIOS_COM_DEBUGCONSOLE_TX_BUF_LEN 40
 uintptr_t pios_com_debug_id;
@@ -206,13 +207,15 @@ uintptr_t pios_com_hott_id;
 uintptr_t pios_com_frsky_sensor_hub_id;
 uintptr_t pios_com_lighttelemetry_id;
 uintptr_t pios_com_picoc_id;
-uintptr_t pios_com_logging_id;
+uintptr_t pios_com_openlog_logging_id;
+uintptr_t pios_com_spiflash_logging_id;
 uintptr_t pios_uavo_settings_fs_id;
 uintptr_t pios_waypoints_settings_fs_id;
 uintptr_t pios_internal_adc_id;
 uintptr_t pios_com_frsky_sport_id;
 
 uintptr_t streamfs_id;
+uintptr_t external_i2c_adapter_id = 0;
 
 /*
  * Setup a com port based on the passed cfg, driver and buffer sizes. rx or tx size of 0 disables rx or tx
@@ -400,9 +403,11 @@ void PIOS_Board_Init(void) {
 	EventDispatcherInitialize();
 	UAVObjInitialize();
 
-	/* Initialize the alarms library */
+	/* Initialize the alarms library. Reads RCC reset flags */
 	AlarmsInitialize();
+	PIOS_RESET_Clear(); // Clear the RCC reset flags after use.
 
+	/* Initialize the hardware UAVOs */
 	HwQuantonInitialize();
 	ModuleSettingsInitialize();
 
@@ -625,6 +630,8 @@ void PIOS_Board_Init(void) {
 		if (PIOS_I2C_CheckClear(pios_i2c_usart1_adapter_id) != 0)
 			AlarmsSet(SYSTEMALARMS_ALARM_I2C, SYSTEMALARMS_ALARM_CRITICAL);
 
+		external_i2c_adapter_id = pios_i2c_usart1_adapter_id;
+
 #if defined(PIOS_INCLUDE_HMC5883)
 		{
 			uint8_t Magnetometer;
@@ -639,6 +646,7 @@ void PIOS_Board_Init(void) {
 			}
 		}
 #endif /* PIOS_INCLUDE_HMC5883 */
+
 #endif /* PIOS_INCLUDE_I2C */
 		break;
 	case HWQUANTON_UART1_DSM:
@@ -715,6 +723,12 @@ void PIOS_Board_Init(void) {
 #if defined(PIOS_INCLUDE_FRSKY_SPORT_TELEMETRY) && defined(PIOS_INCLUDE_USART) && defined(PIOS_INCLUDE_COM)
 		PIOS_Board_configure_com(&pios_usart1_cfg, PIOS_COM_FRSKYSPORT_RX_BUF_LEN, PIOS_COM_FRSKYSPORT_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_frsky_sport_id);
 #endif /* PIOS_INCLUDE_FRSKYSPORTTELEMETRY */
+		break;
+	case HWQUANTON_UART1_OPENLOG:
+#if defined(PIOS_INCLUDE_OPENLOG)
+		PIOS_Board_configure_com(&pios_usart1_cfg, 0, PIOS_COM_OPENLOG_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_openlog_logging_id);
+		PIOS_COM_ChangeBaud(pios_com_openlog_logging_id, 115200);
+#endif /* PIOS_INCLUDE_OPENLOG */
 		break;
 	}
 
@@ -829,6 +843,12 @@ void PIOS_Board_Init(void) {
 		PIOS_Board_configure_com(&pios_usart2_cfg, PIOS_COM_FRSKYSPORT_RX_BUF_LEN, PIOS_COM_FRSKYSPORT_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_frsky_sport_id);
 #endif /* PIOS_INCLUDE_FRSKYSPORTTELEMETRY */
 		break;
+	case HWQUANTON_UART2_OPENLOG:
+#if defined(PIOS_INCLUDE_OPENLOG)
+		PIOS_Board_configure_com(&pios_usart2_cfg, 0, PIOS_COM_OPENLOG_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_openlog_logging_id);
+		PIOS_COM_ChangeBaud(pios_com_openlog_logging_id, 115200);
+#endif /* PIOS_INCLUDE_OPENLOG */
+		break;
 	}
 
 	if (hw_uart2 != HWQUANTON_UART2_SBUS) {
@@ -860,6 +880,8 @@ void PIOS_Board_Init(void) {
 		if (PIOS_I2C_CheckClear(pios_i2c_usart3_adapter_id) != 0)
 			AlarmsSet(SYSTEMALARMS_ALARM_I2C, SYSTEMALARMS_ALARM_CRITICAL);
 
+		external_i2c_adapter_id = pios_i2c_usart3_adapter_id;
+
 #if defined(PIOS_INCLUDE_HMC5883)
 		{
 			uint8_t Magnetometer;
@@ -874,6 +896,7 @@ void PIOS_Board_Init(void) {
 			}
 		}
 #endif /* PIOS_INCLUDE_HMC5883 */
+
 #endif	/* PIOS_INCLUDE_I2C */
 		break;
 	case HWQUANTON_UART3_DSM:
@@ -950,6 +973,12 @@ void PIOS_Board_Init(void) {
 #if defined(PIOS_INCLUDE_FRSKY_SPORT_TELEMETRY) && defined(PIOS_INCLUDE_USART) && defined(PIOS_INCLUDE_COM)
 		PIOS_Board_configure_com(&pios_usart3_cfg, PIOS_COM_FRSKYSPORT_RX_BUF_LEN, PIOS_COM_FRSKYSPORT_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_frsky_sport_id);
 #endif /* PIOS_INCLUDE_FRSKYSPORTTELEMETRY */
+		break;
+	case HWQUANTON_UART3_OPENLOG:
+#if defined(PIOS_INCLUDE_OPENLOG)
+		PIOS_Board_configure_com(&pios_usart3_cfg, 0, PIOS_COM_OPENLOG_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_openlog_logging_id);
+		PIOS_COM_ChangeBaud(pios_com_openlog_logging_id, 115200);
+#endif /* PIOS_INCLUDE_OPENLOG */
 		break;
 	}
 
@@ -1044,6 +1073,12 @@ void PIOS_Board_Init(void) {
 		PIOS_Board_configure_com(&pios_usart4_cfg, PIOS_COM_FRSKYSPORT_RX_BUF_LEN, PIOS_COM_FRSKYSPORT_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_frsky_sport_id);
 #endif /* PIOS_INCLUDE_FRSKYSPORTTELEMETRY */
 		break;
+	case HWQUANTON_UART4_OPENLOG:
+#if defined(PIOS_INCLUDE_OPENLOG)
+		PIOS_Board_configure_com(&pios_usart4_cfg, 0, PIOS_COM_OPENLOG_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_openlog_logging_id);
+		PIOS_COM_ChangeBaud(pios_com_openlog_logging_id, 115200);
+#endif /* PIOS_INCLUDE_OPENLOG */
+		break;
 	}
 
 	/* UART5 Port */
@@ -1136,6 +1171,12 @@ void PIOS_Board_Init(void) {
 #if defined(PIOS_INCLUDE_FRSKY_SPORT_TELEMETRY) && defined(PIOS_INCLUDE_USART) && defined(PIOS_INCLUDE_COM)
 		PIOS_Board_configure_com(&pios_usart5_cfg, PIOS_COM_FRSKYSPORT_RX_BUF_LEN, PIOS_COM_FRSKYSPORT_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_frsky_sport_id);
 #endif /* PIOS_INCLUDE_FRSKYSPORTTELEMETRY */
+		break;
+	case HWQUANTON_UART5_OPENLOG:
+#if defined(PIOS_INCLUDE_OPENLOG)
+		PIOS_Board_configure_com(&pios_usart5_cfg, 0, PIOS_COM_OPENLOG_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_openlog_logging_id);
+		PIOS_COM_ChangeBaud(pios_com_openlog_logging_id, 115200);
+#endif /* PIOS_INCLUDE_OPENLOG */
 		break;
 	}
 
@@ -1431,14 +1472,14 @@ void PIOS_Board_Init(void) {
 	}
 #endif
 
-#if defined(PIOS_INCLUDE_FLASH)
+#if defined(PIOS_INCLUDE_FLASH) && defined(PIOS_INCLUDE_FLASH_JEDEC)
 	if ( PIOS_STREAMFS_Init(&streamfs_id, &streamfs_settings, FLASH_PARTITION_LABEL_LOG) != 0)
 		panic(8);
 
 	const uint32_t LOG_BUF_LEN = 256;
 	uint8_t *log_rx_buffer = PIOS_malloc(LOG_BUF_LEN);
 	uint8_t *log_tx_buffer = PIOS_malloc(LOG_BUF_LEN);
-	if (PIOS_COM_Init(&pios_com_logging_id, &pios_streamfs_com_driver, streamfs_id,
+	if (PIOS_COM_Init(&pios_com_spiflash_logging_id, &pios_streamfs_com_driver, streamfs_id,
 	                  log_rx_buffer, LOG_BUF_LEN, log_tx_buffer, LOG_BUF_LEN) != 0)
 		panic(9);
 #endif /* PIOS_INCLUDE_FLASH */

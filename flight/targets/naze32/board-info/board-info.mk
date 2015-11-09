@@ -3,6 +3,8 @@ BOARD_REVISION      := 0x01
 BOOTLOADER_VERSION  := 0x80
 HW_TYPE             := 0x01
 
+PAD_TLFW_FW_DESC    := yes
+
 MCU                 := cortex-m3
 CHIP                := STM32F103CBT
 BOARD               := STM32103CB_Naze32

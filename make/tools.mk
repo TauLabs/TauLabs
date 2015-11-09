@@ -381,7 +381,7 @@ android_sdk_clean:
 .PHONY: android_sdk_update
 android_sdk_update:
 	$(V0) @echo " UPDATE       $(ANDROID_SDK_DIR)"
-	$(ANDROID_SDK_DIR)/tools/android update sdk --no-ui --all -t platform-tools,build-tools-20.0.0,android-14,addon-google_apis-google-14
+	$(ANDROID_SDK_DIR)/tools/android update sdk --no-ui --all -t platform-tools,build-tools-20.0.0,android-19,addon-google_apis-google-19
 
 # Set up Google Test (gtest) tools
 GTEST_DIR       := $(TOOLS_DIR)/gtest-1.7.0
@@ -405,34 +405,6 @@ gtest_install: gtest_clean
 gtest_clean:
 	$(V0) @echo " CLEAN        $(GTEST_DIR)"
 	$(V1) [ ! -d "$(GTEST_DIR)" ] || $(RM) -rf "$(GTEST_DIR)"
-
-.PHONY: gui_install
-MAKE_GUI_DIR := $(TOOLS_DIR)/make_gui/
-MAKE_GUI_SOURCE_DIR := $(ROOT_DIR)/shared/make_gui
-gui_install:
-	$(V1) mkdir -p "$(MAKE_GUI_DIR)/build"
-	$(V1) ( cd "$(MAKE_GUI_DIR)/build" && \
-	  $(QMAKE) $(MAKE_GUI_SOURCE_DIR)/make_gui.pro -spec $(QT_SPEC) && \
-	  $(MAKE) -w ; \
-	)
-	$(V1) [ ! -d "$(MAKE_GUI_DIR)/build" ] || $(RM) -rf "$(MAKE_GUI_DIR)/build"
-
-.PHONY: gui_clean
-gui_clean:
-	$(V0) @echo " CLEAN        $(MAKE_GUI_DIR)"
-	$(V1) [ ! -d "$(MAKE_GUI_DIR)" ] || $(RM) -rf "$(MAKE_GUI_DIR)"
-
-.PHONY: gui
-gui:
-ifeq ($(shell [ -d "$(MAKE_GUI_DIR)" ] && echo "exists"), exists)
-ifeq ($(UNAME), Darwin)
-	$(MAKE_GUI_DIR)gui.app/Contents/MacOS/gui
-else
-	$(MAKE_GUI_DIR)gui
-endif
-else
-	 @echo "make gui not installed, run make gui_install"
-endif
 
 
 # Set up astyle tools
@@ -467,6 +439,42 @@ astyle_clean:
 	$(V0) @echo " CLEAN        $(ASTYLE_BUILD_DIR)"
 	$(V1) [ ! -d "$(ASTYLE_BUILD_DIR)" ] || $(RM) -r "$(ASTYLE_BUILD_DIR)"
 
+# Set up uncrustify tools
+UNCRUSTIFY_DIR := $(TOOLS_DIR)/uncrustify-0.61
+UNCRUSTIFY_BUILD_DIR := $(DL_DIR)/uncrustify
+
+.PHONY: uncrustify_install
+uncrustify_install: | $(DL_DIR) $(TOOLS_DIR)
+uncrustify_install: UNCRUSTIFY_URL := http://downloads.sourceforge.net/project/uncrustify/uncrustify/uncrustify-0.61/uncrustify-0.61.tar.gz
+uncrustify_install: UNCRUSTIFY_FILE := uncrustify-0.61.tar.gz
+uncrustify_install: UNCRUSTIFY_OPTIONS := prefix=$(UNCRUSTIFY_DIR)
+uncrustify_install: uncrustify_clean
+ifneq ($(OSFAMILY), windows)
+	$(V0) @echo " DOWNLOAD     $(UNCRUSTIFY_URL)"
+	$(V1) wget --no-check-certificate -N -P "$(DL_DIR)" "$(UNCRUSTIFY_URL)"
+else
+	$(V1) curl -L -k -o "$(DL_DIR)/$(UNCRUSTIFY_FILE)" "$(UNCRUSTIFY_URL)"
+endif
+        # extract the src
+	$(V0) @echo " EXTRACT      $(UNCRUSTIFY_FILE)"
+	$(V1) tar -C $(TOOLS_DIR) -xf "$(DL_DIR)/$(UNCRUSTIFY_FILE)"
+
+	$(V0) @echo " BUILD        $(UNCRUSTIFY_DIR)"
+	$(V1) ( \
+	  cd $(UNCRUSTIFY_DIR) ; \
+	  ./configure --prefix="$(UNCRUSTIFY_DIR)" ; \
+	  $(MAKE) ; \
+	  $(MAKE) install ; \
+	)
+	      # delete the extracted source when we're done
+	$(V1) [ ! -d "$(UNCRUSTIFY_BUILD_DIR)" ] || $(RM) -r "$(UNCRUSTIFY_BUILD_DIR)"
+
+.PHONY: uncrustify_clean
+uncrustify_clean:
+	$(V0) @echo " CLEAN        $(UNCRUSTIFY_DIR)"
+	$(V1) [ ! -d "$(UNCRUSTIFY_DIR)" ] || $(RM) -r "$(UNCRUSTIFY_DIR)"
+	$(V0) @echo " CLEAN        $(UNCRUSTIFY_BUILD_DIR)"
+	$(V1) [ ! -d "$(UNCRUSTIFY_BUILD_DIR)" ] || $(RM) -r "$(UNCRUSTIFY_BUILD_DIR)"
 
 # Set up libkml
 
@@ -559,21 +567,28 @@ ifeq ($(shell [ -d "$(ASTYLE_DIR)" ] && echo "exists"), exists)
 else
   # not installed, hope it's in the path...
   ASTYLE ?= astyle
-endif	
+endif
+
+ifeq ($(shell [ -d "$(UNCRUSTIFY_DIR)" ] && echo "exists"), exists)
+  UNCRUSTIFY := $(UNCRUSTIFY_DIR)/bin/uncrustify
+else
+  # not installed, hope it's in the path...
+  UNCRUSTIFY ?= uncrustify
+endif
+
 
 .PHONY: openssl_install
 
 # OPENSSL download URL
 ifdef WINDOWS
-  openssl_install: OPENSSL_URL  := http://slproweb.com/download/Win32OpenSSL-1_0_2c.exe
+  openssl_install: OPENSSL_URL  := https://slproweb.com/download/Win32OpenSSL-1_0_2d.exe
 
 openssl_install: OPENSSL_FILE := $(notdir $(OPENSSL_URL))
 OPENSSL_DIR = $(TOOLS_DIR)/win32openssl
 # order-only prereq on directory existance:
 openssl_install : | $(DL_DIR) $(TOOLS_DIR)
 openssl_install: openssl_clean
-        # download the instalatopn file only if it's newer than what we already have
-	$(V1) wget -N -P "$(DL_DIR)" "$(OPENSSL_URL)"
+	$(V1) curl -L -k -o "$(DL_DIR)/$(OPENSSL_FILE)" "$(OPENSSL_URL)"
 	$(V1) ./downloads/$(OPENSSL_FILE) /DIR=$(OPENSSL_DIR) /silent
 else
 openssl_install:

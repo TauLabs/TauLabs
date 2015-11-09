@@ -75,14 +75,10 @@ STMSPDINCDIR = $(STMSPDDIR)/inc
 DEBUG_CM3_DIR = $(PIOSCOMMONLIB)/Debug
 DEBUG_CM3_DIR_INC = $(DEBUG_CM3_DIR)/inc
 OPUAVOBJINC = $(OPUAVOBJ)/inc
-FLIGHTPLANLIB = $(OPMODULEDIR)/FlightPlan/lib
-FLIGHTPLANS = $(OPMODULEDIR)/FlightPlan/flightplans
 MAVLINKINC = $(FLIGHTLIB)/mavlink/v1.0/common
 
 # optional component libraries
 include $(APPLIBDIR)/ChibiOS/library.mk
-#include $(PIOSCOMMONLIB)/dosfs/library.mk
-#include $(FLIGHTLIB)/CMSIS3/DSP_Lib/library.mk
 
 
 # List C source files here. (C dependencies are automatically generated.)
@@ -304,6 +300,8 @@ ASFLAGS  = $(ARCHFLAGS) -mthumb -I. -x assembler-with-cpp
 ASFLAGS += $(ADEFS)
 ASFLAGS += -Wa,-adhlns=$(addprefix $(OUTDIR)/, $(notdir $(addsuffix .lst, $(basename $<))))
 ASFLAGS += $(patsubst %,-I%,$(EXTRAINCDIRS))
+
+LIBS += $(UAVOBJLIB)
 
 # Linker flags.
 #  -Wl,...:     tell GCC to pass this to linker.

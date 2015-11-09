@@ -59,6 +59,14 @@ int UAVObjectParser::getNumObjects()
 }
 
 /**
+ * Get the UAVO hash
+ */
+quint64 UAVObjectParser::getUavoHash()
+{
+    return uavoHash;
+}
+
+/**
  * Get the detailed object information
  */
 QList<ObjectInfo*> UAVObjectParser::getObjectInfo()
@@ -169,6 +177,24 @@ void UAVObjectParser::calculateAllIds()
     foreach (ObjectInfo *item, objInfo) {
         calculateID(item);
     }
+
+    /* Sort the object info list by ID, now that they're all defined */
+    std::sort(objInfo.begin(), objInfo.end(), [](ObjectInfo *o1, ObjectInfo *o2) {
+            return o2->id < o1->id;
+            });
+
+    /* This is a 64 bit hash to have a bit more protection against collisions
+     * and to eventually supplant the current uavo-sha1 which takes into
+     * account whitespace, etc.  It is not a cryptographically secure hash,
+     * instead borrowing from the above shift-add-xor hash, but good enough.
+     */
+    quint64 hash=0;
+
+    foreach (ObjectInfo *item, objInfo) {
+        hash ^= (hash<<7) + (hash>>2) + item->id;
+    }
+
+    uavoHash = hash;
 }
 
 ObjectInfo* UAVObjectParser::getObjectByName(QString& name) {
@@ -292,7 +318,6 @@ QString UAVObjectParser::parseXML(QString& xml, QString& filename)
     while ( !node.isNull() ) {
         // Create new object entry
         ObjectInfo* info = new ObjectInfo();
-
         info->filename=filename;
         // Process object attributes
         QString status = processObjectAttributes(node, info);
@@ -593,6 +618,7 @@ QString UAVObjectParser::processObjectFields(QDomNode& childNode, ObjectInfo* in
 {
     // Create field
     FieldInfo* field = new FieldInfo();
+    field->parent = NULL;
     // Get name attribute
     QDomNamedNodeMap elemAttributes = childNode.attributes();
     QDomNode elemAttr = elemAttributes.namedItem("name");

@@ -911,6 +911,7 @@ static const struct pios_sbus_cfg pios_usart3_sbus_aux_cfg = {
 		},
 	},
 	.gpio_inv_enable = Bit_SET,
+	.gpio_inv_disable = Bit_RESET,
 };
 
 #endif	/* PIOS_INCLUDE_SBUS */

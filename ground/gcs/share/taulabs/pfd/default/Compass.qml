@@ -44,7 +44,7 @@ Item {
             elementName: "homewaypoint-bearing"
             sceneSize: sceneItem.sceneSize
 
-            visible: HomeLocation.Set != 0
+            visible: HomeLocation.Set !== 0
 
             property real bearing_D : Math.atan2(-PositionActual.East, -PositionActual.North)*180/Math.PI
 
@@ -63,7 +63,7 @@ Item {
             property int activeWaypoint: WaypointActive.Index
             onActiveWaypointChanged: qmlWidget.exportUAVOInstance("Waypoint", activeWaypoint)
 
-            visible:  Waypoint.Position_North != 0 || Waypoint.Position_East != 0 || Waypoint.Position_Down != 0
+            visible:  Waypoint.Position_North !== 0 || Waypoint.Position_East !== 0 || Waypoint.Position_Down !== 0
 
             property real bearing_D : Math.atan2(Waypoint.Position_East - PositionActual.East, Waypoint.Position_North - PositionActual.North)*180/Math.PI
 
@@ -72,5 +72,60 @@ Item {
             //the band is 540 degrees wide
             anchors.horizontalCenterOffset: (sceneItem.parent.circular_modulus_deg(bearing_D-compass.yaw))/540*compass_band_composed.width
         }
+
+        SvgElementImage {
+            id: unfiltered_compass_bearing
+
+            elementName: "unfiltered-compass-bearing"
+            sceneSize: sceneItem.sceneSize
+
+            visible: Magnetometer.x !== 0 || Magnetometer.y !==0 || Magnetometer.z !==0
+
+            // Calculate unfiltered magnetic heading, corrected for magnetic inclination
+            function calculateHeading()
+            {
+                var cP=Math.cos(AttitudeActual.Yaw*Math.PI/180*0)
+                var sP=Math.sin(AttitudeActual.Yaw*Math.PI/180*0)
+
+                var cT=Math.cos(AttitudeActual.Pitch*Math.PI/180)
+                var sT=Math.sin(AttitudeActual.Pitch*Math.PI/180)
+
+                var cF=Math.cos(AttitudeActual.Roll*Math.PI/180)
+                var sF=Math.sin(AttitudeActual.Roll*Math.PI/180)
+
+                var Rbe00 = cT*cP
+                var Rbe01 = cT*sP
+                var Rbe02 = -sT
+                var Rbe10 = sF*sT*cP - cF*sP
+                var Rbe11 = sF*sT*sP + cF*cP
+                var Rbe12 = cT*sF
+                var Rbe20 = cF*sT*cP + sF*sP
+                var Rbe21 = cF*sT*sP - sF*cP
+                var Rbe22 = cT*cF
+
+                // Rotate body frame magnetometer measurment into Earth frame.
+                var mag_N = Rbe00*Magnetometer.x + Rbe10*Magnetometer.y + Rbe20*Magnetometer.z
+                var mag_E = Rbe01*Magnetometer.x + Rbe11*Magnetometer.y + Rbe21*Magnetometer.z
+
+                // Calculate compass heading, relative to magnetic North
+                var magnetic_heading_R = Math.atan2(-mag_E, mag_N)
+
+                // Calculate local magnetic declination
+                var magnetic_inclination_R = Math.atan2(-HomeLocation.Be_1, HomeLocation.Be_0)
+
+                // Return magnetic compass heading, relative to true North
+                return magnetic_heading_R - magnetic_inclination_R
+            }
+
+
+            property real heading_D : calculateHeading()*180/Math.PI
+
+            anchors.centerIn: parent
+            //convert bearing-compass.yaw to -180..180 range as compass_band_composed
+            //the band is 540 degrees wide
+            anchors.horizontalCenterOffset: (sceneItem.parent.circular_modulus_deg(heading_D-compass.yaw))/540*compass_band_composed.width
+
+        }
+
     }
 }

@@ -34,7 +34,6 @@
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
 
-
 #include "openpilot.h"
 #include "accessorydesired.h"
 #include "actuatorsettings.h"
@@ -48,6 +47,7 @@
 #include "manualcontrolcommand.h"
 #include "pios_thread.h"
 #include "pios_queue.h"
+#include "misc_math.h"
 
 // Private constants
 #define MAX_QUEUE_SIZE 2
@@ -61,39 +61,39 @@
 #define TASK_PRIORITY PIOS_THREAD_PRIO_HIGHEST
 #define FAILSAFE_TIMEOUT_MS 100
 #define MAX_MIX_ACTUATORS ACTUATORCOMMAND_CHANNEL_NUMELEM
+#define MULTIROTOR_MIXER_UPPER_BOUND 128
 
 // Private types
-
 
 // Private variables
 static struct pios_queue *queue;
 static struct pios_thread *taskHandle;
 
-// used to inform the actuator thread that actuator update rate is changed
-static volatile bool actuator_settings_updated;
-// used to inform the actuator thread that mixer settings are changed
-static volatile bool mixer_settings_updated;
+// used to inform the actuator thread that actuator / mixer settings are updated
+static volatile bool settings_updated;
+
+// The actual mixer settings data, pulled at the top of the actuator thread
+static MixerSettingsData mixerSettings;
+
+// Ditto, for the actuator settings.
+static ActuatorSettingsData actuatorSettings;
 
 // Private functions
-static void actuatorTask(void* parameters);
-static float scaleChannel(float value, float max, float min, float neutral);
-static void setFailsafe(const ActuatorSettingsData * actuatorSettings, const MixerSettingsData * mixerSettings);
-static float MixerCurve(const float input, const float* curve, uint8_t num_points, const float input_min, const float input_max);
-static float ThrottleCurve(const float input, const float* curve, uint8_t num_points);
-static float CollectiveCurve(const float input, const float* curve, uint8_t num_points);
-static bool set_channel(uint8_t mixer_channel, float value, const ActuatorSettingsData * actuatorSettings);
-static void actuator_update_rate_if_changed(const ActuatorSettingsData * actuatorSettings, bool force_update);
-static void MixerSettingsUpdatedCb(UAVObjEvent * ev);
-static void ActuatorSettingsUpdatedCb(UAVObjEvent * ev);
-float ProcessMixer(const int index, const float curve1, const float curve2,
-		   const MixerSettingsData* mixerSettings, ActuatorDesiredData* desired,
-		   const float period);
+static void actuator_task(void* parameters);
+static float scale_channel(float value, int idx);
+static void set_failsafe();
+static float throt_curve(const float input, const float* curve, uint8_t num_points);
+static float collective_curve(const float input, const float* curve, uint8_t num_points);
+static bool set_channel(uint8_t mixer_channel, float value);
+static void actuator_update_rate_if_changed(bool force_update);
+static void settings_update_cb(UAVObjEvent * ev);
+float process_mixer(const int index, const float curve1, const float curve2,
+		ActuatorDesiredData *desired);
+static float mix_channel(int ct, ActuatorDesiredData *desired,
+		float curve1, float curve2);
 
-//this structure is equivalent to the UAVObjects for one mixer.
-typedef struct {
-	uint8_t type;
-	int8_t matrix[5];
-} __attribute__((packed)) Mixer_t;
+static MixerSettingsMixer1TypeOptions get_mixer_type(int idx);
+static int8_t *get_mixer_vec(int idx);
 
 /**
  * @brief Module initialization
@@ -102,7 +102,7 @@ typedef struct {
 int32_t ActuatorStart()
 {
 	// Start main task
-	taskHandle = PIOS_Thread_Create(actuatorTask, "Actuator", STACK_SIZE_BYTES, NULL, TASK_PRIORITY);
+	taskHandle = PIOS_Thread_Create(actuator_task, "Actuator", STACK_SIZE_BYTES, NULL, TASK_PRIORITY);
 	TaskMonitorAdd(TASKINFO_RUNNING_ACTUATOR, taskHandle);
 	PIOS_WDG_RegisterFlag(PIOS_WDG_ACTUATOR);
 
@@ -117,11 +117,11 @@ int32_t ActuatorInitialize()
 {
 	// Register for notification of changes to ActuatorSettings
 	ActuatorSettingsInitialize();
-	ActuatorSettingsConnectCallback(ActuatorSettingsUpdatedCb);
+	ActuatorSettingsConnectCallback(settings_update_cb);
 
 	// Register for notification of changes to MixerSettings
 	MixerSettingsInitialize();
-	MixerSettingsConnectCallback(MixerSettingsUpdatedCb);
+	MixerSettingsConnectCallback(settings_update_cb);
 
 	// Listen for ActuatorDesired updates (Primary input to this module)
 	ActuatorDesiredInitialize();
@@ -138,7 +138,47 @@ int32_t ActuatorInitialize()
 
 	return 0;
 }
-MODULE_INITCALL(ActuatorInitialize, ActuatorStart)
+MODULE_INITCALL(ActuatorInitialize, ActuatorStart);
+
+static float get_curve2_source(ActuatorDesiredData *desired, MixerSettingsCurve2SourceOptions source)
+{
+	float tmp;
+
+	switch (source) {
+	case MIXERSETTINGS_CURVE2SOURCE_THROTTLE:
+		return desired->Throttle;
+		break;
+	case MIXERSETTINGS_CURVE2SOURCE_ROLL:
+		return desired->Roll;
+		break;
+	case MIXERSETTINGS_CURVE2SOURCE_PITCH:
+		return desired->Pitch;
+		break;
+	case MIXERSETTINGS_CURVE2SOURCE_YAW:
+		return desired->Yaw;
+		break;
+	case MIXERSETTINGS_CURVE2SOURCE_COLLECTIVE:
+		ManualControlCommandCollectiveGet(&tmp);
+		return tmp;
+		break;
+	case MIXERSETTINGS_CURVE2SOURCE_ACCESSORY0:
+	case MIXERSETTINGS_CURVE2SOURCE_ACCESSORY1:
+	case MIXERSETTINGS_CURVE2SOURCE_ACCESSORY2:
+	case MIXERSETTINGS_CURVE2SOURCE_ACCESSORY3:
+	case MIXERSETTINGS_CURVE2SOURCE_ACCESSORY4:
+	case MIXERSETTINGS_CURVE2SOURCE_ACCESSORY5:
+		(void) 0;
+		AccessoryDesiredData accessory;
+
+		if (AccessoryDesiredInstGet(source - MIXERSETTINGS_CURVE2SOURCE_ACCESSORY0,&accessory) == 0)
+			return accessory.AccessoryVal;
+		return 0;
+		break;
+	}
+
+	/* Can't get here */
+	return 0;
+}
 
 /**
  * @brief Main Actuator module task
@@ -153,11 +193,9 @@ MODULE_INITCALL(ActuatorInitialize, ActuatorStart)
  *
  * @return -1 if error, 0 if success
  */
-static void actuatorTask(void* parameters)
+static void actuator_task(void* parameters)
 {
-	UAVObjEvent ev;
 	uint32_t lastSysTime;
-	uint32_t thisSysTime;
 	float dT = 0.0f;
 
 	ActuatorCommandData command;
@@ -166,50 +204,43 @@ static void actuatorTask(void* parameters)
 	FlightStatusData flightStatus;
 
 	/* Read initial values of ActuatorSettings */
-	ActuatorSettingsData actuatorSettings;
-	actuator_settings_updated = false;
-	ActuatorSettingsGet(&actuatorSettings);
-
-	/* Read initial values of MixerSettings */
-	MixerSettingsData mixerSettings;
-	mixer_settings_updated = false;
-	MixerSettingsGet(&mixerSettings);
-
-	/* Force an initial configuration of the actuator update rates */
-	actuator_update_rate_if_changed(&actuatorSettings, true);
-
-	// Go to the neutral (failsafe) values until an ActuatorDesired update is received
-	setFailsafe(&actuatorSettings, &mixerSettings);
+	settings_updated = true;
 
 	// Main task loop
 	lastSysTime = PIOS_Thread_Systime();
-	while (1)
-	{
-		PIOS_WDG_UpdateFlag(PIOS_WDG_ACTUATOR);
 
-		// Wait until the ActuatorDesired object is updated
-		bool rc = PIOS_Queue_Receive(queue, &ev, FAILSAFE_TIMEOUT_MS);
+	bool rc = false;
 
-		/* Process settings updated events even in timeout case so we always act on the latest settings */
-		if (actuator_settings_updated) {
-			actuator_settings_updated = false;
-			ActuatorSettingsGet (&actuatorSettings);
-			actuator_update_rate_if_changed (&actuatorSettings, false);
-		}
-		if (mixer_settings_updated) {
-			mixer_settings_updated = false;
-			MixerSettingsGet (&mixerSettings);
+	while (1) {
+		if (settings_updated) {
+			settings_updated = false;
+			ActuatorSettingsGet(&actuatorSettings);
+			actuator_update_rate_if_changed(false);
+			MixerSettingsGet(&mixerSettings);
 		}
 
 		if (rc != true) {
-			/* Update of ActuatorDesired timed out.  Go to failsafe */
-			setFailsafe(&actuatorSettings, &mixerSettings);
+			/* Update of ActuatorDesired timed out,
+			 * or first iteration.  Go to failsafe */
+			set_failsafe();
+		}
+
+		PIOS_WDG_UpdateFlag(PIOS_WDG_ACTUATOR);
+
+		UAVObjEvent ev;
+
+		// Wait until the ActuatorDesired object is updated
+		rc = PIOS_Queue_Receive(queue, &ev, FAILSAFE_TIMEOUT_MS);
+
+		/* If we timed out, go to top of loop, which sets failsafe
+		 * and waits again. */
+		if (rc != true) {
 			continue;
 		}
 
 		// Check how long since last update
-		thisSysTime = PIOS_Thread_Systime();
-		if(thisSysTime > lastSysTime) // reuse dt in case of wraparound
+		uint32_t thisSysTime = PIOS_Thread_Systime();
+		if (thisSysTime > lastSysTime) // reuse dt in case of wraparound
 			dT = (thisSysTime - lastSysTime) / 1000.0f;
 		lastSysTime = thisSysTime;
 
@@ -221,17 +252,14 @@ static void actuatorTask(void* parameters)
 		MixerStatusGet(&mixerStatus);
 #endif
 		int nMixers = 0;
-		Mixer_t * mixers = (Mixer_t *)&mixerSettings.Mixer1Type;
-		for(int ct=0; ct < MAX_MIX_ACTUATORS; ct++)
-		{
-			if(mixers[ct].type != MIXERSETTINGS_MIXER1TYPE_DISABLED)
-			{
-				nMixers ++;
+
+		for (int ct = 0; ct < MAX_MIX_ACTUATORS; ct++) {
+			if (get_mixer_type(ct) != MIXERSETTINGS_MIXER1TYPE_DISABLED) {
+				nMixers++;
 			}
 		}
-		if((nMixers < 2) && !ActuatorCommandReadOnly()) //Nothing can fly with less than two mixers.
-		{
-			setFailsafe(&actuatorSettings, &mixerSettings); // So that channels like PWM buzzer keep working
+		if ((nMixers < 2) && !ActuatorCommandReadOnly()) { //Nothing can fly with less than two mixers.
+			set_failsafe(); // So that channels like PWM buzzer keep working
 			continue;
 		}
 
@@ -241,123 +269,41 @@ static void actuatorTask(void* parameters)
 		bool positiveThrottle = desired.Throttle >= 0.00f;
 		bool spinWhileArmed = actuatorSettings.MotorsSpinWhileArmed == ACTUATORSETTINGS_MOTORSSPINWHILEARMED_TRUE;
 
-		float curve1 = ThrottleCurve(desired.Throttle, mixerSettings.ThrottleCurve1, MIXERSETTINGS_THROTTLECURVE1_NUMELEM);
+		float curve1 = throt_curve(desired.Throttle, mixerSettings.ThrottleCurve1, MIXERSETTINGS_THROTTLECURVE1_NUMELEM);
 
 		//The source for the secondary curve is selectable
-		float curve2 = 0;
-		AccessoryDesiredData accessory;
-		switch(mixerSettings.Curve2Source) {
-			case MIXERSETTINGS_CURVE2SOURCE_THROTTLE:
-				curve2 = CollectiveCurve(desired.Throttle, mixerSettings.ThrottleCurve2, MIXERSETTINGS_THROTTLECURVE2_NUMELEM);
-				break;
-			case MIXERSETTINGS_CURVE2SOURCE_ROLL:
-				curve2 = CollectiveCurve(desired.Roll, mixerSettings.ThrottleCurve2, MIXERSETTINGS_THROTTLECURVE2_NUMELEM);
-				break;
-			case MIXERSETTINGS_CURVE2SOURCE_PITCH:
-				curve2 = CollectiveCurve(desired.Pitch, mixerSettings.ThrottleCurve2, MIXERSETTINGS_THROTTLECURVE2_NUMELEM);
-				break;
-			case MIXERSETTINGS_CURVE2SOURCE_YAW:
-				curve2 = CollectiveCurve(desired.Yaw, mixerSettings.ThrottleCurve2, MIXERSETTINGS_THROTTLECURVE2_NUMELEM);
-				break;
-			case MIXERSETTINGS_CURVE2SOURCE_COLLECTIVE:
-				ManualControlCommandCollectiveGet(&curve2);
-				curve2 = CollectiveCurve(curve2, mixerSettings.ThrottleCurve2, MIXERSETTINGS_THROTTLECURVE2_NUMELEM);
-				break;
-			case MIXERSETTINGS_CURVE2SOURCE_ACCESSORY0:
-			case MIXERSETTINGS_CURVE2SOURCE_ACCESSORY1:
-			case MIXERSETTINGS_CURVE2SOURCE_ACCESSORY2:
-			case MIXERSETTINGS_CURVE2SOURCE_ACCESSORY3:
-			case MIXERSETTINGS_CURVE2SOURCE_ACCESSORY4:
-			case MIXERSETTINGS_CURVE2SOURCE_ACCESSORY5:
-				if(AccessoryDesiredInstGet(mixerSettings.Curve2Source - MIXERSETTINGS_CURVE2SOURCE_ACCESSORY0,&accessory) == 0)
-					curve2 = CollectiveCurve(accessory.AccessoryVal, mixerSettings.ThrottleCurve2, MIXERSETTINGS_THROTTLECURVE2_NUMELEM);
-				else
-					curve2 = 0;
-				break;
-		}
+		float curve2 = collective_curve(
+				get_curve2_source(&desired, mixerSettings.Curve2Source),
+				mixerSettings.ThrottleCurve2,
+				MIXERSETTINGS_THROTTLECURVE2_NUMELEM);
 
 		float * status = (float *)&mixerStatus; //access status objects as an array of floats
 
-		for(int ct=0; ct < MAX_MIX_ACTUATORS; ct++)
-		{
-			if(mixers[ct].type == MIXERSETTINGS_MIXER1TYPE_DISABLED) {
-				// Set to minimum if disabled.  This is not the same as saying PWM pulse = 0 us
-				status[ct] = -1;
-				command.Channel[ct] = 0.0f;
-				continue;
-			}
-
-			if((mixers[ct].type == MIXERSETTINGS_MIXER1TYPE_MOTOR) || (mixers[ct].type == MIXERSETTINGS_MIXER1TYPE_SERVO))
-				status[ct] = ProcessMixer(ct, curve1, curve2, &mixerSettings, &desired, dT);
-			else
-				status[ct] = -1;
-
-
+		for (int ct = 0; ct < MAX_MIX_ACTUATORS; ct++) {
+			status[ct] = mix_channel(ct, &desired, curve1, curve2);
 
 			// Motors have additional protection for when to be on
-			if(mixers[ct].type == MIXERSETTINGS_MIXER1TYPE_MOTOR) {
+			if (get_mixer_type(ct) == MIXERSETTINGS_MIXER1TYPE_MOTOR) {
 
 				// If not armed or motors aren't meant to spin all the time
-				if( !armed ||
-				   (!spinWhileArmed && !positiveThrottle))
-				{
+				if (!armed ||
+						(!spinWhileArmed && !positiveThrottle)) {
 					status[ct] = -1;  //force min throttle
 				}
 				// If armed meant to keep spinning,
 				else if ((spinWhileArmed && !positiveThrottle) ||
-					 (status[ct] < 0) )
+						(status[ct] < 0) )
 					status[ct] = 0;
 			}
 
-			// If an accessory channel is selected for direct bypass mode
-			// In this configuration the accessory channel is scaled and mapped
-			// directly to output.  Note: THERE IS NO SAFETY CHECK HERE FOR ARMING
-			// these also will not be updated in failsafe mode.  I'm not sure what
-			// the correct behavior is since it seems domain specific.  I don't love
-			// this code
-			if( (mixers[ct].type >= MIXERSETTINGS_MIXER1TYPE_ACCESSORY0) &&
-			   (mixers[ct].type <= MIXERSETTINGS_MIXER1TYPE_ACCESSORY5))
-			{
-				if(AccessoryDesiredInstGet(mixers[ct].type - MIXERSETTINGS_MIXER1TYPE_ACCESSORY0,&accessory) == 0)
-					status[ct] = accessory.AccessoryVal;
-				else
-					status[ct] = -1;
-			}
-			if( (mixers[ct].type >= MIXERSETTINGS_MIXER1TYPE_CAMERAROLL) &&
-			   (mixers[ct].type <= MIXERSETTINGS_MIXER1TYPE_CAMERAYAW))
-			{
-				CameraDesiredData cameraDesired;
-				if( CameraDesiredGet(&cameraDesired) == 0 ) {
-					switch(mixers[ct].type) {
-						case MIXERSETTINGS_MIXER1TYPE_CAMERAROLL:
-							status[ct] = cameraDesired.Roll;
-							break;
-						case MIXERSETTINGS_MIXER1TYPE_CAMERAPITCH:
-							status[ct] = cameraDesired.Pitch;
-							break;
-						case MIXERSETTINGS_MIXER1TYPE_CAMERAYAW:
-							status[ct] = cameraDesired.Yaw;
-							break;
-						default:
-							break;
-					}
-				}
-				else
-					status[ct] = -1;
-			}
+			command.Channel[ct] = scale_channel(status[ct], ct);
 		}
-		
-		for(int i = 0; i < MAX_MIX_ACTUATORS; i++) 
-			command.Channel[i] = scaleChannel(status[i],
-							   actuatorSettings.ChannelMax[i],
-							   actuatorSettings.ChannelMin[i],
-							   actuatorSettings.ChannelNeutral[i]);
-			
+
 		// Store update time
 		command.UpdateTime = 1000.0f*dT;
-		if(1000.0f*dT > command.MaxUpdateTime)
+		if (1000.0f*dT > command.MaxUpdateTime)
 			command.MaxUpdateTime = 1000.0f*dT;
-		
+
 		// Update output object
 		ActuatorCommandSet(&command);
 		// Update in case read only (eg. during servo configuration)
@@ -366,20 +312,18 @@ static void actuatorTask(void* parameters)
 #if defined(MIXERSTATUS_DIAGNOSTICS)
 		MixerStatusSet(&mixerStatus);
 #endif
-		
 
 		// Update servo outputs
 		bool success = true;
 
-		for (int n = 0; n < ACTUATORCOMMAND_CHANNEL_NUMELEM; ++n)
-		{
-			success &= set_channel(n, command.Channel[n], &actuatorSettings);
+		for (int n = 0; n < ACTUATORCOMMAND_CHANNEL_NUMELEM; ++n) {
+			success &= set_channel(n, command.Channel[n]);
 		}
 #if defined(PIOS_INCLUDE_HPWM)
 		PIOS_Servo_Update();
 #endif
 
-		if(!success) {
+		if (!success) {
 			command.NumFailedUpdates++;
 			ActuatorCommandSet(&command);
 			AlarmsSet(SYSTEMALARMS_ALARM_ACTUATOR, SYSTEMALARMS_ALARM_CRITICAL);
@@ -388,65 +332,20 @@ static void actuatorTask(void* parameters)
 	}
 }
 
-
-
 /**
  *Process mixing for one actuator
  */
-float ProcessMixer(const int index, const float curve1, const float curve2,
-		   const MixerSettingsData* mixerSettings, ActuatorDesiredData* desired, const float period)
+float process_mixer(const int index, const float curve1, const float curve2,
+		ActuatorDesiredData *desired)
 {
-	const Mixer_t * mixers = (Mixer_t *)&mixerSettings->Mixer1Type; //pointer to array of mixers in UAVObjects
-	const Mixer_t * mixer = &mixers[index];
+	int8_t *vector = get_mixer_vec(index);
+	float result = ((vector[MIXERSETTINGS_MIXER1VECTOR_THROTTLECURVE1] * curve1) +
+			(vector[MIXERSETTINGS_MIXER1VECTOR_THROTTLECURVE2] * curve2) +
+			(vector[MIXERSETTINGS_MIXER1VECTOR_ROLL] * desired->Roll) +
+			(vector[MIXERSETTINGS_MIXER1VECTOR_PITCH] * desired->Pitch) +
+			(vector[MIXERSETTINGS_MIXER1VECTOR_YAW] * desired->Yaw)) * (1.0f / MULTIROTOR_MIXER_UPPER_BOUND);
 
-	float result = (((float)mixer->matrix[MIXERSETTINGS_MIXER1VECTOR_THROTTLECURVE1] / 128.0f) * curve1) +
-		       (((float)mixer->matrix[MIXERSETTINGS_MIXER1VECTOR_THROTTLECURVE2] / 128.0f) * curve2) +
-		       (((float)mixer->matrix[MIXERSETTINGS_MIXER1VECTOR_ROLL] / 128.0f) * desired->Roll) +
-		       (((float)mixer->matrix[MIXERSETTINGS_MIXER1VECTOR_PITCH] / 128.0f) * desired->Pitch) +
-		       (((float)mixer->matrix[MIXERSETTINGS_MIXER1VECTOR_YAW] / 128.0f) * desired->Yaw);
-
-	if((mixer->type == MIXERSETTINGS_MIXER1TYPE_MOTOR) && (result < 0.0f))
-	{
-			result = 0.0f; //idle throttle
-	}
-
-	return(result);
-}
-
-/**
- * Interpolate a mixer curve
- *
- * output range is defined by the curve vector
- * curve is defined in N intervals connecting N+1 points
- *
- * @param input the input value, in [input_min,input_max]
- * @param curve the array of points in the curve
- * @param num_points the number of points in the curve
- * @param input_min the lower range of the input values
- * @param input_max the upper range of the input values
- * @return the output value, in [0,1]
- */
-static float MixerCurve(float const input, float const * curve, uint8_t num_points, const float input_min, const float input_max)
-{
-	// shift our input [min,max] into the typical range [0,1]
-	float scale = fmaxf( (input - input_min) / (input_max - input_min), 0.0f) * (float) (num_points - 1);
-	// select a starting bin via truncation
-	int idx1 = scale;
-	// save the offset from the starting bin for linear interpolation
-	scale -= (float)idx1;
-	// select an ending bin (linear interpolation occurs between starting and ending bins)
-	int idx2 = idx1 + 1;
-	// if the ending bin bin is above the last bin
-	if (idx2 >= num_points) {
-		//clamp to highest entry in table
-		idx2 = num_points -1;
-		// if the starting bin is above the last bin
-		if (idx1 >= num_points) {
-			// we no longer do interpolation; instead, we just select the max point on the curve
-			return curve[num_points-1];
-		}
-	}
-	return curve[idx1] * (1.0f - scale) + curve[idx2] * scale;
+	return (result);
 }
 
 /**
@@ -461,9 +360,9 @@ static float MixerCurve(float const input, float const * curve, uint8_t num_poin
  * @param num_points the number of points in the curve
  * @return the output value, in [0,1]
  */
-static float ThrottleCurve(float const input, float const * curve, uint8_t num_points)
+static float throt_curve(float const input, float const * curve, uint8_t num_points)
 {
-	return MixerCurve(input, curve, num_points, 0.0f, 1.0f);
+	return linear_interpolate(input, curve, num_points, 0.0f, 1.0f);
 }
 
 /**
@@ -476,80 +375,73 @@ static float ThrottleCurve(float const input, float const * curve, uint8_t num_p
  * @param num_points Number of points in the curve
  * @return the output value, in [-1,1]
  */
-static float CollectiveCurve(float const input, float const * curve, uint8_t num_points)
+static float collective_curve(float const input, float const * curve, uint8_t num_points)
 {
-	return MixerCurve(input, curve, num_points, -1.0f, 1.0f);
+	return linear_interpolate(input, curve, num_points, -1.0f, 1.0f);
 }
-
 
 /**
  * Convert channel from -1/+1 to servo pulse duration in microseconds
  */
-static float scaleChannel(float value, float max, float min, float neutral)
+static float scale_channel(float value, int idx)
 {
+	float max = actuatorSettings.ChannelMax[idx];
+	float min = actuatorSettings.ChannelMin[idx];
+	float neutral = actuatorSettings.ChannelNeutral[idx];
+
 	float valueScaled;
 	// Scale
-	if ( value >= 0.0f)
-	{
+	if (value >= 0.0f) {
 		valueScaled = value*(max-neutral) + neutral;
-	}
-	else
-	{
+	} else {
 		valueScaled = value*(neutral-min) + neutral;
 	}
 
-	if (max>min)
-	{
-		if( valueScaled > max ) valueScaled = max;
-		if( valueScaled < min ) valueScaled = min;
-	}
-	else
-	{
-		if( valueScaled < max ) valueScaled = max;
-		if( valueScaled > min ) valueScaled = min;
+	if (max>min) {
+		if (valueScaled > max) valueScaled = max;
+		if (valueScaled < min) valueScaled = min;
+	} else {
+		if (valueScaled < max) valueScaled = max;
+		if (valueScaled > min) valueScaled = min;
 	}
 
 	return valueScaled;
 }
 
+static float channel_failsafe_value(int idx)
+{
+	switch (get_mixer_type(idx)) {
+	case MIXERSETTINGS_MIXER1TYPE_MOTOR:
+		return actuatorSettings.ChannelMin[idx];
+	case MIXERSETTINGS_MIXER1TYPE_SERVO:
+		return actuatorSettings.ChannelNeutral[idx];
+	default:
+		// TODO: is this actually right/safe?
+		return 0;
+	}
+
+}
+
 /**
  * Set actuator output to the neutral values (failsafe)
  */
-static void setFailsafe(const ActuatorSettingsData * actuatorSettings, const MixerSettingsData * mixerSettings)
+static void set_failsafe()
 {
 	/* grab only the parts that we are going to use */
 	float Channel[ACTUATORCOMMAND_CHANNEL_NUMELEM];
 	ActuatorCommandChannelGet(Channel);
 
-	const Mixer_t * mixers = (Mixer_t *)&mixerSettings->Mixer1Type; //pointer to array of mixers in UAVObjects
-
 	// Reset ActuatorCommand to safe values
-	for (int n = 0; n < ACTUATORCOMMAND_CHANNEL_NUMELEM; ++n)
-	{
-
-		if(mixers[n].type == MIXERSETTINGS_MIXER1TYPE_MOTOR)
-		{
-			Channel[n] = actuatorSettings->ChannelMin[n];
-		}
-		else if(mixers[n].type == MIXERSETTINGS_MIXER1TYPE_SERVO)
-		{
-			Channel[n] = actuatorSettings->ChannelNeutral[n];
-		}
-		else
-		{
-			Channel[n] = 0.0f;
-		}
-		
-		
+	for (int n = 0; n < ACTUATORCOMMAND_CHANNEL_NUMELEM; ++n) {
+		Channel[n] = channel_failsafe_value(n);
 	}
 
 	// Set alarm
 	AlarmsSet(SYSTEMALARMS_ALARM_ACTUATOR, SYSTEMALARMS_ALARM_CRITICAL);
 
 	// Update servo outputs
-	for (int n = 0; n < ACTUATORCOMMAND_CHANNEL_NUMELEM; ++n)
-	{
-		set_channel(n, Channel[n], actuatorSettings);
+	for (int n = 0; n < ACTUATORCOMMAND_CHANNEL_NUMELEM; ++n) {
+		set_channel(n, Channel[n]);
 	}
 #if defined(PIOS_INCLUDE_HPWM) // TODO: this is actually about the synchronous updating and not resolution
 	PIOS_Servo_Update();
@@ -559,137 +451,127 @@ static void setFailsafe(const ActuatorSettingsData * actuatorSettings, const Mix
 	ActuatorCommandChannelSet(Channel);
 }
 
-static bool set_channel(uint8_t mixer_channel, float value, const ActuatorSettingsData * actuatorSettings)
+static bool set_channel(uint8_t mixer_channel, float value)
 #if defined(ARCH_POSIX) || defined(ARCH_WIN32)
 {
 	return true;
 }
 #else
 {
-	switch(actuatorSettings->ChannelType[mixer_channel]) {
-		case ACTUATORSETTINGS_CHANNELTYPE_PWMALARM: 
-                case ACTUATORSETTINGS_CHANNELTYPE_ARMINGLED:
-                case ACTUATORSETTINGS_CHANNELTYPE_INFOLED:
-                {
-			// This is for buzzers that take a PWM input
+	switch (actuatorSettings.ChannelType[mixer_channel]) {
+	case ACTUATORSETTINGS_CHANNELTYPE_PWMALARM:
+	case ACTUATORSETTINGS_CHANNELTYPE_ARMINGLED:
+	case ACTUATORSETTINGS_CHANNELTYPE_INFOLED:
+	{
+		// This is for buzzers that take a PWM input
 
-			static uint32_t currBuzzTune = 0;
-			static uint32_t currBuzzTuneState;
+		static uint32_t currBuzzTune = 0;
+		static uint32_t currBuzzTuneState;
 
-                        static uint32_t currArmingTune = 0;
-			static uint32_t currArmingTuneState;
+		static uint32_t currArmingTune = 0;
+		static uint32_t currArmingTuneState;
 
-                        static uint32_t currInfoTune = 0;
-			static uint32_t currInfoTuneState;
+		static uint32_t currInfoTune = 0;
+		static uint32_t currInfoTuneState;
 
-                        uint32_t newTune = 0;
-                        if(actuatorSettings->ChannelType[mixer_channel] == ACTUATORSETTINGS_CHANNELTYPE_PWMALARM)
-                        {
-                            
-                            // Decide what tune to play
-                            if (AlarmsGet(SYSTEMALARMS_ALARM_BATTERY) > SYSTEMALARMS_ALARM_WARNING) {
-                                    newTune = 0b11110110110000;	// pause, short, short, short, long
-                            } else if (AlarmsGet(SYSTEMALARMS_ALARM_GPS) >= SYSTEMALARMS_ALARM_WARNING) {
-                                    newTune = 0x80000000;			// pause, short
-                            } else {
-                                    newTune = 0;
-                            }
+		uint32_t newTune = 0;
+		if (actuatorSettings.ChannelType[mixer_channel] == ACTUATORSETTINGS_CHANNELTYPE_PWMALARM) {
 
-                            // Do we need to change tune?
-                            if (newTune != currBuzzTune) {
-                                    currBuzzTune = newTune;
-                                    currBuzzTuneState = currBuzzTune;
-                            }
-                        }
-                        else // ACTUATORSETTINGS_CHANNELTYPE_ARMINGLED || ACTUATORSETTINGS_CHANNELTYPE_INFOLED
-                        {
-                            uint8_t arming;
-                            FlightStatusArmedGet(&arming);
-                            //base idle tune  
-                            newTune =  0x80000000;      // 0b1000...
-                            
-                            // Merge the error pattern for InfoLed
-                            if(actuatorSettings->ChannelType[mixer_channel] == ACTUATORSETTINGS_CHANNELTYPE_INFOLED)
-                            {
-                                if (AlarmsGet(SYSTEMALARMS_ALARM_BATTERY) > SYSTEMALARMS_ALARM_WARNING) 
-                                {
-                                    newTune |= 0b00000000001111111011111110000000;
-                                }
-                                else if(AlarmsGet(SYSTEMALARMS_ALARM_GPS) >= SYSTEMALARMS_ALARM_WARNING) 
-                                {             
-                                    newTune |= 0b00000000000000110110110000000000;
-                                }
-                            }
-                            // fast double blink pattern if armed 
-                            if (arming == FLIGHTSTATUS_ARMED_ARMED) 
-                               newTune |= 0xA0000000;   // 0b101000... 
-
-                            // Do we need to change tune?
-                            if(actuatorSettings->ChannelType[mixer_channel] == ACTUATORSETTINGS_CHANNELTYPE_ARMINGLED)
-                            {
-                                if (newTune != currArmingTune) {
-                                    currArmingTune = newTune;
-                                    // note: those are both updated so that Info and Arming are in sync if used simultaneously
-                                    currArmingTuneState = currArmingTune;
-                                    currInfoTuneState = currInfoTune;
-                                }
-                            }
-                            else
-                            {
-                                if (newTune != currInfoTune) {
-                                    currInfoTune = newTune;
-                                    currArmingTuneState = currArmingTune;
-                                    currInfoTuneState = currInfoTune;
-                                }
-                            }
-                        }
-
-			// Play tune
-			bool buzzOn = false;
-			static uint32_t lastSysTime = 0;
-			uint32_t thisSysTime = PIOS_Thread_Systime();
-			uint32_t dT = 0;
-
-			// For now, only look at the battery alarm, because functions like AlarmsHasCritical() can block for some time; to be discussed
-			if (currBuzzTune||currArmingTune||currInfoTune) {
-                            if(thisSysTime > lastSysTime)
-                                dT = thisSysTime - lastSysTime;
-                            if(actuatorSettings->ChannelType[mixer_channel] == ACTUATORSETTINGS_CHANNELTYPE_PWMALARM)
-                                buzzOn = (currBuzzTuneState&1);	// Buzz when the LS bit is 1
-                            else if(actuatorSettings->ChannelType[mixer_channel] == ACTUATORSETTINGS_CHANNELTYPE_ARMINGLED)
-                                buzzOn = (currArmingTuneState&1);	
-                            else if(actuatorSettings->ChannelType[mixer_channel] == ACTUATORSETTINGS_CHANNELTYPE_INFOLED)
-                                buzzOn = (currInfoTuneState&1);
-
-                            if (dT > 80) {
-                                    // Go to next bit in alarm_seq_state
-                                    currArmingTuneState >>=1;
-                                    currInfoTuneState >>= 1;
-                                    currBuzzTuneState >>= 1;
-
-                                    if (currBuzzTuneState == 0)
-                                            currBuzzTuneState = currBuzzTune;	// All done, re-start the tune
-                                    if (currArmingTuneState == 0)
-                                            currArmingTuneState = currArmingTune;
-                                    if (currInfoTuneState == 0)
-                                            currInfoTuneState = currInfoTune;	
-                                    lastSysTime = thisSysTime;
-                            }
+			// Decide what tune to play
+			if (AlarmsGet(SYSTEMALARMS_ALARM_BATTERY) > SYSTEMALARMS_ALARM_WARNING) {
+				newTune = 0b11110110110000;     // pause, short, short, short, long
+			} else if (AlarmsGet(SYSTEMALARMS_ALARM_GPS) >= SYSTEMALARMS_ALARM_WARNING) {
+				newTune = 0x80000000;                           // pause, short
+			} else {
+				newTune = 0;
 			}
-			PIOS_Servo_Set(mixer_channel,
-							buzzOn?actuatorSettings->ChannelMax[mixer_channel]:actuatorSettings->ChannelMin[mixer_channel]);
-			return true;
+
+			// Do we need to change tune?
+			if (newTune != currBuzzTune) {
+				currBuzzTune = newTune;
+				currBuzzTuneState = currBuzzTune;
+			}
+		} else {     // ACTUATORSETTINGS_CHANNELTYPE_ARMINGLED || ACTUATORSETTINGS_CHANNELTYPE_INFOLED
+			uint8_t arming;
+			FlightStatusArmedGet(&arming);
+			//base idle tune
+			newTune =  0x80000000;          // 0b1000...
+
+			// Merge the error pattern for InfoLed
+			if (actuatorSettings.ChannelType[mixer_channel] == ACTUATORSETTINGS_CHANNELTYPE_INFOLED) {
+				if (AlarmsGet(SYSTEMALARMS_ALARM_BATTERY) > SYSTEMALARMS_ALARM_WARNING) {
+					newTune |= 0b00000000001111111011111110000000;
+				} else if (AlarmsGet(SYSTEMALARMS_ALARM_GPS) >= SYSTEMALARMS_ALARM_WARNING) {
+					newTune |= 0b00000000000000110110110000000000;
+				}
+			}
+			// fast double blink pattern if armed
+			if (arming == FLIGHTSTATUS_ARMED_ARMED)
+				newTune |= 0xA0000000;  // 0b101000...
+
+			// Do we need to change tune?
+			if (actuatorSettings.ChannelType[mixer_channel] == ACTUATORSETTINGS_CHANNELTYPE_ARMINGLED) {
+				if (newTune != currArmingTune) {
+					currArmingTune = newTune;
+					// note: those are both updated so that Info and Arming are in sync if used simultaneously
+					currArmingTuneState = currArmingTune;
+					currInfoTuneState = currInfoTune;
+				}
+			} else {
+				if (newTune != currInfoTune) {
+					currInfoTune = newTune;
+					currArmingTuneState = currArmingTune;
+					currInfoTuneState = currInfoTune;
+				}
+			}
 		}
-		case ACTUATORSETTINGS_CHANNELTYPE_PWM:
+
+		// Play tune
+		bool buzzOn = false;
+		static uint32_t lastSysTime = 0;
+		uint32_t thisSysTime = PIOS_Thread_Systime();
+		uint32_t dT = 0;
+
+		// For now, only look at the battery alarm, because functions like AlarmsHasCritical() can block for some time; to be discussed
+		if (currBuzzTune||currArmingTune||currInfoTune) {
+			if (thisSysTime > lastSysTime)
+				dT = thisSysTime - lastSysTime;
+			if (actuatorSettings.ChannelType[mixer_channel] == ACTUATORSETTINGS_CHANNELTYPE_PWMALARM)
+				buzzOn = (currBuzzTuneState&1);  // Buzz when the LS bit is 1
+			else if (actuatorSettings.ChannelType[mixer_channel] == ACTUATORSETTINGS_CHANNELTYPE_ARMINGLED)
+				buzzOn = (currArmingTuneState&1);
+			else if (actuatorSettings.ChannelType[mixer_channel] == ACTUATORSETTINGS_CHANNELTYPE_INFOLED)
+				buzzOn = (currInfoTuneState&1);
+
+			if (dT > 80) {
+				// Go to next bit in alarm_seq_state
+				currArmingTuneState >>= 1;
+				currInfoTuneState >>= 1;
+				currBuzzTuneState >>= 1;
+
+				if (currBuzzTuneState == 0)
+					currBuzzTuneState = currBuzzTune;       // All done, re-start the tune
+				if (currArmingTuneState == 0)
+					currArmingTuneState = currArmingTune;
+				if (currInfoTuneState == 0)
+					currInfoTuneState = currInfoTune;
+				lastSysTime = thisSysTime;
+			}
+		}
+		PIOS_Servo_Set(mixer_channel,
+					buzzOn ? actuatorSettings.ChannelMax[mixer_channel] : actuatorSettings.ChannelMin[mixer_channel]);
+		return true;
+	}
+	case ACTUATORSETTINGS_CHANNELTYPE_PWM:
 #if defined(PIOS_INCLUDE_HPWM)
-			// The HPWM method will convert from us to the appropriate settings
-			PIOS_Servo_Set(mixer_channel, value);
+		// The HPWM method will convert from us to the appropriate settings
+		PIOS_Servo_Set(mixer_channel, value);
 #else
-			PIOS_Servo_Set(mixer_channel, value);
+		PIOS_Servo_Set(mixer_channel, value);
 #endif
-			return true;
-		default:
-			return false;
+		return true;
+	default:
+		return false;
 	}
 
 	return false;
@@ -700,38 +582,189 @@ static bool set_channel(uint8_t mixer_channel, float value, const ActuatorSettin
 /**
  * @brief Update the servo update rate
  */
-static void actuator_update_rate_if_changed(const ActuatorSettingsData * actuatorSettings, bool force_update)
+static void actuator_update_rate_if_changed(bool force_update)
 {
 	static uint16_t prevChannelUpdateFreq[ACTUATORSETTINGS_TIMERUPDATEFREQ_NUMELEM];
 
 	// check if the any rate setting is changed
 	if (force_update ||
-		memcmp (prevChannelUpdateFreq,
-			actuatorSettings->TimerUpdateFreq,
-			sizeof(prevChannelUpdateFreq)) != 0) {
+			memcmp(prevChannelUpdateFreq,
+				actuatorSettings.TimerUpdateFreq,
+				sizeof(prevChannelUpdateFreq)) != 0) {
 		/* Something has changed, apply the settings to HW */
-		memcpy (prevChannelUpdateFreq,
-			actuatorSettings->TimerUpdateFreq,
-			sizeof(prevChannelUpdateFreq));
-		PIOS_Servo_SetMode(actuatorSettings->TimerUpdateFreq, actuatorSettings->TimerPwmResolution, ACTUATORSETTINGS_TIMERPWMRESOLUTION_NUMELEM);
+		memcpy(prevChannelUpdateFreq,
+				actuatorSettings.TimerUpdateFreq,
+				sizeof(prevChannelUpdateFreq));
+		PIOS_Servo_SetMode(actuatorSettings.TimerUpdateFreq, actuatorSettings.TimerPwmResolution,
+				ACTUATORSETTINGS_TIMERPWMRESOLUTION_NUMELEM);
 	}
 }
 
-static void ActuatorSettingsUpdatedCb(UAVObjEvent * ev)
+static void settings_update_cb(UAVObjEvent * ev)
 {
-	actuator_settings_updated = true;
+	settings_updated = true;
 }
 
-static void MixerSettingsUpdatedCb(UAVObjEvent * ev)
+static float mix_channel(int ct, ActuatorDesiredData *desired,
+		float curve1, float curve2)
 {
-	mixer_settings_updated = true;
+	MixerSettingsMixer1TypeOptions type = get_mixer_type(ct);
+
+	switch (type) {
+	case MIXERSETTINGS_MIXER1TYPE_DISABLED:
+		// Set to minimum if disabled.  This is not the same as saying PWM pulse = 0 us
+		return -1;
+		break;
+
+	case MIXERSETTINGS_MIXER1TYPE_SERVO:
+		return process_mixer(ct, curve1, curve2, desired);
+		break;
+
+	case MIXERSETTINGS_MIXER1TYPE_MOTOR:
+		(void) 0;               // nil statement
+		float val = process_mixer(ct, curve1, curve2, desired);
+
+		if (val > 0) {
+			// Apply curve fitting, mapping the input to the propeller output.
+			val = actuatorSettings.MotorInputOutputCurveFit[ACTUATORSETTINGS_MOTORINPUTOUTPUTCURVEFIT_A] *
+					powf(val, actuatorSettings.MotorInputOutputCurveFit[ACTUATORSETTINGS_MOTORINPUTOUTPUTCURVEFIT_B]);
+		} else {
+			// Idle throttle
+			val = 0.0f;
+		}
+
+		return val;
+		break;
+	// If an accessory channel is selected for direct bypass mode
+	// In this configuration the accessory channel is scaled and
+	// mapped directly to output.
+	// Note: THERE IS NO SAFETY CHECK HERE FOR ARMING
+	// these also will not be updated in failsafe mode.  I'm not sure
+	// what the correct behavior is since it seems domain specific.
+	// I don't love this code
+	case MIXERSETTINGS_MIXER1TYPE_ACCESSORY0:
+	case MIXERSETTINGS_MIXER1TYPE_ACCESSORY1:
+	case MIXERSETTINGS_MIXER1TYPE_ACCESSORY2:
+	case MIXERSETTINGS_MIXER1TYPE_ACCESSORY3:
+	case MIXERSETTINGS_MIXER1TYPE_ACCESSORY4:
+	case MIXERSETTINGS_MIXER1TYPE_ACCESSORY5:
+		(void) 0;
+
+		AccessoryDesiredData accessory;
+		if (AccessoryDesiredInstGet(type - MIXERSETTINGS_MIXER1TYPE_ACCESSORY0,&accessory) == 0)
+			return accessory.AccessoryVal;
+		else
+			return -1;
+		break;
+	case MIXERSETTINGS_MIXER1TYPE_CAMERAPITCH:
+	case MIXERSETTINGS_MIXER1TYPE_CAMERAROLL:
+	case MIXERSETTINGS_MIXER1TYPE_CAMERAYAW:
+		(void) 0;
+
+		CameraDesiredData cameraDesired;
+		if (CameraDesiredGet(&cameraDesired) == 0) {
+			switch (type) {
+			case MIXERSETTINGS_MIXER1TYPE_CAMERAROLL:
+				return cameraDesired.Roll;
+			case MIXERSETTINGS_MIXER1TYPE_CAMERAPITCH:
+				return cameraDesired.Pitch;
+			case MIXERSETTINGS_MIXER1TYPE_CAMERAYAW:
+				return cameraDesired.Yaw;
+			default:
+				break;
+			}
+		}
+		return -1;
+		/* No default-- make sure we handle all types positively here */
+	}
+
+	/* Can't get here. */
+	return -1;
 }
 
-#define OUTPUT_MODE_ASSUMPTIONS ( PWM_MODE_1MHZ == ACTUATORSETTINGS_TIMERPWMRESOLUTION_1MHZ ) && \
-                                ( PWM_MODE_12MHZ == ACTUATORSETTINGS_TIMERPWMRESOLUTION_12MHZ )
-#if !(OUTPUT_MODE_ASSUMPTIONS)
-    #error "ActuatorSettings.TimerPwmResolution does not match PWM_MODE enum"
-#endif
+static MixerSettingsMixer1TypeOptions get_mixer_type(int idx)
+{
+	switch (idx) {
+	case 0:
+		return mixerSettings.Mixer1Type;
+		break;
+	case 1:
+		return mixerSettings.Mixer2Type;
+		break;
+	case 2:
+		return mixerSettings.Mixer3Type;
+		break;
+	case 3:
+		return mixerSettings.Mixer4Type;
+		break;
+	case 4:
+		return mixerSettings.Mixer5Type;
+		break;
+	case 5:
+		return mixerSettings.Mixer6Type;
+		break;
+	case 6:
+		return mixerSettings.Mixer7Type;
+		break;
+	case 7:
+		return mixerSettings.Mixer8Type;
+		break;
+	case 8:
+		return mixerSettings.Mixer9Type;
+		break;
+	case 9:
+		return mixerSettings.Mixer10Type;
+		break;
+	default:
+		// We can never get here unless there are mixer channels not handled in the above. Fail out.
+		PIOS_Assert(0);
+	}
+}
+
+static int8_t *get_mixer_vec(int idx)
+{
+	switch (idx) {
+	case 0:
+		return mixerSettings.Mixer1Vector;
+		break;
+	case 1:
+		return mixerSettings.Mixer2Vector;
+		break;
+	case 2:
+		return mixerSettings.Mixer3Vector;
+		break;
+	case 3:
+		return mixerSettings.Mixer4Vector;
+		break;
+	case 4:
+		return mixerSettings.Mixer5Vector;
+		break;
+	case 5:
+		return mixerSettings.Mixer6Vector;
+		break;
+	case 6:
+		return mixerSettings.Mixer7Vector;
+		break;
+	case 7:
+		return mixerSettings.Mixer8Vector;
+		break;
+	case 8:
+		return mixerSettings.Mixer9Vector;
+		break;
+	case 9:
+		return mixerSettings.Mixer10Vector;
+		break;
+	default:
+		// We can never get here unless there are mixer channels not handled in the above. Fail out.
+		PIOS_Assert(0);
+	}
+}
+
+#define OUTPUT_MODE_ASSUMPTIONS ( ( (int) PWM_MODE_1MHZ == ACTUATORSETTINGS_TIMERPWMRESOLUTION_1MHZ ) && \
+	( (int) PWM_MODE_12MHZ == ACTUATORSETTINGS_TIMERPWMRESOLUTION_12MHZ ) )
+
+DONT_BUILD_IF(!OUTPUT_MODE_ASSUMPTIONS, OutputModeAssumptions);
+
 /**
  * @}
  * @}

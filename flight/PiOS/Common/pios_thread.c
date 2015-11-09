@@ -58,7 +58,7 @@
  */
 struct pios_thread *PIOS_Thread_Create(void (*fp)(void *), const char *namep, size_t stack_bytes, void *argp, enum pios_thread_prio_e prio)
 {
-	struct pios_thread *thread = PIOS_malloc(sizeof(struct pios_thread));
+	struct pios_thread *thread = PIOS_malloc_no_dma(sizeof(struct pios_thread));
 
 	if (thread == NULL)
 		return NULL;
@@ -251,7 +251,7 @@ static uint8_t * align8_alloc(uint32_t size)
  */
 struct pios_thread *PIOS_Thread_Create(void (*fp)(void *), const char *namep, size_t stack_bytes, void *argp, enum pios_thread_prio_e prio)
 {
-	struct pios_thread *thread = PIOS_malloc(sizeof(struct pios_thread));
+	struct pios_thread *thread = PIOS_malloc_no_dma(sizeof(struct pios_thread));
 	if (thread == NULL)
 		return NULL;
 

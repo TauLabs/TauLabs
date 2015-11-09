@@ -84,7 +84,6 @@ int main(int argc, char *argv[])
 
     QString inputpath;
     QString templatepath;
-    QString outputpath;
     QStringList arguments_stringlist;
     QStringList objects_stringlist;
 
@@ -127,9 +126,6 @@ int main(int argc, char *argv[])
 
     if (!templatepath.endsWith("/"))
         templatepath.append("/"); // append a slash if it is not there
-
-    // put all output files in the current directory
-    outputpath = QString("./");
 
     QDir xmlPath = QDir(inputpath);
     UAVObjectParser* parser = new UAVObjectParser();
@@ -185,6 +181,10 @@ int main(int argc, char *argv[])
 
     parser->calculateAllIds();
 
+    /* Produce a 16 character hex string. */
+    QString idHashStr = QString("%1").arg(parser->getUavoHash(), 16, 16, QChar('0'));
+    QString outputpath = idHashStr + QString("/");
+
     for (int objidx = 0; objidx < parser->getNumObjects(); ++objidx) {
         quint32 id = parser->getObjectID(objidx);
         numBytesTotal+=parser->getNumBytes(objidx);
@@ -200,7 +200,7 @@ int main(int argc, char *argv[])
 
     // done parsing and checking
     cout << "Done: processed " << xmlList.length() << " XML files and generated "
-         << objIDList.length() << " objects with no ID collisions. Total size of the data fields is " << numBytesTotal << " bytes." << endl;
+         << objIDList.length() << " objects with no ID collisions. Total size of the data fields is " << numBytesTotal << " bytes.  Id hash is " << idHashStr.toStdString() << "." << endl;
     
 
     if (verbose) 
@@ -242,6 +242,20 @@ int main(int argc, char *argv[])
         cout << "generating wireshark code" << endl ;
         UAVObjectGeneratorWireshark wiresharkgen;
         wiresharkgen.generate(parser,templatepath,outputpath);
+    }
+
+    /* Symlink each of these to the current dir */
+    QDir dir(outputpath);
+    QFileInfoList files = dir.entryInfoList(QDir::Dirs | QDir::NoDotAndDotDot);
+    foreach (QFileInfo file, files) {
+#ifdef Q_OS_WIN
+	QDir dir;
+        dir.rmpath(file.fileName());
+        dir.rename(file.absoluteFilePath(), file.fileName());
+#else
+        QFile::remove(file.fileName());
+        QFile::link(file.absoluteFilePath(), file.fileName());
+#endif
     }
 
     return RETURN_OK;

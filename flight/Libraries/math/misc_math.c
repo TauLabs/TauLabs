@@ -255,6 +255,60 @@ void cubic_deadband_setup(float w, float b, float *m, float *r)
 	*r = *m * powf(w, 3) + b * w;
 }
 
+/**
+ * Perform a linear interpolation over N points
+ *
+ * output range is defined by the curve vector
+ * curve is defined in N intervals connecting N+1 points
+ *
+ * @param[in] input the input value, in [input_min,input_max]
+ * @param[in] curve the array of points in the curve
+ * @param[in] num_points the number of points in the curve
+ * @param[in] input_min the lower range of the input values
+ * @param[in] input_max the upper range of the input values
+ * @return the output value, in [0,1]
+ */
+float linear_interpolate(float const input, float const * curve, uint8_t num_points, const float input_min, const float input_max)
+{
+	// shift our input [min,max] into the typical range [0,1]
+	float scale = fmaxf( (input - input_min) / (input_max - input_min), 0.0f) * (float) (num_points - 1);
+	// select a starting bin via truncation
+	int idx1 = scale;
+	// save the offset from the starting bin for linear interpolation
+	scale -= (float)idx1;
+	// select an ending bin (linear interpolation occurs between starting and ending bins)
+	int idx2 = idx1 + 1;
+	// if the ending bin bin is above the last bin
+	if (idx2 >= num_points) {
+		//clamp to highest entry in table
+		idx2 = num_points -1;
+		// if the starting bin is above the last bin
+		if (idx1 >= num_points) {
+			// we no longer do interpolation; instead, we just select the max point on the curve
+			return curve[num_points-1];
+		}
+	}
+	return curve[idx1] * (1.0f - scale) + curve[idx2] * scale;
+}
+
+
+/**
+ * Return a psedorandom integer from 0 to interval
+ * Based on the Park-Miller-Carta Pseudo-Random Number Generator
+ * http://www.firstpr.com.au/dsp/rand31/
+ */
+uint16_t randomize_int(uint16_t interval)
+{
+	static uint32_t seed = 1;
+	uint32_t hi, lo;
+	lo = 16807 * (seed & 0xFFFF);
+	hi = 16807 * (seed >> 16);
+	lo += (hi & 0x7FFF) << 16;
+	lo += hi >> 15;
+	if (lo > 0x7FFFFFFF) lo -= 0x7FFFFFFF;
+	seed = lo;
+	return (uint16_t)( ((float)interval * (float)lo) / (float)0x7FFFFFFF );
+}
 
 /**
  * @}

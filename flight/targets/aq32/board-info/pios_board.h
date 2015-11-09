@@ -27,7 +27,6 @@
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
 
-
 #ifndef STM3210E_INS_H_
 #define STM3210E_INS_H_
 
@@ -80,7 +79,6 @@ TIM8  |           |           |           |
 #define BOARD_WRITABLE					true
 #define MAX_DEL_RETRYS					3
 
-
 //------------------------
 // PIOS_LED
 //------------------------
@@ -102,14 +100,12 @@ extern uint32_t pios_i2c_internal_id;
 extern uint32_t pios_i2c_external_id;
 #define PIOS_I2C_MAIN_ADAPTER			(pios_i2c_internal_id) //this is dirty and should be removed in favor a cleaner sensor api
 
-
-
 //-------------------------
 // PIOS_COM
 //
 // See also pios_board.c
 //-------------------------
-extern uintptr_t pios_com_telem_rf_id;
+extern uintptr_t pios_com_telem_serial_id;
 extern uintptr_t pios_com_gps_id;
 extern uintptr_t pios_com_telem_usb_id;
 extern uintptr_t pios_com_bridge_id;
@@ -120,10 +116,11 @@ extern uintptr_t pios_com_frsky_sensor_hub_id;
 extern uintptr_t pios_com_lighttelemetry_id;
 extern uintptr_t pios_com_picoc_id;
 extern uintptr_t pios_com_frsky_sport_id;
+extern uintptr_t pios_com_openlog_logging_id;
 
 #define PIOS_COM_GPS                    (pios_com_gps_id)
 #define PIOS_COM_TELEM_USB              (pios_com_telem_usb_id)
-#define PIOS_COM_TELEM_RF               (pios_com_telem_rf_id)
+#define PIOS_COM_TELEM_RF               (pios_com_telem_serial_id)
 #define PIOS_COM_BRIDGE                 (pios_com_bridge_id)
 #define PIOS_COM_VCP                    (pios_com_vcp_id)
 #define PIOS_COM_MAVLINK                (pios_com_mavlink_id)
@@ -132,13 +129,13 @@ extern uintptr_t pios_com_frsky_sport_id;
 #define PIOS_COM_LIGHTTELEMETRY         (pios_com_lighttelemetry_id)
 #define PIOS_COM_PICOC                  (pios_com_picoc_id)
 #define PIOS_COM_FRSKY_SPORT            (pios_com_frsky_sport_id)
+#define PIOS_COM_OPENLOG                (pios_com_openlog_logging_id)
+#define PIOS_COM_SPIFLASH               (uintptr_t)(NULL)              // No SPI Flash on AQ32 Hardware
 
 #if defined(PIOS_INCLUDE_DEBUG_CONSOLE)
 extern uintptr_t pios_com_debug_id;
 #define PIOS_COM_DEBUG                  (pios_com_debug_id)
 #endif	/* PIOS_INCLUDE_DEBUG_CONSOLE */
-
-
 
 //------------------------
 // TELEMETRY
@@ -169,7 +166,6 @@ extern uintptr_t pios_com_debug_id;
 //
 #define PIOS_PERIPHERAL_APB2_CLOCK		PIOS_SYSCLK
 
-
 //-------------------------
 // Interrupt Priorities
 //-------------------------
@@ -177,7 +173,6 @@ extern uintptr_t pios_com_debug_id;
 #define PIOS_IRQ_PRIO_MID				8               // higher than RTOS
 #define PIOS_IRQ_PRIO_HIGH				5               // for SPI, ADC, I2C etc...
 #define PIOS_IRQ_PRIO_HIGHEST			4               // for USART etc...
-
 
 //------------------------
 // PIOS_RCVR

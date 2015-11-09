@@ -21,10 +21,11 @@
 				<elementname>FlightTime</elementname>
 				<elementname>I2C</elementname>
 				<elementname>GPS</elementname>
-                		<elementname>AltitudeHold</elementname>
+				<elementname>AltitudeHold</elementname>
 				<elementname>BootFault</elementname>
 				<elementname>TempBaro</elementname>
 				<elementname>GyroBias</elementname>
+				<elementname>ADC</elementname>
 			</elementnames>
 		</field>
 		<field name="ConfigError" units="" type="enum" elements="1" defaultvalue="None">
@@ -65,6 +66,19 @@
 				<option>PDOP too high</option>
 				<option>Undefined</option>
 				<option>None</option>
+			</options>
+		</field>
+
+		<field name="RebootCause" units="" type="enum" elements="1" defaultvalue="Undefined">
+			<options>
+				<option>Brown out</option>
+				<option>Pin reset</option>
+				<option>Power on reset</option>
+				<option>Software reset</option>
+				<option>Independent watchdog</option>
+				<option>Window watchdog</option>
+				<option>Low power</option>
+				<option>Undefined</option>
 			</options>
 		</field>
 

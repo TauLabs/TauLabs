@@ -55,7 +55,7 @@ OPTMODULES += UAVOMavlinkBridge
 OPTMODULES += UAVOFrSKYSensorHubBridge
 OPTMODULES += Battery
 OPTMODULES += ComUsbBridge
-OPTMODULES += Airspeed/revolution
+OPTMODULES += Airspeed
 OPTMODULES += UAVOLighttelemetryBridge
 OPTMODULES += PicoC
 OPTMODULES += UAVOFrSKYSPortBridge
@@ -82,13 +82,10 @@ STMSPDINCDIR = $(STMSPDDIR)/inc
 DEBUG_CM3_DIR = $(PIOSCOMMONLIB)/Debug
 DEBUG_CM3_DIR_INC = $(DEBUG_CM3_DIR)/inc
 OPUAVOBJINC = $(OPUAVOBJ)/inc
-FLIGHTPLANLIB = $(OPMODULEDIR)/FlightPlan/lib
-FLIGHTPLANS = $(OPMODULEDIR)/FlightPlan/flightplans
 MAVLINKINC = $(FLIGHTLIB)/mavlink/v1.0/common
 
 # optional component libraries
 include $(PIOSCOMMONLIB)/FreeRTOS/library.mk
-#include $(PIOSCOMMONLIB)/dosfs/library.mk
 include $(FLIGHTLIB)/CMSIS3/DSP_Lib/library.mk
 
 
@@ -312,6 +309,8 @@ ASFLAGS  = $(ARCHFLAGS) -mthumb -I. -x assembler-with-cpp
 ASFLAGS += $(ADEFS)
 ASFLAGS += -Wa,-adhlns=$(addprefix $(OUTDIR)/, $(notdir $(addsuffix .lst, $(basename $<))))
 ASFLAGS += $(patsubst %,-I%,$(EXTRAINCDIRS))
+
+LIBS += $(UAVOBJLIB)
 
 # Linker flags.
 #  -Wl,...:     tell GCC to pass this to linker.

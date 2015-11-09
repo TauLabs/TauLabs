@@ -130,7 +130,7 @@ static const struct pios_hmc5883_cfg pios_hmc5883_external_cfg = {
 #define PIOS_COM_CAN_RX_BUF_LEN 256
 #define PIOS_COM_CAN_TX_BUF_LEN 256
 
-uintptr_t pios_com_logging_id;
+uintptr_t pios_com_spiflash_logging_id;
 uintptr_t pios_com_can_id;
 uintptr_t pios_internal_adc_id = 0;
 uintptr_t pios_uavo_settings_fs_id;
@@ -314,6 +314,7 @@ void PIOS_Board_Init(void) {
 	EventDispatcherInitialize();
 	UAVObjInitialize();
 
+	/* Initialize the hardware UAVOs */
 	HwSparky2Initialize();
 	ModuleSettingsInitialize();
 
@@ -330,8 +331,9 @@ void PIOS_Board_Init(void) {
 	}
 #endif
 
-	/* Initialize the alarms library */
+	/* Initialize the alarms library. Reads RCC reset flags */
 	AlarmsInitialize();
+	PIOS_RESET_Clear(); // Clear the RCC reset flags after use.
 
 	/* Initialize the task monitor library */
 	TaskMonitorInitialize();
@@ -434,7 +436,7 @@ void PIOS_Board_Init(void) {
 	HwSparky2MainPortGet(&hw_mainport);
 
 	PIOS_HAL_ConfigurePort(hw_mainport, &pios_usart_main_cfg,
-			&pios_usart_com_driver, NULL, NULL, NULL,
+			&pios_usart_com_driver, NULL, NULL, NULL, NULL,
 			PIOS_LED_ALARM,
 			&pios_usart_dsm_hsum_main_cfg, &pios_dsm_main_cfg,
 			hw_DSMxMode, NULL, NULL, false);
@@ -446,7 +448,7 @@ void PIOS_Board_Init(void) {
 	PIOS_HAL_ConfigurePort(hw_flexiport, &pios_usart_flexi_cfg,
 			&pios_usart_com_driver,
 			&pios_i2c_flexiport_adapter_id,
-			&pios_i2c_flexiport_adapter_cfg, NULL,
+			&pios_i2c_flexiport_adapter_cfg, NULL, NULL,
 			PIOS_LED_ALARM,
 			&pios_usart_dsm_hsum_flexi_cfg, &pios_dsm_flexi_cfg,
 			hw_DSMxMode, NULL, NULL, false);
@@ -480,7 +482,8 @@ void PIOS_Board_Init(void) {
 			NULL, /* XXX TODO: fix as part of DSM refactor */
 			&pios_usart_com_driver,
 			NULL, NULL,
-			&pios_ppm_cfg, 
+			&pios_ppm_cfg,
+			NULL,
 			PIOS_LED_ALARM,
 			&pios_usart_dsm_hsum_rcvr_cfg,
 			&pios_dsm_rcvr_cfg,
@@ -678,7 +681,7 @@ void PIOS_Board_Init(void) {
 		const uint32_t LOG_BUF_LEN = 256;
 		uint8_t *log_rx_buffer = PIOS_malloc(LOG_BUF_LEN);
 		uint8_t *log_tx_buffer = PIOS_malloc(LOG_BUF_LEN);
-		if (PIOS_COM_Init(&pios_com_logging_id, &pios_streamfs_com_driver, streamfs_id,
+		if (PIOS_COM_Init(&pios_com_spiflash_logging_id, &pios_streamfs_com_driver, streamfs_id,
 			log_rx_buffer, LOG_BUF_LEN, log_tx_buffer, LOG_BUF_LEN) != 0)
 			panic(9);
 	}

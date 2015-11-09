@@ -8,8 +8,8 @@ SUBDIRS   = \
     extensionsystem \
     utils \
     tlmapcontrol \
-    qwt
-
+    qwt \
+    libcrashreporter-qt
 SDL {
 SUBDIRS += sdlgamepad
 }

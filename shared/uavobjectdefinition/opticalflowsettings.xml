@@ -1,0 +1,13 @@
+<xml>
+	<object name="OpticalFlowSettings" singleinstance="true" settings="true">
+		<description>The optical flow sensor settings.</description>
+		<field name="SensorType" units="" type="enum" elements="1" options="None, PX4Flow" defaultvalue="None"/>
+		<field name="SensorRotation" units="deg*100" type="int16" elementnames="Roll,Pitch,Yaw" defaultvalue="0,0,0"/>
+		<field name="Quality" units="" type="uint8" elements="1" defaultvalue="0"/>
+
+		<access gcs="readwrite" flight="readwrite"/>
+		<telemetrygcs acked="true" updatemode="onchange" period="0"/>
+		<telemetryflight acked="true" updatemode="onchange" period="0"/>
+		<logging updatemode="manual" period="0"/>
+	</object>
+</xml>

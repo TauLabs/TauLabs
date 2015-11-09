@@ -50,7 +50,6 @@
 // Private types
 
 // Private variables
-static uintptr_t telemetryPort;
 static struct pios_queue *queue;
 
 #if defined(PIOS_TELEM_PRIORITY_QUEUE)
@@ -132,7 +131,6 @@ int32_t TelemetryInitialize(void)
 #endif
 
 	// Update telemetry settings
-	telemetryPort = PIOS_COM_TELEM_RF;
 	updateSettings();
     
 	// Initialise UAVTalk
@@ -565,7 +563,7 @@ static void updateTelemetryStats()
 static void updateSettings()
 {
 	
-	if (telemetryPort) {
+	if (PIOS_COM_TELEM_RF) {
 		// Retrieve settings
 		uint8_t speed;
 		ModuleSettingsTelemetrySpeedGet(&speed);
@@ -573,25 +571,25 @@ static void updateSettings()
 		// Set port speed
 		switch (speed) {
 		case MODULESETTINGS_TELEMETRYSPEED_2400:
-			PIOS_COM_ChangeBaud(telemetryPort, 2400);
+			PIOS_COM_ChangeBaud(PIOS_COM_TELEM_RF, 2400);
 			break;
 		case MODULESETTINGS_TELEMETRYSPEED_4800:
-			PIOS_COM_ChangeBaud(telemetryPort, 4800);
+			PIOS_COM_ChangeBaud(PIOS_COM_TELEM_RF, 4800);
 			break;
 		case MODULESETTINGS_TELEMETRYSPEED_9600:
-			PIOS_COM_ChangeBaud(telemetryPort, 9600);
+			PIOS_COM_ChangeBaud(PIOS_COM_TELEM_RF, 9600);
 			break;
 		case MODULESETTINGS_TELEMETRYSPEED_19200:
-			PIOS_COM_ChangeBaud(telemetryPort, 19200);
+			PIOS_COM_ChangeBaud(PIOS_COM_TELEM_RF, 19200);
 			break;
 		case MODULESETTINGS_TELEMETRYSPEED_38400:
-			PIOS_COM_ChangeBaud(telemetryPort, 38400);
+			PIOS_COM_ChangeBaud(PIOS_COM_TELEM_RF, 38400);
 			break;
 		case MODULESETTINGS_TELEMETRYSPEED_57600:
-			PIOS_COM_ChangeBaud(telemetryPort, 57600);
+			PIOS_COM_ChangeBaud(PIOS_COM_TELEM_RF, 57600);
 			break;
 		case MODULESETTINGS_TELEMETRYSPEED_115200:
-			PIOS_COM_ChangeBaud(telemetryPort, 115200);
+			PIOS_COM_ChangeBaud(PIOS_COM_TELEM_RF, 115200);
 			break;
 		}
 	}
@@ -606,8 +604,8 @@ static uintptr_t getComPort() {
 		return PIOS_COM_TELEM_USB;
 	else
 #endif /* PIOS_INCLUDE_USB */
-		if ( PIOS_COM_Available(telemetryPort) )
-			return telemetryPort;
+		if ( PIOS_COM_Available(PIOS_COM_TELEM_RF) )
+			return PIOS_COM_TELEM_RF;
 		else
 			return 0;
 }

@@ -128,10 +128,32 @@ static void batteryTask(void * parameters)
 				currentADCPin = -1;
 		}
 
+		bool adc_pin_invalid = false;
+		bool adc_offset_invalid = false;
+
 		// handle voltage
 		if (voltageADCPin >= 0) {
-			flightBatteryData.Voltage = ((float) PIOS_ADC_GetChannelVolt(voltageADCPin)) / batterySettings.SensorCalibrationFactor[FLIGHTBATTERYSETTINGS_SENSORCALIBRATIONFACTOR_VOLTAGE] * 1000.0f +
-							batterySettings.SensorCalibrationOffset[FLIGHTBATTERYSETTINGS_SENSORCALIBRATIONOFFSET_VOLTAGE]; //in Volts
+			float adc_voltage = (float)PIOS_ADC_GetChannelVolt(voltageADCPin);
+			float scaled_voltage = 0.0f;
+
+			// A negative result indicates an error (PIOS_ADC_GetChannelVolt returns negative on error)
+			if(adc_voltage < 0.0f)
+				adc_pin_invalid = true;
+			else {
+				// scale to actual voltage
+				scaled_voltage = (adc_voltage * 1000.0f
+						/ batterySettings.SensorCalibrationFactor[FLIGHTBATTERYSETTINGS_SENSORCALIBRATIONFACTOR_VOLTAGE])
+						+ batterySettings.SensorCalibrationOffset[FLIGHTBATTERYSETTINGS_SENSORCALIBRATIONOFFSET_VOLTAGE]; //in Volts
+
+				// disallow negative values as these are cast to unsigned integral types
+				// in some telemetry layers
+				if(scaled_voltage < 0.0f) {
+					scaled_voltage = 0.0f;
+					adc_offset_invalid = true;
+				}
+			}
+
+			flightBatteryData.Voltage = scaled_voltage;
 
 			// generate alarms and warnings
 			if (flightBatteryData.Voltage < batterySettings.VoltageThresholds[FLIGHTBATTERYSETTINGS_VOLTAGETHRESHOLDS_ALARM])
@@ -146,8 +168,28 @@ static void batteryTask(void * parameters)
 
 		// handle current
 		if (currentADCPin >= 0) {
-			flightBatteryData.Current = ((float) PIOS_ADC_GetChannelVolt(currentADCPin)) / batterySettings.SensorCalibrationFactor[FLIGHTBATTERYSETTINGS_SENSORCALIBRATIONFACTOR_CURRENT] * 1000.0f +
-							batterySettings.SensorCalibrationOffset[FLIGHTBATTERYSETTINGS_SENSORCALIBRATIONOFFSET_CURRENT]; //in Amps
+			float adc_voltage = (float)PIOS_ADC_GetChannelVolt(currentADCPin);
+			float scaled_current = 0.0f;
+
+			// A negative result indicates an error (PIOS_ADC_GetChannelVolt returns -1 on error)
+			if(adc_voltage < 0.0f)
+				adc_pin_invalid = true;
+			else {
+				// scale to actual current
+				scaled_current = (adc_voltage * 1000.0f
+						/ batterySettings.SensorCalibrationFactor[FLIGHTBATTERYSETTINGS_SENSORCALIBRATIONFACTOR_CURRENT])
+						+ batterySettings.SensorCalibrationOffset[FLIGHTBATTERYSETTINGS_SENSORCALIBRATIONOFFSET_CURRENT]; //in Amps
+
+				// disallow negative values as these are cast to unsigned integral types
+				// in some telemetry layers
+				if(scaled_current < 0.0f) {
+					scaled_current = 0.0f;
+					adc_offset_invalid = true;
+				}
+			}
+
+			flightBatteryData.Current = scaled_current;
+
 			if (flightBatteryData.Current > flightBatteryData.PeakCurrent)
 				flightBatteryData.PeakCurrent = flightBatteryData.Current; //in Amps
 
@@ -175,6 +217,15 @@ static void batteryTask(void * parameters)
 		} else {
 			flightBatteryData.Current = 0;
 		}
+
+		if(adc_pin_invalid)
+			AlarmsSet(SYSTEMALARMS_ALARM_ADC, SYSTEMALARMS_ALARM_CRITICAL);
+		else if(adc_offset_invalid)
+			AlarmsSet(SYSTEMALARMS_ALARM_ADC, SYSTEMALARMS_ALARM_WARNING);
+		else if(voltageADCPin >= 0 || currentADCPin >= 0)
+			AlarmsSet(SYSTEMALARMS_ALARM_ADC, SYSTEMALARMS_ALARM_OK);
+		else
+			AlarmsSet(SYSTEMALARMS_ALARM_ADC, SYSTEMALARMS_ALARM_UNINITIALISED);
 
 		FlightBatteryStateSet(&flightBatteryData);
 	}

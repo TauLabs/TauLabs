@@ -77,6 +77,7 @@
 #include <pios_debug.h>
 #include <pios_crc.h>
 #include <pios_rcvr.h>
+#include <pios_reset.h>
 #include <pios_irq.h>
 #include <pios_sensors.h>
 #include <pios_sim.h>

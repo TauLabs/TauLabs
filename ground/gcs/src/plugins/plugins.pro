@@ -89,13 +89,13 @@ SUBDIRS += plugin_modelview
 }
 
 # Notify gadget NEEDS PHONON UPGRADED TO QT5
-#!disable_notify_plugin {
-#    plugin_notify.subdir = notify
-#    plugin_notify.depends = plugin_coreplugin
-#    plugin_notify.depends += plugin_uavobjects
-#    plugin_notify.depends += plugin_uavtalk
-#    SUBDIRS += plugin_notify
-#}
+!disable_notify_plugin {
+    plugin_notify.subdir = notify
+    plugin_notify.depends = plugin_coreplugin
+    plugin_notify.depends += plugin_uavobjects
+    plugin_notify.depends += plugin_uavtalk
+    SUBDIRS += plugin_notify
+}
 
 # Uploader gadget
 plugin_uploader.subdir = uploader

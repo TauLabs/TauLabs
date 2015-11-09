@@ -54,14 +54,14 @@ OPTMODULES += VibrationAnalysis
 OPTMODULES += UAVOMavlinkBridge
 OPTMODULES += Battery
 OPTMODULES += ComUsbBridge
-OPTMODULES += Airspeed/revolution
+OPTMODULES += Airspeed
 OPTMODULES += UAVOHoTTBridge
 OPTMODULES += UAVOFrSKYSensorHubBridge
 OPTMODULES += UAVOLighttelemetryBridge
 OPTMODULES += PicoC
 OPTMODULES += UAVOFrSKYSPortBridge
 OPTMODULES += Geofence
-#OPTMODULES += Logging
+OPTMODULES += Logging
 
 # Paths
 OPUAVTALKINC = $(OPUAVTALK)/inc
@@ -83,13 +83,10 @@ STMSPDINCDIR = $(STMSPDDIR)/inc
 DEBUG_CM3_DIR = $(PIOSCOMMONLIB)/Debug
 DEBUG_CM3_DIR_INC = $(DEBUG_CM3_DIR)/inc
 OPUAVOBJINC = $(OPUAVOBJ)/inc
-FLIGHTPLANLIB = $(OPMODULEDIR)/FlightPlan/lib
-FLIGHTPLANS = $(OPMODULEDIR)/FlightPlan/flightplans
 MAVLINKINC = $(FLIGHTLIB)/mavlink/v1.0/common
 
 # optional component libraries
 include $(APPLIBDIR)/ChibiOS/library.mk
-#include $(PIOSCOMMONLIB)/dosfs/library.mk
 include $(FLIGHTLIB)/CMSIS3/DSP_Lib/library.mk
 
 
@@ -124,6 +121,7 @@ SRC += $(FLIGHTLIB)/WorldMagModel.c
 SRC += $(FLIGHTLIB)/insgps14state.c
 SRC += $(FLIGHTLIB)/taskmonitor.c
 SRC += $(FLIGHTLIB)/sanitycheck.c
+SRC += $(FLIGHTLIB)/timeutils.c
 SRC += $(FLIGHTLIB)/frsky_packing.c
 SRC += $(MATHLIB)/coordinate_conversions.c
 SRC += $(MATHLIB)/misc_math.c
@@ -139,8 +137,6 @@ SRC += $(PIOSCOMMON)/pios_mpu6000.c
 SRC += $(PIOSCOMMON)/pios_gcsrcvr.c
 SRC += $(PIOSCOMMON)/pios_hmc5883.c
 SRC += $(PIOSCOMMON)/pios_ms5611.c
-
-
 
 SRC += $(PIOSCOMMON)/pios_crc.c
 SRC += $(PIOSCOMMON)/pios_com.c
@@ -163,6 +159,7 @@ SRC += $(PIOSCOMMON)/pios_mutex.c
 SRC += $(PIOSCOMMON)/pios_thread.c
 SRC += $(PIOSCOMMON)/pios_queue.c
 SRC += $(PIOSCOMMON)/pios_streamfs.c
+SRC += $(PIOSCOMMON)/pios_hal.c
 
 # List C++ source files here.
 # use file-extension .cpp for C++-files (not .C)
@@ -192,20 +189,6 @@ EXTRAINCDIRS += $(MAVLINKINC)
 
 EXTRAINCDIRS += ${foreach MOD, ${MODULES} ${OPTMODULES}, $(OPMODULEDIR)/${MOD}/inc} ${OPMODULEDIR}/System/inc
 
-# List any extra directories to look for library files here.
-# Also add directories where the linker should search for
-# includes from linker-script to the list
-#     Each directory must be seperated by a space.
-EXTRA_LIBDIRS =
-
-# Extra Libraries
-#    Each library-name must be seperated by a space.
-#    i.e. to link with libxyz.a, libabc.a and libefsl.a:
-#    EXTRA_LIBS = xyz abc efsl
-# for newlib-lpc (file: libnewlibc-lpc.a):
-#    EXTRA_LIBS = newlib-lpc
-EXTRA_LIBS =
-
 # Path to Linker-Scripts
 LINKERSCRIPTPATH = $(PIOSSTM32F4XX)
 
@@ -220,8 +203,6 @@ CFLAGS += -finstrument-functions -ffixed-r10
 else
 CFLAGS += -Os
 endif
-
-
 
 # common architecture-specific flags from the device-specific library makefile
 CFLAGS += $(ARCHFLAGS)
@@ -256,7 +237,6 @@ CDEFS += -DCORTEX_VTOR_INIT='($(FW_BANK_BASE) - $(EF_BANK_BASE))'
 ifeq ($(ENABLE_DEBUG_CONSOLE), YES)
 CDEFS += -DPIOS_INCLUDE_DEBUG_CONSOLE
 endif
-
 
 # Declare all non-optional modules as built-in to force inclusion, strip off any appended varieties of module
 get_mod_name = $(shell echo $(1) | sed "s/\/[^\/]*$///")
@@ -316,13 +296,13 @@ ASFLAGS += $(ADEFS)
 ASFLAGS += -Wa,-adhlns=$(addprefix $(OUTDIR)/, $(notdir $(addsuffix .lst, $(basename $<))))
 ASFLAGS += $(patsubst %,-I%,$(EXTRAINCDIRS))
 
+LIBS += $(UAVOBJLIB)
+
 # Linker flags.
 #  -Wl,...:     tell GCC to pass this to linker.
 #    -Map:      create map file
 #    --cref:    add cross reference to  map file
 LDFLAGS = -nostartfiles -Wl,-Map=$(OUTDIR)/$(TARGET).map,--cref,--gc-sections
-LDFLAGS += $(patsubst %,-L%,$(EXTRA_LIBDIRS))
-LDFLAGS += $(patsubst %,-l%,$(EXTRA_LIBS))
 LDFLAGS += -lc -lgcc -lm
 LDFLAGS += -Wl,--warn-common
 LDFLAGS += -Wl,--fatal-warnings

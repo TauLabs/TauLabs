@@ -41,7 +41,6 @@ win32 {
     uavobjects.commands += -$(MKDIR) -p $$targetPath(../../uavobject-synthetics) $$addNewline()
     uavobjects.commands += pushd $$targetPath(../../uavobject-synthetics) &&
     uavobjects.commands += $$targetPath(../ground/uavobjgenerator/$${BUILD_CONFIG}/uavobjgenerator)
-    uavobjects.commands +=   -gcs -flight -matlab
     uavobjects.commands +=   $$targetPath(../../shared/uavobjectdefinition)
     uavobjects.commands +=   $$targetPath(../..) &&
     uavobjects.commands += popd $$addNewline()
@@ -57,7 +56,7 @@ win32 {
 
     uavobjects.commands += cd ../../uavobject-synthetics &&
     uavobjects.commands += ../ground/uavobjgenerator/uavobjgenerator
-    uavobjects.commands += -gcs -flight -matlab ../../shared/uavobjectdefinition ../.. &&
+    uavobjects.commands += ../../shared/uavobjectdefinition ../.. &&
 
     uavobjects.commands += cd ../ground/gcs &&
     uavobjects.commands += $(QMAKE) gcs.pro

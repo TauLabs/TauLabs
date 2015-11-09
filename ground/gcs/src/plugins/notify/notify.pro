@@ -1,5 +1,5 @@
 TEMPLATE = lib 
-QT += widgets
+QT += multimedia
 TARGET = NotifyPlugin 
  
 include(../../taulabsgcsplugin.pri) 

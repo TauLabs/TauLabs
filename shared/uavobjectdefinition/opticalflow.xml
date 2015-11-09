@@ -1,0 +1,15 @@
+<xml>
+	<object name="OpticalFlow" singleinstance="true" settings="false">
+		<description>The optical flow sensor data, rotated into body frame.</description>
+		<field name="x" units="m/s" type="float" elements="1"/>
+		<field name="y" units="m/s" type="float" elements="1"/>
+		<field name="z" units="m/s" type="float" elements="1"/>
+
+		<field name="Quality" units="" type="uint8" elements="1"/>
+
+		<access gcs="readwrite" flight="readwrite"/>
+		<telemetrygcs acked="false" updatemode="manual" period="0"/>
+		<telemetryflight acked="false" updatemode="periodic" period="1000"/>
+		<logging updatemode="periodic" period="100"/>
+	</object>
+</xml>

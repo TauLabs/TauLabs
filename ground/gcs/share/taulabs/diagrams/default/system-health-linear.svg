@@ -10,8 +10,8 @@
    xmlns:xlink="http://www.w3.org/1999/xlink"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="365.17761"
-   height="12.441585"
+   width="405.38974"
+   height="12.437008"
    id="svg3604"
    version="1.1"
    inkscape:version="0.48.4 r9939"
@@ -794,16 +794,16 @@
      borderopacity="1"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="3.707287"
-     inkscape:cx="193.36968"
-     inkscape:cy="4.777166"
-     inkscape:current-layer="foreground"
+     inkscape:zoom="14.829148"
+     inkscape:cx="393.98687"
+     inkscape:cy="17.164075"
+     inkscape:current-layer="background"
      id="namedview3608"
      showgrid="true"
-     inkscape:window-width="1600"
-     inkscape:window-height="850"
-     inkscape:window-x="0"
-     inkscape:window-y="0"
+     inkscape:window-width="2495"
+     inkscape:window-height="1416"
+     inkscape:window-x="65"
+     inkscape:window-y="24"
      inkscape:window-maximized="1"
      showguides="true"
      inkscape:guide-bbox="true"
@@ -829,7 +829,8 @@
      inkscape:snap-grids="false"
      inkscape:snap-to-guides="false"
      showborder="true"
-     inkscape:showpageshadow="false">
+     inkscape:showpageshadow="false"
+     guidetolerance="30">
     <sodipodi:guide
        orientation="0,1"
        position="160.86626,-131.3738"
@@ -892,7 +893,7 @@
        id="guide4864" />
     <sodipodi:guide
        orientation="1,0"
-       position="385.29681,0.53143411"
+       position="403.08661,-8.3923091"
        id="guide4866" />
     <sodipodi:guide
        orientation="0,1"
@@ -922,6 +923,22 @@
        orientation="1,0"
        position="223.50947,10.547352"
        id="guide3292" />
+    <sodipodi:guide
+       orientation="1,0"
+       position="384.34252,-7.9154734"
+       id="guide3455" />
+    <sodipodi:guide
+       orientation="1,0"
+       position="405.38976,-2.3364951"
+       id="guide3457" />
+    <sodipodi:guide
+       orientation="1,0"
+       position="2.2888116,-5.4836111"
+       id="guide3459" />
+    <sodipodi:guide
+       orientation="1,0"
+       position="0,-10.299652"
+       id="guide3461" />
   </sodipodi:namedview>
   <metadata
      id="metadata3610">
@@ -939,11 +956,11 @@
      inkscape:label="Background"
      inkscape:groupmode="layer"
      id="background"
-     transform="translate(-405.17146,-343.74826)"
+     transform="translate(-405.17146,-343.75284)"
      style="display:inline">
     <path
-       style="fill:#453e3e;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:0.77728355;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1"
-       d="m 412.24045,344.1369 371.15887,0 c 3.7009,0 6.68031,0.10717 6.68031,0.24029 l 0,11.18372 c 0,0.13312 -2.97941,0.24029 -6.68031,0.24029 l -371.15887,0 c -3.70093,0 -6.68035,-0.10717 -6.68035,-0.24029 l 0,-11.18372 c 0,-0.13312 2.97942,-0.24029 6.68035,-0.24029 z"
+       style="fill:#453e3e;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:0.79668009;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1"
+       d="m 412.5994,344.1466 390.56344,0 c 3.89439,0 7.02956,0.10699 7.02956,0.23989 l 0,11.16512 c 0,0.1329 -3.13517,0.23989 -7.02956,0.23989 l -390.56344,0 c -3.89441,0 -7.0296,-0.10699 -7.0296,-0.23989 l 0,-11.16512 c 0,-0.1329 3.13519,-0.23989 7.0296,-0.23989 z"
        id="Background"
        inkscape:connector-curvature="0" />
     <path
@@ -1060,13 +1077,19 @@
        d="m 769.65269,345.90859 18.20274,0 0,8.12092 -18.20274,0 z"
        id="AltitudeHold"
        inkscape:connector-curvature="0" />
+    <path
+       inkscape:label="#ADC"
+       style="fill:#332d2d;fill-opacity:1;stroke:#ffffff;stroke-width:0.53219783;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;display:inline"
+       d="m 789.80529,345.9186 18.20274,0 0,8.12092 -18.20274,0 z"
+       id="ADC"
+       inkscape:connector-curvature="0" />
   </g>
   <g
      style="display:none"
      inkscape:label="Alarms-OK"
      id="g11118"
      inkscape:groupmode="layer"
-     transform="translate(92.494173,0.5321132)">
+     transform="translate(92.494173,0.52753585)">
     <rect
        style="fill:#04b629;fill-opacity:1;stroke:#ffffff;stroke-width:0.53149605;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;display:inline"
        id="Battery-OK"
@@ -1219,13 +1242,21 @@
        width="18.153212"
        id="AltitudeHold-OK"
        style="fill:#04b629;fill-opacity:1;stroke:#ffffff;stroke-width:0.53149605;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;display:inline" />
+    <rect
+       inkscape:label="#ADC-OK"
+       y="1.6378762"
+       x="292.16443"
+       height="8.1216154"
+       width="18.153212"
+       id="ADC-OK"
+       style="fill:#04b629;fill-opacity:1;stroke:#ffffff;stroke-width:0.53149605;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;display:inline" />
   </g>
   <g
      style="display:none"
      inkscape:label="Alarms-Warning"
      id="g11122"
      inkscape:groupmode="layer"
-     transform="translate(92.494173,0.5321132)">
+     transform="translate(92.494173,0.52753585)">
     <rect
        inkscape:label="#rect3132"
        y="1.5463446"
@@ -1378,13 +1409,21 @@
        height="8.1216154"
        x="272.01181"
        y="1.6278691" />
+    <rect
+       inkscape:label="#ADC-Warning"
+       style="fill:#f1b907;fill-opacity:1;stroke:#ffffff;stroke-width:0.53149605;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;display:inline"
+       id="ADC-Warning"
+       width="18.153212"
+       height="8.1216154"
+       x="292.16443"
+       y="1.6378762" />
   </g>
   <g
      style="display:none"
      inkscape:label="Alarms-Error"
      id="g11126"
      inkscape:groupmode="layer"
-     transform="translate(92.494173,0.5321132)">
+     transform="translate(92.494173,0.52753585)">
     <g
        id="SystemConfiguration-Error"
        inkscape:label="#g29709">
@@ -1655,13 +1694,47 @@
          style="fill:none;stroke:#cf0e0e;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;display:inline"
          inkscape:connector-curvature="0" />
     </g>
+    <g
+       transform="translate(40.189222,-6.18e-6)"
+       style="display:inline"
+       id="AltitudeHold-Error"
+       inkscape:label="#AltitudeHold-Error">
+      <path
+         inkscape:label="#path4088-8"
+         id="path26991-1-5-2"
+         d="M 232.00988,9.719467 249.86051,1.657893"
+         style="fill:none;stroke:#cf0e0e;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;display:inline"
+         inkscape:connector-curvature="0" />
+      <path
+         id="path26989-9-5-3"
+         d="m 231.86592,1.657893 18.06657,7.989596"
+         style="fill:none;stroke:#cf0e0e;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;display:inline"
+         inkscape:connector-curvature="0" />
+    </g>
+    <g
+       transform="translate(60.341822,0.01000382)"
+       style="display:inline"
+       id="ADC-Error"
+       inkscape:label="#ADC-Error">
+      <path
+         inkscape:label="#path4088-8"
+         id="path26991-1-5-6"
+         d="M 232.00988,9.719467 249.86051,1.657893"
+         style="fill:none;stroke:#cf0e0e;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;display:inline"
+         inkscape:connector-curvature="0" />
+      <path
+         id="path26989-9-5-5"
+         d="m 231.86592,1.657893 18.06657,7.989596"
+         style="fill:none;stroke:#cf0e0e;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;display:inline"
+         inkscape:connector-curvature="0" />
+    </g>
   </g>
   <g
      style="display:none"
      inkscape:label="Alarms-Critical"
      id="g11130"
      inkscape:groupmode="layer"
-     transform="translate(92.494173,0.5321132)">
+     transform="translate(92.494173,0.52753585)">
     <rect
        inkscape:label="#rect3108"
        style="fill:#cf0e0e;fill-opacity:1;stroke:#f9f9f9;stroke-width:0.53149605;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;display:inline"
@@ -1814,13 +1887,21 @@
        width="18.153212"
        id="AltitudeHold-Critical"
        style="fill:#cf0e0e;fill-opacity:1;stroke:#ffffff;stroke-width:0.53149605;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;display:inline" />
+    <rect
+       inkscape:label="#ADC-Critical"
+       style="fill:#cf0e0e;fill-opacity:1;stroke:#ffffff;stroke-width:0.53149605;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;display:inline"
+       id="ADC-Critical"
+       width="18.153212"
+       height="8.1216154"
+       x="292.16443"
+       y="1.637876" />
   </g>
   <g
      inkscape:groupmode="layer"
      id="g11134"
      inkscape:label="Alarms-Uninitialised"
      style="display:none"
-     transform="translate(92.494173,0.5321132)">
+     transform="translate(92.494173,0.52753585)">
     <rect
        inkscape:label="#rect8365"
        y="1.6278723"
@@ -1979,19 +2060,28 @@
        x="271.98669"
        y="-9.7494841"
        transform="scale(1,-1)" />
+    <rect
+       inkscape:label="#ADC-Uninitialised"
+       style="fill:#808080;fill-opacity:0.89019608;stroke:#ffffff;stroke-width:0.53149605;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;display:inline"
+       id="ADC-Uninitialised"
+       width="18.153212"
+       height="8.1216154"
+       x="292.16443"
+       y="-9.759491"
+       transform="scale(1,-1)" />
   </g>
   <g
      style="display:none"
      inkscape:label="FlightTime-Uninitialised"
      id="g11138"
      inkscape:groupmode="layer"
-     transform="translate(92.494173,0.5321132)" />
+     transform="translate(92.494173,0.52753585)" />
   <g
      inkscape:groupmode="layer"
      id="foreground"
      inkscape:label="Foreground"
      style="display:inline"
-     transform="translate(92.494173,0.5321132)">
+     transform="translate(92.494173,0.52753585)">
     <g
        style="display:inline"
        id="g29027">
@@ -2723,8 +2813,8 @@
     <path
        inkscape:connector-curvature="0"
        id="path29775"
-       d="m -85.425182,-0.14347009 371.158852,0 c 3.7009,0 6.68033,0.10716809 6.68033,0.24028612 l 0,11.18372797 c 0,0.133118 -2.97943,0.240286 -6.68033,0.240286 l -371.158852,0 c -3.700932,0 -6.680348,-0.107168 -6.680348,-0.240286 l 0,-11.18372797 c 0,-0.13311803 2.979416,-0.24028612 6.680348,-0.24028612 z"
-       style="fill:none;stroke:#000000;stroke-width:0.77728355;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;display:inline" />
+       d="m -85.066228,-0.13377183 390.563418,0 c 3.89438,0 7.02958,0.10698988 7.02958,0.23988655 l 0,11.16513028 c 0,0.132897 -3.1352,0.239887 -7.02958,0.239887 l -390.563418,0 c -3.894421,0 -7.029604,-0.10699 -7.029604,-0.239887 l 0,-11.16513028 c 0,-0.13289667 3.135183,-0.23988655 7.029604,-0.23988655 z"
+       style="fill:none;stroke:#000000;stroke-width:0.79668009;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;display:inline" />
     <text
        xml:space="preserve"
        style="font-size:2.87697005px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;fill:#ffffff;fill-opacity:1;stroke:none;font-family:DejaVu Sans Mono;-inkscape-font-specification:DejaVu Sans Mono"
@@ -2768,13 +2858,14 @@
     <text
        xml:space="preserve"
        style="font-size:2.885602px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;fill:#ffffff;fill-opacity:1;stroke:none;display:inline;font-family:DejaVu Sans Mono;-inkscape-font-specification:DejaVu Sans Mono"
-       x="274.19766"
+       x="275.5152"
        y="4.7037296"
        id="text4868-5-0"><tspan
          sodipodi:role="line"
-         x="274.19766"
+         x="275.5152"
          y="4.7037296"
-         id="tspan4657">Altitude</tspan></text>
+         id="tspan4657"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Bitstream Vera Sans;-inkscape-font-specification:Bitstream Vera Sans">Altitude</tspan></text>
     <text
        xml:space="preserve"
        style="font-size:2.94651628px;font-style:normal;font-weight:normal;fill:#ffffff;fill-opacity:1;stroke:none;display:inline;font-family:Bitstream Vera Sans"
@@ -2785,17 +2876,29 @@
          id="tspan5683-4"
          x="277.37976"
          y="8.2200718">Hold</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:40px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+       x="297.03107"
+       y="7.1547384"
+       id="text3502"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan3504"
+         x="297.03107"
+         y="7.1547384"
+         style="font-size:4px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;fill:#ffffff;fill-opacity:1;font-family:Bitstream Vera Sans;-inkscape-font-specification:Bitstream Vera Sans">ADC</tspan></text>
   </g>
   <g
      style="display:none"
-     transform="translate(-405.17146,-343.74826)"
+     transform="translate(-405.17146,-343.75284)"
      id="g3368"
      inkscape:groupmode="layer"
      inkscape:label="NoLink Warning">
     <g
        id="nolink"
        inkscape:label="#g26918"
-       transform="matrix(1.1127398,0,0,1.0054496,-44.731371,-1.5405607)">
+       transform="matrix(1.1708677,0,0,1.0054496,-68.233606,-1.5405607)">
       <rect
          style="fill:#453e3e;fill-opacity:0.86363639;fill-rule:evenodd;stroke:#000000;stroke-width:0.73494369;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
          id="rect3370"

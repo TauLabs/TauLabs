@@ -1072,21 +1072,32 @@ static void altitude_hold_desired(ManualControlCommandData * cmd, bool flightMod
 		altitudeHoldDesired.Altitude = -current_down;
 		altitudeHoldDesired.ClimbRate = 0;
 	} else {
-		uint8_t altitude_hold_expo, altitude_hold_maxrate, altitude_hold_deadband;
-		AltitudeHoldSettingsMaxRateGet(&altitude_hold_maxrate);
+		uint8_t altitude_hold_expo;
+		uint8_t altitude_hold_maxclimbrate10;
+		uint8_t altitude_hold_maxdescentrate10;
+		uint8_t altitude_hold_deadband;
+		AltitudeHoldSettingsMaxClimbRateGet(&altitude_hold_maxclimbrate10);
+		AltitudeHoldSettingsMaxDescentRateGet(&altitude_hold_maxdescentrate10);
+
+		// Scale altitude hold rate
+		float altitude_hold_maxclimbrate = altitude_hold_maxclimbrate10 * 0.1f;
+		float altitude_hold_maxdescentrate = altitude_hold_maxdescentrate10 * 0.1f;
+
 		AltitudeHoldSettingsExpoGet(&altitude_hold_expo);
 		AltitudeHoldSettingsDeadbandGet(&altitude_hold_deadband);
 
-		const float DEADBAND_HIGH = 0.50f + altitude_hold_deadband * 0.01f;
-		const float DEADBAND_LOW = 0.50f - altitude_hold_deadband * 0.01f;
+		const float DEADBAND_HIGH = 0.50f +
+			(altitude_hold_deadband / 2.0f) * 0.01f;
+		const float DEADBAND_LOW = 0.50f -
+			(altitude_hold_deadband / 2.0f) * 0.01f;
 
 		float climb_rate = 0.0f;
 		if (cmd->Throttle > DEADBAND_HIGH) {
 			climb_rate = expo3((cmd->Throttle - DEADBAND_HIGH) / (1.0f - DEADBAND_HIGH), altitude_hold_expo) *
-		                         altitude_hold_maxrate;
-		} else if (cmd->Throttle < DEADBAND_LOW && altitude_hold_maxrate > MIN_CLIMB_RATE) {
+		                         altitude_hold_maxclimbrate;
+		} else if (cmd->Throttle < DEADBAND_LOW && altitude_hold_maxdescentrate > MIN_CLIMB_RATE) {
 			climb_rate = ((cmd->Throttle < 0) ? DEADBAND_LOW : DEADBAND_LOW - cmd->Throttle) / DEADBAND_LOW;
-			climb_rate = -expo3(climb_rate, altitude_hold_expo) * altitude_hold_maxrate;
+			climb_rate = -expo3(climb_rate, altitude_hold_expo) * altitude_hold_maxdescentrate;
 		}
 
 		// When throttle is negative tell the module that we are in landing mode
@@ -1195,13 +1206,20 @@ bool validInputRange(int16_t min, int16_t max, uint16_t value, uint16_t offset)
  */
 static void applyDeadband(float *value, float deadband)
 {
-	if (fabsf(*value) < deadband)
+	if (deadband < 0.0001f) return; /* ignore tiny deadband value */
+	if (deadband >= 1) return;	/* reject nonsensical db values */
+
+	if (fabsf(*value) < deadband) {
 		*value = 0.0f;
-	else
-		if (*value > 0.0f)
+	} else {
+		if (*value > 0.0f) {
 			*value -= deadband;
-		else
+		} else {
 			*value += deadband;
+		}
+
+		*value /= (1 - deadband);
+	}
 }
 
 //! Update the manual control settings

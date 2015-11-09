@@ -62,7 +62,7 @@ bool RfmBindWizardPlugin::initialize(const QStringList & args, QString *errMsg)
     Core::ModeManager::instance()->addAction(cmd, 1);
 
     ac->menu()->addSeparator();
-    ac->appendGroup("Wizard");
+    ac->appendGroup("Bind Wizard");
     ac->addAction(cmd, "Bind Wizard");
 
     connect(cmd->action(), SIGNAL(triggered(bool)), this, SLOT(showBindWizard()));

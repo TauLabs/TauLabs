@@ -466,7 +466,7 @@ static struct logfs_state *PIOS_FLASHFS_Logfs_alloc(void)
 {
 	struct logfs_state *logfs;
 
-	logfs = (struct logfs_state *)PIOS_malloc(sizeof(*logfs));
+	logfs = (struct logfs_state *)PIOS_malloc_no_dma(sizeof(*logfs));
 	if (!logfs) return (NULL);
 
 	logfs->magic = PIOS_FLASHFS_LOGFS_DEV_MAGIC;

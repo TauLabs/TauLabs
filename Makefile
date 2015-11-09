@@ -5,7 +5,7 @@ WHEREAMI := $(dir $(lastword $(MAKEFILE_LIST)))
 ROOT_DIR := $(realpath $(WHEREAMI)/ )
 
 # import macros common to all supported build systems
-include $(CURDIR)/make/system-id.mk
+include $(ROOT_DIR)/make/system-id.mk
 
 # configure some directories that are relative to wherever ROOT_DIR is located
 TOOLS_DIR := $(ROOT_DIR)/tools
@@ -136,9 +136,9 @@ help:
 	@echo "     stm32flash_install   - Install the stm32flash tool for unbricking boards"
 	@echo "     dfuutil_install      - Install the dfu-util tool for unbricking F4-based boards"
 	@echo "     android_sdk_install  - Install the Android SDK tools"
-	@echo "     gui_install          - Install the make gui tool"
 	@echo "     gtest_install        - Install the google unit test suite"
-	@echo "     astyle_install       - Install the astyle code formatter"	
+	@echo "     astyle_install       - Install the astyle code formatter (deprecated)"
+	@echo "     uncrustify_install   - Install the uncrustify code formatter"
 	@echo "     openssl_install      - Install the openssl libraries on windows machines"	
 	@echo
 	@echo "   [Big Hammer]"
@@ -217,8 +217,6 @@ help:
 	@echo "   [UAVObjects]"
 	@echo "     uavobjects           - Generate source files from the UAVObject definition XML files"
 	@echo "     uavobjects_test      - parse xml-files - check for valid, duplicate ObjId's, ... "
-	@echo "     uavobjects_<group>   - Generate source files from a subset of the UAVObject definition XML files"
-	@echo "                            supported groups are ($(UAVOBJ_TARGETS))"
 	@echo
 	@echo "   [Package]"
 	@echo "     package              - Executes a make all_clean and then generates a complete package build for"
@@ -227,7 +225,9 @@ help:
 	@echo
 	@echo "   [Misc]"
 	@echo "     astyle_flight FILE=<name>   - Executes the astyle code formatter to reformat"
-	@echo "                                   a c source file according to the flight code style"
+	@echo "                                   a c source file (deprecated)"
+	@echo "     uncrustify_flight FILE=<name> - Executes uncrustify to reformat a c source"
+	@echo "                                     file according to the flight code style"
 	@echo
 	@echo "   Hint: Add V=1 to your command line to see verbose build output."
 	@echo
@@ -236,7 +236,7 @@ help:
 	@echo
 
 .PHONY: all
-all: uavobjects all_ground all_flight
+all: all_ground all_flight
 
 .PHONY: all_clean
 all_clean:
@@ -257,6 +257,8 @@ $(BUILD_DIR):
 #
 ##############################
 
+GMAKE?=$(MAKE) --no-print-directory -w 
+
 .PHONY: all_ground
 all_ground: gcs
 
@@ -270,11 +272,11 @@ endif
 endif
 
 .PHONY: gcs
-gcs:  uavobjects_gcs
+gcs:  uavobjects
 	$(V1) mkdir -p $(BUILD_DIR)/ground/$@
 	$(V1) ( cd $(BUILD_DIR)/ground/$@ && \
 	  PYTHON=$(PYTHON) $(QMAKE) $(ROOT_DIR)/ground/gcs/gcs.pro -spec $(QT_SPEC) -r CONFIG+="$(GCS_BUILD_CONF) $(GCS_SILENT)" $(GCS_QMAKE_OPTS) && \
-	  $(MAKE) -w ; \
+	  $(GMAKE) ; \
 	)
 
 # Workaround for qmake bug that prevents copying the application icon
@@ -303,28 +305,22 @@ uavobjgenerator:
 	$(V1) mkdir -p $(BUILD_DIR)/ground/$@
 	$(V1) ( cd $(BUILD_DIR)/ground/$@ && \
 	  PYTHON=$(PYTHON) $(QMAKE) $(ROOT_DIR)/ground/uavobjgenerator/uavobjgenerator.pro -spec $(QT_SPEC) -r CONFIG+="debug $(UAVOGEN_SILENT)" && \
-	  $(MAKE) --no-print-directory -w ; \
+	  $(GMAKE); \
 	)
-
-UAVOBJ_TARGETS := gcs flight matlab java wireshark
-.PHONY:uavobjects
-uavobjects:  $(addprefix uavobjects_, $(UAVOBJ_TARGETS))
 
 UAVOBJ_XML_DIR := $(ROOT_DIR)/shared/uavobjectdefinition
 UAVOBJ_OUT_DIR := $(BUILD_DIR)/uavobject-synthetics
 
-$(UAVOBJ_OUT_DIR):
-	$(V1) mkdir -p $@
-
-uavobjects_%: $(UAVOBJ_OUT_DIR) uavobjgenerator
+uavobjects: uavobjgenerator
+	$(V1) mkdir -p $(UAVOBJ_OUT_DIR)
 	$(V1) ( cd $(UAVOBJ_OUT_DIR) && \
-	  $(UAVOBJGENERATOR) -$* $(UAVOBJ_XML_DIR) $(ROOT_DIR) ; \
+	  $(UAVOBJGENERATOR) $(UAVOBJ_XML_DIR) $(ROOT_DIR) ; \
 	)
 
-uavobjects_test: $(UAVOBJ_OUT_DIR) uavobjgenerator
+uavobjects_test: uavobjgenerator
 	$(V1) $(UAVOBJGENERATOR) -v -none $(UAVOBJ_XML_DIR) $(ROOT_DIR)
 
-uavobjects_clean:
+uavobjects_clean: uavobjects_armsoftfp_clean uavobjects_armhardfp_clean
 	$(V0) @echo " CLEAN      $@"
 	$(V1) [ ! -d "$(UAVOBJ_OUT_DIR)" ] || $(RM) -r "$(UAVOBJ_OUT_DIR)"
 
@@ -339,7 +335,7 @@ $(MATLAB_OUT_DIR):
 	$(V1) mkdir -p $@
 
 FORCE:
-$(MATLAB_OUT_DIR)/LogConvert.m: $(MATLAB_OUT_DIR) uavobjects_matlab FORCE
+$(MATLAB_OUT_DIR)/LogConvert.m: $(MATLAB_OUT_DIR) uavobjects FORCE
 	$(V1) $(PYTHON) $(ROOT_DIR)/make/scripts/version-info.py \
 		--path=$(ROOT_DIR) \
 		--template=$(BUILD_DIR)/uavobject-synthetics/matlab/LogConvert.m.pass1 \
@@ -347,7 +343,7 @@ $(MATLAB_OUT_DIR)/LogConvert.m: $(MATLAB_OUT_DIR) uavobjects_matlab FORCE
 		--uavodir=$(ROOT_DIR)/shared/uavobjectdefinition
 
 .PHONY: matlab
-matlab: uavobjects_matlab $(MATLAB_OUT_DIR)/LogConvert.m
+matlab: uavobjects $(MATLAB_OUT_DIR)/LogConvert.m
 
 ################################
 #
@@ -380,7 +376,7 @@ androidgcs: $(ANDROIDGCS_OUT_DIR)/bin/androidgcs-$(ANDROIDGCS_BUILD_CONF).apk
 $(ANDROIDGCS_OUT_DIR)/bin/androidgcs-$(ANDROIDGCS_BUILD_CONF).apk: uavo-collections_java
 	$(V0) @echo " ANDROID   $(call toprel, $(ANDROIDGCS_OUT_DIR))"
 	$(V1) mkdir -p $(ANDROIDGCS_OUT_DIR)
-	$(V1) $(ANDROID) $(ANDROID_SILENT) update project --subprojects --target 'Google Inc.:Google APIs:14' --name androidgcs --path ./androidgcs
+	$(V1) $(ANDROID) $(ANDROID_SILENT) update project --subprojects --target 'Google Inc.:Google APIs:19' --name androidgcs --path ./androidgcs
 	$(V1) ant -f ./androidgcs/google-play-services_lib/build.xml \
 		$(ANT_QUIET) debug               
 	$(V1) ant -f ./androidgcs/build.xml \
@@ -466,8 +462,8 @@ $$(UAVO_COLLECTION_DIR)/$(1)/uavohash: $$(UAVO_COLLECTION_DIR)/$(1)/uavo-xml
 # Generate the java uavobjects for this UAVO collection
 $$(UAVO_COLLECTION_DIR)/$(1)/java-build/java: $$(UAVO_COLLECTION_DIR)/$(1)/uavohash uavobjgenerator
 	$$(V0) @echo " UAVOJAVA  $(1)   " $$$$(cat $$(UAVO_COLLECTION_DIR)/$(1)/uavohash)
-	$$(V1) mkdir -p $$@
 	$$(V1) ( \
+		mkdir -p $$(UAVO_COLLECTION_DIR)/$(1)/java-build && \
 		cd $$(UAVO_COLLECTION_DIR)/$(1)/java-build && \
 		$$(UAVOBJGENERATOR) -java $$(UAVO_COLLECTION_DIR)/$(1)/uavo-xml/shared/uavobjectdefinition $$(ROOT_DIR) ; \
 	)
@@ -573,7 +569,7 @@ define SIM_TEMPLATE
 sim_$(4): TARGET=sim_$(4)
 sim_$(4): OUTDIR=$(BUILD_DIR)/$$(TARGET)
 sim_$(4): BOARD_ROOT_DIR=$(ROOT_DIR)/flight/targets/$(1)
-sim_$(4): uavobjects_flight
+sim_$(4): uavobjects
 	$(V1) mkdir -p $$(OUTDIR)/dep
 	$(V1) cd $$(BOARD_ROOT_DIR)/fw && \
 		$$(MAKE) --no-print-directory \
@@ -621,7 +617,7 @@ fw_$(1): fw_$(1)_tlfw
 fw_$(1)_%: TARGET=fw_$(1)
 fw_$(1)_%: OUTDIR=$(BUILD_DIR)/$$(TARGET)
 fw_$(1)_%: BOARD_ROOT_DIR=$(ROOT_DIR)/flight/targets/$(1)
-fw_$(1)_%: uavobjects_flight
+fw_$(1)_%: uavobjects_armsoftfp uavobjects_armhardfp
 	$(V1) mkdir -p $$(OUTDIR)/dep
 	$(V1) cd $$(BOARD_ROOT_DIR)/fw && \
 		$$(MAKE) -r --no-print-directory \
@@ -822,6 +818,45 @@ ifneq ($(word 2,$(MAKECMDGOALS)),)
 export ENABLE_MSG_EXTRA := yes
 endif
 
+UAVOLIB_SOFT_OUT_DIR = $(BUILD_DIR)/uavobjects_armsoftfp
+UAVOLIB_HARD_OUT_DIR = $(BUILD_DIR)/uavobjects_armhardfp
+
+uavobjects_armsoftfp: TARGET=uavobjects_armsoftfp
+uavobjects_armsoftfp: OUTDIR=$(UAVOLIB_SOFT_OUT_DIR)
+
+uavobjects_armhardfp: TARGET=uavobjects_armhardfp
+uavobjects_armhardfp: OUTDIR=$(UAVOLIB_HARD_OUT_DIR)
+
+uavobjects_%: uavobjects
+	$(V1) mkdir -p $(OUTDIR)/dep
+	$(V1) cd $(ROOT_DIR)/flight/uavobjectlib && \
+		$(MAKE) -r --no-print-directory \
+		TCHAIN_PREFIX="$(ARM_SDK_PREFIX)" \
+		REMOVE_CMD="$(RM)" \
+		\
+		MAKE_INC_DIR=$(MAKE_INC_DIR) \
+		ROOT_DIR=$(ROOT_DIR) \
+		TARGET=$(TARGET) \
+		OUTDIR=$(OUTDIR) \
+		\
+		FLIGHTLIB=$(FLIGHTLIB) \
+		PIOS=$(PIOS) \
+		OPUAVOBJ=$(OPUAVOBJ) \
+		OPUAVTALK=$(OPUAVTALK) \
+		DOXYGENDIR=$(DOXYGENDIR) \
+		OPUAVSYNTHDIR=$(OPUAVSYNTHDIR) \
+		\
+		$@
+
+.PHONY: uavobjects_armsoftfp_clean uavobjects_armhardfp_clean
+uavobjects_armsoftfp_clean:
+	$(V0) @echo " CLEAN      $@"
+	$(V1) [ ! -d "$(UAVOLIB_SOFT_OUT_DIR)" ] || $(RM) -r "$(UAVOLIB_SOFT_OUT_DIR)"
+
+uavobjects_armhardfp_clean:
+	$(V0) @echo " CLEAN      $@"
+	$(V1) [ ! -d "$(UAVOLIB_HARD_OUT_DIR)" ] || $(RM) -r "$(UAVOLIB_HARD_OUT_DIR)"
+
 # $(1) = Canonical board name all in lower case (e.g. coptercontrol)
 define BOARD_PHONY_TEMPLATE
 .PHONY: all_$(1)
@@ -862,7 +897,7 @@ EF_TARGETS := $(addprefix ef_, $(EF_BOARDS))
 
 .PHONY: all_fw all_fw_clean
 all_fw:        $(addsuffix _tlfw,  $(FW_TARGETS))
-all_fw_clean:  $(addsuffix _clean, $(FW_TARGETS))
+all_fw_clean:  $(addsuffix _clean, $(FW_TARGETS)) uavobjects_armsoftfp_clean uavobjects_armhardfp_clean
 
 .PHONY: all_bl all_bl_clean
 all_bl:        $(addsuffix _bin,   $(BL_TARGETS))
@@ -1041,3 +1076,13 @@ astyle_flight: ASTYLE_OPTIONS := --suffix=none --lineend=linux --mode=c --align-
 astyle_flight:
 	$(V1) $(ASTYLE) $(ASTYLE_OPTIONS) $(FILE)
 
+ifneq ($(strip $(filter uncrustify_flight,$(MAKECMDGOALS))),)
+  ifeq ($(FILE),)
+    $(error pass files to uncrustify by adding FILE=<file> to the make command line)
+  endif
+endif
+
+.PHONY: uncrustify_flight
+uncrustify_flight: UNCRUSTIFY_OPTIONS := -c make/uncrustify.cfg --replace
+uncrustify_flight:
+	$(V1) $(UNCRUSTIFY) $(UNCRUSTIFY_OPTIONS) $(FILE)

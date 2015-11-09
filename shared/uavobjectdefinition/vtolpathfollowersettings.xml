@@ -35,6 +35,8 @@
 		<!-- Silently ignored if ThrottleControl is false -->
 		<field name="LoiterAllowAltControl" units="" type="enum" elements="1" options="FALSE,TRUE" defaultvalue="FALSE"/>
 
+		<field name="ReturnToHomeVel" units="m/s" type="float" elements="1" defaultvalue="3.0"/>
+
 		<access gcs="readwrite" flight="readwrite"/>
 		<telemetrygcs acked="true" updatemode="onchange" period="0"/>
 		<telemetryflight acked="true" updatemode="onchange" period="0"/>

@@ -89,6 +89,9 @@ private:
     QString bgFilename;
     bool vboEnable;
 
+    static const QString fallbackAcFilename;
+    static const QString fallbackBgFilename;
+
     AttitudeActual *attState;
 };
 

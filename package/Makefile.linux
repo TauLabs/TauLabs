@@ -86,7 +86,7 @@ $(foreach cpfile, $(DEB_CFG_CMN_FILES), $(eval $(call CP_DEB_FILES_TEMPLATE,$(cp
 
 $(foreach cpfile, $(DEB_MACHINE_FILES), $(eval $(call CP_DEB_FILES_TEMPLATE,$(cpfile),$(DEB_BUILD_DIR),$(DEB_MACHINE_DIR))))
 
-gcs: uavobjects_gcs
+gcs: uavobjects
 	@echo "Linux Package Make of GCS."
 	$(V1) $(MAKE) -C $(ROOT_DIR) GCS_BUILD_CONF=release $@
 
