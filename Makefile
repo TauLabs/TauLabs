@@ -257,8 +257,10 @@ $(BUILD_DIR):
 #
 ##############################
 
-GMAKE?=$(MAKE) --no-print-directory -w 
-
+USE_MSVC ?= NO
+ifeq ($(USE_MSVC), YES)
+QT_SPEC=win32-msvc2013
+endif
 .PHONY: all_ground
 all_ground: gcs
 
@@ -273,12 +275,19 @@ endif
 
 .PHONY: gcs
 gcs:  uavobjects
+ifeq ($(USE_MSVC), NO)
 	$(V1) mkdir -p $(BUILD_DIR)/ground/$@
 	$(V1) ( cd $(BUILD_DIR)/ground/$@ && \
 	  PYTHON=$(PYTHON) $(QMAKE) $(ROOT_DIR)/ground/gcs/gcs.pro -spec $(QT_SPEC) -r CONFIG+="$(GCS_BUILD_CONF) $(GCS_SILENT)" $(GCS_QMAKE_OPTS) && \
-	  $(GMAKE) ; \
+	  $(MAKE) --no-print-directory -w ; \
 	)
-
+else
+	$(V1) mkdir -p $(BUILD_DIR)/ground/$@
+	$(V1) ( cd $(BUILD_DIR)/ground/$@ && \
+	  PYTHON=$(PYTHON) $(QMAKE) $(ROOT_DIR)/ground/gcs/gcs.pro -spec $(QT_SPEC) -r CONFIG+="$(GCS_BUILD_CONF) $(GCS_SILENT)" $(GCS_QMAKE_OPTS) && \
+	  MAKEFLAGS= jom $(JOM_OPTIONS); \
+	)
+endif
 # Workaround for qmake bug that prevents copying the application icon
 ifneq (,$(filter $(UNAME), Darwin))
 	$(V1) ( cd $(BUILD_DIR)/ground/gcs/src/app && \
@@ -303,10 +312,17 @@ endif
 .PHONY: uavobjgenerator
 uavobjgenerator:
 	$(V1) mkdir -p $(BUILD_DIR)/ground/$@
+ifeq ($(USE_MSVC), NO)
 	$(V1) ( cd $(BUILD_DIR)/ground/$@ && \
 	  PYTHON=$(PYTHON) $(QMAKE) $(ROOT_DIR)/ground/uavobjgenerator/uavobjgenerator.pro -spec $(QT_SPEC) -r CONFIG+="debug $(UAVOGEN_SILENT)" && \
-	  $(GMAKE); \
+	  $(MAKE) --no-print-directory -w; \
 	)
+else
+	$(V1) ( cd $(BUILD_DIR)/ground/$@ && \
+	  PYTHON=$(PYTHON) $(QMAKE) $(ROOT_DIR)/ground/uavobjgenerator/uavobjgenerator.pro -spec $(QT_SPEC) -r CONFIG+="debug $(UAVOGEN_SILENT)" && \
+	  MAKEFLAGS= jom $(JOM_OPTIONS); \
+	)
+endif
 
 UAVOBJ_XML_DIR := $(ROOT_DIR)/shared/uavobjectdefinition
 UAVOBJ_OUT_DIR := $(BUILD_DIR)/uavobject-synthetics
