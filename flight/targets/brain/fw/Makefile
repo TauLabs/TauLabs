@@ -219,19 +219,7 @@ EXTRAINCDIRS += $(MGRSLIBINC)
 
 EXTRAINCDIRS += ${foreach MOD, ${MODULES} ${OPTMODULES}, $(OPMODULEDIR)/${MOD}/inc} ${OPMODULEDIR}/System/inc
 
-# List any extra directories to look for library files here.
-# Also add directories where the linker should search for
-# includes from linker-script to the list
-#     Each directory must be seperated by a space.
-EXTRA_LIBDIRS =
-
-# Extra Libraries
-#    Each library-name must be seperated by a space.
-#    i.e. to link with libxyz.a, libabc.a and libefsl.a:
-#    EXTRA_LIBS = xyz abc efsl
-# for newlib-lpc (file: libnewlibc-lpc.a):
-#    EXTRA_LIBS = newlib-lpc
-EXTRA_LIBS =
+LIBS += $(UAVOBJLIB)
 
 # Path to Linker-Scripts
 LINKERSCRIPTPATH = $(PIOSSTM32F4XX)
