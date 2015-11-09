@@ -1114,7 +1114,7 @@ int WMM_DateToYear(uint16_t month, uint16_t day, uint16_t year)
 		temp += MonthDays[i - 1];
 	temp += day;
 	
-	decimal_date = year + (temp - 1) / (365.0 + ExtraDay);
+	decimal_date = year + (temp - 1) / (365.0f + ExtraDay);
 
 	return 0;   // OK
 }
