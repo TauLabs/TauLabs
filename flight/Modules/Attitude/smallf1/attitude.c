@@ -45,6 +45,7 @@
 #include "attitudesettings.h"
 #include "flightstatus.h"
 #include "manualcontrolcommand.h"
+#include "misc_math.h"
 #include "coordinate_conversions.h"
 #include <pios_board_info.h>
 #include "pios_queue.h"
@@ -641,7 +642,7 @@ static void updateAttitude(AccelsData * accelsData, GyrosData * gyrosData)
 	
 	// If quaternion has become inappropriately short or is nan reinit.
 	// THIS SHOULD NEVER ACTUALLY HAPPEN
-	if((fabs(qmag) < 1e-3) || (qmag != qmag)) {
+	if((fabsf(qmag) < 1e-3f) || IS_NOT_FINITE(qmag)) {
 		q[0] = 1;
 		q[1] = 0;
 		q[2] = 0;
