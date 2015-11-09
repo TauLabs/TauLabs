@@ -25,10 +25,10 @@ ground_package_os_specific: ground_package_common
 	@echo $@ starting
 	$(V1)cp -v $(NSIS_DIR)/makeShortcut.vbs $(PACKAGE_DIR)/$(GCS_PACKAGE_NAME)/bin
 	$(V1)cp -v $(NSIS_DIR)/createShortcut.bat $(PACKAGE_DIR)/$(GCS_PACKAGE_NAME)
-ifeq (,$(USE_MSVC), YES)
-	$(V1)cp -v $(VCREDIST)/msvcp120.dll $(PACKAGE_DIR)/$(GCS_PACKAGE_NAME)/bin
-	$(V1)cp -v $(VCREDIST)/msvcr120.dll $(PACKAGE_DIR)/$(GCS_PACKAGE_NAME)/bin
-	$(V1)cp -v $(VCREDIST)/vccorlib120.dll $(PACKAGE_DIR)/$(GCS_PACKAGE_NAME)/bin
+ifeq ($(USE_MSVC), YES)
+	$(V1)cp -v "$(VCREDIST)/msvcp120.dll" $(PACKAGE_DIR)/$(GCS_PACKAGE_NAME)/bin
+	$(V1)cp -v "$(VCREDIST)/msvcr120.dll" $(PACKAGE_DIR)/$(GCS_PACKAGE_NAME)/bin
+	$(V1)cp -v "$(VCREDIST)/vccorlib120.dll" $(PACKAGE_DIR)/$(GCS_PACKAGE_NAME)/bin
 endif
 	$(V1)find $(PACKAGE_DIR)/$(GCS_PACKAGE_NAME) -type f -name "*.lib" -exec rm -f {} \;
 	$(V1)find $(PACKAGE_DIR)/$(GCS_PACKAGE_NAME) -type f -name "*.exp" -exec rm -f {} \;
