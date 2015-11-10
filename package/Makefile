@@ -15,7 +15,6 @@ ROOT_DIR := $(realpath $(WHEREAMI)/../)
 include $(ROOT_DIR)/make/system-id.mk
 
 TOOLS_DIR := $(ROOT_DIR)/tools
-BUILD_DIR := $(ROOT_DIR)/build
 
 # include the tools makefile
 include $(ROOT_DIR)/make/tools.mk
@@ -32,8 +31,15 @@ PACKAGE_LBL  := $(shell $(VERSION_CMD) --format=\$${DATE}-\$${TAG_OR_HASH8}\$${D
 endif
 PACKAGE_DIR  := $(BUILD_DIR)/package-$(PACKAGE_LBL)
 FW_DIR       := $(PACKAGE_DIR)/firmware-$(PACKAGE_LBL)
+ML_DIR	     := $(PACKAGE_DIR)/matlab-$(PACKAGE_LBL)
 BL_DIR       := $(FW_DIR)/bootloaders
 BU_DIR       := $(FW_DIR)/bootloader-updaters
+
+ifeq ($(MACHINE_TYPE), x86_64)
+PLATFORM_NAME:=amd64
+else
+PLATFORM_NAME:=i386
+endif
 
 # Clean build options (recommended for package testing only)
 ifeq ($(CLEAN_BUILD), NO)
@@ -48,7 +54,7 @@ USE_MSVC ?= NO
 
 # Set up targets
 ALL_BOARDS        := coptercontrol pipxtreme revomini sparky sparky2 sparkybgc quanton colibri flyingf3 flyingf4 aq32 naze32
-ALL_BOARDS_BU     := coptercontrol pipxtreme
+ALL_BOARDS_BU     := coptercontrol pipxtreme coptercontrol pipxtreme revomini sparky sparky2 sparkybgc quanton colibri flyingf3 flyingf4 aq32
 
 FW_BOARDS  := $(ALL_BOARDS)
 BL_BOARDS  := $(filter-out naze32, $(ALL_BOARDS))
@@ -68,11 +74,14 @@ help:
 	@echo "   Here is a summary of the available targets:"
 	@echo
 	@echo "   [Packaging]"
-	@echo "     package        - Build and package the Tau Labs distributable"
+	@echo "     package        - Build and package the Tau Labs distributable (DEB)"
 	@echo "     package_flight - Build and package the Tau Labs flight firmware only"
+	@echo "     package_ground - Build and package the Tau Labs ground software only"
+	@echo "     package_matlab - Build and package the Tau Labs matlab script only"
+	@echo "     package_all    - Build and package all Tau Labs firmware and software"
 	@echo
 	@echo "   Notes:"
-	@echo "     - package will be placed in $(PACKAGE_DIR)"
+	@echo "     - packages will be placed in $(PACKAGE_DIR)"
 	@echo
 	@echo "     - the build directory will be removed first on every run unless"
 	@echo "       CLEAN_BUILD=NO is defined. It means no clean before build."
@@ -84,7 +93,9 @@ uavobjects:
 
 matlab: uavobjects
 	$(V1) $(MAKE) -C $(ROOT_DIR) $@
-
+	$(V1)mkdir -p $(ML_DIR)
+	$(V1)mv $(BUILD_DIR)/matlab/*.* $(ML_DIR)
+	$(V1)rm -rf $(BUILD_DIR)/matlab
 all_clean:
 ifneq ($(CLEAN_GROUND), NO)
 	$(V1) $(MAKE) -C $(ROOT_DIR) $@
@@ -107,7 +118,7 @@ ifneq ($$(CLEAN_FLIGHT), NO)
 	$$(V1) +$(MAKE) -C $(ROOT_DIR) $(6) $(addsuffix _$(7), $(8))
 endif
 endif
-	$$(V1) +$(MAKE) -C $(ROOT_DIR) INSTALL_DIR=$(3) INSTALL_PFX=$(4) INSTALL_SFX=$(5) $(6) $(addsuffix _$(9), $(8))
+	$$(V1) +$(MAKE) -C $(ROOT_DIR) INSTALL_DIR=$(3) INSTALL_PFX=$(4) INSTALL_SFX=_$(5) $(6) $(addsuffix _$(9), $(8))
 .PHONY: $(1)
 endef
 
@@ -127,10 +138,12 @@ package_matlab: | matlab
 
 package_ground: | ground_package
 
-package: | package_flight package_ground package_matlab
+package_installer: | linux_deb_package
 
-.PHONY: help uavobjects all_clean package_flight package_ground package
-
+.PHONY: help uavobjects all_clean 
+.PHONY: package_ground package_flight package_matlab package_all
+package_all: package_flight package_ground package_matlab
+.PHONY: package_ground package_flight package_matlab package_all package_installer
 # tlfw_resource must be generated before the ground package,
 # and it depends on flight firmware images
 ground_package: | tlfw_resource
