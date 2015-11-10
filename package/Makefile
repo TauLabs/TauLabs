@@ -35,6 +35,7 @@ ML_DIR	     := $(PACKAGE_DIR)/matlab-$(PACKAGE_LBL)
 BL_DIR       := $(FW_DIR)/bootloaders
 BU_DIR       := $(FW_DIR)/bootloader-updaters
 
+MACHINE_TYPE		:= $(shell uname -m)
 ifeq ($(MACHINE_TYPE), x86_64)
 PLATFORM_NAME:=amd64
 else
@@ -54,7 +55,7 @@ USE_MSVC ?= NO
 
 # Set up targets
 ALL_BOARDS        := coptercontrol pipxtreme revomini sparky sparky2 sparkybgc quanton colibri flyingf3 flyingf4 aq32 naze32
-ALL_BOARDS_BU     := coptercontrol pipxtreme coptercontrol pipxtreme revomini sparky sparky2 sparkybgc quanton colibri flyingf3 flyingf4 aq32
+ALL_BOARDS_BU     := coptercontrol pipxtreme revomini sparky sparky2 sparkybgc quanton colibri flyingf3 flyingf4 aq32
 
 FW_BOARDS  := $(ALL_BOARDS)
 BL_BOARDS  := $(filter-out naze32, $(ALL_BOARDS))
@@ -66,6 +67,9 @@ FW_TARGETS_TOOLS  := $(addprefix fw_, $(FW_BOARDS))
 BL_TARGETS        := $(addprefix bl_, $(BL_BOARDS))
 BU_TARGETS        := $(addprefix bu_, $(BU_BOARDS))
 
+GCS_PACKAGE_NAME:= taulabsgcs_$(PLATFORM)_$(PLATFORM_NAME)-$(PACKAGE_LBL)
+GCS_PACKAGE_ROOT := $(GCS_PACKAGE_NAME)
+
 help:
 	@echo
 	@echo "   This Makefile is known to work on Linux and Mac in a standard shell environment."
@@ -74,11 +78,12 @@ help:
 	@echo "   Here is a summary of the available targets:"
 	@echo
 	@echo "   [Packaging]"
-	@echo "     package        - Build and package the Tau Labs distributable (DEB)"
-	@echo "     package_flight - Build and package the Tau Labs flight firmware only"
-	@echo "     package_ground - Build and package the Tau Labs ground software only"
-	@echo "     package_matlab - Build and package the Tau Labs matlab script only"
-	@echo "     package_all    - Build and package all Tau Labs firmware and software"
+	@echo "     package        			- Build and package the Tau Labs distributable (DEB)"
+	@echo "     package_flight 			- Build and package the Tau Labs flight firmware only"
+	@echo "     package_ground 			- Build and package the Tau Labs ground software only"
+	@echo "     package_matlab 			- Build and package the Tau Labs matlab script only"
+	@echo "     package_all    			- Build and package all Tau Labs firmware and software"
+	@echo "     package_XXXX_compress   - Same as the targets above but compresses the package"	
 	@echo
 	@echo "   Notes:"
 	@echo "     - packages will be placed in $(PACKAGE_DIR)"
@@ -88,7 +93,8 @@ help:
 	@echo "       This usually is safe."
 	@echo
 
-uavobjects: 
+# Clean and build uavobjects since all parts depend on them
+uavobjects:
 	$(V1) $(MAKE) -C $(ROOT_DIR) $@
 
 matlab: uavobjects
@@ -138,18 +144,21 @@ package_matlab: | matlab
 
 package_ground: | ground_package
 
-package_installer: | linux_deb_package
+package_installer: | installer_package
 
-.PHONY: help uavobjects all_clean 
-.PHONY: package_ground package_flight package_matlab package_all
 package_all: package_flight package_ground package_matlab
-.PHONY: package_ground package_flight package_matlab package_all package_installer
+
 package_info:
 	$(shell $(VERSION_CMD) --uavodir=$(ROOT_DIR)/shared/uavobjectdefinition --template=$(ROOT_DIR)/make/templates/packageversioninfo.json --outfile=$(PACKAGE_DIR)/packageversioninfo.json)
 
+.PHONY: help uavobjects all_clean 
+.PHONY: package_ground package_flight package_matlab package_all package_installer package_info
+
 # tlfw_resource must be generated before the ground package,
 # and it depends on flight firmware images
-ground_package: | tlfw_resource
+ground_package: ground_package_os_specific
+	@echo $@ starting
+	$(V1)cd $(PACKAGE_DIR)/$(GCS_PACKAGE_ROOT) && find . \( -type f -o -type l \) -print > $(PACKAGE_DIR)/$(GCS_PACKAGE_ROOT)/filelist.lst
 
 tlfw_resource: | all_fw all_bu
 
@@ -199,5 +208,22 @@ tlfw_resource:
 	$(V1) $(foreach bu_targ, $(BU_TARGETS), mkdir -p $(BUILD_DIR)/ground/$@/build/$(bu_targ);)
 	$(V1) $(foreach fw_targ, $(FW_TARGETS), cp $(BUILD_DIR)/$(fw_targ)/$(fw_targ).tlfw $(BUILD_DIR)/ground/$@/build/$(fw_targ)/;)
 	$(V1) $(foreach bu_targ, $(BU_TARGETS), cp $(BUILD_DIR)/$(bu_targ)/$(bu_targ).tlfw $(BUILD_DIR)/ground/$@/build/$(bu_targ)/;)
+
+ground_package_common: | tlfw_resource standalone
+	@echo $@ starting
+	$(V1) mkdir -p $(PACKAGE_DIR)/$(GCS_PACKAGE_NAME)/bin
+	$(V1) mkdir -p $(PACKAGE_DIR)/$(GCS_PACKAGE_NAME)/share
+	$(V1) mkdir -p $(PACKAGE_DIR)/$(GCS_PACKAGE_NAME)/lib
+	$(V1) cp -v -R $(BUILD_DIR)/ground/gcs/bin $(PACKAGE_DIR)/$(GCS_PACKAGE_NAME)
+	$(V1) cp -v -R $(BUILD_DIR)/ground/gcs/share $(PACKAGE_DIR)/$(GCS_PACKAGE_NAME)
+	$(V1) cp -v -R $(BUILD_DIR)/ground/gcs/lib $(PACKAGE_DIR)/$(GCS_PACKAGE_NAME)
+	$(V1) cp -v $(ROOT_DIR)/HISTORY.txt $(PACKAGE_DIR)/$(GCS_PACKAGE_NAME)
+	$(V1) cp -v $(ROOT_DIR)/KNOWN_ISSUES.txt $(PACKAGE_DIR)/$(GCS_PACKAGE_NAME)
+	$(V1) cp -v $(ROOT_DIR)/CREDITS.txt $(PACKAGE_DIR)/$(GCS_PACKAGE_NAME)
+	$(V1) cp -v $(ROOT_DIR)/LICENSE.txt $(PACKAGE_DIR)/$(GCS_PACKAGE_NAME)
+	$(V1) find $(PACKAGE_DIR)/$(GCS_PACKAGE_NAME) -type f -name "*Makefile" -exec rm -f {} \;
+	$(V1) find $(PACKAGE_DIR)/$(GCS_PACKAGE_NAME) -type f -name "*qmake.cache" -exec rm -f {} \;
+	$(V1) find $(PACKAGE_DIR)/$(GCS_PACKAGE_NAME) -type f -name "*udp_test" -exec rm -f {} \;
+	$(V1) find $(PACKAGE_DIR)/$(GCS_PACKAGE_NAME) -type f -name "*gcsversioninfo.h" -exec rm -f {} \;
 
 include $(WHEREAMI)/Makefile.$(PLATFORM)
