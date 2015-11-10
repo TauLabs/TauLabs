@@ -1062,7 +1062,7 @@ endif
 # Packaging components
 #
 ##############################
-PACKAGE_TARGETS = package_ground package_flight package_installer package_matlab package_all standalone
+PACKAGE_TARGETS = package_ground package_flight package_installer package_matlab package_all standalone package_info
 PACKAGE_TARGETS += package_ground_compress package_flight_compress package_matlab_compress package_all_compress
 .PHONY: $(PACKAGE_TARGETS)
 $(PACKAGE_TARGETS):
