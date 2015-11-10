@@ -144,6 +144,9 @@ package_installer: | linux_deb_package
 .PHONY: package_ground package_flight package_matlab package_all
 package_all: package_flight package_ground package_matlab
 .PHONY: package_ground package_flight package_matlab package_all package_installer
+package_info:
+	$(shell $(VERSION_CMD) --uavodir=$(ROOT_DIR)/shared/uavobjectdefinition --template=$(ROOT_DIR)/make/templates/packageversioninfo.json --outfile=$(PACKAGE_DIR)/packageversioninfo.json)
+
 # tlfw_resource must be generated before the ground package,
 # and it depends on flight firmware images
 ground_package: | tlfw_resource
