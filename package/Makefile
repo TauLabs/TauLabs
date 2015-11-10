@@ -83,6 +83,8 @@ help:
 	@echo "     package_ground 			- Build and package the Tau Labs ground software only"
 	@echo "     package_matlab 			- Build and package the Tau Labs matlab script only"
 	@echo "     package_all    			- Build and package all Tau Labs firmware and software"
+	@echo "     package_installer		- Builds a Tau Labs software installer"
+	@echo "     package_info    		- Creates a file with the package information"
 	@echo "     package_XXXX_compress   - Same as the targets above but compresses the package"	
 	@echo
 	@echo "   Notes:"
