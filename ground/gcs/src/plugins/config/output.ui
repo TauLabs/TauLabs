@@ -352,6 +352,11 @@ Leave at 50Hz for fixed wing.</string>
                   <string>12000</string>
                  </property>
                 </item>
+                <item>
+                 <property name="text">
+                  <string>16666</string>
+                 </property>
+                </item>
                </widget>
               </item>
               <item row="1" column="4">
@@ -439,6 +444,11 @@ Leave at 50Hz for fixed wing.</string>
                 <item>
                  <property name="text">
                   <string>12000</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>16666</string>
                  </property>
                 </item>
                </widget>
@@ -530,7 +540,7 @@ Leave at 50Hz for fixed wing.</string>
                 </item>
                 <item>
                  <property name="text">
-                  <string>0</string>
+                  <string>16666</string>
                  </property>
                 </item>
                </widget>
@@ -620,6 +630,11 @@ Leave at 50Hz for fixed wing.</string>
                 <item>
                  <property name="text">
                   <string>12000</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>16666</string>
                  </property>
                 </item>
                </widget>
@@ -757,6 +772,11 @@ Leave at 50Hz for fixed wing.</string>
                 <item>
                  <property name="text">
                   <string>12000</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>16666</string>
                  </property>
                 </item>
                </widget>
@@ -902,6 +922,11 @@ Leave at 50Hz for fixed wing.</string>
                 <item>
                  <property name="text">
                   <string>12000</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>16666</string>
                  </property>
                 </item>
                </widget>
