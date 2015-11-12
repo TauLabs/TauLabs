@@ -77,8 +77,7 @@ help:
 	@echo "       This usually is safe."
 	@echo
 
-# Clean and build uavobjects since all parts depend on them
-uavobjects: all_clean
+uavobjects: 
 	$(V1) $(MAKE) -C $(ROOT_DIR) $@
 
 matlab: uavobjects
