@@ -197,7 +197,7 @@ static bool frsky_send_scheduled_item(void)
 		uint32_t value = 0;
 		if (frsky_value_items[item].encode_value(&frsky->frsky_settings, &value, false,
 				frsky_value_items[item].fn_arg)) {
-			frsky_send_frame(frsky->com, (uint16_t)(frsky_value_items[item].id), value);
+			frsky_send_frame(frsky->com, (uint16_t)(frsky_value_items[item].id), value, true);
 			return true;
 		}
 	}

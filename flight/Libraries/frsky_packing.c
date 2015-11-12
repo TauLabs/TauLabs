@@ -590,14 +590,22 @@ uint8_t frsky_insert_byte(uint8_t *obuff, uint16_t *chk, uint8_t byte)
  * @param[in] id FrSky value ID
  * @param[in] value value
  */
-int32_t frsky_send_frame(uintptr_t com, enum frsky_value_id id, uint32_t value)
+int32_t frsky_send_frame(uintptr_t com, enum frsky_value_id id, uint32_t value,
+		bool send_prelude)
 {
 	/* each call of frsky_insert_byte can add 2 bytes to the buffer at maximum
-	 * and therefore the worst-case is 15 bytes total (the first byte 0x10 won't be
+	 * and therefore the worst-case is 17 bytes total (the first byte 0x10 won't be
 	 * escaped) */
-	uint8_t tx_data[15];
+	uint8_t tx_data[17];
 	uint16_t chk = 0;
 	uint8_t cnt = 0;
+
+	if (send_prelude) {
+		tx_data[0] = 0x7e;
+		tx_data[1] = 0x98;
+		cnt = 2;
+	}
+
 	cnt += frsky_insert_byte(&tx_data[cnt], &chk, 0x10);
 	cnt += frsky_insert_byte(&tx_data[cnt], &chk, (uint16_t)id & 0xff);
 	cnt += frsky_insert_byte(&tx_data[cnt], &chk, ((uint16_t)id >> 8) & 0xff);
