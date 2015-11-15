@@ -41,12 +41,20 @@
 #define NO_CTYPE
 #define NO_DEBUGGER
 #define BUILTIN_MINI_STDLIB
-//#define NO_FP
-//#define NO_STRING_FUNCTIONS
 #define assert PIOS_Assert
 #define malloc PlatformMalloc
 #define free PlatformFree
 #define PicocPlatformSetExitPoint(pc) setjmp(PicocExitBuf)
+
+#ifdef PICOC_NO_FP
+#define NO_FP
+#endif
+#ifdef PICOC_NO_DMATH
+#define NO_DOUBLE_MATH
+#endif
+#ifdef PICOC_NO_STRINGS
+#define NO_STRING_FUNCTIONS
+#endif
 
 /* function prototypes */
 void *PlatformMalloc(size_t size);

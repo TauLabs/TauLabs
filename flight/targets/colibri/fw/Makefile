@@ -54,6 +54,7 @@ OPTMODULES += UAVOHoTTBridge
 OPTMODULES += UAVOFrSKYSensorHubBridge
 OPTMODULES += UAVOLighttelemetryBridge
 OPTMODULES += Logging
+OPTMODULES += PicoC
 
 # Paths
 OPUAVTALKINC = $(OPUAVTALK)/inc
