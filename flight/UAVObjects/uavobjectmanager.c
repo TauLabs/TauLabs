@@ -162,7 +162,7 @@ struct UAVOMulti {
 
 // Private functions
 static int32_t sendEvent(struct UAVOBase * obj, uint16_t instId,
-			UAVObjEventType event);
+			UAVObjEventType event, void *obj_data, int len);
 static InstanceHandle createInstance(struct UAVOData * obj, uint16_t instId);
 static InstanceHandle getInstance(struct UAVOData * obj, uint16_t instId);
 static int32_t connectObj(UAVObjHandle obj_handle, struct pios_queue *queue,
@@ -596,10 +596,16 @@ int32_t UAVObjUnpack(UAVObjHandle obj_handle, uint16_t instId,
 
 	int32_t rc = -1;
 
+	void *target;
+	int len;
+
 	if (UAVObjIsMetaobject(obj_handle)) {
 		if (instId != 0) {
 			goto unlock_exit;
 		}
+
+		target = MetaDataPtr((struct UAVOMeta *)obj_handle);
+		len = MetaNumBytes;
 		memcpy(MetaDataPtr((struct UAVOMeta *)obj_handle), dataIn, MetaNumBytes);
 	} else {
 		struct UAVOData *obj;
@@ -619,11 +625,17 @@ int32_t UAVObjUnpack(UAVObjHandle obj_handle, uint16_t instId,
 			}
 		}
 		// Set the data
-		memcpy(InstanceData(instEntry), dataIn, obj->instance_size);
+
+		target = InstanceData(instEntry);
+		len = obj->instance_size;
 	}
 
+	memcpy(target, dataIn, len);
+
 	// Fire event
-	sendEvent((struct UAVOBase*)obj_handle, instId, EV_UNPACKED);
+	sendEvent((struct UAVOBase*)obj_handle, instId, EV_UNPACKED,
+		target, len);
+
 	rc = 0;
 
 unlock_exit:
@@ -783,33 +795,15 @@ int32_t UAVObjLoad(UAVObjHandle obj_handle, uint16_t instId)
 {
 	PIOS_Assert(obj_handle);
 
+	void *target;
+	int len;
+
 	if (UAVObjIsMetaobject(obj_handle)) {
 		if (instId != 0)
 			return -1;
 
-		// Load the object from the filesystem
-		int32_t rc;
-#if defined(PIOS_INCLUDE_FASTHEAP)
-		rc = PIOS_FLASHFS_ObjLoad(pios_uavo_settings_fs_id,
-					UAVObjGetID(obj_handle),
-					instId,
-					uavobj_load_trampoline,
-					UAVObjGetNumBytes(obj_handle));
-#else  /* PIOS_INCLUDE_FASTHEAP */
-		rc = PIOS_FLASHFS_ObjLoad(pios_uavo_settings_fs_id,
-					UAVObjGetID(obj_handle),
-					instId,
-					(uint8_t*)MetaDataPtr((struct UAVOMeta *)obj_handle),
-					UAVObjGetNumBytes(obj_handle));
-#endif  /* PIOS_INCLUDE_FASTHEAP */
-
-		if (rc != 0)
-			return -1;
-
-#if defined(PIOS_INCLUDE_FASTHEAP)
-		memcpy(MetaDataPtr((struct UAVOMeta *)obj_handle), uavobj_load_trampoline, UAVObjGetNumBytes(obj_handle));
-#endif  /* PIOS_INCLUDE_FASTHEAP */
-
+		target = MetaDataPtr((struct UAVOMeta *)obj_handle);
+		len = UAVObjGetNumBytes(obj_handle);
 	} else {
 
 		InstanceHandle instEntry = getInstance( (struct UAVOData *)obj_handle, instId);
@@ -817,32 +811,34 @@ int32_t UAVObjLoad(UAVObjHandle obj_handle, uint16_t instId)
 		if (instEntry == NULL)
 			return -1;
 
-		// Load the object from the filesystem
-		int32_t rc;
-#if defined(PIOS_INCLUDE_FASTHEAP)
-		rc = PIOS_FLASHFS_ObjLoad(pios_uavo_settings_fs_id,
-					UAVObjGetID(obj_handle),
-					instId,
-					uavobj_load_trampoline,
-					UAVObjGetNumBytes(obj_handle));
-#else  /* PIOS_INCLUDE_FASTHEAP */
-		rc = PIOS_FLASHFS_ObjLoad(pios_uavo_settings_fs_id,
-					UAVObjGetID(obj_handle),
-					instId,
-					InstanceData(instEntry),
-					UAVObjGetNumBytes(obj_handle));
-#endif  /* PIOS_INCLUDE_FASTHEAP */
-
-		if (rc != 0)
-			return -1;
-
-#if defined(PIOS_INCLUDE_FASTHEAP)
-		memcpy(InstanceData(instEntry), uavobj_load_trampoline, UAVObjGetNumBytes(obj_handle));
-#endif  /* PIOS_INCLUDE_FASTHEAP */
-
+		target = InstanceData(instEntry);
+		len = UAVObjGetNumBytes(obj_handle);
 	}
 
-	sendEvent((struct UAVOBase*)obj_handle, instId, EV_UNPACKED);
+	// Load the object from the filesystem
+	int32_t rc;
+#if defined(PIOS_INCLUDE_FASTHEAP)
+	rc = PIOS_FLASHFS_ObjLoad(pios_uavo_settings_fs_id,
+			UAVObjGetID(obj_handle),
+			instId,
+			uavobj_load_trampoline,
+			len);
+#else  /* PIOS_INCLUDE_FASTHEAP */
+	rc = PIOS_FLASHFS_ObjLoad(pios_uavo_settings_fs_id,
+			UAVObjGetID(obj_handle),
+			instId,
+			target,
+			len);
+#endif  /* PIOS_INCLUDE_FASTHEAP */
+
+	if (rc != 0)
+		return -1;
+
+#if defined(PIOS_INCLUDE_FASTHEAP)
+	memcpy(target, uavobj_load_trampoline, len);
+#endif  /* PIOS_INCLUDE_FASTHEAP */
+
+	sendEvent((struct UAVOBase*)obj_handle, instId, EV_UNPACKED, target, len);
 	return 0;
 }
 
@@ -1086,6 +1082,8 @@ int32_t UAVObjGetDataField(UAVObjHandle obj_handle, void* dataOut, uint32_t offs
 	return UAVObjGetInstanceDataField(obj_handle, 0, dataOut, offset, size);
 }
 
+#define INSTANCE_COPY_ALL 0xffffffff
+
 /**
  * Set the data of a specific object instance
  * \param[in] obj The object handle
@@ -1096,45 +1094,8 @@ int32_t UAVObjGetDataField(UAVObjHandle obj_handle, void* dataOut, uint32_t offs
 int32_t UAVObjSetInstanceData(UAVObjHandle obj_handle, uint16_t instId,
 			const void *dataIn)
 {
-	PIOS_Assert(obj_handle);
-
-	// Lock
-	PIOS_Recursive_Mutex_Lock(mutex, PIOS_MUTEX_TIMEOUT_MAX);
-
-	int32_t rc = -1;
-
-	if (UAVObjIsMetaobject(obj_handle)) {
-		if (instId != 0) {
-			goto unlock_exit;
-		}
-		memcpy(MetaDataPtr((struct UAVOMeta *)obj_handle), dataIn, MetaNumBytes);
-	} else {
-		struct UAVOData *obj;
-		InstanceHandle instEntry;
-
-		// Cast to object info
-		obj = (struct UAVOData *) obj_handle;
-
-		// Check access level
-		if (UAVObjReadOnly(obj_handle)) {
-			goto unlock_exit;
-		}
-		// Get instance information
-		instEntry = getInstance(obj, instId);
-		if (instEntry == NULL) {
-			goto unlock_exit;
-		}
-		// Set data
-		memcpy(InstanceData(instEntry), dataIn, obj->instance_size);
-	}
-
-	// Fire event
-	sendEvent((struct UAVOBase *)obj_handle, instId, EV_UPDATED);
-	rc = 0;
-
-unlock_exit:
-	PIOS_Recursive_Mutex_Unlock(mutex);
-	return rc;
+	return UAVObjSetInstanceDataField(obj_handle, instId, dataIn,
+		0, INSTANCE_COPY_ALL);
 }
 
 /**
@@ -1153,19 +1114,18 @@ int32_t UAVObjSetInstanceDataField(UAVObjHandle obj_handle, uint16_t instId, con
 
 	int32_t rc = -1;
 
+	void *target;
+	int obj_len;
+
 	if (UAVObjIsMetaobject(obj_handle)) {
 		// Get instance information
 		if (instId != 0) {
 			goto unlock_exit;
 		}
 
-		// Check for overrun
-		if ((size + offset) > MetaNumBytes) {
-			goto unlock_exit;
-		}
+		obj_len = MetaNumBytes;
 
-		// Set data
-		memcpy(MetaDataPtr((struct UAVOMeta *)obj_handle) + offset, dataIn, size);
+		target = MetaDataPtr((struct UAVOMeta *)obj_handle);
 	} else {
 		struct UAVOData * obj;
 		InstanceHandle instEntry;
@@ -1184,18 +1144,27 @@ int32_t UAVObjSetInstanceDataField(UAVObjHandle obj_handle, uint16_t instId, con
 			goto unlock_exit;
 		}
 
-		// Check for overrun
-		if ((size + offset) > obj->instance_size) {
-			goto unlock_exit;
-		}
+		obj_len = obj->instance_size;
 
-		// Set data
-		memcpy(InstanceData(instEntry) + offset, dataIn, size);
+		target = InstanceData(instEntry);
 	}
 
+	if (size == INSTANCE_COPY_ALL) {
+		size = obj_len;
+	}
+
+	// Check for overrun
+	if ((size + offset) > obj_len) {
+		// XXX Should consider asserting!!!
+		goto unlock_exit;
+	}
+
+	// Set data
+	memcpy(target + offset, dataIn, size);
 
 	// Fire event
-	sendEvent((struct UAVOBase *)obj_handle, instId, EV_UPDATED);
+	sendEvent((struct UAVOBase *)obj_handle, instId, EV_UPDATED,
+		target, obj_len);
 	rc = 0;
 
 unlock_exit:
@@ -1609,7 +1578,8 @@ void UAVObjRequestInstanceUpdate(UAVObjHandle obj_handle, uint16_t instId)
 {
 	PIOS_Assert(obj_handle);
 	PIOS_Recursive_Mutex_Lock(mutex, PIOS_MUTEX_TIMEOUT_MAX);
-	sendEvent((struct UAVOBase *) obj_handle, instId, EV_UPDATE_REQ);
+	sendEvent((struct UAVOBase *) obj_handle, instId, EV_UPDATE_REQ,
+		NULL, 0);
 	PIOS_Recursive_Mutex_Unlock(mutex);
 }
 
@@ -1631,7 +1601,8 @@ void UAVObjInstanceUpdated(UAVObjHandle obj_handle, uint16_t instId)
 {
 	PIOS_Assert(obj_handle);
 	PIOS_Recursive_Mutex_Lock(mutex, PIOS_MUTEX_TIMEOUT_MAX);
-	sendEvent((struct UAVOBase *) obj_handle, instId, EV_UPDATED_MANUAL);
+	sendEvent((struct UAVOBase *) obj_handle, instId, EV_UPDATED_MANUAL,
+		NULL, 0);
 	PIOS_Recursive_Mutex_Unlock(mutex);
 }
 
@@ -1662,8 +1633,13 @@ void UAVObjIterate(void (*iterator) (UAVObjHandle obj))
  * Send a triggered event to all event queues registered on the object.
  */
 static int32_t sendEvent(struct UAVOBase * obj, uint16_t instId,
-			UAVObjEventType triggered_event)
+			UAVObjEventType triggered_event,
+			void *obj_data, int len)
 {
+	/* Ignore object being passed to us for now */
+	(void) obj_data;
+	(void) len;
+
 	/* Set up the message that will be sent to all registered listeners */
 	UAVObjEvent msg = {
 		.obj    = (UAVObjHandle) obj,
