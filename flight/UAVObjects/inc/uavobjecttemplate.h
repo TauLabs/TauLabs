@@ -77,7 +77,7 @@ static inline int32_t $(NAME)ConnectQueue(struct pios_queue *queue) { return UAV
 
 static inline int32_t $(NAME)ConnectCallback(UAVObjEventCallback cb) { return UAVObjConnectCallback($(NAME)Handle(), cb, NULL, EV_MASK_ALL_UPDATES); }
 
-static inline int32_t $(NAME)ConnectCallbackCtx(UAVObjEventCallback cb, void *ctx) { return UAVObjConnectCallback($(NAME)Handle(), cb, ctx, EV_MASK_ALL_UPDATES); }
+static inline int32_t $(NAME)ConnectCallbackCtx(UAVObjEventCallback cb, volatile void *ctx) { return UAVObjConnectCallback($(NAME)Handle(), cb, (void *)ctx, EV_MASK_ALL_UPDATES); }
 
 static inline uint16_t $(NAME)CreateInstance() { return UAVObjCreateInstance($(NAME)Handle(), &$(NAME)SetDefaults); }
 

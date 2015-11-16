@@ -89,7 +89,6 @@ static FixedWingAirspeedsData fixedWingAirspeeds;
 // Private functions
 static void pathfollowerTask(void *parameters);
 static void SettingsUpdatedCb(UAVObjEvent * ev, void *ctx, void *obj, int len);
-static void pathDesiredUpdated(UAVObjEvent * ev, void *ctx, void *obj, int len);
 static void updatePathVelocity();
 static uint8_t updateFixedDesiredAttitude();
 static void airspeedActualUpdatedCb(UAVObjEvent * ev, void *ctx, void *obj, int len);
@@ -176,7 +175,7 @@ static void pathfollowerTask(void *parameters)
 	FixedWingPathFollowerSettingsGet(&fixedwingpathfollowerSettings);
 	path_desired_updated = false;
 	PathDesiredGet(&pathDesired);
-	PathDesiredConnectCallback(pathDesiredUpdated);
+	PathDesiredConnectCallbackCtx(UAVObjCbSetFlag, &path_desired_updated);
 
 	// Main task loop
 	lastUpdateTime = PIOS_Thread_Systime();
@@ -697,12 +696,6 @@ static void airspeedActualUpdatedCb(UAVObjEvent * ev, void *ctx, void *obj,
 	indicatedAirspeedActualBias = airspeedActual.CalibratedAirspeed - groundspeed;
 	// note - we do fly by Indicated Airspeed (== calibrated airspeed)
 	// however since airspeed is updated less often than groundspeed, we use sudden changes to groundspeed to offset the airspeed by the same measurement.
-}
-
-static void pathDesiredUpdated(UAVObjEvent * ev, void *ctx, void *obj, int len)
-{
-	(void) ctx; (void) obj; (void) len;
-	path_desired_updated = true;
 }
 
 /**

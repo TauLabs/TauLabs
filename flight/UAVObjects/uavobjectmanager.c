@@ -1519,6 +1519,24 @@ int32_t UAVObjDisconnectQueue(UAVObjHandle obj_handle, struct pios_queue *queue)
 	return res;
 }
 
+/**
+ * Sets a flag passed in the ctx parameter to true.
+ * Conforms to the UAVObjConnectCallback* signature.
+ *
+ * Using this is a best practice to listen for configuration changes.  This
+ * sets a volatile flag that you can check at the top of the task main function,
+ * and update configuration as appropriate.
+ *
+ * Note that the flag is considered a uint8_t, but the width doesn't really
+ * matter-- it will be "set" as long as it is at least 8 bits wide.
+ *
+ * \param[in] ctx The event callback context
+ */
+void UAVObjCbSetFlag(UAVObjEvent *objEv, void *ctx, void *obj, int len) {
+	volatile uint8_t *flag = ctx;
+
+	*flag = 1;
+}
 
 /**
  * Connect an event callback to the object, if the callback is already connected then the event mask is only updated.
