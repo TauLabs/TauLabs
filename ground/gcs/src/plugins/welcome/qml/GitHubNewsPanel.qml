@@ -34,7 +34,7 @@ Item {
 
     XmlListModel {
         id: xmlModel
-        source: "http://github.com/TauLabs/TauLabs/commits/next.atom"
+        source: "https://github.com/TauLabs/TauLabs/commits/next.atom"
         query: "/feed/entry"
         namespaceDeclarations: "declare namespace media=\"http://search.yahoo.com/mrss/\"; declare default element namespace \"http://www.w3.org/2005/Atom\" ;"
         XmlRole { name: "title"; query: "title/string()" }
