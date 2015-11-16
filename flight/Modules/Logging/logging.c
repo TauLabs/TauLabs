@@ -67,7 +67,7 @@ const char DIGITS[16] = "0123456789abcdef";
 static UAVTalkConnection uavTalkCon;
 static struct pios_thread *loggingTaskHandle;
 static bool module_enabled;
-static LoggingSettingsData settings;
+static volatile LoggingSettingsData settings;
 static bool flightstatus_updated = false;
 static bool waypoint_updated = false;
 
@@ -75,7 +75,6 @@ static bool waypoint_updated = false;
 static void    loggingTask(void *parameters);
 static int32_t send_data(uint8_t *data, int32_t length);
 static void logSettings(UAVObjHandle obj);
-static void SettingsUpdatedCb(UAVObjEvent * ev, void *ctx, void *buf, int len);
 static void writeHeader();
 
 // Local variables
@@ -165,9 +164,8 @@ static void loggingTask(void *parameters)
 	uint8_t read_data[LOGGINGSTATS_FILESECTOR_NUMELEM];
 #endif
 
-	// Get settings and connect callback
-	LoggingSettingsGet(&settings);
-	LoggingSettingsConnectCallback(SettingsUpdatedCb);
+	// Get settings automatically for now on
+	LoggingSettingsConnectCopy(&settings);
 
 	// Connect callbacks for UAVOs being logged on change
 	FlightStatusConnectCallbackCtx(UAVObjCbSetFlag, &flightstatus_updated);
@@ -491,15 +489,6 @@ static void writeHeader()
 	}
 	tmp_str[pos++] = '\n';
 	send_data((uint8_t*)tmp_str, pos);
-}
-
-/**
- * Callback triggered when the module settings are updated
- */
-static void SettingsUpdatedCb(UAVObjEvent * ev, void *ctx, void *buf, int len)
-{
-	(void) ev; (void) ctx; (void) buf; (void) len;
-	LoggingSettingsGet(&settings);
 }
 
 /**

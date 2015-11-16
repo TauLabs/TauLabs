@@ -365,22 +365,21 @@ static void AirspeedSettingsUpdatedCb(UAVObjEvent * ev, void *ctx, void *obj, in
 {
 	(void) ev; (void) ctx; (void) obj; (void) len;
 
-	/* XXX change to directly use object. */
+	AirspeedSettingsData *airspeedSettingsData = obj;
 
-	AirspeedSettingsData airspeedSettingsData;
-	AirspeedSettingsGet(&airspeedSettingsData);
-	
-	airspeedSensorType=airspeedSettingsData.AirspeedSensorType;
-	gpsSamplePeriod_ms=airspeedSettingsData.GPSSamplePeriod_ms;
+	PIOS_Assert(sizeof(*airspeedSettingsData) == len);
+
+	airspeedSensorType=airspeedSettingsData->AirspeedSensorType;
+	gpsSamplePeriod_ms=airspeedSettingsData->GPSSamplePeriod_ms;
 	
 #if defined(PIOS_INCLUDE_MPXV7002)
 	if (airspeedSensorType==AIRSPEEDSETTINGS_AIRSPEEDSENSORTYPE_DIYDRONESMPXV7002){
-		PIOS_MPXV7002_UpdateCalibration(airspeedSettingsData.ZeroPoint); //This makes sense for the user if the initial calibration was not good and the user does not wish to reboot.
+		PIOS_MPXV7002_UpdateCalibration(airspeedSettingsData->ZeroPoint); //This makes sense for the user if the initial calibration was not good and the user does not wish to reboot.
 	}
 #endif
 #if defined(PIOS_INCLUDE_MPXV5004)
 	if (airspeedSensorType==AIRSPEEDSETTINGS_AIRSPEEDSENSORTYPE_DIYDRONESMPXV5004){
-		PIOS_MPXV5004_UpdateCalibration(airspeedSettingsData.ZeroPoint); //This makes sense for the user if the initial calibration was not good and the user does not wish to reboot.
+		PIOS_MPXV5004_UpdateCalibration(airspeedSettingsData->ZeroPoint); 
 	}
 #endif
 }

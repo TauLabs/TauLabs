@@ -213,6 +213,7 @@ int32_t getEventMask(UAVObjHandle obj_handle, struct pios_queue *queue);
 uint8_t UAVObjCount();
 uint32_t UAVObjIDByIndex(uint8_t index);
 void UAVObjCbSetFlag(UAVObjEvent *objEv, void *ctx, void *obj, int len);
+void UAVObjCbCopyData(UAVObjEvent *objEv, void *ctx, void *obj, int len);
 
 #endif // UAVOBJECTMANAGER_H
 
