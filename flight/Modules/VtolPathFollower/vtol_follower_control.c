@@ -703,8 +703,11 @@ bool vtol_follower_control_loiter(float dT, float *hold_pos, float *att_adj,
 	return true;
 }
 
-void vtol_follower_control_settings_updated(UAVObjEvent * ev)
+void vtol_follower_control_settings_updated(UAVObjEvent * ev,
+		void *ctx, void *obj, int len)
 {
+	(void) ctx; (void) obj; (void) len;
+
 	VtolPathFollowerSettingsGet(&guidanceSettings);
 
 	// Configure the velocity control PID loops

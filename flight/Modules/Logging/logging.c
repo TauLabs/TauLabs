@@ -75,9 +75,9 @@ static bool waypoint_updated = false;
 static void    loggingTask(void *parameters);
 static int32_t send_data(uint8_t *data, int32_t length);
 static void logSettings(UAVObjHandle obj);
-static void SettingsUpdatedCb(UAVObjEvent * ev);
-static void FlightStatusUpdatedCb(UAVObjEvent * ev);
-static void WaypointActiveUpdatedCb(UAVObjEvent * ev);
+static void SettingsUpdatedCb(UAVObjEvent * ev, void *ctx, void *buf, int len);
+static void FlightStatusUpdatedCb(UAVObjEvent * ev, void *ctx, void *buf, int len);
+static void WaypointActiveUpdatedCb(UAVObjEvent * ev, void *ctx, void *buf, int len);
 static void writeHeader();
 
 // Local variables
@@ -498,8 +498,9 @@ static void writeHeader()
 /**
  * Callback triggered when the module settings are updated
  */
-static void SettingsUpdatedCb(UAVObjEvent * ev)
+static void SettingsUpdatedCb(UAVObjEvent * ev, void *ctx, void *buf, int len)
 {
+	(void) ev; (void) ctx; (void) buf; (void) len;
 	LoggingSettingsGet(&settings);
 }
 
@@ -507,16 +508,18 @@ static void SettingsUpdatedCb(UAVObjEvent * ev)
 /**
  * Callback triggered when FlightStatus is updated
  */
-static void FlightStatusUpdatedCb(UAVObjEvent * ev)
+static void FlightStatusUpdatedCb(UAVObjEvent * ev, void *ctx, void *buf, int len)
 {
+	(void) ev; (void) ctx; (void) buf; (void) len;
 	flightstatus_updated = true;
 }
 
 /**
  * Callback triggered when WaypointActive is updated
  */
-static void WaypointActiveUpdatedCb(UAVObjEvent * ev)
+static void WaypointActiveUpdatedCb(UAVObjEvent * ev, void *ctx, void *buf, int len)
 {
+	(void) ev; (void) ctx; (void) buf; (void) len;
 	waypoint_updated = true;
 }
 

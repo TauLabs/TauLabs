@@ -80,13 +80,13 @@ static struct CameraStab_data {
 } *csd;
 
 // Private functions
-static void attitudeUpdated(UAVObjEvent* ev);
-static void settings_updated_cb(UAVObjEvent * ev);
+static void attitudeUpdated(UAVObjEvent* ev, void *ctx, void *obj, int len);
+static void settings_updated_cb(UAVObjEvent * ev, void *ctx, void *obj, int len);
 static void applyFF(uint8_t index, float dT_ms, float *attitude, CameraStabSettingsData* cameraStab);
 static void gimbal_can_message();
 
 #if defined(CAMERASTAB_POI_MODE)
-static void tablet_info_flag_update(UAVObjEvent * ev);
+static void tablet_info_flag_update(UAVObjEvent * ev, void *ctx, void *obj, int len);
 static void tablet_info_process();
 static bool tablet_info_updated = false;
 #endif /* CAMERASTAB_POI_MODE */
@@ -131,7 +131,7 @@ int32_t CameraStabInitialize(void)
 		CameraDesiredInitialize();
 
 		CameraStabSettingsConnectCallback(settings_updated_cb);
-		settings_updated_cb(NULL);
+		settings_updated_cb(NULL, NULL, NULL, 0);
 #if defined(CAMERASTAB_POI_MODE)
 		PoiLocationInitialize();
 		TabletInfoInitialize();
@@ -163,8 +163,9 @@ MODULE_INITCALL(CameraStabInitialize, CameraStabStart)
  * Periodic callback that processes changes in the attitude
  * and recalculates the desied gimbal angle.
  */
-static void attitudeUpdated(UAVObjEvent* ev)
+static void attitudeUpdated(UAVObjEvent* ev, void *ctx, void *obj, int len)
 {	
+	(void) ev; (void) ctx; (void) obj; (void) len;
 	if (ev->obj != AttitudeActualHandle())
 		return;
 
@@ -339,8 +340,10 @@ static void applyFF(uint8_t index, float dT_ms, float *attitude, CameraStabSetti
  * Called when the settings are updated to store a local copy
  * @param[in] ev The update event
  */
-static void settings_updated_cb(UAVObjEvent * ev)
+static void settings_updated_cb(UAVObjEvent * ev, void *ctx, void *obj, int len)
 {
+	(void) ev; (void) ctx; (void) obj; (void) len;
+
 	CameraStabSettingsGet(&csd->settings);
 }
 
@@ -349,8 +352,10 @@ static void settings_updated_cb(UAVObjEvent * ev)
  * When the tablet info changes update the POI location to match
  * the current tablet location
  */
-static void tablet_info_flag_update(UAVObjEvent * ev)
+static void tablet_info_flag_update(UAVObjEvent * ev, void *ctx, void *obj, int len)
 {
+	(void) ev; (void) ctx; (void) obj; (void) len;
+
 	if (ev->obj == NULL || ev->obj != TabletInfoHandle())
 		return;
 

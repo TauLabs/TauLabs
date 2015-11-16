@@ -80,7 +80,7 @@ static GroundPathFollowerSettingsData guidanceSettings;
 
 // Private functions
 static void groundPathFollowerTask(void *parameters);
-static void SettingsUpdatedCb(UAVObjEvent * ev);
+static void SettingsUpdatedCb(UAVObjEvent * ev, void *ctx, void *obj, int len);
 static void updateNedAccel();
 static void updatePathVelocity();
 static void updateEndpointVelocity();
@@ -477,8 +477,9 @@ static void updateNedAccel()
 	NedAccelSet(&accelData);
 }
 
-static void SettingsUpdatedCb(UAVObjEvent * ev)
+static void SettingsUpdatedCb(UAVObjEvent * ev, void *ctx, void *obj, int len)
 {
+	(void) ctx; (void) obj; (void) len;
 	GroundPathFollowerSettingsGet(&guidanceSettings);
 
 	// Configure the velocity control PID loops

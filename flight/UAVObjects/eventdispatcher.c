@@ -53,7 +53,6 @@
 
 // Private types
 
-
 /**
  * Event callback information
  */
@@ -86,7 +85,6 @@ static int32_t processPeriodicUpdates();
 static void eventTask();
 static int32_t eventPeriodicCreate(UAVObjEvent* ev, UAVObjEventCallback cb, struct pios_queue *queue, uint16_t periodMs);
 static int32_t eventPeriodicUpdate(UAVObjEvent* ev, UAVObjEventCallback cb, struct pios_queue *queue, uint16_t periodMs);
-
 
 /**
  * Initialize the dispatcher
@@ -132,27 +130,6 @@ void EventClearStats()
 	PIOS_Recursive_Mutex_Lock(mutex, PIOS_MUTEX_TIMEOUT_MAX);
 	memset(&stats, 0, sizeof(EventStats));
 	PIOS_Recursive_Mutex_Unlock(mutex);
-}
-
-/**
- * Dispatch an event by invoking the supplied callback. The function
- * returns imidiatelly, the callback is invoked from the event task.
- * \param[in] ev The event to be dispatched
- * \param[in] cb The callback function
- * \return Success (0), failure (-1)
- */
-int32_t EventCallbackDispatch(UAVObjEvent* ev, UAVObjEventCallback cb)
-{
-	EventCallbackInfo evInfo;
-	// Initialize event callback information
-	memcpy(&evInfo.ev, ev, sizeof(UAVObjEvent));
-	evInfo.cb = cb;
-	evInfo.queue = 0;
-	// Push to queue
-	if (PIOS_Queue_Send(queue, &evInfo, 0) == true)
-		return 0;
-	else
-		return -1;
 }
 
 /**
@@ -289,7 +266,6 @@ static void eventTask()
 {
 	int32_t timeToNextUpdateMs;
 	int32_t delayMs;
-	EventCallbackInfo evInfo;
 
 	/* Must do this in task context to ensure that TaskMonitor has already finished its init */
 	TaskMonitorAdd(TASKINFO_RUNNING_EVENTDISPATCHER, eventTaskHandle);
@@ -302,26 +278,11 @@ static void eventTask()
 	{
 		// Calculate delay time
 		delayMs = timeToNextUpdateMs - PIOS_Thread_Systime();
-		if (delayMs < 0)
-		{
-			delayMs = 0;
+		if (delayMs > 0) {
+			PIOS_Thread_Sleep(delayMs);
 		}
 
-		// Wait for queue message
-		if (PIOS_Queue_Receive(queue, &evInfo, delayMs) == true)
-		{
-			// Invoke callback, if one
-			if (evInfo.cb != 0)
-			{
-				evInfo.cb(&evInfo.ev); // the function is expected to copy the event information
-			}
-		}
-
-		// Process periodic updates
-		if (PIOS_Thread_Systime() >= timeToNextUpdateMs)
-		{
-			timeToNextUpdateMs = processPeriodicUpdates();
-		}
+		timeToNextUpdateMs = processPeriodicUpdates();
 	}
 }
 
@@ -357,7 +318,7 @@ static int32_t processPeriodicUpdates()
     			// Invoke callback, if one
     			if ( objEntry->evInfo.cb != 0)
     			{
-    				objEntry->evInfo.cb(&objEntry->evInfo.ev); // the function is expected to copy the event information
+				objEntry->evInfo.cb(&objEntry->evInfo.ev, NULL, NULL, 0); // the function is expected to copy the event information
     			}
     			// Push event to queue, if one
     			if ( objEntry->evInfo.queue != 0)

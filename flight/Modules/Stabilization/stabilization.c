@@ -126,7 +126,7 @@ volatile bool gyro_filter_updated = false;
 static void stabilizationTask(void* parameters);
 static void zero_pids(void);
 static void calculate_pids(void);
-static void SettingsUpdatedCb(UAVObjEvent * ev);
+static void SettingsUpdatedCb(UAVObjEvent * objEv, void *ctx, void *obj, int len);
 
 /**
  * Module initialization
@@ -195,7 +195,7 @@ static void stabilizationTask(void* parameters)
 	float horizonRateFraction = 0.0f;
 
 	// Force refresh of all settings immediately before entering main task loop
-	SettingsUpdatedCb((UAVObjEvent *) NULL);
+	SettingsUpdatedCb(NULL, NULL, NULL, 0);
 	
 	// Settings for system identification
 	uint32_t iteration = 0;
@@ -964,8 +964,10 @@ static void calculate_pids()
 
 }
 
-static void SettingsUpdatedCb(UAVObjEvent * ev)
+static void SettingsUpdatedCb(UAVObjEvent * ev, void *ctx, void *obj, int len)
 {
+	(void) ctx; (void) obj; (void) len;
+
 	if (ev == NULL || ev->obj == TrimAnglesSettingsHandle())
 	{
 		TrimAnglesSettingsData trimAnglesSettings;

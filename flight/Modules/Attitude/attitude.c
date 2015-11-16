@@ -179,7 +179,7 @@ static int32_t setAttitudeINSGPS();
 //! Set the navigation to the current INSGPS estimate
 static int32_t setNavigationINSGPS();
 static void updateNedAccel();
-static void settingsUpdatedCb(UAVObjEvent * objEv);
+static void settingsUpdatedCb(UAVObjEvent * objEv, void *ctx, void *obj, int len);
 
 //! A low pass filter on the accels which helps with vibration resistance
 static void apply_accel_filter(const float * raw, float * filtered);
@@ -301,7 +301,7 @@ static void AttitudeTask(void *parameters)
 	set_state_estimation_error(SYSTEMALARMS_STATEESTIMATION_UNDEFINED);
 
 	// Force settings update to make sure rotation loaded
-	settingsUpdatedCb(NULL);
+	settingsUpdatedCb(NULL, NULL, NULL, 0);
 
 	// Wait for all the sensors be to read
 	PIOS_Thread_Sleep(100);
@@ -1463,8 +1463,10 @@ static void check_home_location()
 	}
 }
 
-static void settingsUpdatedCb(UAVObjEvent * ev) 
+static void settingsUpdatedCb(UAVObjEvent * ev, void *ctx, void *obj, int len)
 {
+	(void) ctx; (void) obj; (void) len;
+
 	if (ev == NULL || ev->obj == SensorSettingsHandle()) {
 		SensorSettingsData sensorSettings;
 		SensorSettingsGet(&sensorSettings);

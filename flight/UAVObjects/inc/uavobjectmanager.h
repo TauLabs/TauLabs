@@ -124,7 +124,8 @@ typedef struct {
  * will be executed in the event task. The ev parameter should be copied if needed
  * after the function returns.
  */
-typedef void (*UAVObjEventCallback)(UAVObjEvent* ev);
+typedef void (*UAVObjEventCallback)(UAVObjEvent* ev, void* cb_ctx,
+	void *uavo_data, int uavo_len);
 
 /**
  * Callback used to initialize the object fields to their default values.

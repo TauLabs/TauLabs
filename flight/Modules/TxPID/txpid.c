@@ -73,7 +73,7 @@
 // Private variables
 
 // Private functions
-static void updatePIDs(UAVObjEvent* ev);
+static void updatePIDs(UAVObjEvent* ev, void *ctx, void *obj, int len);
 static bool update(float *var, float val);
 static float scale(float val, float inMin, float inMax, float outMin, float outMax);
 
@@ -136,8 +136,10 @@ MODULE_INITCALL(TxPIDInitialize, NULL);
 /**
  * Update PIDs callback function
  */
-static void updatePIDs(UAVObjEvent* ev)
+static void updatePIDs(UAVObjEvent* ev, void *ctx, void *obj, int len)
 {
+	(void) ev; (void) ctx; (void) obj; (void) len;
+
 	if (ev->obj != AccessoryDesiredHandle())
 		return;
 

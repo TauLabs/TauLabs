@@ -104,10 +104,10 @@ static int8_t airspeedADCPin=-1;
 // Private functions
 static void airspeedTask(void *parameters);
 void baro_airspeedGet(BaroAirspeedData *baroAirspeedData, uint32_t *lastSysTime, uint8_t airspeedSensorType, int8_t airspeedADCPin);
-static void AirspeedSettingsUpdatedCb(UAVObjEvent * ev);
+static void AirspeedSettingsUpdatedCb(UAVObjEvent * ev, void *ctx, void *obj, int len);
 
 #ifdef GPS_AIRSPEED_PRESENT
-static void GPSVelocityUpdatedCb(UAVObjEvent * ev);
+static void GPSVelocityUpdatedCb(UAVObjEvent * ev, void *ctx, void *obj, int len);
 #endif
 
 
@@ -164,7 +164,7 @@ int32_t AirspeedInitialize()
 		airspeedADCPin = -1;
 #endif
 
-	AirspeedSettingsConnectCallback(AirspeedSettingsUpdatedCb);	
+	AirspeedSettingsConnectCallback(AirspeedSettingsUpdatedCb);
 	
 	return 0;
 }
@@ -176,7 +176,7 @@ MODULE_INITCALL(AirspeedInitialize, AirspeedStart);
  */
 static void airspeedTask(void *parameters)
 {
-	AirspeedSettingsUpdatedCb(AirspeedSettingsHandle());
+	AirspeedSettingsUpdatedCb(NULL, NULL, NULL, 0);
 	
 	BaroAirspeedData airspeedData;
 	AirspeedActualData airspeedActualData;
@@ -331,8 +331,10 @@ static void airspeedTask(void *parameters)
 
 	
 #ifdef GPS_AIRSPEED_PRESENT
-static void GPSVelocityUpdatedCb(UAVObjEvent * ev)
+static void GPSVelocityUpdatedCb(UAVObjEvent * ev, void *ctx, void *obj, int len)
 {
+	(void) ev; (void) ctx; (void) obj; (void) len;
+
 	gpsNew=true;
 }
 #endif
@@ -359,8 +361,12 @@ void baro_airspeedGet(BaroAirspeedData *baroAirspeedData, uint32_t *lastSysTime,
 }
 #endif
 
-static void AirspeedSettingsUpdatedCb(UAVObjEvent * ev)
+static void AirspeedSettingsUpdatedCb(UAVObjEvent * ev, void *ctx, void *obj, int len)
 {
+	(void) ev; (void) ctx; (void) obj; (void) len;
+
+	/* XXX change to directly use object. */
+
 	AirspeedSettingsData airspeedSettingsData;
 	AirspeedSettingsGet(&airspeedSettingsData);
 	
