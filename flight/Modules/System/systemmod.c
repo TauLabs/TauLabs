@@ -319,6 +319,8 @@ static void objectUpdatedCb(UAVObjEvent * ev, void *ctx, void *obj_data, int len
 			retval = PIOS_FLASHFS_Format(pios_uavo_settings_fs_id);
 #endif
 		}
+
+		/* XXX TODO: prevent recursion */
 		switch(retval) {
 			case 0:
 				objper.Operation = OBJECTPERSISTENCE_OPERATION_COMPLETED;

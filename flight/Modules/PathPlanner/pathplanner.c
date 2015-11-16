@@ -226,8 +226,6 @@ static void pathStatusUpdated(UAVObjEvent * ev, void *ctx, void *obj, int len)
 {
 	(void) ev; (void) ctx; (void) obj; (void) len;
 
-	/* XXX TODO use the passed in object */
-
 	PathStatusData pathStatus;
 
 	PathStatusGet(&pathStatus);

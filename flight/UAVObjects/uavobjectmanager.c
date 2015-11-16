@@ -1539,6 +1539,22 @@ void UAVObjCbSetFlag(UAVObjEvent *objEv, void *ctx, void *obj, int len) {
 }
 
 /**
+ * Copies the passed in object to the ctx pointer.
+ * Conforms to the UAVObjConnectCallback* signature.
+ *
+ * Using UAVObjCbSetFlag is preferred.  This should only be used via the
+ * wrapper in the individual UAV objects to ensure that objects are not
+ * mismatched (wrong registration type -> ctx mapping).
+ *
+ * \param[in] ctx The event callback context.
+ * \param[in] obj The pointer to the raw object data.
+ * \param[in] len The length of data to copy.
+ */
+void UAVObjCbCopyData(UAVObjEvent *objEv, void *ctx, void *obj, int len) {
+	memcpy(ctx, obj, len);
+}
+
+/**
  * Connect an event callback to the object, if the callback is already connected then the event mask is only updated.
  * The supplied callback will be invoked on all events matching the event mask.
  * \param[in] obj The object handle
