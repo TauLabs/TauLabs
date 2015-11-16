@@ -68,7 +68,7 @@ static void    loggingTask(void *parameters);
 static int32_t send_data(uint8_t *data, int32_t length);
 static void register_object(UAVObjHandle obj);
 static void logSettings(UAVObjHandle obj);
-static void SettingsUpdatedCb(UAVObjEvent * ev);
+static void SettingsUpdatedCb(UAVObjEvent * ev, void *ctx, void *buf, int len);
 static void writeHeader();
 
 // Local variables
@@ -372,22 +372,6 @@ static void logSettings(UAVObjHandle obj)
 	}
 }
 
-/**
- * Forward data from UAVTalk out the serial port
- * \param[in] data Data buffer to send
- * \param[in] length Length of buffer
- * \return -1 on failure
- * \return number of bytes transmitted on success
- */
-static int32_t send_data(uint8_t *data, int32_t length)
-{
-	if( PIOS_COM_SendBuffer(logging_com_id, data, length) < 0)
-		return -1;
-
-	written_bytes += length;
-
-	return length;
-}
 
 /**
  * @brief Callback for adding an object to the logging queue
@@ -477,9 +461,28 @@ static void writeHeader()
 /**
  * Callback triggered when the module settings are updated
  */
-static void SettingsUpdatedCb(UAVObjEvent * ev)
+static void SettingsUpdatedCb(UAVObjEvent * ev, void *ctx, void *buf, int len)
 {
+	(void) ev; (void) ctx; (void) buf; (void) len;
 	LoggingSettingsGet(&settings);
+}
+
+
+/**
+ * Forward data from UAVTalk out the serial port
+ * \param[in] data Data buffer to send
+ * \param[in] length Length of buffer
+ * \return -1 on failure
+ * \return number of bytes transmitted on success
+ */
+static int32_t send_data(uint8_t *data, int32_t length)
+{
+	if( PIOS_COM_SendBuffer(logging_com_id, data, length) < 0)
+		return -1;
+
+	written_bytes += length;
+
+	return length;
 }
 
 /**

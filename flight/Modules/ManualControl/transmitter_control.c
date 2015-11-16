@@ -100,7 +100,8 @@ static bool validInputRange(int16_t min, int16_t max, uint16_t value, uint16_t o
 static void applyDeadband(float *value, float deadband);
 static void resetRcvrActivity(struct rcvr_activity_fsm * fsm);
 static bool updateRcvrActivity(struct rcvr_activity_fsm * fsm);
-static void manual_control_settings_updated(UAVObjEvent * ev);
+static void manual_control_settings_updated(UAVObjEvent * ev, void *ctx,
+	void *uavo, int len);
 static void set_loiter_command(ManualControlCommandData * cmd);
 
 // Exposed from manualcontrol to prevent attempts to arm when unsafe
@@ -138,7 +139,7 @@ int32_t transmitter_control_initialize()
 
 	// Use callback to update the settings when they change
 	ManualControlSettingsConnectCallback(manual_control_settings_updated);
-	manual_control_settings_updated(NULL);
+	manual_control_settings_updated(NULL, NULL, NULL, 0);
 
 	// Main task loop
 	lastSysTime = PIOS_Thread_Systime();
@@ -1213,8 +1214,10 @@ static void applyDeadband(float *value, float deadband)
 }
 
 //! Update the manual control settings
-static void manual_control_settings_updated(UAVObjEvent * ev)
+static void manual_control_settings_updated(UAVObjEvent * ev, void *ctx,
+	void *uavo, int len)
 {
+	(void) ctx; (void) uavo; (void) len;
 	settings_updated = true;
 }
 

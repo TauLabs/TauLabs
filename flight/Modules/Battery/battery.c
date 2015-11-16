@@ -52,7 +52,7 @@ static int8_t currentADCPin = -1; //ADC pin for current
 // ****************
 // Private functions
 static void batteryTask(void * parameters);
-static void settingsUpdatedCb(UAVObjEvent * objEv);;
+static void settingsUpdatedCb(UAVObjEvent * objEv, void *ctx, void *obj, int len);
 
 static int32_t BatteryStart(void)
 {
@@ -101,7 +101,7 @@ static void batteryTask(void * parameters)
 {
 	const float dT = SAMPLE_PERIOD_MS / 1000.0f;
 
-	settingsUpdatedCb(NULL);
+	settingsUpdatedCb(NULL, NULL, NULL, 0);
 
 	// Main task loop
 	uint32_t lastSysTime;
@@ -236,7 +236,7 @@ static void batteryTask(void * parameters)
 }
 
 //! Indicates the battery settings have been updated
-static void settingsUpdatedCb(UAVObjEvent * objEv)
+static void settingsUpdatedCb(UAVObjEvent * objEv, void *ctx, void *obj, int len)
 {
 	battery_settings_updated = true;
 }

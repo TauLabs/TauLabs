@@ -86,7 +86,7 @@ static float throt_curve(const float input, const float* curve, uint8_t num_poin
 static float collective_curve(const float input, const float* curve, uint8_t num_points);
 static bool set_channel(uint8_t mixer_channel, float value);
 static void actuator_update_rate_if_changed(bool force_update);
-static void settings_update_cb(UAVObjEvent * ev);
+static void settings_update_cb(UAVObjEvent * objEv, void *ctx, void *obj, int len);
 float process_mixer(const int index, const float curve1, const float curve2,
 		ActuatorDesiredData *desired);
 static float mix_channel(int ct, ActuatorDesiredData *desired,
@@ -603,8 +603,10 @@ static void actuator_update_rate_if_changed(bool force_update)
 	}
 }
 
-static void settings_update_cb(UAVObjEvent * ev)
+static void settings_update_cb(UAVObjEvent * objEv, void *ctx, void *obj, int len)
 {
+	(void) ctx; (void) obj; (void) len;
+
 	settings_updated = true;
 }
 

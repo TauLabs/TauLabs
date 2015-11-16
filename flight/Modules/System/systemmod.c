@@ -82,10 +82,10 @@ static struct pios_queue *objectPersistenceQueue;
 static bool stackOverflow;
 
 // Private functions
-static void objectUpdatedCb(UAVObjEvent * ev);
+static void objectUpdatedCb(UAVObjEvent * ev, void *ctx, void *obj, int len);
 
 #ifndef NO_SENSORS
-static void configurationUpdatedCb(UAVObjEvent * ev);
+static void configurationUpdatedCb(UAVObjEvent * ev, void *ctx, void *obj, int len);
 #endif
 
 static bool indicateError();
@@ -234,7 +234,7 @@ static void systemTask(void *parameters)
 
 		if (PIOS_Queue_Receive(objectPersistenceQueue, &ev, delayTime) == true) {
 			// If object persistence is updated call the callback
-			objectUpdatedCb(&ev);
+			objectUpdatedCb(&ev, NULL, NULL, 0);
 		}
 	}
 }
@@ -242,8 +242,10 @@ static void systemTask(void *parameters)
 /**
  * Function called in response to object updates
  */
-static void objectUpdatedCb(UAVObjEvent * ev)
+static void objectUpdatedCb(UAVObjEvent * ev, void *ctx, void *obj_data, int len)
 {
+	(void) ctx; (void) obj_data; (void) len;
+
 	ObjectPersistenceData objper;
 	UAVObjHandle obj;
 
@@ -337,8 +339,9 @@ static void objectUpdatedCb(UAVObjEvent * ev)
  * Called whenever a critical configuration component changes
  */
 
-static void configurationUpdatedCb(UAVObjEvent * ev)
+static void configurationUpdatedCb(UAVObjEvent * ev, void *ctx, void *obj, int len)
 {
+	(void) ev; (void) ctx; (void) obj; (void) len;
 	configuration_check();
 }
 #endif

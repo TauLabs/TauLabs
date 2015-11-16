@@ -80,7 +80,8 @@ static void updateTelemetryStats();
 static void gcsTelemetryStatsUpdated();
 static void updateSettings();
 static uintptr_t getComPort();
-static void session_managing_updated(UAVObjEvent * ev);
+static void session_managing_updated(UAVObjEvent * ev, void *ctx, void *obj,
+	int len);
 static void update_object_instances(uint32_t obj_id, uint32_t inst_id);
 static void check_pause_periodic_updates_timeout();
 
@@ -613,11 +614,14 @@ static uintptr_t getComPort() {
 /**
  * SessionManaging object updated callback
  */
-static void session_managing_updated(UAVObjEvent * ev)
+static void session_managing_updated(UAVObjEvent * ev, void *ctx, void *obj, int len)
 {
-	SessionManagingData sessionManaging;
-	SessionManagingGet(&sessionManaging);
+	(void) ctx; (void) obj; (void) len;
+	// XXX TODO move to use obj directly
 	if (ev->event == EV_UNPACKED) {
+		SessionManagingData sessionManaging;
+		SessionManagingGet(&sessionManaging);
+
 		if (sessionManaging.SessionID == 0) {
 			sessionManaging.ObjectID = 0;
 			sessionManaging.ObjectInstances = 0;

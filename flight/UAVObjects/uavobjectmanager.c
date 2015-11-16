@@ -1677,11 +1677,9 @@ static int32_t sendEvent(struct UAVOBase * obj, uint16_t instId,
 
 			// Invoke callback (from event task) if a valid one is registered
 			if (event->cb) {
-				// invoke callback from the event task, will not block
-				if (EventCallbackDispatch(&msg, event->cb) != 0) {
-					++stats.eventCallbackErrors;
-					stats.lastCallbackErrorID = UAVObjGetID(obj);
-				}
+				// invoke callback directly; callbacks must be well behaved
+				// XXX TODO context record
+				event->cb(&msg, NULL, obj_data, len);
 			}
 		}
 	}

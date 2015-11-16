@@ -58,7 +58,7 @@ static float previous_consumed_energy;
 
 // Private functions
 static void flightStatsTask(void *parameters);
-static void settingsUpdatedCb(UAVObjEvent * ev);
+static void settingsUpdatedCb(UAVObjEvent * ev, void *ctx, void *buf, int len);
 static bool isArmed();
 static void resetStats(FlightStatsData *stats);
 static void collectStats(FlightStatsData *stats);
@@ -192,8 +192,9 @@ static void flightStatsTask(void *parameters)
 /**
  * Update the settings
  */
-static void settingsUpdatedCb(UAVObjEvent * ev)
+static void settingsUpdatedCb(UAVObjEvent * ev, void *ctx, void *buf, int len)
 {
+	/* XXX TODO change to use common form */
 	FlightStatsSettingsGet(&settings);
 }
 

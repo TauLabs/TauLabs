@@ -82,8 +82,10 @@ static struct pios_gcsrcvr_dev *PIOS_gcsrcvr_alloc(void)
 	return(gcsrcvr_dev);
 }
 
-static void gcsreceiver_updated(UAVObjEvent * ev)
+static void gcsreceiver_updated(UAVObjEvent * ev, void *ctx, void *obj, int len)
 {
+	/* XXX TODO change to use object directly */
+
 	struct pios_gcsrcvr_dev *gcsrcvr_dev = global_gcsrcvr_dev;
 	if (ev->obj == GCSReceiverHandle()) {
 		GCSReceiverGet(&gcsreceiverdata);
