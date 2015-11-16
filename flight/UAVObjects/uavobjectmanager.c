@@ -53,7 +53,11 @@ extern uintptr_t pios_uavo_settings_fs_id;
 typedef void* InstanceHandle; 
 
 struct ObjectEventEntry {
-	struct pios_queue         *queue;
+	union {
+		struct pios_queue         *queue;
+		void                      *cbCtx;
+	} cbInfo;
+
 	UAVObjEventCallback       cb;
 	uint8_t                   hasThrottle : 1;
 	uint8_t                   eventMask : 7;
@@ -166,10 +170,10 @@ static int32_t sendEvent(struct UAVOBase * obj, uint16_t instId,
 static InstanceHandle createInstance(struct UAVOData * obj, uint16_t instId);
 static InstanceHandle getInstance(struct UAVOData * obj, uint16_t instId);
 static int32_t connectObj(UAVObjHandle obj_handle, struct pios_queue *queue,
-			UAVObjEventCallback cb, uint8_t eventMask,
+			UAVObjEventCallback cb, void *cbCtx, uint8_t eventMask,
 			uint16_t interval);
 static int32_t disconnectObj(UAVObjHandle obj_handle, struct pios_queue *queue,
-			UAVObjEventCallback cb);
+			UAVObjEventCallback cb, void *cbCtx);
 
 // Private variables
 static struct UAVOData * uavo_list;
@@ -1487,7 +1491,7 @@ int32_t UAVObjConnectQueueThrottled(UAVObjHandle obj_handle,
 	PIOS_Assert(queue);
 	int32_t res;
 	PIOS_Recursive_Mutex_Lock(mutex, PIOS_MUTEX_TIMEOUT_MAX);
-	res = connectObj(obj_handle, queue, 0, eventMask, interval);
+	res = connectObj(obj_handle, queue, NULL, NULL, eventMask, interval);
 	PIOS_Recursive_Mutex_Unlock(mutex);
 	return res;
 }
@@ -1510,7 +1514,7 @@ int32_t UAVObjDisconnectQueue(UAVObjHandle obj_handle, struct pios_queue *queue)
 	PIOS_Assert(queue);
 	int32_t res;
 	PIOS_Recursive_Mutex_Lock(mutex, PIOS_MUTEX_TIMEOUT_MAX);
-	res = disconnectObj(obj_handle, queue, 0);
+	res = disconnectObj(obj_handle, queue, NULL, NULL);
 	PIOS_Recursive_Mutex_Unlock(mutex);
 	return res;
 }
@@ -1526,20 +1530,20 @@ int32_t UAVObjDisconnectQueue(UAVObjHandle obj_handle, struct pios_queue *queue)
  * \return 0 if success or -1 if failure
  */
 int32_t UAVObjConnectCallbackThrottled(UAVObjHandle obj_handle, UAVObjEventCallback cb,
-			uint8_t eventMask, uint16_t interval)
+			void *cbCtx, uint8_t eventMask, uint16_t interval)
 {
 	PIOS_Assert(obj_handle);
 	int32_t res;
 	PIOS_Recursive_Mutex_Lock(mutex, PIOS_MUTEX_TIMEOUT_MAX);
-	res = connectObj(obj_handle, 0, cb, eventMask, interval);
+	res = connectObj(obj_handle, 0, cb, cbCtx, eventMask, interval);
 	PIOS_Recursive_Mutex_Unlock(mutex);
 	return res;
 }
 
 int32_t UAVObjConnectCallback(UAVObjHandle obj_handle, UAVObjEventCallback cb,
-			uint8_t eventMask)
+			void *cbCtx, uint8_t eventMask)
 {
-	return UAVObjConnectCallbackThrottled(obj_handle, cb, eventMask, 0);
+	return UAVObjConnectCallbackThrottled(obj_handle, cb, cbCtx, eventMask, 0);
 }
 
 /**
@@ -1548,12 +1552,13 @@ int32_t UAVObjConnectCallback(UAVObjHandle obj_handle, UAVObjEventCallback cb,
  * \param[in] cb The event callback
  * \return 0 if success or -1 if failure
  */
-int32_t UAVObjDisconnectCallback(UAVObjHandle obj_handle, UAVObjEventCallback cb)
+int32_t UAVObjDisconnectCallback(UAVObjHandle obj_handle, UAVObjEventCallback cb,
+		void *cbCtx)
 {
 	PIOS_Assert(obj_handle);
 	int32_t res;
 	PIOS_Recursive_Mutex_Lock(mutex, PIOS_MUTEX_TIMEOUT_MAX);
-	res = disconnectObj(obj_handle, 0, cb);
+	res = disconnectObj(obj_handle, 0, cb, cbCtx);
 	PIOS_Recursive_Mutex_Unlock(mutex);
 	return res;
 }
@@ -1666,21 +1671,19 @@ static int32_t sendEvent(struct UAVOBase * obj, uint16_t instId,
 				throtInfo->due += ((now - throtInfo->due) / throtInfo->interval + 1) * throtInfo->interval;
 			}
 
-			// Send to queue if a valid queue is registered
-			if (event->queue) {
+			// Invoke callback (from event task) if a valid one is registered
+			if (event->cb) {
+				// invoke callback directly; callbacks must be well behaved
+				event->cb(&msg, event->cbInfo.cbCtx, obj_data, len);
+			} else if (event->cbInfo.queue) {
+				// Send to queue if a valid queue is registered
 				// will not block
-				if (PIOS_Queue_Send(event->queue, &msg, 0) != true) {
+				if (PIOS_Queue_Send(event->cbInfo.queue, &msg, 0) != true) {
 					stats.lastQueueErrorID = UAVObjGetID(obj);
 					++stats.eventQueueErrors;
 				}
 			}
 
-			// Invoke callback (from event task) if a valid one is registered
-			if (event->cb) {
-				// invoke callback directly; callbacks must be well behaved
-				// XXX TODO context record
-				event->cb(&msg, NULL, obj_data, len);
-			}
 		}
 	}
 
@@ -1791,9 +1794,13 @@ static InstanceHandle getInstance(struct UAVOData * obj, uint16_t instId)
  * \return 0 if success or -1 if failure
  */
 static int32_t connectObj(UAVObjHandle obj_handle, struct pios_queue *queue,
-			UAVObjEventCallback cb, uint8_t eventMask,
+			UAVObjEventCallback cb, void *cbCtx, uint8_t eventMask,
 			uint16_t interval)
 {
+	if (queue && cb) {
+		return -1;
+	}
+
 	struct ObjectEventEntry *event;
 	struct ObjectEventEntryThrottled *throttled;
 	struct UAVOBase *obj;
@@ -1801,7 +1808,8 @@ static int32_t connectObj(UAVObjHandle obj_handle, struct pios_queue *queue,
 	// Check that the queue is not already connected, if it is simply update event mask
 	obj = (struct UAVOBase *) obj_handle;
 	LL_FOREACH(obj->next_event, event) {
-		if (event->queue == queue && event->cb == cb) {
+		if ((event->cb == cb && event->cbInfo.cbCtx == cbCtx) ||
+				((!event->cb) && event->cbInfo.queue == queue)) {
 			// Already connected, update event mask and throttling (if possible)
 			event->eventMask = eventMask;
 			if (event->hasThrottle) {
@@ -1840,8 +1848,14 @@ static int32_t connectObj(UAVObjHandle obj_handle, struct pios_queue *queue,
 	if (event == NULL) {
 		return -1;
 	}
-	event->queue = queue;
 	event->cb = cb;
+
+	if (!cb) {
+		event->cbInfo.queue = queue;
+	} else {
+		event->cbInfo.cbCtx = cbCtx;
+	}
+
 	event->eventMask = eventMask;
 	event->hasThrottle = 0;
 
@@ -1867,7 +1881,7 @@ static int32_t connectObj(UAVObjHandle obj_handle, struct pios_queue *queue,
  * \return 0 if success or -1 if failure
  */
 static int32_t disconnectObj(UAVObjHandle obj_handle, struct pios_queue *queue,
-			UAVObjEventCallback cb)
+			UAVObjEventCallback cb, void *cbCtx)
 {
 	struct ObjectEventEntry *event;
 	struct UAVOBase *obj;
@@ -1875,8 +1889,8 @@ static int32_t disconnectObj(UAVObjHandle obj_handle, struct pios_queue *queue,
 	// Find queue and remove it
 	obj = (struct UAVOBase *) obj_handle;
 	LL_FOREACH(obj->next_event, event) {
-		if ((event->queue == queue
-				&& event->cb == cb)) {
+		if ((event->cb == cb && event->cbInfo.cbCtx == cbCtx) ||
+				((!event->cb) && event->cbInfo.queue == queue)) {
 			LL_DELETE(obj->next_event, event);
 			PIOS_free(event);
 			return 0;
@@ -1904,7 +1918,7 @@ int32_t getEventMask(UAVObjHandle obj_handle, struct pios_queue *queue)
 	// Iterate over the event listeners, looking for the event matching the queue
 	obj = (struct UAVOBase *) obj_handle;
 	LL_FOREACH(obj->next_event, event) {
-		if (event->queue == queue && event->cb == 0) {
+		if (event->cbInfo.queue == queue && event->cb == 0) {
 			// Already connected, update event mask and return
 			eventMask = event->eventMask;
 			break;
