@@ -53,6 +53,7 @@
 #include "customsplash.h"
 #include <QBitmap>
 #include "libcrashreporter-qt/libcrashreporter-handler/Handler.h"
+#include <QProcess>
 
 #include "../../../../../build/ground/gcs/gcsversioninfo.h"
 
@@ -264,6 +265,9 @@ int main(int argc, char **argv)
         // https://bugreports.qt-project.org/browse/QTBUG-32789
         QFont::insertSubstitution(".Lucida Grande UI", "Lucida Grande");
     }
+    QProcess process;
+    process.start("defaults", QStringList() << "write" << "org.taulabs.gcs" << "NSAppSleepDisabled" << "-bool" << "YES");
+    process.waitForFinished();
 #endif
 #ifdef Q_OS_LINUX
     QApplication::setAttribute(Qt::AA_X11InitThreads, true);
