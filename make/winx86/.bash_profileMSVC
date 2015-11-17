@@ -71,7 +71,8 @@ export LIB="$VS_INCLUDE_PATH/VC/LIB$VC_PLATFORM;$VS_INCLUDE_PATH/VC/ATLMFC/LIB$V
 export LIBPATH="$VS_INCLUDE_PATH/VC/LIB$VC_PLATFORM;$VS_INCLUDE_PATH/VC/ATLMFC/LIB$VC_PLATFORM;$WK_INCLUDE_PATH/References/CommonConfiguration/Neutral;/C/Program Files (x86)/Microsoft SDKs/Windows/v8.1/ExtensionSDKs/Microsoft.VCLibs/12.0/References/CommonConfiguration/neutral;"
 export MACHINE_TYPE=$(uname -m)
 export VCINSTALLDIR=$VS_INCLUDE_PATH
-export GMAKE="MAKEFLAGS= jom -j3"
+export USE_MSVC=YES
+export VCREDIST="$VCINSTALLDIR/VC/redist/$WK_PLATFORM/Microsoft.VC120.CRT"
 #-call :which UNSIS         "%ProgramFiles%\NSIS\Unicode"  makensis.exe
 
 #echo $PATH
