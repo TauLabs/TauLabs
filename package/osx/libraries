@@ -12,7 +12,7 @@ QMLDIR="${APP}/Contents/Resources/welcome"
 
 pushd "${QT_SDK_BIN_PATH}"
 
-./macdeployqt "${APP}" -verbose=2 -no-strip -always-overwrite -qmldir="$QMLDIR"
+./macdeployqt "${APP}" -verbose=2 -always-overwrite -qmldir="$QMLDIR"
 
 popd
 
