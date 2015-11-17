@@ -45,7 +45,7 @@ namespace Constants {
 
 const char * const GCS_VERSION_LONG      = IDE_VERSION_STR;
 const char * const GCS_AUTHOR            = \"Tau Labs\";
-const char * const GCS_YEAR              = \"2013\";
+const char * const GCS_YEAR              = \"2015\";
 
 #ifdef IDE_VERSION_DESCRIPTION
 const char * const IDE_VERSION_DESCRIPTION_STR = STRINGIFY(IDE_VERSION_DESCRIPTION);
