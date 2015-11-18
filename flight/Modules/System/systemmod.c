@@ -113,7 +113,7 @@ static bool stackOverflow;
 // Private functions
 static void systemPeriodicCb(UAVObjEvent *ev, void *ctx, void *obj_data, int len);
 static void objectUpdatedCb(UAVObjEvent * ev, void *ctx, void *obj, int len);
-static int32_t processPeriodicUpdates();
+static uint32_t processPeriodicUpdates();
 static int32_t eventPeriodicCreate(UAVObjEvent* ev, UAVObjEventCallback cb, struct pios_queue *queue, uint16_t periodMs);
 static int32_t eventPeriodicUpdate(UAVObjEvent* ev, UAVObjEventCallback cb, struct pios_queue *queue, uint16_t periodMs);
 
@@ -135,19 +135,12 @@ static void updateWDGstats();
  */
 int32_t SystemModStart(void)
 {
-	// Initialize vars
-	stackOverflow = false;
-	objList = NULL;
-	memset(&stats, 0, sizeof(EventStats));
-
-	// Create mutex
-	mutex = PIOS_Recursive_Mutex_Create();
-	if (mutex == NULL)
-		return -1;
+        // Create periodic event that will be used to update the telemetry stats
+        UAVObjEvent ev;
+        memset(&ev, 0, sizeof(UAVObjEvent));
+	EventPeriodicCallbackCreate(&ev, systemPeriodicCb, SYSTEM_UPDATE_PERIOD_MS);
 
 	EventClearStats();
-
-	EventPeriodicCallbackCreate(NULL, systemPeriodicCb, SYSTEM_UPDATE_PERIOD_MS);
 
 	// Create system task
 	systemTaskHandle = PIOS_Thread_Create(systemTask, "System", STACK_SIZE_BYTES, NULL, TASK_PRIORITY);
@@ -163,6 +156,10 @@ int32_t SystemModStart(void)
  */
 int32_t SystemModInitialize(void)
 {
+	// Create mutex
+	mutex = PIOS_Recursive_Mutex_Create();
+	if (mutex == NULL)
+		return -1;
 
 	// Must registers objects here for system thread because ObjectManager started in OpenPilotInit
 	SystemSettingsInitialize();
@@ -850,11 +847,10 @@ static int32_t eventPeriodicUpdate(UAVObjEvent* ev, UAVObjEventCallback cb, stru
  * Handle periodic updates for all objects.
  * \return The system time until the next update (in ms) or -1 if failed
  */
-static int32_t processPeriodicUpdates()
+static uint32_t processPeriodicUpdates()
 {
 	PeriodicObjectList* objEntry;
 	int32_t timeNow;
-    int32_t timeToNextUpdate;
     int32_t offset;
 
 	// Get lock
@@ -862,7 +858,8 @@ static int32_t processPeriodicUpdates()
 
     // Iterate through each object and update its timer, if zero then transmit object.
     // Also calculate smallest delay to next update.
-    timeToNextUpdate = PIOS_Thread_Systime() + MAX_UPDATE_PERIOD_MS;
+    uint32_t now = PIOS_Thread_Systime();
+    uint32_t timeToNextUpdate = PIOS_Thread_Systime() + MAX_UPDATE_PERIOD_MS;
     LL_FOREACH(objList, objEntry)
     {
         // If object is configured for periodic updates
@@ -901,7 +898,7 @@ static int32_t processPeriodicUpdates()
 
     // Done
     PIOS_Recursive_Mutex_Unlock(mutex);
-    return timeToNextUpdate;
+    return timeToNextUpdate - now;
 }
 
 /**
