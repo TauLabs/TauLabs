@@ -95,6 +95,11 @@ int32_t TelemetryStart(void)
 	// Process all registered objects and connect queue for updates
 	UAVObjIterate(&registerObject);
     
+	// Create periodic event that will be used to update the telemetry stats
+	UAVObjEvent ev;
+	memset(&ev, 0, sizeof(UAVObjEvent));
+	EventPeriodicQueueCreate(&ev, priorityQueue, STATS_UPDATE_PERIOD_MS);
+
 	// Listen to objects of interest
 	GCSTelemetryStatsConnectQueue(priorityQueue);
     
@@ -137,13 +142,6 @@ int32_t TelemetryInitialize(void)
 	// Initialise UAVTalk
 	uavTalkCon = UAVTalkInitialize(&transmitData);
     
-	// Create periodic event that will be used to update the telemetry stats
-	txErrors = 0;
-	txRetries = 0;
-	UAVObjEvent ev;
-	memset(&ev, 0, sizeof(UAVObjEvent));
-	EventPeriodicQueueCreate(&ev, priorityQueue, STATS_UPDATE_PERIOD_MS);
-
 	SessionManagingInitialize();
 	SessionManagingConnectCallback(session_managing_updated);
 
