@@ -1,10 +1,10 @@
 <xml>
     <object name="AltitudeHoldSettings" singleinstance="true" settings="true">
         <description>Settings for the @ref AltitudeHold module</description>
-        <field name="PositionKp" units="(m/s)/m" type="float" elements="1" defaultvalue="1.0"/>
-        <field name="VelocityKp" units="throttle/m" type="float" elements="1" defaultvalue="0.3"/>
-        <field name="VelocityKi" units="throttle/m/s" type="float" elements="1" defaultvalue="0.3"/>
-        <field name="AttitudeComp" units="%" type="uint16" elements="1" defaultvalue="100"/>
+        <field name="PositionKp" units="(m/s)/m" type="float" elements="1" defaultvalue="0.8"/>
+        <field name="VelocityKp" units="throttle/m" type="float" elements="1" defaultvalue="0.20"/>
+        <field name="VelocityKi" units="throttle/m/s" type="float" elements="1" defaultvalue="0.25"/>
+        <field name="AttitudeComp" units="%" type="uint16" elements="1" defaultvalue="120"/>
         <field name="MaxClimbRate" units="dm/s" type="uint8" elements="1" defaultvalue="40"/>
         <field name="MaxDescentRate" units="dm/s" type="uint8" elements="1" defaultvalue="15"/>
         <field name="Expo" units="" type="uint8" elements="1" defaultvalue="40"/>

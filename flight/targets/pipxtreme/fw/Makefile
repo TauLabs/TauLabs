@@ -153,7 +153,6 @@ SRC += $(PIOSCOMMON)/pios_usb_util.c
 SRC += $(PIOSCOMMON)/pios_delay.c
 SRC += $(PIOSCOMMON)/pios_crc.c
 SRC += $(PIOSCOMMON)/pios_com.c
-SRC += $(PIOSCOMMON)/pios_i2c_esc.c
 SRC += $(PIOSCOMMON)/pios_rcvr.c
 SRC += $(PIOSCOMMON)/pios_flash.c
 SRC += $(PIOSCOMMON)/pios_flashfs_logfs.c
@@ -171,7 +170,6 @@ SRC += $(PIOSCOMMON)/pios_hal.c
 ## Libraries for flight calculations
 SRC += $(FLIGHTLIB)/fifo_buffer.c
 SRC += $(FLIGHTLIB)/taskmonitor.c
-SRC += $(FLIGHTLIB)/aes.c
 ## The Reed-Solomon FEC library
 SRC += $(FLIGHTLIB)/rscode/rs.c
 SRC += $(FLIGHTLIB)/rscode/berlekamp.c

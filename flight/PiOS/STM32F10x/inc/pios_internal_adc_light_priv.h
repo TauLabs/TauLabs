@@ -1,18 +1,16 @@
 /**
  ******************************************************************************
- * @addtogroup TauLabsLibraries Tau Labs Libraries
+ * @addtogroup PIOS PIOS Core hardware abstraction layer
  * @{
- * @addtogroup StateEstimationFilters
+ * @addtogroup PIOS_INTERNAL_ADC Internal ADC Functions
  * @{
  *
- * @file       ccc.h
- * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
+ * @file       pios_internal_adc_light_priv.h
  * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
- * @brief      Include file for CCC implementation used by @ref StateModule
- *
+ * @brief      ADC private definitions.
  * @see        The GNU Public License (GPL) Version 3
  *
- ******************************************************************************/
+ *****************************************************************************/
 /*
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -29,12 +27,23 @@
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
 
-#ifndef CCC_H
-#define CCC_H
+#ifndef PIOS_INTERNAL_ADC_LIGHT_PRIV_H
+#define PIOS_INTERNAL_ADC_LIGHT_PRIV_H
 
-#include "openpilot.h"
-#include "state_struct.h"
+#include <pios.h>
+#include <pios_stm32.h>
+#include <pios_internal_adc.h>
+#include <pios_internal_adc_priv.h>
+#include <fifo_buffer.h>
 
-void CottonComplementaryCorrection(float *accels, float *gyros, const float delT, GlobalAttitudeVariables *glblAtt, float *omegaCorrP);
+extern int32_t PIOS_INTERNAL_ADC_LIGHT_Init(uint32_t *internal_adc_id,
+		const struct pios_internal_adc_cfg *cfg,
+		uint16_t number_of_used_pins);
 
-#endif /* CCC_H */
+#endif /* PIOS_INTERNAL_ADC_LIGHT_PRIV_H */
+
+/**
+ * @}
+ * @}
+ */
+

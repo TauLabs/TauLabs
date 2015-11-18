@@ -494,7 +494,20 @@ void PIOS_Board_Init(void) {
 #endif
 
 #if defined(PIOS_INCLUDE_ADC)
-#error "Not yet implemented"
+	{
+		uint16_t number_of_adc_pins = 2; // first two pins are always available
+		switch(hw_rcvrport) {
+		case HWNAZE_RCVRPORT_PPM:
+		case HWNAZE_RCVRPORT_PPMSERIAL:
+			number_of_adc_pins += 2; // rcvr port pins also available
+			break;
+		default:
+			break;
+		}
+		uint32_t internal_adc_id;
+		PIOS_INTERNAL_ADC_LIGHT_Init(&internal_adc_id, &internal_adc_cfg, number_of_adc_pins);
+		PIOS_ADC_Init(&pios_internal_adc_id, &pios_internal_adc_driver, internal_adc_id);
+	}
 #endif /* PIOS_INCLUDE_ADC */
 	PIOS_WDG_Clear();
 	PIOS_DELAY_WaitmS(200);

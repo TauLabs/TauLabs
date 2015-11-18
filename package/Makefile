@@ -44,6 +44,8 @@ CLEAN_GROUND := YES
 CLEAN_FLIGHT := YES
 endif
 
+USE_MSVC ?= NO
+
 # Set up targets
 ALL_BOARDS        := brain
 ALL_BOARDS_BU     := brain
@@ -77,8 +79,7 @@ help:
 	@echo "       This usually is safe."
 	@echo
 
-# Clean and build uavobjects since all parts depend on them
-uavobjects: all_clean
+uavobjects: 
 	$(V1) $(MAKE) -C $(ROOT_DIR) $@
 
 matlab: uavobjects
