@@ -158,13 +158,6 @@ void PIOS_Board_Init(void) {
 	/* Initialize the alarms library */
 	AlarmsInitialize();
 
-	AccelsInitialize();
-	BaroAltitudeInitialize();
-	MagnetometerInitialize();
-	GPSPositionInitialize();
-	GyrosInitialize();
-	GyrosBiasInitialize();
-
 	/* Initialize the sparky object, because developers use this for dev
 	 * test. */
 	HwSparkyInitialize();
