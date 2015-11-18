@@ -44,10 +44,8 @@ typedef struct {
 } EventStats;
 
 // Public functions
-int32_t EventDispatcherInitialize();
 void EventGetStats(EventStats* statsOut);
 void EventClearStats();
-int32_t EventCallbackDispatch(UAVObjEvent* ev, UAVObjEventCallback cb);
 int32_t EventPeriodicCallbackCreate(UAVObjEvent* ev, UAVObjEventCallback cb, uint16_t periodMs);
 int32_t EventPeriodicCallbackUpdate(UAVObjEvent* ev, UAVObjEventCallback cb, uint16_t periodMs);
 int32_t EventPeriodicQueueCreate(UAVObjEvent* ev, struct pios_queue *queue, uint16_t periodMs);
