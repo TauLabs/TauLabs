@@ -31,7 +31,7 @@
 #include <QFile>
 #include <QFileInfo>
 #include <QFileInfoList>
-#include "3rdparty/quazip/quazipfile.h"
+#include "quazipfile.h"
 
 class FileUtils
 {
