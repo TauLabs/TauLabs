@@ -108,7 +108,6 @@ static uint32_t idleCounter;
 static uint32_t idleCounterClear;
 static struct pios_thread *systemTaskHandle;
 static struct pios_queue *objectPersistenceQueue;
-static bool stackOverflow;
 
 // Private functions
 static void systemPeriodicCb(UAVObjEvent *ev, void *ctx, void *obj_data, int len);
@@ -631,13 +630,6 @@ static void updateSystemAlarms()
 		AlarmsClear(SYSTEMALARMS_ALARM_CPUOVERLOAD);
 	}
 
-	// Check for stack overflow
-	if (stackOverflow) {
-		AlarmsSet(SYSTEMALARMS_ALARM_STACKOVERFLOW, SYSTEMALARMS_ALARM_CRITICAL);
-	} else {
-		AlarmsClear(SYSTEMALARMS_ALARM_STACKOVERFLOW);
-	}
-
 	// Check for event errors
 	UAVObjGetStats(&objStats);
 	EventGetStats(&evStats);
@@ -673,22 +665,6 @@ void vApplicationIdleHook(void)
 		idleCounterClear = 0;
 	}
 }
-
-/**
- * Called by the RTOS when a stack overflow is detected.
- */
-#if defined(PIOS_INCLUDE_FREERTOS)
-#define DEBUG_STACK_OVERFLOW 0
-void vApplicationStackOverflowHook(uintptr_t pxTask, signed char * pcTaskName)
-{
-	stackOverflow = true;
-#if DEBUG_STACK_OVERFLOW
-	static volatile bool wait_here = true;
-	while(wait_here);
-	wait_here = true;
-#endif
-}
-#endif /* defined(PIOS_INCLUDE_FREERTOS) */
 
 /**
  * Get the statistics counters
