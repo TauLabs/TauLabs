@@ -44,6 +44,9 @@ struct adc_pin {
 	GPIO_TypeDef *port; 	/**< port of the pin ex:GPIOC */
 	uint32_t pin; 		/**< port pin number ex:GPIO_Pin_3 */
 	uint8_t adc_channel; 	/**< adc channel corresponding to the pin ex:ADC_Channel_9 */
+#if !defined(STM32F40_41xxx)
+	bool is_master_channel;	/**< true if this pin belongs to the master adc */
+#endif /* !STM32F40_41xxx */
 };
 
 /**
@@ -51,9 +54,13 @@ struct adc_pin {
  */
 struct pios_internal_adc_cfg {
 	ADC_TypeDef* adc_dev_master;	/**< ADC master ex:ADC1 */
+#if !defined(STM32F40_41xxx)
+	ADC_TypeDef* adc_dev_slave;	/**< ADC slave to use in ADC dual mode leave unset or NULL for single mode */
+#endif /* !STM32F40_41xxx */
 	struct stm32_dma dma;		/**< DMA configuration structure */
 	uint32_t half_flag;		/**< DMA half buffer flag ex:DMA1_IT_HT1 */
 	uint32_t full_flag;		/**< DMA buffer full flag ex:DMA1_IT_TC1 */
+	uint32_t oversampling;	/**< oversampling */
 	uint8_t adc_pin_count;	/**< Number of ADC pins to use */
 	struct adc_pin adc_pins[];	/**< Array of pins to use */
 };

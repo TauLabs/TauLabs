@@ -31,6 +31,8 @@
 #include <pios_internal_adc_priv.h>
 #include "pios_queue.h"
 
+#define PIOS_ADC_MAX_SAMPLES ((((PIOS_ADC_NUM_CHANNELS + PIOS_ADC_USE_ADC2) >> PIOS_ADC_USE_ADC2) << PIOS_ADC_USE_ADC2)* PIOS_ADC_MAX_OVERSAMPLING * 2)
+
 #if defined(PIOS_INCLUDE_FREERTOS)
 #include "FreeRTOS.h"
 #endif /* defined(PIOS_INCLUDE_FREERTOS) */
