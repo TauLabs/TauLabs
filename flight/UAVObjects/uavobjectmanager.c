@@ -153,8 +153,11 @@ struct UAVOMulti {
 
 /** all information about a metaobject are hardcoded constants **/
 #define MetaNumBytes sizeof(UAVObjMetadata)
+
+/* XXX TODO: All this reckless casting needs to die a horrific death! */
 #define MetaBaseObjectPtr(obj) ((struct UAVOData *)((obj)-offsetof(struct UAVOData, metaObj)))
-#define MetaObjectPtr(obj) ((struct UAVODataMeta*) &((obj)->metaObj))
+//#define MetaObjectPtr(obj) ((struct UAVOMeta*) &((obj)->metaObj))
+#define MetaObjectPtr(obj) (&((obj)->metaObj.base))
 #define MetaDataPtr(obj) ((UAVObjMetadata*)&((obj)->instance0))
 #define LinkedMetaDataPtr(obj) ((UAVObjMetadata*)&((obj)->metaObj.instance0))
 #define MetaObjectId(id) ((id)+1)
@@ -381,7 +384,7 @@ unlock_exit:
  */
 UAVObjHandle UAVObjGetByID(uint32_t id)
 {
-	UAVObjHandle * found_obj = (UAVObjHandle *) NULL;
+	UAVObjHandle found_obj = NULL;
 
 	// Get lock
 	PIOS_Recursive_Mutex_Lock(mutex, PIOS_MUTEX_TIMEOUT_MAX);
@@ -390,11 +393,11 @@ UAVObjHandle UAVObjGetByID(uint32_t id)
 	struct UAVOData * tmp_obj;
 	LL_FOREACH(uavo_list, tmp_obj) {
 		if (tmp_obj->id == id) {
-			found_obj = (UAVObjHandle *)tmp_obj;
+			found_obj = &tmp_obj->base;
 			goto unlock_exit;
 		}
 		if (MetaObjectId(tmp_obj->id) == id) {
-			found_obj = (UAVObjHandle *)&(tmp_obj->metaObj);
+			found_obj = &(tmp_obj->metaObj.base);
 			goto unlock_exit;
 		}
 	}
@@ -547,10 +550,7 @@ bool UAVObjIsSingleInstance(UAVObjHandle obj_handle)
 {
 	PIOS_Assert(obj_handle);
 
-	/* Recover the common object header */
-	struct UAVOBase * uavo_base = (struct UAVOBase *) obj_handle;
-
-	return uavo_base->flags.isSingle;
+	return obj_handle->flags.isSingle;
 }
 
 /**
@@ -875,9 +875,9 @@ int32_t UAVObjSaveSettings()
 	// Save all settings objects
 	LL_FOREACH(uavo_list, obj) {
 		// Check if this is a settings object
-		if (UAVObjIsSettings(obj)) {
+		if (UAVObjIsSettings(&obj->base)) {
 			// Save object
-			if (UAVObjSave((UAVObjHandle) obj, 0) ==
+			if (UAVObjSave(&obj->base, 0) ==
 				-1) {
 				goto unlock_exit;
 			}
@@ -907,7 +907,7 @@ int32_t UAVObjLoadSettings()
 	// Load all settings objects
 	LL_FOREACH(uavo_list, obj) {
 		// Check if this is a settings object
-		if (UAVObjIsSettings(obj)) {
+		if (UAVObjIsSettings(&obj->base)) {
 			// Load object
 			if (UAVObjLoad((UAVObjHandle) obj, 0) ==
 				-1) {
@@ -939,9 +939,9 @@ int32_t UAVObjDeleteSettings()
 	// Save all settings objects
 	LL_FOREACH(uavo_list, obj) {
 		// Check if this is a settings object
-		if (UAVObjIsSettings(obj)) {
+		if (UAVObjIsSettings(&obj->base)) {
 			// Save object
-			if (UAVObjDeleteById(UAVObjGetID(obj), 0)
+			if (UAVObjDeleteById(UAVObjGetID(&obj->base), 0)
 				== -1) {
 				goto unlock_exit;
 			}
@@ -971,7 +971,7 @@ int32_t UAVObjSaveMetaobjects()
 	// Save all settings objects
 	LL_FOREACH(uavo_list, obj) {
 		// Save object
-		if (UAVObjSave( (UAVObjHandle) MetaObjectPtr(obj), 0) ==
+		if (UAVObjSave(MetaObjectPtr(obj), 0) ==
 			-1) {
 			goto unlock_exit;
 		}
@@ -1668,29 +1668,13 @@ void UAVObjIterate(void (*iterator) (UAVObjHandle obj))
 	PIOS_Recursive_Mutex_Unlock(mutex);
 }
 
-/**
- * Send a triggered event to all event queues registered on the object.
- */
-static int32_t sendEvent(struct UAVOBase * obj, uint16_t instId,
-			UAVObjEventType triggered_event,
-			void *obj_data, int len)
-{
-	/* Ignore object being passed to us for now */
-	(void) obj_data;
-	(void) len;
-
-	/* Set up the message that will be sent to all registered listeners */
-	UAVObjEvent msg = {
-		.obj    = (UAVObjHandle) obj,
-		.event  = triggered_event,
-		.instId = instId,
-	};
-
+/* First argument is deliberately not a pointer to get a copy of msg */
+static int32_t pumpOneEvent(UAVObjEvent msg, void *obj_data, int len) {
 	// Go through each object and push the event message in the queue (if event is activated for the queue)
 	struct ObjectEventEntry *event;
-	LL_FOREACH(obj->next_event, event) {
+	LL_FOREACH(msg.obj->next_event, event) {
 		if (event->eventMask == 0
-			|| (event->eventMask & triggered_event) != 0) {
+			|| (event->eventMask & msg.event) != 0) {
 			if (event->hasThrottle) {
 				// This is a throttled event (triggered with a spacing of at least "interval" ms)
 				struct ObjectEventEntryThrottled *throtInfo =
@@ -1713,11 +1697,58 @@ static int32_t sendEvent(struct UAVOBase * obj, uint16_t instId,
 				// Send to queue if a valid queue is registered
 				// will not block
 				if (PIOS_Queue_Send(event->cbInfo.queue, &msg, 0) != true) {
-					stats.lastQueueErrorID = UAVObjGetID(obj);
+					stats.lastQueueErrorID = UAVObjGetID(msg.obj);
 					++stats.eventQueueErrors;
 				}
 			}
 
+		}
+	}
+
+	return 0;
+}
+
+/**
+ * Send a triggered event to all event queues registered on the object.
+ */
+static int32_t sendEvent(struct UAVOBase * obj, uint16_t instId,
+			UAVObjEventType triggered_event,
+			void *obj_data, int len)
+{
+	static uint8_t num_pending = 0;
+
+	static struct PendEvent {
+		UAVObjEvent msg;
+		void *obj_data;
+		int len;
+	} pending_events[3];
+
+	if (num_pending >= 3) {
+		/* XXX increment error counter. */
+		/* Unable to pump event; backlog too long */
+		return -1;
+	}
+
+	pending_events[num_pending].msg = (UAVObjEvent) {
+		.obj    = obj,
+		.event  = triggered_event,
+		.instId = instId
+	};
+
+	num_pending++;
+
+	/* Only enter the section of pumping events if we are the "first event" */
+	if (num_pending == 1) {
+
+		/* While there are events to pump.. */
+		while (num_pending) {
+			/* Deallocate the top one.. */
+			num_pending--;
+
+			/* And pump the event. */
+			pumpOneEvent(pending_events[num_pending].msg,
+				pending_events[num_pending].obj_data,
+				pending_events[num_pending].len);
 		}
 	}
 
@@ -1768,7 +1799,7 @@ static InstanceHandle createInstance(struct UAVOData * obj, uint16_t instId)
 
 	// Done
 	if (newUavObjInstanceCB) {
-		newUavObjInstanceCB(obj->id, UAVObjGetNumInstances(obj));
+		newUavObjInstanceCB(obj->id, UAVObjGetNumInstances(&obj->base));
 	}
 	return InstanceDataOffset(instEntry);
 }

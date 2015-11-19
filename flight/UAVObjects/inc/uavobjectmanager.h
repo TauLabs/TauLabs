@@ -47,7 +47,7 @@
 #define UAVOBJ_GCS_TELEMETRY_UPDATE_MODE_SHIFT 6
 #define UAVOBJ_UPDATE_MODE_MASK 0x3
 
-typedef void* UAVObjHandle;
+typedef struct UAVOBase * UAVObjHandle;
 
 /**
  * Object update mode, used by multiple modules (e.g. telemetry and logger)
