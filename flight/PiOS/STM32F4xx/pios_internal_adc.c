@@ -68,7 +68,7 @@ struct pios_internal_adc_dev {
 	volatile uint8_t adc_oversample;
 	uint8_t dma_block_size;
 	uint16_t dma_half_buffer_size;
-	uint32_t max_samples;
+	uint16_t max_samples;
 	enum pios_adc_dev_magic magic;
 };
 
