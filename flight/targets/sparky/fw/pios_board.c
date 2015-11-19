@@ -467,7 +467,7 @@ void PIOS_Board_Init(void)
 
 #if defined(PIOS_INCLUDE_ADC)
 	if (number_of_adc_ports > 0) {
-		internal_adc_cfg.number_of_used_pins = number_of_adc_ports;
+		internal_adc_cfg.adc_pin_count = number_of_adc_ports;
 		uint32_t internal_adc_id;
 		if (PIOS_INTERNAL_ADC_Init(&internal_adc_id, &internal_adc_cfg) < 0)
 			PIOS_Assert(0);

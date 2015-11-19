@@ -1420,12 +1420,12 @@ static struct pios_internal_adc_cfg internal_adc_cfg = {
 	.half_flag = DMA1_IT_HT1,
 	.full_flag = DMA1_IT_TC1,
 	.oversampling = 32,
-	.number_of_used_pins = 3,
-	.adc_pins = (struct adc_pin[]){
+	.adc_pins = {
 		{GPIOA,GPIO_Pin_1,ADC_Channel_2,true},
 		{GPIOA,GPIO_Pin_4,ADC_Channel_1,false},
 		{GPIOA,GPIO_Pin_7,ADC_Channel_4,false},
 	},
+	.adc_pin_count = 3,
 	.adc_dev_master = ADC1,
 	.adc_dev_slave = ADC2,
 };
