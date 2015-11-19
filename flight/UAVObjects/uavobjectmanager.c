@@ -195,6 +195,11 @@ static const UAVObjMetadata defMetadata = {
 
 static UAVObjStats stats;
 static new_uavo_instance_cb_t newUavObjInstanceCB;
+
+#define UAVO_CB_STACK_SIZE 512
+
+static void *cb_stack;
+
 /**
  * Initialize the object manager
  * \return 0 Success
@@ -204,6 +209,9 @@ int32_t UAVObjInitialize()
 {
 	// Initialize variables
 	uavo_list = NULL;
+
+	// Allocate the stack used for callbacks.
+	cb_stack = PIOS_malloc_no_dma(UAVO_CB_STACK_SIZE);
 
 	memset(&stats, 0, sizeof(UAVObjStats));
 
@@ -1668,6 +1676,34 @@ void UAVObjIterate(void (*iterator) (UAVObjHandle obj))
 	PIOS_Recursive_Mutex_Unlock(mutex);
 }
 
+/* type signature must match invokeCallback below, with 4 or fewer args */
+void realInvokeCallback(struct ObjectEventEntry *event,
+		UAVObjEvent *msg, void *obj_data, int len) {
+	event->cb(msg, event->cbInfo.cbCtx, obj_data, len);
+}
+
+#if (!defined(SIM_POSIX)) && defined(__arm__)
+void invokeCallback(struct ObjectEventEntry *event, UAVObjEvent *msg,
+		void *obj_data, int len) {
+	register void *cb_stack_local asm("r5") = cb_stack;
+
+	asm volatile (
+		"mov	r4, sp\n\t"		// r4 = old stack pointer
+		"mov	sp, %0\n\t"		// set up the new stack
+		"blx	realInvokeCallback\n\t"	// run realInvokeCallback--
+						// with same args
+		"mov	sp, r4\n\t"		// Put back the stack frame
+		: // no output
+		: "r" (cb_stack_local), "r" (event), "r" (msg), "r" (obj_data),
+			"r" (len)	// args mentioned as input so they don't
+					// move
+		: "memory"	// memory may be clobbered by callback
+	);
+}
+#else
+#define invokeCallback realInvokeCallback
+#endif
+
 /* First argument is deliberately not a pointer to get a copy of msg */
 static int32_t pumpOneEvent(UAVObjEvent msg, void *obj_data, int len) {
 	// Go through each object and push the event message in the queue (if event is activated for the queue)
@@ -1692,7 +1728,7 @@ static int32_t pumpOneEvent(UAVObjEvent msg, void *obj_data, int len) {
 			// Invoke callback (from event task) if a valid one is registered
 			if (event->cb) {
 				// invoke callback directly; callbacks must be well behaved
-				event->cb(&msg, event->cbInfo.cbCtx, obj_data, len);
+				invokeCallback(event, &msg, obj_data, len);
 			} else if (event->cbInfo.queue) {
 				// Send to queue if a valid queue is registered
 				// will not block
