@@ -303,9 +303,9 @@ static void systemPeriodicCb(UAVObjEvent *ev, void *ctx, void *obj_data, int len
 
 		/* Quadruple heartbeat blink rate when armed */
 		unsigned int mask = flightStatus.Armed == FLIGHTSTATUS_ARMED_ARMED ?
-			1 : 4;
+			1 : 7;
 
-		if (counter & mask) {
+		if (!(counter & mask)) {
 			PIOS_LED_Toggle(PIOS_LED_HEARTBEAT);
 			DEBUG_MSG("+ 0x%08x\r\n", 0xDEADBEEF);
 		}
