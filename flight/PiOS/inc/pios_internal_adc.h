@@ -31,8 +31,6 @@
 #ifndef PIOS_INTERNAL_ADC_H
 #define PIOS_INTERNAL_ADC_H
 
-// Maximum of 50 oversampled points
-#define PIOS_ADC_MAX_SAMPLES ((((PIOS_ADC_NUM_CHANNELS + PIOS_ADC_USE_ADC2) >> PIOS_ADC_USE_ADC2) << PIOS_ADC_USE_ADC2)* PIOS_ADC_MAX_OVERSAMPLING * 2)
 extern void PIOS_INTERNAL_ADC_DMA_Handler();
 typedef void (*ADCCallback) (float * data);
 
