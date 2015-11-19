@@ -1889,7 +1889,14 @@ struct pios_internal_adc_cfg pios_adc_cfg = {
 	.full_flag = DMA_IT_TCIF4,
 
 	.adc_dev_master = ADC1,
-	.adc_dev_slave  = NULL,
+	.adc_pins =  {                                                                                \
+		{ GPIOC, GPIO_Pin_0,     ADC_Channel_10 },                /* Internal Voltage Monitor */  \
+		{ GPIOC, GPIO_Pin_4,     ADC_Channel_14 },                /* External Voltage Monitor */  \
+		{ GPIOC, GPIO_Pin_5,     ADC_Channel_15 },                /* External Current Monitor */  \
+		{ NULL,  0,              ADC_Channel_Vrefint },           /* Voltage reference */         \
+		{ NULL,  0,              ADC_Channel_TempSensor },        /* Temperature sensor */        \
+	},
+	.adc_pin_count = 5,
 };
 
 void PIOS_ADC_DMA_irq_handler(void)
