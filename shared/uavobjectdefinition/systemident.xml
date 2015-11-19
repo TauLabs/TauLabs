@@ -6,6 +6,7 @@
 	<field name="Bias" units="" type="float" elementnames="Roll,Pitch,Yaw" defaultvalue="0"/>
 	<field name="Noise" units="(deg/s)^2" type="float" elementnames="Roll,Pitch,Yaw" defaultvalue="0"/>
 	<field name="Period" units="ms" type="float" elements="1" defaultvalue="0"/>
+	<field name="NumAfPredicts" units="" type="uint32" elements="1" defaultvalue="0"/>
         <access gcs="readonly" flight="readwrite"/>
         <telemetrygcs acked="false" updatemode="manual" period="0"/>
         <telemetryflight acked="false" updatemode="onchange" period="1000"/>
