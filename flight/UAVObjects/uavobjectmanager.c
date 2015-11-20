@@ -213,6 +213,9 @@ int32_t UAVObjInitialize()
 	// Allocate the stack used for callbacks.
 	cb_stack = PIOS_malloc_no_dma(UAVO_CB_STACK_SIZE);
 
+	// ARM stack grows down, so we should point to the "top valid" location
+	cb_stack += UAVO_CB_STACK_SIZE - 4;
+
 	memset(&stats, 0, sizeof(UAVObjStats));
 
 	// Create mutex
