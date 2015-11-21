@@ -1781,8 +1781,30 @@ static int32_t sendEvent(struct UAVOBase * obj, uint16_t instId,
 		int len;
 	} pending_events[3];
 
+	/* The logic to spool up callbacks here may be a little confusing.
+	 * basically, this relies on the fact that we are in a re-entrant
+	 * locked section.  If we get in here and the static variable
+	 * in_progress is set, we are entering from a task that itself is
+	 * performing a parent callback.
+	 *
+	 * In other words, while executing a callback it did a uav object
+	 * update that will trigger in turn more callbacks.
+	 *
+	 * To handle this, we have a small buffer to store the pending
+	 * callbacks.
+	 *
+	 * We also make the point of disallowing a callback from generating
+	 * the exact same callback.  This is relevant to things like
+	 * the session managing object in telemetry.  While it is possible
+	 * to do this safely (by "stopping" the quasi-recursion) it seems
+	 * better to disallow it.
+	 *
+	 * However, infinite loops are still possible; callback A can
+	 * trigger callback B which triggers callback A.  Don't do that.
+	 */
+
 	if (num_pending >= 3) {
-		/* XXX increment error counter. */
+		/* XXX: TODO: increment error counter. */
 		/* Unable to pump event; backlog too long */
 		return -1;
 	}
