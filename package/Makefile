@@ -35,13 +35,20 @@ ML_DIR	     := $(PACKAGE_DIR)/matlab-$(PACKAGE_LBL)
 BL_DIR       := $(FW_DIR)/bootloaders
 BU_DIR       := $(FW_DIR)/bootloader-updaters
 
-MACHINE_TYPE		:= $(shell uname -m)
+MACHINE_TYPE := $(shell uname -m)
 ifeq ($(MACHINE_TYPE), x86_64)
 PLATFORM_NAME:=amd64
 else
 PLATFORM_NAME:=i386
 endif
-
+PLATFORM := winx86
+UNAME := $(shell uname)
+ifeq ($(UNAME), Linux)
+  PLATFORM := linux
+endif
+ifeq ($(UNAME), Darwin)
+  PLATFORM := osx
+endif
 # Clean build options (recommended for package testing only)
 ifeq ($(CLEAN_BUILD), NO)
 CLEAN_GROUND := NO
@@ -181,14 +188,6 @@ MAKEFLAGS += --no-print-directory
 endif
 
 # Platform-dependent stuff
-PLATFORM := winx86
-UNAME := $(shell uname)
-ifeq ($(UNAME), Linux)
-  PLATFORM := linux
-endif
-ifeq ($(UNAME), Darwin)
-  PLATFORM := osx
-endif
 
 toprel = $(subst $(realpath $(ROOT_DIR))/,,$(abspath $(1)))
 TLFW_FILES := $(foreach fw_targ, $(FW_TARGETS), $(call toprel, $(BUILD_DIR)/$(fw_targ)/$(fw_targ).tlfw))
