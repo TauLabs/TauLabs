@@ -1804,8 +1804,10 @@ static int32_t sendEvent(struct UAVOBase * obj, uint16_t instId,
 	 */
 
 	if (num_pending >= 3) {
-		/* XXX: TODO: increment error counter. */
 		/* Unable to pump event; backlog too long */
+		stats.eventCallbackErrors++;
+		stats.lastCallbackErrorID = UAVObjGetID(obj);
+
 		return -1;
 	}
 
