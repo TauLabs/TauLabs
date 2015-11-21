@@ -605,7 +605,6 @@ static uint8_t updateFixedDesiredAttitude()
 		result = 0;
 	}
 
-
 	/**
 	 * Compute desired roll command
 	 */
@@ -681,19 +680,19 @@ static void SettingsUpdatedCb(UAVObjEvent * ev, void *ctx, void *obj, int len)
 static void airspeedActualUpdatedCb(UAVObjEvent * ev, void *ctx, void *obj,
 	int len)
 {
-	(void) ctx; (void) obj; (void) len;
+	(void) ctx;
 
-	// XXX todo use obj passed in
+	AirspeedActualData *airspeedActual = obj;
 
-	AirspeedActualData airspeedActual;
+	PIOS_Assert(len == sizeof(airspeedActual));
+
 	VelocityActualData velocityActual;
 
-	AirspeedActualGet(&airspeedActual);
 	VelocityActualGet(&velocityActual);
-	float groundspeed = sqrtf(velocityActual.East*velocityActual.East + velocityActual.North*velocityActual.North );
 
+	float groundspeed = sqrtf(velocityActual.East*velocityActual.East + velocityActual.North*velocityActual.North );
 	
-	indicatedAirspeedActualBias = airspeedActual.CalibratedAirspeed - groundspeed;
+	indicatedAirspeedActualBias = airspeedActual->CalibratedAirspeed - groundspeed;
 	// note - we do fly by Indicated Airspeed (== calibrated airspeed)
 	// however since airspeed is updated less often than groundspeed, we use sudden changes to groundspeed to offset the airspeed by the same measurement.
 }

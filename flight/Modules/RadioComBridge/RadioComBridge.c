@@ -753,7 +753,6 @@ static void objectPersistenceUpdatedCb(UAVObjEvent * objEv, void *ctx,
 {
 	(void) objEv; (void) ctx; (void) obj; (void) len;
 
-	/* XXX TODO use stuff directly */
 	// Get the ObjectPersistence object.
 	ObjectPersistenceData obj_per;
 

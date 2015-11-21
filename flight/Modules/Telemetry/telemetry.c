@@ -615,7 +615,6 @@ static uintptr_t getComPort() {
 static void session_managing_updated(UAVObjEvent * ev, void *ctx, void *obj, int len)
 {
 	(void) ctx; (void) obj; (void) len;
-	// XXX TODO move to use obj directly
 	if (ev->event == EV_UNPACKED) {
 		SessionManagingData sessionManaging;
 		SessionManagingGet(&sessionManaging);
