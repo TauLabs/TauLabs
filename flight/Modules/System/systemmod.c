@@ -403,7 +403,6 @@ static void objectUpdatedCb(UAVObjEvent * ev, void *ctx, void *obj_data, int len
 #endif
 		}
 
-		/* XXX TODO: prevent recursion */
 		switch(retval) {
 			case 0:
 				objper.Operation = OBJECTPERSISTENCE_OPERATION_COMPLETED;
