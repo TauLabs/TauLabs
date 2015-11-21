@@ -112,6 +112,7 @@
 				<option>Yaw Left</option>
 				<option>Yaw Right</option>
 				<option>Corners</option>
+				<!-- All switch options must occur at the end and below "switch" because of transmitterControl.c#L310 -->
 				<option>Switch</option>
 				<option>Switch+Delay</option>
 				<option>Switch+Throttle</option>
