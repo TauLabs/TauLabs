@@ -1703,24 +1703,23 @@ static void invokeCallback(struct ObjectEventEntry *event, UAVObjEvent *msg,
 	register int my_len asm("r3") = len;
 
 	asm volatile (
-		// Save everything out of an abundance of caution
-		"push	{ r0, r1, r2, r3, ip, lr }\n\t"
 		"mov	r4, sp\n\t"		// r4 = old stack pointer
 		"mov	sp, %0\n\t"		// set up the new stack
 		"bl	realInvokeCallback\n\t"	// run realInvokeCallback--
 						// with same args
 		"mov	sp, r4\n\t"		// Put back the stack frame
-		// And restore our registers
-		"pop	{ r0, r1, r2, r3, ip, lr }\n\t"
 
-		: // no output
-
-		: "r" (cb_stack),
-		"r" (my_event), "r" (my_msg), "r" (my_obj_data),
-		"r" (my_len)		// args mentioned as input
-					// so they don't move under us
-
-		: "memory", "r4"
+		:
+		"+r" (cb_stack),
+		"+r" (my_event), "+r" (my_msg), "+r" (my_obj_data),
+		"+r" (my_len)		// mentioned as input and output
+					// to guarantee that they don't
+					// move under us and that the regs
+					// are not used after this call
+					// which might clobber r0-r3
+		: // no pure read-only registers
+		: "memory",		// callback may clobber memory,
+		"r4", "ip", "lr"	// we clobber r4, ip, and lr
 	);
 }
 #else
