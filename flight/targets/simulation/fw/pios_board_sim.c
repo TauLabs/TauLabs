@@ -152,7 +152,6 @@ void PIOS_Board_Init(void) {
 	TaskMonitorInitialize();
 
 	/* Initialize UAVObject libraries */
-	EventDispatcherInitialize();
 	UAVObjInitialize();
 	UAVObjectsInitializeAll();
 

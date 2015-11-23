@@ -107,9 +107,6 @@
 #define PIOS_COMUSBBRIDGE_STACK_SIZE    480
 #define IDLE_COUNTS_PER_SEC_AT_NO_LOAD 1995998
 
-// This can't be too high to stop eventdispatcher thread overflowing
-#define PIOS_EVENTDISAPTCHER_QUEUE      10
-
 /* PIOS Initcall infrastructure */
 #define PIOS_INCLUDE_INITCALL
 

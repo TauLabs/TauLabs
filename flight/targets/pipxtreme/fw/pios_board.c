@@ -79,7 +79,6 @@ void PIOS_Board_Init(void) {
 	TaskMonitorInitialize();
 
 	/* Initialize UAVObject libraries */
-	EventDispatcherInitialize();
 	UAVObjInitialize();
 
 	/* Set up the SPI interface to the rfm22b */

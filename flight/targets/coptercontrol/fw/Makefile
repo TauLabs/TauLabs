@@ -161,7 +161,6 @@ SRC += pios_board.c
 SRC += $(FLIGHTLIB)/alarms.c
 SRC += $(OPUAVTALK)/uavtalk.c
 SRC += $(OPUAVOBJ)/uavobjectmanager.c
-SRC += $(OPUAVOBJ)/eventdispatcher.c
 else
 ## TESTCODE
 SRC += $(OPTESTS)/test_common.c

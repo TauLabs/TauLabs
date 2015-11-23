@@ -311,7 +311,6 @@ void PIOS_Board_Init(void) {
 #endif	/* PIOS_INCLUDE_FLASH */
 
 	/* Initialize UAVObject libraries */
-	EventDispatcherInitialize();
 	UAVObjInitialize();
 
 	/* Initialize the hardware UAVOs */
