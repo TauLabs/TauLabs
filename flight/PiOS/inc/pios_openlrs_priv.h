@@ -169,6 +169,7 @@ struct pios_openlrs_dev {
   uint32_t beacon_frequency;
   uint8_t beacon_delay;
   uint8_t beacon_period;
+  bool beacon_armed;
 
   enum RF_MODE rf_mode;
   uint32_t rf_channel;

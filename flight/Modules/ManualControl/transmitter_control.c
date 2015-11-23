@@ -107,6 +107,9 @@ static bool updateRcvrActivity(struct rcvr_activity_fsm * fsm);
 static void manual_control_settings_updated(UAVObjEvent * ev);
 static void set_loiter_command(ManualControlCommandData * cmd);
 
+// Exposed from manualcontrol to prevent attempts to arm when unsafe
+extern bool ok_to_arm();
+
 #define assumptions (assumptions1 && assumptions3 && assumptions5 && assumptions_flightmode && assumptions_channelcount)
 
 //! Initialize the transmitter control mode
@@ -249,6 +252,7 @@ int32_t transmitter_control_update()
 
 		if (settings.ChannelGroups[n] >= MANUALCONTROLSETTINGS_CHANNELGROUPS_NONE) {
 			cmd.Channel[n] = PIOS_RCVR_INVALID;
+			validChannel[n] = false;
 		} else {
 			cmd.Channel[n] = PIOS_RCVR_Read(pios_rcvr_group_map[settings.ChannelGroups[n]],
 							settings.ChannelNumber[n]);
@@ -306,8 +310,8 @@ int32_t transmitter_control_update()
 	    validChannel[MANUALCONTROLSETTINGS_CHANNELGROUPS_FLIGHTMODE];
 
 	// because arming is optional we must determine if it is needed before checking it is valid
-	bool arming_valid_input = settings.ChannelGroups[MANUALCONTROLSETTINGS_CHANNELGROUPS_ARMING] >= MANUALCONTROLSETTINGS_CHANNELGROUPS_NONE ||
-	    validChannel[MANUALCONTROLSETTINGS_CHANNELGROUPS_ARMING];
+	bool arming_valid_input = (settings.Arming < MANUALCONTROLSETTINGS_ARMING_SWITCH) ||
+		validChannel[MANUALCONTROLSETTINGS_CHANNELGROUPS_ARMING];
 
 	// decide if we have valid manual input or not
 	valid_input_detected &= validChannel[MANUALCONTROLSETTINGS_CHANNELGROUPS_THROTTLE] &&
@@ -511,6 +515,10 @@ static void set_armed_if_changed(uint8_t new_arm) {
  */
 static bool arming_position(ManualControlCommandData * cmd, ManualControlSettingsData * settings) {
 
+	// If system is not appropriate to arm, do not even attempt
+	if (!ok_to_arm())
+		return false;
+
 	bool lowThrottle = cmd->Throttle <= 0;
 
 	switch(settings->Arming) {
@@ -532,12 +540,12 @@ static bool arming_position(ManualControlCommandData * cmd, ManualControlSetting
 			(cmd->Roll > ARMED_THRESHOLD || cmd->Roll < -ARMED_THRESHOLD) ) &&
 			(cmd->Pitch > ARMED_THRESHOLD);
 			// Note that pulling pitch stick down corresponds to positive values
+	case MANUALCONTROLSETTINGS_ARMING_SWITCHTHROTTLE:
+	case MANUALCONTROLSETTINGS_ARMING_SWITCHTHROTTLEDELAY:
+		if (!lowThrottle) return false;
 	case MANUALCONTROLSETTINGS_ARMING_SWITCH:
 	case MANUALCONTROLSETTINGS_ARMING_SWITCHDELAY:
 		return cmd->ArmSwitch == MANUALCONTROLCOMMAND_ARMSWITCH_ARMED;
-	case MANUALCONTROLSETTINGS_ARMING_SWITCHTHROTTLE:
-	case MANUALCONTROLSETTINGS_ARMING_SWITCHTHROTTLEDELAY:
-		return lowThrottle && cmd->ArmSwitch == MANUALCONTROLCOMMAND_ARMSWITCH_ARMED;
 	default:
 		return false;
 	}

@@ -101,6 +101,9 @@ static const uint8_t OUT_FF[64] = {
 
 const uint8_t default_hop_list[] = {DEFAULT_HOPLIST};
 
+const uint32_t packet_advance_time_us = 1500;
+const uint32_t packet_timeout_us = 1000;
+
 const struct rfm22_modem_regs bind_params =
 { 9600, 0x05, 0x40, 0x0a, 0xa1, 0x20, 0x4e, 0xa5, 0x00, 0x20, 0x24, 0x4e, 0xa5, 0x2c, 0x23, 0x30 };
 
@@ -440,7 +443,7 @@ static void tx_packet(struct pios_openlrs_dev *openlrs_dev, uint8_t* pkt, uint8_
 #endif /* PIOS_WDG_RFM22B */
 
 	if (openlrs_dev->rf_mode == Transmit) {
-		DEBUG_PRINTF(2,"tx_packet timeout\r\n");
+		DEBUG_PRINTF(2,"OLRS ERR: tx_packet timeout\r\n");
 		init_rfm(openlrs_dev, false); // reset modem
 	}
 }
@@ -786,7 +789,7 @@ static void pios_openlrs_rx_loop(struct pios_openlrs_dev *openlrs_dev)
 #endif /* PIOS_WDG_RFM22B */
 
 	if (rfm22_read_claim(openlrs_dev, 0x0C) == 0) {     // detect the locked module and reboot
-		DEBUG_PRINTF(2,"RX hang\r\n");
+		DEBUG_PRINTF(2,"OLRS ERR: RX hang\r\n");
 		init_rfm(openlrs_dev, 0);
 		to_rx_mode(openlrs_dev);
 	}
@@ -794,9 +797,13 @@ static void pios_openlrs_rx_loop(struct pios_openlrs_dev *openlrs_dev)
 	timeUs = micros();
 	timeMs = millis();
 
+	DEBUG_PRINTF(2,"Time: %d\r\n", timeUs);
+
 	uint8_t *tx_buf = openlrs_dev->tx_buf;  // convenient variable
 
 	if (openlrs_dev->rf_mode == Received) {
+
+		DEBUG_PRINTF(2,"Packet Received. Dt=%d\r\n", timeUs-openlrs_dev->lastPacketTimeUs);
 
 		// Read the packet from RFM22b
 		rfm22_claimBus(openlrs_dev);
@@ -819,9 +826,9 @@ static void pios_openlrs_rx_loop(struct pios_openlrs_dev *openlrs_dev)
 		openlrs_status.LinkQuality <<= 1;
 		openlrs_status.LinkQuality |= 1;
 
-		// TODO: updateLBeep(false);
-
 		if ((openlrs_dev->rx_buf[0] & 0x3e) == 0x00) {
+			// This flag indicates receiving PPM data
+
 			unpackChannels(openlrs_dev->bind_data.flags & 7, openlrs_dev->ppm, openlrs_dev->rx_buf + 1);
 			rescaleChannels(openlrs_dev->ppm);
 
@@ -831,27 +838,9 @@ static void pios_openlrs_rx_loop(struct pios_openlrs_dev *openlrs_dev)
 				PIOS_OpenLRS_Rcvr_UpdateChannels(openlrs_dev->openlrs_rcvr_id, openlrs_dev->ppm);
 #endif
 			}
-
-			//set_PPM_rssi();
-
-			/* I think this is failsafe related
-			if (openlrs_dev->rx_buf[0] & 0x01) {
-				if (!fs_saved) {
-					for (int16_t i = 0; i < PPM_CHANNELS; i++) {
-						if (!(failsafePPM[i] & 0x1000)) {
-							failsafePPM[i] = servoBits2Us(PPM[i]);
-						}
-					}
-					failsafeSave();
-					fs_saved = 1;
-				}
-			} else if (fs_saved) {
-				fs_saved = 0;
-			}
-			*/
 		} 
-		else {
-			// something else than servo data...
+		else { 
+			// Not PPM data. Push into serial RX buffer.
 			if ((openlrs_dev->rx_buf[0] & 0x38) == 0x38) {
 				if ((openlrs_dev->rx_buf[0] ^ tx_buf[0]) & 0x80) {
 					// We got new data... (not retransmission)
@@ -868,7 +857,9 @@ static void pios_openlrs_rx_loop(struct pios_openlrs_dev *openlrs_dev)
 		// Flag to indicate ever got a link
 		openlrs_dev->link_acquired |= true;
 		openlrs_status.FailsafeActive = OPENLRSSTATUS_FAILSAFEACTIVE_INACTIVE;
+		openlrs_dev->beacon_armed = false; // when receiving packets make sure beacon cannot emit
 
+		// When telemetry is enabled we ack packets and send info about FC back
 		if (openlrs_dev->bind_data.flags & TELEMETRY_MASK) {
 			if ((tx_buf[0] ^ openlrs_dev->rx_buf[0]) & 0x40) {
 				// resend last message
@@ -911,29 +902,18 @@ static void pios_openlrs_rx_loop(struct pios_openlrs_dev *openlrs_dev)
 			tx_packet(openlrs_dev, tx_buf, 9);
 		}
 
-		// updateSwitches();
-
+		// Once a packet has been processed, flip back into receiving mode
 		openlrs_dev->rf_mode = Receive;
 		rx_reset(openlrs_dev);
 
 		openlrs_dev->willhop = 1;
 	}
 
-	// sample RSSI when packet is in the 'air'
-	if ((openlrs_dev->numberOfLostPackets < 2) && (openlrs_dev->lastRSSITimeUs != openlrs_dev->lastPacketTimeUs) &&
-			(timeUs - openlrs_dev->lastPacketTimeUs) > (getInterval(&openlrs_dev->bind_data) - 1500)) {
-
-		//DEBUG_PRINTF(3,"pios_openlrs_rx_loop -- measure RSSI\r\n");
-
-		openlrs_dev->lastRSSITimeUs = openlrs_dev->lastPacketTimeUs;
-		openlrs_status.LastRSSI = rfmGetRSSI(openlrs_dev); // Read the RSSI value
-
-		DEBUG_PRINTF(2,"RSSI: %d\r\n", openlrs_status.LastRSSI);
-	}
-
 	if (openlrs_dev->link_acquired) {
-		if ((openlrs_dev->numberOfLostPackets < openlrs_dev->hopcount) && ((timeUs - openlrs_dev->lastPacketTimeUs) > (getInterval(&openlrs_dev->bind_data) + 1000))) {
-			DEBUG_PRINTF(2,"Lost packet: %d\r\n", openlrs_dev->numberOfLostPackets);
+		// For missing packets to be properly trigger a well timed channel hop, this method should be called fairly close (but not sooner)
+		// than 1ms after the packet was expected to trigger this path
+		if ((openlrs_dev->numberOfLostPackets < openlrs_dev->hopcount) && (PIOS_DELAY_GetuSSince(openlrs_dev->lastPacketTimeUs) > (getInterval(&openlrs_dev->bind_data) + packet_timeout_us))) {
+			DEBUG_PRINTF(2,"OLRS WARN: Lost packet: %d\r\n", openlrs_dev->numberOfLostPackets);
 			// we lost packet, hop to next channel
 			openlrs_status.LinkQuality <<= 1;
 			openlrs_dev->willhop = 1;
@@ -944,13 +924,11 @@ static void pios_openlrs_rx_loop(struct pios_openlrs_dev *openlrs_dev)
 			openlrs_dev->numberOfLostPackets++;
 			openlrs_dev->lastPacketTimeUs += getInterval(&openlrs_dev->bind_data);
 			openlrs_dev->willhop = 1;
-			//updateLBeep(true);
-			// TODO: set_RSSI_output();
-		} else if ((openlrs_dev->numberOfLostPackets >= openlrs_dev->hopcount) && ((timeUs - openlrs_dev->lastPacketTimeUs) > (getInterval(&openlrs_dev->bind_data) * openlrs_dev->hopcount))) {
+		} else if ((openlrs_dev->numberOfLostPackets >= openlrs_dev->hopcount) && (PIOS_DELAY_GetuSSince(openlrs_dev->lastPacketTimeUs) > (getInterval(&openlrs_dev->bind_data) * openlrs_dev->hopcount))) {
+			DEBUG_PRINTF(2,"ORLS WARN: Trying to resync\r\n");
 			// hop slowly to allow resync with TX
 			openlrs_status.LinkQuality = 0;
 			openlrs_dev->willhop = 1;
-			// TODO: set_RSSI_output();
 			openlrs_dev->lastPacketTimeUs = timeUs;
 		}
 
@@ -973,6 +951,9 @@ static void pios_openlrs_rx_loop(struct pios_openlrs_dev *openlrs_dev)
 			if ((openlrs_dev->beacon_frequency) && (openlrs_dev->nextBeaconTimeMs) &&
 					((timeMs - openlrs_dev->nextBeaconTimeMs) < 0x80000000)) {
 
+				// Indicate that the beacon is now active so we can trigger extra ones below
+				openlrs_dev->beacon_armed = true;
+
 				DEBUG_PRINTF(2,"Beacon time: %d\r\n", openlrs_dev->nextBeaconTimeMs);
 				// Only beacon when disarmed
 				uint8_t armed;
@@ -988,8 +969,8 @@ static void pios_openlrs_rx_loop(struct pios_openlrs_dev *openlrs_dev)
 
 	} else {
 		// Waiting for first packet, hop slowly
-		if ((timeUs - openlrs_dev->lastPacketTimeUs) > (getInterval(&openlrs_dev->bind_data) * openlrs_dev->hopcount)) {
-			//DEBUG_PRINTF(3,"pios_openlrs_rx_loop - slow hop\r\n");
+		if (PIOS_DELAY_GetuSSince(openlrs_dev->lastPacketTimeUs) > (getInterval(&openlrs_dev->bind_data) * openlrs_dev->hopcount)) {
+			DEBUG_PRINTF(3,"Trying to get first packet\r\n");
 			openlrs_dev->lastPacketTimeUs = timeUs;
 			openlrs_dev->willhop = 1;
 		}
@@ -1002,7 +983,7 @@ static void pios_openlrs_rx_loop(struct pios_openlrs_dev *openlrs_dev)
 			openlrs_dev->rf_channel = 0;
 		}
 
-		if ((openlrs_dev->beacon_frequency) && (openlrs_dev->nextBeaconTimeMs)) {
+		if ((openlrs_dev->beacon_frequency) && (openlrs_dev->nextBeaconTimeMs) && openlrs_dev->beacon_armed) {
 			// Listen for RSSI on beacon channel briefly for 'trigger'
 			uint8_t brssi = beaconGetRSSI(openlrs_dev);
 			if (brssi > ((openlrs_dev->beacon_rssi_avg>>2) + 20)) {
@@ -1187,20 +1168,75 @@ static void pios_openlrs_task(void *parameters)
 
 	DEBUG_PRINTF(2, "Setup complete\r\n");
 
+	bool rssi_sampled = false;
 	while(1) {
 #if defined(PIOS_INCLUDE_WDG) && defined(PIOS_WDG_RFM22B)
 		// Update the watchdog timer
 		PIOS_WDG_UpdateFlag(PIOS_WDG_RFM22B);
 #endif /* PIOS_WDG_RFM22B */
 
-		uint32_t time_till_measure_rssi_us  = (getInterval(&openlrs_dev->bind_data) - 1500) + openlrs_dev->lastPacketTimeUs - micros();
-		uint32_t delay = time_till_measure_rssi_us / 1000;
-		uint32_t max_delay = getInterval(&openlrs_dev->bind_data) / 2000;
-		if (delay > max_delay) delay = max_delay;
-		PIOS_Semaphore_Take(openlrs_dev->sema_isr, delay);
 
-		// Process incoming radio data.
-		pios_openlrs_rx_loop(openlrs_dev);
+		/* This block of code determines the timing of when to call the loop method. It reaches a bit into
+		 * the internal state of that method to get the optimal timings. This is to keep the loop method as
+		 * similar as possible to the openLRSng implementation (for easier maintenance of compatibility)
+		 * while minimizing overhead spinning in a while loop.
+		 *
+		 * There are three reasons to go into loop:
+		 *  1. the ISR was triggered (packet was received)
+		 *  2. a little before the expected packet (to sample the RSSI while receiving packet)
+		 *  3. a little after expected packet (to channel hop when a packet was missing)
+		 */
+
+
+		uint32_t delay_ms = 0;
+
+		uint32_t time_since_packet_us = PIOS_DELAY_GetuSSince(openlrs_dev->lastPacketTimeUs);
+
+		if (!rssi_sampled) {
+			// If we had not sampled RSSI yet, schedule a bit early to try and catch while "packet is in the air"
+			uint32_t time_till_measure_rssi_us  = (getInterval(&openlrs_dev->bind_data) - packet_advance_time_us) - time_since_packet_us;
+			delay_ms = (time_till_measure_rssi_us + 999) / 1000;
+			DEBUG_PRINTF(3, "T1: %d\r\n", delay_ms);
+		} else {
+			// If we have sampled RSSI we want to schedule to hop when a packet has been missed
+			uint32_t time_till_timeout_us  = (getInterval(&openlrs_dev->bind_data) + packet_timeout_us) - time_since_packet_us;
+			delay_ms = (time_till_timeout_us + 999) / 1000;
+			DEBUG_PRINTF(3, "T2: %d %d\r\n", time_till_timeout_us,delay_ms, time_since_packet_us);
+		}
+
+		// Maximum delay based on packet time
+		const uint32_t max_delay = (getInterval(&openlrs_dev->bind_data) + packet_timeout_us) / 1000;
+		if (delay_ms > max_delay) delay_ms = max_delay;
+
+		if (PIOS_Semaphore_Take(openlrs_dev->sema_isr, delay_ms) == false) {
+			if (!rssi_sampled) {
+				// We timed out to sample RSSI
+				if (openlrs_dev->numberOfLostPackets < 2) {
+					
+					openlrs_dev->lastRSSITimeUs = openlrs_dev->lastPacketTimeUs;
+					openlrs_status.LastRSSI = rfmGetRSSI(openlrs_dev); // Read the RSSI value
+
+					DEBUG_PRINTF(3, "Sampled RSSI: %d %d\r\n", openlrs_status.LastRSSI, delay);
+				}
+			} else {
+				// We timed out because packet was missed
+				DEBUG_PRINTF(3, "ISR Timeout. Missed packet: %d %d %d\r\n", delay, getInterval(&openlrs_dev->bind_data), time_since_packet_us);
+				pios_openlrs_rx_loop(openlrs_dev);
+			}
+
+			rssi_sampled = true;
+		} else {
+			DEBUG_PRINTF(3, "ISR %d %d %d\r\n", delay, getInterval(&openlrs_dev->bind_data), time_since_packet_us);
+
+			// Process incoming data
+			pios_openlrs_rx_loop(openlrs_dev);
+
+			// When a packet has been received (processed below) indicate we need to sample a new RSSI
+			rssi_sampled = false;
+		}
+
+
+		DEBUG_PRINTF(3, "Processing time %d\r\n", PIOS_DELAY_GetuSSince(openlrs_dev->lastPacketTimeUs));
 	}
 }
 
