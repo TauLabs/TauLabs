@@ -120,12 +120,12 @@ static int32_t eventPeriodicUpdate(UAVObjEvent* ev, UAVObjEventCallback cb, stru
 static void configurationUpdatedCb(UAVObjEvent * ev, void *ctx, void *obj, int len);
 #endif
 
-static void updateStats();
-static void updateSystemAlarms();
 static void systemTask(void *parameters);
-static void updateRfm22bStats();
+static inline void updateStats();
+static inline void updateSystemAlarms();
+static inline void updateRfm22bStats();
 #if defined(WDG_STATS_DIAGNOSTICS)
-static void updateWDGstats();
+static inline void updateWDGstats();
 #endif
 
 /**
@@ -243,7 +243,7 @@ static void systemTask(void *parameters)
 /**
  * Indicate there are conditions worth an error LED
  */
-static bool indicateError()
+static inline bool indicateError()
 {
 	SystemAlarmsData alarms;
 	SystemAlarmsGet(&alarms);
@@ -276,11 +276,12 @@ static void systemPeriodicCb(UAVObjEvent *ev, void *ctx, void *obj_data, int len
 
 	counter++;
 
-	// Update the system statistics
-	updateStats();
-
 	// Update the modem status, if present
 	updateRfm22bStats();
+
+#ifndef PIPXTREME
+	// Update the system statistics
+	updateStats();
 
 	// Update the system alarms
 	updateSystemAlarms();
@@ -293,6 +294,7 @@ static void systemPeriodicCb(UAVObjEvent *ev, void *ctx, void *obj_data, int len
 	// Update the task status object
 	TaskMonitorUpdateAll();
 #endif
+
 
 #if defined(PIOS_LED_HEARTBEAT)
 		// Flash the heartbeat LED
@@ -319,6 +321,8 @@ static void systemPeriodicCb(UAVObjEvent *ev, void *ctx, void *obj_data, int len
 #endif	/* PIOS_LED_ALARM */
 
 #endif	/* PIOS_LED_HEARTBEAT */
+
+#endif /* PIPXTREME */
 }
 
 
@@ -329,6 +333,8 @@ static void objectUpdatedCb(UAVObjEvent * ev, void *ctx, void *obj_data, int len
 {
 	(void) ctx; (void) obj_data; (void) len;
 
+/* Handled in RadioComBridge on pipxtreme. */
+#ifndef PIPXTREME
 	ObjectPersistenceData objper;
 	UAVObjHandle obj;
 
@@ -416,6 +422,7 @@ static void objectUpdatedCb(UAVObjEvent * ev, void *ctx, void *obj_data, int len
 				break;
 		}
 	}
+#endif
 }
 
 #ifndef NO_SENSORS
