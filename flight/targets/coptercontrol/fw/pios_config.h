@@ -131,11 +131,6 @@
 
 #define PIOS_COM_LIGHTTELEMETRY_TX_BUF_LEN 19
 
-
-
-// This can't be too high to stop eventdispatcher thread overflowing
-#define PIOS_EVENTDISAPTCHER_QUEUE      10
-
 /* PIOS Initcall infrastructure */
 #define PIOS_INCLUDE_INITCALL
 

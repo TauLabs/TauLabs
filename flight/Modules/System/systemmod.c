@@ -44,7 +44,9 @@
 #include "watchdogstatus.h"
 #include "taskmonitor.h"
 #include "pios_thread.h"
+#include "pios_mutex.h"
 #include "pios_queue.h"
+#include "misc_math.h"
 
 //#define DEBUG_THIS_FILE
 
@@ -53,10 +55,6 @@
 #else
 #define DEBUG_MSG(format, ...)
 #endif
-
-// Private constants
-#define SYSTEM_UPDATE_PERIOD_MS 1000
-#define LED_BLINK_RATE_HZ 5
 
 #ifndef IDLE_COUNTS_PER_SEC_AT_NO_LOAD
 #define IDLE_COUNTS_PER_SEC_AT_NO_LOAD 995998	// calibrated by running tests/test_cpuload.c
@@ -67,14 +65,45 @@
 #if defined(PIOS_SYSTEM_STACK_SIZE)
 #define STACK_SIZE_BYTES PIOS_SYSTEM_STACK_SIZE
 #else
-#define STACK_SIZE_BYTES 924
+#define STACK_SIZE_BYTES 1024
 #endif
 
-#define TASK_PRIORITY PIOS_THREAD_PRIO_LOW
+#define TASK_PRIORITY PIOS_THREAD_PRIO_NORMAL
+
+/* Generates an armed LED blink of 4.4Hz, close to the previous 5, and is
+ * a nice prime number to not generate as nasty beat frequencies as other
+ * choices */
+#define SYSTEM_UPDATE_PERIOD_MS 113
+
+// Private types
+
+/**
+ * Event callback information
+ */
+typedef struct {
+	UAVObjEvent ev; /** The actual event */
+	UAVObjEventCallback cb; /** The callback function, or zero if none */
+	struct pios_queue *queue; /** The queue or zero if none */
+} EventCallbackInfo;
+
+/**
+ * List of object properties that are needed for the periodic updates.
+ */
+struct PeriodicObjectListStruct {
+	EventCallbackInfo evInfo; /** Event callback information */
+    uint16_t updatePeriodMs; /** Update period in ms or 0 if no periodic updates are needed */
+    int32_t timeToNextUpdateMs; /** Time delay to the next update */
+    struct PeriodicObjectListStruct* next; /** Needed by linked list library (utlist.h) */
+};
+typedef struct PeriodicObjectListStruct PeriodicObjectList;
 
 // Private types
 
 // Private variables
+static PeriodicObjectList* objList;
+static struct pios_recursive_mutex *mutex;
+static EventStats stats;
+
 static uint32_t idleCounter;
 static uint32_t idleCounterClear;
 static struct pios_thread *systemTaskHandle;
@@ -82,13 +111,16 @@ static struct pios_queue *objectPersistenceQueue;
 static bool stackOverflow;
 
 // Private functions
+static void systemPeriodicCb(UAVObjEvent *ev, void *ctx, void *obj_data, int len);
 static void objectUpdatedCb(UAVObjEvent * ev, void *ctx, void *obj, int len);
+static int32_t processPeriodicUpdates();
+static int32_t eventPeriodicCreate(UAVObjEvent* ev, UAVObjEventCallback cb, struct pios_queue *queue, uint16_t periodMs);
+static int32_t eventPeriodicUpdate(UAVObjEvent* ev, UAVObjEventCallback cb, struct pios_queue *queue, uint16_t periodMs);
 
 #ifndef NO_SENSORS
 static void configurationUpdatedCb(UAVObjEvent * ev, void *ctx, void *obj, int len);
 #endif
 
-static bool indicateError();
 static void updateStats();
 static void updateSystemAlarms();
 static void systemTask(void *parameters);
@@ -96,6 +128,7 @@ static void updateRfm22bStats();
 #if defined(WDG_STATS_DIAGNOSTICS)
 static void updateWDGstats();
 #endif
+
 /**
  * Create the module task.
  * \returns 0 on success or -1 if initialization failed
@@ -104,6 +137,18 @@ int32_t SystemModStart(void)
 {
 	// Initialize vars
 	stackOverflow = false;
+	objList = NULL;
+	memset(&stats, 0, sizeof(EventStats));
+
+	// Create mutex
+	mutex = PIOS_Recursive_Mutex_Create();
+	if (mutex == NULL)
+		return -1;
+
+	EventClearStats();
+
+	EventPeriodicCallbackCreate(NULL, systemPeriodicCb, SYSTEM_UPDATE_PERIOD_MS);
+
 	// Create system task
 	systemTaskHandle = PIOS_Thread_Create(systemTask, "System", STACK_SIZE_BYTES, NULL, TASK_PRIORITY);
 	// Register task
@@ -141,9 +186,6 @@ int32_t SystemModInitialize(void)
 }
 
 MODULE_INITCALL(SystemModInitialize, 0)
-/**
- * System task, periodically executes every SYSTEM_UPDATE_PERIOD_MS
- */
 static void systemTask(void *parameters)
 {
 	/* create all modules thread */
@@ -190,47 +232,9 @@ static void systemTask(void *parameters)
 
 	// Main system loop
 	while (1) {
-		// Update the system statistics
-		updateStats();
-
-		// Update the modem status, if present
-		updateRfm22bStats();
-
-		// Update the system alarms
-		updateSystemAlarms();
-#if defined(WDG_STATS_DIAGNOSTICS)
-		updateWDGstats();
-#endif
-
-#if defined(DIAG_TASKS)
-		// Update the task status object
-		TaskMonitorUpdateAll();
-#endif
-
-		// Flash the heartbeat LED
-#if defined(PIOS_LED_HEARTBEAT)
-		PIOS_LED_Toggle(PIOS_LED_HEARTBEAT);
-		DEBUG_MSG("+ 0x%08x\r\n", 0xDEADBEEF);
-#endif	/* PIOS_LED_HEARTBEAT */
-
-		// Turn on the error LED if an alarm is set
-		if (indicateError()) {
-#if defined (PIOS_LED_ALARM)
-			PIOS_LED_On(PIOS_LED_ALARM);
-#endif	/* PIOS_LED_ALARM */
-		} else {
-#if defined (PIOS_LED_ALARM)
-			PIOS_LED_Off(PIOS_LED_ALARM);
-#endif	/* PIOS_LED_ALARM */
-		}
-
-		FlightStatusData flightStatus;
-		FlightStatusGet(&flightStatus);
+		int32_t delayTime = processPeriodicUpdates();
 
 		UAVObjEvent ev;
-		int delayTime = flightStatus.Armed == FLIGHTSTATUS_ARMED_ARMED ?
-			SYSTEM_UPDATE_PERIOD_MS / (LED_BLINK_RATE_HZ * 2) :
-			SYSTEM_UPDATE_PERIOD_MS;
 
 		if (PIOS_Queue_Receive(objectPersistenceQueue, &ev, delayTime) == true) {
 			// If object persistence is updated call the callback
@@ -238,6 +242,89 @@ static void systemTask(void *parameters)
 		}
 	}
 }
+
+#if defined (PIOS_LED_ALARM)
+/**
+ * Indicate there are conditions worth an error LED
+ */
+static bool indicateError()
+{
+	SystemAlarmsData alarms;
+	SystemAlarmsGet(&alarms);
+
+	for (uint32_t i = 0; i < SYSTEMALARMS_ALARM_NUMELEM; i++) {
+		switch(i) {
+		case SYSTEMALARMS_ALARM_TELEMETRY:
+			// Suppress most alarms from telemetry. The user can identify if present
+			// from GCS.
+			if (alarms.Alarm[i] >= SYSTEMALARMS_ALARM_CRITICAL) {
+				return true;
+			}
+			break;
+		default:
+			// Warning deserves an error by default
+			if (alarms.Alarm[i] >= SYSTEMALARMS_ALARM_WARNING) {
+				return true;
+			}
+		}
+	}
+
+	return false;
+}
+#endif
+
+static void systemPeriodicCb(UAVObjEvent *ev, void *ctx, void *obj_data, int len) {
+	(void) ev; (void) ctx; (void) obj_data; (void) len;
+
+	static unsigned int counter=0;
+
+	counter++;
+
+	// Update the system statistics
+	updateStats();
+
+	// Update the modem status, if present
+	updateRfm22bStats();
+
+	// Update the system alarms
+	updateSystemAlarms();
+
+#if defined(WDG_STATS_DIAGNOSTICS)
+	updateWDGstats();
+#endif
+
+#if defined(DIAG_TASKS)
+	// Update the task status object
+	TaskMonitorUpdateAll();
+#endif
+
+#if defined(PIOS_LED_HEARTBEAT)
+		// Flash the heartbeat LED
+
+		FlightStatusData flightStatus;
+		FlightStatusGet(&flightStatus);
+
+		/* Quadruple heartbeat blink rate when armed */
+		unsigned int mask = flightStatus.Armed == FLIGHTSTATUS_ARMED_ARMED ?
+			1 : 4;
+
+		if (counter & mask) {
+			PIOS_LED_Toggle(PIOS_LED_HEARTBEAT);
+			DEBUG_MSG("+ 0x%08x\r\n", 0xDEADBEEF);
+		}
+
+#if defined (PIOS_LED_ALARM)
+		// Turn on the error LED if an alarm is set
+		if (indicateError()) {
+			PIOS_LED_On(PIOS_LED_ALARM);
+		} else {
+			PIOS_LED_Off(PIOS_LED_ALARM);
+		}
+#endif	/* PIOS_LED_ALARM */
+
+#endif	/* PIOS_LED_HEARTBEAT */
+}
+
 
 /**
  * Function called in response to object updates
@@ -365,12 +452,18 @@ static void updateWDGstats()
 }
 #endif
 
+#ifdef PIPXTREME
+#define RFM22BSTATUSINST 0
+#else
+#define RFM22BSTATUSINST 1
+#endif
+
 static void updateRfm22bStats() {
 	#if defined(PIOS_INCLUDE_RFM22B)
 
         // Update the RFM22BStatus UAVO
         RFM22BStatusData rfm22bStatus;
-        RFM22BStatusInstGet(1,&rfm22bStatus);
+        RFM22BStatusInstGet(RFM22BSTATUSINST, &rfm22bStatus);
 
         if (pios_rfm22b_id) {
             // Get the stats from the radio device
@@ -409,7 +502,7 @@ static void updateRfm22bStats() {
         } else {
             rfm22bStatus.LinkState = RFM22BSTATUS_LINKSTATE_DISABLED;
         }
-        RFM22BStatusInstSet(1,&rfm22bStatus);
+        RFM22BStatusInstSet(RFM22BSTATUSINST, &rfm22bStatus);
 
 #endif /* if defined(PIOS_INCLUDE_RFM22B) */
 }
@@ -507,6 +600,7 @@ static void updateStats()
  */
 static void updateSystemAlarms()
 {
+#ifndef PIPXTREME
 	SystemStatsData stats;
 	UAVObjStats objStats;
 	EventStats evStats;
@@ -566,31 +660,7 @@ static void updateSystemAlarms()
 		sysStats.ObjectManagerQueueID = objStats.lastQueueErrorID;
 		SystemStatsSet(&sysStats);
 	}
-		
-}
-
-/**
- * Indicate there are conditions worth an error LED
- */
-bool indicateError()
-{
-	SystemAlarmsData alarms;
-	SystemAlarmsGet(&alarms);
-	bool error = false;
-	for (uint32_t i = 0; i < SYSTEMALARMS_ALARM_NUMELEM; i++) {
-		switch(i) {
-		case SYSTEMALARMS_ALARM_TELEMETRY:
-			// Suppress most alarms from telemetry. The user can identify if present
-			// from GCS.
-			error |= (alarms.Alarm[i] >= SYSTEMALARMS_ALARM_CRITICAL);
-			break;
-		default:
-			// Warning deserves an error by default
-			error |= (alarms.Alarm[i] >= SYSTEMALARMS_ALARM_WARNING);
-		}
-	}
-
-	return error;
+#endif
 }
 
 /**
@@ -622,6 +692,218 @@ void vApplicationStackOverflowHook(uintptr_t pxTask, signed char * pcTaskName)
 #endif
 }
 #endif /* defined(PIOS_INCLUDE_FREERTOS) */
+
+/**
+ * Get the statistics counters
+ * @param[out] statsOut The statistics counters will be copied there
+ */
+void EventGetStats(EventStats* statsOut)
+{
+	PIOS_Recursive_Mutex_Lock(mutex, PIOS_MUTEX_TIMEOUT_MAX);
+	memcpy(statsOut, &stats, sizeof(EventStats));
+	PIOS_Recursive_Mutex_Unlock(mutex);
+}
+
+/**
+ * Clear the statistics counters
+ */
+void EventClearStats()
+{
+	PIOS_Recursive_Mutex_Lock(mutex, PIOS_MUTEX_TIMEOUT_MAX);
+	memset(&stats, 0, sizeof(EventStats));
+	PIOS_Recursive_Mutex_Unlock(mutex);
+}
+
+/**
+ * Dispatch an event at periodic intervals.
+ * \param[in] ev The event to be dispatched
+ * \param[in] cb The callback to be invoked
+ * \param[in] periodMs The period the event is generated
+ * \return Success (0), failure (-1)
+ */
+/* XXX TODO: would be nice to get context record logic in these */
+int32_t EventPeriodicCallbackCreate(UAVObjEvent* ev, UAVObjEventCallback cb, uint16_t periodMs)
+{
+	return eventPeriodicCreate(ev, cb, 0, periodMs);
+}
+
+/**
+ * Update the period of a periodic event.
+ * \param[in] ev The event to be dispatched
+ * \param[in] cb The callback to be invoked
+ * \param[in] periodMs The period the event is generated
+ * \return Success (0), failure (-1)
+ */
+int32_t EventPeriodicCallbackUpdate(UAVObjEvent* ev, UAVObjEventCallback cb, uint16_t periodMs)
+{
+	return eventPeriodicUpdate(ev, cb, 0, periodMs);
+}
+
+/**
+ * Dispatch an event at periodic intervals.
+ * \param[in] ev The event to be dispatched
+ * \param[in] queue The queue that the event will be pushed in
+ * \param[in] periodMs The period the event is generated
+ * \return Success (0), failure (-1)
+ */
+int32_t EventPeriodicQueueCreate(UAVObjEvent* ev, struct pios_queue *queue, uint16_t periodMs)
+{
+	return eventPeriodicCreate(ev, 0, queue, periodMs);
+}
+
+/**
+ * Update the period of a periodic event.
+ * \param[in] ev The event to be dispatched
+ * \param[in] queue The queue
+ * \param[in] periodMs The period the event is generated
+ * \return Success (0), failure (-1)
+ */
+int32_t EventPeriodicQueueUpdate(UAVObjEvent* ev, struct pios_queue *queue, uint16_t periodMs)
+{
+	return eventPeriodicUpdate(ev, 0, queue, periodMs);
+}
+
+/**
+ * Dispatch an event through a callback at periodic intervals.
+ * \param[in] ev The event to be dispatched
+ * \param[in] cb The callback to be invoked or zero if none
+ * \param[in] queue The queue or zero if none
+ * \param[in] periodMs The period the event is generated
+ * \return Success (0), failure (-1)
+ */
+static int32_t eventPeriodicCreate(UAVObjEvent* ev, UAVObjEventCallback cb, struct pios_queue *queue, uint16_t periodMs)
+{
+	PeriodicObjectList* objEntry;
+	// Get lock
+	PIOS_Recursive_Mutex_Lock(mutex, PIOS_MUTEX_TIMEOUT_MAX);
+	// Check that the object is not already connected
+	LL_FOREACH(objList, objEntry)
+	{
+		if (objEntry->evInfo.cb == cb &&
+			objEntry->evInfo.queue == queue &&
+			objEntry->evInfo.ev.obj == ev->obj &&
+			objEntry->evInfo.ev.instId == ev->instId &&
+			objEntry->evInfo.ev.event == ev->event)
+		{
+			// Already registered, do nothing
+			PIOS_Recursive_Mutex_Unlock(mutex);
+			return -1;
+		}
+	}
+    // Create handle
+	objEntry = (PeriodicObjectList*)PIOS_malloc_no_dma(sizeof(PeriodicObjectList));
+	if (objEntry == NULL) return -1;
+	objEntry->evInfo.ev.obj = ev->obj;
+	objEntry->evInfo.ev.instId = ev->instId;
+	objEntry->evInfo.ev.event = ev->event;
+	objEntry->evInfo.cb = cb;
+	objEntry->evInfo.queue = queue;
+    objEntry->updatePeriodMs = periodMs;
+    objEntry->timeToNextUpdateMs = randomize_int(periodMs); // avoid bunching of updates
+    // Add to list
+    LL_APPEND(objList, objEntry);
+	// Release lock
+	PIOS_Recursive_Mutex_Unlock(mutex);
+    return 0;
+}
+
+/**
+ * Update the period of a periodic event.
+ * \param[in] ev The event to be dispatched
+ * \param[in] cb The callback to be invoked or zero if none
+ * \param[in] queue The queue or zero if none
+ * \param[in] periodMs The period the event is generated
+ * \return Success (0), failure (-1)
+ */
+static int32_t eventPeriodicUpdate(UAVObjEvent* ev, UAVObjEventCallback cb, struct pios_queue *queue, uint16_t periodMs)
+{
+	PeriodicObjectList* objEntry;
+	// Get lock
+	PIOS_Recursive_Mutex_Lock(mutex, PIOS_MUTEX_TIMEOUT_MAX);
+	// Find object
+	LL_FOREACH(objList, objEntry)
+	{
+		if (objEntry->evInfo.cb == cb &&
+			objEntry->evInfo.queue == queue &&
+			objEntry->evInfo.ev.obj == ev->obj &&
+			objEntry->evInfo.ev.instId == ev->instId &&
+			objEntry->evInfo.ev.event == ev->event)
+		{
+			// Object found, update period
+			objEntry->updatePeriodMs = periodMs;
+			objEntry->timeToNextUpdateMs = randomize_int(periodMs); // avoid bunching of updates
+			// Release lock
+			PIOS_Recursive_Mutex_Unlock(mutex);
+			return 0;
+		}
+	}
+    // If this point is reached the object was not found
+	PIOS_Recursive_Mutex_Unlock(mutex);
+    return -1;
+}
+
+/* It can take this long before a "first callback" on a registration,
+ * so it's advantageous for it to not be too long.  (e.g. we don't have a
+ * mechanism to wakeup on list change */
+#define MAX_UPDATE_PERIOD_MS 350
+
+/**
+ * Handle periodic updates for all objects.
+ * \return The system time until the next update (in ms) or -1 if failed
+ */
+static int32_t processPeriodicUpdates()
+{
+	PeriodicObjectList* objEntry;
+	int32_t timeNow;
+    int32_t timeToNextUpdate;
+    int32_t offset;
+
+	// Get lock
+	PIOS_Recursive_Mutex_Lock(mutex, PIOS_MUTEX_TIMEOUT_MAX);
+
+    // Iterate through each object and update its timer, if zero then transmit object.
+    // Also calculate smallest delay to next update.
+    timeToNextUpdate = PIOS_Thread_Systime() + MAX_UPDATE_PERIOD_MS;
+    LL_FOREACH(objList, objEntry)
+    {
+        // If object is configured for periodic updates
+        if (objEntry->updatePeriodMs > 0)
+        {
+            // Check if time for the next update
+        	timeNow = PIOS_Thread_Systime();
+            if (objEntry->timeToNextUpdateMs <= timeNow)
+            {
+                // Reset timer
+            	offset = ( timeNow - objEntry->timeToNextUpdateMs ) % objEntry->updatePeriodMs;
+            	objEntry->timeToNextUpdateMs = timeNow + objEntry->updatePeriodMs - offset;
+    			// Invoke callback, if one
+    			if ( objEntry->evInfo.cb != 0)
+    			{
+				objEntry->evInfo.cb(&objEntry->evInfo.ev, NULL, NULL, 0); // the function is expected to copy the event information
+    			}
+    			// Push event to queue, if one
+    			if ( objEntry->evInfo.queue != 0)
+    			{
+    				if (PIOS_Queue_Send(objEntry->evInfo.queue, &objEntry->evInfo.ev, 0) != true ) // do not block if queue is full
+    				{
+						if (objEntry->evInfo.ev.obj != NULL)
+							stats.lastErrorID = UAVObjGetID(objEntry->evInfo.ev.obj);
+    					++stats.eventErrors;
+    				}
+    			}
+            }
+            // Update minimum delay
+            if (objEntry->timeToNextUpdateMs < timeToNextUpdate)
+            {
+            	timeToNextUpdate = objEntry->timeToNextUpdateMs;
+            }
+        }
+    }
+
+    // Done
+    PIOS_Recursive_Mutex_Unlock(mutex);
+    return timeToNextUpdate;
+}
 
 /**
   * @}
