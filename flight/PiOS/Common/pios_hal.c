@@ -577,9 +577,10 @@ void PIOS_HAL_ConfigureCDC(HwSharedUSB_VCPPortOptions port_type,
 {
 	uintptr_t pios_usb_cdc_id;
 
-	// TODO: Should we actually do this if disabled???
-	if (PIOS_USB_CDC_Init(&pios_usb_cdc_id, cdc_cfg, usb_id)) {
-		PIOS_Assert(0);
+	if (port_type != HWSHARED_USB_VCPPORT_DISABLED) {
+		if (PIOS_USB_CDC_Init(&pios_usb_cdc_id, cdc_cfg, usb_id)) {
+			PIOS_Assert(0);
+		}
 	}
 
 	switch (port_type) {
@@ -674,18 +675,9 @@ void PIOS_HAL_ConfigureHID(HwSharedUSB_HIDPortOptions port_type,
 		}
 	}
 	break;
-	case HWSHARED_USB_HIDPORT_RCTRANSMITTER:
-#if defined(PIOS_INCLUDE_USB_RCTX)
-		{
-			if (PIOS_USB_RCTX_Init(&pios_usb_rctx_id, &pios_usb_rctx_cfg, pios_usb_id)) {
-				PIOS_Assert(0);
-			}
-		}
-#endif  /* PIOS_INCLUDE_USB_RCTX */
-		break;
-
 	}
 }
+
 #endif  /* PIOS_INCLUDE_USB_HID */
 
 #if defined(PIOS_INCLUDE_RFM22B)
