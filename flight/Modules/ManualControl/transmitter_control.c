@@ -107,6 +107,9 @@ static bool updateRcvrActivity(struct rcvr_activity_fsm * fsm);
 static void manual_control_settings_updated(UAVObjEvent * ev);
 static void set_loiter_command(ManualControlCommandData * cmd);
 
+// Exposed from manualcontrol to prevent attempts to arm when unsafe
+extern bool ok_to_arm();
+
 #define assumptions (assumptions1 && assumptions3 && assumptions5 && assumptions_flightmode && assumptions_channelcount)
 
 //! Initialize the transmitter control mode
@@ -510,6 +513,10 @@ static void set_armed_if_changed(uint8_t new_arm) {
  * Check sticks to determine if they are in the arming position
  */
 static bool arming_position(ManualControlCommandData * cmd, ManualControlSettingsData * settings) {
+
+	// If system is not appropriate to arm, do not even attempt
+	if (!ok_to_arm())
+		return false;
 
 	bool lowThrottle = cmd->Throttle <= 0;
 

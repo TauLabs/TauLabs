@@ -67,13 +67,15 @@ static uint32_t lastSysTime;
 
 // Private functions
 static void manualControlTask(void *parameters);
-static bool ok_to_arm(void);
 static FlightStatusControlSourceOptions control_source_select();
 
 // Private functions for control events
 static int32_t control_event_arm();
 static int32_t control_event_arming();
 static int32_t control_event_disarm();
+
+// This is exposed to transmitter_control
+bool ok_to_arm(void);
 
 /**
  * Module starting
@@ -270,7 +272,7 @@ static FlightStatusControlSourceOptions control_source_select()
  * @brief Determine if the aircraft is safe to arm based on alarms
  * @returns True if safe to arm, false otherwise
  */
-static bool ok_to_arm(void)
+bool ok_to_arm(void)
 {
 	// read alarms
 	SystemAlarmsData alarms;
