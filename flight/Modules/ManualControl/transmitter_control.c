@@ -111,14 +111,11 @@ static void set_loiter_command(ManualControlCommandData * cmd);
 extern bool ok_to_arm();
 
 #define assumptions (assumptions1 && assumptions3 && assumptions5 && assumptions_flightmode && assumptions_channelcount)
+DONT_BUILD_IF(!assumptions, TransmitterControlAssumptions);
 
 //! Initialize the transmitter control mode
 int32_t transmitter_control_initialize()
 {
-	/* Check the assumptions about uavobject enum's are correct */
-	if(!assumptions)
-		return -1;
-
 	AccessoryDesiredInitialize();
 	ManualControlCommandInitialize();
 	FlightStatusInitialize();
