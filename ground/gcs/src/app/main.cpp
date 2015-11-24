@@ -263,8 +263,15 @@ int main(int argc, char **argv)
         // fix Mac OS X 10.9 (mavericks) font issue
         // https://bugreports.qt-project.org/browse/QTBUG-32789
         QFont::insertSubstitution(".Lucida Grande UI", "Lucida Grande");
+
+        QSettings tmpSettings;
+
+        bool value = true;
+
+        tmpSettings.setValue(QString("NSAppSleepDisabled"), value);
     }
 #endif
+
 #ifdef Q_OS_LINUX
     QApplication::setAttribute(Qt::AA_X11InitThreads, true);
     // This should have faster performance on linux
