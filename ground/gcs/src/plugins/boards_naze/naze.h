@@ -45,6 +45,10 @@ public:
     virtual QPixmap getBoardPicture();
     virtual QString getHwUAVO();
     virtual int queryMaxGyroRate();
+    virtual bool isInputConfigurationSupported();
+    virtual bool setInputOnPort(enum InputType type, int port_num);
+    virtual enum Core::IBoardType::InputType getInputOnPort(int port_num);
+    virtual bool isUSBSupported() { return false; }
 };
 
 
