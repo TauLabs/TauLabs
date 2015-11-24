@@ -91,12 +91,11 @@ ifndef TESTAPP
 ## MODULES
 SRC += ${foreach MOD, ${MODULES} ${OPTMODULES}, ${wildcard ${OPMODULEDIR}/${MOD}/*.c}}
 ## OPENPILOT CORE:
-SRC += ${OPMODULEDIR}/PipXtreme/pipxtrememod.c
+SRC += ${OPMODULEDIR}/System/systemmod.c
 SRC += main.c
 SRC += pios_board.c
 SRC += $(OPUAVTALK)/uavtalk.c
 SRC += $(OPUAVOBJ)/uavobjectmanager.c
-SRC += $(OPUAVOBJ)/eventdispatcher.c
 else
 ## TESTCODE
 SRC += $(OPTESTS)/test_common.c

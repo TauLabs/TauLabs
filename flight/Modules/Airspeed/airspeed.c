@@ -93,6 +93,7 @@
 static struct pios_thread *taskHandle;
 static bool module_enabled = false;
 volatile bool gpsNew = false;
+volatile bool settingsUpdated = false;
 static uint8_t airspeedSensorType;
 static uint16_t gpsSamplePeriod_ms;
 
@@ -104,11 +105,6 @@ static int8_t airspeedADCPin=-1;
 // Private functions
 static void airspeedTask(void *parameters);
 void baro_airspeedGet(BaroAirspeedData *baroAirspeedData, uint32_t *lastSysTime, uint8_t airspeedSensorType, int8_t airspeedADCPin);
-static void AirspeedSettingsUpdatedCb(UAVObjEvent * ev);
-
-#ifdef GPS_AIRSPEED_PRESENT
-static void GPSVelocityUpdatedCb(UAVObjEvent * ev);
-#endif
 
 
 /**
@@ -130,6 +126,27 @@ int32_t AirspeedStart()
 	taskHandle = PIOS_Thread_Create(airspeedTask, "Airspeed", STACK_SIZE_BYTES, NULL, TASK_PRIORITY);
 	TaskMonitorAdd(TASKINFO_RUNNING_AIRSPEED, taskHandle);
 	return 0;
+}
+
+static void doSettingsUpdate()
+{
+	AirspeedSettingsData settings;
+
+	AirspeedSettingsGet(&settings);
+
+	airspeedSensorType=settings.AirspeedSensorType;
+	gpsSamplePeriod_ms=settings.GPSSamplePeriod_ms;
+	
+#if defined(PIOS_INCLUDE_MPXV7002)
+	if (airspeedSensorType==AIRSPEEDSETTINGS_AIRSPEEDSENSORTYPE_DIYDRONESMPXV7002){
+		PIOS_MPXV7002_UpdateCalibration(settings.ZeroPoint); //This makes sense for the user if the initial calibration was not good and the user does not wish to reboot.
+	}
+#endif
+#if defined(PIOS_INCLUDE_MPXV5004)
+	if (airspeedSensorType==AIRSPEEDSETTINGS_AIRSPEEDSENSORTYPE_DIYDRONESMPXV5004){
+		PIOS_MPXV5004_UpdateCalibration(settings.ZeroPoint); 
+	}
+#endif
 }
 
 /**
@@ -164,8 +181,6 @@ int32_t AirspeedInitialize()
 		airspeedADCPin = -1;
 #endif
 
-	AirspeedSettingsConnectCallback(AirspeedSettingsUpdatedCb);	
-	
 	return 0;
 }
 MODULE_INITCALL(AirspeedInitialize, AirspeedStart);
@@ -176,8 +191,6 @@ MODULE_INITCALL(AirspeedInitialize, AirspeedStart);
  */
 static void airspeedTask(void *parameters)
 {
-	AirspeedSettingsUpdatedCb(AirspeedSettingsHandle());
-	
 	BaroAirspeedData airspeedData;
 	AirspeedActualData airspeedActualData;
 
@@ -192,14 +205,22 @@ static void airspeedTask(void *parameters)
 	
 	//GPS airspeed calculation variables
 #ifdef GPS_AIRSPEED_PRESENT
-	GPSVelocityConnectCallback(GPSVelocityUpdatedCb);		
+	GPSVelocityConnectCallbackCtx(UAVObjCbSetFlag, &gpsNew);
 	gps_airspeedInitialize();
 #endif
+
+	AirspeedSettingsConnectCallbackCtx(UAVObjCbSetFlag, &settingsUpdated);
 	
 	// Main task loop
 	uint32_t lastSysTime = PIOS_Thread_Systime();
 	while (1)
 	{
+		if (settingsUpdated) {
+			settingsUpdated = false;
+
+			doSettingsUpdate();
+		}
+
 		// Update the airspeed object
 		BaroAirspeedGet(&airspeedData);
 
@@ -329,14 +350,6 @@ static void airspeedTask(void *parameters)
 	}
 }
 
-	
-#ifdef GPS_AIRSPEED_PRESENT
-static void GPSVelocityUpdatedCb(UAVObjEvent * ev)
-{
-	gpsNew=true;
-}
-#endif
-
 #ifdef BARO_AIRSPEED_PRESENT
 void baro_airspeedGet(BaroAirspeedData *baroAirspeedData, uint32_t *lastSysTime, uint8_t airspeedSensorType, int8_t airspeedADCPin_dummy)
 {
@@ -359,26 +372,6 @@ void baro_airspeedGet(BaroAirspeedData *baroAirspeedData, uint32_t *lastSysTime,
 }
 #endif
 
-static void AirspeedSettingsUpdatedCb(UAVObjEvent * ev)
-{
-	AirspeedSettingsData airspeedSettingsData;
-	AirspeedSettingsGet(&airspeedSettingsData);
-	
-	airspeedSensorType=airspeedSettingsData.AirspeedSensorType;
-	gpsSamplePeriod_ms=airspeedSettingsData.GPSSamplePeriod_ms;
-	
-#if defined(PIOS_INCLUDE_MPXV7002)
-	if (airspeedSensorType==AIRSPEEDSETTINGS_AIRSPEEDSENSORTYPE_DIYDRONESMPXV7002){
-		PIOS_MPXV7002_UpdateCalibration(airspeedSettingsData.ZeroPoint); //This makes sense for the user if the initial calibration was not good and the user does not wish to reboot.
-	}
-#endif
-#if defined(PIOS_INCLUDE_MPXV5004)
-	if (airspeedSensorType==AIRSPEEDSETTINGS_AIRSPEEDSENSORTYPE_DIYDRONESMPXV5004){
-		PIOS_MPXV5004_UpdateCalibration(airspeedSettingsData.ZeroPoint); //This makes sense for the user if the initial calibration was not good and the user does not wish to reboot.
-	}
-#endif
-}
-	
 	
 /**
  * @}

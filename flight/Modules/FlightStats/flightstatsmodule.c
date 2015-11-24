@@ -51,14 +51,13 @@
 // Private variables
 static bool module_enabled;
 static struct pios_thread *flightStatsTaskHandle;
-static FlightStatsSettingsData settings;
+static volatile FlightStatsSettingsData settings;
 static PositionActualData lastPositionActual;
 static float initial_consumed_energy;
 static float previous_consumed_energy;
 
 // Private functions
 static void flightStatsTask(void *parameters);
-static void settingsUpdatedCb(UAVObjEvent * ev);
 static bool isArmed();
 static void resetStats(FlightStatsData *stats);
 static void collectStats(FlightStatsData *stats);
@@ -92,9 +91,8 @@ int32_t FlightStatsModuleInitialize(void)
 	FlightStatsInitialize();
 	FlightStatsSettingsInitialize();
 
-	// Get settings and connect callback
-	FlightStatsSettingsGet(&settings);
-	FlightStatsSettingsConnectCallback(settingsUpdatedCb);
+	// Get settings and connect
+	FlightStatsSettingsConnectCopy(&settings);
 
 	return 0;
 }
@@ -187,14 +185,6 @@ static void flightStatsTask(void *parameters)
 				break;
 		}
 	}
-}
-
-/**
- * Update the settings
- */
-static void settingsUpdatedCb(UAVObjEvent * ev)
-{
-	FlightStatsSettingsGet(&settings);
 }
 
 /**

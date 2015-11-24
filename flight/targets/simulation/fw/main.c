@@ -102,6 +102,9 @@ int main()
 #endif /* defined(PIOS_INCLUDE_CHIBIOS) */
 	return 0;
 }
+
+MODULE_INITSYSTEM_DECLS;
+
 /**
  * Initialization task.
  *

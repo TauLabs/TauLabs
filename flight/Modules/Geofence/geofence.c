@@ -48,8 +48,8 @@
 // Private variables
 
 // Private functions
-static void settingsUpdated(UAVObjEvent* ev);
-static void checkPosition(UAVObjEvent* ev);
+static void settingsUpdated(UAVObjEvent* ev, void *ctx, void *obj, int len);
+static void checkPosition(UAVObjEvent* ev, void *ctx, void *obj, int len);
 
 // Private variables
 static bool module_enabled;
@@ -87,7 +87,7 @@ int32_t GeofenceInitialize(void)
 		}
 
 		GeoFenceSettingsConnectCallback(settingsUpdated);
-		settingsUpdated(NULL);
+		settingsUpdated(NULL, NULL, NULL, 0);
 
 		// Schedule periodic task to check position
 		UAVObjEvent ev = {
@@ -115,8 +115,9 @@ MODULE_INITCALL(GeofenceInitialize, GeofenceStart);
  * Periodic callback that processes changes in position and
  * sets the alarm.
  */
-static void checkPosition(UAVObjEvent* ev)
+static void checkPosition(UAVObjEvent* ev, void *ctx, void *obj, int len)
 {
+	(void) ev; (void) ctx; (void) obj; (void) len;
 	if (PositionActualHandle()) {
 		PositionActualData positionActual;
 		PositionActualGet(&positionActual);
@@ -137,8 +138,9 @@ static void checkPosition(UAVObjEvent* ev)
 /**
  * Update the settings
  */
-static void settingsUpdated(UAVObjEvent* ev)
+static void settingsUpdated(UAVObjEvent* ev, void *ctx, void *obj, int len)
 {
+	(void) ev; (void) ctx; (void) obj; (void) len;
 	GeoFenceSettingsGet(geofenceSettings);
 
 	// Cache squared distances to save computations

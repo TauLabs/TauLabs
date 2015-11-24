@@ -53,7 +53,11 @@ extern uintptr_t pios_uavo_settings_fs_id;
 typedef void* InstanceHandle; 
 
 struct ObjectEventEntry {
-	struct pios_queue         *queue;
+	union {
+		struct pios_queue         *queue;
+		void                      *cbCtx;
+	} cbInfo;
+
 	UAVObjEventCallback       cb;
 	uint8_t                   hasThrottle : 1;
 	uint8_t                   eventMask : 7;
@@ -149,8 +153,11 @@ struct UAVOMulti {
 
 /** all information about a metaobject are hardcoded constants **/
 #define MetaNumBytes sizeof(UAVObjMetadata)
+
+/* XXX TODO: All this reckless casting needs to die a horrific death! */
 #define MetaBaseObjectPtr(obj) ((struct UAVOData *)((obj)-offsetof(struct UAVOData, metaObj)))
-#define MetaObjectPtr(obj) ((struct UAVODataMeta*) &((obj)->metaObj))
+//#define MetaObjectPtr(obj) ((struct UAVOMeta*) &((obj)->metaObj))
+#define MetaObjectPtr(obj) (&((obj)->metaObj.base))
 #define MetaDataPtr(obj) ((UAVObjMetadata*)&((obj)->instance0))
 #define LinkedMetaDataPtr(obj) ((UAVObjMetadata*)&((obj)->metaObj.instance0))
 #define MetaObjectId(id) ((id)+1)
@@ -162,14 +169,14 @@ struct UAVOMulti {
 
 // Private functions
 static int32_t sendEvent(struct UAVOBase * obj, uint16_t instId,
-			UAVObjEventType event);
+			UAVObjEventType event, void *obj_data, int len);
 static InstanceHandle createInstance(struct UAVOData * obj, uint16_t instId);
 static InstanceHandle getInstance(struct UAVOData * obj, uint16_t instId);
 static int32_t connectObj(UAVObjHandle obj_handle, struct pios_queue *queue,
-			UAVObjEventCallback cb, uint8_t eventMask,
+			UAVObjEventCallback cb, void *cbCtx, uint8_t eventMask,
 			uint16_t interval);
 static int32_t disconnectObj(UAVObjHandle obj_handle, struct pios_queue *queue,
-			UAVObjEventCallback cb);
+			UAVObjEventCallback cb, void *cbCtx);
 
 // Private variables
 static struct UAVOData * uavo_list;
@@ -188,6 +195,11 @@ static const UAVObjMetadata defMetadata = {
 
 static UAVObjStats stats;
 static new_uavo_instance_cb_t newUavObjInstanceCB;
+
+#define UAVO_CB_STACK_SIZE 512
+
+static void *cb_stack;
+
 /**
  * Initialize the object manager
  * \return 0 Success
@@ -197,6 +209,14 @@ int32_t UAVObjInitialize()
 {
 	// Initialize variables
 	uavo_list = NULL;
+
+	// Allocate the stack used for callbacks.
+	cb_stack = PIOS_malloc_no_dma(UAVO_CB_STACK_SIZE);
+
+	PIOS_Assert(cb_stack);
+
+	// ARM stack grows down, so we should point to the "top valid" location
+	cb_stack += UAVO_CB_STACK_SIZE - 4;
 
 	memset(&stats, 0, sizeof(UAVObjStats));
 
@@ -377,7 +397,7 @@ unlock_exit:
  */
 UAVObjHandle UAVObjGetByID(uint32_t id)
 {
-	UAVObjHandle * found_obj = (UAVObjHandle *) NULL;
+	UAVObjHandle found_obj = NULL;
 
 	// Get lock
 	PIOS_Recursive_Mutex_Lock(mutex, PIOS_MUTEX_TIMEOUT_MAX);
@@ -386,11 +406,11 @@ UAVObjHandle UAVObjGetByID(uint32_t id)
 	struct UAVOData * tmp_obj;
 	LL_FOREACH(uavo_list, tmp_obj) {
 		if (tmp_obj->id == id) {
-			found_obj = (UAVObjHandle *)tmp_obj;
+			found_obj = &tmp_obj->base;
 			goto unlock_exit;
 		}
 		if (MetaObjectId(tmp_obj->id) == id) {
-			found_obj = (UAVObjHandle *)&(tmp_obj->metaObj);
+			found_obj = &(tmp_obj->metaObj.base);
 			goto unlock_exit;
 		}
 	}
@@ -543,10 +563,7 @@ bool UAVObjIsSingleInstance(UAVObjHandle obj_handle)
 {
 	PIOS_Assert(obj_handle);
 
-	/* Recover the common object header */
-	struct UAVOBase * uavo_base = (struct UAVOBase *) obj_handle;
-
-	return uavo_base->flags.isSingle;
+	return obj_handle->flags.isSingle;
 }
 
 /**
@@ -596,10 +613,16 @@ int32_t UAVObjUnpack(UAVObjHandle obj_handle, uint16_t instId,
 
 	int32_t rc = -1;
 
+	void *target;
+	int len;
+
 	if (UAVObjIsMetaobject(obj_handle)) {
 		if (instId != 0) {
 			goto unlock_exit;
 		}
+
+		target = MetaDataPtr((struct UAVOMeta *)obj_handle);
+		len = MetaNumBytes;
 		memcpy(MetaDataPtr((struct UAVOMeta *)obj_handle), dataIn, MetaNumBytes);
 	} else {
 		struct UAVOData *obj;
@@ -619,11 +642,17 @@ int32_t UAVObjUnpack(UAVObjHandle obj_handle, uint16_t instId,
 			}
 		}
 		// Set the data
-		memcpy(InstanceData(instEntry), dataIn, obj->instance_size);
+
+		target = InstanceData(instEntry);
+		len = obj->instance_size;
 	}
 
+	memcpy(target, dataIn, len);
+
 	// Fire event
-	sendEvent((struct UAVOBase*)obj_handle, instId, EV_UNPACKED);
+	sendEvent((struct UAVOBase*)obj_handle, instId, EV_UNPACKED,
+		target, len);
+
 	rc = 0;
 
 unlock_exit:
@@ -783,33 +812,15 @@ int32_t UAVObjLoad(UAVObjHandle obj_handle, uint16_t instId)
 {
 	PIOS_Assert(obj_handle);
 
+	void *target;
+	int len;
+
 	if (UAVObjIsMetaobject(obj_handle)) {
 		if (instId != 0)
 			return -1;
 
-		// Load the object from the filesystem
-		int32_t rc;
-#if defined(PIOS_INCLUDE_FASTHEAP)
-		rc = PIOS_FLASHFS_ObjLoad(pios_uavo_settings_fs_id,
-					UAVObjGetID(obj_handle),
-					instId,
-					uavobj_load_trampoline,
-					UAVObjGetNumBytes(obj_handle));
-#else  /* PIOS_INCLUDE_FASTHEAP */
-		rc = PIOS_FLASHFS_ObjLoad(pios_uavo_settings_fs_id,
-					UAVObjGetID(obj_handle),
-					instId,
-					(uint8_t*)MetaDataPtr((struct UAVOMeta *)obj_handle),
-					UAVObjGetNumBytes(obj_handle));
-#endif  /* PIOS_INCLUDE_FASTHEAP */
-
-		if (rc != 0)
-			return -1;
-
-#if defined(PIOS_INCLUDE_FASTHEAP)
-		memcpy(MetaDataPtr((struct UAVOMeta *)obj_handle), uavobj_load_trampoline, UAVObjGetNumBytes(obj_handle));
-#endif  /* PIOS_INCLUDE_FASTHEAP */
-
+		target = MetaDataPtr((struct UAVOMeta *)obj_handle);
+		len = UAVObjGetNumBytes(obj_handle);
 	} else {
 
 		InstanceHandle instEntry = getInstance( (struct UAVOData *)obj_handle, instId);
@@ -817,32 +828,34 @@ int32_t UAVObjLoad(UAVObjHandle obj_handle, uint16_t instId)
 		if (instEntry == NULL)
 			return -1;
 
-		// Load the object from the filesystem
-		int32_t rc;
-#if defined(PIOS_INCLUDE_FASTHEAP)
-		rc = PIOS_FLASHFS_ObjLoad(pios_uavo_settings_fs_id,
-					UAVObjGetID(obj_handle),
-					instId,
-					uavobj_load_trampoline,
-					UAVObjGetNumBytes(obj_handle));
-#else  /* PIOS_INCLUDE_FASTHEAP */
-		rc = PIOS_FLASHFS_ObjLoad(pios_uavo_settings_fs_id,
-					UAVObjGetID(obj_handle),
-					instId,
-					InstanceData(instEntry),
-					UAVObjGetNumBytes(obj_handle));
-#endif  /* PIOS_INCLUDE_FASTHEAP */
-
-		if (rc != 0)
-			return -1;
-
-#if defined(PIOS_INCLUDE_FASTHEAP)
-		memcpy(InstanceData(instEntry), uavobj_load_trampoline, UAVObjGetNumBytes(obj_handle));
-#endif  /* PIOS_INCLUDE_FASTHEAP */
-
+		target = InstanceData(instEntry);
+		len = UAVObjGetNumBytes(obj_handle);
 	}
 
-	sendEvent((struct UAVOBase*)obj_handle, instId, EV_UNPACKED);
+	// Load the object from the filesystem
+	int32_t rc;
+#if defined(PIOS_INCLUDE_FASTHEAP)
+	rc = PIOS_FLASHFS_ObjLoad(pios_uavo_settings_fs_id,
+			UAVObjGetID(obj_handle),
+			instId,
+			uavobj_load_trampoline,
+			len);
+#else  /* PIOS_INCLUDE_FASTHEAP */
+	rc = PIOS_FLASHFS_ObjLoad(pios_uavo_settings_fs_id,
+			UAVObjGetID(obj_handle),
+			instId,
+			target,
+			len);
+#endif  /* PIOS_INCLUDE_FASTHEAP */
+
+	if (rc != 0)
+		return -1;
+
+#if defined(PIOS_INCLUDE_FASTHEAP)
+	memcpy(target, uavobj_load_trampoline, len);
+#endif  /* PIOS_INCLUDE_FASTHEAP */
+
+	sendEvent((struct UAVOBase*)obj_handle, instId, EV_UNPACKED, target, len);
 	return 0;
 }
 
@@ -875,9 +888,9 @@ int32_t UAVObjSaveSettings()
 	// Save all settings objects
 	LL_FOREACH(uavo_list, obj) {
 		// Check if this is a settings object
-		if (UAVObjIsSettings(obj)) {
+		if (UAVObjIsSettings(&obj->base)) {
 			// Save object
-			if (UAVObjSave((UAVObjHandle) obj, 0) ==
+			if (UAVObjSave(&obj->base, 0) ==
 				-1) {
 				goto unlock_exit;
 			}
@@ -907,7 +920,7 @@ int32_t UAVObjLoadSettings()
 	// Load all settings objects
 	LL_FOREACH(uavo_list, obj) {
 		// Check if this is a settings object
-		if (UAVObjIsSettings(obj)) {
+		if (UAVObjIsSettings(&obj->base)) {
 			// Load object
 			if (UAVObjLoad((UAVObjHandle) obj, 0) ==
 				-1) {
@@ -939,9 +952,9 @@ int32_t UAVObjDeleteSettings()
 	// Save all settings objects
 	LL_FOREACH(uavo_list, obj) {
 		// Check if this is a settings object
-		if (UAVObjIsSettings(obj)) {
+		if (UAVObjIsSettings(&obj->base)) {
 			// Save object
-			if (UAVObjDeleteById(UAVObjGetID(obj), 0)
+			if (UAVObjDeleteById(UAVObjGetID(&obj->base), 0)
 				== -1) {
 				goto unlock_exit;
 			}
@@ -971,7 +984,7 @@ int32_t UAVObjSaveMetaobjects()
 	// Save all settings objects
 	LL_FOREACH(uavo_list, obj) {
 		// Save object
-		if (UAVObjSave( (UAVObjHandle) MetaObjectPtr(obj), 0) ==
+		if (UAVObjSave(MetaObjectPtr(obj), 0) ==
 			-1) {
 			goto unlock_exit;
 		}
@@ -1086,6 +1099,8 @@ int32_t UAVObjGetDataField(UAVObjHandle obj_handle, void* dataOut, uint32_t offs
 	return UAVObjGetInstanceDataField(obj_handle, 0, dataOut, offset, size);
 }
 
+#define INSTANCE_COPY_ALL 0xffffffff
+
 /**
  * Set the data of a specific object instance
  * \param[in] obj The object handle
@@ -1096,45 +1111,8 @@ int32_t UAVObjGetDataField(UAVObjHandle obj_handle, void* dataOut, uint32_t offs
 int32_t UAVObjSetInstanceData(UAVObjHandle obj_handle, uint16_t instId,
 			const void *dataIn)
 {
-	PIOS_Assert(obj_handle);
-
-	// Lock
-	PIOS_Recursive_Mutex_Lock(mutex, PIOS_MUTEX_TIMEOUT_MAX);
-
-	int32_t rc = -1;
-
-	if (UAVObjIsMetaobject(obj_handle)) {
-		if (instId != 0) {
-			goto unlock_exit;
-		}
-		memcpy(MetaDataPtr((struct UAVOMeta *)obj_handle), dataIn, MetaNumBytes);
-	} else {
-		struct UAVOData *obj;
-		InstanceHandle instEntry;
-
-		// Cast to object info
-		obj = (struct UAVOData *) obj_handle;
-
-		// Check access level
-		if (UAVObjReadOnly(obj_handle)) {
-			goto unlock_exit;
-		}
-		// Get instance information
-		instEntry = getInstance(obj, instId);
-		if (instEntry == NULL) {
-			goto unlock_exit;
-		}
-		// Set data
-		memcpy(InstanceData(instEntry), dataIn, obj->instance_size);
-	}
-
-	// Fire event
-	sendEvent((struct UAVOBase *)obj_handle, instId, EV_UPDATED);
-	rc = 0;
-
-unlock_exit:
-	PIOS_Recursive_Mutex_Unlock(mutex);
-	return rc;
+	return UAVObjSetInstanceDataField(obj_handle, instId, dataIn,
+		0, INSTANCE_COPY_ALL);
 }
 
 /**
@@ -1153,19 +1131,18 @@ int32_t UAVObjSetInstanceDataField(UAVObjHandle obj_handle, uint16_t instId, con
 
 	int32_t rc = -1;
 
+	void *target;
+	int obj_len;
+
 	if (UAVObjIsMetaobject(obj_handle)) {
 		// Get instance information
 		if (instId != 0) {
 			goto unlock_exit;
 		}
 
-		// Check for overrun
-		if ((size + offset) > MetaNumBytes) {
-			goto unlock_exit;
-		}
+		obj_len = MetaNumBytes;
 
-		// Set data
-		memcpy(MetaDataPtr((struct UAVOMeta *)obj_handle) + offset, dataIn, size);
+		target = MetaDataPtr((struct UAVOMeta *)obj_handle);
 	} else {
 		struct UAVOData * obj;
 		InstanceHandle instEntry;
@@ -1184,18 +1161,27 @@ int32_t UAVObjSetInstanceDataField(UAVObjHandle obj_handle, uint16_t instId, con
 			goto unlock_exit;
 		}
 
-		// Check for overrun
-		if ((size + offset) > obj->instance_size) {
-			goto unlock_exit;
-		}
+		obj_len = obj->instance_size;
 
-		// Set data
-		memcpy(InstanceData(instEntry) + offset, dataIn, size);
+		target = InstanceData(instEntry);
 	}
 
+	if (size == INSTANCE_COPY_ALL) {
+		size = obj_len;
+	}
+
+	// Check for overrun
+	if ((size + offset) > obj_len) {
+		// XXX Should consider asserting!!!
+		goto unlock_exit;
+	}
+
+	// Set data
+	memcpy(target + offset, dataIn, size);
 
 	// Fire event
-	sendEvent((struct UAVOBase *)obj_handle, instId, EV_UPDATED);
+	sendEvent((struct UAVOBase *)obj_handle, instId, EV_UPDATED,
+		target, obj_len);
 	rc = 0;
 
 unlock_exit:
@@ -1518,7 +1504,7 @@ int32_t UAVObjConnectQueueThrottled(UAVObjHandle obj_handle,
 	PIOS_Assert(queue);
 	int32_t res;
 	PIOS_Recursive_Mutex_Lock(mutex, PIOS_MUTEX_TIMEOUT_MAX);
-	res = connectObj(obj_handle, queue, 0, eventMask, interval);
+	res = connectObj(obj_handle, queue, NULL, NULL, eventMask, interval);
 	PIOS_Recursive_Mutex_Unlock(mutex);
 	return res;
 }
@@ -1541,11 +1527,45 @@ int32_t UAVObjDisconnectQueue(UAVObjHandle obj_handle, struct pios_queue *queue)
 	PIOS_Assert(queue);
 	int32_t res;
 	PIOS_Recursive_Mutex_Lock(mutex, PIOS_MUTEX_TIMEOUT_MAX);
-	res = disconnectObj(obj_handle, queue, 0);
+	res = disconnectObj(obj_handle, queue, NULL, NULL);
 	PIOS_Recursive_Mutex_Unlock(mutex);
 	return res;
 }
 
+/**
+ * Sets a flag passed in the ctx parameter to true.
+ * Conforms to the UAVObjConnectCallback* signature.
+ *
+ * Using this is a best practice to listen for configuration changes.  This
+ * sets a volatile flag that you can check at the top of the task main function,
+ * and update configuration as appropriate.
+ *
+ * Note that the flag is considered a uint8_t, but the width doesn't really
+ * matter-- it will be "set" as long as it is at least 8 bits wide.
+ *
+ * \param[in] ctx The event callback context
+ */
+void UAVObjCbSetFlag(UAVObjEvent *objEv, void *ctx, void *obj, int len) {
+	volatile uint8_t *flag = ctx;
+
+	*flag = 1;
+}
+
+/**
+ * Copies the passed in object to the ctx pointer.
+ * Conforms to the UAVObjConnectCallback* signature.
+ *
+ * Using UAVObjCbSetFlag is preferred.  This should only be used via the
+ * wrapper in the individual UAV objects to ensure that objects are not
+ * mismatched (wrong registration type -> ctx mapping).
+ *
+ * \param[in] ctx The event callback context.
+ * \param[in] obj The pointer to the raw object data.
+ * \param[in] len The length of data to copy.
+ */
+void UAVObjCbCopyData(UAVObjEvent *objEv, void *ctx, void *obj, int len) {
+	memcpy(ctx, obj, len);
+}
 
 /**
  * Connect an event callback to the object, if the callback is already connected then the event mask is only updated.
@@ -1557,20 +1577,20 @@ int32_t UAVObjDisconnectQueue(UAVObjHandle obj_handle, struct pios_queue *queue)
  * \return 0 if success or -1 if failure
  */
 int32_t UAVObjConnectCallbackThrottled(UAVObjHandle obj_handle, UAVObjEventCallback cb,
-			uint8_t eventMask, uint16_t interval)
+			void *cbCtx, uint8_t eventMask, uint16_t interval)
 {
 	PIOS_Assert(obj_handle);
 	int32_t res;
 	PIOS_Recursive_Mutex_Lock(mutex, PIOS_MUTEX_TIMEOUT_MAX);
-	res = connectObj(obj_handle, 0, cb, eventMask, interval);
+	res = connectObj(obj_handle, 0, cb, cbCtx, eventMask, interval);
 	PIOS_Recursive_Mutex_Unlock(mutex);
 	return res;
 }
 
 int32_t UAVObjConnectCallback(UAVObjHandle obj_handle, UAVObjEventCallback cb,
-			uint8_t eventMask)
+			void *cbCtx, uint8_t eventMask)
 {
-	return UAVObjConnectCallbackThrottled(obj_handle, cb, eventMask, 0);
+	return UAVObjConnectCallbackThrottled(obj_handle, cb, cbCtx, eventMask, 0);
 }
 
 /**
@@ -1579,12 +1599,13 @@ int32_t UAVObjConnectCallback(UAVObjHandle obj_handle, UAVObjEventCallback cb,
  * \param[in] cb The event callback
  * \return 0 if success or -1 if failure
  */
-int32_t UAVObjDisconnectCallback(UAVObjHandle obj_handle, UAVObjEventCallback cb)
+int32_t UAVObjDisconnectCallback(UAVObjHandle obj_handle, UAVObjEventCallback cb,
+		void *cbCtx)
 {
 	PIOS_Assert(obj_handle);
 	int32_t res;
 	PIOS_Recursive_Mutex_Lock(mutex, PIOS_MUTEX_TIMEOUT_MAX);
-	res = disconnectObj(obj_handle, 0, cb);
+	res = disconnectObj(obj_handle, 0, cb, cbCtx);
 	PIOS_Recursive_Mutex_Unlock(mutex);
 	return res;
 }
@@ -1609,7 +1630,8 @@ void UAVObjRequestInstanceUpdate(UAVObjHandle obj_handle, uint16_t instId)
 {
 	PIOS_Assert(obj_handle);
 	PIOS_Recursive_Mutex_Lock(mutex, PIOS_MUTEX_TIMEOUT_MAX);
-	sendEvent((struct UAVOBase *) obj_handle, instId, EV_UPDATE_REQ);
+	sendEvent((struct UAVOBase *) obj_handle, instId, EV_UPDATE_REQ,
+		NULL, 0);
 	PIOS_Recursive_Mutex_Unlock(mutex);
 }
 
@@ -1631,7 +1653,8 @@ void UAVObjInstanceUpdated(UAVObjHandle obj_handle, uint16_t instId)
 {
 	PIOS_Assert(obj_handle);
 	PIOS_Recursive_Mutex_Lock(mutex, PIOS_MUTEX_TIMEOUT_MAX);
-	sendEvent((struct UAVOBase *) obj_handle, instId, EV_UPDATED_MANUAL);
+	sendEvent((struct UAVOBase *) obj_handle, instId, EV_UPDATED_MANUAL,
+		NULL, 0);
 	PIOS_Recursive_Mutex_Unlock(mutex);
 }
 
@@ -1658,24 +1681,58 @@ void UAVObjIterate(void (*iterator) (UAVObjHandle obj))
 	PIOS_Recursive_Mutex_Unlock(mutex);
 }
 
-/**
- * Send a triggered event to all event queues registered on the object.
- */
-static int32_t sendEvent(struct UAVOBase * obj, uint16_t instId,
-			UAVObjEventType triggered_event)
-{
-	/* Set up the message that will be sent to all registered listeners */
-	UAVObjEvent msg = {
-		.obj    = (UAVObjHandle) obj,
-		.event  = triggered_event,
-		.instId = instId,
-	};
+/* type signature must match invokeCallback below, with 4 or fewer args */
+static void __attribute__((used)) realInvokeCallback(struct ObjectEventEntry *event,
+		UAVObjEvent *msg, void *obj_data, int len);
 
+static void realInvokeCallback(struct ObjectEventEntry *event,
+		UAVObjEvent *msg, void *obj_data, int len) {
+	event->cb(msg, event->cbInfo.cbCtx, obj_data, len);
+}
+
+#if (!defined(SIM_POSIX)) && defined(__arm__)
+static void invokeCallback(struct ObjectEventEntry *event, UAVObjEvent *msg,
+		void *obj_data, int len) {
+	/* If we're inlined, we need to force these to the right parameter
+	 * slots.  If we show up in a call they're already there.  This
+	 * convinces gcc to do the right thing.
+	 */
+	register struct ObjectEventEntry *my_event asm("r0") = event;
+	register UAVObjEvent *my_msg asm("r1") = msg;
+	register void *my_obj_data asm("r2") = obj_data;
+	register int my_len asm("r3") = len;
+
+	asm volatile (
+		"mov	r4, sp\n\t"		// r4 = old stack pointer
+		"mov	sp, %0\n\t"		// set up the new stack
+		"bl	realInvokeCallback\n\t"	// run realInvokeCallback--
+						// with same args
+		"mov	sp, r4\n\t"		// Put back the stack frame
+
+		:
+		"+r" (cb_stack),
+		"+r" (my_event), "+r" (my_msg), "+r" (my_obj_data),
+		"+r" (my_len)		// mentioned as input and output
+					// to guarantee that they don't
+					// move under us and that the regs
+					// are not used after this call
+					// which might clobber r0-r3
+		: // no pure read-only registers
+		: "memory",		// callback may clobber memory,
+		"r4", "ip", "lr"	// we clobber r4, ip, and lr
+	);
+}
+#else
+#define invokeCallback realInvokeCallback
+#endif
+
+/* First argument is deliberately not a pointer to get a copy of msg */
+static int32_t pumpOneEvent(UAVObjEvent msg, void *obj_data, int len) {
 	// Go through each object and push the event message in the queue (if event is activated for the queue)
 	struct ObjectEventEntry *event;
-	LL_FOREACH(obj->next_event, event) {
+	LL_FOREACH(msg.obj->next_event, event) {
 		if (event->eventMask == 0
-			|| (event->eventMask & triggered_event) != 0) {
+			|| (event->eventMask & msg.event) != 0) {
 			if (event->hasThrottle) {
 				// This is a throttled event (triggered with a spacing of at least "interval" ms)
 				struct ObjectEventEntryThrottled *throtInfo =
@@ -1690,25 +1747,107 @@ static int32_t sendEvent(struct UAVOBase * obj, uint16_t instId,
 				throtInfo->due += ((now - throtInfo->due) / throtInfo->interval + 1) * throtInfo->interval;
 			}
 
-			// Send to queue if a valid queue is registered
-			if (event->queue) {
+			// Invoke callback (from event task) if a valid one is registered
+			if (event->cb) {
+				// invoke callback directly; callbacks must be well behaved
+				invokeCallback(event, &msg, obj_data, len);
+			} else if (event->cbInfo.queue) {
+				// Send to queue if a valid queue is registered
 				// will not block
-				if (PIOS_Queue_Send(event->queue, &msg, 0) != true) {
-					stats.lastQueueErrorID = UAVObjGetID(obj);
+				if (PIOS_Queue_Send(event->cbInfo.queue, &msg, 0) != true) {
+					stats.lastQueueErrorID = UAVObjGetID(msg.obj);
 					++stats.eventQueueErrors;
 				}
 			}
 
-			// Invoke callback (from event task) if a valid one is registered
-			if (event->cb) {
-				// invoke callback from the event task, will not block
-				if (EventCallbackDispatch(&msg, event->cb) != 0) {
-					++stats.eventCallbackErrors;
-					stats.lastCallbackErrorID = UAVObjGetID(obj);
-				}
-			}
 		}
 	}
+
+	return 0;
+}
+
+/**
+ * Send a triggered event to all event queues registered on the object.
+ */
+static int32_t sendEvent(struct UAVOBase * obj, uint16_t instId,
+			UAVObjEventType triggered_event,
+			void *obj_data, int len)
+{
+	static uint8_t num_pending = 0;
+
+	static struct PendEvent {
+		UAVObjEvent msg;
+		void *obj_data;
+		int len;
+	} pending_events[3];
+
+	/* The logic to spool up callbacks here may be a little confusing.
+	 * basically, this relies on the fact that we are in a re-entrant
+	 * locked section.  If we get in here and the static variable
+	 * in_progress is set, we are entering from a task that itself is
+	 * performing a parent callback.
+	 *
+	 * In other words, while executing a callback it did a uav object
+	 * update that will trigger in turn more callbacks.
+	 *
+	 * To handle this, we have a small buffer to store the pending
+	 * callbacks.
+	 *
+	 * We also make the point of disallowing a callback from generating
+	 * the exact same callback.  This is relevant to things like
+	 * the session managing object in telemetry.  While it is possible
+	 * to do this safely (by "stopping" the quasi-recursion) it seems
+	 * better to disallow it.
+	 *
+	 * However, infinite loops are still possible; callback A can
+	 * trigger callback B which triggers callback A.  Don't do that.
+	 */
+
+	if (num_pending >= 3) {
+		/* Unable to pump event; backlog too long */
+		stats.eventCallbackErrors++;
+		stats.lastCallbackErrorID = UAVObjGetID(obj);
+
+		return -1;
+	}
+
+	static struct UAVOBase *in_progress = NULL;
+
+	if (num_pending) {
+		if (in_progress == obj) {
+			return -1;	/* We don't fire events
+					 * of the same type generated by
+					 * an event callback. */
+		}
+	}
+
+	pending_events[num_pending].msg = (UAVObjEvent) {
+		.obj    = obj,
+		.event  = triggered_event,
+		.instId = instId
+	};
+
+	num_pending++;
+
+	/* Only enter the section of pumping events if we are the "first event" */
+	if (!in_progress) {
+		/* While there are events to pump.. */
+		while (num_pending) {
+			/* Deallocate the top one.. */
+			num_pending--;
+
+			/* Mask off events of the same type resulting from
+			 * the callback... */
+			in_progress = pending_events[num_pending].msg.obj;
+
+			/* And pump the event. */
+			pumpOneEvent(pending_events[num_pending].msg,
+				pending_events[num_pending].obj_data,
+				pending_events[num_pending].len);
+		}
+	}
+
+	in_progress = NULL;
 
 	return 0;
 }
@@ -1757,7 +1896,7 @@ static InstanceHandle createInstance(struct UAVOData * obj, uint16_t instId)
 
 	// Done
 	if (newUavObjInstanceCB) {
-		newUavObjInstanceCB(obj->id, UAVObjGetNumInstances(obj));
+		newUavObjInstanceCB(obj->id, UAVObjGetNumInstances(&obj->base));
 	}
 	return InstanceDataOffset(instEntry);
 }
@@ -1817,9 +1956,13 @@ static InstanceHandle getInstance(struct UAVOData * obj, uint16_t instId)
  * \return 0 if success or -1 if failure
  */
 static int32_t connectObj(UAVObjHandle obj_handle, struct pios_queue *queue,
-			UAVObjEventCallback cb, uint8_t eventMask,
+			UAVObjEventCallback cb, void *cbCtx, uint8_t eventMask,
 			uint16_t interval)
 {
+	if (queue && cb) {
+		return -1;
+	}
+
 	struct ObjectEventEntry *event;
 	struct ObjectEventEntryThrottled *throttled;
 	struct UAVOBase *obj;
@@ -1827,7 +1970,8 @@ static int32_t connectObj(UAVObjHandle obj_handle, struct pios_queue *queue,
 	// Check that the queue is not already connected, if it is simply update event mask
 	obj = (struct UAVOBase *) obj_handle;
 	LL_FOREACH(obj->next_event, event) {
-		if (event->queue == queue && event->cb == cb) {
+		if ((event->cb == cb && event->cbInfo.cbCtx == cbCtx) ||
+				((!event->cb) && event->cbInfo.queue == queue)) {
 			// Already connected, update event mask and throttling (if possible)
 			event->eventMask = eventMask;
 			if (event->hasThrottle) {
@@ -1866,8 +2010,14 @@ static int32_t connectObj(UAVObjHandle obj_handle, struct pios_queue *queue,
 	if (event == NULL) {
 		return -1;
 	}
-	event->queue = queue;
 	event->cb = cb;
+
+	if (!cb) {
+		event->cbInfo.queue = queue;
+	} else {
+		event->cbInfo.cbCtx = cbCtx;
+	}
+
 	event->eventMask = eventMask;
 	event->hasThrottle = 0;
 
@@ -1893,7 +2043,7 @@ static int32_t connectObj(UAVObjHandle obj_handle, struct pios_queue *queue,
  * \return 0 if success or -1 if failure
  */
 static int32_t disconnectObj(UAVObjHandle obj_handle, struct pios_queue *queue,
-			UAVObjEventCallback cb)
+			UAVObjEventCallback cb, void *cbCtx)
 {
 	struct ObjectEventEntry *event;
 	struct UAVOBase *obj;
@@ -1901,8 +2051,8 @@ static int32_t disconnectObj(UAVObjHandle obj_handle, struct pios_queue *queue,
 	// Find queue and remove it
 	obj = (struct UAVOBase *) obj_handle;
 	LL_FOREACH(obj->next_event, event) {
-		if ((event->queue == queue
-				&& event->cb == cb)) {
+		if ((event->cb == cb && event->cbInfo.cbCtx == cbCtx) ||
+				((!event->cb) && event->cbInfo.queue == queue)) {
 			LL_DELETE(obj->next_event, event);
 			PIOS_free(event);
 			return 0;
@@ -1930,7 +2080,7 @@ int32_t getEventMask(UAVObjHandle obj_handle, struct pios_queue *queue)
 	// Iterate over the event listeners, looking for the event matching the queue
 	obj = (struct UAVOBase *) obj_handle;
 	LL_FOREACH(obj->next_event, event) {
-		if (event->queue == queue && event->cb == 0) {
+		if (event->cbInfo.queue == queue && event->cb == 0) {
 			// Already connected, update event mask and return
 			eventMask = event->eventMask;
 			break;

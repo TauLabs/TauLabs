@@ -68,14 +68,11 @@ static uint8_t reset_count = 0;
 static uint32_t lastResetSysTime;
 
 // Private functions
-static void FirmwareIAPCallback(UAVObjEvent* ev);
+static void FirmwareIAPCallback(UAVObjEvent* ev, void *ctx, void *obj, int len);
 
 static uint32_t	get_time(void);
 
-// Private types
-
-// Private functions
-static void resetTask(UAVObjEvent *);
+static void resetTask(UAVObjEvent * ev, void *ctx, void *obj, int len);
 
 /**
  * Initialise the module, called on startup.
@@ -120,8 +117,10 @@ int32_t FirmwareIAPInitialize()
  *
  */
 static uint8_t    iap_state = IAP_STATE_READY;
-static void FirmwareIAPCallback(UAVObjEvent* ev)
+static void FirmwareIAPCallback(UAVObjEvent* ev, void *ctx, void *obj, int len)
 {
+	(void) ctx; (void) obj; (void) len;
+
 	static uint32_t   last_time = 0;
 	uint32_t          this_time;
 	uint32_t          delta;
@@ -225,8 +224,10 @@ static uint32_t get_time(void)
 /**
  * Executed by event dispatcher callback to reset INS before resetting OP 
  */
-static void resetTask(UAVObjEvent * ev)
+static void resetTask(UAVObjEvent * ev, void *ctx, void *obj, int len)
 {
+	(void) ctx; (void) obj; (void) len;
+
 #if defined (PIOS_LED_HEARTBEAT)
 	PIOS_LED_Toggle(PIOS_LED_HEARTBEAT);
 #endif	/* PIOS_LED_HEARTBEAT */

@@ -117,7 +117,8 @@ static void ProcessTelemetryStream(UAVTalkConnection inConnectionHandle,
 static void ProcessRadioStream(UAVTalkConnection inConnectionHandle,
 			       UAVTalkConnection outConnectionHandle,
 			       uint8_t rxbyte);
-static void objectPersistenceUpdatedCb(UAVObjEvent * objEv);
+static void objectPersistenceUpdatedCb(UAVObjEvent * objEv, void *ctx,
+				void *obj, int len);
 static void registerObject(UAVObjHandle obj);
 
 // ****************
@@ -747,8 +748,11 @@ static void ProcessRadioStream(UAVTalkConnection inConnectionHandle,
  * @brief Callback that is called when the ObjectPersistence UAVObject is changed.
  * @param[in] objEv  The event that precipitated the callback.
  */
-static void objectPersistenceUpdatedCb(UAVObjEvent * objEv)
+static void objectPersistenceUpdatedCb(UAVObjEvent * objEv, void *ctx,
+		void *obj, int len)
 {
+	(void) objEv; (void) ctx; (void) obj; (void) len;
+
 	// Get the ObjectPersistence object.
 	ObjectPersistenceData obj_per;
 

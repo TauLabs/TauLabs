@@ -62,9 +62,9 @@ static void advanceWaypoint();
 static void activateWaypoint(int idx);
 
 static void pathPlannerTask(void *parameters);
-static void settingsUpdated(UAVObjEvent * ev);
-static void waypointsUpdated(UAVObjEvent * ev);
-static void pathStatusUpdated(UAVObjEvent * ev);
+static void settingsUpdated(UAVObjEvent * ev, void *ctx, void *obj, int len);
+static void waypointsUpdated(UAVObjEvent * ev, void *ctx, void *obj, int len);
+static void pathStatusUpdated(UAVObjEvent * ev, void *ctx, void *obj, int len);
 static void createPathBox();
 static void createPathLogo();
 
@@ -140,7 +140,7 @@ static void pathPlannerTask(void *parameters)
 	AlarmsClear(SYSTEMALARMS_ALARM_PATHPLANNER);
 
 	PathPlannerSettingsConnectCallback(settingsUpdated);
-	settingsUpdated(PathPlannerSettingsHandle());
+	settingsUpdated(NULL, NULL, NULL, 0);
 
 	WaypointConnectCallback(waypointsUpdated);
 	WaypointActiveConnectCallback(waypointsUpdated);
@@ -152,7 +152,7 @@ static void pathPlannerTask(void *parameters)
 	// Main thread loop
 	bool pathplanner_active = false;
 
-	pathStatusUpdated(NULL);
+	pathStatusUpdated(NULL, NULL, NULL, 0);
 	path_completed = false;
 
 	while (1)
@@ -202,8 +202,10 @@ static void pathPlannerTask(void *parameters)
  * On changed waypoints or active waypoint update position desired
  * if we are in charge
  */
-static void waypointsUpdated(UAVObjEvent * ev)
+static void waypointsUpdated(UAVObjEvent * ev, void *ctx, void *obj, int len)
 {
+	(void) ev; (void) ctx; (void) obj; (void) len;
+
 	FlightStatusData flightStatus;
 	FlightStatusGet(&flightStatus);
 	if (flightStatus.FlightMode != FLIGHTSTATUS_FLIGHTMODE_PATHPLANNER)
@@ -220,8 +222,10 @@ static void waypointsUpdated(UAVObjEvent * ev)
 /**
  * When the PathStatus is updated indicate a new one is available to consume
  */
-static void pathStatusUpdated(UAVObjEvent * ev)
+static void pathStatusUpdated(UAVObjEvent * ev, void *ctx, void *obj, int len)
 {
+	(void) ev; (void) ctx; (void) obj; (void) len;
+
 	PathStatusData pathStatus;
 
 	PathStatusGet(&pathStatus);
@@ -414,7 +418,8 @@ static void activateWaypoint(int idx)
 	AlarmsClear(SYSTEMALARMS_ALARM_PATHPLANNER);
 }
 
-void settingsUpdated(UAVObjEvent * ev) {
+static void settingsUpdated(UAVObjEvent * ev, void *ctx, void *obj, int len) {
+	(void) ev; (void) ctx; (void) obj; (void) len;
 	uint8_t preprogrammedPath = pathPlannerSettings.PreprogrammedPath;
 	int32_t retval = 0;
 	bool    operation = false;

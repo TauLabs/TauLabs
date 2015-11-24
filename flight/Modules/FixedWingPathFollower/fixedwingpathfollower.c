@@ -88,11 +88,10 @@ static FixedWingAirspeedsData fixedWingAirspeeds;
 
 // Private functions
 static void pathfollowerTask(void *parameters);
-static void SettingsUpdatedCb(UAVObjEvent * ev);
-static void pathDesiredUpdated(UAVObjEvent * ev);
+static void SettingsUpdatedCb(UAVObjEvent * ev, void *ctx, void *obj, int len);
 static void updatePathVelocity();
 static uint8_t updateFixedDesiredAttitude();
-static void airspeedActualUpdatedCb(UAVObjEvent * ev);
+static void airspeedActualUpdatedCb(UAVObjEvent * ev, void *ctx, void *obj, int len);
 
 /**
  * Initialise the module, called on startup
@@ -171,12 +170,12 @@ static void pathfollowerTask(void *parameters)
 	PathDesiredConnectCallback(SettingsUpdatedCb);
 
 	// Force update of all the settings
-	SettingsUpdatedCb(NULL);
+	SettingsUpdatedCb(NULL, NULL, NULL, 0);
 	
 	FixedWingPathFollowerSettingsGet(&fixedwingpathfollowerSettings);
 	path_desired_updated = false;
 	PathDesiredGet(&pathDesired);
-	PathDesiredConnectCallback(pathDesiredUpdated);
+	PathDesiredConnectCallbackCtx(UAVObjCbSetFlag, &path_desired_updated);
 
 	// Main task loop
 	lastUpdateTime = PIOS_Thread_Systime();
@@ -606,7 +605,6 @@ static uint8_t updateFixedDesiredAttitude()
 		result = 0;
 	}
 
-
 	/**
 	 * Compute desired roll command
 	 */
@@ -669,34 +667,34 @@ static uint8_t updateFixedDesiredAttitude()
 	return result;
 }
 
-static void SettingsUpdatedCb(UAVObjEvent * ev)
+static void SettingsUpdatedCb(UAVObjEvent * ev, void *ctx, void *obj, int len)
 {
+	(void) ctx; (void) obj; (void) len;
+
 	if (ev == NULL || ev->obj == FixedWingPathFollowerSettingsHandle())
 		FixedWingPathFollowerSettingsGet(&fixedwingpathfollowerSettings);
 	if (ev == NULL || ev->obj == FixedWingAirspeedsHandle())
 		FixedWingAirspeedsGet(&fixedWingAirspeeds);
 }
 
-static void airspeedActualUpdatedCb(UAVObjEvent * ev)
+static void airspeedActualUpdatedCb(UAVObjEvent * ev, void *ctx, void *obj,
+	int len)
 {
+	(void) ctx;
 
-	AirspeedActualData airspeedActual;
+	AirspeedActualData *airspeedActual = obj;
+
+	PIOS_Assert(len == sizeof(airspeedActual));
+
 	VelocityActualData velocityActual;
 
-	AirspeedActualGet(&airspeedActual);
 	VelocityActualGet(&velocityActual);
-	float groundspeed = sqrtf(velocityActual.East*velocityActual.East + velocityActual.North*velocityActual.North );
 
+	float groundspeed = sqrtf(velocityActual.East*velocityActual.East + velocityActual.North*velocityActual.North );
 	
-	indicatedAirspeedActualBias = airspeedActual.CalibratedAirspeed - groundspeed;
+	indicatedAirspeedActualBias = airspeedActual->CalibratedAirspeed - groundspeed;
 	// note - we do fly by Indicated Airspeed (== calibrated airspeed)
 	// however since airspeed is updated less often than groundspeed, we use sudden changes to groundspeed to offset the airspeed by the same measurement.
-
-}
-
-static void pathDesiredUpdated(UAVObjEvent * ev)
-{
-	path_desired_updated = true;
 }
 
 /**
