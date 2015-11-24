@@ -112,6 +112,18 @@ FieldInfo* UAVObjectParser::getFieldByName(QString &name, ObjectInfo **objRet) {
     return NULL;
 }
 
+int UAVObjectParser::checkDefaultValues(FieldInfo *field)
+{
+    // Check that the default values are actually in the options list
+    for(int n = 0; n < field->defaultValues.length(); ++n) {
+        if (field->type == FIELDTYPE_ENUM && !field->options.contains(field->defaultValues[n])) {
+            return -1;
+        }
+    }
+
+    return 0;
+}
+
 int UAVObjectParser::resolveFieldParent(ObjectInfo *item, FieldInfo *field)
 {
     if (field->parent) {
@@ -165,6 +177,12 @@ QString UAVObjectParser::resolveParents()
                         .arg(field->name)
                         .arg(field->options[n]);
                 }
+            }
+
+            if(checkDefaultValues(field) < 0) {
+                return QString("Invalid default value for %1.%2")
+                    .arg(item->name)
+                    .arg(field->name);
             }
         }
     }
@@ -394,8 +412,8 @@ QString UAVObjectParser::parseXML(QString& xml, QString& filename)
             // Get next element
             childNode = childNode.nextSibling();
         }
-		
-		// Sort all fields according to size
+        
+        // Sort all fields according to size
         qStableSort(info->fields.begin(), info->fields.end(), fieldTypeLessThan);
 
         // Sort all fields according to size
@@ -633,7 +651,7 @@ QString UAVObjectParser::processObjectFields(QDomNode& childNode, ObjectInfo* in
     if (!elemAttr.isNull()) {
         QString parentName = elemAttr.nodeValue(); 
         if (!parentName.isEmpty()) {
-	    foreach(FieldInfo * parent, info->fields) {
+           foreach(FieldInfo * parent, info->fields) {
                 if (parent->name == parentName) {
                     // clone from this parent
                     *field = *parent;   // safe shallow copy, no ptrs in struct
@@ -697,12 +715,12 @@ QString UAVObjectParser::processObjectFields(QDomNode& childNode, ObjectInfo* in
         if (!listNode.isNull()) {
             for (QDomElement node = listNode.firstChildElement("elementname");
                  !node.isNull(); node = node.nextSiblingElement("elementname")) {
-		QDomNode name = node.firstChild();
+                QDomNode name = node.firstChild();
                 if (!name.isNull() && name.isText() && !name.nodeValue().isEmpty()) {
                     field->elementNames.append(name.nodeValue());
                 }
             }
-	    field->numElements = field->elementNames.length();
+            field->numElements = field->elementNames.length();
             field->defaultElementNames = false;
         }
     }
@@ -743,18 +761,18 @@ QString UAVObjectParser::processObjectFields(QDomNode& childNode, ObjectInfo* in
             }
             field->options = options;
         }
-	else {
-	    // Look for a list of child 'option' nodes
-	    QDomNode listNode = childNode.firstChildElement("options");
-	    if (!listNode.isNull()) {
-	        for (QDomElement node = listNode.firstChildElement("option");
-	             !node.isNull(); node = node.nextSiblingElement("option")) {
-		    QDomNode name = node.firstChild();
-                    if (!name.isNull() && name.isText() && !name.nodeValue().isEmpty()) {
-	                field->options.append(name.nodeValue());
-	            }
-	        }
-	    }
+        else {
+            // Look for a list of child 'option' nodes
+            QDomNode listNode = childNode.firstChildElement("options");
+            if (!listNode.isNull()) {
+                for (QDomElement node = listNode.firstChildElement("option");
+                     !node.isNull(); node = node.nextSiblingElement("option")) {
+                    QDomNode name = node.firstChild();
+                        if (!name.isNull() && name.isText() && !name.nodeValue().isEmpty()) {
+                        field->options.append(name.nodeValue());
+                    }
+                }
+            }
         }
         if ((field->options.isEmpty()) && (field->parentName.isEmpty())) {
             return QString("Object:field:options attribute/element is missing");
@@ -769,20 +787,20 @@ QString UAVObjectParser::processObjectFields(QDomNode& childNode, ObjectInfo* in
         field->defaultValues = QStringList();
     }
     else  {
-		QStringList defaults = elemAttr.nodeValue().split(",", QString::SkipEmptyParts);
-		for (int n = 0; n < defaults.length(); ++n)
-			defaults[n] = defaults[n].trimmed();
+        QStringList defaults = elemAttr.nodeValue().split(",", QString::SkipEmptyParts);
+        for (int n = 0; n < defaults.length(); ++n)
+            defaults[n] = defaults[n].trimmed();
 
-		if(defaults.length() != field->numElements) {
-			if(defaults.length() != 1)
-				return QString("Object:field:incorrect number of default values");
+        if(defaults.length() != field->numElements) {
+            if(defaults.length() != 1)
+                return QString("Object:field:incorrect number of default values");
 
-			/*support legacy single default for multiple elements
-			We should really issue a warning*/
-			for(int ct=1; ct< field->numElements; ct++)
-				defaults.append(defaults[0]);
-		}
-		field->defaultValues = defaults;
+            /*support legacy single default for multiple elements
+            We should really issue a warning*/
+            for(int ct=1; ct< field->numElements; ct++)
+                defaults.append(defaults[0]);
+        }
+        field->defaultValues = defaults;
     }
 
     // Limits attribute
