@@ -191,6 +191,7 @@ struct LibraryFunction PlatformLibrary_string[] =
  * math.h
  */
 #ifndef NO_FP
+#ifndef NO_DOUBLE_MATH
 void LibSin(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
 {
 	ReturnValue->Val->FP = sin(Param[0]->Val->FP);
@@ -281,10 +282,104 @@ void LibFloor(struct ParseState *Parser, struct Value *ReturnValue, struct Value
 {
 	ReturnValue->Val->FP = floor(Param[0]->Val->FP);
 }
+#endif /* NO_DOUBLE_MATH */
+
+/* single precision math functions */
+void LibSinf(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
+{
+	ReturnValue->Val->FP = sinf(Param[0]->Val->FP);
+}
+
+void LibCosf(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
+{
+	ReturnValue->Val->FP = cosf(Param[0]->Val->FP);
+}
+
+void LibTanf(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
+{
+	ReturnValue->Val->FP = tanf(Param[0]->Val->FP);
+}
+
+void LibAsinf(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
+{
+	ReturnValue->Val->FP = asinf(Param[0]->Val->FP);
+}
+
+void LibAcosf(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
+{
+	ReturnValue->Val->FP = acosf(Param[0]->Val->FP);
+}
+
+void LibAtanf(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
+{
+	ReturnValue->Val->FP = atanf(Param[0]->Val->FP);
+}
+
+void LibSinhf(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
+{
+	ReturnValue->Val->FP = sinhf(Param[0]->Val->FP);
+}
+
+void LibCoshf(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
+{
+	ReturnValue->Val->FP = coshf(Param[0]->Val->FP);
+}
+
+void LibTanhf(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
+{
+	ReturnValue->Val->FP = tanhf(Param[0]->Val->FP);
+}
+
+void LibExpf(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
+{
+	ReturnValue->Val->FP = expf(Param[0]->Val->FP);
+}
+
+void LibFabsf(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
+{
+	ReturnValue->Val->FP = fabsf(Param[0]->Val->FP);
+}
+
+void LibLogf(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
+{
+	ReturnValue->Val->FP = logf(Param[0]->Val->FP);
+}
+
+void LibLog10f(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
+{
+	ReturnValue->Val->FP = log10f(Param[0]->Val->FP);
+}
+
+void LibPowf(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
+{
+	ReturnValue->Val->FP = powf(Param[0]->Val->FP, Param[1]->Val->FP);
+}
+
+void LibSqrtf(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
+{
+	ReturnValue->Val->FP = sqrtf(Param[0]->Val->FP);
+}
+
+void LibRoundf(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
+{
+	/* this awkward definition of "round()" due to it being inconsistently declared in math.h */
+	ReturnValue->Val->FP = ceilf(Param[0]->Val->FP - 0.5);
+}
+
+void LibCeilf(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
+{
+	ReturnValue->Val->FP = ceilf(Param[0]->Val->FP);
+}
+
+void LibFloorf(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
+{
+	ReturnValue->Val->FP = floorf(Param[0]->Val->FP);
+}
 
 /* list of all library functions and their prototypes */
 struct LibraryFunction PlatformLibrary_math[] =
 {
+#ifndef NO_DOUBLE_MATH
 	{ LibSin,		"float sin(float);" },
 	{ LibCos,		"float cos(float);" },
 	{ LibTan,		"float tan(float);" },
@@ -303,6 +398,25 @@ struct LibraryFunction PlatformLibrary_math[] =
 	{ LibRound,		"float round(float);" },
 	{ LibCeil,		"float ceil(float);" },
 	{ LibFloor,		"float floor(float);" },
+#endif /* NO_DOUBLE_MATH */
+	{ LibSinf,		"float sinf(float);" },
+	{ LibCosf,		"float cosf(float);" },
+	{ LibTanf,		"float tanf(float);" },
+	{ LibAsinf,		"float asinf(float);" },
+	{ LibAcosf,		"float acosf(float);" },
+	{ LibAtanf,		"float atanf(float);" },
+	{ LibSinhf,		"float sinhf(float);" },
+	{ LibCoshf,		"float coshf(float);" },
+	{ LibTanhf,		"float tanhf(float);" },
+	{ LibExpf,		"float expf(float);" },
+	{ LibFabsf,		"float fabsf(float);" },
+	{ LibLogf,		"float logf(float);" },
+	{ LibLog10f,	"float log10f(float);" },
+	{ LibPowf,		"float powf(float,float);" },
+	{ LibSqrtf,		"float sqrtf(float);" },
+	{ LibRoundf,	"float roundf(float);" },
+	{ LibCeilf,		"float ceilf(float);" },
+	{ LibFloorf,	"float floorf(float);" },
 	{ NULL, NULL }
 };
 
