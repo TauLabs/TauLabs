@@ -215,7 +215,7 @@ static void parse_ubx_nav_sol (const struct UBX_NAV_SOL *sol, GPSPositionData *G
 {
 	if (check_msgtracker(sol->iTOW, SOL_RECEIVED)) {
 		GpsPosition->Satellites = sol->numSV;
-		GpsPosition->Accuracy = sol->pAcc / 100.0;
+		GpsPosition->Accuracy = sol->pAcc / 100.0f;
 
 		if (sol->flags & STATUS_FLAGS_GPSFIX_OK) {
 			switch (sol->gpsFix) {

@@ -2228,7 +2228,7 @@ static void rfm22_synchronizeClock(struct pios_rfm22b_dev *rfm22b_dev)
 	uint16_t time_delta = start_time % frequency_hop_cycle_time;
 
 	// Calculate the adjustment for the preamble
-	uint8_t offset = (uint8_t) ceil(35000.0F / data_rate[rfm22b_dev->datarate]);
+	uint8_t offset = (uint8_t) ceilf(35000.0F / data_rate[rfm22b_dev->datarate]);
 
 	rfm22b_dev->time_delta = frequency_hop_cycle_time - time_delta + offset;
 }

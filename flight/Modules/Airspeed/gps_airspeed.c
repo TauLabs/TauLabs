@@ -114,7 +114,7 @@ void gps_airspeedGet(float *v_air_GPS)
 	float cosDiff=(Rbe[0][0]*gps->RbeCol1_old[0]) + (Rbe[0][1]*gps->RbeCol1_old[1]) + (Rbe[0][2]*gps->RbeCol1_old[2]);
 	
 	//If there's more than a 5 degree difference between two fuselage measurements, then we have sufficient delta to continue.
-	if (fabs(cosDiff) < cos(5.0f*DEG2RAD)) {
+	if (fabsf(cosDiff) < cosf(5.0f*DEG2RAD)) {
 		GPSVelocityData gpsVelData;
 		GPSVelocityGet(&gpsVelData);
 		

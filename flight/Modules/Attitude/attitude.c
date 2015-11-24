@@ -1448,7 +1448,7 @@ static void check_home_location()
 		homeLocation.Altitude = gps.Altitude; // Altitude referenced to mean sea level geoid (likely EGM 1996, but no guarantees)
 
 		// Compute home ECEF coordinates and the rotation matrix into NED
-		double LLA[3] = { ((double)homeLocation.Latitude) / 10e6, ((double)homeLocation.Longitude) / 10e6, ((double)homeLocation.Altitude) };
+		float LLA[3] = { homeLocation.Latitude / 10e6f, homeLocation.Longitude / 10e6f, homeLocation.Altitude };
 
 		// Compute magnetic flux direction at home location
 		if (WMM_GetMagVector(LLA[0], LLA[1], LLA[2], gpsTime.Month, gpsTime.Day, gpsTime.Year, &homeLocation.Be[0]) >= 0)
