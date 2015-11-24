@@ -112,6 +112,18 @@ FieldInfo* UAVObjectParser::getFieldByName(QString &name, ObjectInfo **objRet) {
     return NULL;
 }
 
+int UAVObjectParser::checkDefaultValues(FieldInfo *field)
+{
+    // Check that the default values are actually in the options list
+    for(int n = 0; n < field->defaultValues.length(); ++n) {
+        if (field->type == FIELDTYPE_ENUM && !field->options.contains(field->defaultValues[n])) {
+            return -1;
+        }
+    }
+
+    return 0;
+}
+
 int UAVObjectParser::resolveFieldParent(ObjectInfo *item, FieldInfo *field)
 {
     if (field->parent) {
@@ -165,6 +177,12 @@ QString UAVObjectParser::resolveParents()
                         .arg(field->name)
                         .arg(field->options[n]);
                 }
+            }
+
+            if(checkDefaultValues(field) < 0) {
+                return QString("Invalid default value for %1.%2")
+                    .arg(item->name)
+                    .arg(field->name);
             }
         }
     }
