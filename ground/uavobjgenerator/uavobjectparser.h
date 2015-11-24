@@ -163,6 +163,7 @@ private:
     quint32 updateHash(quint32 value, quint32 hash);
     quint32 updateHash(QString& value, quint32 hash);
     int resolveFieldParent(ObjectInfo *item, FieldInfo *field);
+    int checkDefaultValues(FieldInfo *field);
 };
 
 #endif // UAVOBJECTPARSER_H

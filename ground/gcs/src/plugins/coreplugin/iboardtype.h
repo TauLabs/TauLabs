@@ -220,6 +220,12 @@ public:
                            Core::IBoardType::LinkMode /*linkMode*/, quint8 /*min*/,
                            quint8 /*max*/) { return false; }
 
+    /**
+     * Check whether the board has USB
+     * @return true if usb, false if not
+     */
+    virtual bool isUSBSupported() { return true; }
+
     static QString getBoardNameFromID(int id);
 
 signals:
