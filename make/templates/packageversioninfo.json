@@ -1,0 +1,5 @@
+{"package_info": {
+	"uavo_hash": "${UAVOSHA1}",
+	"uavo_hash_text": "${UAVOSHA1TXT}",
+	"date": "${DATETIME}"
+}}

@@ -9,7 +9,7 @@
 APP_NAME="Tau Labs GCS.app"
 APP_PATH="${BUILD_DIR}/ground/gcs/bin/"
 TEMP_FILE="${PACKAGE_DIR}/TauLabs-temp.dmg.sparseimage"
-OUT_FILE="${PACKAGE_DIR}/TauLabs-${PACKAGE_LBL}.dmg"
+OUT_FILE="${PACKAGE_DIR}/${PACKAGE_LBL}.dmg"
 ICON_FILE="${ROOT_DIR}/package/linux/taulabs.png"
 VOL_NAME="Tau Labs"
 

@@ -15,7 +15,6 @@ ROOT_DIR := $(realpath $(WHEREAMI)/../)
 include $(ROOT_DIR)/make/system-id.mk
 
 TOOLS_DIR := $(ROOT_DIR)/tools
-BUILD_DIR := $(ROOT_DIR)/build
 
 # include the tools makefile
 include $(ROOT_DIR)/make/tools.mk
@@ -32,9 +31,24 @@ PACKAGE_LBL  := $(shell $(VERSION_CMD) --format=\$${DATE}-\$${TAG_OR_HASH8}\$${D
 endif
 PACKAGE_DIR  := $(BUILD_DIR)/package-$(PACKAGE_LBL)
 FW_DIR       := $(PACKAGE_DIR)/firmware-$(PACKAGE_LBL)
+ML_DIR	     := $(PACKAGE_DIR)/matlab-$(PACKAGE_LBL)
 BL_DIR       := $(FW_DIR)/bootloaders
 BU_DIR       := $(FW_DIR)/bootloader-updaters
 
+MACHINE_TYPE := $(shell uname -m)
+ifeq ($(MACHINE_TYPE), x86_64)
+PLATFORM_NAME:=amd64
+else
+PLATFORM_NAME:=i386
+endif
+PLATFORM := winx86
+UNAME := $(shell uname)
+ifeq ($(UNAME), Linux)
+  PLATFORM := linux
+endif
+ifeq ($(UNAME), Darwin)
+  PLATFORM := osx
+endif
 # Clean build options (recommended for package testing only)
 ifeq ($(CLEAN_BUILD), NO)
 CLEAN_GROUND := NO
@@ -48,7 +62,7 @@ USE_MSVC ?= NO
 
 # Set up targets
 ALL_BOARDS        := coptercontrol pipxtreme revomini sparky sparky2 sparkybgc quanton colibri flyingf3 flyingf4 aq32 naze32
-ALL_BOARDS_BU     := coptercontrol pipxtreme
+ALL_BOARDS_BU     := coptercontrol pipxtreme revomini sparky sparky2 sparkybgc quanton colibri flyingf3 flyingf4 aq32
 
 FW_BOARDS  := $(ALL_BOARDS)
 BL_BOARDS  := $(filter-out naze32, $(ALL_BOARDS))
@@ -60,6 +74,9 @@ FW_TARGETS_TOOLS  := $(addprefix fw_, $(FW_BOARDS))
 BL_TARGETS        := $(addprefix bl_, $(BL_BOARDS))
 BU_TARGETS        := $(addprefix bu_, $(BU_BOARDS))
 
+GCS_PACKAGE_NAME:= taulabsgcs_$(PLATFORM)_$(PLATFORM_NAME)-$(PACKAGE_LBL)
+GCS_PACKAGE_ROOT := $(GCS_PACKAGE_NAME)
+
 help:
 	@echo
 	@echo "   This Makefile is known to work on Linux and Mac in a standard shell environment."
@@ -68,23 +85,32 @@ help:
 	@echo "   Here is a summary of the available targets:"
 	@echo
 	@echo "   [Packaging]"
-	@echo "     package        - Build and package the OpenPilot distributable"
-	@echo "     package_flight - Build and package the OpenPilot flight firmware only"
+	@echo "     package        			- Build and package the Tau Labs distributable (DEB)"
+	@echo "     package_flight 			- Build and package the Tau Labs flight firmware only"
+	@echo "     package_ground 			- Build and package the Tau Labs ground software only"
+	@echo "     package_matlab 			- Build and package the Tau Labs matlab script only"
+	@echo "     package_all    			- Build and package all Tau Labs firmware and software"
+	@echo "     package_installer		- Builds a Tau Labs software installer"
+	@echo "     package_info    		- Creates a file with the package information"
+	@echo "     package_XXXX_compress   - Same as the targets above but compresses the package"	
 	@echo
 	@echo "   Notes:"
-	@echo "     - package will be placed in $(PACKAGE_DIR)"
+	@echo "     - packages will be placed in $(PACKAGE_DIR)"
 	@echo
 	@echo "     - the build directory will be removed first on every run unless"
 	@echo "       CLEAN_BUILD=NO is defined. It means no clean before build."
 	@echo "       This usually is safe."
 	@echo
 
-uavobjects: 
+# Clean and build uavobjects since all parts depend on them
+uavobjects:
 	$(V1) $(MAKE) -C $(ROOT_DIR) $@
 
 matlab: uavobjects
 	$(V1) $(MAKE) -C $(ROOT_DIR) $@
-
+	$(V1)mkdir -p $(ML_DIR)
+	$(V1)mv $(BUILD_DIR)/matlab/*.* $(ML_DIR)
+	$(V1)rm -rf $(BUILD_DIR)/matlab
 all_clean:
 ifneq ($(CLEAN_GROUND), NO)
 	$(V1) $(MAKE) -C $(ROOT_DIR) $@
@@ -107,18 +133,18 @@ ifneq ($$(CLEAN_FLIGHT), NO)
 	$$(V1) +$(MAKE) -C $(ROOT_DIR) $(6) $(addsuffix _$(7), $(8))
 endif
 endif
-	$$(V1) +$(MAKE) -C $(ROOT_DIR) INSTALL_DIR=$(3) INSTALL_PFX=$(4) INSTALL_SFX=$(5) $(6) $(addsuffix _$(9), $(8))
+	$$(V1) +$(MAKE) -C $(ROOT_DIR) INSTALL_DIR=$(3) INSTALL_PFX=$(4) INSTALL_SFX=_$(5) $(6) $(addsuffix _$(9), $(8))
 .PHONY: $(1)
 endef
 
 # Firmware
-$(eval $(call INSTALL_TEMPLATE,all_fw,uavobjects,$(FW_DIR),,-$(PACKAGE_LBL),,,$(FW_TARGETS),install))
+$(eval $(call INSTALL_TEMPLATE,all_fw,uavobjects,$(FW_DIR),,$(PACKAGE_LBL),,,$(FW_TARGETS),install))
 
 # Bootloaders (change 'install' to 'bin' if you don't want to install bootloaders)
-$(eval $(call INSTALL_TEMPLATE,all_bl,uavobjects,$(BL_DIR),,-$(PACKAGE_LBL),,,$(BL_TARGETS),install))
+$(eval $(call INSTALL_TEMPLATE,all_bl,uavobjects,$(BL_DIR),,$(PACKAGE_LBL),,,$(BL_TARGETS),install))
 
 # Bootloader updaters
-$(eval $(call INSTALL_TEMPLATE,all_bu,all_bl,$(BU_DIR),,-$(PACKAGE_LBL),,,$(BU_TARGETS),install))
+$(eval $(call INSTALL_TEMPLATE,all_bu,all_bl,$(BU_DIR),,$(PACKAGE_LBL),,,$(BU_TARGETS),install))
 
 # Order-only dependencies
 package_flight: | all_fw all_bu
@@ -127,15 +153,23 @@ package_matlab: | matlab
 
 package_ground: | ground_package
 
-package: | package_flight package_ground package_matlab
+package_installer: | installer_package
 
-.PHONY: help uavobjects all_clean package_flight package_ground package
+package_all: package_flight package_ground package_matlab
+
+package_info:
+	$(shell $(VERSION_CMD) --uavodir=$(ROOT_DIR)/shared/uavobjectdefinition --template=$(ROOT_DIR)/make/templates/packageversioninfo.json --outfile=$(PACKAGE_DIR)/packageversioninfo.json)
+
+.PHONY: help uavobjects all_clean 
+.PHONY: package_ground package_flight package_matlab package_all package_installer package_info
 
 # tlfw_resource must be generated before the ground package,
 # and it depends on flight firmware images
-ground_package: | tlfw_resource
+ground_package: ground_package_os_specific
+	@echo $@ starting
+	$(V1)cd $(PACKAGE_DIR)/$(GCS_PACKAGE_ROOT) && find . \( -type f -o -type l \) -print > $(PACKAGE_DIR)/$(GCS_PACKAGE_ROOT)/filelist.lst
 
-tlfw_resource: | all_fw
+tlfw_resource: | all_fw all_bu
 
 # Decide on a verbosity level based on the V= parameter
 export AT := @
@@ -154,17 +188,10 @@ MAKEFLAGS += --no-print-directory
 endif
 
 # Platform-dependent stuff
-PLATFORM := winx86
-UNAME := $(shell uname)
-ifeq ($(UNAME), Linux)
-  PLATFORM := linux
-endif
-ifeq ($(UNAME), Darwin)
-  PLATFORM := osx
-endif
 
 toprel = $(subst $(realpath $(ROOT_DIR))/,,$(abspath $(1)))
 TLFW_FILES := $(foreach fw_targ, $(FW_TARGETS), $(call toprel, $(BUILD_DIR)/$(fw_targ)/$(fw_targ).tlfw))
+TLFW_FILES += $(foreach bu_targ, $(BU_TARGETS), $(call toprel, $(BUILD_DIR)/$(bu_targ)/$(bu_targ).tlfw))
 TLFW_CONTENTS := \
 <!DOCTYPE RCC><RCC version="1.0"> \
  <qresource> \
@@ -179,6 +206,25 @@ tlfw_resource:
 	$(V1) mkdir -p $(BUILD_DIR)/ground/$@/build
 	$(V1) echo '$(TLFW_CONTENTS)' > $(BUILD_DIR)/ground/$@/tlfw_resource.qrc
 	$(V1) $(foreach fw_targ, $(FW_TARGETS), mkdir -p $(BUILD_DIR)/ground/$@/build/$(fw_targ);)
-	$(V1)$(foreach fw_targ, $(FW_TARGETS), cp $(BUILD_DIR)/$(fw_targ)/$(fw_targ).tlfw $(BUILD_DIR)/ground/$@/build/$(fw_targ)/;)
+	$(V1) $(foreach bu_targ, $(BU_TARGETS), mkdir -p $(BUILD_DIR)/ground/$@/build/$(bu_targ);)
+	$(V1) $(foreach fw_targ, $(FW_TARGETS), cp $(BUILD_DIR)/$(fw_targ)/$(fw_targ).tlfw $(BUILD_DIR)/ground/$@/build/$(fw_targ)/;)
+	$(V1) $(foreach bu_targ, $(BU_TARGETS), cp $(BUILD_DIR)/$(bu_targ)/$(bu_targ).tlfw $(BUILD_DIR)/ground/$@/build/$(bu_targ)/;)
+
+ground_package_common: | tlfw_resource standalone
+	@echo $@ starting
+	$(V1) mkdir -p $(PACKAGE_DIR)/$(GCS_PACKAGE_NAME)/bin
+	$(V1) mkdir -p $(PACKAGE_DIR)/$(GCS_PACKAGE_NAME)/share
+	$(V1) mkdir -p $(PACKAGE_DIR)/$(GCS_PACKAGE_NAME)/lib
+	$(V1) cp -v -R $(BUILD_DIR)/ground/gcs/bin $(PACKAGE_DIR)/$(GCS_PACKAGE_NAME)
+	$(V1) cp -v -R $(BUILD_DIR)/ground/gcs/share $(PACKAGE_DIR)/$(GCS_PACKAGE_NAME)
+	$(V1) cp -v -R $(BUILD_DIR)/ground/gcs/lib $(PACKAGE_DIR)/$(GCS_PACKAGE_NAME)
+	$(V1) cp -v $(ROOT_DIR)/HISTORY.txt $(PACKAGE_DIR)/$(GCS_PACKAGE_NAME)
+	$(V1) cp -v $(ROOT_DIR)/KNOWN_ISSUES.txt $(PACKAGE_DIR)/$(GCS_PACKAGE_NAME)
+	$(V1) cp -v $(ROOT_DIR)/CREDITS.txt $(PACKAGE_DIR)/$(GCS_PACKAGE_NAME)
+	$(V1) cp -v $(ROOT_DIR)/LICENSE.txt $(PACKAGE_DIR)/$(GCS_PACKAGE_NAME)
+	$(V1) find $(PACKAGE_DIR)/$(GCS_PACKAGE_NAME) -type f -name "*Makefile" -exec rm -f {} \;
+	$(V1) find $(PACKAGE_DIR)/$(GCS_PACKAGE_NAME) -type f -name "*qmake.cache" -exec rm -f {} \;
+	$(V1) find $(PACKAGE_DIR)/$(GCS_PACKAGE_NAME) -type f -name "*udp_test" -exec rm -f {} \;
+	$(V1) find $(PACKAGE_DIR)/$(GCS_PACKAGE_NAME) -type f -name "*gcsversioninfo.h" -exec rm -f {} \;
 
 include $(WHEREAMI)/Makefile.$(PLATFORM)

@@ -2,23 +2,24 @@
 # MacOSX-specific packaging
 #
 
-APP_NAME="Tau Labs GCS.app"
+APP_NAME_OSX="Tau Labs GCS.app"
 APP_PATH="${BUILD_DIR}/ground/gcs/bin/"
 TEMP_FILE="${PACKAGE_DIR}/TauLabs-temp.dmg.sparseimage"
 OUT_FILE="${PACKAGE_DIR}/TauLabs-${PACKAGE_LBL}.dmg"
 ICON_FILE="${ROOT_DIR}/package/linux/taulabs.png"
 VOL_NAME="Tau Labs"
 
+GCS_PACKAGE_ROOT := $(GCS_PACKAGE_NAME)/$(APP_NAME_OSX)
+
 # calls macdeployqt and bundles the extra libraries into .app
 standalone: gcs
-	"${ROOT_DIR}/package/osx/libraries" ${APP_PATH}/${APP_NAME}
-
+	"${ROOT_DIR}/package/osx/libraries" ${APP_PATH}/${APP_NAME_OSX}
 
 # puts the files into a dmg
 dmg: standalone package_flight package_matlab
 	ROOT_DIR="$(ROOT_DIR)" \
 	BUILD_DIR="$(BUILD_DIR)" \
-	PACKAGE_LBL="$(PACKAGE_LBL)" \
+	PACKAGE_LBL=$(GCS_PACKAGE_NAME) \
 	PACKAGE_DIR="$(PACKAGE_DIR)" \
 	FW_DIR="$(FW_DIR)" \
 	"$(ROOT_DIR)/package/osx/package"
@@ -26,7 +27,23 @@ dmg: standalone package_flight package_matlab
 gcs: uavobjects
 	$(V1) $(MAKE) -C $(ROOT_DIR) GCS_BUILD_CONF=release $@
 
-ground_package: | dmg
+installer_package: | dmg
 
-
+ground_package_os_specific: | tlfw_resource standalone
+	@echo $@ starting
+	$(V1) rm -r -f $(PACKAGE_DIR)/$(GCS_PACKAGE_ROOT)
+	$(V1) mkdir -p $(PACKAGE_DIR)/$(GCS_PACKAGE_NAME)
+	$(V1) cp -v -R $(BUILD_DIR)/ground/gcs/bin/$(APP_NAME_OSX) $(PACKAGE_DIR)/$(GCS_PACKAGE_NAME)
 .PHONY: gcs ground_package osx_package
+
+package_ground_compress: package_ground
+	$(V1)cd $(PACKAGE_DIR) && zip -9 -r $(PACKAGE_DIR)/$(GCS_PACKAGE_NAME) $(GCS_PACKAGE_NAME)
+package_flight_compress: package_flight
+	$(V1)cd $(PACKAGE_DIR) && zip -9 -r $(PACKAGE_DIR)/firmware-$(PACKAGE_LBL) $(FW_DIR)
+package_matlab_compress: package_matlab
+	$(V1)cd $(PACKAGE_DIR) && $(ZIP_DIR)/zip.exe -r $(PACKAGE_DIR)/matlab-$(PACKAGE_LBL) $(ML_DIR)
+package_all_compress: package_all
+	$(V1)cd $(PACKAGE_DIR)/../ && $(ZIP_DIR)/zip.exe -r --exclude=*.zip $(BUILD_DIR)/$(PACKAGE_LBL) $(PACKAGE_DIR)
+
+.PHONY: standalone installer_package  gcs
+.PHONY: package_ground_compress package_flight_compress package_matlab_compress

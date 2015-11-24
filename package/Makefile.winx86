@@ -13,7 +13,7 @@ standalone: gcs
 	$(V1) windeployqt -printsupport -concurrent -gui -opengl -xml -quick -quickwidgets -test -script -sql -serialport -multimedia -multimediawidgets --list relative --qmldir $(ROOT_DIR)/build/ground/gcs/share/taulabs/welcome $(ROOT_DIR)/build/ground/gcs/bin/taulabsgcs.exe 
 	$(V1) windeployqt -printsupport -concurrent -gui -opengl -xml -quick -quickwidgets -test -script -sql -serialport -multimedia -multimediawidgets --qmldir $(ROOT_DIR)/build/ground/gcs/share/taulabs/welcome $(ROOT_DIR)/build/ground/gcs/bin/taulabsgcs.exe 
 
-win_package: standalone package_flight package_matlab
+installer_package: standalone package_flight package_matlab
 	$(V1) mkdir -p "$(dir $(NSIS_HEADER))"
 	$(VERSION_CMD) --template="$(NSIS_TEMPLATE)" --outfile="$(NSIS_HEADER)" PACKAGE_LBL="$(PACKAGE_LBL)"
 	$(V1) echo "Building Windows installer, please wait..."
@@ -21,9 +21,29 @@ win_package: standalone package_flight package_matlab
 	$(V1) echo "  http://www.scratchpaper.com"
 	$(NSIS_CMD) $(NSIS_OPTS) $(NSIS_SCRIPT)
 
-gcs: uavobjects
+ground_package_os_specific: ground_package_common
+	@echo $@ starting
+	$(V1)cp -v $(NSIS_DIR)/makeShortcut.vbs $(PACKAGE_DIR)/$(GCS_PACKAGE_NAME)/bin
+	$(V1)cp -v $(NSIS_DIR)/createShortcut.bat $(PACKAGE_DIR)/$(GCS_PACKAGE_NAME)
+ifeq ($(USE_MSVC), YES)
+	$(V1)cp -v "$(VCREDIST)/msvcp120.dll" $(PACKAGE_DIR)/$(GCS_PACKAGE_NAME)/bin
+	$(V1)cp -v "$(VCREDIST)/msvcr120.dll" $(PACKAGE_DIR)/$(GCS_PACKAGE_NAME)/bin
+	$(V1)cp -v "$(VCREDIST)/vccorlib120.dll" $(PACKAGE_DIR)/$(GCS_PACKAGE_NAME)/bin
+endif
+	$(V1)find $(PACKAGE_DIR)/$(GCS_PACKAGE_NAME) -type f -name "*.lib" -exec rm -f {} \;
+	$(V1)find $(PACKAGE_DIR)/$(GCS_PACKAGE_NAME) -type f -name "*.exp" -exec rm -f {} \;
+
+package_ground_compress: package_ground
+	$(V1)cd $(PACKAGE_DIR) && $(ZIP_DIR)/zip.exe -r $(PACKAGE_DIR)/$(GCS_PACKAGE_NAME) $(GCS_PACKAGE_NAME)
+package_flight_compress: package_flight
+	$(V1)cd $(PACKAGE_DIR) && $(ZIP_DIR)/zip.exe -r $(PACKAGE_DIR)/firmware-$(PACKAGE_LBL) $(FW_DIR)
+package_matlab_compress: package_matlab
+	$(V1)cd $(PACKAGE_DIR) && $(ZIP_DIR)/zip.exe -r $(PACKAGE_DIR)/matlab-$(PACKAGE_LBL) $(ML_DIR)
+package_all_compress: package_all
+	$(V1)cd $(PACKAGE_DIR)/../ && $(ZIP_DIR)/zip.exe -r --exclude=*.zip $(BUILD_DIR)/$(PACKAGE_LBL) $(PACKAGE_DIR)
+
+gcs: uavobjects | tlfw_resource
 	$(V1) $(MAKE) -C $(ROOT_DIR) GCS_BUILD_CONF=release $@
 
-ground_package: | win_package
-
-.PHONY: gcs ground_package win_package
+.PHONY: standalone gcs
+.PHONY: package_ground_compress package_flight_compress package_matlab_compress

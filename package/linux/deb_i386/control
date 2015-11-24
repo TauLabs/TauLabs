@@ -1,7 +1,7 @@
 Source: taulabs
 Section: unknown
 Priority: extra
-Maintainer: peabody124 <peabody124@gmail.com>
+Maintainer: <AUTHOR>
 Build-Depends: debhelper (>= 7.0.50~)
 Standards-Version: 3.8.4
 Homepage: http://taulabs.org
@@ -11,5 +11,7 @@ Vcs-Browser: https://github.com/TauLabs/TauLabs/commits/next
 Package: taulabs
 Architecture: i386
 Depends: ${shlibs:Depends}, ${misc:Depends}
-Description: Tau Labs GCS & FW
+Description: Tau Labs GCS
+ The Tau Labs project ground control station.
+ A program that allows you to change settings on compatible flight controllers, create flightpaths, view controller data, create and upload picoC scripts, replay logged data, etc...
 

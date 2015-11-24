@@ -343,3 +343,10 @@ plugin_boards_aeroquad.subdir = boards_aeroquad
 plugin_boards_aeroquad.depends = plugin_coreplugin
 plugin_boards_aeroquad.depends = plugin_uavobjects
 SUBDIRS += plugin_boards_aeroquad
+
+# AutoUpdate plugin
+SUBDIRS += plugin_autoupdater
+plugin_autoupdater.subdir = autoupdater
+plugin_autoupdater.depends = plugin_uavobjects
+plugin_autoupdater.depends += plugin_coreplugin
+plugin_autoupdater.depends += plugin_uavtalk
