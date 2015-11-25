@@ -73,15 +73,6 @@ static void AttitudeTask(void *parameters);
 
 static float gyro_correct_int[3] = {0,0,0};
 
-#ifdef COPTERCONTROL
-static struct pios_queue *gyro_queue;
-
-static int32_t updateSensors(AccelsData *, GyrosData *);
-#define ADXL345_ACCEL_SCALE  (GRAVITY * 0.004f)
-/* 0.004f is gravity / LSB */
-
-#endif
-
 static int32_t updateSensorsDigital(AccelsData * accelsData, GyrosData * gyrosData);
 static void updateAttitude(AccelsData *, GyrosData *);
 static void settingsUpdatedCb(UAVObjEvent * objEv);
@@ -179,29 +170,6 @@ static void AttitudeTask(void *parameters)
 {
 	AlarmsClear(SYSTEMALARMS_ALARM_ATTITUDE);
 
-#ifdef COPTERCONTROL
-	// Set critical error and wait until the accel is producing data
-	while(PIOS_ADXL345_FifoElements() == 0) {
-		AlarmsSet(SYSTEMALARMS_ALARM_ATTITUDE, SYSTEMALARMS_ALARM_CRITICAL);
-		PIOS_WDG_UpdateFlag(PIOS_WDG_ATTITUDE);
-	}
-
-	const struct pios_board_info * bdinfo = &pios_board_info_blob;
-
-	bool cc3d = bdinfo->board_rev == 0x02;
-
-	if (!cc3d) {
-#if defined(PIOS_INCLUDE_ADC)
-		// Create queue for passing gyro data, allow 2 back samples in case
-		gyro_queue = PIOS_Queue_Create(1, sizeof(float) * 4);
-		PIOS_Assert(gyro_queue != NULL);
-		PIOS_ADC_SetQueue(PIOS_INTERNAL_ADC,gyro_queue);
-
-		PIOS_SENSORS_SetMaxGyro(500);
-#endif
-	}
-#endif
-	
 	// Force settings update to make sure rotation loaded
 	settingsUpdatedCb(AttitudeSettingsHandle());
 	
@@ -282,14 +250,7 @@ static void AttitudeTask(void *parameters)
 		GyrosData gyros;
 		int32_t retval = 0;
 
-#ifdef COPTERCONTROL
-		if (cc3d)
-			retval = updateSensorsDigital(&accels, &gyros);
-		else
-			retval = updateSensors(&accels, &gyros);
-#else
 		retval = updateSensorsDigital(&accels, &gyros);
-#endif
 
 		// During power on set to angle from accel
 		if (complimentary_filter_status == CF_POWERON) {
@@ -313,69 +274,6 @@ static void AttitudeTask(void *parameters)
 		}
 	}
 }
-
-#ifdef COPTERCONTROL
-/**
- * Get an update from the sensors
- * @param[in] attitudeRaw Populate the UAVO instead of saving right here
- * @return 0 if successfull, -1 if not
- */
-static int32_t updateSensors(AccelsData * accelsData, GyrosData * gyrosData)
-{
-	struct pios_adxl345_data accel_data;
-	float gyro[4];
-
-	// Only wait the time for two nominal updates before setting an alarm
-	if (PIOS_Queue_Receive(gyro_queue, (void * const) gyro, PIOS_INTERNAL_ADC_UPDATE_RATE * 2) == false) {
-		AlarmsSet(SYSTEMALARMS_ALARM_ATTITUDE, SYSTEMALARMS_ALARM_ERROR);
-		return -1;
-	}
-
-	// Do not read raw sensor data in simulation mode
-	if (GyrosReadOnly() || AccelsReadOnly())
-		return 0;
-
-	// No accel data available
-	if(PIOS_ADXL345_FifoElements() == 0)
-		return -1;
-
-	// Convert the ADC data into the standard normalized format
-	struct pios_sensor_gyro_data gyros;
-	gyros.temperature = gyro[0];
-	gyros.x = -(gyro[1] - GYRO_NEUTRAL) * IDG_GYRO_GAIN;
-	gyros.y = (gyro[2] - GYRO_NEUTRAL) * IDG_GYRO_GAIN;
-	gyros.z = -(gyro[3] - GYRO_NEUTRAL) * IDG_GYRO_GAIN;
-
-	// Convert the ADXL345 data into the standard normalized format
-	int32_t x = 0;
-	int32_t y = 0;
-	int32_t z = 0;
-	uint8_t i = 0;
-	uint8_t samples_remaining;
-	do {
-		i++;
-		samples_remaining = PIOS_ADXL345_Read(&accel_data);
-		x +=  accel_data.x;
-		y += -accel_data.y;
-		z += -accel_data.z;
-	} while ( (i < 32) && (samples_remaining > 0) );
-
-	struct pios_sensor_accel_data accels;
-
-	accels.x = ((float) x / i) * ADXL345_ACCEL_SCALE;
-	accels.y = ((float) y / i) * ADXL345_ACCEL_SCALE;
-	accels.z = ((float) z / i) * ADXL345_ACCEL_SCALE;
-
-	// Apply rotation / calibration and assign to the UAVO
-	update_gyros(&gyros, gyrosData);
-	update_accels(&accels, accelsData);
-
-	GyrosSet(gyrosData);
-	AccelsSet(accelsData);
-
-	return 0;
-}
-#endif
 
 /**
  * Get an update from the sensors
