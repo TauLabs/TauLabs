@@ -69,8 +69,8 @@ ground_package_os_specific: ground_package_common
 installer_package: deb_build ground_package
 	@echo $@ starting
 	$(V1) cd $(BUILD_DIR) && dpkg-buildpackage -b -us -uc
-	$(V1) mv $(ROOT_DIR)/$(GCS_PACKAGE_NAME).deb $(PACKAGE_DIR)
-	$(V1) mv $(ROOT_DIR)/$(GCS_PACKAGE_NAME).changes $(PACKAGE_DIR)
+	$(V1) mv $(ROOT_DIR)/taulabs_$(PACKAGE_LBL)-1_$(PLATFORM_NAME).deb $(PACKAGE_DIR)
+	$(V1) mv $(ROOT_DIR)/taulabs_$(PACKAGE_LBL)-1_$(PLATFORM_NAME).changes $(PACKAGE_DIR)
 	$(V1) rm -rf $(DEB_BUILD_DIR)
 
 deb_build: | $(DEB_BUILD_DIR) $(ALL_DEB_FILES)
