@@ -263,8 +263,12 @@ int main(int argc, char **argv)
         // fix Mac OS X 10.9 (mavericks) font issue
         // https://bugreports.qt-project.org/browse/QTBUG-32789
         QFont::insertSubstitution(".Lucida Grande UI", "Lucida Grande");
+
+        // This setting makes GCS process events when backgrounded
+        QSettings().setValue(QString("NSAppSleepDisabled"), true);
     }
 #endif
+
 #ifdef Q_OS_LINUX
     QApplication::setAttribute(Qt::AA_X11InitThreads, true);
     // This should have faster performance on linux
