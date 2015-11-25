@@ -264,11 +264,8 @@ int main(int argc, char **argv)
         // https://bugreports.qt-project.org/browse/QTBUG-32789
         QFont::insertSubstitution(".Lucida Grande UI", "Lucida Grande");
 
-        QSettings tmpSettings;
-
-        bool value = true;
-
-        tmpSettings.setValue(QString("NSAppSleepDisabled"), value);
+        // This setting makes GCS process events when backgrounded
+        QSettings().setValue(QString("NSAppSleepDisabled"), true);
     }
 #endif
 
