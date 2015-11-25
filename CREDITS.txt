@@ -18,6 +18,7 @@ D: Win32 OpenPilot port
 
 N: David Ankers
 E: david (at) openpilot (dot) org
+D: Co-founder of the OpenPilot project
 D: Minor GCS infrastructure, updating the credit file
 
 N: Pedro Assuncao
