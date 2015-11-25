@@ -541,7 +541,7 @@ void AutoUpdater::processLatestRelease(gitHubReleaseAPI::release release)
 bool AutoUpdater::checkIfReleaseContainsProperAsset(gitHubReleaseAPI::release release)
 {
     foreach (gitHubReleaseAPI::GitHubAsset asset, release.assets.values()) {
-        if(asset.label.contains("gcs") && (asset.label.contains(preferredPlatformStr) || asset.label.contains(compatiblePlatformStr)))
+        if(!asset.label.contains("installer") && asset.label.contains("gcs") && (asset.label.contains(preferredPlatformStr) || asset.label.contains(compatiblePlatformStr)))
             return true;
     }
     return false;
