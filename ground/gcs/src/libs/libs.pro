@@ -3,7 +3,6 @@ CONFIG   += ordered
 QT += widgets
 SUBDIRS   = \
     qscispinbox\
-    qtconcurrent \
     aggregation \
     extensionsystem \
     utils \
