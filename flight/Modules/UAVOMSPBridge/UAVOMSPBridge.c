@@ -42,6 +42,7 @@
 #include "actuatordesired.h"
 #include "flightstatus.h"
 #include "systemstats.h"
+#include "systemalarms.h"
 #include "homelocation.h"
 #include "baroaltitude.h"
 #include "pios_thread.h"
@@ -82,6 +83,7 @@
 #define  MSP_BOXIDS     119 // get the permanent IDs associated to BOXes
 #define  MSP_NAV_STATUS 121 // Returns navigation status
 #define  MSP_CELLS      130 // FrSky SPort Telemtry
+#define  MSP_ALARMS     242 // Alarm request
 
 typedef enum {
 	MSP_BOX_ARM,
@@ -146,13 +148,17 @@ struct msp_bridge {
 #endif
 #define TASK_PRIORITY               PIOS_THREAD_PRIO_LOW
 
+#define MAX_ALARM_LEN 30
+
+#define BOOT_DISPLAY_TIME_MS (10*1000)
+
 static bool module_enabled;
 extern uintptr_t pios_com_msp_id;
 static struct msp_bridge *msp;
 static int32_t uavoMSPBridgeInitialize(void);
 static void uavoMSPBridgeTask(void *parameters);
 
-static void msp_send(struct msp_bridge *m, uint8_t cmd, uint8_t *data, size_t len)
+static void msp_send(struct msp_bridge *m, uint8_t cmd, const uint8_t *data, size_t len)
 {
 	uint8_t buf[5];
 	uint8_t cs = (uint8_t)(len) ^ cmd;
@@ -391,6 +397,154 @@ static void msp_send_boxids(struct msp_bridge *m) {
 	msp_send(m, MSP_BOXIDS, boxes, len);
 }
 
+static const char alarm_names[][8] = {
+	[SYSTEMALARMS_ALARM_OUTOFMEMORY] = "MEMORY",
+	[SYSTEMALARMS_ALARM_CPUOVERLOAD] = "CPU",
+	[SYSTEMALARMS_ALARM_STACKOVERFLOW] = "STACK",
+	[SYSTEMALARMS_ALARM_SYSTEMCONFIGURATION] = "CONFIG",
+	[SYSTEMALARMS_ALARM_EVENTSYSTEM] = "EVENT",
+	[SYSTEMALARMS_ALARM_TELEMETRY] = {0}, // ignored
+	[SYSTEMALARMS_ALARM_MANUALCONTROL] = "MANUAL",
+	[SYSTEMALARMS_ALARM_ACTUATOR] = "ACTUATOR",
+	[SYSTEMALARMS_ALARM_ATTITUDE] = "ATTITUDE",
+	[SYSTEMALARMS_ALARM_SENSORS] = "SENSORS",
+	[SYSTEMALARMS_ALARM_STABILIZATION] = "STAB",
+	[SYSTEMALARMS_ALARM_PATHFOLLOWER] = "PATH-F",
+	[SYSTEMALARMS_ALARM_PATHPLANNER] = "PATH-P",
+	[SYSTEMALARMS_ALARM_BATTERY] = "BATTERY",
+	[SYSTEMALARMS_ALARM_FLIGHTTIME] = "TIME",
+	[SYSTEMALARMS_ALARM_I2C] = "I2C",
+	[SYSTEMALARMS_ALARM_GPS] = "GPS",
+	[SYSTEMALARMS_ALARM_ALTITUDEHOLD] = "A-HOLD",
+	[SYSTEMALARMS_ALARM_BOOTFAULT] = "BOOT",
+	[SYSTEMALARMS_ALARM_GEOFENCE] = "GEOFENCE",
+	[SYSTEMALARMS_ALARM_TEMPBARO] = "TEMPBARO",
+	[SYSTEMALARMS_ALARM_GYROBIAS] = "GYROBIAS",
+	[SYSTEMALARMS_ALARM_ADC] = "ADC",
+};
+
+// If someone adds a new alarm, we'd like it added to the array above.
+DONT_BUILD_IF(NELEMENTS(alarm_names) != SYSTEMALARMS_ALARM_NUMELEM, AlarmArrayMismatch);
+DONT_BUILD_IF(sizeof(*alarm_names) >= MAX_ALARM_LEN, BufferOverflow);
+
+static const char config_error_names[][14] = {
+	[SYSTEMALARMS_CONFIGERROR_STABILIZATION] = "CFG:STAB",
+	[SYSTEMALARMS_CONFIGERROR_MULTIROTOR] = "CFG:MULTIROTOR",
+	[SYSTEMALARMS_CONFIGERROR_AUTOTUNE] = "CFG:AUTOTUNE",
+	[SYSTEMALARMS_CONFIGERROR_ALTITUDEHOLD] = "CFG:AH1",
+	[SYSTEMALARMS_CONFIGERROR_POSITIONHOLD] = "CFG:POS-HOLD",
+	[SYSTEMALARMS_CONFIGERROR_PATHPLANNER] = "CFG:PATHPLAN",
+	[SYSTEMALARMS_CONFIGERROR_DUPLICATEPORTCFG] = "CFG:DUP PORT",
+	[SYSTEMALARMS_CONFIGERROR_NAVFILTER] = "CFG:NAVFILTER",
+	[SYSTEMALARMS_CONFIGERROR_UNSAFETOARM] = "CFG:UNSAFE",
+	[SYSTEMALARMS_CONFIGERROR_UNDEFINED] = "CFG:UNDEF",
+	[SYSTEMALARMS_CONFIGERROR_NONE] = {0},
+};
+
+// DONT_BUILD_IF(NELEMENTS(CONFIG_ERROR_NAMES) != SYSTEMALARMS_CONFIGERROR_NUMELEM, AlarmArrayMismatch);
+DONT_BUILD_IF(sizeof(*config_error_names) >= MAX_ALARM_LEN, BufferOverflow);
+
+static const char manual_control_names[][12] = {
+	[SYSTEMALARMS_MANUALCONTROL_SETTINGS] = "MAN:SETTINGS",
+	[SYSTEMALARMS_MANUALCONTROL_NORX] = "MAN:NO RX",
+	[SYSTEMALARMS_MANUALCONTROL_ACCESSORY] = "MAN:ACC",
+	[SYSTEMALARMS_MANUALCONTROL_ALTITUDEHOLD] = "MAN:A-HOLD",
+	[SYSTEMALARMS_MANUALCONTROL_PATHFOLLOWER] = "MAN:PATH-F",
+	[SYSTEMALARMS_MANUALCONTROL_UNDEFINED] = "MAN:UNDEF",
+	[SYSTEMALARMS_MANUALCONTROL_NONE] = {0},
+};
+
+// DONT_BUILD_IF(NELEMENTS(MANUAL_CONTROL_NAMES) != SYSTEMALARMS_MANUALCONTROL_NUMELEM, AlarmArrayMismatch);
+
+static const char boot_reason_names[][15] = {
+	[SYSTEMALARMS_REBOOTCAUSE_BROWNOUT] = "BOOT:BROWNOUT",
+	[SYSTEMALARMS_REBOOTCAUSE_PINRESET] = "BOOT:PIN RESET",
+	[SYSTEMALARMS_REBOOTCAUSE_POWERONRESET] = "BOOT:PWR ON RST",
+	[SYSTEMALARMS_REBOOTCAUSE_SOFTWARERESET] = "BOOT:SW RESET",
+	[SYSTEMALARMS_REBOOTCAUSE_INDEPENDENTWATCHDOG] "BOOT:INDY WDOG",
+	[SYSTEMALARMS_REBOOTCAUSE_WINDOWWATCHDOG] = "BOOT:WIN WDOG",
+	[SYSTEMALARMS_REBOOTCAUSE_LOWPOWER] = "BOOT:LOW POWER",
+	[SYSTEMALARMS_REBOOTCAUSE_UNDEFINED] = "BOOT:UNDEFINED",
+};
+
+DONT_BUILD_IF(sizeof(*boot_reason_names) >= MAX_ALARM_LEN, BufferOverflow);
+
+#define ALARM_OK 0
+#define ALARM_WARN 1
+#define ALARM_ERROR 2
+#define ALARM_CRIT 3
+
+static void msp_send_alarms(struct msp_bridge *m) {
+	union {
+		uint8_t buf[0];
+		struct {
+			uint8_t state;
+			uint8_t msg[MAX_ALARM_LEN];
+		} __attribute__((packed)) alarm;
+	} data;
+
+	SystemAlarmsData alarm;
+	SystemAlarmsGet(&alarm);
+
+	// Special case early boot times -- just report boot reason
+	if (PIOS_Thread_Systime() < BOOT_DISPLAY_TIME_MS) {
+		data.alarm.state = ALARM_CRIT;
+		strncpy((char*)data.alarm.msg,
+			(const char*)boot_reason_names[alarm.RebootCause],
+			sizeof(*boot_reason_names));
+		data.alarm.msg[sizeof(*boot_reason_names)] = 0;
+		msp_send(m, MSP_ALARMS, data.buf, strlen((char*)data.alarm.msg)+1);
+		return;
+	}
+
+	data.alarm.state = ALARM_OK;
+
+	for (int i = 0; i < SYSTEMALARMS_ALARM_NUMELEM; i++) {
+		if (alarm_names[i][0] != 0 &&
+		    ((alarm.Alarm[i] == SYSTEMALARMS_ALARM_WARNING) ||
+		     (alarm.Alarm[i] == SYSTEMALARMS_ALARM_ERROR) ||
+		     (alarm.Alarm[i] == SYSTEMALARMS_ALARM_CRITICAL))) {
+
+			uint8_t state = ALARM_OK;
+			switch (alarm.Alarm[i]) {
+			case SYSTEMALARMS_ALARM_WARNING:
+				state = ALARM_WARN;
+				break;
+			case SYSTEMALARMS_ALARM_ERROR:
+				state = ALARM_ERROR;
+				break;
+			case SYSTEMALARMS_ALARM_CRITICAL:
+				state = ALARM_CRIT;
+			}
+
+			// Only take this alarm if it's worse than the previous one.
+			if (state > data.alarm.state) {
+				data.alarm.state = state;
+				switch (i) {
+				case SYSTEMALARMS_ALARM_SYSTEMCONFIGURATION:
+					strncpy((char*)data.alarm.msg,
+						(const char*)config_error_names[alarm.ConfigError],
+						sizeof(*config_error_names));
+					data.alarm.msg[sizeof(*config_error_names)] = 0;
+					break;
+				case SYSTEMALARMS_ALARM_MANUALCONTROL:
+					strncpy((char*)data.alarm.msg,
+						(const char*)manual_control_names[alarm.ManualControl],
+						sizeof(*manual_control_names));
+					data.alarm.msg[sizeof(*manual_control_names)] = 0;
+					break;
+				default:
+					strncpy((char*)data.alarm.msg,
+						(const char*)alarm_names[i], sizeof(*alarm_names));
+					data.alarm.msg[sizeof(*alarm_names)] = 0;
+				}
+			}
+		}
+	}
+
+	msp_send(m, MSP_ALARMS, data.buf, strlen((char*)data.alarm.msg)+1);
+}
+
 static msp_state msp_state_checksum(struct msp_bridge *m, uint8_t b)
 {
 	if ((m->checksum ^ b) != 0) {
@@ -425,6 +579,9 @@ static msp_state msp_state_checksum(struct msp_bridge *m, uint8_t b)
 		break;
 	case MSP_BOXIDS:
 		msp_send_boxids(m);
+		break;
+	case MSP_ALARMS:
+		msp_send_alarms(m);
 		break;
 	}
 	return MSP_IDLE;
