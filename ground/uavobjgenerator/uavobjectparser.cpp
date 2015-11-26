@@ -811,6 +811,16 @@ QString UAVObjectParser::processObjectFields(QDomNode& childNode, ObjectInfo* in
     else{
         field->limitValues=elemAttr.nodeValue();
     }
+
+    // Look for description string (for UI usage)
+    QDomNode node = childNode.firstChildElement("description");
+    if (!node.isNull()) {
+        QDomNode description = node.firstChild();
+        if (!description.isNull() && description.isText() && !description.nodeValue().isEmpty()) {
+            field->description = description.nodeValue().trimmed();
+        }
+    }
+
     // Add field to object
     info->fields.append(field);
     // Done

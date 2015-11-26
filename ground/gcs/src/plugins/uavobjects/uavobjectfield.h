@@ -51,8 +51,8 @@ public:
         int board;
     } LimitStruct;
 
-    UAVObjectField(const QString& name, const QString& units, FieldType type, quint32 numElements, const QStringList& options, const QList<int>& indices, const QString& limits=QString());
-    UAVObjectField(const QString& name, const QString& units, FieldType type, const QStringList& elementNames, const QStringList& options, const QList<int>& indices, const QString& limits=QString());
+    UAVObjectField(const QString& name, const QString& units, FieldType type, quint32 numElements, const QStringList& options, const QList<int>& indices, const QString& limits=QString(), const QString& description=QString());
+    UAVObjectField(const QString& name, const QString& units, FieldType type, const QStringList& elementNames, const QStringList& options, const QList<int>& indices, const QString& limits=QString(), const QString& description=QString());
     void initialize(quint8* data, quint32 dataOffset, UAVObject* obj);
     UAVObject* getObject();
     FieldType getType();
@@ -74,6 +74,7 @@ public:
     bool isNumeric();
     bool isText();
     QString toString();
+    QString getDescription();
 
     bool isWithinLimits(QVariant var, quint32 index, int board=0);
     QVariant getMaxLimit(quint32 index, int board=0);
@@ -94,8 +95,9 @@ protected:
     quint8* data;
     UAVObject* obj;
     QMap<quint32, QList<LimitStruct> > elementLimits;
+    QString description;
     void clear();
-    void constructorInitialize(const QString& name, const QString& units, FieldType type, const QStringList& elementNames, const QStringList& options, const QList<int> &indices, const QString &limits);
+    void constructorInitialize(const QString& name, const QString& units, FieldType type, const QStringList& elementNames, const QStringList& options, const QList<int> &indices, const QString &limits, const QString &description);
     void limitsInitialize(const QString &limits);
 
 
