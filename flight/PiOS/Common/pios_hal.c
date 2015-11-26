@@ -353,7 +353,7 @@ static void PIOS_HAL_ConfigureHSUM(const struct pios_usart_cfg *usart_hsum_cfg,
  *
  * @param[in] port_type protocol to speak on this port
  * @param[in] usart_port_cfg serial configuration for most modes on this port
- * @param[in] usart_port_cfg serial configuration for frsky telem on this port (F3 only)
+ * @param[in] usart_frsky_port_cfg serial configuration for frsky telem on this port (F3 only)
  * @param[in] com_driver communications driver for serial on this port
  * @param[out] i2c_id ID of I2C peripheral if operated in I2C mode
  * @param[in] i2c_Cfg Adapter configuration/registers for I2C mode
