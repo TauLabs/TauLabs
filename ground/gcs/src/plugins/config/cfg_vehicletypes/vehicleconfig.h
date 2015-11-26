@@ -122,6 +122,7 @@ class VehicleConfig: public ConfigTaskWidget
         static void SetConfigData(GUIConfigDataUnion configData);
         static void resetField(UAVObjectField * field);
         static void setComboCurrentIndex(QComboBox* box, int index);
+        static void setLabelText(QWidget* owner, QString boxName, QVector<QString> &labels);
         static void enableComboBoxes(QWidget* owner, QString boxName, int boxCount, bool enable);
         double  getMixerVectorValue(UAVDataObject* mixer, int channel, MixerSettings::Mixer1VectorElem elementName);
         void    setMixerVectorValue(UAVDataObject* mixer, int channel, MixerSettings::Mixer1VectorElem elementName, double value);

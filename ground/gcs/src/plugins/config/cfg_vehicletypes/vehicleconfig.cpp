@@ -123,6 +123,26 @@ void VehicleConfig::setComboCurrentIndex(QComboBox* box, int index)
 
 /**
   Helper function:
+  sets the text of labels within supplied uiowner
+ */
+void VehicleConfig::setLabelText(QWidget* owner, QString boxName, QVector<QString> &labels)
+{
+    // set the desired labels
+    for (int i = 0; i < labels.length(); i++) {
+        QLabel* lbl = owner->findChild<QLabel*>(QString("%0%1").arg(boxName).arg(i + 1));
+        if (lbl)
+            lbl->setText(labels[i]);
+    }
+    // set the remainder of the labels blank
+    int i = labels.length();
+    while(QLabel* lbl = owner->findChild<QLabel*>(QString("%0%1").arg(boxName).arg(i + 1))) {
+        lbl->setText(QString(""));
+        i++;
+    }
+}
+
+/**
+  Helper function:
   enables/disables the named comboboxes within supplied uiowner
  */
 void VehicleConfig::enableComboBoxes(QWidget* owner, QString boxName, int boxCount, bool enable)
