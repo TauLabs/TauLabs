@@ -121,9 +121,7 @@ static void onScreenDisplayTask(void *parameters);
 #define STACK_SIZE_BYTES 2048
 #define TASK_PRIORITY    PIOS_THREAD_PRIO_LOW
 #define UPDATE_PERIOD    100
-#define BLINK_INTERVAL_FRAMES 6
-
-// The reboot cause is considered a warning for this long.
+#define BLINK_INTERVAL_FRAMES 12
 #define BOOT_DISPLAY_TIME_MS (10*1000)
 
 const char METRIC_DIST_UNIT_LONG[] = "km";
@@ -610,142 +608,31 @@ void draw_flight_mode(int x, int y, int xs, int ys, int va, int ha, int flags, i
 	}
 }
 
-static const char alarm_names[][8] = {
-	[SYSTEMALARMS_ALARM_OUTOFMEMORY] = "MEMORY",
-	[SYSTEMALARMS_ALARM_CPUOVERLOAD] = "CPU",
-	[SYSTEMALARMS_ALARM_STACKOVERFLOW] = "STACK",
-	[SYSTEMALARMS_ALARM_SYSTEMCONFIGURATION] = "CONFIG",
-	[SYSTEMALARMS_ALARM_EVENTSYSTEM] = "EVENT",
-	[SYSTEMALARMS_ALARM_TELEMETRY] = {0}, // ignored
-	[SYSTEMALARMS_ALARM_MANUALCONTROL] = "MANUAL",
-	[SYSTEMALARMS_ALARM_ACTUATOR] = "ACTUATOR",
-	[SYSTEMALARMS_ALARM_ATTITUDE] = "ATTITUDE",
-	[SYSTEMALARMS_ALARM_SENSORS] = "SENSORS",
-	[SYSTEMALARMS_ALARM_STABILIZATION] = "STAB",
-	[SYSTEMALARMS_ALARM_PATHFOLLOWER] = "PATH-F",
-	[SYSTEMALARMS_ALARM_PATHPLANNER] = "PATH-P",
-	[SYSTEMALARMS_ALARM_BATTERY] = "BATTERY",
-	[SYSTEMALARMS_ALARM_FLIGHTTIME] = "TIME",
-	[SYSTEMALARMS_ALARM_I2C] = "I2C",
-	[SYSTEMALARMS_ALARM_GPS] = "GPS",
-	[SYSTEMALARMS_ALARM_ALTITUDEHOLD] = "A-HOLD",
-	[SYSTEMALARMS_ALARM_BOOTFAULT] = "BOOT",
-	[SYSTEMALARMS_ALARM_GEOFENCE] = "GEOFENCE",
-	[SYSTEMALARMS_ALARM_TEMPBARO] = "TEMPBARO",
-	[SYSTEMALARMS_ALARM_GYROBIAS] = "GYROBIAS",
-	[SYSTEMALARMS_ALARM_ADC] = "ADC",
-};
-DONT_BUILD_IF(NELEMENTS(alarm_names) != SYSTEMALARMS_ALARM_NUMELEM, AlarmArrayMismatch);
-
-static const char config_error_names[][14] = {
-	[SYSTEMALARMS_CONFIGERROR_STABILIZATION] = "CFG:STAB",
-	[SYSTEMALARMS_CONFIGERROR_MULTIROTOR] = "CFG:MULTIROTOR",
-	[SYSTEMALARMS_CONFIGERROR_AUTOTUNE] = "CFG:AUTOTUNE",
-	[SYSTEMALARMS_CONFIGERROR_ALTITUDEHOLD] = "CFG:AH1",
-	[SYSTEMALARMS_CONFIGERROR_POSITIONHOLD] = "CFG:POS-HOLD",
-	[SYSTEMALARMS_CONFIGERROR_PATHPLANNER] = "CFG:PATHPLAN",
-	[SYSTEMALARMS_CONFIGERROR_DUPLICATEPORTCFG] = "CFG:DUP PORT",
-	[SYSTEMALARMS_CONFIGERROR_NAVFILTER] = "CFG:NAVFILTER",
-	[SYSTEMALARMS_CONFIGERROR_UNSAFETOARM] = "CFG:UNSAFE",
-	[SYSTEMALARMS_CONFIGERROR_UNDEFINED] = "CFG:UNDEF",
-	[SYSTEMALARMS_CONFIGERROR_NONE] = {0},
-};
-
-// This variable doesn't exist, but would be nice.
-// DONT_BUILD_IF(NELEMENTS(config_error_names) != SYSTEMALARMS_CONFIGERROR_NUMELEM, AlarmArrayMismatch);
-
-static const char manual_control_names[][12] = {
-	[SYSTEMALARMS_MANUALCONTROL_SETTINGS] = "MAN:SETTINGS",
-	[SYSTEMALARMS_MANUALCONTROL_NORX] = "MAN:NO RX",
-	[SYSTEMALARMS_MANUALCONTROL_ACCESSORY] = "MAN:ACC",
-	[SYSTEMALARMS_MANUALCONTROL_ALTITUDEHOLD] = "MAN:A-HOLD",
-	[SYSTEMALARMS_MANUALCONTROL_PATHFOLLOWER] = "MAN:PATH-F",
-	[SYSTEMALARMS_MANUALCONTROL_UNDEFINED] = "MAN:UNDEF",
-	[SYSTEMALARMS_MANUALCONTROL_NONE] = {0},
-};
-
-// This variable doesn't exist, but would be nice.
-// DONT_BUILD_IF(NELEMENTS(manual_control_names) != SYSTEMALARMS_MANUALCONTROL_NUMELEM, AlarmArrayMismatch);
-
-static const char boot_reason_names[][15] = {
-	[SYSTEMALARMS_REBOOTCAUSE_BROWNOUT] = "BOOT:BROWNOUT",
-	[SYSTEMALARMS_REBOOTCAUSE_PINRESET] = "BOOT:PIN RESET",
-	[SYSTEMALARMS_REBOOTCAUSE_POWERONRESET] = "BOOT:PWR ON RST",
-	[SYSTEMALARMS_REBOOTCAUSE_SOFTWARERESET] = "BOOT:SW RESET",
-	[SYSTEMALARMS_REBOOTCAUSE_INDEPENDENTWATCHDOG] "BOOT:INDY WDOG",
-	[SYSTEMALARMS_REBOOTCAUSE_WINDOWWATCHDOG] = "BOOT:WIN WDOG",
-	[SYSTEMALARMS_REBOOTCAUSE_LOWPOWER] = "BOOT:LOW POWER",
-	[SYSTEMALARMS_REBOOTCAUSE_UNDEFINED] = "BOOT:UNDEFINED",
-};
-
-// This variable doesn't exist, but would be nice.
-// DONT_BUILD_IF(NELEMENTS(boot_reason_names) != SYSTEMALARMS_REBOOTCAUSE_NUMELEM, AlarmArrayMismatch);
 
 void draw_alarms(int x, int y, int xs, int ys, int va, int ha, int flags, int font)
 {
-	uint8_t str_pos = 0;
-	char temp[100]  = { 0 };
+	char buf[100]  = { 0 };
 	SystemAlarmsData alarm;
+	int pos = 0;
 
 	SystemAlarmsGet(&alarm);
 
+	// Boot alarm for a bit.
 	if (PIOS_Thread_Systime() < BOOT_DISPLAY_TIME_MS) {
-		strncpy(temp,
-			(const char*)boot_reason_names[alarm.RebootCause],
-			sizeof(*boot_reason_names));
-		temp[sizeof(*boot_reason_names)] = 0;
-		str_pos = strlen(temp);
-		temp[str_pos++] = ' ';
+		const char *boot_reason = AlarmBootReason(alarm.RebootCause);
+		strncpy((char*)buf, boot_reason, sizeof(buf));
+		buf[strlen(boot_reason)] = '\0';
+		pos = strlen(boot_reason);
+		buf[pos++] = ' ';
+		return;
 	}
 
-	for (uint8_t i = 0; SYSTEMALARMS_ALARM_NUMELEM; i++)
-	{
-		if (alarm_names[i][0] != 0 &&
-		    ((alarm.Alarm[i] == SYSTEMALARMS_ALARM_WARNING) ||
-		     (alarm.Alarm[i] == SYSTEMALARMS_ALARM_ERROR) ||
-		     (alarm.Alarm[i] == SYSTEMALARMS_ALARM_CRITICAL))){
-			char current_msg[sizeof(*config_error_names)+1] = {0};
-			switch (i) {
-			case SYSTEMALARMS_ALARM_SYSTEMCONFIGURATION:
-				strncpy(current_msg,
-					(const char*)config_error_names[alarm.ConfigError],
-					sizeof(*config_error_names));
-				current_msg[sizeof(*config_error_names)] = 0;
-				break;
-			case SYSTEMALARMS_ALARM_MANUALCONTROL:
-				strncpy(current_msg,
-					(const char*)manual_control_names[alarm.ManualControl],
-					sizeof(*manual_control_names));
-				current_msg[sizeof(*manual_control_names)] = 0;
-				break;
-			default:
-				strncpy(current_msg, (const char*)alarm_names[i], sizeof(*alarm_names));
-				current_msg[sizeof(*alarm_names)] = 0;
-			}
+	uint8_t state;
+	int32_t len = AlarmString(&alarm, &buf[pos], sizeof(buf) - pos, blink, &state);
 
-			int this_len = strlen(current_msg);
-
-			if (str_pos + this_len + 2 >= sizeof(temp))
-				break;
-
-			if ((alarm.Alarm[i] != SYSTEMALARMS_ALARM_WARNING) && !blink){
-				// for alarms, we blink
-				this_len += 1;
-				while (this_len > 0){
-					temp[str_pos++] = ' ';
-					this_len--;
-				}
-				continue;
-			}
-
-			memcpy((void*)&temp[str_pos], (void*)current_msg, this_len);
-			str_pos += this_len;
-			temp[str_pos++] = ' ';
-		}
-	}
-	if (str_pos > 0){
-		temp[str_pos] = '\0';
-		write_string(temp, x, y, xs, ys, va, ha, flags, font);
+	if (len > 0) {
+		buf[pos] = '\0';
+		write_string(buf, x, y, xs, ys, va, ha, flags, font);
 	}
 }
 
