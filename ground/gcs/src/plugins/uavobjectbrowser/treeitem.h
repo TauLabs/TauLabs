@@ -111,11 +111,17 @@ public:
     int columnCount() const;
     QVariant data(int column = 1) const;
     QString description() { return m_description; }
-    void setDescription(QString d) { // Split around 40 characters
-        int idx = d.indexOf(" ",40);
-        d.insert(idx,QString("<br>"));
-        d.remove("@Ref", Qt::CaseInsensitive);
-        m_description = d;
+    void setDescription(QString d) {
+        if(d.trimmed().isEmpty()) {
+            m_description = QString();
+        }
+        else {
+            // insert html tags to make this rich text so Qt will take care of wrapping
+            d.prepend("<span style='font-style: normal'>");
+            d.remove("@Ref", Qt::CaseInsensitive);
+            d.append("</span>");
+            m_description = d;
+        }
     }
     // only column 1 (TreeItem::dataColumn) is changed with setData currently
     // other columns are initialized in constructor
