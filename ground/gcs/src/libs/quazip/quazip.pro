@@ -27,7 +27,7 @@ QT -= gui
 DEFINES += QUAZIP_BUILD
 
 include(../../taulabslibrary.pri)
-
+include(../zlib/zlib.pri)
 # You'll need to define this one manually if using a build system other
 # than qmake or using QuaZIP sources directly in your project.
 CONFIG(staticlib): DEFINES += QUAZIP_STATIC

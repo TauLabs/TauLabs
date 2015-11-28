@@ -177,18 +177,6 @@ HEADERS_GLC_GLU +=	glu/glc_glu.h
 HEADERS += $${HEADERS_LIB3DS} $${HEADERS_GLC_MATHS} $${HEADERS_GLC_IO}
 HEADERS += $${HEADERS_GLC} $${HEADERS_GLEXT} $${HEADERS_GLC_SCENEGRAPH} $${HEADERS_GLC_GEOMETRY}
 HEADERS += $${HEADERS_GLC_SHADING} $${HEADERS_GLC_VIEWPORT} $${HEADERS_GLC_3DWIDGET} $${HEADERS_GLC_GLU}
-		   
-SOURCES += 3rdparty/zlib/adler32.c \
-           3rdparty/zlib/compress.c \
-           3rdparty/zlib/crc32.c \
-           3rdparty/zlib/deflate.c \
-           3rdparty/zlib/gzio.c \
-           3rdparty/zlib/inffast.c \
-           3rdparty/zlib/inflate.c \
-           3rdparty/zlib/inftrees.c \
-           3rdparty/zlib/trees.c \
-           3rdparty/zlib/uncompr.c \
-           3rdparty/zlib/zutil.c
 
 SOURCES += 3rdparty/lib3ds/atmosphere.c \
            3rdparty/lib3ds/background.c \
