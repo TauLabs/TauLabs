@@ -78,13 +78,11 @@ void updaterFormDialog::onCancel()
 void updaterFormDialog::setProgress(QString text)
 {
     ui->progress->setText(text);
-    QCoreApplication::processEvents();
 }
 
 void updaterFormDialog::setProgress(int value)
 {
     ui->progressBar->setValue(value);
-    QCoreApplication::processEvents();
 }
 
 void updaterFormDialog::setOperation(QString text)
