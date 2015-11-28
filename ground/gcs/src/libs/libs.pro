@@ -11,6 +11,7 @@ SUBDIRS   = \
     qwt \
     githubreleaseapi \
     libcrashreporter-qt \
+    zlib \
     quazip
 SDL {
 SUBDIRS += sdlgamepad
