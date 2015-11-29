@@ -342,7 +342,6 @@ void ConfigOutputWidget::startESCCalibration()
     mbox.setText(QString(tr("Starting ESC calibration.<br/><b>Please remove all propellers and disconnect battery from ESCs.</b>")));
     mbox.setStandardButtons(QMessageBox::Ok | QMessageBox::Cancel);
     mbox.setDefaultButton(QMessageBox::Cancel);
-    QMessageBox::StandardButton butt;
     
     if (mbox.exec() != QMessageBox::Ok) return;
 
