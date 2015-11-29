@@ -266,6 +266,9 @@ def make_class(collection, xml_file, update_globals=True):
             if info['elements'] > 1 and not isinstance(info['defaultvalue'], tuple):
                 info['defaultvalue'] = (info['defaultvalue'],) * info['elements']
 
+            if field.find('description') != None:
+                info['description'] = field.find('description').text
+
         fields.append(info)
 
     # Sort fields by size (bigger to smaller) to ensure alignment when packed
