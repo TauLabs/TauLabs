@@ -30,7 +30,9 @@
 
 
 #include <QWidget>
-#define QWT_DLL
+#ifndef QWT_DLL
+    #define QWT_DLL
+#endif
 #include "qwt/src/qwt.h"
 #include "qwt/src/qwt_plot.h"
 #include "qwt/src/qwt_plot_curve.h"
