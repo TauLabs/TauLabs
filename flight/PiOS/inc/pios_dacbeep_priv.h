@@ -45,5 +45,6 @@ struct pios_fskdac_config {
 
 extern int32_t PIOS_DACBEEP_Init(uintptr_t * dacbeep_id, const struct pios_fskdac_config * cfg);
 extern int32_t PIOS_DACBEEP_Beep(uintptr_t dacbeep_id, uint32_t freq, uint32_t durations_ms);
+extern void PIOS_DACBEEP_DMA_irq_handler(void);
 
 #endif /* PIOS_DACBEEP_PRIV_H */

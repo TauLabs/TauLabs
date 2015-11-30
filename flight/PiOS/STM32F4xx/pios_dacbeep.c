@@ -45,11 +45,11 @@ enum pios_dacbeep_dev_magic {
 struct pios_dacbeep_dev {
 	enum pios_dacbeep_dev_magic     magic;
 	const struct pios_fskdac_config * cfg;
-	bool cycles_remaining;
+	int32_t cycles_remaining;
 };
 
 // Lookup tables for symbols
-const uint16_t MARK_SAMPLES[] = {
+const uint16_t SINE_SAMPLES[] = {
 2048, 2145, 2242, 2339, 2435, 2530, 2624, 2717, 2808, 2897, 
 2984, 3069, 3151, 3230, 3307, 3381, 3451, 3518, 3581, 3640, 
 3696, 3748, 3795, 3838, 3877, 3911, 3941, 3966, 3986, 4002, 
@@ -65,22 +65,7 @@ const uint16_t MARK_SAMPLES[] = {
 1378, 1471, 1565, 1660, 1756, 1853, 1950, 2047,
 };
 
-const uint16_t SPACE_SAMPLES[] = {
-2048, 2242, 2435, 2624, 2808, 2984, 3151, 3307, 3451, 3581, 
-3696, 3795, 3877, 3941, 3986, 4013, 4020, 4008, 3977, 3926, 
-3858, 3772, 3669, 3550, 3416, 3269, 3110, 2941, 2763, 2578, 
-2387, 2194, 1999, 1804, 1612, 1424, 1242, 1068, 904, 751, 
-610, 484, 373, 278, 201, 141, 100, 79, 76, 93, 
-129, 184, 257, 347, 455, 577, 714, 865, 1026, 1198, 
-1378, 1565, 1756, 1950, 2145, 2339, 2530, 2717, 2897, 3069, 
-3230, 3381, 3518, 3640, 3748, 3838, 3911, 3966, 4002, 4019, 
-4016, 3995, 3954, 3894, 3817, 3722, 3611, 3485, 3344, 3191, 
-3027, 2853, 2671, 2483, 2291, 2096, 1901, 1708, 1517, 1332, 
-1154, 985, 826, 679, 545, 426, 323, 237, 169, 118, 
-87, 75, 82, 109, 154, 218, 300, 399, 514, 644, 
-788, 944, 1111, 1287, 1471, 1660, 1853, 2047,
-};
-const uint32_t SAMPLES_PER_BIT = NELEMENTS(MARK_SAMPLES);
+const uint32_t SAMPLES_PER_BIT = NELEMENTS(SINE_SAMPLES);
 
 
 #define   DAC_DHR12R1_ADDR  0x40007408
@@ -160,7 +145,7 @@ int32_t PIOS_DACBEEP_Init(uintptr_t * dacbeep_id, const struct pios_fskdac_confi
 	DMA_InitTypeDef DMA_InitStructure;	
 	DMA_InitStructure.DMA_Channel = DMA_Channel_7;  
 	DMA_InitStructure.DMA_PeripheralBaseAddr = 0x40007408; // DAC1 12R register
-	DMA_InitStructure.DMA_Memory0BaseAddr = (uint32_t)&MARK_SAMPLES[0];
+	DMA_InitStructure.DMA_Memory0BaseAddr = (uint32_t)&SINE_SAMPLES[0];
 	DMA_InitStructure.DMA_BufferSize = SAMPLES_PER_BIT;
 	DMA_InitStructure.DMA_PeripheralDataSize = DMA_PeripheralDataSize_HalfWord;
 	DMA_InitStructure.DMA_MemoryDataSize = DMA_MemoryDataSize_HalfWord;
@@ -175,9 +160,17 @@ int32_t PIOS_DACBEEP_Init(uintptr_t * dacbeep_id, const struct pios_fskdac_confi
 	DMA_InitStructure.DMA_PeripheralBurst = DMA_PeripheralBurst_Single;
 	DMA_Init(DMA1_Stream5, &DMA_InitStructure);
 
-	//DMA_DoubleBufferModeConfig(dacbeep_dev->cfg->dma.tx.channel, (uint32_t)&SPACE_SAMPLES[0], DMA_Memory_0);
-	//DMA_DoubleBufferModeCmd(dacbeep_dev->cfg->dma.tx.channel, ENABLE);
-	//DMA_ITConfig(fskdac_dev->cfg->dma.tx.channel, DMA_IT_TC, ENABLE);
+	NVIC_InitTypeDef NVIC_InitStructure;
+	NVIC_InitStructure.NVIC_IRQChannel = DMA1_Stream5_IRQn;
+	NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = PIOS_IRQ_PRIO_HIGH;
+	NVIC_InitStructure.NVIC_IRQChannelSubPriority = 0;
+	NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
+	NVIC_Init(&NVIC_InitStructure);
+
+	dacbeep_dev->cycles_remaining = 50;
+
+	//DMA_ITConfig(dacbeep_dev->cfg->dma.tx.channel, DMA_IT_TC, ENABLE);
+	DMA_ITConfig(DMA1_Stream5, DMA_IT_TC, ENABLE);
 
 	/* Enable DMA1_Stream5 */
 	DMA_Cmd(DMA1_Stream5, ENABLE);
@@ -188,7 +181,10 @@ int32_t PIOS_DACBEEP_Init(uintptr_t * dacbeep_id, const struct pios_fskdac_confi
 	/* Enable DMA for DAC Channel1 */
 	DAC_DMACmd(DAC_Channel_1, ENABLE);
 
+	dacbeep_dev->cycles_remaining = 0;
+
 	*dacbeep_id = (uintptr_t) dacbeep_dev;
+
 	return 0;
 }
 
@@ -219,17 +215,39 @@ int32_t PIOS_DACBEEP_Beep(uintptr_t dacbeep_id, uint32_t freq, uint32_t duration
 	TIM6_TimeBase.TIM_CounterMode   = TIM_CounterMode_Up;
 	TIM_TimeBaseInit(TIM6, &TIM6_TimeBase);
 	TIM_SelectOutputTrigger(TIM6, TIM_TRGOSource_Update);
+
+	int32_t cycles = (freq * duration_ms) / 1000;
+	dacbeep_dev->cycles_remaining = cycles;
+
+	DMA_ITConfig(dacbeep_dev->cfg->dma.tx.channel, DMA_IT_TC, ENABLE);
 	TIM_Cmd(TIM6, ENABLE);
-
-	int32_t cycles = freq * duration_ms / 1000;
-
-	if (false) { // enable once IRQ handler installed and counting down cycles
-		dacbeep_dev->cycles_remaining = cycles;
-	}
 
 	return 0;
 }
 
+// Should be aliased from DMA1_Stream5_IRQHandler
+void PIOS_DACBEEP_DMA_irq_handler()
+{
+	if (DMA_GetITStatus(DMA1_Stream5, DMA_IT_TCIF5)) {
+		DMA_ClearITPendingBit(DMA1_Stream5, DMA_IT_TCIF5);
+	
+		struct pios_dacbeep_dev * dacbeep_dev = g_dacbeep_dev;
+
+		bool valid = PIOS_DACBEEP_validate(dacbeep_dev);
+		PIOS_Assert(valid);
+
+		if (dacbeep_dev->cycles_remaining == 0) {
+			TIM_Cmd(TIM6, DISABLE);
+			DMA_ITConfig(dacbeep_dev->cfg->dma.tx.channel, DMA_IT_TC, DISABLE);
+		} else {
+			dacbeep_dev->cycles_remaining--;
+		}
+	}
+
+#if defined(PIOS_INCLUDE_FREERTOS)
+	portEND_SWITCHING_ISR((rx_need_yield || tx_need_yield) ? pdTRUE : pdFALSE);
+#endif	/* defined(PIOS_INCLUDE_FREERTOS) */
+}
 #endif /* PIOS_INCLUDE_DAC_BEEPS */
 
 /**
