@@ -344,6 +344,7 @@ bool RawHID::open(OpenMode mode)
         m_writeThread->start();
     } else {
         qDebug() << "Failed to open USB device";
+        return false;
     }
 
     return QIODevice::open(mode);
