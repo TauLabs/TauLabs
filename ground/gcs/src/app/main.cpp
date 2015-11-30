@@ -62,9 +62,6 @@
 #undef USE_CRASHREPORTING
 #endif
 #endif
-#ifdef Q_OS_MAC
-#undef USE_CRASHREPORTING
-#endif
 
 enum { OptionIndent = 4, DescriptionIndent = 24 };
 
