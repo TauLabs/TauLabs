@@ -39,6 +39,7 @@
 #include <QHBoxLayout>
 #include <QComboBox>
 #include <QEventLoop>
+#include <QMessageBox>
 #include <alarmsmonitorwidget.h>
 
 namespace Core {
@@ -83,6 +84,8 @@ ConnectionManager::ConnectionManager(Internal::MainWindow *mainWindow, QTabWidge
     reconnectCheck = new QTimer(this);
     connect(reconnect,SIGNAL(timeout()),this,SLOT(reconnectSlot()));
     connect(reconnectCheck,SIGNAL(timeout()),this,SLOT(reconnectCheckSlot()));
+
+    connect(this, SIGNAL(connectDeviceFailed(DevListItem*)), this, SLOT(onConnectDeviceFailed(DevListItem*)));
 }
 
 ConnectionManager::~ConnectionManager()
@@ -102,21 +105,49 @@ void ConnectionManager::init()
 }
 
 /**
+ * @brief Notifies the user when a connection attempt fails
+ * @param device The device to which connection was attemped
+ */
+void ConnectionManager::onConnectDeviceFailed(DevListItem *device)
+{
+    QMessageBox msgBox;
+
+    QString msg("<span style='color:red'>Failed</span> to connect device: ");
+    if(device && device->device)
+        msg.append(device->device->getDisplayName());
+    else
+        msg.append("Unknown");
+
+#ifdef Q_OS_LINUX
+    if(device && device->connection && device->connection->shortName() == "USB")
+        msg.append("<br />Have you set udev rules?");
+#endif
+
+    msgBox.setText(msg);
+    msgBox.exec();
+}
+
+/**
 *   Method called when the user clicks the "Connect" button
 */
 bool ConnectionManager::connectDevice(DevListItem device)
 {
-    if (!device.connection)
+    if (!device.connection) {
+        emit connectDeviceFailed(&device);
         return false;
+    }
 
     QIODevice *io_dev = device.connection->openDevice(device.device);
-    if (!io_dev)
+    if (!io_dev) {
+        emit connectDeviceFailed(&device);
         return false;
+    }
 
     io_dev->open(QIODevice::ReadWrite);
 
     // check if opening the device worked
     if (!io_dev->isOpen()) {
+        emit connectDeviceFailed(&device);
         return false;
     }
 
