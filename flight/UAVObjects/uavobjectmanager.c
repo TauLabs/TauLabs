@@ -1834,6 +1834,9 @@ static int32_t sendEvent(struct UAVOBase * obj, uint16_t instId,
 		.instId = instId
 	};
 
+	pending_events[num_pending].obj_data = obj_data;
+	pending_events[num_pending].len = len;
+
 	num_pending++;
 
 	/* Only enter the section of pumping events if we are the "first event" */
