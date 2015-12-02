@@ -379,36 +379,62 @@ void PIOS_Board_Init(void)
 	/* Configure main USART port */
 	uint8_t hw_mainport;
 	HwSparkyMainPortGet(&hw_mainport);
-	PIOS_HAL_ConfigurePort(hw_mainport, &pios_main_usart_cfg,
-	                       &pios_usart_com_driver, NULL, NULL, NULL, NULL,
-	                       PIOS_LED_ALARM,
-	                       &pios_main_dsm_hsum_cfg, &pios_main_dsm_aux_cfg,
-	                       hw_DSMxMode, NULL, NULL, false);
+	
+	PIOS_HAL_ConfigurePort(hw_mainport,          // port type protocol
+	        &pios_main_usart_cfg,                // usart_port_cfg
+	        &pios_main_usart_sport_cfg,          // frsky usart_port_cfg
+	        &pios_usart_com_driver,              // com_driver
+	        NULL,                                // i2c_id
+	        NULL,                                // i2c_cfg 
+	        NULL,                                // ppm_cfg
+	        NULL,                                // pwm_cfg
+	        PIOS_LED_ALARM,                      // led_id
+	        &pios_main_dsm_hsum_cfg,             // usart_dsm_hsum_cfg
+	        &pios_main_dsm_aux_cfg,              // dsm_cfg
+	        hw_DSMxMode,                         // dsm_mode
+	        NULL,                                // sbus_rcvr_cfg
+	        NULL,                                // sbus_cfg  
+	        false);                              // sbus_toggle
 
 	/* Configure FlexiPort */
 	uint8_t hw_flexiport;
 	HwSparkyFlexiPortGet(&hw_flexiport);
-	PIOS_HAL_ConfigurePort(hw_flexiport, &pios_flexi_usart_cfg,
-	                       &pios_usart_com_driver,
-	                       &pios_i2c_flexi_id,
-	                       &pios_i2c_flexi_cfg, NULL, NULL,
-	                       PIOS_LED_ALARM,
-	                       &pios_flexi_dsm_hsum_cfg, &pios_flexi_dsm_aux_cfg,
-	                       hw_DSMxMode, NULL, NULL, false);
+	
+	PIOS_HAL_ConfigurePort(hw_flexiport,         // port type protocol
+	        &pios_flexi_usart_cfg,               // usart_port_cfg
+	        &pios_flexi_usart_sport_cfg,         // frsky usart_port_cfg
+	        &pios_usart_com_driver,              // com_driver
+	        &pios_i2c_flexi_id,                  // i2c_id
+	        &pios_i2c_flexi_cfg,                 // i2c_cfg 
+	        NULL,                                // ppm_cfg
+	        NULL,                                // pwm_cfg
+	        PIOS_LED_ALARM,                      // led_id
+	        &pios_flexi_dsm_hsum_cfg,            // usart_dsm_hsum_cfg 
+	        &pios_flexi_dsm_aux_cfg,             // dsm_cfg
+	        hw_DSMxMode,                         // dsm_mode
+	        NULL,                                // sbus_rcvr_cfg
+	        NULL,                                // sbus_cfg 
+	        false);                              // sbus_toggle
 
 	/* Configure the rcvr port */
 	uint8_t hw_rcvrport;
 	HwSparkyRcvrPortGet(&hw_rcvrport);
-	PIOS_HAL_ConfigurePort(hw_rcvrport,
-	                       NULL, /* XXX TODO: fix as part of DSM refactor */
-	                       &pios_usart_com_driver,
-	                       NULL, NULL,
-	                       &pios_ppm_cfg, NULL,
-	                       PIOS_LED_ALARM,
-	                       &pios_rcvr_dsm_hsum_cfg,
-	                       &pios_rcvr_dsm_aux_cfg,
-	                       hw_DSMxMode, &pios_rcvr_sbus_cfg,
-	                       &pios_rcvr_sbus_aux_cfg, false);
+	
+	PIOS_HAL_ConfigurePort(hw_rcvrport,          // port type protocol
+	        NULL,                                // usart_port_cfg
+	        NULL,                                // frsky usart_port_cfg
+	        &pios_usart_com_driver,              // com_driver
+	        NULL,                                // i2c_id 
+	        NULL,                                // i2c_cfg
+	        &pios_ppm_cfg,                       // ppm_cfg
+	        NULL,                                // pwm_cfg
+	        PIOS_LED_ALARM,                      // led_id
+	        &pios_rcvr_dsm_hsum_cfg,             // usart_dsm_hsum_cfg
+	        &pios_rcvr_dsm_aux_cfg,              // dsm_cfg
+	        hw_DSMxMode,                         // dsm_mode
+	        &pios_rcvr_sbus_cfg,                 // sbus_rcvr_cfg
+	        &pios_rcvr_sbus_aux_cfg,             // sbus_cfg 
+	        false);                              // sbus_toggle
 
 #if defined(PIOS_INCLUDE_GCSRCVR)
 	GCSReceiverInitialize();

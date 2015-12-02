@@ -149,11 +149,21 @@ void PIOS_Board_Init(void) {
 	}
 #endif
 
-	PIOS_HAL_ConfigurePort(hwTauLink.MainPort,
-	    &pios_usart_serial_cfg, &pios_usart_com_driver,
-	    /* no I2C, DSM, HSUM, SBUS, etc. */
-	    NULL, NULL, NULL, NULL, PIOS_LED_ALARM,
-	    NULL, NULL, 0, NULL, NULL, false);
+	PIOS_HAL_ConfigurePort(hwTauLink.MainPort,   // port type protocol
+			&pios_usart_serial_cfg,              // usart_port_cfg
+			&pios_usart_serial_cfg,              // frsky usart_port_cfg
+			&pios_usart_com_driver,              // com_driver
+			NULL,                                // i2c_id
+			NULL,                                // i2c_cfg
+			NULL,                                // ppm_cfg
+			NULL,                                // pwm_cfg
+			PIOS_LED_ALARM,                      // led_id
+			NULL,                                // usart_dsm_hsum_cfg
+			NULL,                                // dsm_cfg
+			0,                                   // dsm_mode
+			NULL,                                // sbus_rcvr_cfg
+			NULL,                                // sbus_cfg    
+			false);                              // sbus_toggle
 
 	// Update the com baud rate.
 	uint32_t comBaud = 9600;

@@ -400,17 +400,25 @@ void PIOS_Board_Init(void) {
 		{
 			uint8_t hw_rcvrserial;
 			HwNazeRcvrSerialGet(&hw_rcvrserial);
+			
 			HwNazeDSMxModeOptions hw_DSMxMode;
 			HwNazeDSMxModeGet(&hw_DSMxMode);
-			PIOS_HAL_ConfigurePort(hw_rcvrserial, 
-					&pios_usart_rcvrserial_cfg,
-					&pios_usart_com_driver,
-					NULL, NULL, NULL, NULL,
-					PIOS_LED_ALARM,
-					&pios_usart_dsm_hsum_rcvrserial_cfg,
-					&pios_dsm_rcvrserial_cfg,
-					hw_DSMxMode,
-					NULL, NULL, false);
+			
+			PIOS_HAL_ConfigurePort(hw_rcvrserial,        // port type protocol
+					&pios_usart_rcvrserial_cfg,          // usart_port_cfg
+					&pios_usart_rcvrserial_cfg,          // frsky usart_port_cfg
+					&pios_usart_com_driver,              // com_driver
+					NULL,                                // i2c_id
+					NULL,                                // i2c_cfg
+					NULL,                                // ppm_cfg
+					NULL,                                // pwm_cfg
+					PIOS_LED_ALARM,                      // led_id
+					&pios_usart_dsm_hsum_rcvrserial_cfg, // usart_dsm_hsum_cfg
+					&pios_dsm_rcvrserial_cfg,            // dsm_cfg
+					hw_DSMxMode,                         // dsm_mode
+					NULL,                                // sbus_rcvr_cfg
+					NULL,                                // sbus_cfg
+					false);                              // sbus_toggle
 		}
 
 		// Fall through to set up PPM.
