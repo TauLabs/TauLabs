@@ -121,7 +121,7 @@ static void PIOS_INTERNAL_ADC_PinConfig(uint32_t internal_adc_id)
 	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_2MHz;
 	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AN;
 
-	for (int32_t i = 0; i < adc_dev->cfg->number_of_used_pins; i++) {
+	for (int32_t i = 0; i < adc_dev->cfg->adc_pin_count; i++) {
 		if (adc_dev->cfg->adc_pins[i].port == NULL )
 			continue;
 		GPIO_InitStructure.GPIO_Pin = adc_dev->cfg->adc_pins[i].pin;
@@ -289,7 +289,7 @@ static void PIOS_INTERNAL_ADC_Converter_Config(uint32_t internal_adc_id)
 	 */
 	uint32_t current_index = 0;
 	if (!adc_dev->cfg->adc_dev_slave) {
-		for (uint32_t i = 0; i < adc_dev->cfg->number_of_used_pins; i++) {
+		for (uint32_t i = 0; i < adc_dev->cfg->adc_pin_count; i++) {
 			ADC_RegularChannelConfig(adc_dev->cfg->adc_dev_master, adc_dev->cfg->adc_pins[i].adc_channel, current_index + 1, ADC_SampleTime_61Cycles5); /* XXX this is totally arbitrary... */
 			adc_dev->channel_map[current_index] = &adc_dev->accumulator[current_index];
 			++current_index;
@@ -299,7 +299,7 @@ static void PIOS_INTERNAL_ADC_Converter_Config(uint32_t internal_adc_id)
 		current_index = 0;
 		uint32_t acc_index = 0;
 		while (again) {
-			for (uint32_t i = 0; i < adc_dev->cfg->number_of_used_pins; i++) {
+			for (uint32_t i = 0; i < adc_dev->cfg->adc_pin_count; i++) {
 				if (adc_dev->cfg->adc_pins[i].is_master_channel) {
 					ADC_RegularChannelConfig(adc_dev->cfg->adc_dev_master, adc_dev->cfg->adc_pins[i].adc_channel, current_index + 1, ADC_SampleTime_61Cycles5); /* XXX this is totally arbitrary... */
 					adc_dev->channel_map[acc_index] = &adc_dev->accumulator[i];
@@ -318,7 +318,7 @@ static void PIOS_INTERNAL_ADC_Converter_Config(uint32_t internal_adc_id)
 		current_index = 0;
 		acc_index = 1;
 		while (again) {
-			for (uint32_t i = 0; i < adc_dev->cfg->number_of_used_pins; i++) {
+			for (uint32_t i = 0; i < adc_dev->cfg->adc_pin_count; i++) {
 				if (!adc_dev->cfg->adc_pins[i].is_master_channel) {
 					ADC_RegularChannelConfig(adc_dev->cfg->adc_dev_slave, adc_dev->cfg->adc_pins[i].adc_channel, current_index + 1, ADC_SampleTime_61Cycles5); /* XXX this is totally arbitrary... */
 					adc_dev->channel_map[acc_index] = &adc_dev->accumulator[i];
@@ -362,7 +362,7 @@ int32_t PIOS_INTERNAL_ADC_Init(uint32_t * internal_adc_id, const struct pios_int
 	adc_dev->number_used_master_channels = 0;
 	adc_dev->number_used_slave_channels = 0;
 
-	for (uint8_t i = 0; i < adc_dev->cfg->number_of_used_pins; ++i) {
+	for (uint8_t i = 0; i < adc_dev->cfg->adc_pin_count; ++i) {
 		if (adc_dev->cfg->adc_pins[i].is_master_channel)
 			++adc_dev->number_used_master_channels;
 		else
@@ -380,10 +380,10 @@ int32_t PIOS_INTERNAL_ADC_Init(uint32_t * internal_adc_id, const struct pios_int
 		adc_dev->raw_data_buffer = PIOS_malloc(adc_dev->dma_transfer_size * sizeof(uint32_t));
 	} else {
 		// DMA transfer size in units defined by DMA_PeripheralDataSize, 32bits for dual mode and 16bits for single mode
-		adc_dev->dma_transfer_size = 2 * adc_dev->cfg->oversampling * adc_dev->cfg->number_of_used_pins;
+		adc_dev->dma_transfer_size = 2 * adc_dev->cfg->oversampling * adc_dev->cfg->adc_pin_count;
 		// DMA half buffer index (buffer is 16bit array),
 		// half buffer index is half the transfer size because they are both 16bit based here
-		adc_dev->dma_half_buffer_index = adc_dev->cfg->oversampling * adc_dev->cfg->number_of_used_pins;
+		adc_dev->dma_half_buffer_index = adc_dev->cfg->oversampling * adc_dev->cfg->adc_pin_count;
 		;
 		adc_dev->accumulator_increment = 1;
 		adc_dev->accumulator_scan_size = adc_dev->regular_group_size;
@@ -392,7 +392,7 @@ int32_t PIOS_INTERNAL_ADC_Init(uint32_t * internal_adc_id, const struct pios_int
 	if (adc_dev->raw_data_buffer == NULL )
 		return -1;
 
-	adc_dev->accumulator = PIOS_malloc(adc_dev->cfg->number_of_used_pins * sizeof(struct adc_accumulator));
+	adc_dev->accumulator = PIOS_malloc(adc_dev->cfg->adc_pin_count * sizeof(struct adc_accumulator));
 	if (adc_dev->accumulator == NULL )
 		return -1;
 	if (adc_dev->cfg->adc_dev_slave)
@@ -423,7 +423,7 @@ static bool PIOS_INTERNAL_ADC_Available(uint32_t internal_adc_id, uint32_t pin)
 {
 	struct pios_internal_adc_dev * adc_dev = (struct pios_internal_adc_dev *) internal_adc_id;
 	/* Check if pin exists */
-	if (pin >= adc_dev->cfg->number_of_used_pins) {
+	if (pin >= adc_dev->cfg->adc_pin_count) {
 		return false;
 	}
 	return true;
@@ -439,7 +439,7 @@ static uint8_t PIOS_INTERNAL_ADC_NumberOfChannels(uint32_t internal_adc_id)
 	struct pios_internal_adc_dev * adc_dev = (struct pios_internal_adc_dev *) internal_adc_id;
 	if (!PIOS_INTERNAL_ADC_validate(adc_dev))
 		return 0;
-	return adc_dev->cfg->number_of_used_pins;
+	return adc_dev->cfg->adc_pin_count;
 
 }
 
@@ -454,7 +454,7 @@ static int32_t PIOS_INTERNAL_ADC_PinGet(uint32_t internal_adc_id, uint32_t pin)
 	struct pios_internal_adc_dev * adc_dev = (struct pios_internal_adc_dev *) internal_adc_id;
 	int32_t result;
 	/* Check if pin exists */
-	if (pin >= adc_dev->cfg->number_of_used_pins) {
+	if (pin >= adc_dev->cfg->adc_pin_count) {
 		return -1;
 	}
 	result = adc_dev->accumulator[pin].accumulator / (adc_dev->accumulator[pin].count ? : 1);

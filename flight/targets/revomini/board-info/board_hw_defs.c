@@ -1676,7 +1676,13 @@ struct pios_internal_adc_cfg pios_adc_cfg = {
 	},
 	.half_flag = DMA_IT_HTIF4,
 	.full_flag = DMA_IT_TCIF4,
-
+	.adc_pins = {                                                                                           \
+		{GPIOC, GPIO_Pin_1,     ADC_Channel_11},                                                \
+		{GPIOC, GPIO_Pin_2,     ADC_Channel_12},                                                \
+		{NULL,  0,              ADC_Channel_Vrefint},           /* Voltage reference */         \
+		{NULL,  0,              ADC_Channel_TempSensor},        /* Temperature sensor */        \
+	},
+	.adc_pin_count = 4,
 };
 
 struct stm32_gpio pios_current_sonar_pin ={
