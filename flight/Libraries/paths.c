@@ -185,7 +185,7 @@ static void path_vector(const float *start_point,
 	status->correction_direction[1] = (status->error > 0) ? -normal[1] : normal[1];
 	
 	// Now just want magnitude of error
-	status->error = fabs(status->error);
+	status->error = fabsf(status->error);
 
 	// Compute direction to travel
 	status->path_direction[0] = path_north / dist_path;
@@ -254,7 +254,7 @@ static void path_circle(const float * center_point,
 	status->path_direction[0] = normal[0];
 	status->path_direction[1] = normal[1];
 
-	status->error = fabs(status->error);
+	status->error = fabsf(status->error);
 }
 
 /**
@@ -321,9 +321,9 @@ static void path_curve(const float * start_point,
 	d = sqrtf(radius * radius / (p_n * p_n + p_e * p_e) - 0.25f);
 
 	float radius_sign = (radius > 0) ? 1 : -1;
-	float m_radius = fabs(radius);
+	float m_radius = fabsf(radius);
 
-	if (fabs(p_n) < 1e-3 && fabs(p_e) < 1e-3) {
+	if (fabsf(p_n) < 1e-3f && fabsf(p_e) < 1e-3f) {
 		center[0] = m_n;
 		center[1] = m_e;
 	} else {
@@ -380,7 +380,7 @@ static void path_curve(const float * start_point,
 
 	status->fractional_progress = dot / (dist_path * dist_path);
 
-	status->error = fabs(status->error);
+	status->error = fabsf(status->error);
 }
 
 /**

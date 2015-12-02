@@ -221,13 +221,13 @@ uint8_t RotFrom2Vectors(const float v1b[3], const float v1e[3], const float v2b[
 
 	// The first rows of rot matrices chosen in direction of v1
 	mag = VectorMagnitude(v1b);
-	if (fabs(mag) < 1e-30)
+	if (fabsf(mag) < 1e-30f)
 		return (-1);
 	for (i=0;i<3;i++)
 		Rib[0][i]=v1b[i]/mag;
 
 	mag = VectorMagnitude(v1e);
-	if (fabs(mag) < 1e-30)
+	if (fabsf(mag) < 1e-30f)
 		return (-1);
 	for (i=0;i<3;i++)
 		Rie[0][i]=v1e[i]/mag;
@@ -235,14 +235,14 @@ uint8_t RotFrom2Vectors(const float v1b[3], const float v1e[3], const float v2b[
 	// The second rows of rot matrices chosen in direction of v1xv2
 	CrossProduct(v1b,v2b,&Rib[1][0]);
 	mag = VectorMagnitude(&Rib[1][0]);
-	if (fabs(mag) < 1e-30)
+	if (fabsf(mag) < 1e-30f)
 		return (-1);
 	for (i=0;i<3;i++)
 		Rib[1][i]=Rib[1][i]/mag;
 
 	CrossProduct(v1e,v2e,&Rie[1][0]);
 	mag = VectorMagnitude(&Rie[1][0]);
-	if (fabs(mag) < 1e-30)
+	if (fabsf(mag) < 1e-30f)
 		return (-1);
 	for (i=0;i<3;i++)
 		Rie[1][i]=Rie[1][i]/mag;
