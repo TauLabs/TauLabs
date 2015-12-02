@@ -109,7 +109,7 @@ static uint16_t * adc_raw_buffer_1;
 
 static void init_pins(void)
 {
-	if (!PIOS_INTERNAL_ADC_validate(pios_adc_dev)){
+	if (!PIOS_INTERNAL_ADC_validate(pios_adc_dev)) {
 		return;
 	}
 
@@ -129,7 +129,7 @@ static void init_pins(void)
 
 static void init_dma(void)
 {
-	if (!PIOS_INTERNAL_ADC_validate(pios_adc_dev)){
+	if (!PIOS_INTERNAL_ADC_validate(pios_adc_dev)) {
 		return;
 	}
 
@@ -171,7 +171,7 @@ static void init_dma(void)
 
 static void init_adc(void)
 {
-	if (!PIOS_INTERNAL_ADC_validate(pios_adc_dev)){
+	if (!PIOS_INTERNAL_ADC_validate(pios_adc_dev)) {
 		return;
 	}
 
@@ -233,7 +233,7 @@ static struct pios_internal_adc_dev * PIOS_INTERNAL_ADC_Allocate(const struct pi
 	struct pios_internal_adc_dev * adc_dev;
 
 	adc_dev = (struct pios_internal_adc_dev *)PIOS_malloc(sizeof(*adc_dev));
-	if (!adc_dev){
+	if (!adc_dev) {
 		return NULL;
 	}
 
@@ -242,20 +242,20 @@ static struct pios_internal_adc_dev * PIOS_INTERNAL_ADC_Allocate(const struct pi
 	adc_dev->max_samples = (((cfg->adc_pin_count + use_adc_2) >> use_adc_2) << use_adc_2) * PIOS_ADC_MAX_OVERSAMPLING * 2;
 
 	accumulator = (struct adc_accumulator *)PIOS_malloc_no_dma(cfg->adc_pin_count * sizeof(struct adc_accumulator));
-	if (!accumulator){
+	if (!accumulator) {
 		PIOS_free(adc_dev);
 		return NULL;
 	}
 
 	adc_raw_buffer_0 = (uint16_t *)PIOS_malloc(adc_dev->max_samples * cfg->adc_pin_count * sizeof(uint16_t));
-	if (!adc_raw_buffer_0){
+	if (!adc_raw_buffer_0) {
 		PIOS_free(adc_dev);
 		PIOS_free(accumulator);
 		return NULL;
 	}
 
 	adc_raw_buffer_1 = (uint16_t *)PIOS_malloc(adc_dev->max_samples * cfg->adc_pin_count * sizeof(uint16_t));
-	if (!adc_raw_buffer_1){
+	if (!adc_raw_buffer_1) {
 		PIOS_free(adc_dev);
 		PIOS_free(accumulator);
 		PIOS_free(adc_raw_buffer_0);
@@ -316,7 +316,7 @@ static int32_t PIOS_INTERNAL_ADC_PinGet(uint32_t internal_adc_id, uint32_t pin)
 #if defined(PIOS_INCLUDE_ADC)
 	int32_t	result;
 
-	if (!PIOS_INTERNAL_ADC_validate(pios_adc_dev)){
+	if (!PIOS_INTERNAL_ADC_validate(pios_adc_dev)) {
 		return -1;
 	}
 
@@ -325,7 +325,7 @@ static int32_t PIOS_INTERNAL_ADC_PinGet(uint32_t internal_adc_id, uint32_t pin)
 		return -2;
 	}
 
-	if (accumulator[pin].accumulator <= 0){
+	if (accumulator[pin].accumulator <= 0) {
 		return -3;
 	}
 
@@ -396,7 +396,7 @@ void accumulate(uint16_t *buffer, uint32_t count)
 {
 #if defined(PIOS_INCLUDE_ADC)
 	uint16_t	*sp = buffer;
-	if (!PIOS_INTERNAL_ADC_validate(pios_adc_dev)){
+	if (!PIOS_INTERNAL_ADC_validate(pios_adc_dev)) {
 		return;
 	}
 
@@ -450,7 +450,7 @@ void PIOS_INTERNAL_ADC_DMA_Handler(void)
 		DMA_ClearITPendingBit(pios_adc_dev->cfg->dma.rx.channel, pios_adc_dev->cfg->full_flag);
 
 		/* accumulate results from the buffer that was just completed */
-		if (DMA_GetCurrentMemoryTarget(pios_adc_dev->cfg->dma.rx.channel) == 0){
+		if (DMA_GetCurrentMemoryTarget(pios_adc_dev->cfg->dma.rx.channel) == 0) {
 			accumulate(adc_raw_buffer_0, pios_adc_dev->max_samples);
 		}
 		else {
@@ -468,7 +468,7 @@ void PIOS_INTERNAL_ADC_DMA_Handler(void)
   */
 static bool PIOS_INTERNAL_ADC_Available(uint32_t internal_adc_id, uint32_t device_pin) {
 	struct pios_internal_adc_dev * adc_dev = (struct pios_internal_adc_dev *)internal_adc_id;
-	if(!PIOS_INTERNAL_ADC_validate(adc_dev)){
+	if(!PIOS_INTERNAL_ADC_validate(adc_dev)) {
 			return 0;
 	}
 	/* Check if pin exists */
