@@ -30,7 +30,7 @@ PfdQmlGadget::PfdQmlGadget(QString classId, PfdQmlGadgetWidget *widget, QWidget 
 
 PfdQmlGadget::~PfdQmlGadget()
 {
-    delete m_widget;
+    m_widget->deleteLater();
 }
 
 /*
