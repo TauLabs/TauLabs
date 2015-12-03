@@ -85,7 +85,6 @@ help:
 	@echo "   Here is a summary of the available targets:"
 	@echo
 	@echo "   [Packaging]"
-	@echo "     package        			- Build and package the Tau Labs distributable (DEB)"
 	@echo "     package_flight 			- Build and package the Tau Labs flight firmware only"
 	@echo "     package_ground 			- Build and package the Tau Labs ground software only"
 	@echo "     package_matlab 			- Build and package the Tau Labs matlab script only"
