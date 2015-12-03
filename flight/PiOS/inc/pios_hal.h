@@ -69,12 +69,13 @@ void PIOS_HAL_ConfigureHID(HwSharedUSB_HIDPortOptions port_type,
 
 #if defined(PIOS_INCLUDE_RFM22B)
 void PIOS_HAL_ConfigureRFM22B(HwSharedRadioPortOptions radio_type,
-                uint8_t board_type, uint8_t board_rev,
-                HwSharedMaxRfPowerOptions max_power,
-                HwSharedMaxRfSpeedOptions max_speed,
-                const struct pios_openlrs_cfg *openlrs_cfg,
-                const struct pios_rfm22b_cfg *rfm22b_cfg,
-                uint8_t min_chan, uint8_t max_chan, uint32_t coord_id,
+		uint8_t board_type, uint8_t board_rev,
+		HwSharedMaxRfPowerOptions max_power,
+		HwSharedMaxRfSpeedOptions max_speed,
+		HwSharedRfBandOptions rf_band,
+		const struct pios_openlrs_cfg *openlrs_cfg,
+		const struct pios_rfm22b_cfg *rfm22b_cfg,
+		uint8_t min_chan, uint8_t max_chan, uint32_t coord_id,
 		int status_inst);
 #endif /* PIOS_INCLUDE_RFM22B */
 

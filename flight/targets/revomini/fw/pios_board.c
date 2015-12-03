@@ -375,6 +375,7 @@ void PIOS_Board_Init(void) {
 	PIOS_HAL_ConfigureRFM22B(hwRevoMini.Radio,
 			bdinfo->board_type, bdinfo->board_rev,
 			hwRevoMini.MaxRfPower, hwRevoMini.MaxRfSpeed,
+			hwRevoMini.RfBand,
 			openlrs_cfg, rfm22b_cfg, hwRevoMini.MinChannel,
 			hwRevoMini.MaxChannel, hwRevoMini.CoordID, 1);
 #endif /* PIOS_INCLUDE_RFM22B */

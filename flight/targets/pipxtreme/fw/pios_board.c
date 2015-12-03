@@ -191,7 +191,7 @@ void PIOS_Board_Init(void) {
 	const struct pios_rfm22b_cfg *rfm22b_cfg = PIOS_BOARD_HW_DEFS_GetRfm22Cfg(bdinfo->board_rev);
 	PIOS_HAL_ConfigureRFM22B(hwTauLink.Radio, bdinfo->board_type,
 	    bdinfo->board_rev, hwTauLink.MaxRfPower,
-	    hwTauLink.MaxRfSpeed, NULL, rfm22b_cfg,
+	    hwTauLink.MaxRfSpeed, hwTauLink.RfBand, NULL, rfm22b_cfg,
 	    hwTauLink.MinChannel, hwTauLink.MaxChannel,
 	    hwTauLink.CoordID, 0);
 
