@@ -298,11 +298,12 @@ static void SensorsTask(void *parameters)
 		}
 #endif /* PIOS_INCLUDE_RANGEFINDER */
 
+		bool test_good_run = good_runs > REQUIRED_GOOD_CYCLES;
 		#if defined(AQ32)
-		if ((good_runs > REQUIRED_GOOD_CYCLES) && !external_mag_fail)
-		#else
-		if (good_runs > REQUIRED_GOOD_CYCLES)
+		test_good_run = test_good_run && !external_mag_fail;
 		#endif
+
+		if (test_good_run)
 			AlarmsClear(SYSTEMALARMS_ALARM_SENSORS);
 		else
 			good_runs++;
