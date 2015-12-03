@@ -12,16 +12,16 @@ endef
 # package or not.  Otherwise, the user has to uninstall first.
 VERSION_FULL		:= $(PACKAGE_LBL)-1
 
-FLIGHT_FW		:= coptercontrol sparky sparky2 sparkybgc revomini pipxtreme quanton flyingf3 naze32 aq32
+FLIGHT_FW			:= coptercontrol sparky sparky2 sparkybgc revomini pipxtreme quanton flyingf3 naze32 aq32
 
 DEB_BUILD_DIR		:= $(BUILD_DIR)/debian
 
 SED_AUTHOR_NAME		= $(shell git config user.name)
 SED_AUTHOR_EMAIL	= $(shell git config user.email)
-SED_AUTHOR		= $(SED_AUTHOR_NAME) <$(SED_AUTHOR_EMAIL)>
+SED_AUTHOR			= $(SED_AUTHOR_NAME) <$(SED_AUTHOR_EMAIL)>
 SED_DATE_STRG		= $(shell date -R)
 SED_BIN_ROOT		= $(PACKAGE_DIR)/$(GCS_PACKAGE_NAME)
-SED_SCRIPT		= s|<VERSION>|$(VERSION_FULL)|;s|<DATE>|$(SED_DATE_STRG)|;s|<AUTHOR>|$(SED_AUTHOR)|;s|<BIN_ROOT>|$(SED_BIN_ROOT)|;s|<PROJECT_ROOT>|$(ROOT_DIR)|;s|<TARGET_ROOT>|$(DEB_BUILD_DIR)|g
+SED_SCRIPT			= s|<VERSION>|$(VERSION_FULL)|;s|<DATE>|$(SED_DATE_STRG)|;s|<AUTHOR>|$(SED_AUTHOR)|;s|<BIN_ROOT>|$(SED_BIN_ROOT)|;s|<PROJECT_ROOT>|$(ROOT_DIR)|;s|<TARGET_ROOT>|$(DEB_BUILD_DIR)|g
 
 DEB_CFG_CMN		:= $(ROOT_DIR)/package/linux/deb_common
 DEB_CFG_CMN_FILES	:= $(shell ls $(DEB_CFG_CMN))
