@@ -10,6 +10,12 @@ SUBDIRS   = \
     tlmapcontrol \
     qwt \
     libcrashreporter-qt
+win32 {
+SUBDIRS   += \
+    zlib
+}
+SUBDIRS   += \
+    quazip
 SDL {
 SUBDIRS += sdlgamepad
 }

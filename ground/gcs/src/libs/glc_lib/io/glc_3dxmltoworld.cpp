@@ -30,8 +30,8 @@
 #include "glc_xmlutil.h"
 
 // Quazip library
-#include "../3rdparty/quazip/quazip.h"
-#include "../3rdparty/quazip/quazipfile.h"
+#include "quazip.h"
+#include "quazipfile.h"
 
 #include <QString>
 #include <QGLContext>
