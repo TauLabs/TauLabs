@@ -2,13 +2,13 @@
   ******************************************************************************
   * @file    usb_hcd.c
   * @author  MCD Application Team
-  * @version V2.1.0
-  * @date    19-March-2012
+  * @version V2.2.0
+  * @date    09-November-2015
   * @brief   Host Interface Layer
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; COPYRIGHT 2012 STMicroelectronics</center></h2>
+  * <h2><center>&copy; COPYRIGHT 2015 STMicroelectronics</center></h2>
   *
   * Licensed under MCD-ST Liberty SW License Agreement V2, (the "License");
   * You may not use this file except in compliance with the License.
@@ -148,8 +148,8 @@ uint32_t HCD_ResetPort(USB_OTG_CORE_HANDLE *pdev)
 {
   /*
   Before starting to drive a USB reset, the application waits for the OTG 
-  interrupt triggered by the debounce done bit (DBCDNE bit in OTG_FS_GOTGINT), 
-  which indicates that the bus is stable again after the electrical debounce 
+  interrupt triggered by the denounce done bit (DBCDNE bit in OTG_FS_GOTGINT), 
+  which indicates that the bus is stable again after the electrical denounce 
   caused by the attachment of a pull-up resistor on DP (FS) or DM (LS).
   */
   
@@ -167,6 +167,19 @@ uint32_t HCD_ResetPort(USB_OTG_CORE_HANDLE *pdev)
 uint32_t HCD_IsDeviceConnected(USB_OTG_CORE_HANDLE *pdev)
 {
   return (pdev->host.ConnSts);
+}
+
+
+/**
+  * @brief  HCD_IsPortEnabled 
+  *         This function checks if port is enabled
+  * @param  pdev : Selected device
+  * @retval Frame number
+  * 
+  */
+uint32_t HCD_IsPortEnabled(USB_OTG_CORE_HANDLE *pdev)
+{
+  return (pdev->host.PortEnabled);
 }
 
 /**

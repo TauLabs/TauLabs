@@ -2,14 +2,14 @@
   ******************************************************************************
   * @file    usb_bsp.c
   * @author  MCD Application Team
-  * @version V2.1.0
-  * @date    19-March-2012
+  * @version V2.2.0
+  * @date    09-November-2015
   * @brief   This file is responsible to offer board support package and is
   *          configurable by user.
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; COPYRIGHT 2012 STMicroelectronics</center></h2>
+  * <h2><center>&copy; COPYRIGHT 2015 STMicroelectronics</center></h2>
   *
   * Licensed under MCD-ST Liberty SW License Agreement V2, (the "License");
   * You may not use this file except in compliance with the License.
@@ -86,22 +86,22 @@
 
 /**
   * @brief  USB_OTG_BSP_Init
-  *         Initilizes BSP configurations
+  *         Initializes BSP configurations
   * @param  None
   * @retval None
   */
 
-void USB_OTG_BSP_Init(USB_OTG_CORE_HANDLE *pdev)
+void USB_OTG_BSP_Init(void)
 {
 
 }
 /**
   * @brief  USB_OTG_BSP_EnableInterrupt
-  *         Enabele USB Global interrupt
+  *         Enable USB Global interrupt
   * @param  None
   * @retval None
   */
-void USB_OTG_BSP_EnableInterrupt(USB_OTG_CORE_HANDLE *pdev)
+void USB_OTG_BSP_EnableInterrupt(void)
 {
 
 }
@@ -114,7 +114,7 @@ void USB_OTG_BSP_EnableInterrupt(USB_OTG_CORE_HANDLE *pdev)
   * @retval None
   */
 
-void USB_OTG_BSP_DriveVBUS(USB_OTG_CORE_HANDLE *pdev, uint8_t state)
+void USB_OTG_BSP_DriveVBUS(uint32_t speed, uint8_t state)
 {
 
 }
@@ -126,7 +126,7 @@ void USB_OTG_BSP_DriveVBUS(USB_OTG_CORE_HANDLE *pdev, uint8_t state)
   * @retval None
   */
 
-void  USB_OTG_BSP_ConfigVBUS(USB_OTG_CORE_HANDLE *pdev)
+void  USB_OTG_BSP_ConfigVBUS(uint32_t speed)
 {
 
 }
