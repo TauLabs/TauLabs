@@ -129,10 +129,7 @@ ADEFS = -D__ASSEMBLY__
 #    -adhlns...: create assembler listing
 #
 # Flags for C and C++ (arm-elf-gcc/arm-elf-g++)
-
-# This is not the best place for these.  Really should abstract out
-# to the board file or something
-CFLAGS += -DSTM32F4XX
+CFLAGS += -D$(STM32_TYPE)
 
 CFLAGS += -gdwarf-2
 CFLAGS += -Os

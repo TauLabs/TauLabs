@@ -5,6 +5,7 @@ HW_TYPE             := 0x01
 
 MCU                 := cortex-m4
 CHIP                := STM32F407VGT
+STM32_TYPE          := STM32F40_41xxx
 BOARD               := STM32F4xx_DISCOVERYF4
 MODEL               := HD
 MODEL_SUFFIX        := 
