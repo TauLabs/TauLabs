@@ -35,6 +35,7 @@
 /* Includes ------------------------------------------------------------------*/
 #include "stm32f4xx_fmc.h"
 #include "stm32f4xx_rcc.h"
+#if defined(STM32F427_437xx) || defined(STM32F429_439xx) || defined(STM32F446xx) || defined(STM32F469_479xx)
 
 /** @addtogroup STM32F4xx_StdPeriph_Driver
   * @{
@@ -1496,5 +1497,7 @@ void FMC_ClearITPendingBit(uint32_t FMC_Bank, uint32_t FMC_IT)
 /**
   * @}
   */
+
+#endif /* defined(STM32F427_437xx) || defined(STM32F429_439xx) || defined(STM32F446xx) || defined(STM32F469_479xx) */
 
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/
