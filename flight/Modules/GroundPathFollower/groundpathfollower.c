@@ -171,10 +171,7 @@ static void groundPathFollowerTask(void *parameters)
 		//    FlightMode is PathPlanner and PathDesired.Mode is Endpoint or Path
 
 		SystemSettingsGet(&systemSettings);
-		if ( (systemSettings.AirframeType != SYSTEMSETTINGS_AIRFRAMETYPE_GROUNDVEHICLECAR) &&
-			(systemSettings.AirframeType != SYSTEMSETTINGS_AIRFRAMETYPE_GROUNDVEHICLEDIFFERENTIAL) &&
-			(systemSettings.AirframeType != SYSTEMSETTINGS_AIRFRAMETYPE_GROUNDVEHICLEMOTORCYCLE) )
-		{
+		if (systemSettings.PlatformType != SYSTEMSETTINGS_PLATFORMTYPE_GROUNDVEHICLE) {
 			AlarmsSet(SYSTEMALARMS_ALARM_PATHFOLLOWER,SYSTEMALARMS_ALARM_WARNING);
 			PIOS_Thread_Sleep(1000);
 			continue;

@@ -76,23 +76,13 @@ int32_t configuration_check()
 	}
 
 	// Classify airframe type
-	bool multirotor = true;
-	uint8_t airframe_type;
-	SystemSettingsAirframeTypeGet(&airframe_type);
-	switch(airframe_type) {
-		case SYSTEMSETTINGS_AIRFRAMETYPE_QUADX:
-		case SYSTEMSETTINGS_AIRFRAMETYPE_QUADP:
-		case SYSTEMSETTINGS_AIRFRAMETYPE_HEXA:
-		case SYSTEMSETTINGS_AIRFRAMETYPE_OCTO:
-		case SYSTEMSETTINGS_AIRFRAMETYPE_HEXAX:
-		case SYSTEMSETTINGS_AIRFRAMETYPE_OCTOV:
-		case SYSTEMSETTINGS_AIRFRAMETYPE_OCTOCOAXP:
-		case SYSTEMSETTINGS_AIRFRAMETYPE_HEXACOAX:
-		case SYSTEMSETTINGS_AIRFRAMETYPE_TRI:
-			multirotor = true;
-			break;
-		default:
-			multirotor = false;
+	bool is_multirotor;
+	uint8_t platform_type;
+	SystemSettingsPlatformTypeGet(&platform_type);
+	if(platform_type == SYSTEMSETTINGS_PLATFORMTYPE_MULTIROTOR) {
+			is_multirotor = true;
+	} else {
+			is_multirotor = false;
 	}
 
 	// For each available flight mode position sanity check the available
@@ -106,7 +96,7 @@ int32_t configuration_check()
 	for(uint32_t i = 0; i < num_modes; i++) {
 		switch(modes[i]) {
 			case MANUALCONTROLSETTINGS_FLIGHTMODEPOSITION_MANUAL:
-				if (multirotor) {
+				if (is_multirotor) {
 					error_code = SYSTEMALARMS_CONFIGERROR_STABILIZATION;
 				}
 				break;
@@ -120,13 +110,13 @@ int32_t configuration_check()
 				// always ok
 				break;
 			case MANUALCONTROLSETTINGS_FLIGHTMODEPOSITION_STABILIZED1:
-				error_code = (error_code == SYSTEMALARMS_CONFIGERROR_NONE) ? check_stabilization_settings(1, multirotor) : error_code;
+				error_code = (error_code == SYSTEMALARMS_CONFIGERROR_NONE) ? check_stabilization_settings(1, is_multirotor) : error_code;
 				break;
 			case MANUALCONTROLSETTINGS_FLIGHTMODEPOSITION_STABILIZED2:
-				error_code = (error_code == SYSTEMALARMS_CONFIGERROR_NONE) ? check_stabilization_settings(2, multirotor) : error_code;
+				error_code = (error_code == SYSTEMALARMS_CONFIGERROR_NONE) ? check_stabilization_settings(2, is_multirotor) : error_code;
 				break;
 			case MANUALCONTROLSETTINGS_FLIGHTMODEPOSITION_STABILIZED3:
-				error_code = (error_code == SYSTEMALARMS_CONFIGERROR_NONE) ? check_stabilization_settings(3, multirotor) : error_code;
+				error_code = (error_code == SYSTEMALARMS_CONFIGERROR_NONE) ? check_stabilization_settings(3, is_multirotor) : error_code;
 				break;
 			case MANUALCONTROLSETTINGS_FLIGHTMODEPOSITION_AUTOTUNE:
 				if (!TaskMonitorQueryRunning(TASKINFO_RUNNING_AUTOTUNE))
