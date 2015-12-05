@@ -1,0 +1,72 @@
+<xml>
+	<object name="HelicopterAirframeSettings" singleinstance="true" settings="true" category="Platform">
+		<description>Select airframe type.  Currently used by @ref ActuatorModule to choose mixing from @ref ActuatorDesired to @ref ActuatorCommand</description>
+		<field name="SwashplateType" units="" type="enum" elements="1" options="CCPM 2 Servo 90,CCPM 3 Servo 90,CCPM 3 Servo 120,FP 2 Servo 90,CCPM 3 Servo 140,CCPM 4 Servo 90,Coax 90,Custom" defaultvalue="CCPM 2 Servo 90"/>
+		
+		<field name="ThrottleChannel" units="" type="enum" elements="2" defaultvalue="None">
+			<options>
+				<option>None</option>
+				<option>Channel1</option>
+				<option>Channel2</option>
+				<option>Channel3</option>
+				<option>Channel4</option>
+				<option>Channel5</option>
+				<option>Channel6</option>
+				<option>Channel7</option>
+				<option>Channel8</option>
+				<option>Channel9</option>
+				<option>Channel10</option>
+			</options>
+		</field>
+		
+		<field name="TailChannel" units="" type="enum" elements="1" defaultvalue="None">
+			<options>
+				<option>None</option>
+				<option>Channel1</option>
+				<option>Channel2</option>
+				<option>Channel3</option>
+				<option>Channel4</option>
+				<option>Channel5</option>
+				<option>Channel6</option>
+				<option>Channel7</option>
+				<option>Channel8</option>
+				<option>Channel9</option>
+				<option>Channel10</option>
+			</options>
+		</field>
+
+		<field name="FirstServoAngle" units="deg*100" type="int16" elements="1" defaultvalue="0"/>
+		<field name="CorrectionAngle" units="deg*100" type="int16" elements="1" defaultvalue="0"/>
+		<field name="ServoAngle" units="deg*100" type="int16" elementnames="W,X,Y,Z" defaultvalue="0"/>
+
+		<field name="ServoIndex" units="" type="enum" elementnames="W,X,Y,Z" defaultvalue="None">
+			<options>
+				<option>None</option>
+				<option>Channel1</option>
+				<option>Channel2</option>
+				<option>Channel3</option>
+				<option>Channel4</option>
+				<option>Channel5</option>
+				<option>Channel6</option>
+				<option>Channel7</option>
+				<option>Channel8</option>
+				<option>Channel9</option>
+				<option>Channel10</option>
+			</options>
+		</field>
+
+
+		<field name="CollectivePassthrough" units="" type="enum" elements="1" options="Enabled,Disabled" defaultvalue="Disabled"/>
+		<field name="LinkCyclicAndCollective" units="" type="enum" elements="1" options="Yes,No" defaultvalue="No"/>
+		<field name="LinkRollAndPitch" units="" type="enum" elements="1" options="Yes,No" defaultvalue="No"/>
+		
+		<field name="Roll" units="" type="uint8" elements="1" defaultvalue="0"/>
+		<field name="Pitch" units="" type="uint8" elements="1" defaultvalue="0"/>
+		<field name="Collective" units="" type="uint8" elements="1" defaultvalue="0"/>
+
+		<access gcs="readwrite" flight="readwrite"/>
+		<telemetrygcs acked="true" updatemode="onchange" period="0"/>
+		<telemetryflight acked="true" updatemode="onchange" period="0"/>
+		<logging updatemode="manual" period="0"/>
+	</object>
+</xml>
