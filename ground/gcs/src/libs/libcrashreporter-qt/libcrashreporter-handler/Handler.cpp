@@ -208,15 +208,12 @@ Handler::setCrashReporter( const QString& crashReporter )
     strcpy( creporter, sreporter.c_str() );
     m_crashReporterChar = creporter;
 
-    qDebug() << "m_crashReporterChar: " << m_crashReporterChar;
-
     // cache reporter path as wchart_t*
     wchar_t* wreporter;
     std::wstring wsreporter = crashReporterPath.toStdWString();
     wreporter = new wchar_t[ wsreporter.size() + 10 ];
     wcscpy( wreporter, wsreporter.c_str() );
     m_crashReporterWChar = wreporter;
-    std::wcout << "m_crashReporterWChar: " << m_crashReporterWChar;
 }
 
 
