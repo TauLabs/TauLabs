@@ -1,5 +1,4 @@
 include(../../gcs.pri)
-include(../shared/qtsingleapplication/qtsingleapplication.pri)
 
 TEMPLATE = app
 TARGET = $$GCS_APP_TARGET
@@ -19,13 +18,13 @@ HEADERS += customsplash.h
 LIBS *= -l$$qtLibraryName(ExtensionSystem) -l$$qtLibraryName(Aggregation)
 
 win32 {
-    RC_FILE = taulabs.rc
+    RC_FILE = $$BRANDING_PATH/gcs_app.rc
     target.path = /bin
     INSTALLS += target
 } else:macx {
     LIBS += -framework CoreFoundation
-    ICON = taulabs.icns
-    QMAKE_INFO_PLIST = Info.plist
+    ICON =
+    QMAKE_INFO_PLIST = $$BRANDING_PATH/Info.plist
     FILETYPES.files = profile.icns prifile.icns
     FILETYPES.path = Contents/Resources
     QMAKE_BUNDLE_DATA += FILETYPES
@@ -34,13 +33,10 @@ win32 {
     INSTALLS    += target
 }
 
-OTHER_FILES += taulabs.rc
-
-OTHER_FILES += qtcreator.rc \
-    $$PWD/app_version.h.in
-
 RESOURCES += \
     app_resource.qrc
 
-QMAKE_SUBSTITUTES += $$PWD/app_version.h.in
+DISTFILES += \
+    $$BRANDING_PATH/gcs_app.rc \
+    $$BRANDING_PATH/gcs_app.icns
 

@@ -33,12 +33,12 @@
 namespace Core {
 namespace Constants {
 
-const char * const GCS_NAME              = "Tau Labs GCS";
-const char * const GCS_AUTHOR            = "Tau Labs";
+const char * const GCS_NAME              = GCS_PROJECT_BRANDING_PREATY " GCS";
+const char * const GCS_AUTHOR            = GCS_PROJECT_BRANDING_PREATY;
 const char t []                          = __DATE__;
 const char * const GCS_YEAR              = t + 7;
 
-const char * const GCS_HELP              = "http://github.com/TauLabs";
+const char * const GCS_HELP              = GCS_PROJECT_BRANDING_HELP;
 #ifdef GCS_REVISION
 const char * const GCS_REVISION_STR      = GCS_REVISION;
 const char * const UAVOSHA1_STR          = UAVO_HASH_STR;
@@ -218,7 +218,7 @@ const char * const ICON_PLUGIN           = ":/core/images/pluginicon.png";
 const char * const ICON_EXIT             = ":/core/images/exiticon.png";
 const char * const ICON_OPTIONS          = ":/core/images/optionsicon.png";
 const char * const ICON_HELP             = ":/core/images/helpicon.png";
-const char * const ICON_TAULABS          = ":/core/images/taulabs_logo_128.png";
+const char * const ICON_GCS              = ":/core/gcs_logo_128";
 
 // wizard kind
 const char * const WIZARD_TYPE_FILE      = "GCS::WizardType::File";

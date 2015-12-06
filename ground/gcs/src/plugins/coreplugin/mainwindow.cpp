@@ -132,17 +132,15 @@ MainWindow::MainWindow() :
 {
     // keep this in sync with main() in app/main.cpp
     m_settings = new QSettings(XmlConfig::XmlSettingsFormat, QSettings::UserScope,
-                             QLatin1String("TauLabs"), QLatin1String("TauLabs_config.autosave"), this);
+                  QLatin1String(GCS_PROJECT_BRANDING), QLatin1String(GCS_PROJECT_BRANDING "_config.autosave"), this);
     m_settingsDatabase = new SettingsDatabase(QFileInfo(m_settings->fileName()).path(),
-                                            QLatin1String("TauLabs_config"),
-                                            this);
-
+                  QLatin1String(GCS_PROJECT_BRANDING "_config"), this);
     // Copy original settings file to working settings. Do this in scope so that
     // we are guaranteed that the originalSettings file is closed. This prevents corruption
     // since the QSettings being used are copies of the original file.
-    {
+    {   
         QSettings originalSettings(XmlConfig::XmlSettingsFormat, QSettings::UserScope,
-                                   QLatin1String("TauLabs"), QLatin1String("TauLabs_config"), this);
+                   QLatin1String(GCS_PROJECT_BRANDING), QLatin1String(GCS_PROJECT_BRANDING "_config"), this);
 
         // There is no copy constructor for QSettings, so we have to do it manually
         m_settings->clear();
@@ -155,7 +153,7 @@ MainWindow::MainWindow() :
 
     setWindowTitle(QLatin1String(Core::Constants::GCS_NAME));
     if (!Utils::HostOsInfo::isMacHost())
-        QApplication::setWindowIcon(QIcon(Core::Constants::ICON_TAULABS));
+        QApplication::setWindowIcon(QIcon(Core::Constants::ICON_GCS));
     QCoreApplication::setApplicationName(QLatin1String(Core::Constants::GCS_NAME));
     QCoreApplication::setApplicationVersion(QLatin1String(Core::Constants::GCS_VERSION_LONG));
     QCoreApplication::setOrganizationName(QLatin1String(Core::Constants::GCS_AUTHOR));
@@ -256,7 +254,7 @@ MainWindow::~MainWindow()
     // of corruption since the QSettings are saved (almost) atomically.
     {
         QSettings originalSettings(XmlConfig::XmlSettingsFormat, QSettings::UserScope,
-                                   QLatin1String("TauLabs"), QLatin1String("TauLabs_config"), this);
+                                   QLatin1String(GCS_PROJECT_BRANDING), QLatin1String(GCS_PROJECT_BRANDING "_config"), this);
 
         // There is no copy constructor for QSettings, so we have to do it manually
         originalSettings.clear();
@@ -806,7 +804,7 @@ void MainWindow::registerDefaultActions()
 #ifdef Q_OS_MAC
     tmpaction = new QAction(QIcon(Constants::ICON_TAULABS), tr("About &Tau Labs GCS"), this); // it's convention not to add dots to the about menu
 #else
-    tmpaction = new QAction(QIcon(Constants::ICON_TAULABS), tr("About &Tau Labs GCS..."), this);
+    tmpaction = new QAction(QIcon(Constants::ICON_GCS), tr("About &Tau Labs GCS..."), this);
 #endif
     cmd = am->registerAction(tmpaction, Constants::ABOUT_TAULABSGCS, m_globalContext);
     mhelp->addAction(cmd, Constants::G_HELP_ABOUT);
