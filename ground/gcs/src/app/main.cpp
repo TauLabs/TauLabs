@@ -216,7 +216,7 @@ int main(int argc, char **argv)
     parser.addOption(cleanConfig);
     QCommandLineOption noLoadOption(QStringList() << "n" << COMMAND_LINE_NO_LOAD, QCoreApplication::translate("main", "Skips loading of the plugin."), QCoreApplication::translate("main", "plugin name"), "");
     parser.addOption(noLoadOption);
-    QCommandLineOption doTestsOption(QStringList() << "t" << COMMAND_LINE_TEST, QCoreApplication::translate("main", "Runs tests on the plugin."), QCoreApplication::translate("main", "plugin name"), "");
+    QCommandLineOption doTestsOption(QStringList() << "t" << COMMAND_LINE_TEST, QCoreApplication::translate("main", "Runs tests on the plugin. (Requires compiling with -D WITH_TESTS, look in the uploader plugin for example usage)"), QCoreApplication::translate("main", "plugin name"), "");
     parser.addOption(doTestsOption);
     QCommandLineOption pluginOption(QStringList() << "p" << COMMAND_LINE_PLUGIN_OPTION, QCoreApplication::translate("main", "Passes an option to a plugin."), QCoreApplication::translate("main", "option_name=option_value"), "");
     // The options are passed to the plugin init as a QStringList i.e. >> iplugin::initialize(const QStringList &arguments, QString *errorString)
@@ -249,7 +249,7 @@ int main(int argc, char **argv)
     }
     const QString &gcsTranslationsPath = QCoreApplication::applicationDirPath()
                                    + QLatin1String(GCS_DATA_PATH "/translations");
-    if (translator.load(QLatin1String("taulabs_") + locale, gcsTranslationsPath)) {
+    if (translator.load(QLatin1String("gcs_") + locale, gcsTranslationsPath)) {
         const QString &qtTrPath = QLibraryInfo::location(QLibraryInfo::TranslationsPath);
         const QString &qtTrFile = QLatin1String("qt_") + locale;
         // Binary installer puts Qt tr files into creatorTrPath
@@ -286,9 +286,10 @@ int main(int argc, char **argv)
             break;
         }
     }
-    if(!parser.isSet(versionOption) && !parser.isSet(helpOption))
+    if(!parser.isSet(versionOption) && !parser.isSet(helpOption)) {
         splash.showMessage(QLatin1String("Checking core plugin"),Qt::AlignCenter | Qt::AlignBottom,Qt::black);
-    qApp->processEvents();
+        qApp->processEvents();
+    }
     if (!coreplugin) {
         const QString reason = QCoreApplication::translate("Application", "Could not find 'Core.pluginspec' in %1").arg(GCS_PLUGIN_PATH);
         displayError(msgCoreLoadFailure(reason));

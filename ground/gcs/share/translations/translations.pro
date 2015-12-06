@@ -1,4 +1,4 @@
-include(../../../gcs.pri)
+include(../../gcs.pri)
 
 LANGUAGES = de es fr ru zh_CN
 
@@ -15,7 +15,7 @@ LCONVERT = $$targetPath($$[QT_INSTALL_BINS]/lconvert)
 
 wd = $$replace(GCS_SOURCE_TREE, /, $$QMAKE_DIR_SEP)
 
-TRANSLATIONS = $$prependAll(LANGUAGES, $$PWD/taulabs_,.ts)
+TRANSLATIONS = $$prependAll(LANGUAGES, $$PWD/gcs_,.ts)
 
 MIME_TR_H = $$OUT_PWD/mime_tr.h
 
@@ -60,8 +60,8 @@ isEmpty(vcproj) {
     QMAKE_EXTRA_COMPILERS += phony_src
 }
 
-qmfiles.files = $$prependAll(LANGUAGES, $$OUT_PWD/taulabs_,.qm)
-qmfiles.path = /share/taulabs/translations
+qmfiles.files = $$prependAll(LANGUAGES, $$OUT_PWD/gcs_,.qm)
+qmfiles.path = /share/translations
 qmfiles.CONFIG += no_check_exist
 INSTALLS += qmfiles
 
