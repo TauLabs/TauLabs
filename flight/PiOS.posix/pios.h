@@ -30,7 +30,7 @@
 #define PIOS_H
 
 /* PIOS Feature Selection */
-#include "pios_config_sim.h"
+#include "pios_config.h"
 
 #if defined(PIOS_INCLUDE_CHIBIOS)
 /* @note    This is required because of difference in chip define between ChibiOS and ST libs.

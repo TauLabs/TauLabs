@@ -5,10 +5,10 @@
  * @addtogroup Revolution OpenPilot Revolution support files
  * @{
  *
- * @file       pios_config.h 
+ * @file       pios_config_sim.h 
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2011.
  * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2013
- * @brief      Board specific options that modify PiOS capabilities
+ * @brief      Simulation specific options that modify PiOS capabilities
  * @see        The GNU Public License (GPL) Version 3
  * 
  *****************************************************************************/
@@ -29,112 +29,58 @@
  */
 
 
-#ifndef PIOS_CONFIG_H
-#define PIOS_CONFIG_H
+#ifndef PIOS_CONFIG_POSIX_H
+#define PIOS_CONFIG_POSIX_H
 
-/* Major features */
-#define PIOS_INCLUDE_FREERTOS
-#define PIOS_INCLUDE_BL_HELPER
 
 /* Enable/Disable PiOS Modules */
-#define PIOS_INCLUDE_ADC
-#define PIOS_INCLUDE_DELAY
-#define PIOS_INCLUDE_I2C
-#define PIOS_INCLUDE_IRQ
-#define PIOS_INCLUDE_LED
-#define PIOS_INCLUDE_IAP
-#define PIOS_INCLUDE_SERVO
-#define PIOS_INCLUDE_SPI
 #define PIOS_INCLUDE_SYS
-#define PIOS_INCLUDE_USART
-#define PIOS_INCLUDE_USB
-#define PIOS_INCLUDE_USB_HID
-#define PIOS_INCLUDE_USB_CDC
-//#define PIOS_INCLUDE_GPIO
-#define PIOS_INCLUDE_EXTI
-#define PIOS_INCLUDE_RTC
-#define PIOS_INCLUDE_WDG
-#define PIOS_INCLUDE_FASTHEAP
-
-/* Select the sensors to include */
-#define PIOS_INCLUDE_BMA180
-#define PIOS_INCLUDE_HMC5883
-#define PIOS_INCLUDE_MPU6000
-#define PIOS_MPU6000_ACCEL
-#define PIOS_INCLUDE_L3GD20
-#define PIOS_INCLUDE_MS5611
-#define PIOS_INCLUDE_ETASV3
-#define PIOS_INCLUDE_MPXV5004
-#define PIOS_INCLUDE_MPXV7002
-//#define PIOS_INCLUDE_HCSR04
-#define PIOS_FLASH_ON_ACCEL /* true for second revo */
-#define FLASH_FREERTOS
-/* Com systems to include */
+#define PIOS_INCLUDE_DELAY
+#define PIOS_INCLUDE_LED
+#define PIOS_INCLUDE_CHIBIOS
 #define PIOS_INCLUDE_COM
-#define PIOS_INCLUDE_COM_TELEM
-#define PIOS_INCLUDE_COM_AUX
-#define PIOS_INCLUDE_COM_AUXSBUS
-#define PIOS_INCLUDE_COM_FLEXI
-#define PIOS_INCLUDE_MAVLINK
-#define PIOS_INCLUDE_HOTT
-#define PIOS_INCLUDE_SESSION_MANAGEMENT
-#define PIOS_INCLUDE_PICOC
-#define PIOS_INCLUDE_FRSKY_SPORT_TELEMETRY
-
-#define PIOS_INCLUDE_GPS
-#define PIOS_INCLUDE_GPS_NMEA_PARSER
-#define PIOS_INCLUDE_GPS_UBX_PARSER
-
-#define PIOS_OVERO_SPI
-/* Supported receiver interfaces */
+//#define PIOS_INCLUDE_GPS
+#define PIOS_INCLUDE_IRQ
+#define PIOS_INCLUDE_TELEMETRY_RF
+#define PIOS_INCLUDE_TCP
+#define PIOS_INCLUDE_UDP
+#define PIOS_INCLUDE_SERVO
 #define PIOS_INCLUDE_RCVR
-#define PIOS_INCLUDE_DSM
-#define PIOS_INCLUDE_HSUM
-//#define PIOS_INCLUDE_SBUS
-#define PIOS_INCLUDE_PPM
-#define PIOS_INCLUDE_PWM
 #define PIOS_INCLUDE_GCSRCVR
-
+#define PIOS_INCLUDE_IAP
+#define PIOS_INCLUDE_BL_HELPER
 #define PIOS_INCLUDE_FLASH
-#define PIOS_INCLUDE_FLASH_JEDEC
-#define PIOS_INCLUDE_FLASH_INTERNAL
 #define PIOS_INCLUDE_LOGFS_SETTINGS
 
-/* Other Interfaces */
-//#define PIOS_INCLUDE_I2C_ESC
+#define PIOS_RCVR_MAX_CHANNELS			12
+#define PIOS_RCVR_MAX_DEVS              3
+#define PIOS_GCSRCVR_MAX_DEVS           3
 
-/* Flags that alter behaviors - mostly to lower resources for CC */
-#define PIOS_INCLUDE_INITCALL           /* Include init call structures */
-#define PIOS_TELEM_PRIORITY_QUEUE       /* Enable a priority queue in telemetry */
+/* Defaults for Logging */
+#define LOG_FILENAME 			"PIOS.LOG"
+#define STARTUP_LOG_ENABLED		1
 
-#define CAMERASTAB_POI_MODE
+/* COM Module */
+#define GPS_BAUDRATE			19200
+#define TELEM_BAUDRATE			19200
+#define AUXUART_ENABLED			0
+#define AUXUART_BAUDRATE		19200
 
-/* Alarm Thresholds */
-#define HEAP_LIMIT_WARNING		1000
-#define HEAP_LIMIT_CRITICAL		500
+#define TELEM_QUEUE_SIZE                20
+#define PIOS_TELEM_STACK_SIZE           PIOS_THREAD_STACK_SIZE_MIN
+
+/* Stabilization options */
+
+#define HEAP_LIMIT_WARNING		4000
+#define HEAP_LIMIT_CRITICAL		1000
 #define IRQSTACK_LIMIT_WARNING		150
 #define IRQSTACK_LIMIT_CRITICAL		80
 #define CPULOAD_LIMIT_WARNING		80
 #define CPULOAD_LIMIT_CRITICAL		95
 
-/*
- * This has been calibrated 2013/03/11 using next @ 6d21c7a590619ebbc074e60cab5e134e65c9d32b.
- * Calibration has been done by disabling the init task, breaking into debugger after
- * approximately after 60 seconds, then doing the following math:
- *
- * IDLE_COUNTS_PER_SEC_AT_NO_LOAD = (uint32_t)((double)idleCounter / xTickCount * 1000 + 0.5)
- *
- * This has to be redone every time the toolchain, toolchain flags or FreeRTOS
- * configuration like number of task priorities or similar changes.
- * A change in the cpu load calculation or the idle task handler will invalidate this as well.
- */
-#define IDLE_COUNTS_PER_SEC_AT_NO_LOAD (6984538)
+#define IDLE_COUNTS_PER_SEC_AT_NO_LOAD 9959
 
 // Enable POI tracking mode for camera stabilization
 #define CAMERASTAB_POI_MODE
 
-#endif /* PIOS_CONFIG_H */
-/**
- * @}
- * @}
- */
+#endif /* PIOS_CONFIG_POSIX_H */
