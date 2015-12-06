@@ -324,31 +324,16 @@ QList<PluginSpec *> PluginManager::plugins() const
 }
 
 /*!
-    \fn bool PluginManager::parseOptions(const QStringList &args, const QMap<QString, bool> &appOptions, QMap<QString, QString> *foundAppOptions, QString *errorString)
+    \fn QStringList PluginManager::parseOptions(StringList pluginOptions, QStringList pluginTests, QStringList pluginNoLoad)
     Takes the list of command line options in \a args and parses them.
-    The plugin manager itself might process some options itself directly (-noload <plugin>), and
-    adds options that are registered by plugins to their plugin specs.
-    The caller (the application) may register itself for options via the \a appOptions list, containing pairs
-    of "option string" and a bool that indicates if the option requires an argument.
-    Application options always override any plugin's options.
-    
-    \a foundAppOptions is set to pairs of ("option string", "argument") for any application options that were found.
-    The command line options that were not processed can be retrieved via the arguments() method.
-    If an error occurred (like missing argument for an option that requires one), \a errorString contains
-    a descriptive message of the error.
-    
-    Returns if there was an error.
+    Processes options( e.g. -noload <plugin>), and adds options that are registered by plugins to their plugin specs.
+    Returns errors list (e.g. If an error occurred like missing argument for an option that requires one)
  */
-bool PluginManager::parseOptions(const QStringList &args,
-    const QMap<QString, bool> &appOptions,
-    QMap<QString, QString> *foundAppOptions,
-    QString *errorString)
+QStringList PluginManager::parseOptions(QStringList pluginOptions, QStringList pluginTests, QStringList pluginNoLoad)
 {
-    OptionsParser options(args, appOptions, foundAppOptions, errorString, d);
-    return options.parse();
+    OptionsParser options(d);
+    return options.parse(pluginOptions, pluginTests, pluginNoLoad);
 }
-
-
 
 static inline void indent(QTextStream &str, int indent)
 {
@@ -370,19 +355,6 @@ static inline void formatOption(QTextStream &str,
     }
     indent(str, qMax(0, remainingIndent));
     str << description << '\n';
-}
-
-/*!
-    \fn static PluginManager::formatOptions(QTextStream &str, int optionIndentation, int descriptionIndentation)
-
-    Format the startup options of the plugin manager for command line help.
-*/
-
-void PluginManager::formatOptions(QTextStream &str, int optionIndentation, int descriptionIndentation)
-{
-    formatOption(str, QLatin1String(OptionsParser::NO_LOAD_OPTION),
-                 QLatin1String("plugin"), QLatin1String("Do not load <plugin>"),
-                 optionIndentation, descriptionIndentation);
 }
 
 /*!
@@ -457,12 +429,8 @@ bool PluginManager::runningTests() const
  */
 QString PluginManager::testDataDirectory() const
 {
-    QByteArray ba = qgetenv("QTCREATOR_TEST_DIR");
-    QString s = QString::fromLocal8Bit(ba.constData(), ba.size());
-    if (s.isEmpty()) {
-        s = GCS_TEST_DIR;
-        s.append("/tests");
-    }
+    QString s = GCS_TEST_DIR;
+    s.append("/tests");
     s = QDir::cleanPath(s);
     return s;
 }
@@ -582,7 +550,7 @@ void PluginManagerPrivate::loadPlugins()
         emit q->splashMessages(QString(QObject::tr("Loading %1 plugin")).arg(spec->name()));
         loadPlugin(spec, PluginSpec::Loaded);
         if(spec->name() == "Core")
-            QObject::connect(spec->plugin(),SIGNAL(splashMessages(QString)),q,SIGNAL(splashMessages(QString)));
+            QObject::connect(spec->plugin(),SIGNAL(splashMessages(QString)), q, SIGNAL(splashMessages(QString)));
     }
 
     foreach (PluginSpec *spec, queue) {
