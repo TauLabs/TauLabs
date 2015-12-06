@@ -11,7 +11,7 @@ equals(copydata, 1) {
            macx:data_copy.commands += $(COPY_DIR) $$targetPath(\"$$GCS_SOURCE_TREE/share/$$dir\") $$targetPath(\"$$GCS_DATA_PATH/\") $$addNewline()
            win32:data_copy.commands += $(COPY_DIR) $$targetPath(\"$$GCS_SOURCE_TREE/share/$$dir\") $$targetPath(\"$$GCS_DATA_PATH/$$dir\") $$addNewline()
            unix:data_copy.commands += $(MKDIR) $$targetPath(\"$$GCS_DATA_PATH/$$dir\") $$addNewline()
-           unix:data_copy.commands += $(COPY_DIR) $$targetPath(\"$$GCS_SOURCE_TREE/share/$$dir\") $$targetPath(\"$$GCS_DATA_PATH/\") $$addNewline()
+           linux:data_copy.commands += $(COPY_DIR) $$targetPath(\"$$GCS_SOURCE_TREE/share/$$dir\") $$targetPath(\"$$GCS_DATA_PATH/\") $$addNewline()
        }
    }
 
