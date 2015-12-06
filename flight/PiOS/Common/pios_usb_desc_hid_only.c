@@ -103,7 +103,7 @@ struct usb_config_hid_only {
 	struct usb_endpoint_desc              hid_out;
 } __attribute__((packed));
 
-static struct usb_config_hid_only config_hid_only = {
+const struct usb_config_hid_only config_hid_only = {
 	.config = {
 		.bLength              = sizeof(struct usb_configuration_desc),
 		.bDescriptorType      = USB_DESC_TYPE_CONFIGURATION,

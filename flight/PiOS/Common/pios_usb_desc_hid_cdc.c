@@ -183,7 +183,7 @@ struct usb_config_hid_cdc {
 	struct usb_endpoint_desc              hid_out;
 } __attribute__((packed));
 
-static struct usb_config_hid_cdc config_hid_cdc = {
+static const struct usb_config_hid_cdc config_hid_cdc = {
 	.config = {
 		.bLength              = sizeof(struct usb_configuration_desc),
 		.bDescriptorType      = USB_DESC_TYPE_CONFIGURATION,
