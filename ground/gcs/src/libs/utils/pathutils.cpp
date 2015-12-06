@@ -33,16 +33,17 @@
 
 namespace Utils {
 
-    PathUtils::PathUtils()
-    {
+QString PathUtils::settingsFilename = "";
 
-    }
+PathUtils::PathUtils()
+{
 
-    /**
-      Returns the base path of the share directory.
+}
 
-      Path is in Qt/Unix conventions, separated by "/".
-      */
+/**
+Returns the base path of the share directory.
+Path is in Qt/Unix conventions, separated by "/".
+*/
 QString PathUtils::GetDataPath()
 {
     // This routine works with "/" as the standard:
@@ -98,8 +99,13 @@ QString PathUtils::GetStoragePath()
 {
     // This routine works with "/" as the standard:
     // Work out where the settings are stored on the machine
-    QSettings set(XmlConfig::XmlSettingsFormat, QSettings::UserScope,QLatin1String("TauLabs"), QLatin1String("TauLabs_config"));
-    QFileInfo f(set.fileName());
+    QFileInfo f;
+    if(!getSettingsFilename().isEmpty())
+        f.setFile(getSettingsFilename());
+    else {
+        QSettings set(XmlConfig::XmlSettingsFormat, QSettings::UserScope,QLatin1String(GCS_PROJECT_BRANDING), QLatin1String(GCS_PROJECT_BRANDING "_config"));
+        f.setFile(set.fileName());
+    }
     QDir dir(f.absoluteDir());
 
     const QString homeDirPath = dir.canonicalPath();
@@ -136,6 +142,16 @@ QString PathUtils::InsertStoragePath(QString path)
     }
     return QDir::toNativeSeparators(path);
 
+}
+
+QString PathUtils::getSettingsFilename()
+{
+    return PathUtils::settingsFilename;
+}
+
+void PathUtils::setSettingsFilename(QString filename)
+{
+    PathUtils::settingsFilename = filename;
 }
 
 }
