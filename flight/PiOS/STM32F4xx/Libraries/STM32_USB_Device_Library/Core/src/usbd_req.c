@@ -373,7 +373,7 @@ static void USBD_GetDescriptor(USB_OTG_CORE_HANDLE  *pdev,
                                USB_SETUP_REQ *req)
 {
   uint16_t len;
-  uint8_t *pbuf;
+  const uint8_t *pbuf;
   len = req->wLength ;
     
   switch (req->wValue >> 8)
@@ -396,7 +396,9 @@ static void USBD_GetDescriptor(USB_OTG_CORE_HANDLE  *pdev,
       pbuf   = (uint8_t *)pdev->dev.class_cb->GetOtherConfigDescriptor(pdev->cfg.speed, &len);
     }
 #endif  
-    pbuf[1] = USB_DESC_TYPE_CONFIGURATION;
+    // This line would mean the descriptors could not longer live in flash
+    // Removed as we always set the type to USB_DESC_TYPE_CONFIGURATION anyway
+    //pbuf[1] = USB_DESC_TYPE_CONFIGURATION;
     pdev->dev.pConfig_descriptor = pbuf;    
     break;
     
