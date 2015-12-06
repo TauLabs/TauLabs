@@ -28,12 +28,13 @@
  */
 
 #define COMMAND_LINE_OVERRIDE "override"
-#define COMMAND_LINE_CLEAN_CONFIG "clean-config"
+#define COMMAND_LINE_CLEAN_CONFIG "reset-config"
 #define COMMAND_LINE_NO_LOAD "no-load"
 #define COMMAND_LINE_TEST "test"
 #define COMMAND_LINE_PLUGIN_OPTION "plugin-option"
 
 #include "utils/xmlconfig.h"
+#include "utils/pathutils.h"
 
 #include <extensionsystem/pluginmanager.h>
 #include <extensionsystem/pluginspec.h>
@@ -138,7 +139,7 @@ static inline QString msgCoreLoadFailure(const QString &why)
     return QCoreApplication::translate("Application", "Failed to load core: %1").arg(why);
 }
 
-static void overrideSettings(QCommandLineParser &parser, QSettings &settings){
+static void overrideSettings(QCommandLineParser &parser, QSettings *settings){
     QMap<QString, QString> settingOptions;
     // Options like -DMy/setting=test
     QRegExp rx("([^=]+)=(.*)");
@@ -149,14 +150,14 @@ static void overrideSettings(QCommandLineParser &parser, QSettings &settings){
         }
     }
     if ( parser.isSet(COMMAND_LINE_CLEAN_CONFIG) ){
-        settings.clear();
+        settings->clear();
     }
 
     QList<QString> keys = settingOptions.keys();
     foreach ( QString key, keys ){
-        settings.setValue(key, settingOptions.value(key));
+        settings->setValue(key, settingOptions.value(key));
     }
-    settings.sync();
+    settings->sync();
 }
 
 int main(int argc, char **argv)
@@ -212,7 +213,7 @@ int main(int argc, char **argv)
 
     QCommandLineOption overrideOption(QStringList() << "o" << COMMAND_LINE_OVERRIDE, QCoreApplication::translate("main", "Overrides a configuration setting."), QCoreApplication::translate("main", "setting=value"), "");
     parser.addOption(overrideOption);
-    QCommandLineOption cleanConfig(QStringList() << "c" << COMMAND_LINE_CLEAN_CONFIG, QCoreApplication::translate("main", "Resets the configuration file to default values."));
+    QCommandLineOption cleanConfig(QStringList() << "r" << COMMAND_LINE_CLEAN_CONFIG, QCoreApplication::translate("main", "Resets the configuration file to default values."));
     parser.addOption(cleanConfig);
     QCommandLineOption noLoadOption(QStringList() << "n" << COMMAND_LINE_NO_LOAD, QCoreApplication::translate("main", "Skips loading of the plugin."), QCoreApplication::translate("main", "plugin name"), "");
     parser.addOption(noLoadOption);
@@ -222,21 +223,37 @@ int main(int argc, char **argv)
     // The options are passed to the plugin init as a QStringList i.e. >> iplugin::initialize(const QStringList &arguments, QString *errorString)
     // These options need to be set in the pluginspec file (look in the Core.pluginspec file for an example)
     parser.addOption(pluginOption);
+    parser.addPositionalArgument("config", QCoreApplication::translate("main", "Use the specified configuration file."), QCoreApplication::translate("main", "config file"));
     if (!parser.parse(QCoreApplication::arguments())) {
          displayError(parser.errorText());
          displayHelpText(parser.helpText());
         return 1;
     }
-    // Scope this so that we are guaranteed that the QSettings file is closed immediately. This
-    // prevents corruption.
+    QString settingsFilename;
+    QStringList positionalArguments = parser.positionalArguments();
     {
-        // keep this in sync with the MainWindow ctor in coreplugin/mainwindow.cpp
-        QSettings settings(XmlConfig::XmlSettingsFormat, QSettings::UserScope,
-                           QLatin1String(GCS_PROJECT_BRANDING), QLatin1String(GCS_PROJECT_BRANDING "_config"));
+        QSettings *settings;
+        if(positionalArguments.length() > 0)
+        {
+            if(QFile::exists(positionalArguments.at(0)))
+                settings = new QSettings(positionalArguments.at(0), XmlConfig::XmlSettingsFormat);
+            else {
+                displayError(QString("Error loading configuration file:%0").arg(positionalArguments.at(0)));
+                return 1;
+            }
+        }
+        else
+            settings = new QSettings(XmlConfig::XmlSettingsFormat, QSettings::UserScope,
+                               QLatin1String(GCS_PROJECT_BRANDING), QLatin1String(GCS_PROJECT_BRANDING "_config"));
+        if(settings->status() != QSettings::NoError) {
+            displayError(QString("Error parsing the configuration file:%0").arg(settings->fileName()));
+            return 1;
+        }
         overrideSettings(parser, settings);
-        locale = settings.value("General/OverrideLanguage", locale).toString();
+        locale = settings->value("General/OverrideLanguage", locale).toString();
+        settingsFilename = settings->fileName();
+        delete settings;
     }
-
     QTranslator translator;
     QTranslator qtTranslator;
 
@@ -264,6 +281,7 @@ int main(int argc, char **argv)
 
     // Load
     ExtensionSystem::PluginManager pluginManager;
+    Utils::PathUtils().setSettingsFilename(settingsFilename);
     pluginManager.setFileExtension(QLatin1String("pluginspec"));
 
     pluginManager.setPluginPaths(QStringList() << GCS_PLUGIN_PATH);

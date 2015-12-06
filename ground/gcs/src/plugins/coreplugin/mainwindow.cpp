@@ -67,6 +67,7 @@
 #include <utils/pathchooser.h>
 #include <utils/stylehelper.h>
 #include <utils/xmlconfig.h>
+#include <utils/pathutils.h>
 
 #include <QtCore/QDebug>
 #include <QtCore/QFileInfo>
@@ -89,6 +90,7 @@
 #include <QDir>
 #include <QMimeData>
 #include <QNetworkProxy>
+#include <QDir>
 
 using namespace Core;
 using namespace Core::Internal;
@@ -131,16 +133,14 @@ MainWindow::MainWindow() :
     m_toggleFullScreenAction(0)
 {
     // keep this in sync with main() in app/main.cpp
-    m_settings = new QSettings(XmlConfig::XmlSettingsFormat, QSettings::UserScope,
-                  QLatin1String(GCS_PROJECT_BRANDING), QLatin1String(GCS_PROJECT_BRANDING "_config.autosave"), this);
+    m_settings = new QSettings(QDir::tempPath() + QDir::separator() + GCS_PROJECT_BRANDING + QDir::separator() + "config_autosave", XmlConfig::XmlSettingsFormat, this);
     m_settingsDatabase = new SettingsDatabase(QFileInfo(m_settings->fileName()).path(),
                   QLatin1String(GCS_PROJECT_BRANDING "_config"), this);
     // Copy original settings file to working settings. Do this in scope so that
     // we are guaranteed that the originalSettings file is closed. This prevents corruption
     // since the QSettings being used are copies of the original file.
     {   
-        QSettings originalSettings(XmlConfig::XmlSettingsFormat, QSettings::UserScope,
-                   QLatin1String(GCS_PROJECT_BRANDING), QLatin1String(GCS_PROJECT_BRANDING "_config"), this);
+        QSettings originalSettings(Utils::PathUtils().getSettingsFilename(), XmlConfig::XmlSettingsFormat, this);
 
         // There is no copy constructor for QSettings, so we have to do it manually
         m_settings->clear();
@@ -253,8 +253,7 @@ MainWindow::~MainWindow()
     // we are guaranteed that the originalSettings file is closed. This minimizes the risk
     // of corruption since the QSettings are saved (almost) atomically.
     {
-        QSettings originalSettings(XmlConfig::XmlSettingsFormat, QSettings::UserScope,
-                                   QLatin1String(GCS_PROJECT_BRANDING), QLatin1String(GCS_PROJECT_BRANDING "_config"), this);
+        QSettings originalSettings(Utils::PathUtils().getSettingsFilename(), XmlConfig::XmlSettingsFormat, this);
 
         // There is no copy constructor for QSettings, so we have to do it manually
         originalSettings.clear();
@@ -325,7 +324,6 @@ void MainWindow::extensionsInitialized()
 #else
             directory.cdUp();
             directory.cd("share");
-            directory.cd("taulabs");
 #endif
             directory.cd("default_configurations");
 
