@@ -2,6 +2,7 @@ TEMPLATE = lib
 TARGET = Uploader
 DEFINES += UPLOADER_LIBRARY
 QT += svg widgets
+QT += testlib
 include(uploader_dependencies.pri)
 include(../../libs/glc_lib/glc_lib.pri)
 

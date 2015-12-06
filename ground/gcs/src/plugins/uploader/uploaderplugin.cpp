@@ -29,7 +29,7 @@
 #include <QtPlugin>
 #include <QStringList>
 #include <extensionsystem/pluginmanager.h>
-
+#include <QTest>
 UploaderPlugin::UploaderPlugin()
 {
    // Do nothing
@@ -56,5 +56,11 @@ void UploaderPlugin::extensionsInitialized()
 
 void UploaderPlugin::shutdown()
 {
-   // Do nothing
+    // Do nothing
+}
+
+void UploaderPlugin::testStuff()
+{
+    QCOMPARE(QString("hello").toUpper(), QString("HELLO"));
+    QCOMPARE(mf->isAutoUpdateCapable(), true);
 }
