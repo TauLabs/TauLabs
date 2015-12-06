@@ -1,5 +1,5 @@
 <RCC>
     <qresource prefix="/images">
-        <file>resources/tau_trans.png</file>
+        <file alias="gcs_splashscreen.png">../../../../branding/gcs_splashscreen.png</file>
     </qresource>
 </RCC>
