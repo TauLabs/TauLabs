@@ -326,3 +326,22 @@ UAVObjectManager* VehicleConfig::getUAVObjectManager() {
     Q_ASSERT(objMngr);
     return objMngr;
 }
+
+/**
+ * @brief getChannelNumber Parses a channel name of the
+ * form "ChannelXXX", where "XXX" is a positive integer. Outside the class because
+ * it doesn't depend on any class elements.
+ * @param inputText String of the form "ChannelXXX"
+ * @return Returns the numeric value of "XXX" as a positive integer if the string is correctly formatted, otherwise returns -1
+ */
+int VehicleConfig::getChannelNumber(QString inputText) {
+    QRegExp rx("Channel(\\d+)");
+    int ret = rx.indexIn(inputText);
+
+    if(ret == -1) {
+        return -1;
+    }
+    int channel = rx.cap(1).toInt();
+
+    return channel;
+}
