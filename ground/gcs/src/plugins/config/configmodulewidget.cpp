@@ -486,50 +486,6 @@ void ConfigModuleWidget::objectUpdated(UAVObject * obj, bool success)
         enablePicoCTab(success);
 }
 
-/**
- * @brief ModuleSettingsForm::getWidgetFromVariant Reimplements getWidgetFromVariant. This version supports "FalseString".
- * @param widget pointer to the widget from where to get the value
- * @param scale scale to be used on the assignement
- * @return returns the value of the widget times the scale
- */
-QVariant ConfigModuleWidget::getVariantFromWidget(QWidget * widget, double scale)
-{
-    if(QGroupBox * groupBox=qobject_cast<QGroupBox *>(widget)) {
-        QString ret;
-        if (groupBox->property("TrueString").isValid() && groupBox->property("FalseString").isValid()) {
-            if(groupBox->isChecked())
-                ret = groupBox->property("TrueString").toString();
-            else
-                ret = groupBox->property("FalseString").toString();
-        } else {
-            if(groupBox->isChecked())
-                ret = "TRUE";
-            else
-                ret = "FALSE";
-        }
-
-        return ret;
-    } else if(QCheckBox * checkBox=qobject_cast<QCheckBox *>(widget)) {
-        QString ret;
-        if (checkBox->property("TrueString").isValid() && checkBox->property("FalseString").isValid()) {
-            if (checkBox->isChecked())
-                ret = checkBox->property("TrueString").toString();
-            else
-                ret = checkBox->property("FalseString").toString();
-        }
-        else {
-            if(checkBox->isChecked())
-                ret = "TRUE";
-            else
-                ret = "FALSE";
-        }
-
-        return ret;
-    } else {
-        return ConfigTaskWidget::getVariantFromWidget(widget, scale);
-    }
-}
-
 
 /**
  * @brief ModuleSettingsForm::setWidgetFromVariant Reimplements setWidgetFromVariant. This version supports "FalseString".
