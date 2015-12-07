@@ -391,10 +391,10 @@ void ConfigVehicleTypeWidget::resizeEvent(QResizeEvent* event)
 void ConfigVehicleTypeWidget::toggleAileron2(int index)
 {
     if (index) {
-        m_aircraft->fwAileron2ChannelBox->setEnabled(true);
+        m_aircraft->cb_fwAileron2ChannelBox->setEnabled(true);
         m_aircraft->fwAileron2Label->setEnabled(true);
     } else {
-        m_aircraft->fwAileron2ChannelBox->setEnabled(false);
+        m_aircraft->cb_fwAileron2ChannelBox->setEnabled(false);
         m_aircraft->fwAileron2Label->setEnabled(false);
     }
 }
@@ -402,10 +402,10 @@ void ConfigVehicleTypeWidget::toggleAileron2(int index)
 void ConfigVehicleTypeWidget::toggleElevator2(int index)
 {
     if (index) {
-        m_aircraft->fwElevator2ChannelBox->setEnabled(true);
+        m_aircraft->cb_fwElevator2ChannelBox->setEnabled(true);
         m_aircraft->fwElevator2Label->setEnabled(true);
     } else {
-        m_aircraft->fwElevator2ChannelBox->setEnabled(false);
+        m_aircraft->cb_fwElevator2ChannelBox->setEnabled(false);
         m_aircraft->fwElevator2Label->setEnabled(false);
     }
 }
@@ -413,10 +413,10 @@ void ConfigVehicleTypeWidget::toggleElevator2(int index)
 void ConfigVehicleTypeWidget::toggleRudder2(int index)
 {
     if (index) {
-        m_aircraft->fwRudder2ChannelBox->setEnabled(true);
+        m_aircraft->cb_fwRudder2ChannelBox->setEnabled(true);
         m_aircraft->fwRudder2Label->setEnabled(true);
     } else {
-        m_aircraft->fwRudder2ChannelBox->setEnabled(false);
+        m_aircraft->cb_fwRudder2ChannelBox->setEnabled(false);
         m_aircraft->fwRudder2Label->setEnabled(false);
     }
 }

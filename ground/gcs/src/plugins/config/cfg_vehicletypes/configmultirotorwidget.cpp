@@ -40,7 +40,8 @@
 #include "actuatorcommand.h"
 #include "mixersettings.h"
 
-const QString ConfigMultiRotorWidget::CHANNELBOXNAME = QString("multiMotorChannelBox");
+// This is the special base string that all motor channel comboboxes must have
+const QString ConfigMultiRotorWidget::CHANNELBOXNAME = QString("cb_multiMotorChannelBox");
 
 
 /**
