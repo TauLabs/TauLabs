@@ -2512,15 +2512,15 @@
   <Workspace>
     <AllowTabBarMovement>false</AllowTabBarMovement>
     <Icon1>:/core/images/ah.png</Icon1>
-    <Icon10>:/core/images/taulabs_logo_64.png</Icon10>
+    <Icon10>:/core/images/gcs_logo_64.png</Icon10>
     <Icon2>:/core/images/config.png</Icon2>
     <Icon3>:/core/images/cog.png</Icon3>
     <Icon4>:/core/images/scopes.png</Icon4>
     <Icon5>:/core/images/joystick.png</Icon5>
     <Icon6>:/core/images/cpu.png</Icon6>
-    <Icon7>:/core/images/taulabs_logo_64.png</Icon7>
-    <Icon8>:/core/images/taulabs_logo_64.png</Icon8>
-    <Icon9>:/core/images/taulabs_logo_64.png</Icon9>
+    <Icon7>:/core/images/gcs_logo_64.png</Icon7>
+    <Icon8>:/core/images/gcs_logo_64.png</Icon8>
+    <Icon9>:/core/images/gcs_logo_64.png</Icon9>
     <NumberOfWorkspaces>6</NumberOfWorkspaces>
     <TabBarPlacementIndex>1</TabBarPlacementIndex>
     <Workspace1>Flight data</Workspace1>
