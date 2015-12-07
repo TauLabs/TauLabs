@@ -31,6 +31,8 @@
 #include <QLineEdit>
 #include "uavsettingsimportexport/uavsettingsimportexportfactory.h"
 
+QMap<int, QString> ConfigTaskWidget::outputChannelDescription;
+
 /**
  * Constructor
  */
