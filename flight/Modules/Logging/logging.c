@@ -40,9 +40,24 @@
 #include "pios_streamfs.h"
 #include <pios_board_info.h>
 
+#include "accels.h"
+#include "actuatorcommand.h"
+#include "airspeedactual.h"
+#include "attitudeactual.h"
+#include "baroaltitude.h"
+#include "flightbatterystate.h"
 #include "flightstatus.h"
+#include "gpsposition.h"
+#include "gpstime.h"
+#include "gpssatellites.h"
+#include "gyros.h"
 #include "loggingsettings.h"
 #include "loggingstats.h"
+#include "magnetometer.h"
+#include "manualcontrolcommand.h"
+#include "positionactual.h"
+#include "velocityactual.h"
+#include "waypointactive.h"
 
 // Private constants
 #define STACK_SIZE_BYTES 1200
@@ -66,7 +81,9 @@ static struct pios_recursive_mutex *mutex;
 // Private functions
 static void    loggingTask(void *parameters);
 static int32_t send_data(uint8_t *data, int32_t length);
+static void unregister_object(UAVObjHandle obj);
 static void register_object(UAVObjHandle obj);
+static void register_default_profile();
 static void logSettings(UAVObjHandle obj);
 static void SettingsUpdatedCb(UAVObjEvent * ev);
 static void writeHeader();
@@ -147,9 +164,6 @@ int32_t LoggingStart(void)
 	if (mutex == NULL){
 		return -2;
 	}
-
-	// Process all registered objects and connect queue for updates
-	UAVObjIterate(&register_object);
 
 	// Start logging task
 	loggingTaskHandle = PIOS_Thread_Create(loggingTask, "Logging", STACK_SIZE_BYTES, NULL, TASK_PRIORITY);
@@ -239,6 +253,17 @@ static void loggingTask(void *parameters)
 			LoggingStatsSet(&loggingData);
 			break;
 		case LOGGINGSTATS_OPERATION_INITIALIZING:
+			// Unregister all objects
+			UAVObjIterate(&unregister_object);
+			// Register objects to be logged
+			switch (settings.Profile) {
+				case LOGGINGSETTINGS_PROFILE_DEFAULT:
+					register_default_profile();
+					break;
+				case LOGGINGSETTINGS_PROFILE_CUSTOM:
+					UAVObjIterate(&register_object);
+					break;
+			}
 #if defined(PIOS_INCLUDE_FLASH) && defined(PIOS_INCLUDE_FLASH_JEDEC)
 			if (destination_spi_flash){
 				// Close the file if it is open for reading
@@ -404,8 +429,55 @@ static void obj_updated_callback(UAVObjEvent * ev)
 	PIOS_Recursive_Mutex_Unlock(mutex);
 }
 
+
 /**
- * Register a new object, adds object to local list and connects the update callback
+ * Get the minimum logging period in milliseconds
+*/
+uint16_t get_minimum_logging_period()
+{
+	uint16_t max_freq = 5;
+	switch (settings.MaxLogRate) {
+		case LOGGINGSETTINGS_MAXLOGRATE_5:
+			max_freq = 5;
+			break;
+		case LOGGINGSETTINGS_MAXLOGRATE_10:
+			max_freq = 10;
+			break;
+		case LOGGINGSETTINGS_MAXLOGRATE_25:
+			max_freq = 25;
+			break;
+		case LOGGINGSETTINGS_MAXLOGRATE_50:
+			max_freq = 50;
+			break;
+		case LOGGINGSETTINGS_MAXLOGRATE_100:
+			max_freq = 100;
+			break;
+		case LOGGINGSETTINGS_MAXLOGRATE_250:
+			max_freq = 250;
+			break;
+		case LOGGINGSETTINGS_MAXLOGRATE_500:
+			max_freq = 500;
+			break;
+		case LOGGINGSETTINGS_MAXLOGRATE_1000:
+			max_freq = 1000;
+			break;
+	}
+	uint16_t min_period = 1000 / max_freq;
+	return min_period;
+}
+
+
+/**
+ * Unregister an object
+ * \param[in] obj Object to unregister
+ */
+static void unregister_object(UAVObjHandle obj) {
+	UAVObjDisconnectCallback(obj, obj_updated_callback);
+}
+
+
+/**
+ * Register a new object: connect the update callback
  * \param[in] obj Object to connect
  */
 static void register_object(UAVObjHandle obj)
@@ -420,8 +492,70 @@ static void register_object(UAVObjHandle obj)
 		return;
 	}
 
-	uint16_t interval = MAX(meta_data.loggingUpdatePeriod, LOGGING_PERIOD_MS);
-	UAVObjConnectCallbackThrottled(obj, obj_updated_callback, EV_UPDATED | EV_UNPACKED, interval);
+	uint16_t period = MAX(meta_data.loggingUpdatePeriod, get_minimum_logging_period());
+	if (period == 1) {
+		// log every update
+		UAVObjConnectCallback(obj, obj_updated_callback, EV_UPDATED | EV_UNPACKED);
+	}
+	else {
+		// log updates throttled
+		UAVObjConnectCallbackThrottled(obj, obj_updated_callback, EV_UPDATED | EV_UNPACKED, period);
+	}
+}
+
+
+/**
+ * Register objects for the default logging profile
+ */
+static void register_default_profile()
+{
+	uint16_t min_period = get_minimum_logging_period();
+
+	// Objects for which we log all changes
+	UAVObjConnectCallback(FlightStatusHandle(), obj_updated_callback, EV_UPDATED | EV_UNPACKED);
+	if (WaypointActiveHandle()) {
+		UAVObjConnectCallback(WaypointActiveHandle(), obj_updated_callback, EV_UPDATED | EV_UNPACKED);
+	}
+
+	// Log fast
+	UAVObjConnectCallbackThrottled(AccelsHandle(), obj_updated_callback, EV_UPDATED | EV_UNPACKED, min_period);
+	UAVObjConnectCallbackThrottled(GyrosHandle(), obj_updated_callback, EV_UPDATED | EV_UNPACKED, min_period);
+
+	// Log a bit slower
+	UAVObjConnectCallbackThrottled(AttitudeActualHandle(), obj_updated_callback, EV_UPDATED | EV_UNPACKED, 2 * min_period);
+	UAVObjConnectCallbackThrottled(MagnetometerHandle(), obj_updated_callback, EV_UPDATED | EV_UNPACKED, 2 * min_period);
+	UAVObjConnectCallbackThrottled(ManualControlCommandHandle(), obj_updated_callback, EV_UPDATED | EV_UNPACKED, 2 * min_period);
+	UAVObjConnectCallbackThrottled(ActuatorCommandHandle(), obj_updated_callback, EV_UPDATED | EV_UNPACKED, 2 * min_period);
+
+	// Log slow
+	if (FlightBatteryStateHandle()) {
+		UAVObjConnectCallbackThrottled(FlightBatteryStateHandle(), obj_updated_callback, EV_UPDATED | EV_UNPACKED, 10 * min_period);
+	}
+	if (BaroAltitudeHandle()) {
+		UAVObjConnectCallbackThrottled(BaroAltitudeHandle(), obj_updated_callback, EV_UPDATED | EV_UNPACKED, 10 * min_period);
+	}
+	if (AirspeedActualHandle()) {
+		UAVObjConnectCallbackThrottled(AirspeedActualHandle(), obj_updated_callback, EV_UPDATED | EV_UNPACKED, 10 * min_period);
+	}
+	if (GPSPositionHandle()) {
+		UAVObjConnectCallbackThrottled(GPSPositionHandle(), obj_updated_callback, EV_UPDATED | EV_UNPACKED, 10 * min_period);
+	}
+	if (PositionActualHandle()) {
+		UAVObjConnectCallbackThrottled(PositionActualHandle(), obj_updated_callback, EV_UPDATED | EV_UNPACKED, 10 * min_period);
+	}
+	if (VelocityActualHandle()) {
+		UAVObjConnectCallbackThrottled(VelocityActualHandle(), obj_updated_callback, EV_UPDATED | EV_UNPACKED, 10 * min_period);
+	}
+
+	// Log very slow
+	if (GPSTimeHandle()) {
+		UAVObjConnectCallbackThrottled(GPSTimeHandle(), obj_updated_callback, EV_UPDATED | EV_UNPACKED, 50 * min_period);
+	}
+
+	// Log very very slow
+	if (GPSSatellitesHandle()) {
+		UAVObjConnectCallbackThrottled(GPSSatellitesHandle(), obj_updated_callback, EV_UPDATED | EV_UNPACKED, 500 * min_period);
+	}
 }
 
 
