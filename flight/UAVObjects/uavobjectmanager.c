@@ -180,6 +180,8 @@ static int32_t disconnectObj(UAVObjHandle obj_handle, struct pios_queue *queue,
 
 // Private variables
 static struct UAVOData * uavo_list;
+static struct ObjectEventEntry * events_unused;
+static struct ObjectEventEntry * events_unused_throttled;
 static struct pios_recursive_mutex *mutex;
 static const UAVObjMetadata defMetadata = {
 	.flags = (ACCESS_READWRITE << UAVOBJ_ACCESS_SHIFT |
@@ -209,6 +211,8 @@ int32_t UAVObjInitialize()
 {
 	// Initialize variables
 	uavo_list = NULL;
+	events_unused = NULL;
+	events_unused_throttled = NULL;
 
 	// Allocate the stack used for callbacks.
 	cb_stack = PIOS_malloc_no_dma(UAVO_CB_STACK_SIZE);
@@ -2003,16 +2007,28 @@ static int32_t connectObj(UAVObjHandle obj_handle, struct pios_queue *queue,
 	}
 
 	int mallocSize = sizeof(*event);
+	struct ObjectEventEntry * unused = events_unused;
 
 	if (interval) {
 		mallocSize = sizeof(*throttled);
+		unused = events_unused_throttled;
 	}
 
-	// Add queue to list
-	event =	(struct ObjectEventEntry *) PIOS_malloc_no_dma(mallocSize);
-	if (event == NULL) {
-		return -1;
+	PIOS_Recursive_Mutex_Lock(mutex, PIOS_MUTEX_TIMEOUT_MAX);
+	if (unused != NULL) {
+		// We can re-use the memory of a previously disconnected event
+		event = unused;
+		LL_DELETE(unused, event);
 	}
+	else {
+		event =	(struct ObjectEventEntry *) PIOS_malloc_no_dma(mallocSize);
+		if (event == NULL) {
+			PIOS_Recursive_Mutex_Unlock(mutex);
+			return -1;
+		}
+	}
+	PIOS_Recursive_Mutex_Unlock(mutex);
+
 	event->cb = cb;
 
 	if (!cb) {
@@ -2057,7 +2073,15 @@ static int32_t disconnectObj(UAVObjHandle obj_handle, struct pios_queue *queue,
 		if ((event->cb == cb && event->cbInfo.cbCtx == cbCtx) ||
 				((!event->cb) && event->cbInfo.queue == queue)) {
 			LL_DELETE(obj->next_event, event);
-			PIOS_free(event);
+			// store the unused memory for future reuse
+			PIOS_Recursive_Mutex_Lock(mutex, PIOS_MUTEX_TIMEOUT_MAX);
+			if (event->hasThrottle) {
+				LL_APPEND(events_unused_throttled, event);
+			}
+			else {
+				LL_APPEND(events_unused, event);
+			}
+			PIOS_Recursive_Mutex_Unlock(mutex);
 			return 0;
 		}
 	}
