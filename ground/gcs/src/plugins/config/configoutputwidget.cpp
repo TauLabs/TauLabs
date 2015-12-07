@@ -262,7 +262,7 @@ void ConfigOutputWidget::assignOutputChannels(UAVObject *obj)
     QList<OutputChannelForm*> outputChannelForms = findChildren<OutputChannelForm*>();
     foreach(OutputChannelForm *outputChannelForm, outputChannelForms)
     {
-        outputChannelForm->setAssignment(ChannelDesc[outputChannelForm->index()]);
+        outputChannelForm->setAssignment(ConfigTaskWidget::outputChannelDescription.value(outputChannelForm->index()));
 
         // init min,max,neutral
         quint32 minValue = actuatorSettingsData.ChannelMin[outputChannelForm->index()];
@@ -301,9 +301,6 @@ void ConfigOutputWidget::sendChannelTest(int index, int value)
 
 bool showOutputChannelSelectWindow(bool (&selectedChannels)[ActuatorCommand::CHANNEL_NUMELEM])
 {
-    // Get channel descriptions
-    QStringList ChannelDesc = ConfigVehicleTypeWidget::getChannelDescriptions();
-
     // Build up dialog
     QDialog dialog;
     QVBoxLayout layout;
@@ -313,7 +310,7 @@ bool showOutputChannelSelectWindow(bool (&selectedChannels)[ActuatorCommand::CHA
     for (unsigned int i = 0; i < ActuatorCommand::CHANNEL_NUMELEM; i++)
     {
         checkBoxes[i] = new QCheckBox();
-        checkBoxes[i]->setText(QString("Channel ") + QString::number(i+1) + QString("  (") + ChannelDesc[i] + QString(")"));
+        checkBoxes[i]->setText(QString("Channel ") + QString::number(i+1) + QString("  (") + ConfigTaskWidget::outputChannelDescription.value(i) + QString(")"));
         checkBoxes[i]->setChecked(false);
         layout.addWidget(checkBoxes[i]);
     }
