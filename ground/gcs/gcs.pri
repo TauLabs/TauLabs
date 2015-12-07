@@ -85,7 +85,7 @@ macx {
     GCS_PLUGIN_PATH  = $$GCS_LIBRARY_PATH/plugins
     GCS_LIBEXEC_PATH = $$GCS_APP_PATH # FIXME
     GCS_DATA_PATH    = $$GCS_BUILD_TREE/share
-    GCS_DATA_BASENAME = share/$$GCS_PROJECT_BRANDING
+    GCS_DATA_BASENAME = share
     GCS_DOC_PATH     = $$GCS_BUILD_TREE/share/doc
     !isEqual(GCS_SOURCE_TREE, $$GCS_BUILD_TREE):copydata = 1
 }
