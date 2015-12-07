@@ -157,7 +157,7 @@ MainWindow::MainWindow() :
     QCoreApplication::setApplicationName(QLatin1String(Core::Constants::GCS_NAME));
     QCoreApplication::setApplicationVersion(QLatin1String(Core::Constants::GCS_VERSION_LONG));
     QCoreApplication::setOrganizationName(QLatin1String(Core::Constants::GCS_AUTHOR));
-    QCoreApplication::setOrganizationDomain(QLatin1String("taulabs.org"));
+    QCoreApplication::setOrganizationDomain(QLatin1String(GCS_PROJECT_BRANDING_HELP));
     QSettings::setDefaultFormat(XmlConfig::XmlSettingsFormat);
     QString baseName = QApplication::style()->objectName();
 
@@ -382,7 +382,6 @@ void MainWindow::loadStyleSheet(QString name) {
 #else
     directory.cdUp();
     directory.cd("share");
-    directory.cd("taulabs");
 #endif
     directory.cd("stylesheets");
 #ifdef Q_OS_MAC
@@ -800,9 +799,9 @@ void MainWindow::registerDefaultActions()
 
     // About GCS Action
 #ifdef Q_OS_MAC
-    tmpaction = new QAction(QIcon(Constants::ICON_GCS), tr("About &Tau Labs GCS"), this); // it's convention not to add dots to the about menu
+    tmpaction = new QAction(QIcon(Constants::ICON_GCS), tr("About &GCS"), this); // it's convention not to add dots to the about menu
 #else
-    tmpaction = new QAction(QIcon(Constants::ICON_GCS), tr("About &Tau Labs GCS..."), this);
+    tmpaction = new QAction(QIcon(Constants::ICON_GCS), tr("About &GCS..."), this);
 #endif
     cmd = am->registerAction(tmpaction, Constants::ABOUT_GCS, m_globalContext);
     mhelp->addAction(cmd, Constants::G_HELP_ABOUT);
@@ -833,42 +832,6 @@ void MainWindow::openFile()
 {
 }
 
-/*static QList<IFileFactory*> getNonEditorFileFactories()
-{
-    QList<IFileFactory*> tmp;
-    return tmp;
-}
-
-static IFileFactory *findFileFactory(const QList<IFileFactory*> &fileFactories,
-                                     const MimeDatabase *db,
-                                     const QFileInfo &fi)
-{
-    if (const MimeType mt = db->findByFile(fi)) {
-        const QString type = mt.type();
-        foreach (IFileFactory *factory, fileFactories) {
-            if (factory->mimeTypes().contains(type))
-                return factory;
-        }
-    }
-    return 0;
-}
-
-// opens either an editor or loads a project
-void MainWindow::openFiles(const QStringList &fileNames)
-{
-    QList<IFileFactory*> nonEditorFileFactories = getNonEditorFileFactories();
-
-    foreach (const QString &fileName, fileNames) {
-        const QFileInfo fi(fileName);
-        const QString absoluteFilePath = fi.absoluteFilePath();
-        if (IFileFactory *fileFactory = findFileFactory(nonEditorFileFactories, mimeDatabase(), fi)) {
-            fileFactory->open(absoluteFilePath);
-        } else {
-
-        }
-    }
-}*/
-
 void MainWindow::setFocusToEditor()
 {
 
@@ -890,7 +853,7 @@ void MainWindow::saveAll()
     if ( m_dontSaveSettings) return;
 
     emit m_coreImpl->saveSettingsRequested();
-    saveSettings(); // TauLabs-specific.
+    saveSettings();
 }
 
 void MainWindow::exit()
@@ -1335,8 +1298,7 @@ void MainWindow::deleteSettings()
     m_settings->sync();
 
     // Clear the on-disk settings
-    QSettings originalSettings(XmlConfig::XmlSettingsFormat, QSettings::UserScope,
-                               QLatin1String("TauLabs"), QLatin1String("TauLabs_config"), this);
+    QSettings originalSettings(Utils::PathUtils().getSettingsFilename(), XmlConfig::XmlSettingsFormat, this);
     originalSettings.clear();
     originalSettings.sync();
 
