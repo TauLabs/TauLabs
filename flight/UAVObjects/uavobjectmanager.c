@@ -2007,18 +2007,18 @@ static int32_t connectObj(UAVObjHandle obj_handle, struct pios_queue *queue,
 	}
 
 	int mallocSize = sizeof(*event);
-	struct ObjectEventEntry * unused = events_unused;
+	struct ObjectEventEntry ** unused = &events_unused;
 
 	if (interval) {
 		mallocSize = sizeof(*throttled);
-		unused = events_unused_throttled;
+		unused = &events_unused_throttled;
 	}
 
 	PIOS_Recursive_Mutex_Lock(mutex, PIOS_MUTEX_TIMEOUT_MAX);
-	if (unused != NULL) {
+	if (*unused != NULL) {
 		// We can re-use the memory of a previously disconnected event
-		event = unused;
-		LL_DELETE(unused, event);
+		event = *unused;
+		LL_DELETE(*unused, event);
 	}
 	else {
 		event =	(struct ObjectEventEntry *) PIOS_malloc_no_dma(mallocSize);
@@ -2029,6 +2029,7 @@ static int32_t connectObj(UAVObjHandle obj_handle, struct pios_queue *queue,
 	}
 	PIOS_Recursive_Mutex_Unlock(mutex);
 
+	memset(event, 0, mallocSize);
 	event->cb = cb;
 
 	if (!cb) {
