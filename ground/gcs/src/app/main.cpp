@@ -92,12 +92,12 @@ static inline void toHtml(QString &t)
 static void displayHelpText(QString t) // No console on Windows.
 {
     toHtml(t);
-    QMessageBox::information(0, QLatin1String(appNameC), t);
+    QMessageBox::information(0, GCS_PROJECT_BRANDING_PRETTY, t);
 }
 
 static void displayError(const QString &t) // No console on Windows.
 {
-    QMessageBox::critical(0, QLatin1String(appNameC), t);
+    QMessageBox::critical(0, GCS_PROJECT_BRANDING_PRETTY, t);
 }
 
 #else
