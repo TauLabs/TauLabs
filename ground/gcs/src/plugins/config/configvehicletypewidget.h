@@ -86,6 +86,9 @@ private:
     UAVObject::Metadata accInitialData;
     SystemSettings::AirframeTypeOptions frameType;
 
+    SystemSettings *systemSettings;
+//    SystemSettings::PlatformTypeOptions platformType;
+
 private slots:
 
     virtual void refreshWidgetsValues(UAVObject * o=NULL);
@@ -102,7 +105,6 @@ private slots:
     void switchAirframeType(int index);
 
     void openHelp();
-    void reverseMultirotorMotor();
 
     void bnLevelTrim_clicked();
     void bnServoTrim_clicked();

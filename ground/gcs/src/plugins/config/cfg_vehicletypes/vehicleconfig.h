@@ -155,7 +155,6 @@ class VehicleConfig: public ConfigTaskWidget
     public slots:
 
     signals:
-        //void ConfigurationChanged();
 
 protected:
 

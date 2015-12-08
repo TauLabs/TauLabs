@@ -40,6 +40,33 @@
 class Ui_OutputWidget;
 class OutputChannelForm;
 
+class SignalSingleton : public QObject
+{
+    Q_OBJECT
+public:
+    static SignalSingleton* getInstance(QObject* parent=0) {
+        if( !p_instance ) {
+            p_instance = new SignalSingleton( parent );
+        }
+        return p_instance;
+    }
+
+    static void destroy(){
+        if( p_instance ) {
+            delete p_instance;
+        }
+    }
+
+signals:
+    void outputChannelsUpdated();
+
+private:
+    static SignalSingleton* p_instance;
+    explicit SignalSingleton(QObject *parent = 0) :  QObject(parent) {
+    }
+};
+
+
 class ConfigOutputWidget: public ConfigTaskWidget
 {
 	Q_OBJECT
@@ -83,7 +110,7 @@ private slots:
     void startESCCalibration();
     void openHelp();
     void do_SetDirty();
-    void assignOutputChannels(UAVObject *obj);
+    void assignOutputChannels();
     void refreshWidgetRanges();
 
 protected:
