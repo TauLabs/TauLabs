@@ -141,7 +141,7 @@ FORMS += dialogs/settingsdialog.ui \
     dialogs/importsettings.ui
 RESOURCES += core.qrc
 unix:!macx { 
-    images.files = $${GCS_PROJECT_BRANDING_PREATY}/gcs_logo_*.png
+    images.files = $${GCS_PROJECT_BRANDING_PRETTY}/gcs_logo_*.png
     images.files = images/qtcreator_logo_*.png
     images.path = /share/pixmaps
     INSTALLS += images

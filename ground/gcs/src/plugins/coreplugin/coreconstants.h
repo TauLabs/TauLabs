@@ -33,8 +33,8 @@
 namespace Core {
 namespace Constants {
 
-const char * const GCS_NAME              = GCS_PROJECT_BRANDING_PREATY " GCS";
-const char * const GCS_AUTHOR            = GCS_PROJECT_BRANDING_PREATY;
+const char * const GCS_NAME              = GCS_PROJECT_BRANDING_PRETTY " GCS";
+const char * const GCS_AUTHOR            = GCS_PROJECT_BRANDING_PRETTY;
 const char t []                          = __DATE__;
 const char * const GCS_YEAR              = t + 7;
 

@@ -119,7 +119,7 @@ static void printVersion(const ExtensionSystem::PluginSpec *coreplugin,
 {
     QString version;
     QTextStream str(&version);
-    str << '\n' << GCS_PROJECT_BRANDING_PREATY " GCS " << coreplugin->version()<< " based on Qt " << qVersion() << "\n\n";
+    str << '\n' << GCS_PROJECT_BRANDING_PRETTY " GCS " << coreplugin->version()<< " based on Qt " << qVersion() << "\n\n";
     pm.formatPluginVersions(str);
     str << '\n' << coreplugin->copyright() << '\n';
     displayHelpText(version);
@@ -205,7 +205,7 @@ int main(int argc, char **argv)
             QCoreApplication::applicationDirPath()+QLatin1String(GCS_DATA_PATH));
 
     QCommandLineParser parser;
-    parser.setApplicationDescription(GCS_PROJECT_BRANDING_PREATY " GCS");
+    parser.setApplicationDescription(GCS_PROJECT_BRANDING_PRETTY " GCS");
     const QCommandLineOption helpOption = parser.addHelpOption();
     const QCommandLineOption versionOption = parser.addVersionOption();
     QCommandLineOption showVersionOption("version", QCoreApplication::translate("main", "Show GCS version"));
