@@ -42,9 +42,9 @@ package_ground_compress: package_ground
 package_flight_compress: package_flight
 	$(V1)cd $(PACKAGE_DIR) && zip -9 -r $(PACKAGE_DIR)/firmware-$(PACKAGE_LBL) $(FW_DIR)
 package_matlab_compress: package_matlab
-	$(V1)cd $(PACKAGE_DIR) && $(ZIP_DIR)/zip.exe -r $(PACKAGE_DIR)/matlab-$(PACKAGE_LBL) $(ML_DIR)
+	$(V1)cd $(PACKAGE_DIR) && $(ZIP_DIR)/zip -r $(PACKAGE_DIR)/matlab-$(PACKAGE_LBL) $(ML_DIR)
 package_all_compress: package_all
-	$(V1)cd $(PACKAGE_DIR)/../ && $(ZIP_DIR)/zip.exe -r --exclude=*.zip $(BUILD_DIR)/$(PACKAGE_LBL) $(PACKAGE_DIR)
+	$(V1)cd $(PACKAGE_DIR)/../ && $(ZIP_DIR)/zip -r --exclude=*.zip $(BUILD_DIR)/$(PACKAGE_LBL) $(PACKAGE_DIR)
 
 .PHONY: standalone installer_package  gcs
 .PHONY: package_ground_compress package_flight_compress package_matlab_compress
