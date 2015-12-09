@@ -2975,13 +2975,13 @@ Then lower the value by 5 or so.</string>
                   <widget class="QSpinBox" name="spinBox_7">
                    <property name="minimumSize">
                     <size>
-                     <width>50</width>
+                     <width>55</width>
                      <height>22</height>
                     </size>
                    </property>
                    <property name="maximumSize">
                     <size>
-                     <width>50</width>
+                     <width>55</width>
                      <height>22</height>
                     </size>
                    </property>
@@ -3065,13 +3065,13 @@ Then lower the value by 5 or so.</string>
                   <widget class="QSpinBox" name="spinBox_PitchRateP">
                    <property name="minimumSize">
                     <size>
-                     <width>50</width>
+                     <width>55</width>
                      <height>22</height>
                     </size>
                    </property>
                    <property name="maximumSize">
                     <size>
-                     <width>50</width>
+                     <width>55</width>
                      <height>22</height>
                     </size>
                    </property>
@@ -3155,13 +3155,13 @@ Then lower the value by 5 or so.</string>
                   <widget class="QSpinBox" name="spinBox_12">
                    <property name="minimumSize">
                     <size>
-                     <width>50</width>
+                     <width>55</width>
                      <height>22</height>
                     </size>
                    </property>
                    <property name="maximumSize">
                     <size>
-                     <width>50</width>
+                     <width>55</width>
                      <height>22</height>
                     </size>
                    </property>
@@ -3264,13 +3264,13 @@ value as the Kp.</string>
                   <widget class="QSpinBox" name="spinBox_8">
                    <property name="minimumSize">
                     <size>
-                     <width>50</width>
+                     <width>55</width>
                      <height>22</height>
                     </size>
                    </property>
                    <property name="maximumSize">
                     <size>
-                     <width>50</width>
+                     <width>55</width>
                      <height>22</height>
                     </size>
                    </property>
@@ -3354,13 +3354,13 @@ value as the Kp.</string>
                   <widget class="QSpinBox" name="spinBox_9">
                    <property name="minimumSize">
                     <size>
-                     <width>50</width>
+                     <width>55</width>
                      <height>22</height>
                     </size>
                    </property>
                    <property name="maximumSize">
                     <size>
-                     <width>50</width>
+                     <width>55</width>
                      <height>22</height>
                     </size>
                    </property>
@@ -3444,13 +3444,13 @@ value as the Kp.</string>
                   <widget class="QSpinBox" name="spinBox_10">
                    <property name="minimumSize">
                     <size>
-                     <width>50</width>
+                     <width>55</width>
                      <height>22</height>
                     </size>
                    </property>
                    <property name="maximumSize">
                     <size>
-                     <width>50</width>
+                     <width>55</width>
                      <height>22</height>
                     </size>
                    </property>
@@ -3553,13 +3553,13 @@ value as the Kp.</string>
                   <widget class="QSpinBox" name="spinBox_17">
                    <property name="minimumSize">
                     <size>
-                     <width>50</width>
+                     <width>55</width>
                      <height>22</height>
                     </size>
                    </property>
                    <property name="maximumSize">
                     <size>
-                     <width>50</width>
+                     <width>55</width>
                      <height>22</height>
                     </size>
                    </property>
@@ -3643,13 +3643,13 @@ value as the Kp.</string>
                   <widget class="QSpinBox" name="spinBox_11">
                    <property name="minimumSize">
                     <size>
-                     <width>50</width>
+                     <width>55</width>
                      <height>22</height>
                     </size>
                    </property>
                    <property name="maximumSize">
                     <size>
-                     <width>50</width>
+                     <width>55</width>
                      <height>22</height>
                     </size>
                    </property>
@@ -3733,13 +3733,13 @@ value as the Kp.</string>
                   <widget class="QSpinBox" name="spinBox_16">
                    <property name="minimumSize">
                     <size>
-                     <width>50</width>
+                     <width>55</width>
                      <height>22</height>
                     </size>
                    </property>
                    <property name="maximumSize">
                     <size>
-                     <width>50</width>
+                     <width>55</width>
                      <height>22</height>
                     </size>
                    </property>
@@ -6567,13 +6567,13 @@ border-radius: 5;</string>
                   <widget class="QSpinBox" name="spinBox_13">
                    <property name="minimumSize">
                     <size>
-                     <width>50</width>
+                     <width>55</width>
                      <height>22</height>
                     </size>
                    </property>
                    <property name="maximumSize">
                     <size>
-                     <width>50</width>
+                     <width>55</width>
                      <height>22</height>
                     </size>
                    </property>
@@ -6649,13 +6649,13 @@ border-radius: 5;</string>
                   <widget class="QSpinBox" name="spinBox_14">
                    <property name="minimumSize">
                     <size>
-                     <width>50</width>
+                     <width>55</width>
                      <height>22</height>
                     </size>
                    </property>
                    <property name="maximumSize">
                     <size>
-                     <width>50</width>
+                     <width>55</width>
                      <height>22</height>
                     </size>
                    </property>
@@ -6731,13 +6731,13 @@ border-radius: 5;</string>
                   <widget class="QSpinBox" name="spinBox_15">
                    <property name="minimumSize">
                     <size>
-                     <width>50</width>
+                     <width>55</width>
                      <height>22</height>
                     </size>
                    </property>
                    <property name="maximumSize">
                     <size>
-                     <width>50</width>
+                     <width>55</width>
                      <height>22</height>
                     </size>
                    </property>
@@ -6832,13 +6832,13 @@ border-radius: 5;</string>
                   <widget class="QSpinBox" name="spinBox_18">
                    <property name="minimumSize">
                     <size>
-                     <width>50</width>
+                     <width>55</width>
                      <height>22</height>
                     </size>
                    </property>
                    <property name="maximumSize">
                     <size>
-                     <width>50</width>
+                     <width>55</width>
                      <height>22</height>
                     </size>
                    </property>
@@ -6914,13 +6914,13 @@ border-radius: 5;</string>
                   <widget class="QSpinBox" name="spinBox_19">
                    <property name="minimumSize">
                     <size>
-                     <width>50</width>
+                     <width>55</width>
                      <height>22</height>
                     </size>
                    </property>
                    <property name="maximumSize">
                     <size>
-                     <width>50</width>
+                     <width>55</width>
                      <height>22</height>
                     </size>
                    </property>
@@ -6996,13 +6996,13 @@ border-radius: 5;</string>
                   <widget class="QSpinBox" name="spinBox_20">
                    <property name="minimumSize">
                     <size>
-                     <width>50</width>
+                     <width>55</width>
                      <height>22</height>
                     </size>
                    </property>
                    <property name="maximumSize">
                     <size>
-                     <width>50</width>
+                     <width>55</width>
                      <height>22</height>
                     </size>
                    </property>
@@ -10497,7 +10497,7 @@ border-radius: 5;</string>
           <property name="geometry">
            <rect>
             <x>0</x>
-            <y>-176</y>
+            <y>0</y>
             <width>923</width>
             <height>996</height>
            </rect>
