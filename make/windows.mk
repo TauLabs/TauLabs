@@ -12,9 +12,6 @@
 #   msysGit
 #   Python
 
-# misc tools
-RM=rm
-
 PYTHON := python
 export PYTHON
 
