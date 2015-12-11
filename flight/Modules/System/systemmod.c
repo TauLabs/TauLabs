@@ -463,6 +463,7 @@ static void updateStats()
 	SystemStatsGet(&stats);
 	stats.FlightTime = PIOS_Thread_Systime();
 	stats.HeapRemaining = PIOS_heap_get_free_size();
+	stats.FastHeapRemaining = PIOS_fastheap_get_free_size();
 
 	// Get Irq stack status
 	stats.IRQStackRemaining = GetFreeIrqStackSize();
