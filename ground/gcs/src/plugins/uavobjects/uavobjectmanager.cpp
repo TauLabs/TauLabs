@@ -147,7 +147,7 @@ QVector< QVector<UAVObject*> > UAVObjectManager::getObjectsVector()
 {
     QMutexLocker locker(mutex);
     QVector< QVector<UAVObject*> > vector;
-    foreach(ObjectMap map,objects.values())
+    foreach (const ObjectMap &map,objects.values())
     {
         QVector<UAVObject*> vec = map.values().toVector();
         vector.append(vec);
@@ -167,7 +167,7 @@ QVector< QVector<UAVDataObject*> > UAVObjectManager::getDataObjectsVector()
 {
     QMutexLocker locker(mutex);
     QVector< QVector<UAVDataObject*> > vector;
-    foreach(ObjectMap map,objects.values())
+    foreach (const ObjectMap &map,objects.values())
     {
         UAVDataObject* obj = dynamic_cast<UAVDataObject*>(map.first());
         if(obj!=NULL)
@@ -192,7 +192,7 @@ QVector <QVector<UAVMetaObject*> > UAVObjectManager::getMetaObjectsVector()
 {
     QMutexLocker locker(mutex);
     QVector< QVector<UAVMetaObject*> > vector;
-    foreach(ObjectMap map,objects.values())
+    foreach(const ObjectMap &map,objects.values())
     {
         UAVMetaObject* obj = dynamic_cast<UAVMetaObject*>(map.first());
         if(obj!=NULL)
@@ -236,7 +236,7 @@ UAVObject* UAVObjectManager::getObject(const QString* name, quint32 objId, quint
     QMutexLocker locker(mutex);
     if(name != NULL)
     {
-        foreach(ObjectMap map,objects)
+        foreach(const ObjectMap &map, objects)
         {
             if(map.first()->getName().compare(name) == 0)
                 return map.value(instId,NULL);
@@ -271,7 +271,7 @@ QVector<UAVObject*> UAVObjectManager::getObjectInstancesVector(const QString* na
     QMutexLocker locker(mutex);
     if(name != NULL)
     {
-        foreach(ObjectMap map,objects)
+        foreach(const ObjectMap &map,objects)
         {
             if(map.first()->getName().compare(name) == 0)
                 return map.values().toVector();
@@ -306,7 +306,7 @@ qint32 UAVObjectManager::getNumInstances(const QString* name, quint32 objId)
     QMutexLocker locker(mutex);
     if(name != NULL)
     {
-        foreach(ObjectMap map,objects)
+        foreach(const ObjectMap &map,objects)
         {
             if(map.first()->getName().compare(name) == 0)
                 return map.count();
