@@ -14,7 +14,7 @@
 		<field name="USB_HIDPort" units="function" type="enum" elements="1" options="USBTelemetry,RCTransmitter,Disabled" defaultvalue="USBTelemetry"/>
 		<field name="USB_VCPPort" units="function" type="enum" elements="1" options="USBTelemetry,ComBridge,DebugConsole,Disabled" defaultvalue="Disabled"/>
 
-		<field name="VTX_Ch" units="Hz" type="enum" elements="1" defaultvalue="BoscamACh1">
+		<field name="VTX_Ch" units="Hz" type="enum" elements="1" defaultvalue="BoscamACh1 (5725)">
 			<options>
 				<option>BoscamACh1 (5725)</option>
 				<option>BoscamACh2 (5745)</option>
