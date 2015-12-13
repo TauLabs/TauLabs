@@ -27,7 +27,7 @@ EE_BANK_BASE        := 0x00000000
 EE_BANK_SIZE        := 0x00000000
 
 EF_BANK_BASE        := 0x08000000  # Start of entire flash image (usually start of bootloader as well)
-EF_BANK_SIZE        := 0x00060000  # Size of the entire flash image (from bootloader until end of firmware)
+EF_BANK_SIZE        := 0x00080000  # Size of the entire flash image (from bootloader until end of firmware)
 
 OSCILLATOR_FREQ     :=   8000000
 SYSCLK_FREQ         := 168000000
