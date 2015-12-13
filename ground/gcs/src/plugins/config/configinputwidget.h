@@ -191,6 +191,7 @@ private slots:
         void invertControls();
         void simpleCalibration(bool state);
         void updateCalibration();
+        void checkArmingConfig(QString option);
 
 protected:
         void resizeEvent(QResizeEvent *event);
