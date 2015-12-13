@@ -558,7 +558,7 @@ static void stabilizationTask(void* parameters)
 						if (pitch_scale > 0.25f)
 							pitch_scale = 0.25f;
 						if (yaw_scale > 0.25f)
-							yaw_scale = 0.2f;
+							yaw_scale = 0.25f;
 
 						switch(ident_iteration & 0x07) {
 							case 0:
