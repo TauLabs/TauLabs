@@ -93,7 +93,7 @@ static float mix_channel(int ct, ActuatorDesiredData *desired,
 		float curve1, float curve2);
 
 static MixerSettingsMixer1TypeOptions get_mixer_type(int idx);
-static int8_t *get_mixer_vec(int idx);
+static typeof(mixerSettings.Mixer1Vector) *get_mixer_vec(int idx);
 
 /**
  * @brief Module initialization
@@ -338,12 +338,15 @@ static void actuator_task(void* parameters)
 float process_mixer(const int index, const float curve1, const float curve2,
 		ActuatorDesiredData *desired)
 {
-	int8_t *vector = get_mixer_vec(index);
-	float result = ((vector[MIXERSETTINGS_MIXER1VECTOR_THROTTLECURVE1] * curve1) +
-			(vector[MIXERSETTINGS_MIXER1VECTOR_THROTTLECURVE2] * curve2) +
-			(vector[MIXERSETTINGS_MIXER1VECTOR_ROLL] * desired->Roll) +
-			(vector[MIXERSETTINGS_MIXER1VECTOR_PITCH] * desired->Pitch) +
-			(vector[MIXERSETTINGS_MIXER1VECTOR_YAW] * desired->Yaw)) * (1.0f / MULTIROTOR_MIXER_UPPER_BOUND);
+	// Taking the pointer to the array preserves type information so smart compilers
+	// can detect accesses past the end.
+	typeof(mixerSettings.Mixer1Vector) *vector = get_mixer_vec(index);
+
+	float result = (((*vector)[MIXERSETTINGS_MIXER1VECTOR_THROTTLECURVE1] * curve1) +
+			((*vector)[MIXERSETTINGS_MIXER1VECTOR_THROTTLECURVE2] * curve2) +
+			((*vector)[MIXERSETTINGS_MIXER1VECTOR_ROLL] * desired->Roll) +
+			((*vector)[MIXERSETTINGS_MIXER1VECTOR_PITCH] * desired->Pitch) +
+			((*vector)[MIXERSETTINGS_MIXER1VECTOR_YAW] * desired->Yaw)) * (1.0f / MULTIROTOR_MIXER_UPPER_BOUND);
 
 	return (result);
 }
@@ -721,38 +724,38 @@ static MixerSettingsMixer1TypeOptions get_mixer_type(int idx)
 	}
 }
 
-static int8_t *get_mixer_vec(int idx)
+static typeof(mixerSettings.Mixer1Vector) *get_mixer_vec(int idx)
 {
 	switch (idx) {
 	case 0:
-		return mixerSettings.Mixer1Vector;
+		return &mixerSettings.Mixer1Vector;
 		break;
 	case 1:
-		return mixerSettings.Mixer2Vector;
+		return &mixerSettings.Mixer2Vector;
 		break;
 	case 2:
-		return mixerSettings.Mixer3Vector;
+		return &mixerSettings.Mixer3Vector;
 		break;
 	case 3:
-		return mixerSettings.Mixer4Vector;
+		return &mixerSettings.Mixer4Vector;
 		break;
 	case 4:
-		return mixerSettings.Mixer5Vector;
+		return &mixerSettings.Mixer5Vector;
 		break;
 	case 5:
-		return mixerSettings.Mixer6Vector;
+		return &mixerSettings.Mixer6Vector;
 		break;
 	case 6:
-		return mixerSettings.Mixer7Vector;
+		return &mixerSettings.Mixer7Vector;
 		break;
 	case 7:
-		return mixerSettings.Mixer8Vector;
+		return &mixerSettings.Mixer8Vector;
 		break;
 	case 8:
-		return mixerSettings.Mixer9Vector;
+		return &mixerSettings.Mixer9Vector;
 		break;
 	case 9:
-		return mixerSettings.Mixer10Vector;
+		return &mixerSettings.Mixer10Vector;
 		break;
 	default:
 		// We can never get here unless there are mixer channels not handled in the above. Fail out.
