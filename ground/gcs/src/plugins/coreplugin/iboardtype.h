@@ -60,18 +60,8 @@ public:
         QString serialNumber;
         QString manufacturer;
         QString product;
-        int UsagePage;
-        int Usage;
         int vendorID;
         int productID;
-        // the convention for DFU mode is to change the
-        // Lower byte of bcdDevice depending on whether
-        // the board is in Bootloader mode or running mode.
-        // We provide the relevant values there:
-        int bootloaderMode;
-        int runningMode;
-        int bcdDevice; // Note: not that useful, the two values above
-                       // cater for almost the same into
     };
 
 
