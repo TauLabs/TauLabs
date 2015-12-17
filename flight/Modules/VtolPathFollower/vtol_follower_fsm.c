@@ -59,6 +59,7 @@
 // Various navigation constants
 const static float RTH_MIN_ALTITUDE = 15.f;  //!< Hover at least 15 m above home */
 const static float RTH_ALT_ERROR    = 0.7f;  //!< The altitude to come within for RTH */
+const static float RTH_MIN_RISE     = 1.5f;  //!< Always climb at least this much.
 const static float DT               = 0.05f; // TODO: make the self monitored
 const static float RTH_CLIMB_SPEED  = 0.75f; //!< Climb at 0.75m/s 
 
@@ -180,8 +181,9 @@ const static struct vtol_fsm_transition fsm_land_home[FSM_STATE_NUM_STATES] = {
 	[FSM_STATE_PRE_RTH_RISE] = {
 		.entry_fn = go_enable_rise_here,
 		.static_fn = do_ph_climb,
+		.timeout = 8 * MILLI,	// Spend at least 8s in this state
 		.next_state = {
-			[FSM_EVENT_TIMEOUT] = FSM_STATE_FLYING_PATH,
+			[FSM_EVENT_TIMEOUT] = FSM_STATE_UNCHANGED,
 			[FSM_EVENT_HIT_TARGET] = FSM_STATE_FLYING_PATH,
 			[FSM_EVENT_LEFT_TARGET] = FSM_STATE_UNCHANGED,
 		},
@@ -552,12 +554,23 @@ static int32_t do_ph_climb()
 	int32_t ret_val;
 
 	const float err = fabsf(cur_down - vtol_hold_position_ned[2]);
+
 	if (err < RTH_ALT_ERROR) {
+		// If we're close to desired altitude, use poshold logic
+		// until timer expires.
 		ret_val = do_hold();
-		// TODO: Dwell a short time if we made it here "fast"
-		vtol_fsm_inject_event(FSM_EVENT_HIT_TARGET);
+
+		if (vtol_fsm_timer_expired()) {
+			vtol_fsm_inject_event(FSM_EVENT_HIT_TARGET);
+		}
 	} else {
-		ret_val = do_slow_altitude_change(-RTH_CLIMB_SPEED);
+		// If we are low, control for altitude change speed.
+		// If we are high, use the normal control loop.
+		if (cur_down > vtol_hold_position_ned[2]) {
+			ret_val = do_slow_altitude_change(-RTH_CLIMB_SPEED);
+		} else {
+			ret_val = do_hold();
+		}
 	}
 
 	return ret_val;
@@ -622,19 +635,19 @@ static void go_enable_fly_path()
  */
 static void go_enable_rise_here()
 {
-	float down = vtol_hold_position_ned[2];
+	PositionActualData positionActual;
+	PositionActualGet(&positionActual);
 
-	// Make sure we return at a minimum of 15 m above home
+	float down = positionActual.Down;
+
+	// Set the target altitude for MIN_RISE above our current alt
+	down -= RTH_MIN_RISE;
+
+	// But also make sure we return at a minimum of 15 m above home
 	if (down > -RTH_MIN_ALTITUDE)
 		down = -RTH_MIN_ALTITUDE;
 
-	// If the new altitude is more than a meter away, activate it. Otherwise
-	// go straight to the next state
-	if (fabsf(down - vtol_hold_position_ned[2]) > RTH_ALT_ERROR) {
-		hold_position(vtol_hold_position_ned[0], vtol_hold_position_ned[1], down);
-	} else {
-		vtol_fsm_inject_event(FSM_EVENT_TIMEOUT);
-	}
+	hold_position(positionActual.North, positionActual.East, down);
 }
 
 /**
