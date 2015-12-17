@@ -136,17 +136,6 @@
     active document.
 */
 
-
-
-/*!
-    \fn VariableManager *ICore::variableManager() const
-    \brief Returns the application's variable manager.
-
-    The variable manager is used to register application wide string variables
-    like \c MY_PROJECT_DIR such that strings like \c{somecommand ${MY_PROJECT_DIR}/sub}
-    can be resolved/expanded from anywhere in the application.
-*/
-
 /*!
     \fn ThreadManager *ICore::threadManager() const
     \brief Returns the application's thread manager.
@@ -167,13 +156,6 @@
 */
 
 /*!
-    \fn MimeDatabase *ICore::mimeDatabase() const
-    \brief Returns the application's mime database.
-
-    Use the mime database to manage mime types.
-*/
-
-/*!
     \fn QSettings *ICore::settings(QSettings::UserScope scope) const
     \brief Returns the application's main settings object.
 
@@ -187,19 +169,6 @@
     If \a scope is QSettings::SystemScope, only the system settings
     shipped with the current version of Qt Creator will be read. This
     functionality exists for internal purposes only.
-
-    \see settingsDatabase()
-*/
-
-/*!
-    \fn SettingsDatabase *ICore::settingsDatabase() const
-    \brief Returns the application's settings database.
-
-    The settings database is meant as an alternative to the regular settings
-    object. It is more suitable for storing large amounts of data. The settings
-    are application wide.
-
-    \see SettingsDatabase
 */
 
 /*!

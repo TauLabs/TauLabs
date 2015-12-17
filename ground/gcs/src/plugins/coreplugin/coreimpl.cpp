@@ -107,11 +107,6 @@ UAVGadgetInstanceManager *CoreImpl::uavGadgetInstanceManager() const
     return m_mainwindow->uavGadgetInstanceManager();
 }
 
-VariableManager *CoreImpl::variableManager() const
-{
-    return m_mainwindow->variableManager();
-}
-
 ThreadManager *CoreImpl::threadManager() const
 {
     return m_mainwindow->threadManager();
@@ -122,19 +117,9 @@ ModeManager *CoreImpl::modeManager() const
     return m_mainwindow->modeManager();
 }
 
-MimeDatabase *CoreImpl::mimeDatabase() const
-{
-    return m_mainwindow->mimeDatabase();
-}
-
 QSettings *CoreImpl::settings(QSettings::Scope scope) const
 {
     return m_mainwindow->settings(scope);
-}
-
-SettingsDatabase *CoreImpl::settingsDatabase() const
-{
-    return m_mainwindow->settingsDatabase();
 }
 
 #ifdef Q_OS_MAC

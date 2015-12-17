@@ -40,8 +40,6 @@
 #include <coreplugin/actionmanager/actionmanager.h>
 #include <coreplugin/baseview.h>
 #include <coreplugin/imode.h>
-#include <coreplugin/settingsdatabase.h>
-#include <coreplugin/variablemanager.h>
 
 #include <extensionsystem/pluginmanager.h>
 
