@@ -29,6 +29,7 @@
 #include <QPainter>
 #include <QCoreApplication>
 #include <QDebug>
+#include <stdio.h>
 
 #define PROGRESS_BAR_WIDTH  150
 #define PROGRESS_BAR_HEIGHT 12
@@ -109,6 +110,17 @@ void CustomSplash::showMessage(const QString &message, int alignment, const QCol
 
     QCoreApplication::processEvents();
 }
+
+void CustomSplash::hide()
+{
+    QSplashScreen::hide();
+}
+
+void CustomSplash::show()
+{
+    QSplashScreen::show();
+}
+
 /**
  * @brief Closes the splashscreen
  */

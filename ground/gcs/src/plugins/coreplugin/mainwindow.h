@@ -129,6 +129,8 @@ public:
 signals:
     void windowActivated();
     void splashMessages(QString);
+    void hideSplash();
+    void showSplash();
 public slots:
     void newFile();
     void openFileWith();

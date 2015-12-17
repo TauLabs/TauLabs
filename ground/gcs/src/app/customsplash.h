@@ -44,6 +44,9 @@ public:
     void setprogressBarColor(const QColor &progressBarColor);
     int message_number;
     QSettings settings;
+
+    void hide();
+    void show();
 private:
     int progress() {return m_progress;}
     void setProgress(int value)
