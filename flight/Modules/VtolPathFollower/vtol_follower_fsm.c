@@ -58,10 +58,10 @@
 
 // Various navigation constants
 const static float RTH_MIN_ALTITUDE = 15.f;  //!< Hover at least 15 m above home */
-const static float RTH_ALT_ERROR    = 0.7f;  //!< The altitude to come within for RTH */
+const static float RTH_ALT_ERROR    = 0.8f;  //!< The altitude to come within for RTH */
 const static float RTH_MIN_RISE     = 1.5f;  //!< Always climb at least this much.
 const static float DT               = 0.05f; // TODO: make the self monitored
-const static float RTH_CLIMB_SPEED  = 0.75f; //!< Climb at 0.75m/s 
+const static float RTH_CLIMB_SPEED  = 1.0f;  //!< Climb at 1m/s 
 
 //! Events that can be be injected into the FSM and trigger state changes
 enum vtol_fsm_event {
