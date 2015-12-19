@@ -65,7 +65,7 @@ class UAVGadgetView : public QWidget
     Q_OBJECT
 
 public:
-    UAVGadgetView(UAVGadgetManager *uavGadgetManager, IUAVGadget *uavGadget = 0, QWidget *parent = 0);
+    UAVGadgetView(UAVGadgetManager *uavGadgetManager, IUAVGadget *uavGadget = 0, QWidget *parent = 0, bool restoring = false);
     virtual ~UAVGadgetView();
     void selectionActivated(int index, bool forceLoadConfiguration);
     void removeGadget();
