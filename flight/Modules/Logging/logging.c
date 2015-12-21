@@ -316,9 +316,15 @@ static void loggingTask(void *parameters)
 				PIOS_Thread_Sleep_Until(&now, LOGGING_PERIOD_MS);
 
 				// Log the objects registred to the shared queue
-				while (PIOS_Queue_Receive(logging_queue, &ev, 0) == true) {
-					UAVTalkSendObjectTimestamped(uavTalkCon, ev.obj, ev.instId, false, 0);
+				for (int i=0; i<LOGGING_QUEUE_SIZE; i++) {
+					if (PIOS_Queue_Receive(logging_queue, &ev, 0) == true) {
+						UAVTalkSendObjectTimestamped(uavTalkCon, ev.obj, ev.instId, false, 0);
+					}
+					else {
+						break;
+					}
 				}
+
 				LoggingStatsBytesLoggedSet(&written_bytes);
 
 				now = PIOS_Thread_Systime();
@@ -514,18 +520,20 @@ static void register_object(UAVObjHandle obj)
  */
 static void register_default_profile()
 {
-	// For the default profile, we limit things to 100Hz (for now)
-	uint16_t min_period = MAX(get_minimum_logging_period(), 10);
+	const uint32_t DEFAULT_PERIOD = 10;
 
-	// Objects for which we log all changes
-	UAVObjConnectCallback(FlightStatusHandle(), obj_updated_callback, EV_UPDATED | EV_UNPACKED);
-	UAVObjConnectCallback(SystemAlarmsHandle(), obj_updated_callback, EV_UPDATED | EV_UNPACKED);
+	// For the default profile, we limit things to 100Hz (for now)
+	uint16_t min_period = MAX(get_minimum_logging_period(), DEFAULT_PERIOD);
+
+	// Objects for which we log all changes (use 100Hz to limit max data rate)
+	UAVObjConnectCallbackThrottled(FlightStatusHandle(), obj_updated_callback, EV_UPDATED | EV_UNPACKED, DEFAULT_PERIOD);
+	UAVObjConnectCallbackThrottled(SystemAlarmsHandle(), obj_updated_callback, EV_UPDATED | EV_UNPACKED, DEFAULT_PERIOD);
 	if (WaypointActiveHandle()) {
-		UAVObjConnectCallback(WaypointActiveHandle(), obj_updated_callback, EV_UPDATED | EV_UNPACKED);
+		UAVObjConnectCallbackThrottled(WaypointActiveHandle(), obj_updated_callback, EV_UPDATED | EV_UNPACKED, DEFAULT_PERIOD);
 	}
 
 	if (SystemIdentHandle()){
-		UAVObjConnectCallback(SystemIdentHandle(), obj_updated_callback, EV_UPDATED | EV_UNPACKED);
+		UAVObjConnectCallbackThrottled(SystemIdentHandle(), obj_updated_callback, EV_UPDATED | EV_UNPACKED, DEFAULT_PERIOD);
 	}
 
 	// Log fast
