@@ -3,6 +3,7 @@
  *
  * @file       sysalarmsmessagingplugin.cpp
  * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012
+ * @author     dRonin, http://dRonin.org/, Copyright (C) 2015
  * @addtogroup GCSPlugins GCS Plugins
  * @{
  * @addtogroup System Alarms Messaging Plugin
