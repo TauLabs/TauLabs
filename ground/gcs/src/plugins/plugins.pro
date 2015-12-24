@@ -245,7 +245,7 @@ OSG {
 !LIGHTWEIGHT_GCS {
 plugin_magicwaypoint.subdir = magicwaypoint
 plugin_magicwaypoint.depends = plugin_coreplugin
-plugin_magicwaypoint.depends = plugin_uavobjects
+plugin_magicwaypoint.depends += plugin_uavobjects
 SUBDIRS += plugin_magicwaypoint
 }
 
@@ -296,7 +296,7 @@ SUBDIRS += plugin_sysalarmsmessaging
 
 # Tau Labs project
 plugin_boards_taulabs.subdir = boards_taulabs
-plugin_boards_taulabs.depends += plugin_coreplugin
+plugin_boards_taulabs.depends = plugin_coreplugin
 plugin_boards_taulabs.depends += plugin_uavobjects
 plugin_boards_taulabs.depends += plugin_uavobjectutil
 plugin_boards_taulabs.depends += plugin_uavobjectwidgetutils
@@ -305,8 +305,8 @@ SUBDIRS += plugin_boards_taulabs
 # OpenPilot project
 plugin_boards_openpilot.subdir = boards_openpilot
 plugin_boards_openpilot.depends = plugin_coreplugin
-plugin_boards_openpilot.depends = plugin_uavobjects
-plugin_boards_openpilot.depends = plugin_uavobjectutil
+plugin_boards_openpilot.depends += plugin_uavobjects
+plugin_boards_openpilot.depends += plugin_uavobjectutil
 plugin_boards_openpilot.depends += plugin_uavobjectwidgetutils
 
 SUBDIRS += plugin_boards_openpilot
@@ -314,31 +314,31 @@ SUBDIRS += plugin_boards_openpilot
 # Quantec Networks GmbH
 plugin_boards_quantec.subdir = boards_quantec
 plugin_boards_quantec.depends = plugin_coreplugin
-plugin_boards_quantec.depends = plugin_uavobjects
+plugin_boards_quantec.depends += plugin_uavobjects
 SUBDIRS += plugin_boards_quantec
 
 # Naze32
 plugin_boards_naze.subdir = boards_naze
 plugin_boards_naze.depends = plugin_coreplugin
-plugin_boards_naze.depends = plugin_uavobjects
+plugin_boards_naze.depends += plugin_uavobjects
 SUBDIRS += plugin_boards_naze
 
 # Team Black Sheep
 plugin_boards_tbs.subdir = boards_tbs
 plugin_boards_tbs.depends = plugin_coreplugin
-plugin_boards_tbs.depends = plugin_uavobjects
-plugin_boards_tbs.depends = plugin_uavobjectutil
+plugin_boards_tbs.depends += plugin_uavobjects
+plugin_boards_tbs.depends += plugin_uavobjectutil
 plugin_boards_tbs.depends += plugin_uavobjectwidgetutils
 SUBDIRS += plugin_boards_tbs
 
 # STM boards
 plugin_boards_stm.subdir = boards_stm
 plugin_boards_stm.depends = plugin_coreplugin
-plugin_boards_stm.depends = plugin_uavobjects
+plugin_boards_stm.depends += plugin_uavobjects
 SUBDIRS += plugin_boards_stm
 
 # AeroQuad AQ32
 plugin_boards_aeroquad.subdir = boards_aeroquad
 plugin_boards_aeroquad.depends = plugin_coreplugin
-plugin_boards_aeroquad.depends = plugin_uavobjects
+plugin_boards_aeroquad.depends += plugin_uavobjects
 SUBDIRS += plugin_boards_aeroquad
