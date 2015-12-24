@@ -70,6 +70,8 @@ public:
     virtual void setXMaximum(double val);
     virtual void setYMaximum(double val);
     virtual void setZMaximum(double val);
+    void clearPlots();
+
 
     QwtMatrixRasterData *getRasterData(){return rasterData;}
     void setSpectrogram(QwtPlotSpectrogram *val){spectrogram = val;}
@@ -84,6 +86,7 @@ private:
     double timeHorizon;
     unsigned int windowWidth;
     double autoscaleValueUpdated;
+
 };
 
 #endif // SPECTROGRAMDATA_H

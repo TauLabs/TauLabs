@@ -227,3 +227,15 @@ void SpectrogramData::deletePlots(PlotData *spectrogramData)
     delete spectrogram;
     delete spectrogramData;
 }
+
+
+/**
+ * @brief SpectrogramScopeConfig::clearPlots Clear all plot data
+ */
+void SpectrogramData::clearPlots()
+{
+    timeDataHistory->clear();
+    zDataHistory->clear();
+
+    resetAxisRanges();
+}

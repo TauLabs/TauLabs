@@ -193,3 +193,13 @@ void HistogramData::deletePlots(PlotData *histogramData)
 
     delete histogramData;
 }
+
+
+/**
+ * @brief HistogramScopeConfig::clearPlots Clear all plot data
+ */
+void HistogramData::clearPlots()
+{
+    histogramBins->clear();
+    histogramInterval->clear();
+}

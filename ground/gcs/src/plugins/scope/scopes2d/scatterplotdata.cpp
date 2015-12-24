@@ -255,3 +255,13 @@ void ScatterplotData::deletePlots(PlotData *scatterplotData)
     delete curve;
     delete scatterplotData;
 }
+
+
+/**
+ * @brief ScatterplotData::clearPlots Clear all plot data
+ */
+void ScatterplotData::clearPlots()
+{
+    yData->clear();
+    xData->clear();
+}

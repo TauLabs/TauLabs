@@ -49,6 +49,7 @@ public:
     ~ScatterplotData(){}
 
     virtual void deletePlots(PlotData *);
+    void clearPlots();
 
     void setCurve(QwtPlotCurve *val){curve = val;}
 
