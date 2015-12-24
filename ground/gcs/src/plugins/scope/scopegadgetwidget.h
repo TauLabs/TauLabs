@@ -93,6 +93,7 @@ public:
     void startTimer(int);
     QwtPlotGrid *m_grid;
     QwtLegend *m_legend;
+    void setScopeName(QString val) {scopeName = val;}
 
 protected:
     void mousePressEvent(QMouseEvent *e);
@@ -117,6 +118,7 @@ private:
     double m_xWindowSize;
     static QTimer *replotTimer;
     QList<QString> m_connectedUAVObjects;
+    QString scopeName;
 
 };
 
