@@ -54,7 +54,7 @@ public:
 
     virtual void removeStaleData(){}
     virtual void plotNewData(PlotData *, ScopeConfig *, ScopeGadgetWidget *);
-    virtual void clearPlots(PlotData *);
+    virtual void deletePlots(PlotData *);
 
     QwtIntervalSeriesData *getIntervalSeriesData(){return intervalSeriesData;}
     void setHistogram(QwtPlotHistogram *val){histogram = val;}

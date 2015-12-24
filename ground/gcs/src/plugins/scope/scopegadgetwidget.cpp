@@ -337,7 +337,7 @@ void ScopeGadgetWidget::clearPlotWidget()
     if(m_scope){
         // Clear the plots
         foreach(PlotData* plotData, m_dataSources.values()) {
-            plotData->clearPlots(plotData);
+            plotData->deletePlots(plotData);
         }
 
         // Clear the data

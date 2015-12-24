@@ -66,7 +66,7 @@ public:
     double readAndResetAutoscaleValue(){double tmpVal = autoscaleValueUpdated; autoscaleValueUpdated = 0; return tmpVal;}
 
     virtual void plotNewData(PlotData *, ScopeConfig *, ScopeGadgetWidget *);
-    virtual void clearPlots(PlotData *);
+    virtual void deletePlots(PlotData *);
     virtual void setXMaximum(double val);
     virtual void setYMaximum(double val);
     virtual void setZMaximum(double val);

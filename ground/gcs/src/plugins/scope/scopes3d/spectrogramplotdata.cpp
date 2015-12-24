@@ -214,9 +214,9 @@ bool SpectrogramData::append(UAVObject* multiObj)
 
 
 /**
- * @brief SpectrogramScopeConfig::clearPlots Clear all plot data
+ * @brief SpectrogramScopeConfig::deletePlots Delete all plot data
  */
-void SpectrogramData::clearPlots(PlotData *spectrogramData)
+void SpectrogramData::deletePlots(PlotData *spectrogramData)
 {
     spectrogram->detach();
 

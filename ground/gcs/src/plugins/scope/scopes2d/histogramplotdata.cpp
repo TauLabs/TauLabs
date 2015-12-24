@@ -175,9 +175,9 @@ bool HistogramData::append(UAVObject* obj)
 }
 
 /**
- * @brief HistogramScopeConfig::clearPlots Clear all plot data
+ * @brief HistogramScopeConfig::deletePlots Delete all plot data
  */
-void HistogramData::clearPlots(PlotData *histogramData)
+void HistogramData::deletePlots(PlotData *histogramData)
 {
     histogram->detach();
 
