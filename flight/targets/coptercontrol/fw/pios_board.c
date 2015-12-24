@@ -109,6 +109,10 @@ void PIOS_Board_Init(void) {
 
 	const struct pios_board_info * bdinfo = &pios_board_info_blob;
 
+	if (bdinfo->board_rev != BOARD_REVISION_CC3D) {
+		/* Reject.. go back to bootloader */
+	}
+
 #if defined(PIOS_INCLUDE_LED)
 	const struct pios_led_cfg * led_cfg = PIOS_BOARD_HW_DEFS_GetLedCfg(bdinfo->board_rev);
 	PIOS_Assert(led_cfg);
@@ -117,34 +121,13 @@ void PIOS_Board_Init(void) {
 
 #if defined(PIOS_INCLUDE_SPI)
 	/* Set up the SPI interface to the serial flash */
-
-	switch(bdinfo->board_rev) {
-		case BOARD_REVISION_CC:
-			if (PIOS_SPI_Init(&pios_spi_flash_accel_id, &pios_spi_flash_accel_cfg_cc)) {
-				PIOS_Assert(0);
-			}
-			break;
-		case BOARD_REVISION_CC3D:
-			if (PIOS_SPI_Init(&pios_spi_flash_accel_id, &pios_spi_flash_accel_cfg_cc3d)) {
-				PIOS_Assert(0);
-			}
-			break;
-		default:
-			PIOS_Assert(0);
+	if (PIOS_SPI_Init(&pios_spi_flash_accel_id, &pios_spi_flash_accel_cfg_cc3d)) {
+		PIOS_Assert(0);
 	}
 
 #endif
 
-	switch(bdinfo->board_rev) {
-		case BOARD_REVISION_CC:
-			PIOS_Flash_Jedec_Init(&pios_external_flash_id, pios_spi_flash_accel_id, 1, &flash_w25x_cfg);
-			break;
-		case BOARD_REVISION_CC3D:
-			PIOS_Flash_Jedec_Init(&pios_external_flash_id, pios_spi_flash_accel_id, 0, &flash_m25p_cfg);
-			break;
-		default:
-			PIOS_DEBUG_Assert(0);
-	}
+	PIOS_Flash_Jedec_Init(&pios_external_flash_id, pios_spi_flash_accel_id, 0, &flash_m25p_cfg);
 
 	PIOS_Flash_Internal_Init(&pios_internal_flash_id, &flash_internal_cfg);
 
@@ -228,16 +211,7 @@ void PIOS_Board_Init(void) {
 
 	uintptr_t pios_usb_id;
 	
-	switch(bdinfo->board_rev) {
-		case BOARD_REVISION_CC:
-			PIOS_USB_Init(&pios_usb_id, &pios_usb_main_cfg_cc);
-			break;
-		case BOARD_REVISION_CC3D:
-			PIOS_USB_Init(&pios_usb_id, &pios_usb_main_cfg_cc3d);
-			break;
-		default:
-			PIOS_Assert(0);
-	}
+	PIOS_USB_Init(&pios_usb_id, &pios_usb_main_cfg_cc3d);
 
 #if defined(PIOS_INCLUDE_USB_CDC)
 
@@ -417,99 +391,78 @@ void PIOS_Board_Init(void) {
 
 	PIOS_SENSORS_Init();
 
-	switch(bdinfo->board_rev) {
-		case BOARD_REVISION_CC:
-			// Revision 1 with invensense gyros, start the ADC
-#if defined(PIOS_INCLUDE_ADC)
-		{
-			uint32_t internal_adc_id;
-			PIOS_INTERNAL_ADC_Init(&internal_adc_id, &internal_adc_cfg);
-			PIOS_ADC_Init(&pios_internal_adc_id, &pios_internal_adc_driver, internal_adc_id);
-		}
-#endif
-#if defined(PIOS_INCLUDE_ADXL345)
-			PIOS_ADXL345_Init(pios_spi_flash_accel_id, 0);
-#endif
-			break;
-		case BOARD_REVISION_CC3D:
-			// Revision 2 with L3GD20 gyros, start a SPI interface and connect to it
-			GPIO_PinRemapConfig(GPIO_Remap_SWJ_JTAGDisable, ENABLE);
+	// Revision 2 with L3GD20 gyros, start a SPI interface and connect to it
+	GPIO_PinRemapConfig(GPIO_Remap_SWJ_JTAGDisable, ENABLE);
 #if defined(PIOS_INCLUDE_MPU6000)
-			// Set up the SPI interface to the serial flash 
-			if (PIOS_SPI_Init(&pios_spi_gyro_id, &pios_spi_gyro_cfg)) {
-				PIOS_Assert(0);
-			}
-			PIOS_MPU6000_Init(pios_spi_gyro_id,0,&pios_mpu6000_cfg);
-			PIOS_MPU6000_Test();
+	// Set up the SPI interface to the serial flash 
+	if (PIOS_SPI_Init(&pios_spi_gyro_id, &pios_spi_gyro_cfg)) {
+		PIOS_Assert(0);
+	}
+	PIOS_MPU6000_Init(pios_spi_gyro_id,0,&pios_mpu6000_cfg);
 
-			uint8_t hw_gyro_range;
-			HwCopterControlGyroRangeGet(&hw_gyro_range);
-			switch(hw_gyro_range) {
-				case HWCOPTERCONTROL_GYRORANGE_250:
-					PIOS_MPU6000_SetGyroRange(PIOS_MPU60X0_SCALE_250_DEG);
-					break;
-				case HWCOPTERCONTROL_GYRORANGE_500:
-					PIOS_MPU6000_SetGyroRange(PIOS_MPU60X0_SCALE_500_DEG);
-					break;
-				case HWCOPTERCONTROL_GYRORANGE_1000:
-					PIOS_MPU6000_SetGyroRange(PIOS_MPU60X0_SCALE_1000_DEG);
-					break;
-				case HWCOPTERCONTROL_GYRORANGE_2000:
-					PIOS_MPU6000_SetGyroRange(PIOS_MPU60X0_SCALE_2000_DEG);
-					break;
-			}
+	uint8_t hw_gyro_range;
+	HwCopterControlGyroRangeGet(&hw_gyro_range);
+	switch(hw_gyro_range) {
+		case HWCOPTERCONTROL_GYRORANGE_250:
+			PIOS_MPU6000_SetGyroRange(PIOS_MPU60X0_SCALE_250_DEG);
+			break;
+		case HWCOPTERCONTROL_GYRORANGE_500:
+			PIOS_MPU6000_SetGyroRange(PIOS_MPU60X0_SCALE_500_DEG);
+			break;
+		case HWCOPTERCONTROL_GYRORANGE_1000:
+			PIOS_MPU6000_SetGyroRange(PIOS_MPU60X0_SCALE_1000_DEG);
+			break;
+		case HWCOPTERCONTROL_GYRORANGE_2000:
+			PIOS_MPU6000_SetGyroRange(PIOS_MPU60X0_SCALE_2000_DEG);
+			break;
+	}
 
-			uint8_t hw_accel_range;
-			HwCopterControlAccelRangeGet(&hw_accel_range);
-			switch(hw_accel_range) {
-				case HWCOPTERCONTROL_ACCELRANGE_2G:
-					PIOS_MPU6000_SetAccelRange(PIOS_MPU60X0_ACCEL_2G);
-					break;
-				case HWCOPTERCONTROL_ACCELRANGE_4G:
-					PIOS_MPU6000_SetAccelRange(PIOS_MPU60X0_ACCEL_4G);
-					break;
-				case HWCOPTERCONTROL_ACCELRANGE_8G:
-					PIOS_MPU6000_SetAccelRange(PIOS_MPU60X0_ACCEL_8G);
-					break;
-				case HWCOPTERCONTROL_ACCELRANGE_16G:
-					PIOS_MPU6000_SetAccelRange(PIOS_MPU60X0_ACCEL_16G);
-					break;
-			}
+	uint8_t hw_accel_range;
+	HwCopterControlAccelRangeGet(&hw_accel_range);
+	switch(hw_accel_range) {
+		case HWCOPTERCONTROL_ACCELRANGE_2G:
+			PIOS_MPU6000_SetAccelRange(PIOS_MPU60X0_ACCEL_2G);
+			break;
+		case HWCOPTERCONTROL_ACCELRANGE_4G:
+			PIOS_MPU6000_SetAccelRange(PIOS_MPU60X0_ACCEL_4G);
+			break;
+		case HWCOPTERCONTROL_ACCELRANGE_8G:
+			PIOS_MPU6000_SetAccelRange(PIOS_MPU60X0_ACCEL_8G);
+			break;
+		case HWCOPTERCONTROL_ACCELRANGE_16G:
+			PIOS_MPU6000_SetAccelRange(PIOS_MPU60X0_ACCEL_16G);
+			break;
+	}
 
-			// the filter has to be set before rate else divisor calculation will fail
-			uint8_t hw_mpu6000_dlpf;
-			HwCopterControlMPU6000DLPFGet(&hw_mpu6000_dlpf);
-			enum pios_mpu60x0_filter mpu6000_dlpf = \
-			    (hw_mpu6000_dlpf == HWCOPTERCONTROL_MPU6000DLPF_256) ? PIOS_MPU60X0_LOWPASS_256_HZ : \
-			    (hw_mpu6000_dlpf == HWCOPTERCONTROL_MPU6000DLPF_188) ? PIOS_MPU60X0_LOWPASS_188_HZ : \
-			    (hw_mpu6000_dlpf == HWCOPTERCONTROL_MPU6000DLPF_98) ? PIOS_MPU60X0_LOWPASS_98_HZ : \
-			    (hw_mpu6000_dlpf == HWCOPTERCONTROL_MPU6000DLPF_42) ? PIOS_MPU60X0_LOWPASS_42_HZ : \
-			    (hw_mpu6000_dlpf == HWCOPTERCONTROL_MPU6000DLPF_20) ? PIOS_MPU60X0_LOWPASS_20_HZ : \
-			    (hw_mpu6000_dlpf == HWCOPTERCONTROL_MPU6000DLPF_10) ? PIOS_MPU60X0_LOWPASS_10_HZ : \
-			    (hw_mpu6000_dlpf == HWCOPTERCONTROL_MPU6000DLPF_5) ? PIOS_MPU60X0_LOWPASS_5_HZ : \
-			    pios_mpu6000_cfg.default_filter;
-			PIOS_MPU6000_SetLPF(mpu6000_dlpf);
+	// the filter has to be set before rate else divisor calculation will fail
+	uint8_t hw_mpu6000_dlpf;
+	HwCopterControlMPU6000DLPFGet(&hw_mpu6000_dlpf);
+	enum pios_mpu60x0_filter mpu6000_dlpf = \
+	    (hw_mpu6000_dlpf == HWCOPTERCONTROL_MPU6000DLPF_256) ? PIOS_MPU60X0_LOWPASS_256_HZ : \
+	    (hw_mpu6000_dlpf == HWCOPTERCONTROL_MPU6000DLPF_188) ? PIOS_MPU60X0_LOWPASS_188_HZ : \
+	    (hw_mpu6000_dlpf == HWCOPTERCONTROL_MPU6000DLPF_98) ? PIOS_MPU60X0_LOWPASS_98_HZ : \
+	    (hw_mpu6000_dlpf == HWCOPTERCONTROL_MPU6000DLPF_42) ? PIOS_MPU60X0_LOWPASS_42_HZ : \
+	    (hw_mpu6000_dlpf == HWCOPTERCONTROL_MPU6000DLPF_20) ? PIOS_MPU60X0_LOWPASS_20_HZ : \
+	    (hw_mpu6000_dlpf == HWCOPTERCONTROL_MPU6000DLPF_10) ? PIOS_MPU60X0_LOWPASS_10_HZ : \
+	    (hw_mpu6000_dlpf == HWCOPTERCONTROL_MPU6000DLPF_5) ? PIOS_MPU60X0_LOWPASS_5_HZ : \
+	    pios_mpu6000_cfg.default_filter;
+	PIOS_MPU6000_SetLPF(mpu6000_dlpf);
 
-			uint8_t hw_mpu6000_samplerate;
-			HwCopterControlMPU6000RateGet(&hw_mpu6000_samplerate);
-			uint16_t mpu6000_samplerate = \
-			    (hw_mpu6000_samplerate == HWCOPTERCONTROL_MPU6000RATE_200) ? 200 : \
-			    (hw_mpu6000_samplerate == HWCOPTERCONTROL_MPU6000RATE_333) ? 333 : \
-			    (hw_mpu6000_samplerate == HWCOPTERCONTROL_MPU6000RATE_500) ? 500 : \
-			    (hw_mpu6000_samplerate == HWCOPTERCONTROL_MPU6000RATE_666) ? 666 : \
-			    (hw_mpu6000_samplerate == HWCOPTERCONTROL_MPU6000RATE_1000) ? 1000 : \
-			    (hw_mpu6000_samplerate == HWCOPTERCONTROL_MPU6000RATE_2000) ? 2000 : \
-			    (hw_mpu6000_samplerate == HWCOPTERCONTROL_MPU6000RATE_4000) ? 4000 : \
-			    (hw_mpu6000_samplerate == HWCOPTERCONTROL_MPU6000RATE_8000) ? 8000 : \
-			    pios_mpu6000_cfg.default_samplerate;
-			PIOS_MPU6000_SetSampleRate(mpu6000_samplerate);
+	uint8_t hw_mpu6000_samplerate;
+	HwCopterControlMPU6000RateGet(&hw_mpu6000_samplerate);
+	uint16_t mpu6000_samplerate = \
+	    (hw_mpu6000_samplerate == HWCOPTERCONTROL_MPU6000RATE_200) ? 200 : \
+	    (hw_mpu6000_samplerate == HWCOPTERCONTROL_MPU6000RATE_333) ? 333 : \
+	    (hw_mpu6000_samplerate == HWCOPTERCONTROL_MPU6000RATE_500) ? 500 : \
+	    (hw_mpu6000_samplerate == HWCOPTERCONTROL_MPU6000RATE_666) ? 666 : \
+	    (hw_mpu6000_samplerate == HWCOPTERCONTROL_MPU6000RATE_1000) ? 1000 : \
+	    (hw_mpu6000_samplerate == HWCOPTERCONTROL_MPU6000RATE_2000) ? 2000 : \
+	    (hw_mpu6000_samplerate == HWCOPTERCONTROL_MPU6000RATE_4000) ? 4000 : \
+	    (hw_mpu6000_samplerate == HWCOPTERCONTROL_MPU6000RATE_8000) ? 8000 : \
+	    pios_mpu6000_cfg.default_samplerate;
+	PIOS_MPU6000_SetSampleRate(mpu6000_samplerate);
 
 #endif /* PIOS_INCLUDE_MPU6000 */
-
-			break;
-		default:
-			PIOS_Assert(0);
-	}
 
 	PIOS_GPIO_Init();
 
