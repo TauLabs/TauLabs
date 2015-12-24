@@ -649,13 +649,20 @@ QString UAVObjectParser::processObjectFields(QDomNode& childNode, ObjectInfo* in
     // field that has already been declared
     elemAttr = elemAttributes.namedItem("cloneof");
     if (!elemAttr.isNull()) {
-        QString parentName = elemAttr.nodeValue(); 
+        QString parentName = elemAttr.nodeValue();
         if (!parentName.isEmpty()) {
            foreach(FieldInfo * parent, info->fields) {
                 if (parent->name == parentName) {
                     // clone from this parent
                     *field = *parent;   // safe shallow copy, no ptrs in struct
                     field->name = name; // set our name
+
+                    // Although this is a clone, still allow the defaults to be changed
+                    elemAttr = elemAttributes.namedItem("defaultvalue");
+                    if ( !elemAttr.isNull() ) {
+                        field->defaultValues = parseDefaults(elemAttr);
+                    }
+
                     // Add field to object
                     info->fields.append(field);
                     // Done
@@ -787,9 +794,7 @@ QString UAVObjectParser::processObjectFields(QDomNode& childNode, ObjectInfo* in
         field->defaultValues = QStringList();
     }
     else  {
-        QStringList defaults = elemAttr.nodeValue().split(",", QString::SkipEmptyParts);
-        for (int n = 0; n < defaults.length(); ++n)
-            defaults[n] = defaults[n].trimmed();
+        QStringList defaults = parseDefaults(elemAttr);
 
         if(defaults.length() != field->numElements) {
             if(defaults.length() != 1)
@@ -878,4 +883,19 @@ QString UAVObjectParser::processObjectDescription(QDomNode& childNode, QString *
 {
     description->append(childNode.firstChild().nodeValue());
     return QString();
+}
+
+/**
+ * @brief UAVObjectParser::parseDefaults Parse the default values
+ * @param elemAttr The XML DOM
+ * @return QStringList of all defaults
+ */
+QStringList UAVObjectParser::parseDefaults(const QDomNode &elemAttr)
+{
+    QStringList defaults = elemAttr.nodeValue().split(",", QString::SkipEmptyParts);
+    for (int n = 0; n < defaults.length(); ++n) {
+        defaults[n] = defaults[n].trimmed();
+    }
+
+    return defaults;
 }

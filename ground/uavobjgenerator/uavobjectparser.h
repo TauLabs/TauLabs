@@ -164,6 +164,7 @@ private:
     quint32 updateHash(QString& value, quint32 hash);
     int resolveFieldParent(ObjectInfo *item, FieldInfo *field);
     int checkDefaultValues(FieldInfo *field);
+    QStringList parseDefaults(const QDomNode &elemAttr);
 };
 
 #endif // UAVOBJECTPARSER_H
