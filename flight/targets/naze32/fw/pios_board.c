@@ -465,6 +465,33 @@ void PIOS_Board_Init(void) {
 		}
 #endif	/* PIOS_INCLUDE_PWM */
 		break;
+	case HWNAZE_RCVRPORT_SERIAL:
+#if defined(PIOS_INCLUDE_USART)
+		{
+			uint8_t hw_rcvrserial;
+			HwNazeRcvrSerialGet(&hw_rcvrserial);
+			
+			HwNazeDSMxModeOptions hw_DSMxMode;
+			HwNazeDSMxModeGet(&hw_DSMxMode);
+			
+			PIOS_HAL_ConfigurePort(hw_rcvrserial,        // port type protocol
+					&pios_usart_rcvrserial_cfg,          // usart_port_cfg
+					&pios_usart_rcvrserial_cfg,          // frsky usart_port_cfg
+					&pios_usart_com_driver,              // com_driver
+					NULL,                                // i2c_id
+					NULL,                                // i2c_cfg
+					NULL,                                // ppm_cfg
+					NULL,                                // pwm_cfg
+					PIOS_LED_ALARM,                      // led_id
+					&pios_usart_dsm_hsum_rcvrserial_cfg, // usart_dsm_hsum_cfg
+					&pios_dsm_rcvrserial_cfg,            // dsm_cfg
+					hw_DSMxMode,                         // dsm_mode
+					NULL,                                // sbus_rcvr_cfg
+					NULL,                                // sbus_cfg
+					false);                              // sbus_toggle
+		}
+#endif	/* PIOS_INCLUDE_USART */
+		break;
 	}
 
 #if defined(PIOS_INCLUDE_GCSRCVR)
@@ -489,6 +516,7 @@ void PIOS_Board_Init(void) {
 		case HWNAZE_RCVRPORT_PPM:
 		case HWNAZE_RCVRPORT_PPMPWM:
 		case HWNAZE_RCVRPORT_PPMSERIAL:
+		case HWNAZE_RCVRPORT_SERIAL:
 			PIOS_Servo_Init(&pios_servo_cfg);
 			break;
 		case HWNAZE_RCVRPORT_PPMOUTPUTS:
@@ -507,6 +535,7 @@ void PIOS_Board_Init(void) {
 		switch(hw_rcvrport) {
 		case HWNAZE_RCVRPORT_PPM:
 		case HWNAZE_RCVRPORT_PPMSERIAL:
+		case HWNAZE_RCVRPORT_SERIAL:
 			number_of_adc_pins += 2; // rcvr port pins also available
 			break;
 		default:
