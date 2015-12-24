@@ -109,6 +109,10 @@ private slots:
     void showCurve(const QVariant & itemInfo, bool on, int index);
     void startPlotting();
     void stopPlotting();
+    void popUpMenu(const QPoint &mousePosition);
+    void clearPlot();
+    void copyToClipboardAsImage();
+    void showOptionDialog();
 
 private:
     QMutex mutex;
@@ -119,7 +123,6 @@ private:
     static QTimer *replotTimer;
     QList<QString> m_connectedUAVObjects;
     QString scopeName;
-
 };
 
 
