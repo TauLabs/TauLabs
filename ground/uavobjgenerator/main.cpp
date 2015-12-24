@@ -3,6 +3,8 @@
  *
  * @file       main.cpp
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
+ * @author     Tau Labs, http://taulabs.org/, Copyright (C) 2013
+ * @author     dRonin, http://dRonin.org/, Copyright (C) 2015
  * @brief      UAVObjectGenerator main.
  *
  * @see        The GNU Public License (GPL) Version 3
@@ -244,6 +246,8 @@ int main(int argc, char *argv[])
         wiresharkgen.generate(parser,templatepath,outputpath);
     }
 
+    bool changed = false;
+
     /* Symlink each of these to the current dir */
     QDir dir(outputpath);
     QFileInfoList files = dir.entryInfoList(QDir::Dirs | QDir::NoDotAndDotDot);
@@ -253,9 +257,20 @@ int main(int argc, char *argv[])
         dir.rmpath(file.fileName());
         dir.rename(file.absoluteFilePath(), file.fileName());
 #else
-        QFile::remove(file.fileName());
-        QFile::link(file.absoluteFilePath(), file.fileName());
+        if (QFile::symLinkTarget(file.fileName()) != file.absoluteFilePath()) {
+            QFile::remove(file.fileName());
+            QFile::link(file.absoluteFilePath(), file.fileName());
+            changed = true;
+        }
 #endif
+    }
+
+    /* If anything has changed, ensure flight stuff gets rebuilt */
+    if (changed) {
+        cout << "UAVO version updated, forcing rebuild of all" << endl ;
+        QFile touch(QString("flight/uavoversion.h"));
+        /* This updates the file modification time, so make knows */
+        touch.resize(touch.size());
     }
 
     return RETURN_OK;
