@@ -88,7 +88,6 @@ plugin_modelview.depends += plugin_uavobjects
 SUBDIRS += plugin_modelview
 }
 
-# Notify gadget NEEDS PHONON UPGRADED TO QT5
 !disable_notify_plugin {
     plugin_notify.subdir = notify
     plugin_notify.depends = plugin_coreplugin
