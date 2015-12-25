@@ -28,19 +28,53 @@
 
 /* Project Includes */
 #include "pios.h"
+#include "openpilot.h"
 
 #if defined(PIOS_INCLUDE_LED)
 
 /* Private Function Prototypes */
 
+DONT_BUILD_IF(PIOS_LED_NUM > 8, piosLedNumTooHigh);
 
 /* Local Variables */
-static uint8_t LED_GPIO[PIOS_LED_NUM];
+static uint8_t ledStatus;
 
+static inline void PIOS_SetLED(uint32_t led, uint8_t stat) {
+	uint8_t newStatus = ledStatus;
 
-static inline void PIOS_SetLED(uint32_t LED,uint8_t stat) {
-	printf("PIOS: LED %i status %i\n",LED,stat);
-	LED_GPIO[LED]=stat;
+	PIOS_Assert(led < PIOS_LED_NUM);
+
+	uint8_t mask = 1<<led;
+
+	if (stat) {
+		newStatus |= mask;
+	} else {
+		newStatus &= ~mask;
+	}
+
+	if (newStatus != ledStatus) {
+		ledStatus = newStatus;
+
+		char leds[PIOS_LED_NUM+1];
+
+		uint8_t mask = 1;
+
+		for (int i=0; i<PIOS_LED_NUM; i++) {
+			if (newStatus & mask) {
+				leds[i] = '*';
+			} else {
+				leds[i] = '.';
+			}
+
+			mask <<= 1;
+		}
+
+		leds[PIOS_LED_NUM] = 0;
+
+		printf("PIOS: LEDs: [%s]\n", leds);
+	}
+
+	//printf("PIOS: LED %i status %i\n",led,stat);
 }
 
 /**
@@ -48,9 +82,6 @@ static inline void PIOS_SetLED(uint32_t LED,uint8_t stat) {
 */
 void PIOS_LED_Init(void)
 {
-	for(int LEDNum = 0; LEDNum < PIOS_LED_NUM; LEDNum++) {
-		LED_GPIO[LEDNum]=0;
-	}
 }
 
 
@@ -80,7 +111,7 @@ void PIOS_LED_Off(uint32_t led)
 */
 void PIOS_LED_Toggle(uint32_t led)
 {
-	PIOS_SetLED(led,LED_GPIO[led]?0:1);
+	PIOS_SetLED(led,((ledStatus >> led) & 1)?0:1);
 }
 
 #endif
