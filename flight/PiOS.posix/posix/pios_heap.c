@@ -85,7 +85,7 @@ void PIOS_heap_initialize_blocks(void)
 
 size_t PIOS_heap_get_free_size(void)
 {
-	return 1024;
+	return 4096;
 }
 
 size_t PIOS_fastheap_get_free_size(void)
