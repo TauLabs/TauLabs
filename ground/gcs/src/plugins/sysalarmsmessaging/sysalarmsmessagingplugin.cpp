@@ -3,6 +3,7 @@
  *
  * @file       sysalarmsmessagingplugin.cpp
  * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012
+ * @author     dRonin, http://dRonin.org/, Copyright (C) 2015
  * @addtogroup GCSPlugins GCS Plugins
  * @{
  * @addtogroup System Alarms Messaging Plugin
@@ -89,42 +90,38 @@ bool SysAlarmsMessagingPlugin::initialize(const QStringList &arguments, QString 
  */
 void SysAlarmsMessagingPlugin::updateAlarms(UAVObject* systemAlarm)
 {
-    Q_ASSERT(systemAlarm->getObjID() == SystemAlarms::OBJID);
+    UAVObjectField *field = systemAlarm->getField(QString("Alarm"));
 
-    foreach (UAVObjectField *field, systemAlarm->getFields()) {
-        for (uint i = 0; i < field->getNumElements(); ++i) {
-            QString element = field->getElementNames()[i];
-            QString value = field->getValue(i).toString();
-            {
-                if(value==field->getOptions().at(SystemAlarms::ALARM_ERROR))
-                {
-                    errorMessages.value(element)->setActive(true);
-                    errorMessages.value(element)->setDescription(element+" module is in error state");
-                    warningMessages.value(element)->setActive(false);
-                }
-                else if(value==field->getOptions().at(SystemAlarms::ALARM_CRITICAL))
-                {
-                    errorMessages.value(element)->setActive(true);
-                    errorMessages.value(element)->setDescription(element+" module is in CRITICAL state");
-                    warningMessages.value(element)->setActive(false);
-                }
-                else if(value==field->getOptions().at(SystemAlarms::ALARM_WARNING))
-                {
-                    warningMessages.value(element)->setActive(true);
-                    warningMessages.value(element)->setDescription(element+" module is in warning state");
-                    errorMessages.value(element)->setActive(false);
-                }
-                else if(value==field->getOptions().at(SystemAlarms::ALARM_UNINITIALISED))
-                {
-                    warningMessages.value(element)->setActive(false);
-                    errorMessages.value(element)->setActive(false);
-                }
-                else if(value==field->getOptions().at(SystemAlarms::ALARM_OK))
-                {
-                    warningMessages.value(element)->setActive(false);
-                    errorMessages.value(element)->setActive(false);
-                }
-            }
+    for (uint i = 0; i < field->getNumElements(); ++i) {
+        const QString element = field->getElementNames()[i];
+        const QString value = field->getValue(i).toString();
+        if(value==field->getOptions().at(SystemAlarms::ALARM_ERROR))
+        {
+            errorMessages.value(element)->setActive(true);
+            errorMessages.value(element)->setDescription(element+" module is in error state");
+            warningMessages.value(element)->setActive(false);
+        }
+        else if(value==field->getOptions().at(SystemAlarms::ALARM_CRITICAL))
+        {
+            errorMessages.value(element)->setActive(true);
+            errorMessages.value(element)->setDescription(element+" module is in CRITICAL state");
+            warningMessages.value(element)->setActive(false);
+        }
+        else if(value==field->getOptions().at(SystemAlarms::ALARM_WARNING))
+        {
+            warningMessages.value(element)->setActive(true);
+            warningMessages.value(element)->setDescription(element+" module is in warning state");
+            errorMessages.value(element)->setActive(false);
+        }
+        else if(value==field->getOptions().at(SystemAlarms::ALARM_UNINITIALISED))
+        {
+            warningMessages.value(element)->setActive(false);
+            errorMessages.value(element)->setActive(false);
+        }
+        else if(value==field->getOptions().at(SystemAlarms::ALARM_OK))
+        {
+            warningMessages.value(element)->setActive(false);
+            errorMessages.value(element)->setActive(false);
         }
     }
 }

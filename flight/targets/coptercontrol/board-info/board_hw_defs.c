@@ -37,24 +37,6 @@
 #if defined(PIOS_INCLUDE_LED)
 
 #include <pios_led_priv.h>
-static const struct pios_led pios_leds_cc[] = {
-	[PIOS_LED_HEARTBEAT] = {
-		.pin = {
-			.gpio = GPIOA,
-			.init = {
-				.GPIO_Pin   = GPIO_Pin_6,
-				.GPIO_Mode  = GPIO_Mode_Out_PP,
-				.GPIO_Speed = GPIO_Speed_50MHz,
-			},
-		},
-	},
-};
-
-static const struct pios_led_cfg pios_led_cfg_cc = {
-	.leds     = pios_leds_cc,
-	.num_leds = NELEMENTS(pios_leds_cc),
-};
-
 static const struct pios_led pios_leds_cc3d[] = {
 	[PIOS_LED_HEARTBEAT] = {
 		.pin = {
@@ -77,7 +59,6 @@ static const struct pios_led_cfg pios_led_cfg_cc3d = {
 const struct pios_led_cfg * PIOS_BOARD_HW_DEFS_GetLedCfg (uint32_t board_revision)
 {
 	switch (board_revision) {
-	case BOARD_REVISION_CC:		return &pios_led_cfg_cc;
 	case BOARD_REVISION_CC3D:	return &pios_led_cfg_cc3d;
 	default:			return NULL;
 	}
@@ -297,102 +278,6 @@ static const struct pios_spi_cfg pios_spi_flash_accel_cfg_cc3d = {
 		}},
 };
 
-static const struct pios_spi_cfg pios_spi_flash_accel_cfg_cc = {
-	.regs   = SPI2,
-	.init   = {
-		.SPI_Mode              = SPI_Mode_Master,
-		.SPI_Direction         = SPI_Direction_2Lines_FullDuplex,
-		.SPI_DataSize          = SPI_DataSize_8b,
-		.SPI_NSS               = SPI_NSS_Soft,
-		.SPI_FirstBit          = SPI_FirstBit_MSB,
-		.SPI_CRCPolynomial     = 7,
-		.SPI_CPOL              = SPI_CPOL_High,
-		.SPI_CPHA              = SPI_CPHA_2Edge,
-		.SPI_BaudRatePrescaler = SPI_BaudRatePrescaler_8, 
-	},
-	.use_crc = false,
-	.dma = {
-		.ahb_clk  = RCC_AHBPeriph_DMA1,
-		
-		.irq = {
-			.flags   = (DMA1_FLAG_TC4 | DMA1_FLAG_TE4 | DMA1_FLAG_HT4 | DMA1_FLAG_GL4),
-			.init    = {
-				.NVIC_IRQChannel                   = DMA1_Channel4_IRQn,
-				.NVIC_IRQChannelPreemptionPriority = PIOS_IRQ_PRIO_HIGH,
-				.NVIC_IRQChannelSubPriority        = 0,
-				.NVIC_IRQChannelCmd                = ENABLE,
-			},
-		},
-		
-		.rx = {
-			.channel = DMA1_Channel4,
-			.init    = {
-				.DMA_PeripheralBaseAddr = (uint32_t)&(SPI2->DR),
-				.DMA_DIR                = DMA_DIR_PeripheralSRC,
-				.DMA_PeripheralInc      = DMA_PeripheralInc_Disable,
-				.DMA_MemoryInc          = DMA_MemoryInc_Enable,
-				.DMA_PeripheralDataSize = DMA_PeripheralDataSize_Byte,
-				.DMA_MemoryDataSize     = DMA_MemoryDataSize_Byte,
-				.DMA_Mode               = DMA_Mode_Normal,
-				.DMA_Priority           = DMA_Priority_High,
-				.DMA_M2M                = DMA_M2M_Disable,
-			},
-		},
-		.tx = {
-			.channel = DMA1_Channel5,
-			.init    = {
-				.DMA_PeripheralBaseAddr = (uint32_t)&(SPI2->DR),
-				.DMA_DIR                = DMA_DIR_PeripheralDST,
-				.DMA_PeripheralInc      = DMA_PeripheralInc_Disable,
-				.DMA_MemoryInc          = DMA_MemoryInc_Enable,
-				.DMA_PeripheralDataSize = DMA_PeripheralDataSize_Byte,
-				.DMA_MemoryDataSize     = DMA_MemoryDataSize_Byte,
-				.DMA_Mode               = DMA_Mode_Normal,
-				.DMA_Priority           = DMA_Priority_High,
-				.DMA_M2M                = DMA_M2M_Disable,
-			},
-		},
-	},
-	.sclk = {
-		.gpio = GPIOB,
-		.init = {
-			.GPIO_Pin   = GPIO_Pin_13,
-			.GPIO_Speed = GPIO_Speed_10MHz,
-			.GPIO_Mode  = GPIO_Mode_AF_PP,
-		},
-	},
-	.miso = {
-		.gpio = GPIOB,
-		.init = {
-			.GPIO_Pin   = GPIO_Pin_14,
-			.GPIO_Speed = GPIO_Speed_10MHz,
-			.GPIO_Mode  = GPIO_Mode_IN_FLOATING,
-		},
-	},
-	.mosi = {
-		.gpio = GPIOB,
-		.init = {
-			.GPIO_Pin   = GPIO_Pin_15,
-			.GPIO_Speed = GPIO_Speed_10MHz,
-			.GPIO_Mode  = GPIO_Mode_AF_PP,
-		},
-	},
-	.slave_count = 2,
-	.ssel = {{
-		.gpio = GPIOB,
-		.init = {
-			.GPIO_Pin   = GPIO_Pin_12,
-			.GPIO_Speed = GPIO_Speed_50MHz,
-			.GPIO_Mode  = GPIO_Mode_Out_PP,
-		}},{
-			.gpio = GPIOA,
-			.init = {
-				.GPIO_Pin   = GPIO_Pin_7,
-				.GPIO_Speed = GPIO_Speed_50MHz,
-				.GPIO_Mode  = GPIO_Mode_Out_PP,
-			},
-		}},
-};
 
 static uint32_t pios_spi_flash_accel_id;
 void PIOS_SPI_flash_accel_irq_handler(void)
@@ -494,48 +379,6 @@ static const struct pios_flash_chip pios_flash_chip_w25x40 = {
 };
 #endif /* PIOS_INCLUDE_FLASH_JEDEC */
 
-static const struct pios_flash_partition pios_flash_partition_table_w25x40[] = {
-#if defined(PIOS_INCLUDE_FLASH_INTERNAL)
-	{
-		.label        = FLASH_PARTITION_LABEL_BL,
-		.chip_desc    = &pios_flash_chip_internal,
-		.first_sector = 0,
-		.last_sector  = 11,
-		.chip_offset   = 0,
-		.size          = (11 - 0 + 1) * FLASH_SECTOR_1KB,
-	},
-
-	{
-		.label        = FLASH_PARTITION_LABEL_FW,
-		.chip_desc    = &pios_flash_chip_internal,
-		.first_sector = 12,
-		.last_sector  = 127,
-		.chip_offset  = (12 * FLASH_SECTOR_1KB),
-		.size         = (127 - 12 + 1) * FLASH_SECTOR_1KB,
-	},
-#endif /* PIOS_INCLUDE_FLASH_INTERNAL */
-
-#if defined(PIOS_INCLUDE_FLASH_JEDEC)
-	{
-		.label        = FLASH_PARTITION_LABEL_SETTINGS,
-		.chip_desc    = &pios_flash_chip_w25x40,
-		.first_sector = 0,
-		.last_sector  = 63,
-		.chip_offset  = 0,
-		.size         = (63 - 0 + 1) * FLASH_SECTOR_4KB,
-	},
-
-	{
-		.label        = FLASH_PARTITION_LABEL_WAYPOINTS,
-		.chip_desc    = &pios_flash_chip_w25x40,
-		.first_sector = 64,
-		.last_sector  = 127,
-		.chip_offset  = (64 * FLASH_SECTOR_4KB),
-		.size         = (127 - 64 + 1) * FLASH_SECTOR_4KB,
-	},
-#endif	/* PIOS_INCLUDE_FLASH_JEDEC */
-};
-
 static const struct pios_flash_partition pios_flash_partition_table_m25p16[] = {
 #if defined(PIOS_INCLUDE_FLASH_INTERNAL)
 	{
@@ -583,12 +426,11 @@ const struct pios_flash_partition * PIOS_BOARD_HW_DEFS_GetPartitionTable (uint32
 	PIOS_Assert(num_partitions);
 
 	switch (board_revision) {
-	case BOARD_REVISION_CC:
-		*num_partitions = NELEMENTS(pios_flash_partition_table_w25x40);
-		return pios_flash_partition_table_w25x40;
 	case BOARD_REVISION_CC3D:
 		*num_partitions = NELEMENTS(pios_flash_partition_table_m25p16);
 		return pios_flash_partition_table_m25p16;
+	default:
+		break;
 	}
 
 	return NULL;
@@ -1479,25 +1321,6 @@ void PIOS_I2C_flexi_adapter_er_irq_handler(void)
 
 #if defined(PIOS_INCLUDE_USB)
 #include "pios_usb_priv.h"
-
-static const struct pios_usb_cfg pios_usb_main_cfg_cc = {
-	.irq = {
-		.init    = {
-			.NVIC_IRQChannel                   = USB_LP_CAN1_RX0_IRQn,
-			.NVIC_IRQChannelPreemptionPriority = PIOS_IRQ_PRIO_LOW,
-			.NVIC_IRQChannelSubPriority        = 0,
-			.NVIC_IRQChannelCmd                = ENABLE,
-		},
-	},
-	.vsense = {
-		.gpio = GPIOC,
-		.init = {
-			.GPIO_Pin   = GPIO_Pin_15,
-			.GPIO_Speed = GPIO_Speed_10MHz,
-			.GPIO_Mode  = GPIO_Mode_AF_OD,
-		},
-	}
-};
 
 static const struct pios_usb_cfg pios_usb_main_cfg_cc3d = {
 	.irq = {

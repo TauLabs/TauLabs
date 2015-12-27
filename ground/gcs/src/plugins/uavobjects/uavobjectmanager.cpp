@@ -4,6 +4,7 @@
  * @file       uavobjectmanager.cpp
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
  * @author     Tau Labs, http://taulabs.org, Copyright (C) 2014
+ * @author     dRonin, http://dRonin.org/, Copyright (C) 2015
  * @see        The GNU Public License (GPL) Version 3
  * @addtogroup GCSPlugins GCS Plugins
  * @{
@@ -136,6 +137,9 @@ void UAVObjectManager::addObject(UAVObject* obj)
     QMap<quint32,UAVObject*> list;
     list.insert(obj->getInstID(),obj);
     objects.insert(obj->getObjID(),list);
+
+    objectsByName.insert(obj->getName(), list);
+
     emit newObject(obj);
 }
 
@@ -147,7 +151,7 @@ QVector< QVector<UAVObject*> > UAVObjectManager::getObjectsVector()
 {
     QMutexLocker locker(mutex);
     QVector< QVector<UAVObject*> > vector;
-    foreach(ObjectMap map,objects.values())
+    foreach (const ObjectMap &map,objects.values())
     {
         QVector<UAVObject*> vec = map.values().toVector();
         vector.append(vec);
@@ -167,7 +171,7 @@ QVector< QVector<UAVDataObject*> > UAVObjectManager::getDataObjectsVector()
 {
     QMutexLocker locker(mutex);
     QVector< QVector<UAVDataObject*> > vector;
-    foreach(ObjectMap map,objects.values())
+    foreach (const ObjectMap &map,objects.values())
     {
         UAVDataObject* obj = dynamic_cast<UAVDataObject*>(map.first());
         if(obj!=NULL)
@@ -192,7 +196,7 @@ QVector <QVector<UAVMetaObject*> > UAVObjectManager::getMetaObjectsVector()
 {
     QMutexLocker locker(mutex);
     QVector< QVector<UAVMetaObject*> > vector;
-    foreach(ObjectMap map,objects.values())
+    foreach(const ObjectMap &map,objects.values())
     {
         UAVMetaObject* obj = dynamic_cast<UAVMetaObject*>(map.first());
         if(obj!=NULL)
@@ -216,7 +220,7 @@ QVector <QVector<UAVMetaObject*> > UAVObjectManager::getMetaObjectsVector()
  */
 UAVObject* UAVObjectManager::getObject(const QString& name, quint32 instId)
 {
-    return getObject(&name, 0, instId);
+    return getObject(name, 0, instId);
 }
 
 /**
@@ -231,16 +235,16 @@ UAVObject* UAVObjectManager::getObject(quint32 objId, quint32 instId)
 /**
  * Helper function for the public getObject() functions.
  */
-UAVObject* UAVObjectManager::getObject(const QString* name, quint32 objId, quint32 instId)
+UAVObject* UAVObjectManager::getObject(const QString& name, quint32 objId, quint32 instId)
 {
     QMutexLocker locker(mutex);
     if(name != NULL)
     {
-        foreach(ObjectMap map,objects)
-        {
-            if(map.first()->getName().compare(name) == 0)
-                return map.value(instId,NULL);
+        if (objectsByName.contains(name)) {
+            return objectsByName.value(name).value(instId);
         }
+
+        return NULL;
     }
     else if(objects.contains(objId))
         return objects.value(objId).value(instId);
@@ -271,7 +275,7 @@ QVector<UAVObject*> UAVObjectManager::getObjectInstancesVector(const QString* na
     QMutexLocker locker(mutex);
     if(name != NULL)
     {
-        foreach(ObjectMap map,objects)
+        foreach(const ObjectMap &map,objects)
         {
             if(map.first()->getName().compare(name) == 0)
                 return map.values().toVector();
@@ -306,7 +310,7 @@ qint32 UAVObjectManager::getNumInstances(const QString* name, quint32 objId)
     QMutexLocker locker(mutex);
     if(name != NULL)
     {
-        foreach(ObjectMap map,objects)
+        foreach(const ObjectMap &map,objects)
         {
             if(map.first()->getName().compare(name) == 0)
                 return map.count();

@@ -19,7 +19,6 @@ include(../../taulabslibrary.pri)
 
 SOURCES += reloadpromptutils.cpp \
     settingsutils.cpp \
-    filesearch.cpp \
     pathchooser.cpp \
     pathlisteditor.cpp \
     filewizardpage.cpp \
@@ -74,7 +73,6 @@ else:SOURCES += consoleprocess_unix.cpp
 HEADERS += utils_global.h \
     reloadpromptutils.h \
     settingsutils.h \
-    filesearch.h \
     listutils.h \
     pathchooser.h \
     pathlisteditor.h \
