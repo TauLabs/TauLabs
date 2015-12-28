@@ -44,7 +44,7 @@ static inline void PIOS_SetLED(uint32_t led, uint8_t stat) {
 
 	PIOS_Assert(led < PIOS_LED_NUM);
 
-	uint8_t mask = 1<<led;
+	uint8_t mask = 1 << led;
 
 	if (stat) {
 		newStatus |= mask;
@@ -91,7 +91,7 @@ void PIOS_LED_Init(void)
 */
 void PIOS_LED_On(uint32_t led)
 {
-	PIOS_SetLED(led,1);
+	PIOS_SetLED(led, 1);
 }
 
 
@@ -101,7 +101,7 @@ void PIOS_LED_On(uint32_t led)
 */
 void PIOS_LED_Off(uint32_t led)
 {
-	PIOS_SetLED(led,0);
+	PIOS_SetLED(led, 0);
 }
 
 
@@ -111,7 +111,7 @@ void PIOS_LED_Off(uint32_t led)
 */
 void PIOS_LED_Toggle(uint32_t led)
 {
-	PIOS_SetLED(led,((ledStatus >> led) & 1)?0:1);
+	PIOS_SetLED(led, ((ledStatus >> led) & 1) ? 0 : 1);
 }
 
 #endif
