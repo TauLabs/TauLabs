@@ -2492,9 +2492,9 @@
             <type>splitter</type>
           </side0>
           <side1>
-            <classId>QmlViewGadget</classId>
+            <classId>PfdQmlGadget</classId>
             <gadget>
-              <activeConfiguration>default</activeConfiguration>
+              <activeConfiguration>NoTerrain</activeConfiguration>
             </gadget>
             <type>uavGadget</type>
           </side1>
