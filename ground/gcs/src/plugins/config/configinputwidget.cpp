@@ -1628,10 +1628,14 @@ void ConfigInputWidget::simpleCalibration(bool enable)
         for (unsigned int i = 0; i < ManualControlCommand::CHANNEL_NUMELEM; i++)
             manualSettingsData.ChannelNeutral[i] = manualCommandData.Channel[i];
 
-        // Force flight mode neutral to middle
+        // Force switches to middle
         manualSettingsData.ChannelNeutral[ManualControlSettings::CHANNELNUMBER_FLIGHTMODE] =
                 (manualSettingsData.ChannelMax[ManualControlSettings::CHANNELNUMBER_FLIGHTMODE] +
                 manualSettingsData.ChannelMin[ManualControlSettings::CHANNELNUMBER_FLIGHTMODE]) / 2;
+
+        manualSettingsData.ChannelNeutral[ManualControlSettings::CHANNELNUMBER_ARMING] =
+                (manualSettingsData.ChannelMax[ManualControlSettings::CHANNELNUMBER_ARMING] +
+                manualSettingsData.ChannelMin[ManualControlSettings::CHANNELNUMBER_ARMING]) / 2;
 
         // Force throttle to be near min
         manualSettingsData.ChannelNeutral[ManualControlSettings::CHANNELNEUTRAL_THROTTLE] =
