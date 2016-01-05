@@ -46,6 +46,7 @@
 //lint -esym(766, stdio.h)
 
 // #define  TEST_PRINTF    1
+#define  USE_NEWLIB    1
 
 #include <pios.h>
 
@@ -565,7 +566,13 @@ static int print (char **out, int *varg)
 #ifdef USE_NEWLIB
             char *cptr = (char *) varg ;  //lint !e740 !e826  convert to double pointer
             uint caddr = (uint) cptr ;
-            if ((caddr & 0xF) != 0) {
+
+            // If aligning to 8 byte boundaries, bit 3 should not be tested or a misaligment
+            // can result. When a float is converted to a double, bits 0 and 1 will not be
+            // set, so don't test them (the pointer add doesn't fix byte and word misaligments
+            // anyways)
+            // ** original aligment test-->> if ((caddr & 0xF) != 0) {
+            if ((caddr & 0x4) != 0) {
                cptr += 4 ;
             }
             double *dblptr = (double *) cptr ;  //lint !e740 !e826  convert to double pointer
