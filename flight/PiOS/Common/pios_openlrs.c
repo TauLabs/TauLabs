@@ -1064,6 +1064,10 @@ uint8_t PIOS_OpenLRS_RSSI_Get(void)
 	if(openlrs_status.FailsafeActive == OPENLRSSTATUS_FAILSAFEACTIVE_ACTIVE)
 		return 0;
 	else {
+		// Check object handle exists
+		if (OpenLRSHandle() == NULL)
+			return 0;
+
 		OpenLRSData openlrs_data;
 		OpenLRSGet(&openlrs_data);
 		
