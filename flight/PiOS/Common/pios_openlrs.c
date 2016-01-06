@@ -942,8 +942,8 @@ static void pios_openlrs_rx_loop(struct pios_openlrs_dev *openlrs_dev)
 						FlightBatteryStateGet(&bat);
 						// FrSky protocol normally uses 3.3V at 255 but
 						// divider from display can be set internally
-						tx_buf[2] = (uint8_t) bat.Voltage / 25.0f * 255;
-						tx_buf[3] = (uint8_t) bat.Current / 60.0f * 255;
+						tx_buf[2] = (uint8_t) (bat.Voltage / 25.0f * 255);
+						tx_buf[3] = (uint8_t) (bat.Current / 60.0f * 255);
 					} else {
 						tx_buf[2] = 0; // these bytes carry analog info. package
 						tx_buf[3] = 0; // battery here
@@ -1064,6 +1064,10 @@ uint8_t PIOS_OpenLRS_RSSI_Get(void)
 	if(openlrs_status.FailsafeActive == OPENLRSSTATUS_FAILSAFEACTIVE_ACTIVE)
 		return 0;
 	else {
+		// Check object handle exists
+		if (OpenLRSHandle() == NULL)
+			return 0;
+
 		OpenLRSData openlrs_data;
 		OpenLRSGet(&openlrs_data);
 		
