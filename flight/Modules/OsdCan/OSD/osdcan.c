@@ -6,7 +6,7 @@
  * @{
  *
  * @file       osdcan.c
- * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2015
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2016
  * @brief      Relay messages between OSD and FC
  *
  * @see        The GNU Public License (GPL) Version 3
@@ -41,6 +41,7 @@
 #include "manualcontrolcommand.h"
 #include "modulesettings.h"
 #include "positionactual.h"
+#include "systemalarms.h"
 
 // Private constants
 #define MAX_QUEUE_SIZE 2
@@ -64,6 +65,7 @@ static struct pios_queue *queue_gps_altspeed;
 static struct pios_queue *queue_gps_fix;
 static struct pios_queue *queue_gps_vel;
 static struct pios_queue *queue_pos;
+static struct pios_queue *queue_sysalarm;
 static struct pios_thread *taskHandle;
 
 // Private functions
@@ -109,6 +111,7 @@ static int32_t OsdCanInitialize()
 	queue_gps_fix = PIOS_CAN_RegisterMessageQueue(pios_can_id, PIOS_CAN_GPS_FIX);
 	queue_gps_vel = PIOS_CAN_RegisterMessageQueue(pios_can_id, PIOS_CAN_GPS_VEL);
 	queue_pos = PIOS_CAN_RegisterMessageQueue(pios_can_id, PIOS_CAN_POS);
+	queue_sysalarm = PIOS_CAN_RegisterMessageQueue(pios_can_id, PIOS_CAN_ALARM);
 
 	return 0;
 }
@@ -123,6 +126,8 @@ static void osdCanTask(void* parameters)
 	// Loop forever
 	while (1) {
 
+		// If memory becomes an issue can evanutally just use a common buffer
+		// and case it below
 		struct pios_can_roll_pitch_message roll_pitch_message;
 		struct pios_can_yaw_message pios_can_yaw_message;
 		struct pios_can_flightstatus_message pios_can_flightstatus_message;
@@ -135,6 +140,7 @@ static void osdCanTask(void* parameters)
 		struct pios_can_gps_fix pios_can_gps_fix_message;
 		struct pios_can_gps_vel pios_can_gps_vel_message;
 		struct pios_can_pos pios_can_pos_message;
+		uint8_t buf[8];
 
 		// Wait for queue message
 		if (PIOS_Queue_Receive(queue_roll_pitch, &roll_pitch_message, 0) == true) {
@@ -218,6 +224,39 @@ static void osdCanTask(void* parameters)
 			posActual.North = pios_can_pos_message.north;
 			posActual.East = pios_can_pos_message.east;
 			PositionActualSet(&posActual);
+		}
+
+		if (PIOS_Queue_Receive(queue_sysalarm, buf, 0) == true) {
+
+			uint8_t alarm_status[SYSTEMALARMS_ALARM_NUMELEM];
+
+			struct pios_can_alarm_message *pios_can_alarm_message = (struct pios_can_alarm_message *) buf;
+
+			// Pack alarms into 2 bit fields. We collapse error and critical to error
+			// as OSD represents them the same.
+			for (int32_t i = 0; i < SYSTEMALARMS_ALARM_NUMELEM && i < 32; i++) {
+				int32_t idx = i / 4;
+				int32_t bit = (i % 4) * 2;
+
+				uint8_t val = (pios_can_alarm_message->alarms[idx] >> bit) & 0x03;
+				switch (val) {
+				case 0:
+					alarm_status[i] = SYSTEMALARMS_ALARM_UNINITIALISED;
+					break;
+				case 1:
+					alarm_status[i] = SYSTEMALARMS_ALARM_OK;
+					break;
+				case 2:
+					alarm_status[i] = SYSTEMALARMS_ALARM_WARNING;
+					break;
+				default:
+					alarm_status[i] = SYSTEMALARMS_ALARM_ERROR;
+					break;
+				}
+			}
+
+			SystemAlarmsAlarmSet(alarm_status);
+
 		}
 
 		PIOS_Thread_Sleep(1);

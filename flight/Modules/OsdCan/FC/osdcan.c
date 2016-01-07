@@ -6,7 +6,7 @@
  * @{
  *
  * @file       osdcan.c
- * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2015
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2016
  * @brief      Relay messages between OSD and FC
  *
  * @see        The GNU Public License (GPL) Version 3
@@ -41,6 +41,7 @@
 #include "modulesettings.h"
 #include "positionactual.h"
 #include "manualcontrolcommand.h"
+#include "systemalarms.h"
 
 
 //
@@ -103,6 +104,7 @@ int32_t OsdCanStart(void)
 		if (FlightBatteryStateHandle() && module_state[MODULESETTINGS_ADMINSTATE_BATTERY] == MODULESETTINGS_ADMINSTATE_ENABLED)
 			FlightBatteryStateConnectQueue(queue);
 		PositionActualConnectQueue(queue);
+		SystemAlarmsConnectQueue(queue);
 
 		taskHandle = PIOS_Thread_Create(osdCanTask, "OsdCan", STACK_SIZE_BYTES, NULL, TASK_PRIORITY);
 	}
@@ -260,6 +262,43 @@ static void osdCanTask(void* parameters)
 			};
 
 			PIOS_CAN_TxData(pios_can_id, PIOS_CAN_RSSI, (uint8_t *) &rssi);
+
+		} else if (ev.obj == SystemAlarmsHandle()) {
+
+			uint8_t alarm_status[SYSTEMALARMS_ALARM_NUMELEM];
+			SystemAlarmsAlarmGet(alarm_status);
+
+			struct pios_can_alarm_message pios_can_alarm_message = {
+				.alarms = {0,0,0,0,0,0,0,0}
+			};
+
+			// Pack alarms into 2 bit fields. We collapse error and critical to error
+			// as OSD represents them the same.
+			for (int32_t i = 0; i < SYSTEMALARMS_ALARM_NUMELEM && i < 32; i++) {
+				int32_t idx = i / 4;
+				int32_t bit = (i % 4) * 2;
+
+				uint8_t val = 0;
+				switch(alarm_status[i]) {
+					case SYSTEMALARMS_ALARM_UNINITIALISED:
+						val = 0;
+						break;
+					case SYSTEMALARMS_ALARM_OK:
+						val = 1;
+						break;
+					case SYSTEMALARMS_ALARM_WARNING:
+						val = 2;
+						break;
+					case SYSTEMALARMS_ALARM_ERROR:
+					case SYSTEMALARMS_ALARM_CRITICAL:
+						val = 3;
+						break;
+
+				}
+				pios_can_alarm_message.alarms[idx] |= (val << bit);
+			}
+
+			PIOS_CAN_TxData(pios_can_id, PIOS_CAN_ALARM, (uint8_t *) &pios_can_alarm_message);
 
 		}
 
