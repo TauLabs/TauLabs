@@ -7,7 +7,7 @@
  * @{
  *
  * @file       pios_can.h
- * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013-2014
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013-2016
  * @brief      PiOS CAN interface header
  * @see        The GNU Public License (GPL) Version 3
  *
@@ -48,6 +48,7 @@ enum pios_can_messages {
 	PIOS_CAN_GPS_FIX = 10,
 	PIOS_CAN_GPS_VEL = 11,
 	PIOS_CAN_POS = 12,
+	PIOS_CAN_ALARM = 13,
 	PIOS_CAN_LAST
 };
 // Note: new messages must be defined in both
@@ -129,6 +130,10 @@ struct pios_can_gps_vel {
 struct pios_can_pos {
 	float north;
 	float east;
+}  __attribute__((packed));
+
+struct pios_can_alarm_message {
+	uint8_t alarms[8];
 }  __attribute__((packed));
 
 //! Transmit a data message with a particular message ID

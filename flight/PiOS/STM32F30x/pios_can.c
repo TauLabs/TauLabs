@@ -7,7 +7,7 @@
  * @{
  *
  * @file       pios_can.c
- * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013-2014
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013-2016
  * @brief      PiOS CAN interface header
  * @see        The GNU Public License (GPL) Version 3
  *
@@ -226,7 +226,8 @@ static uint32_t pios_can_message_stdid[PIOS_CAN_LAST] = {
 	[PIOS_CAN_GPS_ALTSPEED] = 0x2B2,
 	[PIOS_CAN_GPS_FIX] = 0x2B3,
 	[PIOS_CAN_GPS_VEL] = 0x2B4,
-	[PIOS_CAN_POS] = 0x2B5
+	[PIOS_CAN_POS] = 0x2B5,
+	[PIOS_CAN_ALARM] = 0x2B6
 };
 
 static int32_t get_message_size(uint32_t msg_id) {
@@ -257,6 +258,8 @@ static int32_t get_message_size(uint32_t msg_id) {
 		return sizeof(struct pios_can_gps_vel);
 	case PIOS_CAN_POS:
 		return sizeof(struct pios_can_pos);
+	case PIOS_CAN_ALARM:
+		return sizeof(struct pios_can_alarm_message);
 	default:
 		return -1;
 	}
