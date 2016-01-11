@@ -537,7 +537,7 @@ void VehicleConfigurationHelper::resetVehicleConfig()
         UAVObjectField *field = mSettings->getField(throttlePattern.arg(i));
         Q_ASSERT(field);
         for (quint32 i = 0; i < field->getNumElements(); i++) {
-            field->setValue(i * (1.0f / (field->getNumElements() - 1)), i);
+            field->setValue(i * (0.9f / (field->getNumElements() - 1)), i);
         }
     }
 
