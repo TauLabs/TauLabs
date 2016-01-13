@@ -189,36 +189,6 @@ int _write_r( void * reent, int file, char * ptr, int len )
 }
 
 /*==============================================================================
- * Increase program data space. As malloc and related functions depend on this,
- * it is useful to have a working implementation. The following suffices for a
- * standalone system; it exploits the symbol _end automatically defined by the
- * GNU linker.
- */
-caddr_t _sbrk(int incr)
-{
-    extern char _end;		/* Defined by the linker */
-    static char *heap_end;
-    char *prev_heap_end;
-    char * stack_ptr;
-
-    if (heap_end == 0)
-    {
-      heap_end = &_end;
-    }
-
-    prev_heap_end = heap_end;
-    asm volatile ("MRS %0, msp" : "=r" (stack_ptr) );
-    if (heap_end + incr > stack_ptr)
-    {
-      _write_r ((void *)0, 1, "Heap and stack collision\n", 25);
-      _exit (1);
-    }
-
-    heap_end += incr;
-    return (caddr_t) prev_heap_end;
-}
-
-/*==============================================================================
  * Status of a file (by name).
  */
 int _stat(char *file, struct stat *st)
