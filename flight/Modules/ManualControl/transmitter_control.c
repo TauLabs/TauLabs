@@ -612,7 +612,7 @@ static void process_transmitter_events(ManualControlCommandData * cmd, ManualCon
 
 	valid &= cmd->Connected == MANUALCONTROLCOMMAND_CONNECTED_TRUE;
 
-  	switch(arm_state) {
+	switch(arm_state) {
 	case ARM_STATE_DISARMED:
 	{
 		set_armed_if_changed(FLIGHTSTATUS_ARMED_DISARMED);
@@ -626,6 +626,12 @@ static void process_transmitter_events(ManualControlCommandData * cmd, ManualCon
 			if (!last_arm) {
 				armedDisarmStart = lastSysTime;
 				arm_state = ARM_STATE_ARMED;
+			}
+		} else if (arm && (settings->Arming == MANUALCONTROLSETTINGS_ARMING_SWITCHTHROTTLEDELAY ||
+				settings->Arming == MANUALCONTROLSETTINGS_ARMING_SWITCHDELAY)) {
+			if (!last_arm) {
+				armedDisarmStart = lastSysTime;
+				arm_state = ARM_STATE_ARMING;
 			}
 		} else if (arm) {
 			armedDisarmStart = lastSysTime;
@@ -646,7 +652,12 @@ static void process_transmitter_events(ManualControlCommandData * cmd, ManualCon
 			(settings->ArmTime == MANUALCONTROLSETTINGS_ARMTIME_1000) ? 1000 : \
 			(settings->ArmTime == MANUALCONTROLSETTINGS_ARMTIME_2000) ? 2000 : 1000;
 		if (arm && timeDifferenceMs(armedDisarmStart, lastSysTime) > arm_time) {
-			arm_state = ARM_STATE_ARMED_STILL_HOLDING;
+			if (settings->Arming == MANUALCONTROLSETTINGS_ARMING_SWITCHTHROTTLEDELAY ||
+					settings->Arming == MANUALCONTROLSETTINGS_ARMING_SWITCHDELAY) {
+				arm_state = ARM_STATE_ARMED;
+			} else {
+				arm_state = ARM_STATE_ARMED_STILL_HOLDING;
+			}
 		} else if (!arm) {
 			arm_state = ARM_STATE_DISARMED;
 		}
