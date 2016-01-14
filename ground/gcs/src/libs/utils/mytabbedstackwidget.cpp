@@ -61,7 +61,11 @@ MyTabbedStackWidget::MyTabbedStackWidget(QWidget *parent, bool isVertical, bool 
     if (m_iconAbove && m_vertical) {
         m_listWidget->setFixedWidth(91); // this should be computed instead
         m_listWidget->setWrapping(false);
-        m_listWidget->setStyleSheet(QString("QScrollBar:vertical { width: 12px; }"));
+        // make the scrollbar small and similar to OS X so it doesn't overlay the icons
+        m_listWidget->setStyleSheet(QString("QScrollBar:vertical { width: 6px; border-width: 0px; background: none; margin: 2px 0px 2px 0px; }"
+                                            "QScrollBar::handle:vertical { background: #5c5c5c; border-radius: 3px; }"
+                                            "QScrollBar::add-line:vertical { width: 0; height: 0; }"
+                                            "QScrollBar::sub-line:vertical { width: 0; height: 0 }"));
     }
 
     toplevelLayout->setSpacing(0);
