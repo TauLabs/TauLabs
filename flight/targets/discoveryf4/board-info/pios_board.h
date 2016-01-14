@@ -110,8 +110,8 @@ extern uint32_t pios_i2c_gyro_accel_adapter_id;
 //
 // See also pios_board.c
 //-------------------------
-extern uintptr_t pios_com_telem_rf_id;
-#define PIOS_COM_TELEM_RF               (pios_com_telem_rf_id)
+extern uintptr_t pios_com_telem_serial_id;
+#define PIOS_COM_TELEM_RF               (pios_com_telem_serial_id)
 
 #if defined(PIOS_INCLUDE_DEBUG_CONSOLE)
 extern uintptr_t pios_com_debug_id;
@@ -168,19 +168,24 @@ extern uintptr_t pios_com_telem_usb_id;
 // PIOS_RCVR
 // See also pios_board.c
 //------------------------
-#define PIOS_RCVR_MAX_CHANNELS       12
-#define PIOS_GCSRCVR_TIMEOUT_MS     100
+#define PIOS_RCVR_MAX_CHANNELS                  12
+#define PIOS_GCSRCVR_TIMEOUT_MS                 100
+
+//-------------------------
+// Receiver PPM input
+//-------------------------
+#define PIOS_PPM_NUM_INPUTS	                    12
 
 //--------------------------
 // Timer controller settings
 //--------------------------
-#define PIOS_TIM_MAX_DEVS			6
+#define PIOS_TIM_MAX_DEVS                       6
 
 //-------------------------
 // ADC
 //-------------------------
 #define PIOS_ADC_SUB_DRIVER_MAX_INSTANCES       3
-#define VREF_PLUS				3.0f
+#define VREF_PLUS                               3.0f
 
 //-------------------------
 // USB
