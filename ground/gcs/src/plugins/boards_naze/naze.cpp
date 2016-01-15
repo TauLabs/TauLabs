@@ -215,3 +215,22 @@ enum Core::IBoardType::InputType Naze::getInputOnPort(int port_num)
         return INPUT_TYPE_UNKNOWN;
     }
 }
+
+QStringList Naze::getAdcNames()
+{
+    ExtensionSystem::PluginManager *pm = ExtensionSystem::PluginManager::instance();
+    UAVObjectManager *uavoManager = pm->getObject<UAVObjectManager>();
+    HwNaze *hwNaze = HwNaze::GetInstance(uavoManager);
+    Q_ASSERT(hwNaze);
+    if (!hwNaze)
+        return QStringList();
+
+    QStringList names = QStringList() << "Batt" << "ADC/ADC5 Pad";
+    HwNaze::DataFields settings = hwNaze->getData();
+    if (settings.RcvrPort == HwNaze::RCVRPORT_PPM || settings.RcvrPort == HwNaze::RCVRPORT_PPMSERIAL || settings.RcvrPort == HwNaze::RCVRPORT_SERIAL)
+        names << "RC In 2" << "RC In 8";
+    else
+        names << "Disabled" << "Disabled";
+
+    return names;
+}
