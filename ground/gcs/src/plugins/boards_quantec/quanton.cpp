@@ -136,3 +136,24 @@ int Quanton::queryMaxGyroRate()
         return 500;
     }
 }
+
+QStringList Quanton::getAdcNames()
+{
+    ExtensionSystem::PluginManager *pm = ExtensionSystem::PluginManager::instance();
+    UAVObjectManager *uavoManager = pm->getObject<UAVObjectManager>();
+    HwQuanton *hwQuanton = HwQuanton::GetInstance(uavoManager);
+    Q_ASSERT(hwQuanton);
+    if (!hwQuanton)
+        return QStringList();
+
+    HwQuanton::DataFields settings = hwQuanton->getData();
+    if (settings.RcvrPort == HwQuanton::RCVRPORT_OUTPUTSADC ||
+            settings.RcvrPort == HwQuanton::RCVRPORT_PPMADC ||
+            settings.RcvrPort == HwQuanton::RCVRPORT_PPMOUTPUTSADC ||
+            settings.RcvrPort == HwQuanton::RCVRPORT_PPMPWMADC ||
+            settings.RcvrPort == HwQuanton::RCVRPORT_PWMADC) {
+        return QStringList() << "IN 7" << "IN 8";
+    }
+
+    return QStringList() << "Disabled" << "Disabled";
+}
