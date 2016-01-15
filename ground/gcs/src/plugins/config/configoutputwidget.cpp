@@ -48,6 +48,7 @@
 #include "uavsettingsimportexport/uavsettingsimportexportfactory.h"
 #include <extensionsystem/pluginmanager.h>
 #include <coreplugin/generalsettings.h>
+#include <coreplugin/modemanager.h>
 
 ConfigOutputWidget::ConfigOutputWidget(QWidget *parent) : ConfigTaskWidget(parent)
 {
@@ -59,8 +60,23 @@ ConfigOutputWidget::ConfigOutputWidget(QWidget *parent) : ConfigTaskWidget(paren
     if(!settings->useExpertMode())
         m_config->saveRCOutputToRAM->setVisible(false);
 
+    /* There's lots of situations where it's unsafe to run tests.
+     * Import/export:
+     */
     UAVSettingsImportExportFactory * importexportplugin =  pm->getObject<UAVSettingsImportExportFactory>();
     connect(importexportplugin,SIGNAL(importAboutToBegin()),this,SLOT(stopTests()));
+
+    /* Board connection/disconnection: */
+    TelemetryManager* telMngr = pm->getObject<TelemetryManager>();
+    connect(telMngr, SIGNAL(connected()), this, SLOT(stopTests()));
+    connect(telMngr, SIGNAL(disconnected()), this, SLOT(stopTests()));
+
+    /* When we go into wizards, etc.. time to stop this too. */
+    Core::ModeManager *modeMngr = Core::ModeManager::instance();
+    connect(modeMngr, SIGNAL(currentModeAboutToChange(Core::IMode *)), this,
+		SLOT(stopTests()));
+    connect(modeMngr, SIGNAL(currentModeChanged(Core::IMode *)), this,
+		SLOT(stopTests()));
 
     // NOTE: we have channel indices from 0 to 9, but the convention for OP is Channel 1 to Channel 10.
     // Register for ActuatorSettings changes:
@@ -608,18 +624,11 @@ void ConfigOutputWidget::openHelp()
 
 void ConfigOutputWidget::stopTests()
 {
-    m_config->channelOutTest->setChecked(false);
-}
-
-void ConfigOutputWidget::disableIfNotMe(UAVObject* obj)
-{
-    if(UAVObject::GetGcsTelemetryUpdateMode(obj->getMetadata()) == UAVObject::UPDATEMODE_ONCHANGE)
-    {
-        if(!wasItMe)
-            this->setEnabled(false);
+    if (m_config->channelOutTest->isChecked()) {
+        qDebug() << "Output testing stopped by signal of incompatible mode";
     }
-    else
-        this->setEnabled(true);
+
+    m_config->channelOutTest->setChecked(false);
 }
 
 /**
