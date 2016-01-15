@@ -1380,6 +1380,26 @@ channel value for each flight mode.</string>
                </layout>
               </item>
               <item>
+               <widget class="QLabel" name="label_3">
+                <property name="text">
+                 <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Airframe disarm is done by throttle off and opposite of above combination, except in the case of the switch option. For switch only the throttle is ignored. Note: In switch configuration without delay, zeroing the gyros while arming is not possible.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                </property>
+                <property name="wordWrap">
+                 <bool>true</bool>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLabel" name="lblThrottleCheckWarn">
+                <property name="text">
+                 <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:14pt; font-weight:600; color:#ff0000;&quot;&gt;WARNING: This arming configuration ignores the throttle position!&lt;/span&gt;&lt;span style=&quot; font-size:14pt;&quot;&gt; It will be possible to arm at full throttle. If this is not your intention please select an option containing &amp;quot;+Throttle&amp;quot;.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                </property>
+                <property name="wordWrap">
+                 <bool>true</bool>
+                </property>
+               </widget>
+              </item>
+              <item>
                <layout class="QHBoxLayout" name="horizontalLayout_2">
                 <item>
                  <widget class="QLabel" name="label_18">
@@ -1424,9 +1444,9 @@ channel value for each flight mode.</string>
                </layout>
               </item>
               <item>
-               <widget class="QLabel" name="label_3">
+               <widget class="QLabel" name="label_4">
                 <property name="text">
-                 <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Airframe disarm is done by throttle off and opposite of above combination, except in the case of the switch option. For switch only the throttle is ignored. Note: In switch configuration without delay, zeroing the gyros while arming is not possible. &lt;/p&gt;&lt;p&gt;The arming timeout applies when the vehicle is armed but at minimum throttle. The vehicle will be automatically disarmed if left at minimum throttle longer than the duration of this timeout. The timeout may be disabled by setting it to zero, but this is &lt;span style=&quot; font-weight:600;&quot;&gt;not recommended&lt;/span&gt; for multirotors.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                 <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The arming timeout applies when the vehicle is armed but at minimum throttle. The vehicle will be automatically disarmed if left at minimum throttle longer than the duration of this timeout. The timeout may be disabled by setting it to zero, but this is &lt;span style=&quot; font-weight:600;&quot;&gt;not recommended&lt;/span&gt; for multirotors.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                 </property>
                 <property name="wordWrap">
                  <bool>true</bool>
