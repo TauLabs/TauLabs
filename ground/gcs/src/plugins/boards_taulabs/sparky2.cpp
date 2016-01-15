@@ -344,3 +344,8 @@ bool Sparky2::bindRadio(quint32 id, quint32 baud_rate, float rf_power,
 
     return true;
 }
+
+QStringList Sparky2::getAdcNames()
+{
+    return QStringList() << "Analog CUR" << "Analog VOLT";
+}
