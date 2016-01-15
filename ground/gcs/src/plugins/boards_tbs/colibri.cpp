@@ -238,3 +238,24 @@ enum Core::IBoardType::InputType Colibri::getInputOnPort(int port_num)
     }
 
 }
+
+QStringList Colibri::getAdcNames()
+{
+    ExtensionSystem::PluginManager *pm = ExtensionSystem::PluginManager::instance();
+    UAVObjectManager *uavoManager = pm->getObject<UAVObjectManager>();
+    HwColibri *hwColibri = HwColibri::GetInstance(uavoManager);
+    Q_ASSERT(hwColibri);
+    if (!hwColibri)
+        return QStringList();
+
+    HwColibri::DataFields settings = hwColibri->getData();
+    if (settings.RcvrPort == HwColibri::RCVRPORT_OUTPUTSADC ||
+            settings.RcvrPort == HwColibri::RCVRPORT_PPMADC ||
+            settings.RcvrPort == HwColibri::RCVRPORT_PPMOUTPUTSADC ||
+            settings.RcvrPort == HwColibri::RCVRPORT_PPMPWMADC ||
+            settings.RcvrPort == HwColibri::RCVRPORT_PWMADC) {
+        return QStringList() << "IN 7" << "IN 8";
+    }
+
+    return QStringList() << "Disabled" << "Disabled";
+}
