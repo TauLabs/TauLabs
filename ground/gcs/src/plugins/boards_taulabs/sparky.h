@@ -68,6 +68,7 @@ public:
     virtual QString getConnectionDiagram() { return ":/taulabs/images/sparky-connection-diagram.svg"; }
 
     virtual int queryMaxGyroRate();
+    virtual QStringList getAdcNames();
 
 };
 
