@@ -12,7 +12,9 @@ class inputChannelForm : public ConfigTaskWidget
     Q_OBJECT
 
 public:
-    explicit inputChannelForm(QWidget *parent = 0,bool showlegend=false,bool showSlider=true);
+    typedef enum { CHANNELFUNC_RC, CHANNELFUNC_RSSI } ChannelFunc;
+
+    explicit inputChannelForm(QWidget *parent = 0, bool showlegend=false, bool showSlider=true, ChannelFunc chanType = CHANNELFUNC_RC);
     ~inputChannelForm();
     friend class ConfigInputWidget;
     void setName(QString &name);
@@ -24,6 +26,7 @@ private slots:
 
 private:
     Ui::inputChannelForm *ui;
+    ChannelFunc m_chanType;
 };
 
 #endif // INPUTCHANNELFORM_H

@@ -99,7 +99,7 @@ ConfigInputWidget::ConfigInputWidget(QWidget *parent) : ConfigTaskWidget(parent)
     }
 
     // RSSI
-    inputChannelForm * inpForm=new inputChannelForm(this,false,false);
+    inputChannelForm * inpForm = new inputChannelForm(this, false, false, inputChannelForm::CHANNELFUNC_RSSI);
     m_config->channelSettings->layout()->addWidget(inpForm);
     QString name = "RSSI";
     inpForm->setName(name);
