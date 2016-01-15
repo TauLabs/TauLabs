@@ -1138,7 +1138,7 @@ QVariant ConfigTaskWidget::getVariantFromWidget(QWidget * widget,double scale)
 {
     if(QComboBox * comboBox=qobject_cast<QComboBox *>(widget))
     {
-        return (QString)comboBox->currentText();
+        return comboBox->currentData();
     }
     else if(QDoubleSpinBox * dblSpinBox=qobject_cast<QDoubleSpinBox *>(widget))
     {
@@ -1178,7 +1178,7 @@ bool ConfigTaskWidget::setWidgetFromVariant(QWidget *widget, QVariant value, dou
 {
     if(QComboBox * comboBox=qobject_cast<QComboBox *>(widget))
     {
-        comboBox->setCurrentIndex(comboBox->findText(value.toString()));
+        comboBox->setCurrentIndex(comboBox->findData(value.toString()));
         return true;
     }
     else if(QLabel * label=qobject_cast<QLabel *>(widget))
@@ -1268,8 +1268,8 @@ void ConfigTaskWidget::checkWidgetsLimits(QWidget * widget,UAVObjectField * fiel
         widget->setProperty("wasOverLimits",(bool)true);
         if(QComboBox * cb=qobject_cast<QComboBox *>(widget))
         {
-            if(cb->findText(value.toString())==-1)
-                cb->addItem(value.toString());
+            if(cb->findData(value.toString())==-1)
+                cb->addItem(value.toString(), value);
         }
         else if(QDoubleSpinBox * cb=qobject_cast<QDoubleSpinBox *>(widget))
         {
@@ -1330,16 +1330,11 @@ void ConfigTaskWidget::loadWidgetLimits(QWidget * widget,UAVObjectField * field,
     {
         cb->clear();
         QStringList option=field->getOptions();
-        if(hasLimits)
+        foreach(QString str,option)
         {
-            foreach(QString str,option)
-            {
-                if(field->isWithinLimits(str,index,currentBoard))
-                    cb->addItem(str);
-            }
+            if(!hasLimits || field->isWithinLimits(str,index,currentBoard))
+                cb->addItem(str, str);
         }
-        else
-            cb->addItems(option);
     }
     if(!hasLimits)
         return;
