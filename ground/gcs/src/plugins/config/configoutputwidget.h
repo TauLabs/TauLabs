@@ -72,6 +72,8 @@ private:
 
     UAVObject::Metadata accInitialData;
 
+    virtual void tabSwitchingAway();
+
 private slots:
     void stopTests();
     virtual void refreshWidgetsValues(UAVObject * obj=NULL);

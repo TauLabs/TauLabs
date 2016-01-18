@@ -622,6 +622,11 @@ void ConfigOutputWidget::openHelp()
     QDesktopServices::openUrl( QUrl("https://github.com/TauLabs/TauLabs/wiki/OnlineHelp:-Output-Configuration", QUrl::StrictMode) );
 }
 
+void ConfigOutputWidget::tabSwitchingAway()
+{
+    stopTests();
+}
+
 void ConfigOutputWidget::stopTests()
 {
     if (m_config->channelOutTest->isChecked()) {

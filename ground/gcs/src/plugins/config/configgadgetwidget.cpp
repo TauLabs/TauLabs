@@ -232,6 +232,8 @@ void ConfigGadgetWidget::tabAboutToChange(int i, bool * proceed)
         return;
     }
 
+    wid->tabSwitchingAway();
+
     // Check if widget is dirty (i.e. has unsaved changes)
     if(wid->isDirty() && wid->isAutopilotConnected())
     {
