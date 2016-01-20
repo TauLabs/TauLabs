@@ -48,7 +48,8 @@ public:
         Plot2dData(uavObject, uavField){curve = 0;}
     ~ScatterplotData(){}
 
-    virtual void clearPlots(PlotData *);
+    virtual void deletePlots(PlotData *);
+    void clearPlots();
 
     void setCurve(QwtPlotCurve *val){curve = val;}
 

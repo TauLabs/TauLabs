@@ -93,6 +93,7 @@ public:
     void startTimer(int);
     QwtPlotGrid *m_grid;
     QwtLegend *m_legend;
+    void setScopeName(QString val) {scopeName = val;}
 
 protected:
     void mousePressEvent(QMouseEvent *e);
@@ -108,6 +109,10 @@ private slots:
     void showCurve(const QVariant & itemInfo, bool on, int index);
     void startPlotting();
     void stopPlotting();
+    void popUpMenu(const QPoint &mousePosition);
+    void clearPlot();
+    void copyToClipboardAsImage();
+    void showOptionDialog();
 
 private:
     QMutex mutex;
@@ -117,7 +122,7 @@ private:
     double m_xWindowSize;
     static QTimer *replotTimer;
     QList<QString> m_connectedUAVObjects;
-
+    QString scopeName;
 };
 
 

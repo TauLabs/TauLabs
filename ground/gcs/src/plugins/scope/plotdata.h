@@ -82,7 +82,8 @@ public:
     virtual void setUpdatedFlagToTrue() = 0;
     virtual bool readAndResetUpdatedFlag() = 0;
     virtual void plotNewData(PlotData *, ScopeConfig *, ScopeGadgetWidget *) = 0;
-    virtual void clearPlots(PlotData *) = 0;
+    virtual void deletePlots(PlotData *) = 0;
+    virtual void clearPlots() = 0;
 
     QwtScaleWidget *rightAxis;
 
