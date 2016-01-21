@@ -33,6 +33,7 @@
 				<option>FrSKY SPort Telemetry</option>
 				<option>LighttelemetryTx</option>
 				<option>PicoC</option>
+				<option>OpenLog</option>
 			</options>
 		</field>
 		<field name="FlexiPort" units="function" type="enum" elements="1" parent="HwShared.PortTypes" defaultvalue="Disabled">
@@ -54,6 +55,7 @@
 				<option>FrSKY SPort Telemetry</option>
 				<option>LighttelemetryTx</option>
 				<option>PicoC</option>
+				<option>OpenLog</option>
 			</options>
 		</field>
 

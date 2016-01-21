@@ -93,6 +93,7 @@
 #define PIOS_INCLUDE_FRSKY_SPORT_TELEMETRY
 #define PIOS_INCLUDE_DAC_BEEPS
 #define PIOS_INCLUDE_FSK
+#define PIOS_INCLUDE_OPENLOG
 
 /* Supported receiver interfaces */
 #define PIOS_INCLUDE_RCVR
