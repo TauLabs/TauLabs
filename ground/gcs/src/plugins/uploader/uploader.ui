@@ -149,11 +149,14 @@ Rescue is possible in USB mode only.</string>
     <layout class="QHBoxLayout" name="horizontalLayout_2">
      <item>
       <widget class="QLabel" name="statusPic">
+       <property name="maximumSize">
+        <size>
+         <width>48</width>
+         <height>48</height>
+        </size>
+       </property>
        <property name="text">
         <string/>
-       </property>
-       <property name="scaledContents">
-        <bool>true</bool>
        </property>
       </widget>
      </item>
