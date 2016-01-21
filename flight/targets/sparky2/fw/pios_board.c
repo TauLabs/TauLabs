@@ -151,6 +151,10 @@ static void panic(int32_t code) {
 	PIOS_HAL_Panic(PIOS_LED_ALARM, code);
 }
 
+/**
+ * Set the external pins high that go to the VTX module
+ * and set the FPV frequency it transmits at
+ */
 void set_vtx_channel(HwSparky2VTX_ChOptions channel)
 {
 	uint8_t chan = 0;
