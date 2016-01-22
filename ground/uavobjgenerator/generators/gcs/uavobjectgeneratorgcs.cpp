@@ -57,6 +57,7 @@ bool UAVObjectGeneratorGCS::generate(UAVObjectParser* parser,QString templatepat
         process_object(info);
 
         gcsObjInit.append("    objMngr->registerObject( new " + info->name + "() );\n");
+        gcsObjInit.append("    qmlRegisterType<" + info->name + ">(\"com.dronin.uavo\", 1, 0, \"" + info->name + "Class\");\n");
         objInc.append("#include \"" + info->namelc + ".h\"\n");
     }
 
