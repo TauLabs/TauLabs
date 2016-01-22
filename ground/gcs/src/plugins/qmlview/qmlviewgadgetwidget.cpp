@@ -45,24 +45,13 @@ QmlViewGadgetWidget::QmlViewGadgetWidget(QWindow *parent) :
 {
     setResizeMode(SizeRootObjectToView);
 
-    QStringList objectsToExport;
-    objectsToExport << "VelocityActual" <<
-                       "PositionActual" <<
-                       "AttitudeActual" <<
-                       "GPSPosition" <<
-                       "GCSTelemetryStats" <<
-                       "FlightBatteryState";
-
     ExtensionSystem::PluginManager *pm = ExtensionSystem::PluginManager::instance();
     UAVObjectManager *objManager = pm->getObject<UAVObjectManager>();
 
-    foreach (const QString &objectName, objectsToExport) {
-        UAVObject* object = objManager->getObject(objectName);
-        if (object)
-            engine()->rootContext()->setContextProperty(objectName, object);
-        else
-            qWarning() << "Failed to load object" << objectName;
-    }
+    QVector<QVector<UAVObject*>> objects = objManager->getObjectsVector();
+
+    foreach (const QVector<UAVObject*> &objInst, objects)
+        engine()->rootContext()->setContextProperty(objInst.at(0)->getName(), objInst.at(0));
 
     engine()->rootContext()->setContextProperty("qmlWidget", this);
 }
