@@ -45,7 +45,8 @@
 // Private types
 
 // Private variables
-static struct pios_queue *queue;
+static struct pios_queue *queue_gimbal_cmd;
+static struct pios_queue *queue_roll_pitch;
 static struct pios_thread *gimbalControlTaskHandle;
 static bool module_enabled;
 
@@ -54,8 +55,6 @@ static void    gimbalControlTask(void *parameters);
 
 // External variables
 extern uintptr_t pios_can_id;
-
-static struct pios_queue *queue_roll_pitch;
 
 /**
  * Initialise the UAVORelay module
@@ -75,7 +74,7 @@ int32_t GimbalControlInitialize(void)
 		return -1;
 
 	// Create object queues
-	queue = PIOS_CAN_RegisterMessageQueue(pios_can_id, PIOS_CAN_GIMBAL);
+	queue_gimbal_cmd = PIOS_CAN_RegisterMessageQueue(pios_can_id, PIOS_CAN_GIMBAL);
 	queue_roll_pitch = PIOS_CAN_RegisterMessageQueue(pios_can_id, PIOS_CAN_ATTITUDE_ROLL_PITCH);
 
 	BrushlessGimbalSettingsInitialize();
@@ -120,7 +119,7 @@ static void gimbalControlTask(void *parameters)
 		struct pios_can_roll_pitch_message roll_pitch_message;
 
 		// Wait for queue message
-		if (PIOS_Queue_Receive(queue, &bgc_message, 5) == true) {
+		if (PIOS_Queue_Receive(queue_gimbal_cmd, &bgc_message, 5) == true) {
 			CameraDesiredData cameraDesired;
 			CameraDesiredGet(&cameraDesired);
 
