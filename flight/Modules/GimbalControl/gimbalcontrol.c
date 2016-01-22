@@ -31,8 +31,10 @@
 #include "modulesettings.h"
 #include "pios_can.h"
 
+#include "attitudeactual.h"
 #include "brushlessgimbalsettings.h"
 #include "cameradesired.h"
+
 #include "pios_thread.h"
 #include "pios_queue.h"
 
@@ -53,6 +55,8 @@ static void    gimbalControlTask(void *parameters);
 // External variables
 extern uintptr_t pios_can_id;
 
+static struct pios_queue *queue_roll_pitch;
+
 /**
  * Initialise the UAVORelay module
  * \return -1 if initialisation failed
@@ -72,9 +76,12 @@ int32_t GimbalControlInitialize(void)
 
 	// Create object queues
 	queue = PIOS_CAN_RegisterMessageQueue(pios_can_id, PIOS_CAN_GIMBAL);
+	queue_roll_pitch = PIOS_CAN_RegisterMessageQueue(pios_can_id, PIOS_CAN_ATTITUDE_ROLL_PITCH);
 
 	BrushlessGimbalSettingsInitialize();
 	CameraDesiredInitialize();
+	AttitudeActualInitialize();
+
 
 	return 0;
 }
@@ -110,6 +117,7 @@ static void gimbalControlTask(void *parameters)
 	while (1) {
 
 		struct pios_can_gimbal_message bgc_message;
+		struct pios_can_roll_pitch_message roll_pitch_message;
 
 		// Wait for queue message
 		if (PIOS_Queue_Receive(queue, &bgc_message, 5) == true) {
@@ -122,6 +130,12 @@ static void gimbalControlTask(void *parameters)
 			cameraDesired.Pitch = bgc_message.fc_pitch;
 			cameraDesired.Yaw = bgc_message.fc_yaw;
 			CameraDesiredSet(&cameraDesired);
+		} else if (PIOS_Queue_Receive(queue_roll_pitch, &roll_pitch_message, 0) == true) {
+			AttitudeActualData attitudeActual;
+			AttitudeActualGet(&attitudeActual);
+			attitudeActual.Roll = roll_pitch_message.fc_roll;
+			attitudeActual.Pitch = roll_pitch_message.fc_pitch;
+			AttitudeActualSet(&attitudeActual);
 		}
 
 	}
