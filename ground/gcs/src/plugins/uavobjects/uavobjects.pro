@@ -1,6 +1,7 @@
 TEMPLATE = lib
 TARGET = UAVObjects
 DEFINES += UAVOBJECTS_LIBRARY
+QT += qml
 include(../../taulabsgcsplugin.pri)
 include(uavobjects_dependencies.pri)
 
