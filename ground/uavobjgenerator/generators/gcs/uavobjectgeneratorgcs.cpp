@@ -32,6 +32,10 @@ bool UAVObjectGeneratorGCS::generate(UAVObjectParser* parser,QString templatepat
     fieldTypeStrCPP << "qint8" << "qint16" << "qint32" <<
         "quint8" << "quint16" << "quint32" << "float" << "quint8";
 
+    // work around Qt bug 37241 by not exporting 8-bit ints to QML
+    fieldTypeStrQML << "qint16" << "qint16" << "qint32" <<
+        "quint16" << "quint16" << "quint32" << "float" << "quint16";
+
     fieldTypeStrCPPClass << "INT8" << "INT16" << "INT32"
         << "UINT8" << "UINT16" << "UINT32" << "FLOAT32" << "ENUM";
 
@@ -164,6 +168,7 @@ bool UAVObjectGeneratorGCS::process_object(ObjectInfo* info)
 
         // Determine type
         type = fieldTypeStrCPP[field->type];
+        QString qmlType = fieldTypeStrQML[field->type];
         // Append field
         if ( field->numElements > 1 ) {
             //add both field(elementIndex)/setField(elemntIndex,value) and field_element properties
@@ -199,7 +204,7 @@ bool UAVObjectGeneratorGCS::process_object(ObjectInfo* info)
             for (int elementIndex = 0; elementIndex < field->numElements; elementIndex++) {
                 QString elementName = field->elementNames[elementIndex];
                 properties += QString("    Q_PROPERTY(%1 %2 READ get%2 WRITE set%2 NOTIFY %2Changed);\n")
-                        .arg(type).arg(field->name+"_"+elementName);
+                        .arg(qmlType).arg(field->name+"_"+elementName);
                 propertyGetters +=
                         QString("    Q_INVOKABLE %1 get%2_%3() const;\n")
                         .arg(type).arg(field->name).arg(elementName);
@@ -233,7 +238,7 @@ bool UAVObjectGeneratorGCS::process_object(ObjectInfo* info)
             }
         } else {
             properties += QString("    Q_PROPERTY(%1 %2 READ get%2 WRITE set%2 NOTIFY %2Changed);\n")
-                    .arg(type).arg(field->name);
+                    .arg(qmlType).arg(field->name);
             propertyGetters +=
                     QString("    Q_INVOKABLE %1 get%2() const;\n")
                     .arg(type).arg(field->name);
