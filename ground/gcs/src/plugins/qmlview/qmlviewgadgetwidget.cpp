@@ -68,6 +68,8 @@ void QmlViewGadgetWidget::setQmlFile(QString fn)
     SvgImageProvider *svgProvider = new SvgImageProvider(fn);
     engine()->addImageProvider("svg", svgProvider);
 
+    engine()->clearComponentCache();
+
     //it's necessary to allow qml side to query svg element position
     engine()->rootContext()->setContextProperty("svgRenderer", svgProvider);
     engine()->setBaseUrl(QUrl::fromLocalFile(fn));
@@ -78,5 +80,15 @@ void QmlViewGadgetWidget::setQmlFile(QString fn)
     foreach(const QQmlError &error, errors()) {
         qDebug() << error.description();
     }
+}
+
+void QmlViewGadgetWidget::mouseReleaseEvent(QMouseEvent *event)
+{
+    // Reload the schene on the middle mouse button click.
+    if (event->button() == Qt::MiddleButton) {
+        setQmlFile(m_fn);
+    }
+
+    QQuickView::mouseReleaseEvent(event);
 }
 

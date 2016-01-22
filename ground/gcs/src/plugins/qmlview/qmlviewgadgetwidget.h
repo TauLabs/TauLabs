@@ -51,6 +51,9 @@ public:
 
    void enableSmoothUpdates(bool flag) { beSmooth = flag; }
 
+protected:
+    void mouseReleaseEvent(QMouseEvent *event);
+
 private:
    bool beSmooth;
    QString m_fn;
