@@ -42,7 +42,7 @@ private:
             const QString& fieldName, const QString& option);
 
     QString gcsCodeTemplate,gcsIncludeTemplate;
-    QStringList fieldTypeStrCPP,fieldTypeStrCPPClass;
+    QStringList fieldTypeStrCPP, fieldTypeStrQML,fieldTypeStrCPPClass;
     QDir gcsCodePath;
     QDir gcsOutputPath;
 };
