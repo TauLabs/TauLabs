@@ -72,7 +72,6 @@
 #include "pios_video.h"
 
 #include "physical_constants.h"
-#include "sin_lookup.h"
 
 #include "accels.h"
 #include "accessorydesired.h"
@@ -511,12 +510,12 @@ void simple_artifical_horizon(float roll, float pitch, int16_t x, int16_t y, int
 	int16_t pp_y; // pitch point y
 
 	if (roll > 0) {
-		sin_roll    = sin_lookup_deg(roll);
-		cos_roll    = cos_lookup_deg(roll);
+		sin_roll    = sinf(roll * (float)(M_PI / 180));
+		cos_roll    = cosf(roll * (float)(M_PI / 180));
 	}
 	else {
-		sin_roll    = -1 * sin_lookup_deg(-1 * roll);
-		cos_roll    = cos_lookup_deg(-1 * roll);
+		sin_roll    = -1 * sinf(-1 * roll * (float)(M_PI / 180));
+		cos_roll    = cosf(-1 * roll * (float)(M_PI / 180));
 	}
 
 	// roll to pitch transformation
@@ -786,14 +785,14 @@ void draw_map_home_center(int width_px, int height_px, int width_m, int height_m
 		rot = yaw - 210;
 		if (rot < 0)
 			rot += 360;
-		x = p_east_draw + 10.f * sin_lookup_deg(rot);
-		y = p_north_draw - 10.f * cos_lookup_deg(rot);
+		x = p_east_draw + 10.f * sinf(rot * (float)(M_PI / 180));
+		y = p_north_draw - 10.f * cosf(rot * (float)(M_PI / 180));
 		write_line_outlined(p_east_draw, p_north_draw, x, y, 2, 0, 0, 1);
 		rot = yaw - 150;
 		if (rot < 0)
 			rot += 360;
-		x = p_east_draw + 10 * sin_lookup_deg(rot);
-		y = p_north_draw - 10 * cos_lookup_deg(rot);
+		x = p_east_draw + 10 * sinf(rot * (float)(M_PI / 180));
+		y = p_north_draw - 10 * cosf(rot * (float)(M_PI / 180));
 		write_line_outlined(p_east_draw, p_north_draw, x, y, 2, 0, 0, 1);
 	}
 }
@@ -821,8 +820,8 @@ void draw_map_uav_center(int width_px, int height_px, int width_m, int height_m,
 	PositionActualEastGet(&p_east);
 	if (yaw < 0)
 		yaw += 360;
-	sin_yaw = sin_lookup_deg(yaw);
-	cos_yaw = cos_lookup_deg(yaw);
+	sin_yaw = sinf(yaw * (float)(M_PI / 180));
+	cos_yaw = cosf(yaw * (float)(M_PI / 180));
 
 	// Draw waypoints
 	if ((module_state[MODULESETTINGS_ADMINSTATE_PATHPLANNER] == MODULESETTINGS_ADMINSTATE_ENABLED) && show_wp) {
