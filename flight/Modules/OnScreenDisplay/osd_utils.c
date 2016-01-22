@@ -35,7 +35,6 @@
 #include "font12x18.h"
 #include "font8x10.h"
 #include "osd_utils.h"
-#include "sin_lookup.h"
 #include "physical_constants.h"
 #include "math.h"
 #include "misc_math.h"
@@ -126,8 +125,8 @@ void ellipse(int centerX, int centerY, int horizontalRadius, int verticalRadius)
 
 void drawArrow(uint16_t x, uint16_t y, uint16_t angle, uint16_t size_quarter)
 {
-	float sin_angle = sin_lookup_deg(angle);
-	float cos_angle = cos_lookup_deg(angle);
+	float sin_angle = sinf(angle * (float)(M_PI / 180));
+	float cos_angle = cosf(angle * (float)(M_PI / 180));
 	int16_t peak_x  = (int16_t)(sin_angle * size_quarter * 2);
 	int16_t peak_y  = (int16_t)(cos_angle * size_quarter * 2);
 	int16_t d_end_x = (int16_t)(cos_angle * size_quarter);
