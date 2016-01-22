@@ -36,7 +36,11 @@
 //! The set of CAN messages
 enum pios_can_messages {
 	PIOS_CAN_GIMBAL = 0,
-	PIOS_CAN_LAST = 1
+	PIOS_CAN_ATTITUDE_ROLL_PITCH = 1,
+	PIOS_CAN_ATTITUDE_YAW = 2,
+	PIOS_CAN_BATTERY_VOLT = 3,
+	PIOS_CAN_BATTERY_CURR = 4,
+	PIOS_CAN_LAST = 10
 };
 
 //! Message to tell gimbal the desired setpoint and FC state
@@ -47,7 +51,28 @@ struct pios_can_gimbal_message {
 	int8_t setpoint_roll;
 	int8_t setpoint_pitch;
 	uint8_t setpoint_yaw;
-}  __attribute__((packed));;
+}  __attribute__((packed));
+
+//! Message to pass attitude information
+struct pios_can_roll_pitch_message {
+	float fc_roll;
+	float fc_pitch;
+}  __attribute__((packed));
+
+//! Message to pass attitude information
+struct pios_can_yaw_message {
+	float fc_yaw;
+}  __attribute__((packed));
+
+//! Message to pass attitude information
+struct pios_can_volt_message {
+	float batt_volt;
+}  __attribute__((packed));
+
+//! Message to pass attitude information
+struct pios_can_curr_message {
+	float fc_curr;
+}  __attribute__((packed));
 
 //! Transmit a data message with a particular message ID
 int32_t PIOS_CAN_TxData(uintptr_t id, enum pios_can_messages, uint8_t *data);
