@@ -272,9 +272,15 @@ bool UAVObjectGeneratorFlight::process_object(ObjectInfo* info)
             {
                 if ( info->fields[n]->type == FIELDTYPE_ENUM )
                 {
+                    int defaultVal;
+                    if (info->fields[n]->parent != NULL)
+                        defaultVal = info->fields[n]->parent->options.indexOf( info->fields[n]->defaultValues[0] );
+                    else
+                        defaultVal = info->fields[n]->options.indexOf( info->fields[n]->defaultValues[0] );
+
                     initfields.append( QString("\tdata.%1 = %2;\r\n")
                                 .arg( info->fields[n]->name )
-                                .arg( info->fields[n]->options.indexOf( info->fields[n]->defaultValues[0] ) ) );
+                                .arg( defaultVal ) );
                 }
                 else if ( info->fields[n]->type == FIELDTYPE_FLOAT32 )
                 {
@@ -296,10 +302,16 @@ bool UAVObjectGeneratorFlight::process_object(ObjectInfo* info)
                 {
                     if ( info->fields[n]->type == FIELDTYPE_ENUM )
                     {
+                        int defaultVal;
+                        if (info->fields[n]->parent != NULL)
+                            defaultVal = info->fields[n]->parent->options.indexOf( info->fields[n]->defaultValues[idx] );
+                        else
+                            defaultVal = info->fields[n]->options.indexOf( info->fields[n]->defaultValues[idx] );
+                        
                         initfields.append( QString("\tdata.%1[%2] = %3;\r\n")
                                     .arg( info->fields[n]->name )
                                     .arg( idx )
-                                    .arg( info->fields[n]->options.indexOf( info->fields[n]->defaultValues[idx] ) ) );
+                                    .arg( defaultVal ) );
                     }
                     else if ( info->fields[n]->type == FIELDTYPE_FLOAT32 )
                     {
