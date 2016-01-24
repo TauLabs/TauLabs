@@ -158,6 +158,7 @@ char mgrs_str[20] = {0};
 float home_baro_altitude = 0;
 static volatile bool osd_settings_updated = true;
 static volatile bool osd_page_updated = true;
+static bool blink;
 //                     small, normal, large
 const int SIZE_TO_FONT[3] = {2, 0, 3};
 
@@ -1518,6 +1519,9 @@ static void onScreenDisplayTask(__attribute__((unused)) void *parameters)
 				if (current_page != last_page)
 					osd_page_updated = true;
 			}
+
+			// decide whether to show blinking elements
+			blink = frame_counter % BLINK_INTERVAL_FRAMES < BLINK_INTERVAL_FRAMES / 2;
 
 			if (osd_page_updated) {
 				switch (current_page) {
