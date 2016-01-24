@@ -40,6 +40,7 @@
 #include <pios.h>
 #include <openpilot.h>
 #include <uavobjectsinit.h>
+#include "flightbatterysettings.h"
 #include "hwtauosd.h"
 #include "manualcontrolsettings.h"
 #include "modulesettings.h"
@@ -78,6 +79,7 @@ uintptr_t pios_com_can_id;
 uintptr_t pios_uavo_settings_fs_id;
 
 uintptr_t pios_can_id;
+uintptr_t pios_internal_adc_id = 0;
 
 
 /**
@@ -694,12 +696,19 @@ void PIOS_Board_Init(void) {
 #endif	/* PIOS_INCLUDE_USB */
 
 #if defined(PIOS_INCLUDE_ADC)
-	internal_adc_cfg.number_of_used_pins = 2;
 	uint32_t internal_adc_id;
-	if(PIOS_INTERNAL_ADC_Init(&internal_adc_id, &internal_adc_cfg) < 0)
-		PIOS_Assert(0);
+	PIOS_INTERNAL_ADC_Init(&internal_adc_id, &pios_adc_cfg);
 	PIOS_ADC_Init(&pios_internal_adc_id, &pios_internal_adc_driver, internal_adc_id);
-#endif /* PIOS_INCLUDE_ADC */
+
+	// If ADC initialized on TauOSD, go ahead and configure specifically for hardawre
+	FlightBatterySettingsInitialize();
+	FlightBatterySettingsData flightBattery;
+	FlightBatterySettingsGet(&flightBattery); // Load so that capacity and warnings can be saved
+	flightBattery.CurrentPin = FLIGHTBATTERYSETTINGS_CURRENTPIN_NONE;
+	flightBattery.VoltagePin = FLIGHTBATTERYSETTINGS_CURRENTPIN_ADC0;
+	flightBattery.SensorCalibrationFactor[0] = 130;
+	FlightBatterySettingsSet(&flightBattery);
+#endif
 
 
 #if defined(PIOS_INCLUDE_VIDEO)

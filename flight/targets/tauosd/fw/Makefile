@@ -36,6 +36,7 @@ MODULES += FirmwareIAP
 MODULES += Telemetry
 MODULES += OnScreenDisplay
 MODULES += OsdCan/OSD
+OPTMODULES += Battery
 
 # Paths
 OPUAVTALKINC = $(OPUAVTALK)/inc
