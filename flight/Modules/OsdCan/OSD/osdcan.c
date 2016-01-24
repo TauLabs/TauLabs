@@ -42,6 +42,7 @@
 #include "modulesettings.h"
 #include "positionactual.h"
 #include "systemalarms.h"
+#include "taskinfo.h"
 
 // Private constants
 #define MAX_QUEUE_SIZE 2
@@ -68,6 +69,9 @@ static struct pios_queue *queue_pos;
 static struct pios_queue *queue_sysalarm;
 static struct pios_thread *taskHandle;
 
+// queue for sending updates to FC from OSD
+static struct pios_queue *uavo_update_queue;
+
 // Private functions
 static void osdCanTask(void* parameters);
 static void enable_battery_module();
@@ -82,6 +86,12 @@ static int32_t OsdCanStart()
 	// Start main task
 	taskHandle = PIOS_Thread_Create(osdCanTask, "OsdCan", STACK_SIZE_BYTES, NULL, TASK_PRIORITY);
 	TaskMonitorAdd(TASKINFO_RUNNING_ONSCREENDISPLAYCOM, taskHandle);
+
+	// Only connect messages when modules are enabled
+	uint8_t module_state[MODULESETTINGS_ADMINSTATE_NUMELEM];
+	ModuleSettingsAdminStateGet(module_state);
+	if (FlightBatteryStateHandle() && module_state[MODULESETTINGS_ADMINSTATE_BATTERY] == MODULESETTINGS_ADMINSTATE_ENABLED)
+		FlightBatteryStateConnectQueue(uavo_update_queue);
 
 	return 0;
 }
@@ -111,6 +121,8 @@ static int32_t OsdCanInitialize()
 	queue_gps_vel = PIOS_CAN_RegisterMessageQueue(pios_can_id, PIOS_CAN_GPS_VEL);
 	queue_pos = PIOS_CAN_RegisterMessageQueue(pios_can_id, PIOS_CAN_POS);
 	queue_sysalarm = PIOS_CAN_RegisterMessageQueue(pios_can_id, PIOS_CAN_ALARM);
+
+	uavo_update_queue = PIOS_Queue_Create(3, sizeof(UAVObjEvent));
 
 	return 0;
 }
@@ -256,6 +268,29 @@ static void osdCanTask(void* parameters)
 
 			SystemAlarmsAlarmSet(alarm_status);
 
+		}
+
+		// Check if any updates should be sent to the FC. This could also be used in the future
+		// for handshaking if we implement the menu
+		UAVObjEvent ev;
+		if (PIOS_Queue_Receive(uavo_update_queue, &ev, 0)) {
+			if (ev.obj == FlightBatteryStateHandle()) {
+				// If battery monitor is not running on OSD then we are getting updates from
+				// the OSD and should not echo back
+				uint8_t task_running[TASKINFO_RUNNING_NUMELEM];
+				TaskInfoRunningGet(task_running);
+				if (task_running[TASKINFO_RUNNING_BATTERY] == TASKINFO_RUNNING_FALSE)
+					break;
+
+				FlightBatteryStateData flightBattery;
+				FlightBatteryStateGet(&flightBattery);
+
+				struct pios_can_volt_message volt = {
+					.volt = flightBattery.Voltage
+				};
+
+				PIOS_CAN_TxData(pios_can_id, PIOS_CAN_BATTERY_VOLT, (uint8_t *) &volt);
+			}
 		}
 
 		PIOS_Thread_Sleep(1);
