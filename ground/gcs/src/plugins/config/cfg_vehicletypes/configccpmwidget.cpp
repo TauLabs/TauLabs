@@ -917,7 +917,7 @@ void ConfigCcpmWidget::setMixer()
     UpdateMixer();
 
     // Set up some helper pointers
-    decltype(&mixerSettingsData.Mixer1Vector[0]) mixers[8] = {
+    decltype(&mixerSettingsData.Mixer1Vector[0]) mixers[] = {
         mixerSettingsData.Mixer1Vector,
         mixerSettingsData.Mixer2Vector,
         mixerSettingsData.Mixer3Vector,
@@ -925,10 +925,12 @@ void ConfigCcpmWidget::setMixer()
         mixerSettingsData.Mixer5Vector,
         mixerSettingsData.Mixer6Vector,
         mixerSettingsData.Mixer7Vector,
-        mixerSettingsData.Mixer8Vector
+        mixerSettingsData.Mixer8Vector,
+        mixerSettingsData.Mixer9Vector,
+        mixerSettingsData.Mixer10Vector
     };
 
-    decltype(&mixerSettingsData.Mixer1Type) mixerTypes[8] = {
+    decltype(&mixerSettingsData.Mixer1Type) mixerTypes[] = {
         &mixerSettingsData.Mixer1Type,
         &mixerSettingsData.Mixer2Type,
         &mixerSettingsData.Mixer3Type,
@@ -936,33 +938,34 @@ void ConfigCcpmWidget::setMixer()
         &mixerSettingsData.Mixer5Type,
         &mixerSettingsData.Mixer6Type,
         &mixerSettingsData.Mixer7Type,
-        &mixerSettingsData.Mixer8Type
+        &mixerSettingsData.Mixer8Type,
+        &mixerSettingsData.Mixer9Type,
+        &mixerSettingsData.Mixer10Type
     };
 
     //reset all to Disabled
-    for (i=0; i<8; i++)
-        *mixerTypes[i] = 0;
+    for (i = 0; i < 8; i++)
+        *(mixerTypes[i]) = 0;
 
     //go through the user data and update the mixer matrix
-    for (i=0;i<6;i++)
+    for (i = 0; i < 6; i++)
     {
-        if (MixerChannelData[i]>0)
+        if (MixerChannelData[i] > 0 && (uint)MixerChannelData[i] < sizeof(mixerTypes) / sizeof(mixerTypes[0]))
         {
             //Set the mixer type. If Coax, then first two are motors. Otherwise, only first is motor
-            if (TypeText.compare(QString::fromUtf8("Coax 2 Servo 90º"), Qt::CaseInsensitive)==0)
+            if (TypeText.compare(QString::fromUtf8("Coax 2 Servo 90º"), Qt::CaseInsensitive) == 0)
             {
                 *(mixerTypes[MixerChannelData[i] - 1]) = i > 1 ?
                             MixerSettings::MIXER1TYPE_SERVO :
                             MixerSettings::MIXER1TYPE_MOTOR;
-            }
-            else{
+            } else {
                 *(mixerTypes[MixerChannelData[i] - 1]) = i > 0 ?
                             MixerSettings::MIXER1TYPE_SERVO :
                             MixerSettings::MIXER1TYPE_MOTOR;
             }
 
             //Configure the vector
-            for (j=0;j<5;j++)
+            for (j = 0; j < 5; j++)
                 mixers[MixerChannelData[i] - 1][j] = m_ccpm->ccpmAdvancedSettingsTable->item(i,j+1)->text().toInt(); //TODO: Fix crash here
         }
     }
