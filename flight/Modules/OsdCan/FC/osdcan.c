@@ -42,6 +42,7 @@
 #include "positionactual.h"
 #include "manualcontrolcommand.h"
 #include "systemalarms.h"
+#include "taskinfo.h"
 
 
 //
@@ -57,7 +58,14 @@ static void osdCanTask(void* parameters);
 // Private variables
 static bool module_enabled;
 static struct pios_queue *queue;
+static struct pios_queue *queue_battery_volt; // for CAN updates from OSD
 static struct pios_thread *taskHandle;
+
+// PIOS CAN driver handle
+#if defined(PIOS_INCLUDE_CAN)
+extern uintptr_t pios_can_id;
+#endif /* PIOS_INCLUDE_CAN */
+
 
 /**
  * Initialise the module, called on startup
@@ -101,10 +109,16 @@ int32_t OsdCanStart(void)
 		if (GPSVelocityHandle() && module_state[MODULESETTINGS_ADMINSTATE_GPS] == MODULESETTINGS_ADMINSTATE_ENABLED) {
 			GPSVelocityConnectQueue(queue);
 		}
-		if (FlightBatteryStateHandle() && module_state[MODULESETTINGS_ADMINSTATE_BATTERY] == MODULESETTINGS_ADMINSTATE_ENABLED)
+		if (FlightBatteryStateHandle() && module_state[MODULESETTINGS_ADMINSTATE_BATTERY] == MODULESETTINGS_ADMINSTATE_ENABLED) {
 			FlightBatteryStateConnectQueue(queue);
+		} else {
+			// Listen for battery voltage updates from the FC
+			FlightBatteryStateInitialize();
+			queue_battery_volt = PIOS_CAN_RegisterMessageQueue(pios_can_id, PIOS_CAN_BATTERY_VOLT);
+		}
 		PositionActualConnectQueue(queue);
 		SystemAlarmsConnectQueue(queue);
+
 
 		taskHandle = PIOS_Thread_Create(osdCanTask, "OsdCan", STACK_SIZE_BYTES, NULL, TASK_PRIORITY);
 		TaskMonitorAdd(TASKINFO_RUNNING_ONSCREENDISPLAYCOM, taskHandle);
@@ -114,10 +128,6 @@ int32_t OsdCanStart(void)
 }
 
 MODULE_INITCALL(OsdCanInitialize, OsdCanStart)
-
-#if defined(PIOS_INCLUDE_CAN)
-extern uintptr_t pios_can_id;
-#endif /* PIOS_INCLUDE_CAN */
 
 /**
  * Periodic callback that processes changes in the attitude
@@ -165,6 +175,13 @@ static void osdCanTask(void* parameters)
 			PIOS_CAN_TxData(pios_can_id, PIOS_CAN_FLIGHTSTATUS, (uint8_t *) &flighstatus);
 
 		} else if (ev.obj == FlightBatteryStateHandle()) {
+
+			// If battery monitor is not running on FC then we are getting updates from
+			// the OSD and should not echo back
+			uint8_t task_running[TASKINFO_RUNNING_NUMELEM];
+			TaskInfoRunningGet(task_running);
+			if (task_running[TASKINFO_RUNNING_BATTERY] == TASKINFO_RUNNING_FALSE)
+				break;
 
 			FlightBatteryStateData flightBattery;
 			FlightBatteryStateGet(&flightBattery);
@@ -302,6 +319,13 @@ static void osdCanTask(void* parameters)
 			PIOS_CAN_TxData(pios_can_id, PIOS_CAN_ALARM, (uint8_t *) &pios_can_alarm_message);
 
 		}
+
+		// If we receive an update here the OSD is in charge of monitoring battery voltage
+		struct pios_can_volt_message pios_can_volt_message;
+		if (PIOS_Queue_Receive(queue_battery_volt, &pios_can_volt_message, 0) == true) {
+			FlightBatteryStateVoltageSet(&pios_can_volt_message.volt);
+		}
+
 
 #endif /* PIOS_INCLUDE_CAN */
 
