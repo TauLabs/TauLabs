@@ -329,41 +329,56 @@ void PIOS_RTC_IRQ_Handler (void)
 #include "pios_adc_priv.h"
 #include "pios_internal_adc_priv.h"
 
-/**
- * ADC0 : PA1 ADC1_IN2
- * ADC1 : PA4 ADC2_IN1
- * ADC2 : PA7 ADC2_IN4 (disabled by default and should have external resistor)
- */
-static struct pios_internal_adc_cfg internal_adc_cfg = {
+static void PIOS_ADC_DMA_irq_handler(void);
+void DMA2_Stream4_IRQHandler(void) __attribute__((alias("PIOS_ADC_DMA_irq_handler")));
+struct pios_internal_adc_cfg pios_adc_cfg = {
+	.adc_dev_master = ADC1,
 	.dma = {
 		.irq = {
-			.flags   = (DMA1_FLAG_TC1 | DMA1_FLAG_TE1 | DMA1_FLAG_HT1 | DMA1_FLAG_GL1),
+			.flags   = (DMA_FLAG_TCIF4 | DMA_FLAG_TEIF4 | DMA_FLAG_HTIF4),
 			.init    = {
-				.NVIC_IRQChannel                   = DMA1_Channel1_IRQn,
-				.NVIC_IRQChannelPreemptionPriority = PIOS_IRQ_PRIO_HIGH,
+				.NVIC_IRQChannel                   = DMA2_Stream4_IRQn,
+				.NVIC_IRQChannelPreemptionPriority = PIOS_IRQ_PRIO_LOW,
 				.NVIC_IRQChannelSubPriority        = 0,
 				.NVIC_IRQChannelCmd                = ENABLE,
 			},
 		},
 		.rx = {
-			.channel = DMA1_Channel1,
+			.channel = DMA2_Stream4,
 			.init    = {
-				.DMA_Priority           = DMA_Priority_High,
+				.DMA_Channel                    = DMA_Channel_0,
+				.DMA_PeripheralBaseAddr = (uint32_t) & ADC1->DR
 			},
 		}
 	},
-	.half_flag = DMA1_IT_HT1,
-	.full_flag = DMA1_IT_TC1,
-	.oversampling = 32,
-	.number_of_used_pins = 3,
-	.adc_pins = (struct adc_pin[]){
-		{GPIOA,GPIO_Pin_1,ADC_Channel_2,true},
-		{GPIOA,GPIO_Pin_4,ADC_Channel_1,false},
-		{GPIOA,GPIO_Pin_7,ADC_Channel_4,false},
+	.half_flag = DMA_IT_HTIF4,
+	.full_flag = DMA_IT_TCIF4,
+	.adc_pins = {                                                                               \
+		{GPIOC, GPIO_Pin_3,     ADC_Channel_13},                /* Current sensor */            \
+		{GPIOC, GPIO_Pin_2,     ADC_Channel_12},                /* Voltage sensor */            \
+		{NULL,  0,              ADC_Channel_Vrefint},           /* Voltage reference */         \
+		{NULL,  0,              ADC_Channel_TempSensor}         /* Temperature sensor */        \
 	},
-	.adc_dev_master = ADC1,
-	.adc_dev_slave = ADC2,
+	.adc_pin_count = 4
 };
+
+struct stm32_gpio pios_current_sonar_pin ={
+    .gpio = GPIOA,
+			.init = {
+				.GPIO_Pin = GPIO_Pin_8,
+				.GPIO_Speed = GPIO_Speed_2MHz,
+				.GPIO_Mode  = GPIO_Mode_IN,
+				.GPIO_OType = GPIO_OType_OD,
+				.GPIO_PuPd  = GPIO_PuPd_NOPULL
+			},
+			.pin_source = GPIO_PinSource8,
+};
+
+static void PIOS_ADC_DMA_irq_handler(void)
+{
+	/* Call into the generic code to handle the IRQ for this specific device */
+	PIOS_INTERNAL_ADC_DMA_Handler();
+}
 
 #endif /* PIOS_INCLUDE_ADC */
 
