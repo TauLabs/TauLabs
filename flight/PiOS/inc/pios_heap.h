@@ -38,6 +38,7 @@ extern void * PIOS_malloc(size_t size);
 extern void PIOS_free(void * buf);
 
 extern size_t PIOS_heap_get_free_size(void);
+extern size_t PIOS_fastheap_get_free_size(void);
 extern void PIOS_heap_initialize_blocks(void);
 extern void PIOS_heap_increase_size(size_t bytes);
 
