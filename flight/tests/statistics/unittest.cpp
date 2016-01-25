@@ -32,6 +32,7 @@ extern "C" {
 #include <math.h>		/* fabs() */
 
 #define TEST_ARRAY_LENGTH_SMALL 6
+#define TEST_ARRAY_LENGTH_LARGE 100
 
 // To use a test fixture, derive a class from testing::Test.
 class LinearStatistics : public testing::Test {
@@ -46,11 +47,13 @@ protected:
   static const float test_array0[TEST_ARRAY_LENGTH_SMALL];
   static const float test_array1[TEST_ARRAY_LENGTH_SMALL];
   static const float test_array2[TEST_ARRAY_LENGTH_SMALL];
+  static const float test_array3[TEST_ARRAY_LENGTH_LARGE];
 
   // Test structures. These are unique to each instance
   struct linear_mean_and_std_dev test_struct_0;
   struct linear_mean_and_std_dev test_struct_1;
   struct linear_mean_and_std_dev test_struct_2;
+  struct linear_mean_and_std_dev test_struct_3;
 
   static const double eps;
   static const float newest_y;
@@ -62,6 +65,17 @@ const float LinearStatistics::newest_y = 6;
 const float LinearStatistics::test_array0[] = {0, 1, 2, 3, 4, 5};
 const float LinearStatistics::test_array1[] = {-2, -1, 0, 0, 1, 2};
 const float LinearStatistics::test_array2[] = {0, 0, 0, 0, 0, 0};
+const float LinearStatistics::test_array3[] = { // Generated with MATLAB: `rng default; rand(10,10)`
+   0.8147, 0.1576, 0.6557, 0.7060, 0.4387, 0.2760, 0.7513, 0.8407, 0.3517, 0.0759,
+   0.9058, 0.9706, 0.0357, 0.0318, 0.3816, 0.6797, 0.2551, 0.2543, 0.8308, 0.0540,
+   0.1270, 0.9572, 0.8491, 0.2769, 0.7655, 0.6551, 0.5060, 0.8143, 0.5853, 0.5308,
+   0.9134, 0.4854, 0.9340, 0.0462, 0.7952, 0.1626, 0.6991, 0.2435, 0.5497, 0.7792,
+   0.6324, 0.8003, 0.6787, 0.0971, 0.1869, 0.1190, 0.8909, 0.9293, 0.9172, 0.9340,
+   0.0975, 0.1419, 0.7577, 0.8235, 0.4898, 0.4984, 0.9593, 0.3500, 0.2858, 0.1299,
+   0.2785, 0.4218, 0.7431, 0.6948, 0.4456, 0.9597, 0.5472, 0.1966, 0.7572, 0.5688,
+   0.5469, 0.9157, 0.3922, 0.3171, 0.6463, 0.3404, 0.1386, 0.2511, 0.7537, 0.4694,
+   0.9575, 0.7922, 0.6555, 0.9502, 0.7094, 0.5853, 0.1493, 0.6160, 0.3804, 0.0119,
+   0.9649, 0.9595, 0.1712, 0.0344, 0.7547, 0.2238, 0.2575, 0.4733, 0.5678, 0.3371};
 
 // Test fixture for incremental_update_linear_sums()
 class InitializeLinear : public LinearStatistics {
@@ -102,6 +116,14 @@ TEST_F(InitializeLinear, InitializeMeanAndStandardDeviation) {
   EXPECT_EQ(TEST_ARRAY_LENGTH_SMALL, test_struct_2.T0);
   EXPECT_NEAR(0, test_struct_2.T1, eps);
   EXPECT_NEAR(0, test_struct_2.T2, eps);
+
+  initialize_linear_sums(&test_struct_3,
+                         TEST_ARRAY_LENGTH_LARGE,
+                         TEST_ARRAY_LENGTH_LARGE,
+                         test_array3);
+  EXPECT_EQ(TEST_ARRAY_LENGTH_LARGE, test_struct_3.T0);
+  EXPECT_NEAR(52.7994, test_struct_3.T1, eps);
+  EXPECT_NEAR(36.61145552, test_struct_3.T2, eps);
 };
 
 
@@ -149,6 +171,17 @@ TEST_F(IncrementalLinearUpdate, IncrementalLinearUpdateMeanAndStandardDeviation)
   EXPECT_EQ(TEST_ARRAY_LENGTH_SMALL, test_struct_2.T0);
   EXPECT_NEAR(6, test_struct_2.T1, eps);
   EXPECT_NEAR(36, test_struct_2.T2, eps);
+
+  initialize_linear_sums(&test_struct_3,
+                         TEST_ARRAY_LENGTH_LARGE,
+                         TEST_ARRAY_LENGTH_LARGE,
+                         test_array3);
+  incremental_update_linear_sums(&test_struct_3,
+                                 test_array3[0],
+                                 newest_y);
+  EXPECT_EQ(TEST_ARRAY_LENGTH_LARGE, test_struct_3.T0);
+  EXPECT_NEAR(57.9847, test_struct_3.T1, eps);
+  EXPECT_NEAR(71.94771943, test_struct_3.T2, eps);
 };
 
 
@@ -189,6 +222,17 @@ TEST_F(IncrementalLinearUpdate, IncrementallyGrowMeanAndStandardDeviation) {
   EXPECT_EQ(TEST_ARRAY_LENGTH_SMALL - 1, test_struct_2.T0);
   EXPECT_NEAR(0, test_struct_2.T1, eps);
   EXPECT_NEAR(0, test_struct_2.T2, eps);
+
+  initialize_linear_sums(&test_struct_3,
+                         TEST_ARRAY_LENGTH_LARGE,
+                         TEST_ARRAY_LENGTH_LARGE-2,
+                         test_array3);
+  incremental_update_linear_sums(&test_struct_3,
+                                 test_array3[0],
+                                 test_array3[TEST_ARRAY_LENGTH_LARGE - 2]);
+  EXPECT_EQ(TEST_ARRAY_LENGTH_LARGE - 1, test_struct_3.T0);
+  EXPECT_NEAR(52.4623, test_struct_3.T1, eps);
+  EXPECT_NEAR(36.49781911, test_struct_3.T2, eps);
 };
 
 
@@ -208,6 +252,10 @@ protected:
                            TEST_ARRAY_LENGTH_SMALL,
                            TEST_ARRAY_LENGTH_SMALL,
                            test_array2);
+    initialize_linear_sums(&test_struct_3,
+                           TEST_ARRAY_LENGTH_LARGE,
+                           TEST_ARRAY_LENGTH_LARGE,
+                           test_array3);
    }
 
   virtual void TearDown() {
@@ -223,6 +271,9 @@ TEST_F(CalculateLinearUpdate, Mean) {
 
   float mean2 = get_linear_mean(&test_struct_2);
   EXPECT_NEAR(0, mean2, eps);
+
+  float mean3 = get_linear_mean(&test_struct_3);
+  EXPECT_NEAR(0.527994466938442, mean3, eps);
 };
 
 
@@ -235,6 +286,9 @@ TEST_F(CalculateLinearUpdate, StandardDeviation) {
 
   float std_dev2 = get_linear_standard_deviation(&test_struct_2);
   EXPECT_NEAR(0, std_dev2, eps);
+
+  float std_dev3 = get_linear_standard_deviation(&test_struct_3);
+  EXPECT_NEAR(0.295528156296486, std_dev3, eps);
 };
 
 
@@ -252,11 +306,13 @@ protected:
   static const float test_array0[TEST_ARRAY_LENGTH_SMALL];
   static const float test_array1[TEST_ARRAY_LENGTH_SMALL];
   static const float test_array2[TEST_ARRAY_LENGTH_SMALL];
+  static const float test_array3[TEST_ARRAY_LENGTH_LARGE];
 
   // Test structures. These are unique to each instance
   struct circular_mean_and_std_dev test_struct_0;
   struct circular_mean_and_std_dev test_struct_1;
   struct circular_mean_and_std_dev test_struct_2;
+  struct circular_mean_and_std_dev test_struct_3;
 
   static const double eps;
   static const float newest_y;
@@ -270,6 +326,17 @@ const double CircularStatistics::pi = 3.14159265358979323846264338327950288;
 const float CircularStatistics::test_array0[] = {0, 1, 2, 3, 4, 5};
 const float CircularStatistics::test_array1[] = {-2*pi, -1*pi, 0*pi, 0*pi, 1*pi, 2*pi};
 const float CircularStatistics::test_array2[] = {0, 0, 0, 0, 0, 0};
+const float CircularStatistics::test_array3[] = { // Generated with MATLAB: `rng default; rand(10,10)`
+   0.8147, 0.1576, 0.6557, 0.7060, 0.4387, 0.2760, 0.7513, 0.8407, 0.3517, 0.0759,
+   0.9058, 0.9706, 0.0357, 0.0318, 0.3816, 0.6797, 0.2551, 0.2543, 0.8308, 0.0540,
+   0.1270, 0.9572, 0.8491, 0.2769, 0.7655, 0.6551, 0.5060, 0.8143, 0.5853, 0.5308,
+   0.9134, 0.4854, 0.9340, 0.0462, 0.7952, 0.1626, 0.6991, 0.2435, 0.5497, 0.7792,
+   0.6324, 0.8003, 0.6787, 0.0971, 0.1869, 0.1190, 0.8909, 0.9293, 0.9172, 0.9340,
+   0.0975, 0.1419, 0.7577, 0.8235, 0.4898, 0.4984, 0.9593, 0.3500, 0.2858, 0.1299,
+   0.2785, 0.4218, 0.7431, 0.6948, 0.4456, 0.9597, 0.5472, 0.1966, 0.7572, 0.5688,
+   0.5469, 0.9157, 0.3922, 0.3171, 0.6463, 0.3404, 0.1386, 0.2511, 0.7537, 0.4694,
+   0.9575, 0.7922, 0.6555, 0.9502, 0.7094, 0.5853, 0.1493, 0.6160, 0.3804, 0.0119,
+   0.9649, 0.9595, 0.1712, 0.0344, 0.7547, 0.2238, 0.2575, 0.4733, 0.5678, 0.3371};
 
 // Test fixture for incremental_update_linear_sums()
 class Initialize : public CircularStatistics {
@@ -310,6 +377,15 @@ TEST_F(Initialize, InitializeMeanAndStandardDeviation) {
   EXPECT_EQ(TEST_ARRAY_LENGTH_SMALL*TEST_ARRAY_LENGTH_SMALL, (int)test_struct_2.T0_2);
   EXPECT_NEAR(0, test_struct_2.S1, eps);
   EXPECT_NEAR(6, test_struct_2.C1, eps);
+
+  initialize_circular_sums(&test_struct_3,
+                           TEST_ARRAY_LENGTH_LARGE,
+                           TEST_ARRAY_LENGTH_LARGE,
+                           test_array3);
+  EXPECT_EQ(TEST_ARRAY_LENGTH_LARGE, test_struct_3.T0);
+  EXPECT_EQ(TEST_ARRAY_LENGTH_LARGE*TEST_ARRAY_LENGTH_LARGE, (int)test_struct_3.T0_2);
+  EXPECT_NEAR(48.2528200811188, test_struct_3.S1, eps);
+  EXPECT_NEAR(82.6300334798971, test_struct_3.C1, eps);
 };
 
 
@@ -360,6 +436,19 @@ TEST_F(IncrementalCircularUpdate, IncrementalCircularUpdateMeanAndStandardDeviat
   EXPECT_EQ(TEST_ARRAY_LENGTH_SMALL*TEST_ARRAY_LENGTH_SMALL, (int)test_struct_2.T0_2);
   EXPECT_NEAR(-0.279415498198926, test_struct_2.S1, eps);
   EXPECT_NEAR(5.96017028665037, test_struct_2.C1, eps);
+
+  initialize_circular_sums(&test_struct_3,
+                           TEST_ARRAY_LENGTH_LARGE,
+                           TEST_ARRAY_LENGTH_LARGE,
+                           test_array3);
+  incremental_update_circular_sums(&test_struct_3,
+                                   test_array3[0],
+                                   newest_y);
+  EXPECT_EQ(TEST_ARRAY_LENGTH_LARGE, test_struct_3.T0);
+  EXPECT_EQ(TEST_ARRAY_LENGTH_LARGE*TEST_ARRAY_LENGTH_LARGE, (int)test_struct_3.T0_2);
+  EXPECT_NEAR(47.2458847775829, test_struct_3.S1, eps);
+  EXPECT_NEAR(82.9041170862785, test_struct_3.C1, eps);
+
 };
 
 
@@ -403,6 +492,18 @@ TEST_F(IncrementalCircularUpdate, IncrementallyGrowMeanAndStandardDeviation) {
   EXPECT_EQ((TEST_ARRAY_LENGTH_SMALL-1) * (TEST_ARRAY_LENGTH_SMALL-1), (int)test_struct_2.T0_2);
   EXPECT_NEAR(0, test_struct_2.S1, eps);
   EXPECT_NEAR(5, test_struct_2.C1, eps);
+
+  initialize_circular_sums(&test_struct_3,
+                           TEST_ARRAY_LENGTH_LARGE,
+                           TEST_ARRAY_LENGTH_LARGE-2,
+                           test_array3);
+  incremental_update_circular_sums(&test_struct_3,
+                                   test_array3[0],
+                                   test_array3[TEST_ARRAY_LENGTH_LARGE - 2]);
+  EXPECT_EQ(TEST_ARRAY_LENGTH_LARGE - 1, test_struct_3.T0);
+  EXPECT_EQ((TEST_ARRAY_LENGTH_LARGE-1) * (TEST_ARRAY_LENGTH_LARGE-1), (int)test_struct_3.T0_2);
+  EXPECT_NEAR(47.9220683759881, test_struct_3.S1, eps);
+  EXPECT_NEAR(81.6863156674377, test_struct_3.C1, eps);
 };
 
 
@@ -422,6 +523,10 @@ protected:
                              TEST_ARRAY_LENGTH_SMALL,
                              TEST_ARRAY_LENGTH_SMALL,
                              test_array2);
+    initialize_circular_sums(&test_struct_3,
+                             TEST_ARRAY_LENGTH_LARGE,
+                             TEST_ARRAY_LENGTH_LARGE,
+                             test_array3);
    }
 
   virtual void TearDown() {
@@ -437,6 +542,9 @@ TEST_F(CalculateCircularStatistics, Mean) {
 
   float mean2 = get_circular_mean(&test_struct_2);
   EXPECT_NEAR(0, mean2, eps);
+
+  float mean3 = get_circular_mean(&test_struct_3);
+  EXPECT_NEAR(0.528543561815535, mean3, eps);
 };
 
 
@@ -449,6 +557,9 @@ TEST_F(CalculateCircularStatistics, StandardDeviation) {
 
   float std_dev2 = get_circular_standard_deviation(&test_struct_2);
   EXPECT_NEAR(0, std_dev2, eps);
+
+  float std_dev3 = get_circular_standard_deviation(&test_struct_3);
+  EXPECT_NEAR(0.296933421670676, std_dev3, eps);
 };
 
 TEST_F(CalculateCircularStatistics, AngularDeviation) {
@@ -460,4 +571,7 @@ TEST_F(CalculateCircularStatistics, AngularDeviation) {
 
   float angular_deviation2 = get_angular_deviation(&test_struct_2);
   EXPECT_NEAR(0, angular_deviation2, eps);
+
+  float angular_deviation3 = get_angular_deviation(&test_struct_3);
+  EXPECT_NEAR(0.293690722768234, angular_deviation3, eps);
 };
