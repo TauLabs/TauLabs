@@ -32,6 +32,11 @@ struct circular_mean_and_std_dev {
 	uint16_t window_size;
 };
 
+void bayes_filter(double *belief_H0, double *belief_H1,
+                double p_sense_condition_H0, double p_sense_condition_H1,
+                double p_H0_Ux_H0, double p_H0_Ux_H1,
+                double p_H1_Ux_H0, double p_H1_Ux_H1);
+
 /* All below functions inspired by
  * http://math.stackexchange.com/questions/102978/incremental-computation-of-standard-deviation
  */

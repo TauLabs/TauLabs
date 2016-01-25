@@ -15,6 +15,62 @@
 
 #include <math.h>
 
+
+/**
+ * @brief bayes_filter Implements a bayesian testing under the effect of an
+ * actuator that can modify what is being sensed.
+ *
+ * Inspired by Probablistic Robotics, Chap. 2.4, "Bayes Filters"
+ * @param belief_H0 The H0 hypothesis (also called the NULL HYPOTHESIS), e.g.
+ * the vehicle has enough battery to return home.
+ * @param belief_H1 The H1 hypothesis (also called the ALTERNATIVE HYPOTHESIS), e.g.
+ * the vehicle does not have enough battery to return home.
+ * @param p_sense_condition_H0 The probability of sensing the H0 condition, given the real condition
+ * @param p_sense_condition_H1 The probability of sensing the H1 condition, given the real condition
+ * @param p_H0_Ux_H0 The probability of state H0 staying H0 after the control is applied
+ * @param p_H0_Ux_H1 The probability of state H1 becoming H0 after the control is applied
+ * @param p_H1_Ux_H0 The probability of state H0 becoming H1 after the control is applied
+ * @param p_H1_Ux_H1 The probability of state H1 staying H1 after the control is applied
+ */
+void bayes_filter(double *belief_H0, double *belief_H1,
+                double p_sense_condition_H0, double p_sense_condition_H1,
+                double p_H0_Ux_H0, double p_H0_Ux_H1,
+                double p_H1_Ux_H0, double p_H1_Ux_H1)
+{
+	// --------------------//
+	// Process the control //
+	// ------------------- //
+	// Helper variable to let the function read better
+	double old_belief_H0 = *belief_H0;
+	double old_belief_H1 = *belief_H1;
+
+	// The median belief is the old belief modified by the likelihood that the
+	// control successfully controls the measured state
+	double belief_bar_H0 = p_H0_Ux_H0 * old_belief_H0 + p_H0_Ux_H1 * old_belief_H1;
+	double belief_bar_H1 = p_H1_Ux_H0 * old_belief_H0 + p_H1_Ux_H1 * old_belief_H1;
+
+	// -------------------//
+	// Measurement update //
+	// -------------------//
+	// Helper variable to let the function read better
+	double *new_belief_H0 = belief_H0;
+	double *new_belief_H1 = belief_H1;
+
+	// The new belief is the likelihood of the new state occurring times the
+	// likelihood of measuring the new state
+	*new_belief_H0 = p_sense_condition_H0 * belief_bar_H0;
+	*new_belief_H1 = p_sense_condition_H1 * belief_bar_H1;
+
+
+	// Renormalize by gamma. This keeps the sum of the two values at 1, i.e. 100%
+	// of probable cases covered
+	double gamma = 1/(*new_belief_H0 + *new_belief_H1);
+	*new_belief_H0 *= gamma;
+	*new_belief_H1 *= gamma;
+
+}
+
+
 /**
  * @brief initialize_linear_sums Because floating point values are used,
  * there will be some loss of precision. Thus, it is important to periodically reset the parameters.
