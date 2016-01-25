@@ -24,6 +24,14 @@ struct linear_mean_and_std_dev {
 	uint16_t window_size;
 };
 
+struct circular_mean_and_std_dev {
+	uint16_t T0;
+	uint32_t T0_2;
+	double S1;
+	double C1;
+	uint16_t window_size;
+};
+
 /* All below functions inspired by
  * http://math.stackexchange.com/questions/102978/incremental-computation-of-standard-deviation
  */
@@ -32,5 +40,18 @@ void incremental_update_linear_sums(struct linear_mean_and_std_dev *X, float x_o
 float get_linear_mean(const struct linear_mean_and_std_dev *X);
 float get_linear_standard_deviation(const struct linear_mean_and_std_dev *X);
 float get_linear_variance(const struct linear_mean_and_std_dev *X);
+
+/* All four below functions inspired by
+ * https://en.wikipedia.org/wiki/Directional_statistics
+ */
+void initialize_circular_sums(struct circular_mean_and_std_dev *X, uint16_t window_size, uint16_t num_samples, const float x[]);
+void incremental_update_circular_sums(struct circular_mean_and_std_dev *X, const float x_oldest, const float x_new);
+float get_circular_mean(const struct circular_mean_and_std_dev *X);
+float get_circular_standard_deviation(const struct circular_mean_and_std_dev *X);
+
+/* Inspired by "CircStat: A MATLAB Toolbox for Circular Statistics",
+ * http://www.kyb.tuebingen.mpg.de/fileadmin/user_upload/files/publications/J-Stat-Softw-2009-Berens_6037[0].pdf
+ */
+float get_angular_deviation(const struct circular_mean_and_std_dev *X);
 
 #endif /* STATISTICS_H */
