@@ -50,6 +50,9 @@ struct pios_can_cfg {
  * @return 0 if successful, negative otherwise
  */
 int32_t PIOS_CAN_Init(uintptr_t *id, const struct pios_can_cfg *cfg);
+int32_t get_message_size(uint32_t msg_id);
+
+extern const uint32_t pios_can_message_stdid[PIOS_CAN_LAST];
 
 #endif /* PIOS_CAN_PRIV_H */
 

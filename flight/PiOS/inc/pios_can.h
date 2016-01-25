@@ -7,7 +7,7 @@
  * @{
  *
  * @file       pios_can.h
- * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013-2014
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013-2016
  * @brief      PiOS CAN interface header
  * @see        The GNU Public License (GPL) Version 3
  *
@@ -36,8 +36,25 @@
 //! The set of CAN messages
 enum pios_can_messages {
 	PIOS_CAN_GIMBAL = 0,
-	PIOS_CAN_LAST = 1
+	PIOS_CAN_ATTITUDE_ROLL_PITCH = 1,
+	PIOS_CAN_ATTITUDE_YAW = 2,
+	PIOS_CAN_BATTERY_VOLT = 3,
+	PIOS_CAN_BATTERY_CURR = 4,
+	PIOS_CAN_RSSI = 5,
+	PIOS_CAN_ALT = 6,
+	PIOS_CAN_FLIGHTSTATUS = 7,
+	PIOS_CAN_GPS_LATLON = 8,
+	PIOS_CAN_GPS_ALTSPEED = 9,
+	PIOS_CAN_GPS_FIX = 10,
+	PIOS_CAN_GPS_VEL = 11,
+	PIOS_CAN_POS = 12,
+	PIOS_CAN_ALARM = 13,
+	PIOS_CAN_LAST
 };
+// Note: new messages must be defined in both
+//    pios_can_message_stdid
+//    get_message_size
+// in pios_can.c
 
 //! Message to tell gimbal the desired setpoint and FC state
 struct pios_can_gimbal_message {
@@ -47,7 +64,77 @@ struct pios_can_gimbal_message {
 	int8_t setpoint_roll;
 	int8_t setpoint_pitch;
 	uint8_t setpoint_yaw;
-}  __attribute__((packed));;
+}  __attribute__((packed));
+
+//! Message to pass attitude information
+struct pios_can_roll_pitch_message {
+	float fc_roll;
+	float fc_pitch;
+}  __attribute__((packed));
+
+//! Message to pass attitude information
+struct pios_can_yaw_message {
+	float fc_yaw;
+}  __attribute__((packed));
+
+//! Message to pass attitude information
+struct pios_can_volt_message {
+	float volt;
+}  __attribute__((packed));
+
+//! Message to pass attitude information
+struct pios_can_curr_message {
+	float curr;
+	float consumed;
+}  __attribute__((packed));
+
+//! Message to pass rssi information
+struct pios_can_rssi_message {
+	int16_t rssi;
+}  __attribute__((packed));
+
+//! Message to pass altitude information
+struct pios_can_alt_message {
+	float fc_alt;
+}  __attribute__((packed));
+
+//! Message to pass rssi information
+struct pios_can_flightstatus_message {
+	uint8_t flight_mode;
+	uint8_t armed;
+}  __attribute__((packed));
+
+//! Message to pass GPS lat and lon information
+struct pios_can_gps_latlon {
+	uint32_t lat;
+	uint32_t lon;
+}  __attribute__((packed));
+
+//! Message to pass GPS lat and lon information
+struct pios_can_gps_alt_speed {
+	float alt;
+	float speed;
+}  __attribute__((packed));
+
+struct pios_can_gps_fix {
+	float pdop;
+	uint8_t sats;
+	uint8_t status;
+}  __attribute__((packed));
+
+struct pios_can_gps_vel {
+	float north;
+	float east;
+}  __attribute__((packed));
+
+struct pios_can_pos {
+	float north;
+	float east;
+}  __attribute__((packed));
+
+struct pios_can_alarm_message {
+	uint8_t alarms[8];
+}  __attribute__((packed));
 
 //! Transmit a data message with a particular message ID
 int32_t PIOS_CAN_TxData(uintptr_t id, enum pios_can_messages, uint8_t *data);

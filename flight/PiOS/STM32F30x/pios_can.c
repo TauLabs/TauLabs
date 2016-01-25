@@ -7,7 +7,7 @@
  * @{
  *
  * @file       pios_can.c
- * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013-2014
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013-2016
  * @brief      PiOS CAN interface header
  * @see        The GNU Public License (GPL) Version 3
  *
@@ -213,11 +213,6 @@ static void PIOS_CAN_RegisterTxCallback(uintptr_t can_id, pios_com_callback tx_o
 }
 
 //! The mapping of message types to CAN BUS StdID
-static uint32_t pios_can_message_stdid[PIOS_CAN_LAST] = {
-	[PIOS_CAN_GIMBAL] = 0x130,
-};
-
-//! The mapping of message types to CAN BUS StdID
 static struct pios_queue *pios_can_queues[PIOS_CAN_LAST];
 
 /**
@@ -254,14 +249,9 @@ static bool process_received_message(CanRxMsg message)
 struct pios_queue * PIOS_CAN_RegisterMessageQueue(uintptr_t id, enum pios_can_messages msg_id)
 {
 	// Fetch the size of this message type or error if unknown
-	uint32_t bytes;
-	switch(msg_id) {
-	case PIOS_CAN_GIMBAL:
-		bytes = sizeof(struct pios_can_gimbal_message);
-		break;
-	default:
+	int32_t bytes = get_message_size(msg_id);
+	if (msg_id < 0)
 		return NULL;
-	}
 
 	// Return existing queue if created
 	if (pios_can_queues[msg_id] != NULL)
@@ -387,14 +377,9 @@ static void PIOS_CAN_TxGeneric(void)
 int32_t PIOS_CAN_TxData(uintptr_t id, enum pios_can_messages msg_id, uint8_t *data)
 {
 	// Fetch the size of this message type or error if unknown
-	uint32_t bytes;
-	switch(msg_id) {
-	case PIOS_CAN_GIMBAL:
-		bytes = sizeof(struct pios_can_gimbal_message);
-		break;
-	default:
+	int32_t bytes = get_message_size(msg_id);
+	if (msg_id < 0)
 		return -1;
-	}
 
 	// Look up the CAN BUS Standard ID for this message type
 	uint32_t std_id = pios_can_message_stdid[msg_id];
@@ -404,7 +389,7 @@ int32_t PIOS_CAN_TxData(uintptr_t id, enum pios_can_messages msg_id, uint8_t *da
 	msg.StdId = std_id & 0x7FF;
 	msg.ExtId = 0;
 	msg.IDE = CAN_ID_STD;
-	msg.RTR = CAN_RTR_DATA;			
+	msg.RTR = CAN_RTR_DATA;
 	msg.DLC = (bytes > 8) ? 8 : bytes;
 	memcpy(msg.Data, data, msg.DLC);
 	CAN_Transmit(can_dev->cfg->regs, &msg);
