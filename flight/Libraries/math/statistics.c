@@ -194,6 +194,40 @@ float get_linear_variance(const struct linear_mean_and_std_dev *X)
 
 
 /**
+ * @brief pearson_correlation Calculates the Pearson correlation for a covariance between two
+ * variables. This is the variance divided by the sqrt of the muliple of the autovariances
+ * @param x_autovariance
+ * @param y_autovariance
+ * @param variance
+ * @return
+ */
+float pearson_correlation(const float x_autovariance, const float y_autovariance, const float variance)
+{
+	// If either autovariance is 0 (or close to), then we don't know what the correlation is.
+	// The other variable could be static or it could be varying. The result is either -Inf
+	// or +Inf, depending on from which direction the first autovariance value is
+	// approaching 0. Rather than try to calculate this, we simply return an impossible
+	// value to indicate which
+	if (x_autovariance < 1e-5f) {
+		return -2;
+	} else if (y_autovariance < 1e-5f) {
+		return 2;
+	}
+
+	// Precalculate the denominator squared
+	float den2 = x_autovariance * y_autovariance;
+
+	// Check that the denominator hasn't suffered an underflow as the result of
+	// multiplying the two autovariances together
+	if (den2 > 1e-32f) {
+		return variance / sqrtf(den2);
+	} else {
+		return 0;
+	}
+}
+
+
+/**
  * @brief initialize_circular_sums Because floating point values are used,
  * there will be some loss of precision. Thus, it is important to periodically reset the parameters.
  *

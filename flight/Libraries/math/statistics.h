@@ -45,6 +45,7 @@ void incremental_update_linear_sums(struct linear_mean_and_std_dev *X, float x_o
 float get_linear_mean(const struct linear_mean_and_std_dev *X);
 float get_linear_standard_deviation(const struct linear_mean_and_std_dev *X);
 float get_linear_variance(const struct linear_mean_and_std_dev *X);
+float pearson_correlation(const float x_autovariance, const float y_autovariance, const float variance);
 
 /* All four below functions inspired by
  * https://en.wikipedia.org/wiki/Directional_statistics
