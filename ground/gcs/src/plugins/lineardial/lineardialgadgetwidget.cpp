@@ -25,6 +25,8 @@
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
 
+#include <math.h>
+
 #include "lineardialgadgetwidget.h"
 #include <utils/stylehelper.h>
 #include <QFileDialog>
@@ -411,7 +413,7 @@ void LineardialGadgetWidget::moveIndex()
         dialTimer.stop();
         return;
     }
-    if ((abs((indexValue-indexTarget)*10) > 3)) {
+    if ((fabs((indexValue-indexTarget)*10) > 3)) {
         indexValue += (indexTarget - indexValue)/5;
     } else {
         indexValue = indexTarget;
