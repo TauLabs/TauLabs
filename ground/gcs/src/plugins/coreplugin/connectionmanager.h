@@ -115,6 +115,7 @@ signals:
     void deviceAboutToDisconnect();
     void deviceDisconnected();
     void availableDevicesChanged(const QLinkedList<Core::DevListItem> devices);
+    void connectDeviceFailed(DevListItem *device);
 
 public slots:
     void telemetryConnected();
@@ -132,6 +133,7 @@ private slots:
     void connectionsCallBack(); //used to call devChange after all the plugins are loaded
     void reconnectSlot();
     void reconnectCheckSlot();
+    void onConnectDeviceFailed(DevListItem *device);
 
 protected:
     QComboBox *m_availableDevList;
