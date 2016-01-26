@@ -151,33 +151,142 @@ static void panic(int32_t code) {
 	PIOS_HAL_Panic(PIOS_LED_ALARM, code);
 }
 
+/**
+ * Set the external pins high that go to the VTX module
+ * and set the FPV frequency it transmits at
+ */
 void set_vtx_channel(HwSparky2VTX_ChOptions channel)
 {
 	uint8_t chan = 0;
+	uint8_t band = 0xFF; // Set to "A" band
+
 	switch (channel) {
-	case HWSPARKY2_VTX_CH_1:
+	case HWSPARKY2_VTX_CH_BOSCAMACH15725:
 		chan = 0;
-		break;
-	case HWSPARKY2_VTX_CH_2:
+		band = 0;
+	case HWSPARKY2_VTX_CH_BOSCAMACH25745:
 		chan = 1;
+		band = 0;
 		break;
-	case HWSPARKY2_VTX_CH_3:
+	case HWSPARKY2_VTX_CH_BOSCAMACH35765:
 		chan = 2;
+		band = 0;
 		break;
-	case HWSPARKY2_VTX_CH_4:
+	case HWSPARKY2_VTX_CH_BOSCAMACH45785:
 		chan = 3;
+		band = 0;
 		break;
-	case HWSPARKY2_VTX_CH_5:
+	case HWSPARKY2_VTX_CH_BOSCAMACH55805:
 		chan = 4;
+		band = 0;
 		break;
-	case HWSPARKY2_VTX_CH_6:
+	case HWSPARKY2_VTX_CH_BOSCAMACH65825:
 		chan = 5;
+		band = 0;
 		break;
-	case HWSPARKY2_VTX_CH_7:
+	case HWSPARKY2_VTX_CH_BOSCAMACH75845:
 		chan = 6;
+		band = 0;
 		break;
-	case HWSPARKY2_VTX_CH_8:
+	case HWSPARKY2_VTX_CH_BOSCAMACH85865:
 		chan = 7;
+		band = 0;
+		break;
+	case HWSPARKY2_VTX_CH_BOSCAMBCH15733:
+		chan = 0;
+		band = 1;
+		break;
+	case HWSPARKY2_VTX_CH_BOSCAMBCH25752:
+		chan = 1;
+		band = 1;
+		break;
+	case HWSPARKY2_VTX_CH_BOSCAMBCH35771:
+		chan = 2;
+		band = 1;
+		break;
+	case HWSPARKY2_VTX_CH_BOSCAMBCH45790:
+		chan = 3;
+		band = 1;
+		break;
+	case HWSPARKY2_VTX_CH_BOSCAMBCH55809:
+		chan = 4;
+		band = 1;
+		break;
+	case HWSPARKY2_VTX_CH_BOSCAMBCH65828:
+		chan = 5;
+		band = 1;
+		break;
+	case HWSPARKY2_VTX_CH_BOSCAMBCH75847:
+		chan = 6;
+		band = 1;
+		break;
+	case HWSPARKY2_VTX_CH_BOSCAMBCH85866:
+		chan = 7;
+		band = 1;
+		break;
+	case HWSPARKY2_VTX_CH_BOSCAMECH15705:
+		chan = 0;
+		band = 2;
+		break;
+	case HWSPARKY2_VTX_CH_BOSCAMECH25685:
+		chan = 1;
+		band = 2;
+		break;
+	case HWSPARKY2_VTX_CH_BOSCAMECH35665:
+		chan = 2;
+		band = 2;
+		break;
+	case HWSPARKY2_VTX_CH_BOSCAMECH45645:
+		chan = 3;
+		band = 2;
+		break;
+	case HWSPARKY2_VTX_CH_BOSCAMECH55885:
+		chan = 4;
+		band = 2;
+		break;
+	case HWSPARKY2_VTX_CH_BOSCAMECH65905:
+		chan = 5;
+		band = 2;
+		break;
+	case HWSPARKY2_VTX_CH_BOSCAMECH75925:
+		chan = 6;
+		band = 2;
+		break;
+	case HWSPARKY2_VTX_CH_BOSCAMECH85945:
+		chan = 7;
+		band = 2;
+		break;
+	case HWSPARKY2_VTX_CH_AIRWAVECH15740:
+		chan = 0;
+		band = 3;
+		break;
+	case HWSPARKY2_VTX_CH_AIRWAVECH25760:
+		chan = 1;
+		band = 3;
+		break;
+	case HWSPARKY2_VTX_CH_AIRWAVECH35780:
+		chan = 2;
+		band = 3;
+		break;
+	case HWSPARKY2_VTX_CH_AIRWAVECH45800:
+		chan = 3;
+		band = 3;
+		break;
+	case HWSPARKY2_VTX_CH_AIRWAVECH55820:
+		chan = 4;
+		band = 3;
+		break;
+	case HWSPARKY2_VTX_CH_AIRWAVECH65840:
+		chan = 5;
+		band = 3;
+		break;
+	case HWSPARKY2_VTX_CH_AIRWAVECH75860:
+		chan = 6;
+		band = 3;
+		break;
+	case HWSPARKY2_VTX_CH_AIRWAVECH85860:
+		chan = 7;
+		band = 3;
 		break;
 	}
 
@@ -210,6 +319,23 @@ void set_vtx_channel(HwSparky2VTX_ChOptions channel)
 		GPIO_SetBits(GPIOB, GPIO_Pin_12);
 	} else {
 		GPIO_ResetBits(GPIOB, GPIO_Pin_12);
+	}
+
+	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_9;
+	GPIO_Init(GPIOA, &GPIO_InitStructure);
+	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_10;
+	GPIO_Init(GPIOA, &GPIO_InitStructure);
+
+	if (band & 0x01) {
+		GPIO_SetBits(GPIOA, GPIO_Pin_9);
+	} else {
+		GPIO_ResetBits(GPIOA, GPIO_Pin_9);
+	}
+
+	if (band & 0x02) {
+		GPIO_SetBits(GPIOA, GPIO_Pin_10);
+	} else {
+		GPIO_ResetBits(GPIOA, GPIO_Pin_10);
 	}
 }
 
