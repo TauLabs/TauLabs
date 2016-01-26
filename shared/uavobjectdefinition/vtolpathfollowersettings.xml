@@ -28,7 +28,7 @@
 
 		<!-- Loiter mode configuration -->
 		<field name="LoiterBrakingTimeConstant" units="s" type="float" elements="1" defaultvalue="1.25"/>
-		<field name="LoiterErrorDecayConstant" units="s" type="float" elements="1" defaultvalue="0.33"/>
+		<field name="LoiterErrorDecayConstant" units="s" type="float" elements="1" defaultvalue="0.15"/>
 		<field name="LoiterLookaheadTimeConstant" units="s" type="float" elements="1" defaultvalue="1.25"/>
 		<field name="LoiterInitialMaxVel" units="m/s" type="float" elements="1" defaultvalue="3.5"/>
 		<field name="LoiterAttitudeFeedthrough" units="deg" type="float" elements="1" defaultvalue="15"/>
