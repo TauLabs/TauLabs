@@ -140,7 +140,7 @@ RawHIDReadThread::~RawHIDReadThread()
     m_running = false;
     //wait for the thread to terminate
     if(wait(10000) == false)
-        qDebug() << "Cannot terminate RawHIDReadThread";
+        qWarning() << "Cannot terminate RawHIDReadThread";
 }
 
 void RawHIDReadThread::run()
@@ -210,7 +210,7 @@ RawHIDWriteThread::~RawHIDWriteThread()
     m_running = false;
     //wait for the thread to terminate
     if(wait(10000) == false)
-        qDebug() << "Cannot terminate RawHIDWriteThread";
+        qWarning() << "Cannot terminate RawHIDWriteThread";
 }
 
 void RawHIDWriteThread::run()
@@ -258,7 +258,7 @@ void RawHIDWriteThread::run()
         else if(ret == -110) // timeout
         {
             // timeout occured
-            qDebug() << "Send Timeout: No data written to device.";
+            RAW_HID_QXTLOG_DEBUG("Send Timeout: No data written to device.");
         }
         else if(ret < 0) // < 0 => error
         {
@@ -267,7 +267,7 @@ void RawHIDWriteThread::run()
             {
                 retry = 0;
                 m_running = false; //TODO! make proper error handling, this only quick hack for unplug freeze
-                qDebug() << "Error writing to device";
+                qWarning() << "[RawHID] Error writing to device";
             }
             else
             {
@@ -276,7 +276,7 @@ void RawHIDWriteThread::run()
         }
         else
         {
-            qDebug() << "No data written to device ??";
+            RAW_HID_QXTLOG_DEBUG("No data written to device ??");
         }
     }
 }
@@ -343,7 +343,7 @@ bool RawHID::open(OpenMode mode)
         m_readThread->start();
         m_writeThread->start();
     } else {
-        qDebug() << "Failed to open USB device";
+        qWarning() << "[RawHID] Failed to open USB device";
         return false;
     }
 
@@ -355,7 +355,7 @@ void RawHID::close()
     if (!isOpen())
         return;
 
-    qDebug() << "RawHID: close()";
+    RAW_HID_QXTLOG_DEBUG("RawHID: close()");
 
     m_writeThread->stop();
     m_readThread->stop();

@@ -34,7 +34,16 @@
 #include <QMutexLocker>
 #include <QDebug>
 
-#define printf qDebug
+
+//#define USB_MON_DEBUG
+#ifdef USB_MON_DEBUG
+#define USB_MON_QXTLOG_DEBUG(...) qDebug()<<__VA_ARGS__
+#else  // USB_MON_DEBUG
+#define USB_MON_QXTLOG_DEBUG(...)
+#endif	// USB_MON_DEBUG
+
+#define printf USB_MON_QXTLOG_DEBUG
+
 
 //! Local helper functions
 static bool HID_GetIntProperty(IOHIDDeviceRef dev, CFStringRef property, int * value);
@@ -85,7 +94,7 @@ USBMonitor::~USBMonitor()
 
 void USBMonitor::deviceEventReceived() {
 
-    qDebug() << "Device event";
+    USB_MON_QXTLOG_DEBUG("Device event");
 }
 
 USBMonitor* USBMonitor::instance()
@@ -119,7 +128,7 @@ void USBMonitor::detach_callback(void *context, IOReturn r, void *hid_mgr, IOHID
     Q_UNUSED(r);
     Q_UNUSED(hid_mgr);
 
-    qDebug() << "USBMonitor: Device detached event";
+    USB_MON_QXTLOG_DEBUG("USBMonitor: Device detached event");
     instance()->removeDevice(dev);
 }
 
@@ -155,7 +164,7 @@ void USBMonitor::attach_callback(void *context, IOReturn r, void *hid_mgr, IOHID
 
     deviceInfo.dev_handle = dev;
 
-    qDebug() << "USBMonitor: Device attached event";
+    USB_MON_QXTLOG_DEBUG("USBMonitor: Device attached event");
 
     // Populate the device info structure
     got_properties &= HID_GetIntProperty(dev, CFSTR( kIOHIDVendorIDKey ), &deviceInfo.vendorID);
@@ -170,7 +179,7 @@ void USBMonitor::attach_callback(void *context, IOReturn r, void *hid_mgr, IOHID
 
     // Currently only enumerating objects that have the complete list of properties
     if(got_properties) {
-        qDebug() << "USBMonitor: Adding device";
+        USB_MON_QXTLOG_DEBUG("USBMonitor: Adding device");
         instance()->addDevice(deviceInfo);
     }
 }

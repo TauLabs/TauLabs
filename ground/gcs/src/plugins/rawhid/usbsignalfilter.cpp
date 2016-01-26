@@ -1,12 +1,20 @@
 #include "usbsignalfilter.h"
 #include <QDebug>
+
+//#define USB_FILTER_DEBUG
+#ifdef USB_FILTER_DEBUG
+#define USB_FILTER_QXTLOG_DEBUG(...) qDebug()<<__VA_ARGS__
+#else  // USB_FILTER_DEBUG
+#define USB_FILTER_QXTLOG_DEBUG(...)
+#endif	// USB_FILTER_DEBUG
+
 void USBSignalFilter::m_deviceDiscovered(USBPortInfo port)
 {
     availableDevices = USBMonitor::instance()->availableDevices();
     if((m_vid.contains(port.vendorID) || m_vid.isEmpty()) && (port.productID==m_pid || m_pid==-1) && ((port.bcdDevice>>8)==m_boardModel || m_boardModel==-1) &&
             ( (port.bcdDevice&0x00ff) ==m_runState || m_runState==-1))
     {
-        qDebug()<<"USBSignalFilter emit device discovered";
+        USB_FILTER_QXTLOG_DEBUG("USBSignalFilter emit device discovered");
         emit deviceDiscovered();
     }
 }
@@ -20,7 +28,7 @@ void USBSignalFilter::m_deviceRemoved(USBPortInfo port)
             if((m_vid.contains(port.vendorID) || m_vid.isEmpty()) && (port.productID==m_pid || m_pid==-1) && ((port.bcdDevice>>8)==m_boardModel || m_boardModel==-1) &&
                     ( (port.bcdDevice&0x00ff) ==m_runState || m_runState==-1))
             {
-                qDebug()<<"USBSignalFilter emit device removed";
+                USB_FILTER_QXTLOG_DEBUG("USBSignalFilter emit device removed");
                 emit deviceRemoved();
             }
         }
