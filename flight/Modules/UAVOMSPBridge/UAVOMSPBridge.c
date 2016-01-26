@@ -252,10 +252,17 @@ static void msp_send_status(struct msp_bridge *m)
 	// TODO: https://github.com/TauLabs/TauLabs/blob/next/shared/uavobjectdefinition/actuatordesired.xml#L8
 	data.status.cycleTime = 0;
 	data.status.i2cErrors = 0;
-	data.status.sensors =
-		(PIOS_SENSORS_IsRegistered(PIOS_SENSOR_ACCEL) ? MSP_SENSOR_ACC : 0)
-		| (PIOS_SENSORS_IsRegistered(PIOS_SENSOR_BARO) ? MSP_SENSOR_BARO : 0)
-		| (PIOS_SENSORS_IsRegistered(PIOS_SENSOR_MAG) ? MSP_SENSOR_MAG : 0);
+	
+	GPSPositionData gpsData = {};
+	
+	if (GPSPositionHandle() != NULL)
+		GPSPositionGet(&gpsData);
+	
+	data.status.sensors = (PIOS_SENSORS_IsRegistered(PIOS_SENSOR_ACCEL) ? MSP_SENSOR_ACC  : 0) |
+	                      (PIOS_SENSORS_IsRegistered(PIOS_SENSOR_BARO)  ? MSP_SENSOR_BARO : 0) |
+	                      (PIOS_SENSORS_IsRegistered(PIOS_SENSOR_MAG)   ? MSP_SENSOR_MAG  : 0) |
+	                      (gpsData.Status > GPSPOSITION_STATUS_NOFIX    ? MSP_SENSOR_GPS  : 0);
+	
 	data.status.flags = 0;
 	data.status.setting = 0;
 
@@ -263,7 +270,7 @@ static void msp_send_status(struct msp_bridge *m)
 		FlightStatusData flight_status;
 		FlightStatusGet(&flight_status);
 
-		data.status.flags = flight_status.Armed == FLIGHTSTATUS_ARMED_ARMED;
+		data.status.flags = 0x0001; //flight_status.Armed == FLIGHTSTATUS_ARMED_ARMED;
 
 		for (int i = 1; msp_boxes[i].mode != MSP_BOX_LAST; i++) {
 			if (flight_status.FlightMode == msp_boxes[i].tlmode) {
@@ -321,7 +328,33 @@ static void msp_send_ident(struct msp_bridge *m)
 
 static void msp_send_raw_gps(struct msp_bridge *m)
 {
-	// TODO
+	union {
+		uint8_t buf[0];
+		struct {
+			uint8_t  fix;                 // 0 or 1
+			uint8_t  num_sat;
+			int32_t lat;                  // 1 / 10 000 000 deg
+			int32_t lon;                  // 1 / 10 000 000 deg
+			uint16_t alt;                 // meter
+			uint16_t speed;               // cm/s
+			int16_t ground_course;        // degree * 10
+		} __attribute__((packed)) raw_gps;
+	} data;
+	
+	GPSPositionData gpsData = {};
+	
+	if (GPSPositionHandle() != NULL)
+		GPSPositionGet(&gpsData);
+	
+	data.raw_gps.fix           = gpsData.Status;
+	data.raw_gps.num_sat       = gpsData.Satellites;
+	data.raw_gps.lat           = gpsData.Latitude;
+	data.raw_gps.lon           = gpsData.Longitude;
+	data.raw_gps.alt           = (uint16_t)gpsData.Altitude;
+	data.raw_gps.speed         = 5556; //(uint16_t)gpsData.Groundspeed;
+	data.raw_gps.ground_course = (int16_t)gpsData.Heading;
+	
+	msp_send(m, MSP_RAW_GPS, data.buf, sizeof(data));
 }
 
 static void msp_send_comp_gps(struct msp_bridge *m)
