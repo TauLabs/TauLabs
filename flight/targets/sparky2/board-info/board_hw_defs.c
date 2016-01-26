@@ -1811,9 +1811,11 @@ struct pios_internal_adc_cfg pios_adc_cfg = {
 	.adc_pins = {                                                                               \
 		{GPIOC, GPIO_Pin_3,     ADC_Channel_13},                /* Current sensor */            \
 		{GPIOC, GPIO_Pin_2,     ADC_Channel_12},                /* Voltage sensor */            \
+		{GPIOA, GPIO_Pin_4,     ADC_Channel_4},                 /* DAC pin        */            \
 		{NULL,  0,              ADC_Channel_Vrefint},           /* Voltage reference */         \
 		{NULL,  0,              ADC_Channel_TempSensor}         /* Temperature sensor */        \
 	},
+	.adc_pin_count = 5
 };
 
 static void PIOS_ADC_DMA_irq_handler(void)
