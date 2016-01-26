@@ -31,11 +31,12 @@ SOURCES += \
             breakpad/common/mac/macho_walker.cc \
             breakpad/common/mac/string_utilities.cc \
             breakpad/common/md5.cc \
-            breakpad/common/mac/dump_syms.mm \
-            breakpad/common/mac/MachIPC.mm \
             breakpad/common/dwarf/dwarf2reader.cc \
             breakpad/common/mac/bootstrap_compat.cc \
             breakpad/common/dwarf_cfi_to_module.cc
+OBJECTIVE_SOURCES += \
+            breakpad/common/mac/dump_syms.mm \
+            breakpad/common/mac/MachIPC.mm
 }
 else {
 SOURCES += \
