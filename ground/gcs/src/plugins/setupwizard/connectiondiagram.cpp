@@ -134,7 +134,7 @@ void ConnectionDiagram::setupGraphicsScene()
             break;
         case Core::IBoardType::INPUT_TYPE_HOTTSUMD:
         case Core::IBoardType::INPUT_TYPE_HOTTSUMH:
-            elementsToShow << "HoTT";
+            elementsToShow << "hott";
             break;
         default:
             break;
