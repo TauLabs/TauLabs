@@ -79,7 +79,7 @@
 #include "velocityactual.h"
 
 // Private constants
-#define STACK_SIZE_BYTES 2200
+#define STACK_SIZE_BYTES 2504
 #define TASK_PRIORITY PIOS_THREAD_PRIO_HIGH
 #define FAILSAFE_TIMEOUT_MS 10
 
