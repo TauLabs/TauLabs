@@ -1,3 +1,9 @@
+isEmpty(BRANDING_PATH) {
+BRANDING_PATH = $$PWD/../../branding
+DEFINES += BRANDING_PATH=\\\"$$BRANDING_PATH\\\"
+include ($$BRANDING_PATH/gcs_definitions.pri)
+}
+
 defineReplace(cleanPath) {
     return($$clean_path($$1))
 }
@@ -57,7 +63,7 @@ isEmpty(GCS_BUILD_TREE) {
 }
 GCS_APP_PATH = $$GCS_BUILD_TREE/bin
 macx {
-    GCS_APP_TARGET   = "Tau Labs GCS"
+    GCS_APP_TARGET   = "$${GCS_PROJECT_BRANDING_PRETTY} GCS"
     GCS_LIBRARY_PATH = $$GCS_APP_PATH/$${GCS_APP_TARGET}.app/Contents/Plugins
     GCS_PLUGIN_PATH  = $$GCS_LIBRARY_PATH
     GCS_LIBEXEC_PATH = $$GCS_APP_PATH/$${GCS_APP_TARGET}.app/Contents/Resources
@@ -70,23 +76,24 @@ macx {
 } else {
     win32 {
         contains(TEMPLATE, vc.*)|contains(TEMPLATE_PREFIX, vc):vcproj = 1
-        GCS_APP_TARGET   = taulabsgcs
+        GCS_APP_TARGET   = $${GCS_PROJECT_BRANDING}gcs
     } else {
-        GCS_APP_WRAPPER  = taulabsgcs
-        GCS_APP_TARGET   = taulabsgcs.bin
+        GCS_APP_WRAPPER  = $${GCS_PROJECT_BRANDING}gcs
+        GCS_APP_TARGET   = $${GCS_PROJECT_BRANDING}gcs.bin
     }
-    GCS_LIBRARY_PATH = $$GCS_BUILD_TREE/$$GCS_LIBRARY_BASENAME/taulabs
+    GCS_LIBRARY_PATH = $$GCS_BUILD_TREE/$$GCS_LIBRARY_BASENAME/$$GCS_PROJECT_BRANDING
     GCS_PLUGIN_PATH  = $$GCS_LIBRARY_PATH/plugins
     GCS_LIBEXEC_PATH = $$GCS_APP_PATH # FIXME
-    GCS_DATA_PATH    = $$GCS_BUILD_TREE/share/taulabs
-    GCS_DATA_BASENAME = share/taulabs
+    GCS_DATA_PATH    = $$GCS_BUILD_TREE/share
+    GCS_DATA_BASENAME = share
     GCS_DOC_PATH     = $$GCS_BUILD_TREE/share/doc
     !isEqual(GCS_SOURCE_TREE, $$GCS_BUILD_TREE):copydata = 1
 }
-
-
-DEFINES += GCS_DATA_BASENAME=\\\"$$GCS_DATA_BASENAME\\\"
-
+GCS_VERSION_INFO_FILE = $$GCS_BUILD_TREE/gcsversioninfo.h
+DEFINES += 'GCS_VERSION_INFO_FILE=\'\"$$GCS_VERSION_INFO_FILE\"\''
+DEFINES += 'GCS_PLUGIN_PATH=\'\"$$GCS_PLUGIN_PATH\"\''
+DEFINES += 'GCS_DATA_BASENAME=\'\"$$GCS_DATA_BASENAME\"\''
+DEFINES += 'GCS_DATA_PATH=\'\"$$GCS_DATA_PATH\"\''
 # Include path to shared API directory
 INCLUDEPATH *= \
     $$GCS_SOURCE_TREE/../../shared/api

@@ -59,7 +59,7 @@ CONFIG += plugin plugin_with_soname
 linux*:QMAKE_LFLAGS += $$QMAKE_LFLAGS_NOUNDEF
 
 !macx {
-    target.path = /$$GCS_LIBRARY_BASENAME/taulabs/plugins/$$PROVIDER
+    target.path = /$$GCS_LIBRARY_BASENAME/$$GCS_PROJECT_BRANDING/plugins/$$PROVIDER
     pluginspec.files += $${TARGET}.pluginspec
     pluginspec.path = /$$GCS_LIBRARY_BASENAME/taulabs/plugins/$$PROVIDER
     INSTALLS += target pluginspec

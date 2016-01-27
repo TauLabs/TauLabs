@@ -67,6 +67,7 @@
 #include <utils/pathchooser.h>
 #include <utils/stylehelper.h>
 #include <utils/xmlconfig.h>
+#include <utils/pathutils.h>
 
 #include <QtCore/QDebug>
 #include <QtCore/QFileInfo>
@@ -89,6 +90,7 @@
 #include <QDir>
 #include <QMimeData>
 #include <QNetworkProxy>
+#include <QDir>
 
 using namespace Core;
 using namespace Core::Internal;
@@ -131,18 +133,14 @@ MainWindow::MainWindow() :
     m_toggleFullScreenAction(0)
 {
     // keep this in sync with main() in app/main.cpp
-    m_settings = new QSettings(XmlConfig::XmlSettingsFormat, QSettings::UserScope,
-                             QLatin1String("TauLabs"), QLatin1String("TauLabs_config.autosave"), this);
+    m_settings = new QSettings(QDir::tempPath() + QDir::separator() + GCS_PROJECT_BRANDING + QDir::separator() + "config_autosave", XmlConfig::XmlSettingsFormat, this);
     m_settingsDatabase = new SettingsDatabase(QFileInfo(m_settings->fileName()).path(),
-                                            QLatin1String("TauLabs_config"),
-                                            this);
-
+                  QLatin1String(GCS_PROJECT_BRANDING "_config"), this);
     // Copy original settings file to working settings. Do this in scope so that
     // we are guaranteed that the originalSettings file is closed. This prevents corruption
     // since the QSettings being used are copies of the original file.
-    {
-        QSettings originalSettings(XmlConfig::XmlSettingsFormat, QSettings::UserScope,
-                                   QLatin1String("TauLabs"), QLatin1String("TauLabs_config"), this);
+    {   
+        QSettings originalSettings(Utils::PathUtils().getSettingsFilename(), XmlConfig::XmlSettingsFormat, this);
 
         // There is no copy constructor for QSettings, so we have to do it manually
         m_settings->clear();
@@ -155,11 +153,11 @@ MainWindow::MainWindow() :
 
     setWindowTitle(QLatin1String(Core::Constants::GCS_NAME));
     if (!Utils::HostOsInfo::isMacHost())
-        QApplication::setWindowIcon(QIcon(Core::Constants::ICON_TAULABS));
+        QApplication::setWindowIcon(QIcon(Core::Constants::ICON_GCS));
     QCoreApplication::setApplicationName(QLatin1String(Core::Constants::GCS_NAME));
     QCoreApplication::setApplicationVersion(QLatin1String(Core::Constants::GCS_VERSION_LONG));
     QCoreApplication::setOrganizationName(QLatin1String(Core::Constants::GCS_AUTHOR));
-    QCoreApplication::setOrganizationDomain(QLatin1String("taulabs.org"));
+    QCoreApplication::setOrganizationDomain(QLatin1String(GCS_PROJECT_BRANDING_HELP));
     QSettings::setDefaultFormat(XmlConfig::XmlSettingsFormat);
     QString baseName = QApplication::style()->objectName();
 
@@ -255,8 +253,7 @@ MainWindow::~MainWindow()
     // we are guaranteed that the originalSettings file is closed. This minimizes the risk
     // of corruption since the QSettings are saved (almost) atomically.
     {
-        QSettings originalSettings(XmlConfig::XmlSettingsFormat, QSettings::UserScope,
-                                   QLatin1String("TauLabs"), QLatin1String("TauLabs_config"), this);
+        QSettings originalSettings(Utils::PathUtils().getSettingsFilename(), XmlConfig::XmlSettingsFormat, this);
 
         // There is no copy constructor for QSettings, so we have to do it manually
         originalSettings.clear();
@@ -327,7 +324,6 @@ void MainWindow::extensionsInitialized()
 #else
             directory.cdUp();
             directory.cd("share");
-            directory.cd("taulabs");
 #endif
             directory.cd("default_configurations");
 
@@ -386,7 +382,6 @@ void MainWindow::loadStyleSheet(QString name) {
 #else
     directory.cdUp();
     directory.cd("share");
-    directory.cd("taulabs");
 #endif
     directory.cd("stylesheets");
 #ifdef Q_OS_MAC
@@ -804,11 +799,11 @@ void MainWindow::registerDefaultActions()
 
     // About GCS Action
 #ifdef Q_OS_MAC
-    tmpaction = new QAction(QIcon(Constants::ICON_TAULABS), tr("About &Tau Labs GCS"), this); // it's convention not to add dots to the about menu
+    tmpaction = new QAction(QIcon(Constants::ICON_GCS), tr("About &GCS"), this); // it's convention not to add dots to the about menu
 #else
-    tmpaction = new QAction(QIcon(Constants::ICON_TAULABS), tr("About &Tau Labs GCS..."), this);
+    tmpaction = new QAction(QIcon(Constants::ICON_GCS), tr("About &GCS..."), this);
 #endif
-    cmd = am->registerAction(tmpaction, Constants::ABOUT_TAULABSGCS, m_globalContext);
+    cmd = am->registerAction(tmpaction, Constants::ABOUT_GCS, m_globalContext);
     mhelp->addAction(cmd, Constants::G_HELP_ABOUT);
     tmpaction->setEnabled(true);
 #ifdef Q_OS_MAC
@@ -837,42 +832,6 @@ void MainWindow::openFile()
 {
 }
 
-/*static QList<IFileFactory*> getNonEditorFileFactories()
-{
-    QList<IFileFactory*> tmp;
-    return tmp;
-}
-
-static IFileFactory *findFileFactory(const QList<IFileFactory*> &fileFactories,
-                                     const MimeDatabase *db,
-                                     const QFileInfo &fi)
-{
-    if (const MimeType mt = db->findByFile(fi)) {
-        const QString type = mt.type();
-        foreach (IFileFactory *factory, fileFactories) {
-            if (factory->mimeTypes().contains(type))
-                return factory;
-        }
-    }
-    return 0;
-}
-
-// opens either an editor or loads a project
-void MainWindow::openFiles(const QStringList &fileNames)
-{
-    QList<IFileFactory*> nonEditorFileFactories = getNonEditorFileFactories();
-
-    foreach (const QString &fileName, fileNames) {
-        const QFileInfo fi(fileName);
-        const QString absoluteFilePath = fi.absoluteFilePath();
-        if (IFileFactory *fileFactory = findFileFactory(nonEditorFileFactories, mimeDatabase(), fi)) {
-            fileFactory->open(absoluteFilePath);
-        } else {
-
-        }
-    }
-}*/
-
 void MainWindow::setFocusToEditor()
 {
 
@@ -894,7 +853,7 @@ void MainWindow::saveAll()
     if ( m_dontSaveSettings) return;
 
     emit m_coreImpl->saveSettingsRequested();
-    saveSettings(); // TauLabs-specific.
+    saveSettings();
 }
 
 void MainWindow::exit()
@@ -1339,8 +1298,7 @@ void MainWindow::deleteSettings()
     m_settings->sync();
 
     // Clear the on-disk settings
-    QSettings originalSettings(XmlConfig::XmlSettingsFormat, QSettings::UserScope,
-                               QLatin1String("TauLabs"), QLatin1String("TauLabs_config"), this);
+    QSettings originalSettings(Utils::PathUtils().getSettingsFilename(), XmlConfig::XmlSettingsFormat, this);
     originalSettings.clear();
     originalSettings.sync();
 

@@ -101,11 +101,7 @@ public:
 
     // command line arguments
     QStringList arguments() const;
-    bool parseOptions(const QStringList &args,
-        const QMap<QString, bool> &appOptions,
-        QMap<QString, QString> *foundAppOptions,
-        QString *errorString);
-    static void formatOptions(QTextStream &str, int optionIndentation, int descriptionIndentation);
+    QStringList parseOptions(QStringList pluginOptions, QStringList pluginTests, QStringList pluginNoLoad);
     void formatPluginOptions(QTextStream &str, int optionIndentation, int descriptionIndentation) const;
     void formatPluginVersions(QTextStream &str) const;
 

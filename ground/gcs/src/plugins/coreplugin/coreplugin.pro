@@ -9,7 +9,6 @@ QT += xml \
     sql
 include(../../taulabsgcsplugin.pri)
 include(../../libs/utils/utils.pri)
-include(../../shared/scriptwrapper/scriptwrapper.pri)
 include(coreplugin_dependencies.pri)
 INCLUDEPATH *= dialogs \
     uavgadgetmanager \
@@ -142,7 +141,7 @@ FORMS += dialogs/settingsdialog.ui \
     dialogs/importsettings.ui
 RESOURCES += core.qrc
 unix:!macx { 
-    images.files = images/taulabs_logo_*.png
+    images.files = $${GCS_PROJECT_BRANDING_PRETTY}/gcs_logo_*.png
     images.files = images/qtcreator_logo_*.png
     images.path = /share/pixmaps
     INSTALLS += images

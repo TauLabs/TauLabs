@@ -3,6 +3,6 @@
         <file>resources/SadPenguin.PNG</file>
     </qresource>
     <qresource prefix="/">
-        <file>../app/taulabs.ico</file>
+        <file>../../../../branding/gcs.ico</file>
     </qresource>
 </RCC>

@@ -35,7 +35,7 @@
 	<key>CFBundleGetInfoString</key>
 	<string>Tau Labs GCS; Copyright Tau Labs</string>
 	<key>CFBundleIconFile</key>
-	<string>taulabs.icns</string>
+        <string>gcs_app.icns</string>
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleSignature</key>

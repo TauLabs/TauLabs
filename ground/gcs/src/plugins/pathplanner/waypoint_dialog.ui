@@ -27,7 +27,7 @@
   </property>
   <property name="windowIcon">
    <iconset resource="../coreplugin/core.qrc">
-    <normaloff>:/core/images/taulabs_logo_128.png</normaloff>:/core/images/taulabs_logo_128.png</iconset>
+    <normaloff>:/core/gcs_logo_128</normaloff>:/core/gcs_logo_128</iconset>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>

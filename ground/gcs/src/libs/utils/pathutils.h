@@ -48,7 +48,10 @@ public:
     QString GetStoragePath();
     QString RemoveStoragePath(QString path);
     QString InsertStoragePath(QString path);
-
+    QString getSettingsFilename();
+    void setSettingsFilename(QString filename);
+private:
+    static QString settingsFilename;
 };
 
 }

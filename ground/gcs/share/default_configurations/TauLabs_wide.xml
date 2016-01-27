@@ -2,12 +2,12 @@
   <General>
     <AutoConnect>true</AutoConnect>
     <AutoSelect>true</AutoSelect>
-    <Description>Developer</Description>
-    <Details>Developer mode configuration</Details>
-    <ExpertMode>true</ExpertMode>
+    <Description>Wide configuration</Description>
+    <Details>Default configuration built for wide screens (17"up)</Details>
+    <ExpertMode>false</ExpertMode>
     <OverrideLanguage>en_US</OverrideLanguage>
     <SaveSettingsOnExit>true</SaveSettingsOnExit>
-    <StyleSheet>default</StyleSheet>
+    <StyleSheet>wide</StyleSheet>
     <UDPMirror>false</UDPMirror>
     <UseSessionManaging>true</UseSessionManaging>
     <proxyhostname></proxyhostname>
@@ -56,7 +56,7 @@
           <dialNeedleID1>needle</dialNeedleID1>
           <dialNeedleID2>needle</dialNeedleID2>
           <dialNeedleID3>needle3</dialNeedleID3>
-          <font>Lucida Grande,13,-1,5,50,0,0,0,0,0</font>
+          <font>MS Shell Dlg 2,8.25,-1,5,50,0,0,0,0,0</font>
           <needle1DataObject>AttitudeActual</needle1DataObject>
           <needle1Factor>-1</needle1Factor>
           <needle1MaxValue>360</needle1MaxValue>
@@ -91,7 +91,7 @@
           <dialNeedleID1>needle</dialNeedleID1>
           <dialNeedleID2>needle2</dialNeedleID2>
           <dialNeedleID3>needle3</dialNeedleID3>
-          <font>Lucida Grande,13,-1,5,50,0,0,0,0,0</font>
+          <font>MS Shell Dlg 2,8.25,-1,5,50,0,0,0,0,0</font>
           <needle1DataObject>BaroAltitude</needle1DataObject>
           <needle1Factor>1</needle1Factor>
           <needle1MaxValue>10</needle1MaxValue>
@@ -126,7 +126,7 @@
           <dialNeedleID1>needle</dialNeedleID1>
           <dialNeedleID2></dialNeedleID2>
           <dialNeedleID3></dialNeedleID3>
-          <font>Lucida Grande,13,-1,5,50,0,0,0,0,0</font>
+          <font>MS Shell Dlg 2,8.25,-1,5,50,0,0,0,0,0</font>
           <needle1DataObject>BaroAltitude</needle1DataObject>
           <needle1Factor>10</needle1Factor>
           <needle1MaxValue>1120</needle1MaxValue>
@@ -161,7 +161,7 @@
           <dialNeedleID1>needle</dialNeedleID1>
           <dialNeedleID2></dialNeedleID2>
           <dialNeedleID3></dialNeedleID3>
-          <font>Lucida Grande,13,-1,5,50,0,0,0,0,0</font>
+          <font>MS Shell Dlg 2,8.25,-1,5,50,0,0,0,0,0</font>
           <needle1DataObject>VelocityActual</needle1DataObject>
           <needle1Factor>0.01</needle1Factor>
           <needle1MaxValue>12</needle1MaxValue>
@@ -196,7 +196,7 @@
           <dialNeedleID1>needle</dialNeedleID1>
           <dialNeedleID2></dialNeedleID2>
           <dialNeedleID3></dialNeedleID3>
-          <font>Lucida Grande,13,-1,5,50,0,0,0,0,0</font>
+          <font>MS Shell Dlg 2,8.25,-1,5,50,0,0,0,0,0</font>
           <needle1DataObject>AttitudeActual</needle1DataObject>
           <needle1Factor>-1</needle1Factor>
           <needle1MaxValue>360</needle1MaxValue>
@@ -231,7 +231,7 @@
           <dialNeedleID1>needle</dialNeedleID1>
           <dialNeedleID2>needle</dialNeedleID2>
           <dialNeedleID3>needle3</dialNeedleID3>
-          <font>Lucida Grande,13,-1,5,50,0,0,0,0,0</font>
+          <font>MS Shell Dlg 2,8.25,-1,5,50,0,0,0,0,0</font>
           <needle1DataObject>AttitudeActual</needle1DataObject>
           <needle1Factor>-1</needle1Factor>
           <needle1MaxValue>360</needle1MaxValue>
@@ -266,7 +266,7 @@
           <dialNeedleID1>needle</dialNeedleID1>
           <dialNeedleID2>needle2</dialNeedleID2>
           <dialNeedleID3>needle3</dialNeedleID3>
-          <font>Lucida Grande,13,-1,5,50,0,0,0,0,0</font>
+          <font>MS Shell Dlg 2,8.25,-1,5,50,0,0,0,0,0</font>
           <needle1DataObject>BaroAltitude</needle1DataObject>
           <needle1Factor>1</needle1Factor>
           <needle1MaxValue>10</needle1MaxValue>
@@ -301,7 +301,7 @@
           <dialNeedleID1>needle</dialNeedleID1>
           <dialNeedleID2></dialNeedleID2>
           <dialNeedleID3></dialNeedleID3>
-          <font>Lucida Grande,13,-1,5,50,0,0,0,0,0</font>
+          <font>MS Shell Dlg 2,8.25,-1,5,50,0,0,0,0,0</font>
           <needle1DataObject>BaroAltitude</needle1DataObject>
           <needle1Factor>10</needle1Factor>
           <needle1MaxValue>1120</needle1MaxValue>
@@ -336,7 +336,7 @@
           <dialNeedleID1>needle</dialNeedleID1>
           <dialNeedleID2></dialNeedleID2>
           <dialNeedleID3></dialNeedleID3>
-          <font>Lucida Grande,13,-1,5,50,0,0,0,0,0</font>
+          <font>MS Shell Dlg 2,8.25,-1,5,50,0,0,0,0,0</font>
           <needle1DataObject>VelocityActual</needle1DataObject>
           <needle1Factor>0.01</needle1Factor>
           <needle1MaxValue>11.2</needle1MaxValue>
@@ -371,7 +371,7 @@
           <dialNeedleID1>needle</dialNeedleID1>
           <dialNeedleID2></dialNeedleID2>
           <dialNeedleID3></dialNeedleID3>
-          <font>Lucida Grande,13,-1,5,50,0,0,0,0,0</font>
+          <font>MS Shell Dlg 2,8.25,-1,5,50,0,0,0,0,0</font>
           <needle1DataObject>AttitudeActual</needle1DataObject>
           <needle1Factor>-1</needle1Factor>
           <needle1MaxValue>360</needle1MaxValue>
@@ -406,7 +406,7 @@
           <dialNeedleID1>needle</dialNeedleID1>
           <dialNeedleID2></dialNeedleID2>
           <dialNeedleID3></dialNeedleID3>
-          <font>Lucida Grande,13,-1,5,50,0,0,0,0,0</font>
+          <font>MS Shell Dlg 2,8.25,-1,5,50,0,0,0,0,0</font>
           <needle1DataObject>GPSPosition</needle1DataObject>
           <needle1Factor>3.6</needle1Factor>
           <needle1MaxValue>120</needle1MaxValue>
@@ -441,7 +441,7 @@
           <dialNeedleID1>needle</dialNeedleID1>
           <dialNeedleID2>needle2</dialNeedleID2>
           <dialNeedleID3>needle3</dialNeedleID3>
-          <font>Lucida Grande,13,-1,5,50,0,0,0,0,0</font>
+          <font>MS Shell Dlg 2,8.25,-1,5,50,0,0,0,0,0</font>
           <needle1DataObject>BaroAltitude</needle1DataObject>
           <needle1Factor>1</needle1Factor>
           <needle1MaxValue>120</needle1MaxValue>
@@ -471,12 +471,12 @@
         <data>
           <beSmooth>false</beSmooth>
           <dialBackgroundID>background</dialBackgroundID>
-          <dialFile>/home/lafargue/OP/OpenPilot/trunk/artwork/Dials/deluxe/turncoordinator.svg</dialFile>
+          <dialFile>%%DATAPATH%%dials/deluxe/turncoordinator.svg</dialFile>
           <dialForegroundID>foreground</dialForegroundID>
           <dialNeedleID1>needle</dialNeedleID1>
           <dialNeedleID2>needle2</dialNeedleID2>
           <dialNeedleID3>needle2</dialNeedleID3>
-          <font>Lucida Grande,13,-1,5,50,0,0,0,0,0</font>
+          <font>MS Shell Dlg 2,8.25,-1,5,50,0,0,0,0,0</font>
           <needle1DataObject>AttitudeActual</needle1DataObject>
           <needle1Factor>-1</needle1Factor>
           <needle1MaxValue>360</needle1MaxValue>
@@ -511,7 +511,7 @@
           <dialNeedleID1>needle</dialNeedleID1>
           <dialNeedleID2></dialNeedleID2>
           <dialNeedleID3></dialNeedleID3>
-          <font>Lucida Grande,13,-1,5,50,0,0,0,0,0</font>
+          <font>MS Shell Dlg 2,8.25,-1,5,50,0,0,0,0,0</font>
           <needle1DataObject>GPSPosition</needle1DataObject>
           <needle1Factor>3.6</needle1Factor>
           <needle1MaxValue>120</needle1MaxValue>
@@ -546,7 +546,7 @@
           <dialNeedleID1>needle</dialNeedleID1>
           <dialNeedleID2>needle</dialNeedleID2>
           <dialNeedleID3>needle3</dialNeedleID3>
-          <font>Lucida Grande,13,-1,5,50,0,0,0,0,0</font>
+          <font>MS Shell Dlg 2,8.25,-1,5,50,0,0,0,0,0</font>
           <needle1DataObject>AttitudeActual</needle1DataObject>
           <needle1Factor>-1</needle1Factor>
           <needle1MaxValue>360</needle1MaxValue>
@@ -581,7 +581,7 @@
           <dialNeedleID1>needle</dialNeedleID1>
           <dialNeedleID2>needle2</dialNeedleID2>
           <dialNeedleID3>needle3</dialNeedleID3>
-          <font>Lucida Grande,13,-1,5,50,0,0,0,0,0</font>
+          <font>MS Shell Dlg 2,8.25,-1,5,50,0,0,0,0,0</font>
           <needle1DataObject>BaroAltitude</needle1DataObject>
           <needle1Factor>1</needle1Factor>
           <needle1MaxValue>10</needle1MaxValue>
@@ -616,7 +616,7 @@
           <dialNeedleID1>needle</dialNeedleID1>
           <dialNeedleID2></dialNeedleID2>
           <dialNeedleID3></dialNeedleID3>
-          <font>Lucida Grande,13,-1,5,50,0,0,0,0,0</font>
+          <font>MS Shell Dlg 2,8.25,-1,5,50,0,0,0,0,0</font>
           <needle1DataObject>BaroAltitude</needle1DataObject>
           <needle1Factor>10</needle1Factor>
           <needle1MaxValue>1120</needle1MaxValue>
@@ -651,7 +651,7 @@
           <dialNeedleID1>needle</dialNeedleID1>
           <dialNeedleID2></dialNeedleID2>
           <dialNeedleID3></dialNeedleID3>
-          <font>Lucida Grande,13,-1,5,50,0,0,0,0,0</font>
+          <font>MS Shell Dlg 2,8.25,-1,5,50,0,0,0,0,0</font>
           <needle1DataObject>VelocityActual</needle1DataObject>
           <needle1Factor>0.01</needle1Factor>
           <needle1MaxValue>12</needle1MaxValue>
@@ -686,7 +686,7 @@
           <dialNeedleID1>needle</dialNeedleID1>
           <dialNeedleID2></dialNeedleID2>
           <dialNeedleID3></dialNeedleID3>
-          <font>Lucida Grande,13,-1,5,50,0,0,0,0,0</font>
+          <font>MS Shell Dlg 2,8.25,-1,5,50,0,0,0,0,0</font>
           <needle1DataObject>AttitudeActual</needle1DataObject>
           <needle1Factor>-1</needle1Factor>
           <needle1MaxValue>360</needle1MaxValue>
@@ -721,7 +721,7 @@
           <dialNeedleID1>needle</dialNeedleID1>
           <dialNeedleID2></dialNeedleID2>
           <dialNeedleID3></dialNeedleID3>
-          <font>Lucida Grande,13,-1,5,50,0,0,0,0,0</font>
+          <font>MS Shell Dlg 2,8.25,-1,5,50,0,0,0,0,0</font>
           <needle1DataObject>GPSPosition</needle1DataObject>
           <needle1Factor>3.6</needle1Factor>
           <needle1MaxValue>120</needle1MaxValue>
@@ -756,7 +756,7 @@
           <dialNeedleID1>needle</dialNeedleID1>
           <dialNeedleID2>needle2</dialNeedleID2>
           <dialNeedleID3>needle3</dialNeedleID3>
-          <font>Lucida Grande,13,-1,5,50,0,0,0,0,0</font>
+          <font>MS Shell Dlg 2,8.25,-1,5,50,0,0,0,0,0</font>
           <needle1DataObject>BaroAltitude</needle1DataObject>
           <needle1Factor>1</needle1Factor>
           <needle1MaxValue>120</needle1MaxValue>
@@ -791,7 +791,7 @@
           <dialNeedleID1>needle</dialNeedleID1>
           <dialNeedleID2>needle2</dialNeedleID2>
           <dialNeedleID3>needle3</dialNeedleID3>
-          <font>Lucida Grande,13,-1,5,50,0,0,0,0,0</font>
+          <font>MS Shell Dlg 2,8.25,-1,5,50,0,0,0,0,0</font>
           <needle1DataObject>ManualControlCommand</needle1DataObject>
           <needle1Factor>1</needle1Factor>
           <needle1MaxValue>2000</needle1MaxValue>
@@ -826,7 +826,7 @@
           <dialNeedleID1>needle</dialNeedleID1>
           <dialNeedleID2>needle2</dialNeedleID2>
           <dialNeedleID3>needle3</dialNeedleID3>
-          <font>Lucida Grande,13,-1,5,50,0,0,0,0,0</font>
+          <font>MS Shell Dlg 2,8.25,-1,5,50,0,0,0,0,0</font>
           <needle1DataObject>BaroAltitude</needle1DataObject>
           <needle1Factor>1</needle1Factor>
           <needle1MaxValue>120</needle1MaxValue>
@@ -910,7 +910,7 @@
           <defaultDataBits>3</defaultDataBits>
           <defaultFlow>0</defaultFlow>
           <defaultParity>0</defaultParity>
-          <defaultPort>/dev/cu.Bluetooth-Modem</defaultPort>
+          <defaultPort>Communications Port (COM1)</defaultPort>
           <defaultSpeed>11</defaultSpeed>
           <defaultStopBits>0</defaultStopBits>
         </data>
@@ -925,13 +925,50 @@
           <defaultDataBits>3</defaultDataBits>
           <defaultFlow>0</defaultFlow>
           <defaultParity>0</defaultParity>
-          <defaultPort>/dev/cu.Bluetooth-Modem</defaultPort>
+          <defaultPort>Communications Port (COM1)</defaultPort>
           <defaultSpeed>17</defaultSpeed>
           <defaultStopBits>0</defaultStopBits>
         </data>
       </GPS__PCT__20Mouse>
     </GpsDisplayGadget>
     <HITL>
+      <AeroSimRC__PCT__20HITL>
+        <configInfo>
+          <locked>false</locked>
+          <version>0.0.0</version>
+        </configInfo>
+        <data>
+          <addNoise>false</addNoise>
+          <airspeedActualEnabled>false</airspeedActualEnabled>
+          <airspeedActualRate>0</airspeedActualRate>
+          <attActCalc>false</attActCalc>
+          <attActHW>false</attActHW>
+          <attActSim>true</attActSim>
+          <attActualEnabled>true</attActualEnabled>
+          <attRawEnabled>true</attRawEnabled>
+          <attRawRate>20</attRawRate>
+          <baroAltRate>50</baroAltRate>
+          <baroAltitudeEnabled>false</baroAltitudeEnabled>
+          <binPath></binPath>
+          <dataPath></dataPath>
+          <gcsReceiverEnabled>true</gcsReceiverEnabled>
+          <gpsPosRate>100</gpsPosRate>
+          <gpsPositionEnabled>false</gpsPositionEnabled>
+          <groundTruthEnabled>true</groundTruthEnabled>
+          <groundTruthRate>100</groundTruthRate>
+          <hostAddress>0.0.0.0</hostAddress>
+          <inPort>40100</inPort>
+          <inputCommand>true</inputCommand>
+          <latitude></latitude>
+          <longitude></longitude>
+          <manualControlEnabled>false</manualControlEnabled>
+          <minOutputPeriod>40</minOutputPeriod>
+          <outPort>40200</outPort>
+          <remoteAddress>127.0.0.1</remoteAddress>
+          <simulatorId>ASimRC</simulatorId>
+          <startSim>false</startSim>
+        </data>
+      </AeroSimRC__PCT__20HITL>
       <Flightgear__PCT__20HITL>
         <configInfo>
           <locked>false</locked>
@@ -943,28 +980,28 @@
           <airspeedActualRate>0</airspeedActualRate>
           <attActCalc>false</attActCalc>
           <attActHW>false</attActHW>
-          <attActSim>false</attActSim>
-          <attActualEnabled>false</attActualEnabled>
-          <attRawEnabled>false</attRawEnabled>
-          <attRawRate>0</attRawRate>
-          <baroAltRate>0</baroAltRate>
+          <attActSim>true</attActSim>
+          <attActualEnabled>true</attActualEnabled>
+          <attRawEnabled>true</attRawEnabled>
+          <attRawRate>20</attRawRate>
+          <baroAltRate>50</baroAltRate>
           <baroAltitudeEnabled>false</baroAltitudeEnabled>
           <binPath>\usr\games\fgfs</binPath>
           <dataPath>\usr\share\games\FlightGear</dataPath>
           <gcsReceiverEnabled>false</gcsReceiverEnabled>
-          <gpsPosRate>0</gpsPosRate>
+          <gpsPosRate>100</gpsPosRate>
           <gpsPositionEnabled>false</gpsPositionEnabled>
-          <groundTruthEnabled>false</groundTruthEnabled>
-          <groundTruthRate>0</groundTruthRate>
+          <groundTruthEnabled>true</groundTruthEnabled>
+          <groundTruthRate>100</groundTruthRate>
           <hostAddress>127.0.0.1</hostAddress>
           <inPort>9009</inPort>
-          <inputCommand>false</inputCommand>
+          <inputCommand>true</inputCommand>
           <latitude></latitude>
           <longitude></longitude>
-          <manualControlEnabled>false</manualControlEnabled>
-          <minOutputPeriod>0</minOutputPeriod>
+          <manualControlEnabled>true</manualControlEnabled>
+          <minOutputPeriod>40</minOutputPeriod>
           <outPort>9010</outPort>
-          <remoteAddress></remoteAddress>
+          <remoteAddress>127.0.0.1</remoteAddress>
           <simulatorId>FG</simulatorId>
           <startSim>true</startSim>
         </data>
@@ -980,28 +1017,28 @@
           <airspeedActualRate>0</airspeedActualRate>
           <attActCalc>false</attActCalc>
           <attActHW>false</attActHW>
-          <attActSim>false</attActSim>
-          <attActualEnabled>false</attActualEnabled>
-          <attRawEnabled>false</attRawEnabled>
-          <attRawRate>0</attRawRate>
-          <baroAltRate>0</baroAltRate>
+          <attActSim>true</attActSim>
+          <attActualEnabled>true</attActualEnabled>
+          <attRawEnabled>true</attRawEnabled>
+          <attRawRate>20</attRawRate>
+          <baroAltRate>50</baroAltRate>
           <baroAltitudeEnabled>false</baroAltitudeEnabled>
-          <binPath>\home\lafargue\X-Plane 9\X-Plane-i686</binPath>
-          <dataPath>\usr\share\games\FlightGear</dataPath>
+          <binPath></binPath>
+          <dataPath></dataPath>
           <gcsReceiverEnabled>false</gcsReceiverEnabled>
-          <gpsPosRate>0</gpsPosRate>
+          <gpsPosRate>100</gpsPosRate>
           <gpsPositionEnabled>false</gpsPositionEnabled>
-          <groundTruthEnabled>false</groundTruthEnabled>
-          <groundTruthRate>0</groundTruthRate>
-          <hostAddress>127.0.0.3</hostAddress>
+          <groundTruthEnabled>true</groundTruthEnabled>
+          <groundTruthRate>100</groundTruthRate>
+          <hostAddress>0.0.0.0</hostAddress>
           <inPort>6756</inPort>
-          <inputCommand>false</inputCommand>
+          <inputCommand>true</inputCommand>
           <latitude></latitude>
           <longitude></longitude>
-          <manualControlEnabled>false</manualControlEnabled>
-          <minOutputPeriod>0</minOutputPeriod>
+          <manualControlEnabled>true</manualControlEnabled>
+          <minOutputPeriod>40</minOutputPeriod>
           <outPort>49000</outPort>
-          <remoteAddress></remoteAddress>
+          <remoteAddress>127.0.0.1</remoteAddress>
           <simulatorId>X-Plane</simulatorId>
           <startSim>false</startSim>
         </data>
@@ -1736,7 +1773,7 @@
           <showTileGridLines>false</showTileGridLines>
           <uavSymbol>mapquad.png</uavSymbol>
           <useMemoryCache>true</useMemoryCache>
-          <useOpenGL>false</useOpenGL>
+          <useOpenGL>true</useOpenGL>
           <userImageHorizontalScale>@Variant(AAAAhwAAAAA=)</userImageHorizontalScale>
           <userImageLocation></userImageLocation>
           <userImageVerticalScale>@Variant(AAAAhwAAAAA=)</userImageVerticalScale>
@@ -1760,7 +1797,7 @@
           <showTileGridLines>false</showTileGridLines>
           <uavSymbol>airplanepip.png</uavSymbol>
           <useMemoryCache>true</useMemoryCache>
-          <useOpenGL>false</useOpenGL>
+          <useOpenGL>true</useOpenGL>
           <userImageHorizontalScale>@Variant(AAAAhwAAAAA=)</userImageHorizontalScale>
           <userImageLocation></userImageLocation>
           <userImageVerticalScale>@Variant(AAAAhwAAAAA=)</userImageVerticalScale>
@@ -1774,9 +1811,9 @@
         <data>
           <accessMode>ServerAndCache</accessMode>
           <cacheLocation>%%STOREPATH%%mapscache/</cacheLocation>
-          <defaultLatitude>29.97</defaultLatitude>
-          <defaultLongitude>95.35</defaultLongitude>
-          <defaultZoom>7</defaultZoom>
+          <defaultLatitude>0</defaultLatitude>
+          <defaultLongitude>0</defaultLongitude>
+          <defaultZoom>2</defaultZoom>
           <geolanguage>autoDetect</geolanguage>
           <mapProvider>GoogleMap</mapProvider>
           <maxUpdateRate>2000</maxUpdateRate>
@@ -2291,11 +2328,11 @@
               <type>uavGadget</type>
             </side1>
             <splitterOrientation>1</splitterOrientation>
-            <splitterSizes>@Variant(AAAACQAAAAIAAAACAAABIAAAAAIAAAFV)</splitterSizes>
+            <splitterSizes>@Variant(AAAACQAAAAIAAAACAAAB1AAAAAIAAAGI)</splitterSizes>
             <type>splitter</type>
           </side1>
           <splitterOrientation>2</splitterOrientation>
-          <splitterSizes>@Variant(AAAACQAAAAIAAAACAAAB7wAAAAIAAAEf)</splitterSizes>
+          <splitterSizes>@Variant(AAAACQAAAAIAAAACAAACegAAAAIAAAFC)</splitterSizes>
           <type>splitter</type>
         </side0>
         <side1>
@@ -2306,7 +2343,7 @@
           <type>uavGadget</type>
         </side1>
         <splitterOrientation>1</splitterOrientation>
-        <splitterSizes>@Variant(AAAACQAAAAIAAAACAAACdgAAAAIAAAMp)</splitterSizes>
+        <splitterSizes>@Variant(AAAACQAAAAIAAAACAAADXgAAAAIAAAQd)</splitterSizes>
         <type>splitter</type>
       </splitter>
       <version>UAVGadgetManagerV1</version>
@@ -2329,7 +2366,7 @@
           <type>uavGadget</type>
         </side1>
         <splitterOrientation>1</splitterOrientation>
-        <splitterSizes>@Variant(AAAACQAAAAIAAAACAAADRgAAAAIAAAJV)</splitterSizes>
+        <splitterSizes>@Variant(AAAACQAAAAIAAAACAAAEeQAAAAIAAAMC)</splitterSizes>
         <type>splitter</type>
       </splitter>
       <version>UAVGadgetManagerV1</version>
@@ -2370,7 +2407,7 @@
           <type>splitter</type>
         </side1>
         <splitterOrientation>1</splitterOrientation>
-        <splitterSizes>@Variant(AAAACQAAAAIAAAACAAACJgAAAAIAAADo)</splitterSizes>
+        <splitterSizes>@Variant(AAAACQAAAAIAAAACAAAEvwAAAAIAAAK8)</splitterSizes>
         <type>splitter</type>
       </splitter>
       <version>UAVGadgetManagerV1</version>
@@ -2413,7 +2450,7 @@
             <type>uavGadget</type>
           </side1>
           <splitterOrientation>2</splitterOrientation>
-          <splitterSizes>@Variant(AAAACQAAAAIAAAACAAABuwAAAAIAAAES)</splitterSizes>
+          <splitterSizes>@Variant(AAAACQAAAAIAAAACAAABhAAAAAIAAAGE)</splitterSizes>
           <type>splitter</type>
         </side1>
         <splitterOrientation>1</splitterOrientation>
@@ -2431,16 +2468,16 @@
             <type>uavGadget</type>
           </side0>
           <side1>
-            <classId>PathPlannerGadget</classId>
+            <classId>PicoCGadget</classId>
             <type>uavGadget</type>
           </side1>
-          <splitterOrientation>2</splitterOrientation>
-          <splitterSizes>@Variant(AAAACQAAAAIAAAACAAAB7gAAAAIAAAER)</splitterSizes>
+          <splitterOrientation>1</splitterOrientation>
+          <splitterSizes>@Variant(AAAACQAAAAA=)</splitterSizes>
           <type>splitter</type>
         </side0>
         <side1>
           <side0>
-            <classId>PicoCGadget</classId>
+            <classId>PathPlannerGadget</classId>
             <type>uavGadget</type>
           </side0>
           <side1>
@@ -2450,11 +2487,11 @@
             </gadget>
             <type>uavGadget</type>
           </side1>
-          <splitterOrientation>2</splitterOrientation>
-          <splitterSizes>@Variant(AAAACQAAAAIAAAACAAAB7gAAAAIAAAER)</splitterSizes>
+          <splitterOrientation>1</splitterOrientation>
+          <splitterSizes>@Variant(AAAACQAAAAIAAAACAAADIwAAAAIAAAJ4)</splitterSizes>
           <type>splitter</type>
         </side1>
-        <splitterOrientation>1</splitterOrientation>
+        <splitterOrientation>2</splitterOrientation>
         <splitterSizes>@Variant(AAAACQAAAAIAAAACAAADDAAAAAIAAAJJ)</splitterSizes>
         <type>splitter</type>
       </splitter>
@@ -2508,15 +2545,15 @@
   <Workspace>
     <AllowTabBarMovement>false</AllowTabBarMovement>
     <Icon1>:/core/images/ah.png</Icon1>
-    <Icon10>:/core/images/taulabs_logo_64.png</Icon10>
+    <Icon10>:/core/images/gcs_logo_64.png</Icon10>
     <Icon2>:/core/images/config.png</Icon2>
     <Icon3>:/core/images/cog.png</Icon3>
     <Icon4>:/core/images/scopes.png</Icon4>
     <Icon5>:/core/images/joystick.png</Icon5>
     <Icon6>:/core/images/cpu.png</Icon6>
-    <Icon7>:/core/images/taulabs_logo_64.png</Icon7>
-    <Icon8>:/core/images/taulabs_logo_64.png</Icon8>
-    <Icon9>:/core/images/taulabs_logo_64.png</Icon9>
+    <Icon7>:/core/images/gcs_logo_64.png</Icon7>
+    <Icon8>:/core/images/gcs_logo_64.png</Icon8>
+    <Icon9>:/core/images/gcs_logo_64.png</Icon9>
     <NumberOfWorkspaces>6</NumberOfWorkspaces>
     <TabBarPlacementIndex>1</TabBarPlacementIndex>
     <Workspace1>Flight data</Workspace1>
