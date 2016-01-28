@@ -2,6 +2,7 @@
  ******************************************************************************
  *
  * @file       mytabbedstackwidget.cpp
+ * @author     dRonin, http://dRonin.org/, Copyright (C) 2016
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
  *             Parts by Nokia Corporation (qt-info@nokia.com) Copyright (C) 2009.
  * @brief
@@ -58,14 +59,20 @@ MyTabbedStackWidget::MyTabbedStackWidget(QWidget *parent, bool isVertical, bool 
     }
 
     if (m_iconAbove && m_vertical) {
-        m_listWidget->setFixedWidth(80); // this should be computed instead
+        m_listWidget->setFixedWidth(91); // this should be computed instead
         m_listWidget->setWrapping(false);
+        // make the scrollbar small and similar to OS X so it doesn't overlay the icons
+        m_listWidget->setStyleSheet(QString("QScrollBar:vertical { width: 6px; border-width: 0px; background: none; margin: 2px 0px 2px 0px; }"
+                                            "QScrollBar::handle:vertical { background: #5c5c5c; border-radius: 3px; }"
+                                            "QScrollBar::add-line:vertical { width: 0; height: 0; }"
+                                            "QScrollBar::sub-line:vertical { width: 0; height: 0 }"));
     }
 
     toplevelLayout->setSpacing(0);
     toplevelLayout->setContentsMargins(0, 0, 0, 0);
-    m_listWidget->setContentsMargins(0, 0, 0, 0);
-    m_listWidget->setSpacing(0);
+    m_listWidget->setContentsMargins(0, 0, 4, 0);
+    m_listWidget->setSizeAdjustPolicy(QAbstractScrollArea::AdjustToContents);
+    m_listWidget->setSpacing(4);
     m_listWidget->setViewMode(QListView::IconMode);
     m_stackWidget->setContentsMargins(0, 0, 0, 0);
     setLayout(toplevelLayout);
@@ -81,6 +88,11 @@ void MyTabbedStackWidget::insertTab(const int index, QWidget *tab, const QIcon &
     item->setFlags(Qt::ItemIsEnabled | Qt::ItemIsSelectable);
     item->setTextAlignment(Qt::AlignHCenter | Qt::AlignBottom);
     item->setToolTip(label);
+
+    if (m_vertical) {
+        item->setSizeHint(QSize(85, 82));
+    }
+
     m_listWidget->insertItem(index, item);
 }
 
