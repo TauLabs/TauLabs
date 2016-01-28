@@ -399,6 +399,9 @@ int main(int argc, char **argv)
         return sendArguments(app, pluginManager.arguments()) ? 0 : -1;
 
     QObject::connect(&pluginManager,SIGNAL(splashMessages(QString)),&splash,SLOT(showMessage(const QString)));
+    QObject::connect(&pluginManager,SIGNAL(hideSplash()),&splash,SLOT(hide()));
+    QObject::connect(&pluginManager,SIGNAL(showSplash()),&splash,SLOT(show()));
+
     pluginManager.loadPlugins();
     if (coreplugin->hasError()) {
         displayError(msgCoreLoadFailure(coreplugin->errorString()));

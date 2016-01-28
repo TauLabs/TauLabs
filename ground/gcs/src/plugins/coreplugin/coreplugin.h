@@ -54,6 +54,9 @@ public slots:
     void remoteArgument(const QString&);
 signals:
     void splashMessages(QString);
+    void hideSplash();
+    void showSplash();
+
 private:
     MainWindow *m_mainWindow;
 };

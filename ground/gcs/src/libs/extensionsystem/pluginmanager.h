@@ -119,6 +119,9 @@ signals:
     void pluginsChanged();
     void pluginsLoadEnded();
     void splashMessages(QString);
+
+    void hideSplash();
+    void showSplash();
 private slots:
     void startTests();
 

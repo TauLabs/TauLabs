@@ -581,8 +581,11 @@ void PluginManagerPrivate::loadPlugins()
     foreach (PluginSpec *spec, queue) {
         emit q->splashMessages(QString(QObject::tr("Loading %1 plugin")).arg(spec->name()));
         loadPlugin(spec, PluginSpec::Loaded);
-        if(spec->name() == "Core")
-            QObject::connect(spec->plugin(),SIGNAL(splashMessages(QString)),q,SIGNAL(splashMessages(QString)));
+        if(spec->name() == "Core") {
+            QObject::connect(spec->plugin(),SIGNAL(splashMessages(QString)), q, SIGNAL(splashMessages(QString)));
+            QObject::connect(spec->plugin(),SIGNAL(showSplash()), q, SIGNAL(showSplash()));
+            QObject::connect(spec->plugin(),SIGNAL(hideSplash()), q, SIGNAL(hideSplash()));
+	}
     }
 
     foreach (PluginSpec *spec, queue) {

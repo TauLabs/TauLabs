@@ -347,10 +347,17 @@ void MainWindow::extensionsInitialized()
         }
         if(showDialog)
         {
+            // This has often ended up behind the splash screen, which looks
+            // bad.
+            emit hideSplash();
+
             importSettings * dialog=new importSettings(this);
             dialog->loadFiles(directory.absolutePath());
             dialog->exec();
             filename=dialog->choosenConfig();
+
+            emit showSplash();
+
             settings=new QSettings(filename, XmlConfig::XmlSettingsFormat);
             delete dialog;
         }

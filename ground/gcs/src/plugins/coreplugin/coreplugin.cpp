@@ -41,6 +41,8 @@ CorePlugin::CorePlugin() :
     m_mainWindow(new MainWindow)
 {
     connect(m_mainWindow,SIGNAL(splashMessages(QString)),this,SIGNAL(splashMessages(QString)));
+    connect(m_mainWindow,SIGNAL(hideSplash()),this,SIGNAL(hideSplash()));
+    connect(m_mainWindow,SIGNAL(showSplash()),this,SIGNAL(showSplash()));
 }
 
 CorePlugin::~CorePlugin()
