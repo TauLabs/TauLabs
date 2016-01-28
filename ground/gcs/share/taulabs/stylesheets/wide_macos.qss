@@ -47,7 +47,6 @@ Utils--StyledBar { background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:
 		border-radius: 4px;
 		}
 
-
  	QSlider::handle:horizontal {
      		background: rgb(196,196,196);
      		width: 18px;
