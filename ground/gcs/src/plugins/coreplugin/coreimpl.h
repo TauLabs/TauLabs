@@ -59,13 +59,10 @@ public:
     BoardManager *boardManager() const;
     GlobalMessaging *globalMessaging() const;
     UAVGadgetInstanceManager *uavGadgetInstanceManager() const;
-    VariableManager *variableManager() const;
     ThreadManager *threadManager() const;
     ModeManager *modeManager() const;
-    MimeDatabase *mimeDatabase() const;
 
     QSettings *settings(QSettings::Scope scope = QSettings::UserScope) const;
-    SettingsDatabase *settingsDatabase() const;
     void readMainSettings(QSettings* qs, bool workspaceDiffOnly);
     void saveMainSettings(QSettings* qs);
     void readSettings(IConfigurablePlugin* plugin, QSettings* qs = 0 );

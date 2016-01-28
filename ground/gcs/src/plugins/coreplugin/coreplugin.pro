@@ -18,7 +18,6 @@ DEPENDPATH += dialogs \
     uavgadgetmanager \
     actionmanager
 SOURCES += mainwindow.cpp \
-    tabpositionindicator.cpp \
     generalsettings.cpp \
     uniqueidmanager.cpp \
     messagemanager.cpp \
@@ -37,7 +36,6 @@ SOURCES += mainwindow.cpp \
     basemode.cpp \
     baseview.cpp \
     coreplugin.cpp \
-    variablemanager.cpp \
     threadmanager.cpp \
     modemanager.cpp \
     coreimpl.cpp \
@@ -45,13 +43,9 @@ SOURCES += mainwindow.cpp \
     manhattanstyle.cpp \
     minisplitter.cpp \
     styleanimator.cpp \
-    rightpane.cpp \
-    sidebar.cpp \
-    mimedatabase.cpp \
     icore.cpp \
     dialogs/ioptionspage.cpp \
     dialogs/iwizard.cpp \
-    settingsdatabase.cpp \
     eventfilteringmainwindow.cpp \
     connectionmanager.cpp \
     iconnection.cpp \
@@ -70,7 +64,6 @@ SOURCES += mainwindow.cpp \
     globalmessaging.cpp \
     alarmsmonitorwidget.cpp
 HEADERS += mainwindow.h \
-    tabpositionindicator.h \
     generalsettings.h \
     uniqueidmanager.h \
     messagemanager.h \
@@ -104,18 +97,13 @@ HEADERS += mainwindow.h \
     basemode.h \
     baseview.h \
     coreplugin.h \
-    variablemanager.h \
     threadmanager.h \
     modemanager.h \
     coreimpl.h \
     plugindialog.h \
     manhattanstyle.h \
-    minisplitter.h \
     styleanimator.h \
-    rightpane.h \
-    sidebar.h \
-    mimedatabase.h \
-    settingsdatabase.h \
+    minisplitter.h \
     eventfilteringmainwindow.h \
     connectionmanager.h \
     iconnection.h \
