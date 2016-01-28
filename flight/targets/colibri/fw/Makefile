@@ -149,6 +149,7 @@ SRC += $(PIOSCOMMON)/pios_mutex.c
 SRC += $(PIOSCOMMON)/pios_thread.c
 SRC += $(PIOSCOMMON)/pios_queue.c
 SRC += $(PIOSCOMMON)/pios_streamfs.c
+SRC += $(PIOSCOMMON)/pios_hal.c
 
 # List C++ source files here.
 # use file-extension .cpp for C++-files (not .C)

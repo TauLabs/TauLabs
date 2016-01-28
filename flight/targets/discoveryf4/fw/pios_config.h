@@ -48,7 +48,7 @@
 /* Supported receiver interfaces */
 //#define PIOS_INCLUDE_DSM
 //#define PIOS_INCLUDE_SBUS
-//#define PIOS_INCLUDE_PPM
+#define PIOS_INCLUDE_PPM
 //#define PIOS_INCLUDE_PWM
 #define PIOS_INCLUDE_GCSRCVR
 
@@ -102,6 +102,8 @@
  * A change in the cpu load calculation or the idle task handler will invalidate this as well.
  */
 #define IDLE_COUNTS_PER_SEC_AT_NO_LOAD (6984538)
+
+#define PIOS_NO_ALARMS
 
 #define NO_SENSORS
 
