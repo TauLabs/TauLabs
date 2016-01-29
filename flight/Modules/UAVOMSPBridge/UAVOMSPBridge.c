@@ -270,7 +270,7 @@ static void msp_send_status(struct msp_bridge *m)
 		FlightStatusData flight_status;
 		FlightStatusGet(&flight_status);
 
-		data.status.flags = 0x0001; //flight_status.Armed == FLIGHTSTATUS_ARMED_ARMED;
+		data.status.flags = flight_status.Armed == FLIGHTSTATUS_ARMED_ARMED;
 
 		for (int i = 1; msp_boxes[i].mode != MSP_BOX_LAST; i++) {
 			if (flight_status.FlightMode == msp_boxes[i].tlmode) {
@@ -351,15 +351,49 @@ static void msp_send_raw_gps(struct msp_bridge *m)
 	data.raw_gps.lat           = gpsData.Latitude;
 	data.raw_gps.lon           = gpsData.Longitude;
 	data.raw_gps.alt           = (uint16_t)gpsData.Altitude;
-	data.raw_gps.speed         = 5556; //(uint16_t)gpsData.Groundspeed;
-	data.raw_gps.ground_course = (int16_t)gpsData.Heading;
+	data.raw_gps.speed         = (uint16_t)gpsData.Groundspeed;
+	data.raw_gps.ground_course = (int16_t)(gpsData.Heading * 10.0f);
 	
 	msp_send(m, MSP_RAW_GPS, data.buf, sizeof(data));
 }
 
 static void msp_send_comp_gps(struct msp_bridge *m)
 {
-	// TODO
+	union {
+		uint8_t buf[0];
+		struct {
+			uint16_t distance_to_home;     // meter
+			int16_t  direction_to_home;    // degree [-180:180]
+			uint8_t  update;               // new GPS frame
+		} __attribute__((packed)) comp_gps;
+	} data;
+	
+	GPSPositionData gpsData = {};
+	
+	if (GPSPositionHandle() != NULL)
+		GPSPositionGet(&gpsData);
+	
+	HomeLocationData homeData = {};
+	
+	if (HomeLocationHandle() != NULL)
+		HomeLocationGet(&homeData);
+	
+	int32_t deltaLon = (homeData.Longitude - gpsData.Longitude);  // degrees * 1e7
+	int32_t deltaLat = (homeData.Latitude  - gpsData.Latitude );  // degrees * 1e7
+	
+	float deltaY = (float)deltaLon * WGS84_RADIUS_EARTH_KM * DEG2RAD;  // KM * 1e7
+	float deltaX = (float)deltaLat * WGS84_RADIUS_EARTH_KM * DEG2RAD;  // KM * 1e7
+	
+	deltaY *= cosf((float)homeData.Latitude * 1e-7f * (float)DEG2RAD);  // Latitude compression correction
+	
+	data.comp_gps.distance_to_home  = (uint16_t)(sqrtf(deltaX * deltaX + deltaY * deltaY) * 1e-4f);  // meters
+	
+	if ((deltaLon == 0) && (deltaLat == 0))
+		data.comp_gps.direction_to_home = 0;
+	else
+		data.comp_gps.direction_to_home = (int16_t)(atan2f(deltaY, deltaX) * RAD2DEG); // degrees;
+	
+	msp_send(m, MSP_COMP_GPS, data.buf, sizeof(data));
 }
 
 static void msp_send_altitude(struct msp_bridge *m)
