@@ -665,17 +665,6 @@ void PIOS_Board_Init(void) {
 	if(get_use_can(bdinfo->board_rev)) {
 		if (PIOS_CAN_Init(&pios_can_id, &pios_can_cfg) != 0)
 			panic(6);
-
-		uint8_t * rx_buffer = (uint8_t *) PIOS_malloc(PIOS_COM_CAN_RX_BUF_LEN);
-		uint8_t * tx_buffer = (uint8_t *) PIOS_malloc(PIOS_COM_CAN_TX_BUF_LEN);
-		PIOS_Assert(rx_buffer);
-		PIOS_Assert(tx_buffer);
-		if (PIOS_COM_Init(&pios_com_can_id, &pios_can_com_driver, pios_can_id,
-		                  rx_buffer, PIOS_COM_CAN_RX_BUF_LEN,
-		                  tx_buffer, PIOS_COM_CAN_TX_BUF_LEN))
-			panic(6);
-
-		/* pios_com_bridge_id = pios_com_can_id; */
 	}
 #endif
 
