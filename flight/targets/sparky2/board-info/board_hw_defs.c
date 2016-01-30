@@ -6,7 +6,7 @@
  * @{
  *
  * @file       pios_board.c 
- * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2015
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2016
  * @brief      Board specific hardware configuration file
  * @see        The GNU Public License (GPL) Version 3
  *
