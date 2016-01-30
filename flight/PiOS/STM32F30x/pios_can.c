@@ -138,7 +138,8 @@ int32_t PIOS_CAN_Init(uintptr_t *can_id, const struct pios_can_cfg *cfg)
 
 	/* CAN filter init */
 	CAN_FilterInitTypeDef CAN_FilterInitStructure;
-	CAN_FilterInitStructure.CAN_FilterNumber = 0;
+	// Banks 0..13 are assigned to CAN1 and 14..28 to CAN2
+	CAN_FilterInitStructure.CAN_FilterNumber = (can_dev->cfg->regs == CAN1) ? 0 : 14;
 	CAN_FilterInitStructure.CAN_FilterMode = CAN_FilterMode_IdMask;
 	CAN_FilterInitStructure.CAN_FilterScale = CAN_FilterScale_32bit;
 	CAN_FilterInitStructure.CAN_FilterIdHigh = 0x0000;
