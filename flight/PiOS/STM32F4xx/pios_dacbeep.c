@@ -7,8 +7,8 @@
  * @{
  *
  * @file       pios_dacbeep.c
- * @author     Tau Labs, http://taulabs.org, Copyright (C) 2015
- * @brief      Generates Bel202 encoded serial data on the DAC channel
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2015-2016
+ * @brief      Generates audio beeps of desired duration and frequency
  * @see        The GNU Public License (GPL) Version 3
  *
  *****************************************************************************/
