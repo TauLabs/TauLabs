@@ -81,8 +81,7 @@ static int32_t OsdCanStart()
 {
 	// Start main task
 	taskHandle = PIOS_Thread_Create(osdCanTask, "OsdCan", STACK_SIZE_BYTES, NULL, TASK_PRIORITY);
-	//TaskMonitorAdd(TASKINFO_RUNNING_ACTUATOR, taskHandle);
-	//PIOS_WDG_RegisterFlag(PIOS_WDG_ACTUATOR);
+	TaskMonitorAdd(TASKINFO_RUNNING_ONSCREENDISPLAYCOM, taskHandle);
 
 	return 0;
 }
