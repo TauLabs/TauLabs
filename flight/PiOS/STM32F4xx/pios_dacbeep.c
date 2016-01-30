@@ -142,7 +142,7 @@ int32_t PIOS_DACBEEP_Init(uintptr_t * dacbeep_id, const struct pios_fskdac_confi
 	DMA_DeInit(DMA1_Stream5);
 	DMA_InitTypeDef DMA_InitStructure;	
 	DMA_InitStructure.DMA_Channel = DMA_Channel_7;  
-	DMA_InitStructure.DMA_PeripheralBaseAddr = 0x40007408; // DAC1 12R register
+	DMA_InitStructure.DMA_PeripheralBaseAddr = (uint32_t)&DAC->DHR12R1;
 	DMA_InitStructure.DMA_Memory0BaseAddr = (uint32_t)&SINE_SAMPLES[0];
 	DMA_InitStructure.DMA_BufferSize = SAMPLES_PER_BIT;
 	DMA_InitStructure.DMA_PeripheralDataSize = DMA_PeripheralDataSize_HalfWord;
