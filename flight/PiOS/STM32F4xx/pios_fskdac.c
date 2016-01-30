@@ -104,9 +104,6 @@ const uint16_t SPACE_SAMPLES[] = {
 };
 const uint32_t SAMPLES_PER_BIT = NELEMENTS(MARK_SAMPLES);
 
-
-#define   DAC_DHR12R1_ADDR  0x40007408
-
 static bool PIOS_FSKDAC_validate(struct pios_fskdac_dev * fskdac_dev)
 {
 	return (fskdac_dev->magic == PIOS_FSKDAC_DEV_MAGIC);
@@ -178,7 +175,7 @@ int32_t PIOS_FSKDAC_Init(uintptr_t * fskdac_id, const struct pios_fskdac_config 
 	DMA_DeInit(DMA1_Stream5);
 	DMA_InitTypeDef DMA_InitStructure;	
 	DMA_InitStructure.DMA_Channel = DMA_Channel_7;  
-	DMA_InitStructure.DMA_PeripheralBaseAddr = 0x40007408; // DAC1 12R register
+	DMA_InitStructure.DMA_PeripheralBaseAddr = (uint32_t)&DAC->DHR12R1;
 	DMA_InitStructure.DMA_Memory0BaseAddr = (uint32_t)&MARK_SAMPLES[0];
 	DMA_InitStructure.DMA_BufferSize = SAMPLES_PER_BIT;
 	DMA_InitStructure.DMA_PeripheralDataSize = DMA_PeripheralDataSize_HalfWord;
