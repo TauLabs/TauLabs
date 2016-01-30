@@ -250,6 +250,10 @@ static void pios_fskdac_set_symbol(struct pios_fskdac_dev * fskdac_dev, uint8_t 
 // Should be aliased from DMA1_Stream7_IRQHandler
 void PIOS_FSKDAC_DMA_irq_handler()
 {
+#if defined(PIOS_INCLUDE_CHIBIOS)
+	CH_IRQ_PROLOGUE();
+#endif /* defined(PIOS_INCLUDE_CHIBIOS) */
+
 	struct pios_fskdac_dev * fskdac_dev = g_fskdac_dev;
 
 	bool valid = PIOS_FSKDAC_validate(fskdac_dev);
@@ -320,6 +324,11 @@ void PIOS_FSKDAC_DMA_irq_handler()
 #if defined(PIOS_INCLUDE_FREERTOS)
 	portEND_SWITCHING_ISR((rx_need_yield || tx_need_yield) ? pdTRUE : pdFALSE);
 #endif	/* defined(PIOS_INCLUDE_FREERTOS) */
+
+#if defined(PIOS_INCLUDE_CHIBIOS)
+	CH_IRQ_EPILOGUE();
+#endif /* defined(PIOS_INCLUDE_CHIBIOS) */
+
 }
 
 #endif /* PIOS_INCLUDE_FSK */
