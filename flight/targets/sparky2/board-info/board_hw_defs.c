@@ -6,7 +6,7 @@
  * @{
  *
  * @file       pios_board.c 
- * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2015
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2016
  * @brief      Board specific hardware configuration file
  * @see        The GNU Public License (GPL) Version 3
  *
@@ -1809,8 +1809,8 @@ struct pios_internal_adc_cfg pios_adc_cfg = {
 	.half_flag = DMA_IT_HTIF4,
 	.full_flag = DMA_IT_TCIF4,
 	.adc_pins = {                                                                               \
-		{GPIOC, GPIO_Pin_3,     ADC_Channel_13},                /* Current sensor */            \
-		{GPIOC, GPIO_Pin_2,     ADC_Channel_12},                /* Voltage sensor */            \
+		{GPIOC, GPIO_Pin_3,     ADC_Channel_13},                /* Voltage sensor */            \
+		{GPIOC, GPIO_Pin_2,     ADC_Channel_12},                /* Current sensor */            \
 		{GPIOA, GPIO_Pin_4,     ADC_Channel_4},                 /* DAC pin        */            \
 		{NULL,  0,              ADC_Channel_Vrefint},           /* Voltage reference */         \
 		{NULL,  0,              ADC_Channel_TempSensor}         /* Temperature sensor */        \
