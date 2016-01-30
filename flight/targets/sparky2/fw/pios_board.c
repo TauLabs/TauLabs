@@ -687,9 +687,6 @@ void PIOS_Board_Init(void) {
 	uint32_t internal_adc_id;
 	PIOS_INTERNAL_ADC_Init(&internal_adc_id, &pios_adc_cfg);
 	PIOS_ADC_Init(&pios_internal_adc_id, &pios_internal_adc_driver, internal_adc_id);
- 
-        // configure the pullup for PA8 (inhibit pullups from current/sonar shared pin)
-        GPIO_Init(pios_current_sonar_pin.gpio, &pios_current_sonar_pin.init);
 #endif
 
 #if defined(PIOS_INCLUDE_MS5611)
