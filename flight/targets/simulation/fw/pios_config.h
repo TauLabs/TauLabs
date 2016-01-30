@@ -5,9 +5,9 @@
  * @addtogroup Revolution OpenPilot Revolution support files
  * @{
  *
- * @file       pios_config_sim.h 
+ * @file       pios_config.h 
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2016
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2011.
- * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2013
  * @brief      Simulation specific options that modify PiOS capabilities
  * @see        The GNU Public License (GPL) Version 3
  * 
@@ -29,8 +29,8 @@
  */
 
 
-#ifndef PIOS_CONFIG_POSIX_H
-#define PIOS_CONFIG_POSIX_H
+#ifndef PIOS_CONFIG_H
+#define PIOS_CONFIG_H
 
 
 /* Enable/Disable PiOS Modules */
@@ -83,4 +83,4 @@
 // Enable POI tracking mode for camera stabilization
 #define CAMERASTAB_POI_MODE
 
-#endif /* PIOS_CONFIG_POSIX_H */
+#endif /* PIOS_CONFIG_H */
