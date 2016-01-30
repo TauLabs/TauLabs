@@ -154,6 +154,11 @@ int32_t PIOS_CAN_Init(uintptr_t *can_id, const struct pios_can_cfg *cfg)
  	NVIC_Init((NVIC_InitTypeDef*) &can_dev->cfg->rx_irq.init);
  	NVIC_Init((NVIC_InitTypeDef*) &can_dev->cfg->tx_irq.init);
 
+	// Always enable receiving, regardless of the RxStart method as
+	// the PIOS_CAN driver does not require a PIOS_COM layer for the
+	// queue messages
+	CAN_ITConfig(can_dev->cfg->regs, CAN_IT_FMP1, ENABLE);
+
 	return(0);
 
 out_fail:
@@ -301,9 +306,8 @@ void USB_HP_CAN1_TX_IRQHandler(void)
 }
 
 /**
- * @brief  This function handles CAN1 RX1 request.
- * @note   We are using RX1 instead of RX0 to avoid conflicts with the
- *         USB IRQ handler.
+ * @brief  This function handles CAN RX IRQs. It either pushes data to the
+ * pios CAN interface or routes a CAN message to a queue, as appropriate
  */
 static void PIOS_CAN_RxGeneric(void)
 {
@@ -330,7 +334,8 @@ static void PIOS_CAN_RxGeneric(void)
 }
 
 /**
- * @brief  This function handles CAN1 TX irq and sends more data if available
+ * @brief  This function handles CAN TX irq and sends more data from the
+ * COM layer, if available
  */
 static void PIOS_CAN_TxGeneric(void)
 {
