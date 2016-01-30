@@ -1786,7 +1786,7 @@ const struct pios_usb_hid_cfg pios_usb_hid_cfg = {
 
 static void PIOS_ADC_DMA_irq_handler(void);
 void DMA2_Stream4_IRQHandler(void) __attribute__((alias("PIOS_ADC_DMA_irq_handler")));
-struct pios_internal_adc_cfg pios_adc_cfg = {
+struct pios_internal_adc_cfg pios_adc_withdac_cfg = {
 	.adc_dev_master = ADC1,
 	.dma = {
 		.irq = {
@@ -1809,26 +1809,45 @@ struct pios_internal_adc_cfg pios_adc_cfg = {
 	.half_flag = DMA_IT_HTIF4,
 	.full_flag = DMA_IT_TCIF4,
 	.adc_pins = {                                                                               \
-		{GPIOC, GPIO_Pin_3,     ADC_Channel_13},                /* Current sensor */            \
-		{GPIOC, GPIO_Pin_2,     ADC_Channel_12},                /* Voltage sensor */            \
+		{GPIOC, GPIO_Pin_3,     ADC_Channel_13},                /* Voltage sensor */            \
+		{GPIOC, GPIO_Pin_2,     ADC_Channel_12},                /* Current sensor */            \
+		{GPIOA, GPIO_Pin_4,     ADC_Channel_4},                 /* DAC / ADC pins */            \
+		{NULL,  0,              ADC_Channel_Vrefint},           /* Voltage reference */         \
+		{NULL,  0,              ADC_Channel_TempSensor}         /* Temperature sensor */        \
+	},
+	.adc_pin_count = 5
+};
+
+struct pios_internal_adc_cfg pios_adc_withoutdac_cfg = {
+	.adc_dev_master = ADC1,
+	.dma = {
+		.irq = {
+			.flags   = (DMA_FLAG_TCIF4 | DMA_FLAG_TEIF4 | DMA_FLAG_HTIF4),
+			.init    = {
+				.NVIC_IRQChannel                   = DMA2_Stream4_IRQn,
+				.NVIC_IRQChannelPreemptionPriority = PIOS_IRQ_PRIO_LOW,
+				.NVIC_IRQChannelSubPriority        = 0,
+				.NVIC_IRQChannelCmd                = ENABLE,
+			},
+		},
+		.rx = {
+			.channel = DMA2_Stream4,
+			.init    = {
+				.DMA_Channel                    = DMA_Channel_0,
+				.DMA_PeripheralBaseAddr = (uint32_t) & ADC1->DR
+			},
+		}
+	},
+	.half_flag = DMA_IT_HTIF4,
+	.full_flag = DMA_IT_TCIF4,
+	.adc_pins = {                                                                               \
+		{GPIOC, GPIO_Pin_3,     ADC_Channel_13},                /* Voltage sensor */            \
+		{GPIOC, GPIO_Pin_2,     ADC_Channel_12},                /* Current sensor */            \
 		{NULL,  0,              ADC_Channel_Vrefint},           /* Voltage reference */         \
 		{NULL,  0,              ADC_Channel_TempSensor}         /* Temperature sensor */        \
 	},
 	.adc_pin_count = 4
 };
-
-struct stm32_gpio pios_current_sonar_pin ={
-    .gpio = GPIOA,
-			.init = {
-				.GPIO_Pin = GPIO_Pin_8,
-				.GPIO_Speed = GPIO_Speed_2MHz,
-				.GPIO_Mode  = GPIO_Mode_IN,
-				.GPIO_OType = GPIO_OType_OD,
-				.GPIO_PuPd  = GPIO_PuPd_NOPULL
-			},
-			.pin_source = GPIO_PinSource8,
-};
-
 static void PIOS_ADC_DMA_irq_handler(void)
 {
 	/* Call into the generic code to handle the IRQ for this specific device */
@@ -1910,82 +1929,6 @@ struct pios_can_cfg pios_can_cfg = {
 		},
 	},
 };
-
-#if defined(PIOS_INCLUDE_FSK) || defined(PIOS_INCLUDE_DAC_BEEPS)
-//#include <pios_fskdac_priv.h>
-#include <pios_dacbeep_priv.h>
-const struct pios_fskdac_config pios_fskdac_config = {
-	.dma = 	{
-		.irq = {
-			.flags = (DMA_FLAG_TCIF5 | DMA_FLAG_TEIF5 | DMA_FLAG_HTIF5),
-			.init = {
-				.NVIC_IRQChannel = DMA1_Stream5_IRQn,
-				.NVIC_IRQChannelPreemptionPriority = PIOS_IRQ_PRIO_LOW,
-				.NVIC_IRQChannelSubPriority = 0,
-				.NVIC_IRQChannelCmd = ENABLE,
-			},
-		},
-		.tx = {
-			.channel = DMA1_Stream5,
-			.init = {
-				.DMA_Channel = DMA_Channel_7,
-				//.DMA_PeripheralBaseAddr = (uint32_t)DAC_DHR12R1_ADDR,
-				//.DMA_Memory0BaseAddr    = (uint32_t)&function,
-				.DMA_DIR                = DMA_DIR_MemoryToPeripheral,
-				//.DMA_BufferSize         = SAMPLES_PER_BIT,
-				.DMA_PeripheralInc      = DMA_PeripheralInc_Disable,
-				.DMA_MemoryInc          = DMA_MemoryInc_Enable,
-				.DMA_PeripheralDataSize = DMA_PeripheralDataSize_HalfWord,
-				.DMA_MemoryDataSize     = DMA_MemoryDataSize_HalfWord,
-				.DMA_Mode               = DMA_Mode_Circular,
-				.DMA_Priority           = DMA_Priority_High,
-				.DMA_FIFOMode           = DMA_FIFOMode_Disable,
-				.DMA_FIFOThreshold      = DMA_FIFOThreshold_HalfFull,
-				.DMA_MemoryBurst        = DMA_MemoryBurst_Single,
-				.DMA_PeripheralBurst    = DMA_PeripheralBurst_Single,
-			},
-		}
-	},
-	.tim = 	{
-		.timer = TIM6,
-		.timer_chan = TIM_Channel_1,
-		.remap = 0,
-		.pin = {
-			.gpio = GPIOA,
-			.init = {
-				.GPIO_Pin = GPIO_Pin_4,
-				.GPIO_Speed = GPIO_Speed_2MHz,
-				.GPIO_Mode  = GPIO_Mode_AN,
-				.GPIO_OType = GPIO_OType_PP,
-				.GPIO_PuPd  = GPIO_PuPd_UP
-			},
-			.pin_source = GPIO_PinSource4,
-		},
-	},
-	/*.tim_base = {
-		.TIM_Period        = (uint16_t)PIOS_PERIPHERAL_APB1_CLOCK / (5000 * 128);
-		.TIM_Prescaler     = 0;
-		.TIM_ClockDivision = 0;
-		.TIM_CounterMode   = TIM_CounterMode_Up;
-	}*/
-};
-
-#if defined(PIOS_INCLUDE_FSK)
-static void FSKDAC_DMA_irq_handler(void);
-void DMA1_Stream5_IRQHandler(void) __attribute__((alias("FSKDAC_DMA_irq_handler")));
-void FSKDAC_DMA_irq_handler() {
-	PIOS_FSKDAC_DMA_irq_handler();
-}
-#elif defined(PIOS_INCLUDE_DAC_BEEPS)
-// TODO: add method to map one IRQ into the two drivers based on what is enabled
-static void DACBEEP_DMA_irq_handler(void);
-void DMA1_Stream5_IRQHandler(void) __attribute__((alias("DACBEEP_DMA_irq_handler")));
-void DACBEEP_DMA_irq_handler() {
-	PIOS_DACBEEP_DMA_irq_handler();
-}
-#endif
-
-#endif /* PIOS_INCLUDE_FSK */
 
 //! Get flash whether to use external flash
 bool get_use_can(uint32_t board_revision)
