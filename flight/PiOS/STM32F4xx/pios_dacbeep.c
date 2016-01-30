@@ -228,6 +228,10 @@ int32_t PIOS_DACBEEP_Beep(uintptr_t dacbeep_id, uint32_t freq, uint32_t duration
 // Should be aliased from DMA1_Stream5_IRQHandler
 void PIOS_DACBEEP_DMA_irq_handler()
 {
+#if defined(PIOS_INCLUDE_CHIBIOS)
+	CH_IRQ_PROLOGUE();
+#endif /* defined(PIOS_INCLUDE_CHIBIOS) */
+
 	if (DMA_GetITStatus(DMA1_Stream5, DMA_IT_TCIF5)) {
 		DMA_ClearITPendingBit(DMA1_Stream5, DMA_IT_TCIF5);
 	
@@ -247,6 +251,10 @@ void PIOS_DACBEEP_DMA_irq_handler()
 #if defined(PIOS_INCLUDE_FREERTOS)
 	portEND_SWITCHING_ISR((rx_need_yield || tx_need_yield) ? pdTRUE : pdFALSE);
 #endif	/* defined(PIOS_INCLUDE_FREERTOS) */
+
+#if defined(PIOS_INCLUDE_CHIBIOS)
+	CH_IRQ_EPILOGUE();
+#endif /* defined(PIOS_INCLUDE_CHIBIOS) */
 }
 #endif /* PIOS_INCLUDE_DAC_BEEPS */
 
