@@ -1321,18 +1321,14 @@ static void onScreenDisplayTask(__attribute__((unused)) void *parameters)
 
 	uint8_t current_page = 0;
 	uint8_t last_page = -1;
-	float tmp;
 
 	OnScreenDisplaySettingsGet(&osd_settings);
 	home_baro_altitude = 0.;
 
 	// blank
 	while (PIOS_Thread_Systime() <= BLANK_TIME) {
-		// Accumulate baro altitude
 		PIOS_Thread_Sleep(20);
 		frame_counter++;
-		//BaroAltitudeAltitudeGet(&tmp);
-		home_baro_altitude += tmp;
 	}
 
 	// initialize settings
@@ -1357,14 +1353,13 @@ static void onScreenDisplayTask(__attribute__((unused)) void *parameters)
 				printFWVersion(GRAPHICS_RIGHT / 2, GRAPHICS_BOTTOM - 35);
 			}
 			frame_counter++;
-			// Accumulate baro altitude
-			BaroAltitudeAltitudeGet(&tmp);
-			home_baro_altitude += tmp;
 		}
 	}
 
 	// Create average altitude
 	home_baro_altitude /= frame_counter;
+
+	BaroAltitudeAltitudeGet(&home_baro_altitude);
 
 	while (1) {
 		if (PIOS_Semaphore_Take(onScreenDisplaySemaphore, LONG_TIME) == true) {
