@@ -247,6 +247,8 @@ static void loggingTask(void *parameters)
 				}
 
 				PIOS_STREAMFS_Format(streamfs_id);
+				loggingData.MinFileId = PIOS_STREAMFS_MinFileId(streamfs_id);
+				loggingData.MaxFileId = PIOS_STREAMFS_MaxFileId(streamfs_id);
 			}
 #endif /* defined(PIOS_INCLUDE_FLASH) && defined(PIOS_INCLUDE_FLASH_JEDEC) */
 			loggingData.Operation = LOGGINGSTATS_OPERATION_IDLE;
