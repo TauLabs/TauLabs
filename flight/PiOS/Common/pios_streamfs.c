@@ -1,7 +1,8 @@
 /**
  ******************************************************************************
  * @file       pios_flashfs_streamfs.c
- * @author     Tau Labs, http://taulabs.org, Copyright (C) 2014
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2014-2016
+ * @author     dRonin, http://dronin.org Copyright (C) 2015
  * @addtogroup PIOS PIOS Core hardware abstraction layer
  * @{
  * @addtogroup PIOS_FLASHFS Flash Filesystem Function
