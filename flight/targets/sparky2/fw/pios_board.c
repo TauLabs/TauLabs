@@ -697,8 +697,18 @@ void PIOS_Board_Init(void) {
 	case HWSPARKY2_ADCDAC_FSKTELEM:
 #if defined(PIOS_INCLUDE_FSK)
 	{
+		uintptr_t fskdac_id;
+		PIOS_FSKDAC_Init(&fskdac_id);
+
 		uintptr_t fskdac_com_id;
-		PIOS_FSKDAC_Init(&fskdac_com_id);
+		uint8_t * tx_buffer = (uint8_t *) PIOS_malloc(PIOS_COM_CAN_TX_BUF_LEN);
+		PIOS_Assert(tx_buffer);
+		if (PIOS_COM_Init(&fskdac_com_id, &pios_fskdac_com_driver, fskdac_id,
+		                  NULL, 0,
+		                  tx_buffer, PIOS_COM_CAN_TX_BUF_LEN))
+			panic(6);
+
+		pios_com_bridge_id = fskdac_com_id;
 	}
 #endif /* PIOS_INCLUDE_FSK */
 		break;
