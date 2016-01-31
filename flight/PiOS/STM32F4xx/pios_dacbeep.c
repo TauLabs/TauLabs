@@ -32,8 +32,6 @@
 #include "pios.h"
 #if defined(PIOS_INCLUDE_DAC_BEEPS)
 
-#include "pios_fskdac_priv.h"
-
 #if defined(PIOS_INCLUDE_FREERTOS)
 #include "FreeRTOS.h"
 #endif /* defined(PIOS_INCLUDE_FREERTOS) */
@@ -46,7 +44,6 @@ enum pios_dacbeep_dev_magic {
 
 struct pios_dacbeep_dev {
 	enum pios_dacbeep_dev_magic     magic;
-	const struct pios_fskdac_config * cfg;
 	int32_t cycles_remaining;
 };
 
@@ -98,7 +95,7 @@ struct pios_dacbeep_dev * g_dacbeep_dev;
 /**
 * Initialise a single USART device
 */
-int32_t PIOS_DACBEEP_Init(uintptr_t * dacbeep_id, const struct pios_fskdac_config * cfg)
+int32_t PIOS_DACBEEP_Init(uintptr_t * dacbeep_id)
 {
 	PIOS_DEBUG_Assert(dacbeep_id);
 	PIOS_DEBUG_Assert(cfg);
@@ -110,9 +107,6 @@ int32_t PIOS_DACBEEP_Init(uintptr_t * dacbeep_id, const struct pios_fskdac_confi
 
 	// Handle for the IRQ
 	g_dacbeep_dev = dacbeep_dev;
-
-	/* Bind the configuration to the device instance */
-	dacbeep_dev->cfg = cfg; // TODO: use this
 
 	/* Initialize DAC hardware */
 	PIOS_DAC_COMMON_Init(PIOS_DACBEEP_DMA_irq_cb);
@@ -189,7 +183,7 @@ int32_t PIOS_DACBEEP_Beep(uintptr_t dacbeep_id, uint32_t freq, uint32_t duration
 	int32_t cycles = (freq * duration_ms) / 1000;
 	dacbeep_dev->cycles_remaining = cycles;
 
-	DMA_ITConfig(dacbeep_dev->cfg->dma.tx.channel, DMA_IT_TC, ENABLE);
+	DMA_ITConfig(DMA1_Stream5, DMA_IT_TC, ENABLE);
 	TIM_Cmd(TIM6, ENABLE);
 
 	return 0;
@@ -204,7 +198,7 @@ static void PIOS_DACBEEP_DMA_irq_cb()
 
 	if (dacbeep_dev->cycles_remaining == 0) {
 		TIM_Cmd(TIM6, DISABLE);
-		DMA_ITConfig(dacbeep_dev->cfg->dma.tx.channel, DMA_IT_TC, DISABLE);
+		DMA_ITConfig(DMA1_Stream5, DMA_IT_TC, DISABLE);
 	} else {
 		dacbeep_dev->cycles_remaining--;
 	}
