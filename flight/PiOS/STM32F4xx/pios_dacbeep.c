@@ -65,7 +65,7 @@ const uint16_t SINE_SAMPLES[] = {
 	422,430,438,446,455,464,474,484,494,504,
 	515,526,538,549,561,573,584,596,609,621,}; // 10x13 samples
 
-const uint32_t SAMPLES_PER_BIT = NELEMENTS(SINE_SAMPLES);
+static const uint32_t SAMPLES_PER_BIT = NELEMENTS(SINE_SAMPLES);
 
 // Local method definitions
 static void PIOS_DACBEEP_DMA_irq_cb();
