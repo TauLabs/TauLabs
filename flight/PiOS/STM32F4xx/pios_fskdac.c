@@ -40,6 +40,7 @@
 
 /* Private methods */
 static void PIOS_FSKDAC_DMA_irq_cb();
+static void PIOS_FSKDAC_Start(uint8_t b);
 
 /* Provide a COM driver */
 static void PIOS_FSKDAC_RegisterTxCallback(uintptr_t fskdac_id, pios_com_callback tx_out_cb, uintptr_t context);
@@ -73,44 +74,21 @@ struct pios_fskdac_dev {
 
 const uint32_t ARRAY[5] = {1,2,3,4,5};
 
-// Lookup tables for symbols
-// from ML designed to generate 1V p-p centered at 0.5V
-//   sprintf('%d,', round((sin(linspace(0,2*pi,130))*(2^12/3.3*0.5)+(2^12/3.3*0.5))))
-const uint16_t MARK_SAMPLES[] = {
-	621,651,681,711,741,770,799,828,856,884,
-	911,937,963,988,1012,1035,1057,1078,1098,1116,
-	1134,1150,1165,1179,1192,1203,1213,1221,1228,1233,
-	1237,1240,1241,1241,1239,1236,1231,1225,1217,1208,
-	1198,1186,1173,1158,1142,1125,1107,1088,1067,1046,
-	1023,1000,976,950,924,898,870,842,814,785,
-	756,726,696,666,636,605,575,545,515,486,
-	456,427,399,371,344,317,291,266,241,218,
-	195,174,153,134,116,99,83,69,56,44,
-	33,24,17,10,6,2,0,0,1,4,
-	8,13,20,29,38,49,62,76,91,107,
-	125,144,163,184,206,229,253,278,304,330,
-	357,385,413,442,471,500,530,560,590,621,
-}; // 10x13 samples
+// Matlab code to generate symbols
+/* // Note fudging F2 a touch to make them the same legth
+DAC_SBS = 50000; F1 = 1200; p1 = 4; F2 = 2105; p2 = 7;
+mark = round((-sin(linspace(0,2*pi*p1,DAC_SBS/F1*p1))*(2^12/3.3*0.5)+(2^12/3.3*0.5)));
+space = round((-sin(linspace(0,2*pi*p2,DAC_SBS/F2*p2))*(2^12/3.3*0.5)+(2^12/3.3*0.5)));
+['const uint16_t MARK_SAMPLES[] = {', sprintf('%d,', mark), '};']
+['const uint16_t SPACE_SAMPLES[] = {', sprintf('%d,', space), '};']
+*/
 
-
-// sprintf('%d,', round((sin(linspace(0,4*pi,130))*(2^12/3.3*0.5)+(2^12/3.3*0.5))))
-const uint16_t SPACE_SAMPLES[] = { // sin wave 2x freq
-	621,681,741,799,856,911,963,1012,1057,1098,
-	1134,1165,1192,1213,1228,1237,1241,1239,1231,1217,
-	1198,1173,1142,1107,1067,1023,976,924,870,814,
-	756,696,636,575,515,456,399,344,291,241,
-	195,153,116,83,56,33,17,6,0,1,
-	8,20,38,62,91,125,163,206,253,304,
-	357,413,471,530,590,651,711,770,828,884,
-	937,988,1035,1078,1116,1150,1179,1203,1221,1233,
-	1240,1241,1236,1225,1208,1186,1158,1125,1088,1046,
-	1000,950,898,842,785,726,666,605,545,486,
-	427,371,317,266,218,174,134,99,69,44,
-	24,10,2,0,4,13,29,49,76,107,
-	144,184,229,278,330,385,442,500,560,621,
-}; // 10x13 samples
+const uint16_t MARK_SAMPLES[] = {621,526,434,347,265,192,129,77,38,12,1,3,20,51,95,152,219,295,379,469,562,656,750,840,926,1004,1074,1133,1180,1214,1235,1241,1233,1211,1175,1126,1066,995,915,829,738,644,550,457,368,285,210,144,89,47,17,2,1,15,42,83,136,201,275,357,446,538,632,726,818,905,985,1057,1119,1169,1207,1231,1241,1236,1218,1185,1139,1082,1013,936,851,761,668,573,480,390,305,228,159,102,56,24,5,0,10,34,72,122,184,256,336,423,515,609,703,795,884,966,1040,1105,1158,1199,1226,1240,1239,1224,1195,1152,1097,1031,956,873,784,691,597,503,412,326,246,176,115,66,30,8,0,6,27,61,108,167,237,315,401,492,585,680,773,862,946,1023,1090,1146,1190,1221,1238,1241,1229,1203,1164,1112,1049,976,894,807,715,621,};
+const uint16_t SPACE_SAMPLES[] = {621,457,305,176,77,17,0,27,95,201,336,492,656,818,966,1090,1180,1231,1239,1203,1126,1013,873,715,550,390,246,129,47,5,6,51,136,256,401,562,726,884,1023,1133,1207,1240,1229,1175,1082,956,807,644,480,326,192,89,24,0,20,83,184,315,469,632,795,946,1074,1169,1226,1241,1211,1139,1031,894,738,573,412,265,144,56,8,3,42,122,237,379,538,703,862,1004,1119,1199,1238,1233,1185,1097,976,829,668,503,347,210,102,30,1,15,72,167,295,446,609,773,926,1057,1158,1221,1241,1218,1152,1049,915,761,597,434,285,159,66,12,1,34,108,219,357,515,680,840,985,1105,1190,1235,1236,1195,1112,995,851,691,526,368,228,115,38,2,10,61,152,275,423,585,750,905,1040,1146,1214,1241,1224,1164,1066,936,784,621,};
+const uint16_t BLANK_SAMPLES[] = {621,621,621,621,621,621,621,621,621,621,621,621,621,621,621,621,621,621,621,621,621,621,621,621,621,621,621,621,621,621,621,621,621,621,621,621,621,621,621,621,621,621,621,621,621,621,621,621,621,621,621,621,621,621,621,621,621,621,621,621,621,621,621,621,621,621,621,621,621,621,621,621,621,621,621,621,621,621,621,621,621,621,621,621,621,621,621,621,621,621,621,621,621,621,621,621,621,621,621,621,621,621,621,621,621,621,621,621,621,621,621,621,621,621,621,621,621,621,621,621,621,621,621,621,621,621,621,621,621,621,621,621,621,621,621,621,621,621,621,621,621,621,621,621,621,621,621,621,621,621,621,621,621,621,621,621,621,621,621,621,621,621,621,621,621,621,};
 
 static const uint32_t SAMPLES_PER_BIT = NELEMENTS(MARK_SAMPLES);
+static const uint32_t DAC_SBS = 50000;
 
 static bool PIOS_FSKDAC_validate(struct pios_fskdac_dev * fskdac_dev)
 {
@@ -150,7 +128,7 @@ int32_t PIOS_FSKDAC_Init(uintptr_t * fskdac_id)
 
 	PIOS_DAC_COMMON_Init(PIOS_FSKDAC_DMA_irq_cb);
 
-	TIM_SetAutoreload(TIM6, PIOS_PERIPHERAL_APB1_CLOCK / (5000 * SAMPLES_PER_BIT));
+	TIM_SetAutoreload(TIM6, PIOS_PERIPHERAL_APB1_CLOCK / DAC_SBS);
 
 	DMA_DeInit(DMA1_Stream5);
 	DMA_InitTypeDef DMA_InitStructure;	
@@ -171,18 +149,12 @@ int32_t PIOS_FSKDAC_Init(uintptr_t * fskdac_id)
 	DMA_InitStructure.DMA_PeripheralBurst = DMA_PeripheralBurst_Single;
 	DMA_Init(DMA1_Stream5, &DMA_InitStructure);
 
-	/* Configure doubel buffering */
+	/* Configure double buffering */
 	DMA_DoubleBufferModeConfig(DMA1_Stream5, (uint32_t)&SPACE_SAMPLES[0], DMA_Memory_0);
 	DMA_DoubleBufferModeCmd(DMA1_Stream5, ENABLE);
-	
-	/* Enable DMA1_Stream5 */
-	DMA_Cmd(DMA1_Stream5, ENABLE);
 
-	/* Enable DAC Channel1 */
-	DAC_Cmd(DAC_Channel_1, ENABLE);
-
-	/* Enable DMA for DAC Channel1 */
-	DAC_DMACmd(DAC_Channel_1, ENABLE);
+	fskdac_dev->tx_state = IDLE;
+	PIOS_FSKDAC_Start(0x3f);
 
 	return 0;
 }
@@ -213,19 +185,60 @@ static void PIOS_FSKDAC_RegisterTxCallback(uintptr_t fskdac_id, pios_com_callbac
 	fskdac_dev->tx_out_cb = tx_out_cb;
 }
 
+/**
+ * Schedule the next bit to be written by setting the address of the
+ * double buffer
+ */
 static void pios_fskdac_set_symbol(struct pios_fskdac_dev * fskdac_dev, uint8_t sym)
 {
-	// TODO
-	/* Set Memory 0 as current memory address */
-	// if ( DMAy_Streamx->CR & (uint32_t)(DMA_SxCR_CT))
+	const uint16_t * next_symbol = BLANK_SAMPLES;
+	switch(sym) {
+	case 0:
+		next_symbol = MARK_SAMPLES;
+		break;
+	case 1:
+		next_symbol = SPACE_SAMPLES;
+		break;
+	case 2:
+		next_symbol = BLANK_SAMPLES;
+		break;
+	}
 
-	/* Write to DMAy Streamx M1AR */
-	//DMAy_Streamx->M1AR = MARK;
-	//DMAy_Streamx->M0AR = SPACE;
+	if (DMA_GetCurrentMemoryTarget(DMA1_Stream5)) {
+		// If currently using memory 1 then schedule memory 0
+		DMA1_Stream5->M0AR = (uint32_t) next_symbol;
+	} else {
+		DMA1_Stream5->M1AR = (uint32_t) next_symbol;
+	}
+}
+
+static void PIOS_FSKDAC_Start(uint8_t b)
+{
+	struct pios_fskdac_dev * fskdac_dev = g_fskdac_dev;
+
+	bool valid = PIOS_FSKDAC_validate(fskdac_dev);
+	PIOS_Assert(valid);
+
+	fskdac_dev->tx_state = START;
+	fskdac_dev->cur_byte = b;
+	pios_fskdac_set_symbol(fskdac_dev, 0);
+
+	/* Enable transfer complete interrupt for this stream */
+	DMA_ITConfig(DMA1_Stream5, DMA_IT_TC, ENABLE);
+
+	/* Enable DMA1_Stream5 */
+	DMA_Cmd(DMA1_Stream5, ENABLE);
+
+	/* Enable DAC Channel1 */
+	DAC_Cmd(DAC_Channel_1, ENABLE);
+
+	/* Enable DMA for DAC Channel1 */
+	DAC_DMACmd(DAC_Channel_1, ENABLE);
 }
 
 static void PIOS_FSKDAC_DMA_irq_cb()
 {
+	static uint8_t byte = 0;
 
 	struct pios_fskdac_dev * fskdac_dev = g_fskdac_dev;
 
@@ -244,53 +257,57 @@ static void PIOS_FSKDAC_DMA_irq_cb()
 			
 			if (bytes_to_send > 0) {
 				/* Send the byte we've been given */
-				fskdac_dev->cur_byte = b;
-				pios_fskdac_set_symbol(fskdac_dev, 0);
-				fskdac_dev->tx_state = START;
+				PIOS_FSKDAC_Start(b);
 			} else {
 				/* No bytes to send, stay here */
+				DMA_ITConfig(DMA1_Stream5, DMA_IT_TC, DISABLE);
 			}
-		} 
+		} else {
+			PIOS_FSKDAC_Start(byte++);
+		}
 		break;
 	case START:
-		pios_fskdac_set_symbol(fskdac_dev, fskdac_dev->cur_byte & 0x01);
+		pios_fskdac_set_symbol(fskdac_dev, (fskdac_dev->cur_byte & 0x01) >> 0);
 		fskdac_dev->tx_state = BIT0;
 		break;
 	case BIT0:
-		pios_fskdac_set_symbol(fskdac_dev, fskdac_dev->cur_byte & 0x02);
+		pios_fskdac_set_symbol(fskdac_dev, (fskdac_dev->cur_byte & 0x02) >> 1);
 		fskdac_dev->tx_state = BIT1;
 		break;
 	case BIT1:
-		pios_fskdac_set_symbol(fskdac_dev, fskdac_dev->cur_byte & 0x04);
+		pios_fskdac_set_symbol(fskdac_dev, (fskdac_dev->cur_byte & 0x04) >> 2);
 		fskdac_dev->tx_state = BIT2;
 		break;
 	case BIT2:
-		pios_fskdac_set_symbol(fskdac_dev, fskdac_dev->cur_byte & 0x08);
+		pios_fskdac_set_symbol(fskdac_dev, (fskdac_dev->cur_byte & 0x08) >> 3);
 		fskdac_dev->tx_state = BIT3;
 		break;
 	case BIT3:
-		pios_fskdac_set_symbol(fskdac_dev, fskdac_dev->cur_byte & 0x10);
+		pios_fskdac_set_symbol(fskdac_dev, (fskdac_dev->cur_byte & 0x10) >> 4);
 		fskdac_dev->tx_state = BIT4;
 		break;
 	case BIT4:
-		pios_fskdac_set_symbol(fskdac_dev, fskdac_dev->cur_byte & 0x20);
+		pios_fskdac_set_symbol(fskdac_dev, (fskdac_dev->cur_byte & 0x20) >> 5);
 		fskdac_dev->tx_state = BIT5;
 		break;
 	case BIT5:
-		pios_fskdac_set_symbol(fskdac_dev, fskdac_dev->cur_byte & 0x40);
+		pios_fskdac_set_symbol(fskdac_dev, (fskdac_dev->cur_byte & 0x40) >> 6);
 		fskdac_dev->tx_state = BIT6;
 		break;
 	case BIT6:
-		pios_fskdac_set_symbol(fskdac_dev, fskdac_dev->cur_byte & 0x80);
+		pios_fskdac_set_symbol(fskdac_dev, (fskdac_dev->cur_byte & 0x80) >> 7);
 		fskdac_dev->tx_state = BIT7;
 		break;
 	case BIT7:
 		// Set stop bit
-		pios_fskdac_set_symbol(fskdac_dev, fskdac_dev->cur_byte & 0x80);
+		pios_fskdac_set_symbol(fskdac_dev, 0);
 		fskdac_dev->tx_state = STOP;
 		break;
 	case STOP:
 		fskdac_dev->tx_state = IDLE;
+		pios_fskdac_set_symbol(fskdac_dev, 2);
+		//DMA_ITConfig(DMA1_Stream5, DMA_IT_TC, DISABLE);
+		//DAC_DMACmd(DAC_Channel_1, DISABLE);
 		break;
 	}
 	
