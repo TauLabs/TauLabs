@@ -32,11 +32,14 @@
 #include "pios.h"
 #if defined(PIOS_INCLUDE_FSK)
 
-#include "pios_fskdac_priv.h"
-
 #if defined(PIOS_INCLUDE_FREERTOS)
 #include "FreeRTOS.h"
 #endif /* defined(PIOS_INCLUDE_FREERTOS) */
+
+#include "pios_dac_common.h"
+
+/* Private methods */
+static void PIOS_FSKDAC_DMA_irq_cb();
 
 /* Provide a COM driver */
 static void PIOS_FSKDAC_RegisterTxCallback(uintptr_t fskdac_id, pios_com_callback tx_out_cb, uintptr_t context);
@@ -59,7 +62,6 @@ enum BYTE_TX_STATE {
 
 struct pios_fskdac_dev {
 	enum pios_fskdac_dev_magic     magic;
-	const struct pios_fskdac_config * cfg;
 
 	//! Track the state of sending an individual bit
 	enum BYTE_TX_STATE tx_state;
@@ -108,7 +110,7 @@ const uint16_t SPACE_SAMPLES[] = { // sin wave 2x freq
 	144,184,229,278,330,385,442,500,560,621,
 }; // 10x13 samples
 
-const uint32_t SAMPLES_PER_BIT = NELEMENTS(MARK_SAMPLES);
+static const uint32_t SAMPLES_PER_BIT = NELEMENTS(MARK_SAMPLES);
 
 static bool PIOS_FSKDAC_validate(struct pios_fskdac_dev * fskdac_dev)
 {
@@ -132,7 +134,7 @@ struct pios_fskdac_dev * g_fskdac_dev;
 /**
 * Initialise a single USART device
 */
-int32_t PIOS_FSKDAC_Init(uintptr_t * fskdac_id, const struct pios_fskdac_config * cfg)
+int32_t PIOS_FSKDAC_Init(uintptr_t * fskdac_id)
 {
 	PIOS_DEBUG_Assert(fskdac_id);
 	PIOS_DEBUG_Assert(cfg);
@@ -145,38 +147,10 @@ int32_t PIOS_FSKDAC_Init(uintptr_t * fskdac_id, const struct pios_fskdac_config 
 	// Handle for the IRQ
 	g_fskdac_dev = fskdac_dev;
 
-	/* Bind the configuration to the device instance */
-	fskdac_dev->cfg = cfg; // TODO: use this
 
-	GPIO_InitTypeDef gpio_init;
-	gpio_init.GPIO_Pin  = GPIO_Pin_4;
-	gpio_init.GPIO_Mode = GPIO_Mode_AN;
-	gpio_init.GPIO_PuPd = GPIO_PuPd_NOPULL;
-	GPIO_Init(GPIOA, &gpio_init);
+	PIOS_DAC_COMMON_Init(PIOS_FSKDAC_DMA_irq_cb);
 
-	TIM_TimeBaseInitTypeDef TIM6_TimeBase;
-	RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM6, ENABLE);
-	RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOA, ENABLE);
-	RCC_APB1PeriphClockCmd(RCC_APB1Periph_DAC, ENABLE);
-	RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_DMA1, ENABLE);
-
-	// TODO: move into board_hw_defs and cfg structure
-	TIM_TimeBaseStructInit(&TIM6_TimeBase); 
-	TIM6_TimeBase.TIM_Period        = (PIOS_PERIPHERAL_APB1_CLOCK / (5000 * SAMPLES_PER_BIT));
-	TIM6_TimeBase.TIM_Prescaler     = 0;
-	TIM6_TimeBase.TIM_ClockDivision = 0;
-	TIM6_TimeBase.TIM_CounterMode   = TIM_CounterMode_Up;
-	TIM_TimeBaseInit(TIM6, &TIM6_TimeBase);
-	TIM_SelectOutputTrigger(TIM6, TIM_TRGOSource_Update);
-	TIM_Cmd(TIM6, ENABLE);
-
-	DAC_InitTypeDef DAC_INIT;
-	DAC_StructInit(&DAC_INIT);
-	DAC_DeInit();
-	DAC_INIT.DAC_Trigger        = DAC_Trigger_T6_TRGO;
-	DAC_INIT.DAC_WaveGeneration = DAC_WaveGeneration_None;
-	DAC_INIT.DAC_OutputBuffer   = DAC_OutputBuffer_Enable;
-	DAC_Init(DAC_Channel_1, &DAC_INIT);
+	TIM_SetAutoreload(TIM6, PIOS_PERIPHERAL_APB1_CLOCK / (5000 * SAMPLES_PER_BIT));
 
 	DMA_DeInit(DMA1_Stream5);
 	DMA_InitTypeDef DMA_InitStructure;	
@@ -197,10 +171,10 @@ int32_t PIOS_FSKDAC_Init(uintptr_t * fskdac_id, const struct pios_fskdac_config 
 	DMA_InitStructure.DMA_PeripheralBurst = DMA_PeripheralBurst_Single;
 	DMA_Init(DMA1_Stream5, &DMA_InitStructure);
 
-	DMA_DoubleBufferModeConfig(fskdac_dev->cfg->dma.tx.channel, (uint32_t)&SPACE_SAMPLES[0], DMA_Memory_0);
-	DMA_DoubleBufferModeCmd(fskdac_dev->cfg->dma.tx.channel, ENABLE);
-	//DMA_ITConfig(fskdac_dev->cfg->dma.tx.channel, DMA_IT_TC, ENABLE);
-
+	/* Configure doubel buffering */
+	DMA_DoubleBufferModeConfig(DMA1_Stream5, (uint32_t)&SPACE_SAMPLES[0], DMA_Memory_0);
+	DMA_DoubleBufferModeCmd(DMA1_Stream5, ENABLE);
+	
 	/* Enable DMA1_Stream5 */
 	DMA_Cmd(DMA1_Stream5, ENABLE);
 
@@ -250,12 +224,8 @@ static void pios_fskdac_set_symbol(struct pios_fskdac_dev * fskdac_dev, uint8_t 
 	//DMAy_Streamx->M0AR = SPACE;
 }
 
-// Should be aliased from DMA1_Stream7_IRQHandler
-void PIOS_FSKDAC_DMA_irq_handler()
+static void PIOS_FSKDAC_DMA_irq_cb()
 {
-#if defined(PIOS_INCLUDE_CHIBIOS)
-	CH_IRQ_PROLOGUE();
-#endif /* defined(PIOS_INCLUDE_CHIBIOS) */
 
 	struct pios_fskdac_dev * fskdac_dev = g_fskdac_dev;
 
@@ -327,10 +297,6 @@ void PIOS_FSKDAC_DMA_irq_handler()
 #if defined(PIOS_INCLUDE_FREERTOS)
 	portEND_SWITCHING_ISR((rx_need_yield || tx_need_yield) ? pdTRUE : pdFALSE);
 #endif	/* defined(PIOS_INCLUDE_FREERTOS) */
-
-#if defined(PIOS_INCLUDE_CHIBIOS)
-	CH_IRQ_EPILOGUE();
-#endif /* defined(PIOS_INCLUDE_CHIBIOS) */
 
 }
 

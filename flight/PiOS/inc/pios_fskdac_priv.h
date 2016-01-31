@@ -38,14 +38,7 @@
 
 extern const struct pios_com_driver pios_fskdac_com_driver;
 
-//! Configuration structure for FSK DAC
-struct pios_fskdac_config {
-	struct stm32_dma dma;
-	struct pios_tim_channel tim;
-	TIM_TimeBaseInitTypeDef tim_base;
-};
-
-extern int32_t PIOS_FSKDAC_Init(uintptr_t * fskdac_id, const struct pios_fskdac_config * cfg);
+extern int32_t PIOS_FSKDAC_Init(uintptr_t * fskdac_id);
 extern void PIOS_FSKDAC_DMA_irq_handler();
 
 #endif /* PIOS_FSKDADC_PRIV_H */
