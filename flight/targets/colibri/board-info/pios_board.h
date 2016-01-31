@@ -6,7 +6,8 @@
  * @{
  *
  * @file       STM32F4xx_Colibri.c 
- * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2014
+ * @author     dRonin, http://dronin.org Copyright (C) 2015
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2015
  * @brief      Board specific defines for Colibri
  * @see        The GNU Public License (GPL) Version 3
  * 
