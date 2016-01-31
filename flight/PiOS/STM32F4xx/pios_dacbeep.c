@@ -38,6 +38,8 @@
 #include "FreeRTOS.h"
 #endif /* defined(PIOS_INCLUDE_FREERTOS) */
 
+#include "pios_dac_common.h"
+
 enum pios_dacbeep_dev_magic {
 	PIOS_DACBEEP_DEV_MAGIC = 0x3A53834A,
 };
@@ -67,6 +69,9 @@ const uint16_t SINE_SAMPLES[] = {
 	515,526,538,549,561,573,584,596,609,621,}; // 10x13 samples
 
 const uint32_t SAMPLES_PER_BIT = NELEMENTS(SINE_SAMPLES);
+
+// Local method definitions
+static void PIOS_DACBEEP_DMA_irq_cb();
 
 static bool PIOS_DACBEEP_validate(struct pios_dacbeep_dev * dacbeep_dev)
 {
@@ -109,36 +114,12 @@ int32_t PIOS_DACBEEP_Init(uintptr_t * dacbeep_id, const struct pios_fskdac_confi
 	/* Bind the configuration to the device instance */
 	dacbeep_dev->cfg = cfg; // TODO: use this
 
-	GPIO_InitTypeDef gpio_init;
-	gpio_init.GPIO_Pin  = GPIO_Pin_4;
-	gpio_init.GPIO_Mode = GPIO_Mode_AN;
-	gpio_init.GPIO_PuPd = GPIO_PuPd_NOPULL;
-	GPIO_Init(GPIOA, &gpio_init);
+	/* Initialize DAC hardware */
+	PIOS_DAC_COMMON_Init(PIOS_DACBEEP_DMA_irq_cb);
 
-	TIM_TimeBaseInitTypeDef TIM6_TimeBase;
-	RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM6, ENABLE);
-	RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOA, ENABLE);
-	RCC_APB1PeriphClockCmd(RCC_APB1Periph_DAC, ENABLE);
-	RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_DMA1, ENABLE);
+	dacbeep_dev->cycles_remaining = 50;
 
-	// TODO: move into board_hw_defs and cfg structure
-	TIM_TimeBaseStructInit(&TIM6_TimeBase); 
-	TIM6_TimeBase.TIM_Period        = (PIOS_PERIPHERAL_APB1_CLOCK / (5000 * SAMPLES_PER_BIT));
-	TIM6_TimeBase.TIM_Prescaler     = 0;
-	TIM6_TimeBase.TIM_ClockDivision = 0;
-	TIM6_TimeBase.TIM_CounterMode   = TIM_CounterMode_Up;
-	TIM_TimeBaseInit(TIM6, &TIM6_TimeBase);
-	TIM_SelectOutputTrigger(TIM6, TIM_TRGOSource_Update);
-	TIM_Cmd(TIM6, ENABLE);
-
-	DAC_InitTypeDef DAC_INIT;
-	DAC_StructInit(&DAC_INIT);
-	DAC_DeInit();
-	DAC_INIT.DAC_Trigger        = DAC_Trigger_T6_TRGO;
-	DAC_INIT.DAC_WaveGeneration = DAC_WaveGeneration_None;
-	DAC_INIT.DAC_OutputBuffer   = DAC_OutputBuffer_Enable;
-	DAC_Init(DAC_Channel_1, &DAC_INIT);
-
+	/* Configure the DMA system to use DMA1 Stream5 */
 	DMA_DeInit(DMA1_Stream5);
 	DMA_InitTypeDef DMA_InitStructure;	
 	DMA_InitStructure.DMA_Channel = DMA_Channel_7;  
@@ -158,16 +139,7 @@ int32_t PIOS_DACBEEP_Init(uintptr_t * dacbeep_id, const struct pios_fskdac_confi
 	DMA_InitStructure.DMA_PeripheralBurst = DMA_PeripheralBurst_Single;
 	DMA_Init(DMA1_Stream5, &DMA_InitStructure);
 
-	NVIC_InitTypeDef NVIC_InitStructure;
-	NVIC_InitStructure.NVIC_IRQChannel = DMA1_Stream5_IRQn;
-	NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = PIOS_IRQ_PRIO_HIGH;
-	NVIC_InitStructure.NVIC_IRQChannelSubPriority = 0;
-	NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
-	NVIC_Init(&NVIC_InitStructure);
-
-	dacbeep_dev->cycles_remaining = 50;
-
-	//DMA_ITConfig(dacbeep_dev->cfg->dma.tx.channel, DMA_IT_TC, ENABLE);
+	/* Enable transfer complete interrupt for this stream */
 	DMA_ITConfig(DMA1_Stream5, DMA_IT_TC, ENABLE);
 
 	/* Enable DMA1_Stream5 */
@@ -223,36 +195,19 @@ int32_t PIOS_DACBEEP_Beep(uintptr_t dacbeep_id, uint32_t freq, uint32_t duration
 	return 0;
 }
 
-// Should be aliased from DMA1_Stream5_IRQHandler
-void PIOS_DACBEEP_DMA_irq_handler()
-{
-#if defined(PIOS_INCLUDE_CHIBIOS)
-	CH_IRQ_PROLOGUE();
-#endif /* defined(PIOS_INCLUDE_CHIBIOS) */
+static void PIOS_DACBEEP_DMA_irq_cb()
+{	
+	struct pios_dacbeep_dev * dacbeep_dev = g_dacbeep_dev;
 
-	if (DMA_GetITStatus(DMA1_Stream5, DMA_IT_TCIF5)) {
-		DMA_ClearITPendingBit(DMA1_Stream5, DMA_IT_TCIF5);
-	
-		struct pios_dacbeep_dev * dacbeep_dev = g_dacbeep_dev;
+	bool valid = PIOS_DACBEEP_validate(dacbeep_dev);
+	PIOS_Assert(valid);
 
-		bool valid = PIOS_DACBEEP_validate(dacbeep_dev);
-		PIOS_Assert(valid);
-
-		if (dacbeep_dev->cycles_remaining == 0) {
-			TIM_Cmd(TIM6, DISABLE);
-			DMA_ITConfig(dacbeep_dev->cfg->dma.tx.channel, DMA_IT_TC, DISABLE);
-		} else {
-			dacbeep_dev->cycles_remaining--;
-		}
+	if (dacbeep_dev->cycles_remaining == 0) {
+		TIM_Cmd(TIM6, DISABLE);
+		DMA_ITConfig(dacbeep_dev->cfg->dma.tx.channel, DMA_IT_TC, DISABLE);
+	} else {
+		dacbeep_dev->cycles_remaining--;
 	}
-
-#if defined(PIOS_INCLUDE_FREERTOS)
-	portEND_SWITCHING_ISR((rx_need_yield || tx_need_yield) ? pdTRUE : pdFALSE);
-#endif	/* defined(PIOS_INCLUDE_FREERTOS) */
-
-#if defined(PIOS_INCLUDE_CHIBIOS)
-	CH_IRQ_EPILOGUE();
-#endif /* defined(PIOS_INCLUDE_CHIBIOS) */
 }
 #endif /* PIOS_INCLUDE_DAC_BEEPS */
 
