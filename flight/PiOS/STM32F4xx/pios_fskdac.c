@@ -72,8 +72,6 @@ struct pios_fskdac_dev {
 	uintptr_t tx_out_context;
 };
 
-const uint32_t ARRAY[5] = {1,2,3,4,5};
-
 // Matlab code to generate symbols
 /* // Note fudging F2 a touch to make them the same legth
 DAC_SBS = 50000; F1 = 1200; p1 = 4; F2 = 2105; p2 = 7;
@@ -154,7 +152,8 @@ int32_t PIOS_FSKDAC_Init(uintptr_t * fskdac_id)
 	DMA_DoubleBufferModeCmd(DMA1_Stream5, ENABLE);
 
 	fskdac_dev->tx_state = IDLE;
-	PIOS_FSKDAC_Start(0x3f);
+
+	*fskdac_id = (uintptr_t) fskdac_dev;
 
 	return 0;
 }
@@ -163,11 +162,20 @@ int32_t PIOS_FSKDAC_Init(uintptr_t * fskdac_id)
 static void PIOS_FSKDAC_TxStart(uintptr_t fskdac_id, uint16_t tx_bytes_avail)
 {
 	struct pios_fskdac_dev * fskdac_dev = (struct pios_fskdac_dev *)fskdac_id;
-	
+
 	bool valid = PIOS_FSKDAC_validate(fskdac_dev);
 	PIOS_Assert(valid);
 	
-	// TODO: equivalent. USART_ITConfig(usart_dev->cfg->regs, USART_IT_TXE, ENABLE);
+	uint8_t b;
+	uint16_t bytes_to_send;
+	bool tx_need_yield = false;
+
+	bytes_to_send = (fskdac_dev->tx_out_cb)(fskdac_dev->tx_out_context, &b, 1, NULL, &tx_need_yield);
+
+	if (bytes_to_send > 0) {
+		/* Send the byte we've been given */
+		PIOS_FSKDAC_Start(b);
+	}
 }
 
 static void PIOS_FSKDAC_RegisterTxCallback(uintptr_t fskdac_id, pios_com_callback tx_out_cb, uintptr_t context)
@@ -176,7 +184,7 @@ static void PIOS_FSKDAC_RegisterTxCallback(uintptr_t fskdac_id, pios_com_callbac
 
 	bool valid = PIOS_FSKDAC_validate(fskdac_dev);
 	PIOS_Assert(valid);
-	
+
 	/* 
 	 * Order is important in these assignments since ISR uses _cb
 	 * field to determine if it's ok to dereference _cb and _context
@@ -251,9 +259,10 @@ static void PIOS_FSKDAC_DMA_irq_cb()
 	case IDLE:
 		if (fskdac_dev->tx_out_cb) {
 			uint8_t b;
-			uint16_t bytes_to_send;
+			uint16_t bytes_to_send = 0;
 			
-			bytes_to_send = (fskdac_dev->tx_out_cb)(fskdac_dev->tx_out_context, &b, 1, NULL, &tx_need_yield);
+			if (fskdac_dev->tx_out_cb)
+				bytes_to_send = (fskdac_dev->tx_out_cb)(fskdac_dev->tx_out_context, &b, 1, NULL, &tx_need_yield);
 			
 			if (bytes_to_send > 0) {
 				/* Send the byte we've been given */
@@ -261,6 +270,7 @@ static void PIOS_FSKDAC_DMA_irq_cb()
 			} else {
 				/* No bytes to send, stay here */
 				DMA_ITConfig(DMA1_Stream5, DMA_IT_TC, DISABLE);
+				DAC_DMACmd(DAC_Channel_1, DISABLE);
 			}
 		} else {
 			PIOS_FSKDAC_Start(byte++);
@@ -306,8 +316,6 @@ static void PIOS_FSKDAC_DMA_irq_cb()
 	case STOP:
 		fskdac_dev->tx_state = IDLE;
 		pios_fskdac_set_symbol(fskdac_dev, 2);
-		//DMA_ITConfig(DMA1_Stream5, DMA_IT_TC, DISABLE);
-		//DAC_DMACmd(DAC_Channel_1, DISABLE);
 		break;
 	}
 	
