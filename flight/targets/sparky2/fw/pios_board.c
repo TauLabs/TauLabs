@@ -708,7 +708,9 @@ void PIOS_Board_Init(void) {
 		                  tx_buffer, PIOS_COM_CAN_TX_BUF_LEN))
 			panic(6);
 
-		pios_com_bridge_id = fskdac_com_id;
+		/* TODO: make FSK DAC output selectable */
+		pios_com_bridge_id = fskdac_com_id;         // send from com bridge for testing
+		pios_com_lighttelemetry_id = fskdac_com_id; // send from light telemetry when enabled
 	}
 #endif /* PIOS_INCLUDE_FSK */
 		break;
