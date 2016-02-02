@@ -203,7 +203,7 @@ void UploaderGadgetWidget::DeviceInformationUpdate(deviceInfo board)
         return;
     currentBoard = board;
     m_widget->boardName_lbl->setText(board.board->boardDescription());
-    m_widget->devID_lbl->setText(QString::number(board.board->getBoardType(), 16));
+    m_widget->devID_lbl->setText(board.board->getBoardNameFromID(board.board->getBoardType() << 8) + " (ID: 0x" + QString::number(board.board->getBoardType(), 16) + ")");
     m_widget->hwRev_lbl->setText(board.hw_revision);
     m_widget->blVer_lbl->setText(board.bl_version);
     m_widget->maxCode_lbl->setText(board.max_code_size);
