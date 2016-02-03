@@ -943,15 +943,17 @@ void ConfigCcpmWidget::setMixer()
         &mixerSettingsData.Mixer10Type
     };
 
+    uint8_t mixerTypesCount = sizeof(mixerTypes)/sizeof(mixerTypes[0]);
+
     //reset all to Disabled
-    for (i = 0; i < 8; i++)
+    for (i = 0; i < mixerTypesCount; i++) {
         *(mixerTypes[i]) = 0;
+    }
 
     //go through the user data and update the mixer matrix
     for (i = 0; i < 6; i++)
     {
-        if (MixerChannelData[i] > 0 && (uint)MixerChannelData[i] < sizeof(mixerTypes) / sizeof(mixerTypes[0]))
-        {
+        if (MixerChannelData[i] > 0 && (uint)MixerChannelData[i] < mixerTypesCount) {
             //Set the mixer type. If Coax, then first two are motors. Otherwise, only first is motor
             if (TypeText.compare(QString::fromUtf8("Coax 2 Servo 90º"), Qt::CaseInsensitive) == 0)
             {
