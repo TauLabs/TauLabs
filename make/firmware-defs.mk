@@ -5,10 +5,10 @@ CCACHE :=
 
 ifeq ($(FLIGHT_BUILD_CONF), debug)
 export DEBUG:=YES
-CCACHE := $(shell which ccache)
+CCACHE := $(CCACHE_BIN)
 else ifeq ($(FLIGHT_BUILD_CONF), default)
 # In the default case, keep the old "DEBUG"  variable handling
-CCACHE := $(shell which ccache)
+CCACHE := $(CCACHE_BIN)
 else ifeq ($(FLIGHT_BUILD_CONF), release)
 export DEBUG:=NO
 else

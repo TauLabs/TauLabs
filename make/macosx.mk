@@ -6,9 +6,6 @@
 #   and the ARM toolchain installed to either the Taulabs/tools directory, their 
 #   respective default installation locations, or made available on the system path.
 
-# misc tools
-RM=rm
-
 # Check for and find Python 2
 
 # Get Python version, separate major/minor/patch, then put into wordlist
