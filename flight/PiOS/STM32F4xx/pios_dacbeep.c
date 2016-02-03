@@ -43,7 +43,7 @@ enum pios_dacbeep_dev_magic {
 };
 
 struct pios_dacbeep_dev {
-	enum pios_dacbeep_dev_magic     magic;
+	enum pios_dacbeep_dev_magic magic;
 	int32_t cycles_remaining;
 };
 

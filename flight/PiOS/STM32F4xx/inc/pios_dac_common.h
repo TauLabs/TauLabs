@@ -34,3 +34,4 @@
 int32_t PIOS_DAC_COMMON_Init(void (*irq_cb_method)(void));
 
 #endif /* PIOS_DAC_COMMON_H */
+

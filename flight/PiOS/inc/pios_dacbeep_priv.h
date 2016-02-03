@@ -6,8 +6,8 @@
  * @brief PIOS interface for DAC Beep implementation
  * @{
  *
- * @file       pios_dacbeep.h
- * @author     Tau Labs, http://taulabs.org, Copyright (C) 2015
+ * @file       pios_dacbeep_priv.h
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2015-2016
  * @brief      Produces a series of beeps out the DAC port
  * @see        The GNU Public License (GPL) Version 3
  *

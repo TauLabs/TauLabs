@@ -57,7 +57,7 @@ int32_t DacBeepCodesStart()
 	// Start main task if it is enabled
 	if (module_enabled) {
 		dacBeepCodeTaskHandle = PIOS_Thread_Create(dacBeepCodeTask, "DacBeepCodes", STACK_SIZE_BYTES, NULL, TASK_PRIORITY);
-		TaskMonitorAdd(TASKINFO_RUNNING_ALTITUDEHOLD, dacBeepCodeTaskHandle); // TODO: delete, just stealing handle for debugging
+		TaskMonitorAdd(TASKINFO_RUNNING_ALTITUDEHOLD, dacBeepCodeTaskHandle);
 		return 0;
 	}
 	return -1;
@@ -95,7 +95,6 @@ static void dacBeepCodeTask(void *parameters)
 		if (rssi < 0) rssi = 0;
 		if (rssi > 100) rssi = 100;
 
-
 		// Determine frequency from battery voltage
 		float volt = 0.0f;
 		if (FlightBatteryStateHandle())
@@ -103,6 +102,7 @@ static void dacBeepCodeTask(void *parameters)
 
 		// We want to map RSSI inversely into pulse duration. At 100% shoot for
 		// a period of 800 ms. At 50% get to 150ms. Sharp inflection at 50%.
+		// Stops at 100 ms to set max rep rate at 10 Hz
 		// Using piecewise linear to avoid exponential calculation
 		int32_t period_ms = 100 + ((rssi < 50) ? rssi : (13 * (rssi - 50) + 50));
 
@@ -117,3 +117,4 @@ static void dacBeepCodeTask(void *parameters)
 		PIOS_Thread_Sleep(period_ms);
 	}
 }
+
