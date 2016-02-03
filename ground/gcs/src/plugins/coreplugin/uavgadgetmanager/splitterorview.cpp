@@ -39,11 +39,11 @@
 using namespace Core;
 using namespace Core::Internal;
 
-SplitterOrView::SplitterOrView(Core::UAVGadgetManager *uavGadgetManager, Core::IUAVGadget *uavGadget) :
+SplitterOrView::SplitterOrView(Core::UAVGadgetManager *uavGadgetManager, Core::IUAVGadget *uavGadget, bool restoring) :
         m_uavGadgetManager(uavGadgetManager),
         m_splitter(0)
 {
-    m_view = new UAVGadgetView(m_uavGadgetManager, uavGadget, this);
+    m_view = new UAVGadgetView(m_uavGadgetManager, uavGadget, this, restoring);
     m_layout = new QStackedLayout(this);
     m_layout->addWidget(m_view);
 }
@@ -231,7 +231,7 @@ QList<IUAVGadget*> SplitterOrView::gadgets()
     return g;
 }
 
-void SplitterOrView::split(Qt::Orientation orientation)
+void SplitterOrView::split(Qt::Orientation orientation, bool restoring)
 {
     Q_ASSERT(m_view);
     Q_ASSERT(!m_splitter);
@@ -245,10 +245,10 @@ void SplitterOrView::split(Qt::Orientation orientation)
         // Give our gadget to the new left or top SplitterOrView.
         m_view->removeGadget();
         m_splitter->addWidget(new SplitterOrView(m_uavGadgetManager, ourGadget));
-        m_splitter->addWidget(new SplitterOrView(m_uavGadgetManager));
+        m_splitter->addWidget(new SplitterOrView(m_uavGadgetManager, 0, restoring));
     } else {
-        m_splitter->addWidget(new SplitterOrView(m_uavGadgetManager));
-        m_splitter->addWidget(new SplitterOrView(m_uavGadgetManager));
+        m_splitter->addWidget(new SplitterOrView(m_uavGadgetManager, 0, restoring));
+        m_splitter->addWidget(new SplitterOrView(m_uavGadgetManager, 0, restoring));
     }
 
     m_layout->setCurrentWidget(m_splitter);
@@ -362,7 +362,7 @@ void SplitterOrView::restoreState(QSettings* qSettings)
         foreach (QVariant value, sizesQVariant) {
             m_sizes.append(value.toInt());
         }
-        split((Qt::Orientation)orientation);
+        split((Qt::Orientation)orientation, true);
         m_splitter->setSizes(m_sizes);
         qSettings->beginGroup("side0");
         static_cast<SplitterOrView*>(m_splitter->widget(0))->restoreState(qSettings);

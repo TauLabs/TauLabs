@@ -58,7 +58,7 @@ Q_DECLARE_METATYPE(Core::IUAVGadget *)
 using namespace Core;
 using namespace Core::Internal;
 
-UAVGadgetView::UAVGadgetView(Core::UAVGadgetManager *uavGadgetManager, IUAVGadget *uavGadget, QWidget *parent) :
+UAVGadgetView::UAVGadgetView(Core::UAVGadgetManager *uavGadgetManager, IUAVGadget *uavGadget, QWidget *parent, bool restoring) :
         QWidget(parent),
         m_uavGadgetManager(uavGadgetManager),
         m_uavGadget(uavGadget),
@@ -143,7 +143,9 @@ UAVGadgetView::UAVGadgetView(Core::UAVGadgetManager *uavGadgetManager, IUAVGadge
     if (m_uavGadget) {
         setGadget(m_uavGadget);
     } else {
-        selectionActivated(m_defaultIndex, false);
+	if (!restoring) {
+            selectionActivated(m_defaultIndex, false);
+	}
     }
 }
 

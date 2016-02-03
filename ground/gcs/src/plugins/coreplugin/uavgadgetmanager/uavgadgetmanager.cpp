@@ -99,7 +99,7 @@ UAVGadgetManager::UAVGadgetManager(ICore *core, QString name, QIcon icon, int pr
             this, SLOT(modeChanged(Core::IMode*)));
 
     // other setup
-    m_splitterOrView = new SplitterOrView(this, 0);
+    m_splitterOrView = new SplitterOrView(this, 0, true);
 
     // SplitterOrView with 0 as gadget calls our setCurrentGadget, which relies on currentSplitterOrView(),
     // which needs our m_splitterorView to be set, which isn't set yet at that time.
