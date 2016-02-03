@@ -296,7 +296,7 @@ Rescue is possible in USB mode only.</string>
                     <item row="0" column="0">
                      <widget class="QLabel" name="label_dev_id">
                       <property name="text">
-                       <string>Device ID:</string>
+                       <string>Device Name (ID):</string>
                       </property>
                       <property name="alignment">
                        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
