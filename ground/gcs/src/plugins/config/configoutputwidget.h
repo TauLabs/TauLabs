@@ -72,11 +72,10 @@ private:
 
     UAVObject::Metadata accInitialData;
 
-    bool wasItMe;
+    virtual void tabSwitchingAway();
 
 private slots:
     void stopTests();
-    void disableIfNotMe(UAVObject *obj);
     virtual void refreshWidgetsValues(UAVObject * obj=NULL);
     void updateObjectsFromWidgets();
     void runChannelTests(bool state);

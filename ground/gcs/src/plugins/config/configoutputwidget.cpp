@@ -48,8 +48,9 @@
 #include "uavsettingsimportexport/uavsettingsimportexportfactory.h"
 #include <extensionsystem/pluginmanager.h>
 #include <coreplugin/generalsettings.h>
+#include <coreplugin/modemanager.h>
 
-ConfigOutputWidget::ConfigOutputWidget(QWidget *parent) : ConfigTaskWidget(parent),wasItMe(false)
+ConfigOutputWidget::ConfigOutputWidget(QWidget *parent) : ConfigTaskWidget(parent)
 {
     m_config = new Ui_OutputWidget();
     m_config->setupUi(this);
@@ -59,8 +60,23 @@ ConfigOutputWidget::ConfigOutputWidget(QWidget *parent) : ConfigTaskWidget(paren
     if(!settings->useExpertMode())
         m_config->saveRCOutputToRAM->setVisible(false);
 
+    /* There's lots of situations where it's unsafe to run tests.
+     * Import/export:
+     */
     UAVSettingsImportExportFactory * importexportplugin =  pm->getObject<UAVSettingsImportExportFactory>();
     connect(importexportplugin,SIGNAL(importAboutToBegin()),this,SLOT(stopTests()));
+
+    /* Board connection/disconnection: */
+    TelemetryManager* telMngr = pm->getObject<TelemetryManager>();
+    connect(telMngr, SIGNAL(connected()), this, SLOT(stopTests()));
+    connect(telMngr, SIGNAL(disconnected()), this, SLOT(stopTests()));
+
+    /* When we go into wizards, etc.. time to stop this too. */
+    Core::ModeManager *modeMngr = Core::ModeManager::instance();
+    connect(modeMngr, SIGNAL(currentModeAboutToChange(Core::IMode *)), this,
+		SLOT(stopTests()));
+    connect(modeMngr, SIGNAL(currentModeChanged(Core::IMode *)), this,
+		SLOT(stopTests()));
 
     // NOTE: we have channel indices from 0 to 9, but the convention for OP is Channel 1 to Channel 10.
     // Register for ActuatorSettings changes:
@@ -107,7 +123,6 @@ ConfigOutputWidget::ConfigOutputWidget(QWidget *parent) : ConfigTaskWidget(paren
     resList << m_config->cb_outputResolution1 << m_config->cb_outputResolution2 << m_config->cb_outputResolution3
                << m_config->cb_outputResolution4 << m_config->cb_outputResolution5 << m_config->cb_outputResolution6;
 
-
     // Get the list of output resolutions and assign to the resolution dropdowns
     ActuatorSettings *actuatorSettings = ActuatorSettings::GetInstance(getObjectManager());
     Q_ASSERT(actuatorSettings);
@@ -136,12 +151,12 @@ ConfigOutputWidget::ConfigOutputWidget(QWidget *parent) : ConfigTaskWidget(paren
     UAVObject* obj = objManager->getObject(QString("ActuatorCommand"));
     if(UAVObject::GetGcsTelemetryUpdateMode(obj->getMetadata()) == UAVObject::UPDATEMODE_ONCHANGE)
         this->setEnabled(false);
-    connect(obj,SIGNAL(objectUpdated(UAVObject*)),this,SLOT(disableIfNotMe(UAVObject*)));
     connect(SystemSettings::GetInstance(objManager), SIGNAL(objectUpdated(UAVObject*)),this,SLOT(assignOutputChannels(UAVObject*)));
 
 
     refreshWidgetsValues();
 }
+
 void ConfigOutputWidget::enableControls(bool enable)
 {
     ConfigTaskWidget::enableControls(enable);
@@ -155,7 +170,6 @@ ConfigOutputWidget::~ConfigOutputWidget()
 {
    // Do nothing
 }
-
 
 // ************************************
 
@@ -189,7 +203,6 @@ void ConfigOutputWidget::runChannelTests(bool state)
         int retval = mbox.exec();
         if(retval != QMessageBox::Yes) {
             state = false;
-            qDebug() << "Cancelled";
             m_config->channelOutTest->setChecked(false);
             return;
         }
@@ -199,7 +212,6 @@ void ConfigOutputWidget::runChannelTests(bool state)
     UAVObject::Metadata mdata = obj->getMetadata();
     if (state)
     {
-        wasItMe=true;
         accInitialData = mdata;
         UAVObject::SetFlightAccess(mdata, UAVObject::ACCESS_READONLY);
         UAVObject::SetFlightTelemetryUpdateMode(mdata, UAVObject::UPDATEMODE_ONCHANGE);
@@ -209,7 +221,6 @@ void ConfigOutputWidget::runChannelTests(bool state)
     }
     else
     {
-        wasItMe=false;
         mdata = accInitialData; // Restore metadata
     }
     obj->setMetadata(mdata);
@@ -611,20 +622,18 @@ void ConfigOutputWidget::openHelp()
     QDesktopServices::openUrl( QUrl("https://github.com/TauLabs/TauLabs/wiki/OnlineHelp:-Output-Configuration", QUrl::StrictMode) );
 }
 
-void ConfigOutputWidget::stopTests()
+void ConfigOutputWidget::tabSwitchingAway()
 {
-    m_config->channelOutTest->setChecked(false);
+    stopTests();
 }
 
-void ConfigOutputWidget::disableIfNotMe(UAVObject* obj)
+void ConfigOutputWidget::stopTests()
 {
-    if(UAVObject::GetGcsTelemetryUpdateMode(obj->getMetadata()) == UAVObject::UPDATEMODE_ONCHANGE)
-    {
-        if(!wasItMe)
-            this->setEnabled(false);
+    if (m_config->channelOutTest->isChecked()) {
+        qDebug() << "Output testing stopped by signal of incompatible mode";
     }
-    else
-        this->setEnabled(true);
+
+    m_config->channelOutTest->setChecked(false);
 }
 
 /**

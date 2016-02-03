@@ -79,6 +79,8 @@ void SetupWizardPlugin::shutdown()
 void SetupWizardPlugin::showSetupWizard()
 {
     if (!wizardRunning) {
+        Core::ModeManager::instance()->activateModeByWorkspaceName(Core::Constants::MODE_WELCOME);
+
         wizardRunning = true;
         SetupWizard *m_wiz = new SetupWizard();
         connect(m_wiz, SIGNAL(finished(int)), this, SLOT(wizardTerminated()));

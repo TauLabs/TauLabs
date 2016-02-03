@@ -148,6 +148,9 @@ public:
     void forceConnectedState();
 
     void setNotMandatory(QString object);
+
+    virtual void tabSwitchingAway() {}
+
 public slots:
     void onAutopilotDisconnect();
     void onAutopilotConnect();
