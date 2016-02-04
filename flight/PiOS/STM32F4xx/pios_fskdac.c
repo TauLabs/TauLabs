@@ -269,8 +269,6 @@ static void PIOS_FSKDAC_Start(uint8_t b)
 
 static void PIOS_FSKDAC_DMA_irq_cb()
 {
-	static uint8_t byte = 0;
-
 	struct pios_fskdac_dev * fskdac_dev = g_fskdac_dev;
 
 	bool valid = PIOS_FSKDAC_validate(fskdac_dev);
@@ -295,8 +293,6 @@ static void PIOS_FSKDAC_DMA_irq_cb()
 				DMA_ITConfig(DMA1_Stream5, DMA_IT_TC, DISABLE);
 				//DAC_DMACmd(DAC_Channel_1, DISABLE);
 			}
-		} else {
-			PIOS_FSKDAC_Start(byte++);
 		}
 		break;
 	case START:
