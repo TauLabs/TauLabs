@@ -62,6 +62,7 @@ OPTMODULES += UAVOFrSKYSensorHubBridge
 OPTMODULES += UAVOLighttelemetryBridge
 OPTMODULES += UAVOFrSKYSPortBridge
 OPTMODULES += Geofence
+OPTMODULES += Logging
 
 # The following modules are disabled in the default compile
 # to save memory.
@@ -125,6 +126,7 @@ SRC += $(FLIGHTLIB)/insgps14state.c
 SRC += $(FLIGHTLIB)/taskmonitor.c
 SRC += $(FLIGHTLIB)/sanitycheck.c
 SRC += $(FLIGHTLIB)/frsky_packing.c
+SRC += $(FLIGHTLIB)/timeutils.c
 SRC += $(MATHLIB)/coordinate_conversions.c
 SRC += $(MATHLIB)/misc_math.c
 SRC += $(MATHLIB)/pid.c
