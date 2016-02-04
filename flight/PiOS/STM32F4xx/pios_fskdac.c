@@ -236,12 +236,8 @@ static void pios_fskdac_set_symbol(struct pios_fskdac_dev * fskdac_dev, uint8_t 
 		break;
 	}
 
-	if (DMA_GetCurrentMemoryTarget(DMA1_Stream5)) {
-		// If currently using memory 1 then schedule memory 0
-		DMA1_Stream5->M0AR = (uint32_t) next_symbol;
-	} else {
-		DMA1_Stream5->M1AR = (uint32_t) next_symbol;
-	}
+	uint32_t current = DMA_GetCurrentMemoryTarget(DMA1_Stream5);
+	DMA_MemoryTargetConfig(DMA1_Stream5, (uint32_t) next_symbol, current == 1 ? DMA_Memory_0 : DMA_Memory_1);
 }
 
 static void PIOS_FSKDAC_DMA_irq_cb()
