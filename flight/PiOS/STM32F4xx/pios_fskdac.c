@@ -187,7 +187,7 @@ static void PIOS_FSKDAC_TxStart(uintptr_t fskdac_id, uint16_t tx_bytes_avail)
 	
 	/* Enable transfer complete interrupt for this stream */
 	/* Once it is called then the next byte will be loaded */
-	DMA_ITConfig(DMA1_Stream5, DMA_IT_TC, ENABLE);
+	DMA_ITConfig(DMA1_Stream5, DMA_IT_HT, ENABLE);
 }
 
 static void PIOS_FSKDAC_RegisterTxCallback(uintptr_t fskdac_id, pios_com_callback tx_out_cb, uintptr_t context)
@@ -243,6 +243,12 @@ static void pios_fskdac_set_symbol(struct pios_fskdac_dev * fskdac_dev, uint8_t 
 	DMA_MemoryTargetConfig(DMA1_Stream5, (uint32_t) next_symbol, current == 1 ? DMA_Memory_0 : DMA_Memory_1);
 }
 
+/**
+ * This IRQ handler is called in the middle of a transfer from one of the
+ * double buffers. The tx_state when entering this method corresponds
+ * to what is _currently_ being output and this method schedules the 
+ * next symbol (bit) and updates the state machine accordingly
+ */
 static void PIOS_FSKDAC_DMA_irq_cb()
 {
 	struct pios_fskdac_dev * fskdac_dev = g_fskdac_dev;
@@ -269,11 +275,13 @@ static void PIOS_FSKDAC_DMA_irq_cb()
 				// Start outputing a SPACE for start symbol
 				pios_fskdac_set_symbol(fskdac_dev, 1);
 
-				DMA_ITConfig(DMA1_Stream5, DMA_IT_TC, ENABLE);
+				DMA_ITConfig(DMA1_Stream5, DMA_IT_HT, ENABLE);
 			} else {
 				/* No bytes to send, stay here but do not call interrupt until more data */
-				DMA_ITConfig(DMA1_Stream5, DMA_IT_TC, DISABLE);
+				DMA_ITConfig(DMA1_Stream5, DMA_IT_HT, DISABLE);
 				// STOP state already set us back to holding at MARK
+				// but we need to make sure the other buffer is too
+				pios_fskdac_set_symbol(fskdac_dev, 0);
 			}
 		}
 		break;
