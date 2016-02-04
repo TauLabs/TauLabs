@@ -307,7 +307,7 @@ static void PIOS_FSKDAC_DMA_irq_cb()
 		break;
 	case BIT7:
 		// Set stop bit
-		pios_fskdac_set_symbol(fskdac_dev, 0);
+		pios_fskdac_set_symbol(fskdac_dev, 1);
 		fskdac_dev->tx_state = STOP;
 		break;
 	case STOP:
