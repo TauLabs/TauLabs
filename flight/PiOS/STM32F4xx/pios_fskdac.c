@@ -58,7 +58,7 @@ enum pios_fskdac_dev_magic {
 enum BYTE_TX_STATE {
 	IDLE, START, BIT0, BIT1, BIT2,
 	BIT3, BIT4, BIT5, BIT6, BIT7,
-	STOP
+	PARITY, STOP
 };
 
 struct pios_fskdac_dev {
@@ -67,6 +67,7 @@ struct pios_fskdac_dev {
 	//! Track the state of sending an individual bit
 	enum BYTE_TX_STATE tx_state;
 	uint8_t cur_byte;
+	uint8_t cur_parity;
 
 	//! The phase when starting and ending this symbol
 	float starting_phase;
@@ -218,6 +219,8 @@ static void pios_fskdac_set_symbol(struct pios_fskdac_dev * fskdac_dev, uint8_t 
 	fskdac_dev->starting_phase = fmodf(fskdac_dev->ending_phase, 2*PI);
 	uint8_t start_phase_offset = 0;
 
+	fskdac_dev->cur_parity ^= sym;
+
 	const uint16_t * next_symbol = BLANK_SAMPLES;
 	switch(sym) {
 	case 0:
@@ -257,11 +260,12 @@ static void PIOS_FSKDAC_DMA_irq_cb()
 			
 			if (fskdac_dev->tx_out_cb)
 				bytes_to_send = (fskdac_dev->tx_out_cb)(fskdac_dev->tx_out_context, &b, 1, NULL, &tx_need_yield);
-			
+
 			if (bytes_to_send > 0) {
 				/* Send the byte we've been given */
 				fskdac_dev->tx_state = START;
 				fskdac_dev->cur_byte = b;
+				fskdac_dev->cur_parity = 1; // start parity at 1
 				// Start outputing a SPACE for start symbol
 				pios_fskdac_set_symbol(fskdac_dev, 1);
 
@@ -306,6 +310,11 @@ static void PIOS_FSKDAC_DMA_irq_cb()
 		fskdac_dev->tx_state = BIT7;
 		break;
 	case BIT7:
+		// Transmit parity bit
+		pios_fskdac_set_symbol(fskdac_dev, 	fskdac_dev->cur_parity);
+		fskdac_dev->tx_state = PARITY;
+		break;
+	case PARITY:
 		// Set stop bit
 		pios_fskdac_set_symbol(fskdac_dev, 1);
 		fskdac_dev->tx_state = STOP;
