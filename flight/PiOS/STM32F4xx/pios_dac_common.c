@@ -97,6 +97,11 @@ void DMA1_Stream5_IRQHandler(void)
 
 		// call the higher level IRQ callback
 		pios_dac_irq_cb();
+	} else if (DMA_GetITStatus(DMA1_Stream5, DMA_IT_HTIF5)) {
+		DMA_ClearITPendingBit(DMA1_Stream5, DMA_IT_HTIF5);
+
+		// call the higher level IRQ callback
+		pios_dac_irq_cb();
 	}
 
 #if defined(PIOS_INCLUDE_FREERTOS)
