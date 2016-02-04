@@ -58,7 +58,7 @@
 
 #if defined(PIOS_INCLUDE_LIGHTTELEMETRY)
 // Private constants
-#define STACK_SIZE_BYTES 512
+#define STACK_SIZE_BYTES 600
 #define TASK_PRIORITY PIOS_THREAD_PRIO_LOW
 #define UPDATE_PERIOD 100
 
@@ -368,7 +368,7 @@ static void send_LTM_Packet(uint8_t *LTPacket, uint8_t LTPacket_size)
 	}
 	LTPacket[LTPacket_size-1] = LTCrc;
 	if (lighttelemetryPort) {
-		PIOS_COM_SendBuffer(lighttelemetryPort, LTPacket, LTPacket_size);
+		PIOS_COM_SendBufferNonBlocking(lighttelemetryPort, LTPacket, LTPacket_size);
 	}
 }
 
