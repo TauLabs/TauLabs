@@ -41,7 +41,6 @@
 
 /* Private methods */
 static void PIOS_FSKDAC_DMA_irq_cb();
-static void PIOS_FSKDAC_Start(uint8_t b);
 
 /* Provide a COM driver */
 static void PIOS_FSKDAC_RegisterTxCallback(uintptr_t fskdac_id, pios_com_callback tx_out_cb, uintptr_t context);
@@ -165,6 +164,15 @@ int32_t PIOS_FSKDAC_Init(uintptr_t * fskdac_id)
 
 	*fskdac_id = (uintptr_t) fskdac_dev;
 
+	/* Enable DMA1_Stream5 */
+	DMA_Cmd(DMA1_Stream5, ENABLE);
+
+	/* Enable DAC Channel1 */
+	DAC_Cmd(DAC_Channel_1, ENABLE);
+
+	/* Enable DMA for DAC Channel1 */
+	DAC_DMACmd(DAC_Channel_1, ENABLE);
+
 	return 0;
 }
 
@@ -176,16 +184,9 @@ static void PIOS_FSKDAC_TxStart(uintptr_t fskdac_id, uint16_t tx_bytes_avail)
 	bool valid = PIOS_FSKDAC_validate(fskdac_dev);
 	PIOS_Assert(valid);
 	
-	uint8_t b;
-	uint16_t bytes_to_send;
-	bool tx_need_yield = false;
-
-	bytes_to_send = (fskdac_dev->tx_out_cb)(fskdac_dev->tx_out_context, &b, 1, NULL, &tx_need_yield);
-
-	if (bytes_to_send > 0) {
-		/* Send the byte we've been given */
-		PIOS_FSKDAC_Start(b);
-	}
+	/* Enable transfer complete interrupt for this stream */
+	/* Once it is called then the next byte will be loaded */
+	DMA_ITConfig(DMA1_Stream5, DMA_IT_TC, ENABLE);
 }
 
 static void PIOS_FSKDAC_RegisterTxCallback(uintptr_t fskdac_id, pios_com_callback tx_out_cb, uintptr_t context)
@@ -243,30 +244,6 @@ static void pios_fskdac_set_symbol(struct pios_fskdac_dev * fskdac_dev, uint8_t 
 	}
 }
 
-static void PIOS_FSKDAC_Start(uint8_t b)
-{
-	struct pios_fskdac_dev * fskdac_dev = g_fskdac_dev;
-
-	bool valid = PIOS_FSKDAC_validate(fskdac_dev);
-	PIOS_Assert(valid);
-
-	fskdac_dev->tx_state = START;
-	fskdac_dev->cur_byte = b;
-	pios_fskdac_set_symbol(fskdac_dev, 0);
-
-	/* Enable transfer complete interrupt for this stream */
-	DMA_ITConfig(DMA1_Stream5, DMA_IT_TC, ENABLE);
-
-	/* Enable DMA1_Stream5 */
-	DMA_Cmd(DMA1_Stream5, ENABLE);
-
-	/* Enable DAC Channel1 */
-	DAC_Cmd(DAC_Channel_1, ENABLE);
-
-	/* Enable DMA for DAC Channel1 */
-	DAC_DMACmd(DAC_Channel_1, ENABLE);
-}
-
 static void PIOS_FSKDAC_DMA_irq_cb()
 {
 	struct pios_fskdac_dev * fskdac_dev = g_fskdac_dev;
@@ -287,11 +264,16 @@ static void PIOS_FSKDAC_DMA_irq_cb()
 			
 			if (bytes_to_send > 0) {
 				/* Send the byte we've been given */
-				PIOS_FSKDAC_Start(b);
+				fskdac_dev->tx_state = START;
+				fskdac_dev->cur_byte = b;
+				// Start outputing a SPACE for start symbol
+				pios_fskdac_set_symbol(fskdac_dev, 1);
+
+				DMA_ITConfig(DMA1_Stream5, DMA_IT_TC, ENABLE);
 			} else {
-				/* No bytes to send, stay here */
+				/* No bytes to send, stay here but do not call interrupt until more data */
 				DMA_ITConfig(DMA1_Stream5, DMA_IT_TC, DISABLE);
-				//DAC_DMACmd(DAC_Channel_1, DISABLE);
+				// STOP state already set us back to holding at MARK
 			}
 		}
 		break;
