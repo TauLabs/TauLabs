@@ -30,6 +30,7 @@
 				<option>FrSKY Sensor Hub</option>
 				<option>LighttelemetryTx</option>
 				<option>FrSKY SPort Telemetry</option>
+				<option>OpenLog</option>
 			</options>
 		</field>
 
@@ -49,6 +50,7 @@
 				<option>FrSKY Sensor Hub</option>
 				<option>LighttelemetryTx</option>
 				<option>FrSKY SPort Telemetry</option>
+				<option>OpenLog</option>
 			</options>
 		</field>
 
