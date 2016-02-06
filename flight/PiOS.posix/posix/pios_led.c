@@ -39,7 +39,8 @@ DONT_BUILD_IF(PIOS_LED_NUM > 8, piosLedNumTooHigh);
 /* Local Variables */
 static uint8_t ledStatus;
 
-static inline void PIOS_SetLED(uint32_t led, uint8_t stat) {
+static inline void PIOS_SetLED(uint32_t led, uint8_t stat)
+{
 	uint8_t newStatus = ledStatus;
 
 	PIOS_Assert(led < PIOS_LED_NUM);
@@ -73,8 +74,6 @@ static inline void PIOS_SetLED(uint32_t led, uint8_t stat) {
 
 		printf("PIOS: LEDs: [%s]\n", leds);
 	}
-
-	//printf("PIOS: LED %i status %i\n",led,stat);
 }
 
 /**
