@@ -366,6 +366,43 @@ void rot_mult(float R[3][3], const float vec[3], float vec_out[3], bool transpos
 }
 
 /**
+ * @brief LLA_linearization_float calculates linearized NED to LLA conversion using floats
+ * @param home_latitude is the home latitude times 10e6
+ * @param home_altitude
+ * @param T is the linearized NED to LLA conversion
+ */
+void LLA_linearization_float(int32_t home_latitude, float home_altitude, float T[])
+{
+	float lat = home_latitude / 10.0e6f * DEG2RAD;
+	float alt = home_altitude;
+
+	T[0] = alt + WGS84_A*1000.0f;
+	T[1] = cosf(lat)*(alt + WGS84_A*1000.0f);
+	T[2] = -1.0f;
+}
+
+/**
+ * @brief LLA_linearization_double calculates linearized NED to LLA conversion using doubles (used in simulation)
+ * @param home_latitude
+ * @param home_altitude
+ * @param T is the linearized NED to LLA conversion
+ */
+void LLA_linearization_double(int32_t home_latitude, double home_altitude, double T[])
+{
+	double lat = home_latitude / 10.0e6 * ((double)DEG2RAD);
+	double alt = home_altitude;
+
+	T[0] = alt + ((double)WGS84_A)*1000.0;
+	T[1] = cos(lat)*(alt + ((double)WGS84_A)*1000.0);
+	T[2] = -1.0;
+}
+
+    T[0] = alt + ((double)WGS84_A)*1000.0;
+    T[1] = cos(lat)*(alt + ((double)WGS84_A)*1000.0);
+    T[2] = -1.0;
+
+}
+/**
  * @}
  * @}
  */

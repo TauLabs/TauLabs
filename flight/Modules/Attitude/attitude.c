@@ -1504,13 +1504,7 @@ static void settingsUpdatedCb(UAVObjEvent * ev)
 		if (armed == FLIGHTSTATUS_ARMED_DISARMED) {
 			HomeLocationGet(&homeLocation);
 			// Compute matrix to convert deltaLLA to NED
-			float lat, alt;
-			lat = homeLocation.Latitude / 10.0e6f * DEG2RAD;
-			alt = homeLocation.Altitude;
-
-			T[0] = alt+6.378137E6f;
-			T[1] = cosf(lat)*(alt+6.378137E6f);
-			T[2] = -1.0f;
+			LLA_linearization_float(homeLocation.Latitude, homeLocation.Altitude, T);
 
 			home_location_updated = true;
 		}

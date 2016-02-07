@@ -398,17 +398,17 @@ static void simulateModelQuadcopter()
 	// Gravity causes acceleration of 9.81 in the down direction
 	ned_accel[2] = -thrust * Rbe[2][2] + GRAVITY;
 	
-	// Apply acceleration based on velocity
+	// Apply NED acceleration based on velocity
 	ned_accel[0] -= K_FRICTION * (vel[0] - wind[0]);
 	ned_accel[1] -= K_FRICTION * (vel[1] - wind[1]);
 	ned_accel[2] -= K_FRICTION * (vel[2] - wind[2]);
 
-	// Predict the velocity forward in time
+	// Predict the NED velocity forward in time
 	vel[0] = vel[0] + ned_accel[0] * dT;
 	vel[1] = vel[1] + ned_accel[1] * dT;
 	vel[2] = vel[2] + ned_accel[2] * dT;
 
-	// Predict the position forward in time
+	// Predict the NED position forward in time
 	pos[0] = pos[0] + vel[0] * dT;
 	pos[1] = pos[1] + vel[1] * dT;
 	pos[2] = pos[2] + vel[2] * dT;
@@ -467,10 +467,8 @@ static void simulateModelQuadcopter()
 	if(PIOS_DELAY_DiffuS(last_gps_time) / 1.0e6 > GPS_PERIOD) {
 		// Use double precision here as simulating what GPS produces
 		double T[3];
-		T[0] = homeLocation.Altitude+6.378137E6f * DEG2RAD;
-		T[1] = cosf(homeLocation.Latitude / 10e6 * DEG2RAD)*(homeLocation.Altitude+6.378137E6) * DEG2RAD;
-		T[2] = -1.0;
-		
+		LLA_linearization_double(home_latitude, home_altitude, T);
+
 		static float gps_drift[3] = {0,0,0};
 		gps_drift[0] = gps_drift[0] * 0.95 + rand_gauss() / 10.0;
 		gps_drift[1] = gps_drift[1] * 0.95 + rand_gauss() / 10.0;
@@ -768,10 +766,8 @@ static void simulateModelAirplane()
 	if(PIOS_DELAY_DiffuS(last_gps_time) / 1.0e6 > GPS_PERIOD) {
 		// Use double precision here as simulating what GPS produces
 		double T[3];
-		T[0] = homeLocation.Altitude+6.378137E6f * DEG2RAD;
-		T[1] = cosf(homeLocation.Latitude / 10e6 * DEG2RAD)*(homeLocation.Altitude+6.378137E6) * DEG2RAD;
-		T[2] = -1.0;
-		
+		LLA_linearization_double(home_latitude, home_altitude, T);
+
 		static float gps_drift[3] = {0,0,0};
 		gps_drift[0] = gps_drift[0] * 0.95 + rand_gauss() / 10.0;
 		gps_drift[1] = gps_drift[1] * 0.95 + rand_gauss() / 10.0;
@@ -1025,9 +1021,7 @@ static void simulateModelCar()
 	if(PIOS_DELAY_DiffuS(last_gps_time) / 1.0e6 > GPS_PERIOD) {
 		// Use double precision here as simulating what GPS produces
 		double T[3];
-		T[0] = homeLocation.Altitude+6.378137E6f * DEG2RAD;
-		T[1] = cosf(homeLocation.Latitude / 10e6 * DEG2RAD)*(homeLocation.Altitude+6.378137E6) * DEG2RAD;
-		T[2] = -1.0;
+		LLA_linearization_double(home_latitude, home_altitude, T);
 		
 		static float gps_drift[3] = {0,0,0};
 		gps_drift[0] = gps_drift[0] * 0.95 + rand_gauss() / 10.0;

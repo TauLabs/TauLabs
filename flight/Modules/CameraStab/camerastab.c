@@ -46,6 +46,7 @@
 #include "physical_constants.h"
 #include "pios_thread.h"
 #include "pios_can.h"
+#include "coordinate_conversions.h"
 
 #include "accessorydesired.h"
 #include "attitudeactual.h"
@@ -376,14 +377,9 @@ static void tablet_info_process() {
 
 		PoiLocationData poi;
 
-		float lat, alt;
-		lat = homeLocation.Latitude / 10.0e6f * DEG2RAD;
-		alt = homeLocation.Altitude;
-
 		float T[3];
-		T[0] = alt+6.378137E6f;
-		T[1] = cosf(lat)*(alt+6.378137E6f);
-		T[2] = -1.0f;
+
+		LLA_linearization_float(homeLocation.Latitude, homeLocation.Altitude, T);
 
 		float dL[3] = {(tablet.Latitude - homeLocation.Latitude) / 10.0e6f * DEG2RAD,
 			(tablet.Longitude - homeLocation.Longitude) / 10.0e6f * DEG2RAD,

@@ -33,6 +33,7 @@
 #include "tablet_control.h"
 #include "transmitter_control.h"
 #include "physical_constants.h"
+#include "coordinate_conversions.h"
 
 #include "flightstatus.h"
 #include "gpsposition.h"
@@ -207,13 +208,8 @@ static int32_t tabletInfo_to_ned(TabletInfoData *tabletInfo, float *NED)
 	GPSPositionData gpsPosition;
 	GPSPositionGet(&gpsPosition);
 
-	float lat = homeLocation.Latitude / 10.0e6f * DEG2RAD;
-	float alt = homeLocation.Altitude;
-
 	float T[3];
-	T[0] = alt+6.378137E6f;
-	T[1] = cosf(lat)*(alt+6.378137E6f);
-	T[2] = -1.0f;
+	LLA_linearization_float(homeLocation.Latitude, homeLocation.Altitude, T);
 
 	// Tablet altitude is in WSG84 but we use height above the geoid elsewhere so use the
 	// GPS GeoidSeparation as a proxy
