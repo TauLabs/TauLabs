@@ -1,6 +1,7 @@
 # Exclude temporary and system files
 .DS_Store
 *.swp
+/ignore
 
 # /flight/
 /flight/*.pnproj
