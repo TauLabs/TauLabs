@@ -372,6 +372,24 @@ static void logSettings(UAVObjHandle obj)
 
 
 /**
+ * Forward data from UAVTalk out the serial port
+ * \param[in] data Data buffer to send
+ * \param[in] length Length of buffer
+ * \return -1 on failure
+ * \return number of bytes transmitted on success
+ */
+static int32_t send_data(uint8_t *data, int32_t length)
+{
+	if( PIOS_COM_SendBuffer(logging_com_id, data, length) < 0)
+		return -1;
+
+	written_bytes += length;
+
+	return length;
+}
+
+
+/**
  * @brief Callback for adding an object to the logging queue
  * @param ev the event
  */
@@ -456,22 +474,6 @@ static void writeHeader()
 	send_data((uint8_t*)tmp_str, pos);
 }
 
-/**
- * Forward data from UAVTalk out the serial port
- * \param[in] data Data buffer to send
- * \param[in] length Length of buffer
- * \return -1 on failure
- * \return number of bytes transmitted on success
- */
-static int32_t send_data(uint8_t *data, int32_t length)
-{
-	if( PIOS_COM_SendBuffer(logging_com_id, data, length) < 0)
-		return -1;
-
-	written_bytes += length;
-
-	return length;
-}
 
 /**
   * @}
