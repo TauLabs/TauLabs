@@ -73,7 +73,21 @@ QString ProviderStrings::decrypt(QString str)
 ProviderStrings::ProviderStrings()
 {
     quint64 key = 0;
-    QByteArray array = QCryptographicHash::hash(QApplication::organizationDomain().toLatin1(), QCryptographicHash::Md4);
+
+    // Get the base URL and use that as the organization name registered with
+    // Google. Unfortunately, this is a hack since Qt does not provide a function
+    // to do this directly, so we have to trim it down from the full hostname.
+    QStringList domainName = QUrl(QApplication::organizationDomain()).host().split(".");
+    QString organizationBaseURL;
+    if (domainName.length() >=2) {
+        int len = domainName.length();
+        organizationBaseURL = QString(domainName.at(len-2)).append(".").append(domainName.at(len-1));
+    } else {
+        qDebug() << "Incorrect host name: " << domainName << ". Mapping functionality may not work.";
+        return;
+    }
+
+    QByteArray array = QCryptographicHash::hash(organizationBaseURL.toLatin1(), QCryptographicHash::Md4);
     for(uint x = 0; x < 3; ++x) {
         key += array.at(2 ^ x);
     }
