@@ -174,6 +174,8 @@ int32_t PIOS_FSKDAC_Init(uintptr_t * fskdac_id)
 	/* Enable DMA for DAC Channel1 */
 	DAC_DMACmd(DAC_Channel_1, ENABLE);
 
+	DMA_ITConfig(DMA1_Stream5, DMA_IT_TC, DISABLE);
+
 	return 0;
 }
 
@@ -271,14 +273,17 @@ static void PIOS_FSKDAC_DMA_irq_cb()
 				/* Send the byte we've been given */
 				fskdac_dev->tx_state = START;
 				fskdac_dev->cur_byte = b;
-				fskdac_dev->cur_parity = 1; // start parity at 1
 				// Start outputing a SPACE for start symbol
 				pios_fskdac_set_symbol(fskdac_dev, 1);
-
-				DMA_ITConfig(DMA1_Stream5, DMA_IT_HT, ENABLE);
+				fskdac_dev->cur_parity = 1; // start parity at 1 but after sending start bit
 			} else {
 				/* No bytes to send, stay here but do not call interrupt until more data */
-				DMA_ITConfig(DMA1_Stream5, DMA_IT_HT, DISABLE);
+
+				// While stopping the IRQ seems like the right thing to do here
+				// for some reason it makes us miss the start bit some of the
+				// time.
+				//DMA_ITConfig(DMA1_Stream5, DMA_IT_HT, DISABLE);
+
 				// STOP state already set us back to holding at MARK
 				// but we need to make sure the other buffer is too
 				pios_fskdac_set_symbol(fskdac_dev, 0);
