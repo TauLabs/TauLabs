@@ -7,7 +7,7 @@
  *
  * @file       pios_board.c 
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2011.
- * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2015
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2016
  * @brief      The board specific initialization routines
  * @see        The GNU Public License (GPL) Version 3
  * 
@@ -206,13 +206,13 @@ void PIOS_Board_Init(void) {
 			if (PIOS_USART_Init(&pios_usart2_id, &pios_usart_bluetooth_cfg)) {
 				PIOS_Assert(0);
 			}
-			uint8_t *rx_buffer = (uint8_t *)PIOS_malloc(128);
-			uint8_t *tx_buffer = (uint8_t *)PIOS_malloc(256);
+			uint8_t *rx_buffer = (uint8_t *)PIOS_malloc(PIOS_COM_TELEM_RX_BUF_LEN);
+			uint8_t *tx_buffer = (uint8_t *)PIOS_malloc(PIOS_COM_TELEM_TX_BUF_LEN);
 			PIOS_Assert(rx_buffer);
 			PIOS_Assert(tx_buffer);
 			if (PIOS_COM_Init(&pios_com_telem_uart_bluetooth_id, &pios_usart_com_driver, pios_usart2_id,
-												rx_buffer, PIOS_COM_TELEM_RX_BUF_LEN,
-												tx_buffer, PIOS_COM_TELEM_TX_BUF_LEN)) {
+			                  rx_buffer, PIOS_COM_TELEM_RX_BUF_LEN,
+			                  tx_buffer, PIOS_COM_TELEM_TX_BUF_LEN)) {
 				PIOS_Assert(0);
 			}
 
@@ -243,8 +243,8 @@ void PIOS_Board_Init(void) {
 			PIOS_Assert(rx_buffer);
 			PIOS_Assert(tx_buffer);
 			if (PIOS_COM_Init(&pios_com_telem_uart_bluetooth_id, &pios_usart_com_driver, pios_usart2_id,
-												rx_buffer, PIOS_COM_TELEM_RX_BUF_LEN,
-												tx_buffer, PIOS_COM_TELEM_TX_BUF_LEN)) {
+			                  rx_buffer, PIOS_COM_TELEM_RX_BUF_LEN,
+			                  tx_buffer, PIOS_COM_TELEM_TX_BUF_LEN)) {
 				PIOS_Assert(0);
 			}
 
@@ -281,7 +281,7 @@ void PIOS_Board_Init(void) {
 			pios_com_bridge_id = pios_com_telem_uart_bluetooth_id;
 		}
 			break;
-		case HWTAULINK_MAINPORT_DISABLED:
+		case HWTAULINK_BTPORT_DISABLED:
 			break;
 		}
 	}
