@@ -81,7 +81,6 @@ ConfigModuleWidget::ConfigModuleWidget(QWidget *parent) : ConfigTaskWidget(paren
     addUAVObjectToWidgetRelation(moduleSettingsName, "AdminState", ui->cbComBridge, ModuleSettings::ADMINSTATE_COMUSBBRIDGE);
     addUAVObjectToWidgetRelation(moduleSettingsName, "AdminState", ui->cbGPS, ModuleSettings::ADMINSTATE_GPS);
     addUAVObjectToWidgetRelation(moduleSettingsName, "AdminState", ui->cbUavoMavlink, ModuleSettings::ADMINSTATE_UAVOMAVLINKBRIDGE);
-    addUAVObjectToWidgetRelation(moduleSettingsName, "AdminState", ui->cbOveroSync, ModuleSettings::ADMINSTATE_OVEROSYNC);
     addUAVObjectToWidgetRelation(moduleSettingsName, "AdminState", ui->cbVibrationAnalysis, ModuleSettings::ADMINSTATE_VIBRATIONANALYSIS);
     addUAVObjectToWidgetRelation(moduleSettingsName, "AdminState", ui->cbVtolFollower, ModuleSettings::ADMINSTATE_VTOLPATHFOLLOWER);
     addUAVObjectToWidgetRelation(moduleSettingsName, "AdminState", ui->cbPathPlanner, ModuleSettings::ADMINSTATE_PATHPLANNER);
@@ -94,6 +93,7 @@ ConfigModuleWidget::ConfigModuleWidget(QWidget *parent) : ConfigTaskWidget(paren
     addUAVObjectToWidgetRelation(moduleSettingsName, "AdminState", ui->cbAutotune, ModuleSettings::ADMINSTATE_AUTOTUNE);
     addUAVObjectToWidgetRelation(moduleSettingsName, "AdminState", ui->cbUAVOMSPBridge, ModuleSettings::ADMINSTATE_UAVOMSPBRIDGE);
     addUAVObjectToWidgetRelation(moduleSettingsName, "AdminState", ui->cbTxPid, ModuleSettings::ADMINSTATE_TXPID);
+    addUAVObjectToWidgetRelation(moduleSettingsName, "AdminState", ui->cbLogging, ModuleSettings::ADMINSTATE_LOGGING);
 
     // Don't allow these to be changed here, only in the respective tabs.
     ui->cbAutotune->setDisabled(true);
@@ -345,9 +345,6 @@ ConfigModuleWidget::ConfigModuleWidget(QWidget *parent) : ConfigTaskWidget(paren
     ui->cbUavoMavlink->setProperty(trueString.toLatin1(), "Enabled");
     ui->cbUavoMavlink->setProperty(falseString.toLatin1(), "Disabled");
 
-    ui->cbOveroSync->setProperty(trueString.toLatin1(), "Enabled");
-    ui->cbOveroSync->setProperty(falseString.toLatin1(), "Disabled");
-
     ui->cbVibrationAnalysis->setProperty(trueString.toLatin1(), "Enabled");
     ui->cbVibrationAnalysis->setProperty(falseString.toLatin1(), "Disabled");
 
@@ -377,6 +374,9 @@ ConfigModuleWidget::ConfigModuleWidget(QWidget *parent) : ConfigTaskWidget(paren
 
     ui->cbAutotune->setProperty(trueString.toLatin1(), "Enabled");
     ui->cbAutotune->setProperty(falseString.toLatin1(), "Disabled");
+
+    ui->cbLogging->setProperty(trueString.toLatin1(), "Enabled");
+    ui->cbLogging->setProperty(falseString.toLatin1(), "Disabled");
 
     ui->gb_measureVoltage->setProperty(trueString.toLatin1(), "Enabled");
     ui->gb_measureVoltage->setProperty(falseString.toLatin1(), "Disabled");
