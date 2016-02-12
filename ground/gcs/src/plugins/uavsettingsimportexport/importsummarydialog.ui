@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>400</width>
+    <width>544</width>
     <height>377</height>
    </rect>
   </property>
@@ -55,6 +55,26 @@
    </item>
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout">
+     <item>
+      <widget class="QPushButton" name="btnSelectAll">
+       <property name="text">
+        <string>Select All</string>
+       </property>
+       <property name="autoDefault">
+        <bool>false</bool>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="btnSelectNone">
+       <property name="text">
+        <string>Select None</string>
+       </property>
+       <property name="autoDefault">
+        <bool>false</bool>
+       </property>
+      </widget>
+     </item>
      <item>
       <spacer name="horizontalSpacer">
        <property name="orientation">
@@ -120,6 +140,7 @@ then close the dialog.</string>
   </layout>
  </widget>
  <resources>
+  <include location="../coreplugin/core.qrc"/>
   <include location="../coreplugin/core.qrc"/>
  </resources>
  <connections/>
