@@ -272,6 +272,7 @@ void UAVObjectTreeModel::addArrayField(UAVObjectField *field, TreeItem *parent)
     for (uint i = 0; i < field->getNumElements(); ++i) {
         addSingleField(i, field, item);
     }
+    item->setDescription(field->getDescription());
     parent->appendChild(item);
 }
 
@@ -313,6 +314,7 @@ void UAVObjectTreeModel::addSingleField(int index, UAVObjectField *field, TreeIt
     default:
         Q_ASSERT(false);
     }
+    item->setDescription(field->getDescription());
     item->setHighlightManager(m_highlightManager);
     connect(item, SIGNAL(updateHighlight(TreeItem*)), this, SLOT(updateHighlight(TreeItem*)));
     parent->appendChild(item);

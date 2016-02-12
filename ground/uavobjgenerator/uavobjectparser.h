@@ -70,6 +70,7 @@ struct FieldInfo_s {
     bool defaultElementNames;
     QStringList defaultValues;
     QString limitValues;
+    QString description;
 
     FieldInfo *parent;
     ObjectInfo *parentObj;

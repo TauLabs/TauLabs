@@ -70,6 +70,7 @@ $(DATAFIELDINFO)
     static const bool ISSINGLEINST = $(ISSINGLEINST);
     static const bool ISSETTINGS = $(ISSETTINGS);
     static const quint32 NUMBYTES = $(NUMBYTES);
+    static const QHash<QString, QString> FIELD_DESCRIPTIONS;
 
     // Functions
     $(NAME)();

@@ -148,6 +148,7 @@ bool UAVObjectGeneratorGCS::process_object(ObjectInfo* info)
     QString propertySetters;
     QString propertyNotifications;
     QString propertyNotificationsImpl;
+    QString fieldDescriptionsStrings;
 
     //to avoid name conflicts
     QStringList reservedProperties;
@@ -263,6 +264,21 @@ bool UAVObjectGeneratorGCS::process_object(ObjectInfo* info)
                             "            emit %1Changed(data.%1);\n")
                     .arg(field->name);
         }
+
+        properties += QString("    Q_PROPERTY(QString %1_Description READ get%1_Description);\n")
+                    .arg(field->name);
+        propertyGetters +=
+                    QString("    Q_INVOKABLE QString get%1_Description() const;\n")
+                    .arg(field->name);
+        propertiesImpl +=
+                        QString("QString %1::get%2_Description() const\n"
+                                "{\n"
+                                "   return FIELD_DESCRIPTIONS[\"%2\"];\n"
+                                "}\n")
+                        .arg(info->name).arg(field->name);
+        fieldDescriptionsStrings += 
+                        QString("    {\"%1\", \"%2\"},\n")
+                        .arg(field->name).arg(escape_raw_string(field->description));
     }
 
     outInclude.replace(QString("$(PROPERTIES)"), properties);
@@ -272,6 +288,7 @@ bool UAVObjectGeneratorGCS::process_object(ObjectInfo* info)
 
     outCode.replace(QString("$(PROPERTIES_IMPL)"), propertiesImpl);
     outCode.replace(QString("$(NOTIFY_PROPERTIES_CHANGED)"), propertyNotificationsImpl);
+    outCode.replace(QString("$(FIELDDESCRIPTIONS_STRINGS)"), fieldDescriptionsStrings);
 
     // Replace the $(FIELDSINIT) tag
     QString finit;
@@ -322,7 +339,7 @@ bool UAVObjectGeneratorGCS::process_object(ObjectInfo* info)
 
             finit.append("};\n");
 
-            finit.append( QString("    fields.append( new UAVObjectField(QString(\"%1\"), QString(\"%2\"), UAVObjectField::ENUM, %3, %4, %5, QString(\"%6\")));\n")
+            finit.append( QString("    fields.append( new UAVObjectField(QString(\"%1\"), QString(\"%2\"), UAVObjectField::ENUM, %3, %4, %5, QString(\"%6\"), FIELD_DESCRIPTIONS[\"%1\"]));\n")
                           .arg(info->fields[n]->name)
                           .arg(info->fields[n]->units)
                           .arg(varElemName)
@@ -332,7 +349,7 @@ bool UAVObjectGeneratorGCS::process_object(ObjectInfo* info)
         }
         // For all other types
         else {
-            finit.append( QString("    fields.append( new UAVObjectField(QString(\"%1\"), QString(\"%2\"), UAVObjectField::%3, %4, QStringList(), QList<int>(), QString(\"%5\")));\n")
+            finit.append( QString("    fields.append( new UAVObjectField(QString(\"%1\"), QString(\"%2\"), UAVObjectField::%3, %4, QStringList(), QList<int>(), QString(\"%5\"), FIELD_DESCRIPTIONS[\"%1\"]));\n")
                           .arg(info->fields[n]->name)
                           .arg(info->fields[n]->units)
                           .arg(fieldTypeStrCPPClass[info->fields[n]->type])
@@ -490,4 +507,13 @@ bool UAVObjectGeneratorGCS::process_object(ObjectInfo* info)
     }
 
     return true;
+}
+
+/**
+ * Escapes a raw string so it can be used in generated C/C++ source
+ * Whitespace will be gobbled
+ */
+QString UAVObjectGeneratorGCS::escape_raw_string(QString raw)
+{
+    return raw.replace("\\", "\\\\").replace("\"", "\\\"").simplified();
 }

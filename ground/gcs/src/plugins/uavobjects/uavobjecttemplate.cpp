@@ -36,6 +36,8 @@
 const QString $(NAME)::NAME = QString("$(NAME)");
 const QString $(NAME)::DESCRIPTION = QString("$(DESCRIPTION)");
 const QString $(NAME)::CATEGORY = QString("$(CATEGORY)");
+const QHash<QString, QString> $(NAME)::FIELD_DESCRIPTIONS{
+$(FIELDDESCRIPTIONS_STRINGS)};
 
 /**
  * Constructor
