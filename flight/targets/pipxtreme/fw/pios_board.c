@@ -211,8 +211,8 @@ void PIOS_Board_Init(void) {
 			PIOS_Assert(rx_buffer);
 			PIOS_Assert(tx_buffer);
 			if (PIOS_COM_Init(&pios_com_telem_uart_bluetooth_id, &pios_usart_com_driver, pios_usart2_id,
-												rx_buffer, PIOS_COM_TELEM_RX_BUF_LEN,
-												tx_buffer, PIOS_COM_TELEM_TX_BUF_LEN)) {
+			                  rx_buffer, PIOS_COM_TELEM_RX_BUF_LEN,
+			                  tx_buffer, PIOS_COM_TELEM_TX_BUF_LEN)) {
 				PIOS_Assert(0);
 			}
 
@@ -243,8 +243,8 @@ void PIOS_Board_Init(void) {
 			PIOS_Assert(rx_buffer);
 			PIOS_Assert(tx_buffer);
 			if (PIOS_COM_Init(&pios_com_telem_uart_bluetooth_id, &pios_usart_com_driver, pios_usart2_id,
-												rx_buffer, PIOS_COM_TELEM_RX_BUF_LEN,
-												tx_buffer, PIOS_COM_TELEM_TX_BUF_LEN)) {
+			                  rx_buffer, PIOS_COM_TELEM_RX_BUF_LEN,
+			                  tx_buffer, PIOS_COM_TELEM_TX_BUF_LEN)) {
 				PIOS_Assert(0);
 			}
 
