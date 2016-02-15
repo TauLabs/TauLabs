@@ -138,7 +138,8 @@ int32_t PIOS_CAN_Init(uintptr_t *can_id, const struct pios_can_cfg *cfg)
 
 	/* CAN filter init */
 	CAN_FilterInitTypeDef CAN_FilterInitStructure;
-	CAN_FilterInitStructure.CAN_FilterNumber = 0;
+	// Banks 0..13 are assigned to CAN1 and 14..28 to CAN2
+	CAN_FilterInitStructure.CAN_FilterNumber = (can_dev->cfg->regs == CAN1) ? 0 : 14;
 	CAN_FilterInitStructure.CAN_FilterMode = CAN_FilterMode_IdMask;
 	CAN_FilterInitStructure.CAN_FilterScale = CAN_FilterScale_32bit;
 	CAN_FilterInitStructure.CAN_FilterIdHigh = 0x0000;
@@ -153,6 +154,11 @@ int32_t PIOS_CAN_Init(uintptr_t *can_id, const struct pios_can_cfg *cfg)
 	// Enable the receiver IRQ
  	NVIC_Init((NVIC_InitTypeDef*) &can_dev->cfg->rx_irq.init);
  	NVIC_Init((NVIC_InitTypeDef*) &can_dev->cfg->tx_irq.init);
+
+	// Always enable receiving, regardless of the RxStart method as
+	// the PIOS_CAN driver does not require a PIOS_COM layer for the
+	// queue messages
+	CAN_ITConfig(can_dev->cfg->regs, CAN_IT_FMP1, ENABLE);
 
 	return(0);
 
@@ -301,9 +307,8 @@ void USB_HP_CAN1_TX_IRQHandler(void)
 }
 
 /**
- * @brief  This function handles CAN1 RX1 request.
- * @note   We are using RX1 instead of RX0 to avoid conflicts with the
- *         USB IRQ handler.
+ * @brief  This function handles CAN RX IRQs. It either pushes data to the
+ * pios CAN interface or routes a CAN message to a queue, as appropriate
  */
 static void PIOS_CAN_RxGeneric(void)
 {
@@ -330,7 +335,8 @@ static void PIOS_CAN_RxGeneric(void)
 }
 
 /**
- * @brief  This function handles CAN1 TX irq and sends more data if available
+ * @brief  This function handles CAN TX irq and sends more data from the
+ * COM layer, if available
  */
 static void PIOS_CAN_TxGeneric(void)
 {

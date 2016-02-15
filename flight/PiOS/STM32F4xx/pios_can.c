@@ -60,6 +60,7 @@ enum pios_can_dev_magic {
 struct pios_can_dev {
 	enum pios_can_dev_magic     magic;
 	const struct pios_can_cfg  *cfg;
+	uint8_t rx_fifo;
 	pios_com_callback rx_in_cb;
 	uintptr_t rx_in_context;
 	pios_com_callback tx_out_cb;
@@ -143,23 +144,36 @@ int32_t PIOS_CAN_Init(uintptr_t *can_id, const struct pios_can_cfg *cfg)
 	CAN_DeInit(can_dev->cfg->regs);
 	CAN_Init(can_dev->cfg->regs, (CAN_InitTypeDef *)&can_dev->cfg->init);
 
+	// Based on the selected RX IRQ we use either FIFO0 or FIFO1
+	if (can_dev->cfg->rx_irq.init.NVIC_IRQChannel == CAN1_RX1_IRQn ||
+	    can_dev->cfg->rx_irq.init.NVIC_IRQChannel == CAN2_RX1_IRQn)
+		can_dev->rx_fifo = 1;
+	else
+		can_dev->rx_fifo = 0;
+
 	/* CAN filter init */
 	CAN_FilterInitTypeDef CAN_FilterInitStructure;
-	CAN_FilterInitStructure.CAN_FilterNumber = 0;
+	// Banks 0..13 are assigned to CAN1 and 14..28 to CAN2
+	CAN_FilterInitStructure.CAN_FilterNumber = (can_dev->cfg->regs == CAN1) ? 0 : 14;
 	CAN_FilterInitStructure.CAN_FilterMode = CAN_FilterMode_IdMask;
 	CAN_FilterInitStructure.CAN_FilterScale = CAN_FilterScale_32bit;
 	CAN_FilterInitStructure.CAN_FilterIdHigh = 0x0000;
 	CAN_FilterInitStructure.CAN_FilterIdLow = 0x0000;
 	CAN_FilterInitStructure.CAN_FilterMaskIdHigh = 0x0000;
 	CAN_FilterInitStructure.CAN_FilterMaskIdLow = 0x0000;  
-	CAN_FilterInitStructure.CAN_FilterFIFOAssignment = 1;
+	CAN_FilterInitStructure.CAN_FilterFIFOAssignment = can_dev->rx_fifo ? CAN_Filter_FIFO1 : CAN_Filter_FIFO0;
 
 	CAN_FilterInitStructure.CAN_FilterActivation = ENABLE;
 	CAN_FilterInit(&CAN_FilterInitStructure);
 
 	// Enable the receiver IRQ
- 	NVIC_Init((NVIC_InitTypeDef*) &can_dev->cfg->rx_irq.init);
- 	NVIC_Init((NVIC_InitTypeDef*) &can_dev->cfg->tx_irq.init);
+	NVIC_Init((NVIC_InitTypeDef*) &can_dev->cfg->rx_irq.init);
+	NVIC_Init((NVIC_InitTypeDef*) &can_dev->cfg->tx_irq.init);
+
+	// Always enable receiving, regardless of the RxStart method as
+	// the PIOS_CAN driver does not require a PIOS_COM layer for the
+	// queue messages
+	CAN_ITConfig(can_dev->cfg->regs, can_dev->rx_fifo ? CAN_IT_FMP1 : CAN_IT_FMP0, ENABLE);
 
 	return(0);
 
@@ -174,7 +188,7 @@ static void PIOS_CAN_RxStart(uintptr_t can_id, uint16_t rx_bytes_avail)
 	bool valid = PIOS_CAN_validate(can_dev);
 	PIOS_Assert(valid);
 	
-	CAN_ITConfig(can_dev->cfg->regs, CAN_IT_FMP1, ENABLE);
+	CAN_ITConfig(can_dev->cfg->regs, can_dev->rx_fifo ? CAN_IT_FMP1 : CAN_IT_FMP0, ENABLE);
 }
 
 static void PIOS_CAN_TxStart(uintptr_t can_id, uint16_t tx_bytes_avail)
@@ -353,19 +367,18 @@ void CAN2_TX_IRQHandler(void)
 }
 
 /**
- * @brief  This function handles CAN1 RX1 request.
- * @note   We are using RX1 instead of RX0 to avoid conflicts with the
- *         USB IRQ handler.
+ * @brief  This function handles CAN RX IRQs. It either pushes data to the
+ * pios CAN interface or routes a CAN message to a queue, as appropriate
  */
 static void PIOS_CAN_RxGeneric(void)
 {
-	CAN_ClearITPendingBit(can_dev->cfg->regs, CAN_IT_FMP1);
+	CAN_ClearITPendingBit(can_dev->cfg->regs, can_dev->rx_fifo ? CAN_IT_FMP1 : CAN_IT_FMP0);
 
 	bool valid = PIOS_CAN_validate(can_dev);
 	PIOS_Assert(valid);
 
 	CanRxMsg RxMessage;
-	CAN_Receive(can_dev->cfg->regs, CAN_FIFO1, &RxMessage);
+	CAN_Receive(can_dev->cfg->regs, can_dev->rx_fifo ? CAN_FIFO1 : CAN_FIFO0, &RxMessage);
 
 	bool rx_need_yield = false;
 	if (RxMessage.StdId == CAN_COM_ID) {
@@ -382,7 +395,8 @@ static void PIOS_CAN_RxGeneric(void)
 }
 
 /**
- * @brief  This function handles CAN1 TX irq and sends more data if available
+ * @brief  This function handles CAN TX irq and sends more data from the
+ * COM layer, if available
  */
 static void PIOS_CAN_TxGeneric(void)
 {
