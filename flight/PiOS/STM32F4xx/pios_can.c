@@ -146,7 +146,7 @@ int32_t PIOS_CAN_Init(uintptr_t *can_id, const struct pios_can_cfg *cfg)
 
 	// Based on the selected RX IRQ we use either FIFO0 or FIFO1
 	if (can_dev->cfg->rx_irq.init.NVIC_IRQChannel == CAN1_RX1_IRQn ||
-		can_dev->cfg->rx_irq.init.NVIC_IRQChannel == CAN2_RX1_IRQn)
+	    can_dev->cfg->rx_irq.init.NVIC_IRQChannel == CAN2_RX1_IRQn)
 		can_dev->rx_fifo = 1;
 	else
 		can_dev->rx_fifo = 0;
