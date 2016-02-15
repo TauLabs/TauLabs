@@ -123,7 +123,9 @@ end
 timestampAccumulator = 0;
 lastTimestamp = 0;
 
-while bufferIdx < (length(buffer) - 20)
+buffer_len = length(buffer);
+
+while bufferIdx < (buffer_len - 20)
 	%% Read message header
 	% get sync field (0x3C, 1 byte)
 	if onboardLogger
@@ -276,10 +278,10 @@ $(SWITCHCODE)
 		str2=sprintf('wrongSyncByte instances:    % 10d\n', wrongSyncByte );
 		str3=sprintf('wrongMessageByte instances: % 10d\n\n', wrongMessageByte );
 		
-		str4=sprintf('Completed bytes: % 9d of % 9d\n', bufferIdx, length(buffer));
+		str4=sprintf('Completed bytes: % 9d of % 9d\n', bufferIdx, buffer_len);
 		
 		% Arbitrary times two so that it is at least as long	
-		estTimeRemaining=(length(buffer)-bufferIdx)/(bufferIdx/etime(clock,startTime)) * 2;
+		estTimeRemaining=(buffer_len-bufferIdx)/(bufferIdx/etime(clock,startTime)) * 2;
 		h=floor(estTimeRemaining/3600);
 		m=floor((estTimeRemaining-h*3600)/60);
 		s=ceil(estTimeRemaining-h*3600-m*60);
@@ -292,7 +294,7 @@ $(SWITCHCODE)
 	end
 
 	%Check if at end of file. If not, load next prebuffer
-	if bufferIdx+12-1 > length(buffer)
+	if bufferIdx+12-1 > buffer_len
 		break;
 	end
 %	bufferIdx=bufferIdx+12;
@@ -323,7 +325,7 @@ else
 $(EXPORTCSVCODE)
 end
 
-fprintf('%d records in %0.2f seconds.\n', length(buffer), etime(clock,startTime));
+fprintf('%d records in %0.2f seconds.\n', buffer_len, etime(clock,startTime));
 
 
 
