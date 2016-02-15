@@ -1,0 +1,3 @@
+# Ignore
+
+This directory is for files which git will ignore. Use it to hold temporary files in the local repository, files which git will not suggest are to be staged. This helps clean up `git status`, `git gui`, etc...
