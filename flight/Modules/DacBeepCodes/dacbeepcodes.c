@@ -32,6 +32,7 @@
 #include "pios_thread.h"
 #include "pios_dacbeep_priv.h"
 
+#include "flightbatterysettings.h"
 #include "flightbatterystate.h"
 #include "manualcontrolcommand.h"
 
@@ -106,12 +107,20 @@ static void dacBeepCodeTask(void *parameters)
 		// Using piecewise linear to avoid exponential calculation
 		int32_t period_ms = 100 + ((rssi < 50) ? rssi : (13 * (rssi - 50) + 50));
 
-		// TODO: make battery scaling adjustable
-		const float MIN_VOLT = 2.5f;
-		const float MAX_VOLT = 4.0f;
+		// Scale audio pitches based on voltage thresholds in ALARM and WARNING
+		// this makes the audio start to change once you hit this range and have
+		// a fair bit of dynamic range
+		float volt_threshold[FLIGHTBATTERYSETTINGS_VOLTAGETHRESHOLDS_NUMELEM];
+		FlightBatterySettingsVoltageThresholdsGet(volt_threshold);
+		const float MIN_VOLT = volt_threshold[FLIGHTBATTERYSETTINGS_VOLTAGETHRESHOLDS_ALARM];
+		const float MAX_VOLT = volt_threshold[FLIGHTBATTERYSETTINGS_VOLTAGETHRESHOLDS_WARNING];
+		const uint16_t MIN_FREQ_HZ = 1500;
+		const uint16_t RANGE_FREQ_HZ = 4000;
 		if (volt < MIN_VOLT) volt = MIN_VOLT;
 		if (volt > MAX_VOLT) volt = MAX_VOLT;
-		uint16_t freq = 1500 + (volt - MIN_VOLT) / (MAX_VOLT - MIN_VOLT) * 4000;
+		uint16_t freq = MIN_FREQ_HZ;
+		if (MAX_VOLT > MIN_VOLT)
+			freq = MIN_FREQ_HZ + (volt - MIN_VOLT) / (MAX_VOLT - MIN_VOLT) * RANGE_FREQ_HZ;
 
 		PIOS_DACBEEP_Beep(dacbeep_handle, freq, 80);
 		PIOS_Thread_Sleep(period_ms);
