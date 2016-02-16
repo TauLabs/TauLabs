@@ -114,13 +114,13 @@ static void dacBeepCodeTask(void *parameters)
 		FlightBatterySettingsVoltageThresholdsGet(volt_threshold);
 		const float MIN_VOLT = volt_threshold[FLIGHTBATTERYSETTINGS_VOLTAGETHRESHOLDS_ALARM];
 		const float MAX_VOLT = volt_threshold[FLIGHTBATTERYSETTINGS_VOLTAGETHRESHOLDS_WARNING];
-		const uint16_t MIN_FREQ_HZ = 1500;
-		const uint16_t RANGE_FREQ_HZ = 4000;
+		const uint16_t MIN_FREQ_HZ = 1420; // Lower frequency of one octave
+		const uint16_t MAX_FREQ_HZ = 5680; // Upper frequency of next octave
 		if (volt < MIN_VOLT) volt = MIN_VOLT;
 		if (volt > MAX_VOLT) volt = MAX_VOLT;
 		uint16_t freq = MIN_FREQ_HZ;
 		if (MAX_VOLT > MIN_VOLT)
-			freq = MIN_FREQ_HZ + (volt - MIN_VOLT) / (MAX_VOLT - MIN_VOLT) * RANGE_FREQ_HZ;
+			freq = MIN_FREQ_HZ + (volt - MIN_VOLT) / (MAX_VOLT - MIN_VOLT) * (MAX_FREQ_HZ - MIN_FREQ_HZ);
 
 		PIOS_DACBEEP_Beep(dacbeep_handle, freq, 80);
 		PIOS_Thread_Sleep(period_ms);
