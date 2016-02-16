@@ -6,7 +6,7 @@
  * @{
  *
  * @file       pios_board.c 
- * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2015
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2016
  * @brief      Board specific hardware configuration file
  * @see        The GNU Public License (GPL) Version 3
  *
@@ -214,7 +214,7 @@ void PIOS_SPI_gyro_irq_handler(void)
  */
 void PIOS_SPI_telem_flash_irq_handler(void);
 void DMA1_Stream0_IRQHandler(void) __attribute__((alias("PIOS_SPI_telem_flash_irq_handler")));
-void DMA1_Stream5_IRQHandler(void) __attribute__((alias("PIOS_SPI_telem_flash_irq_handler")));
+void DMA1_Stream7_IRQHandler(void) __attribute__((alias("PIOS_SPI_telem_flash_irq_handler")));
 static const struct pios_spi_cfg pios_spi_telem_flash_cfg = {
 	.regs = SPI3,
 	.remap = GPIO_AF_SPI3,
@@ -262,7 +262,7 @@ static const struct pios_spi_cfg pios_spi_telem_flash_cfg = {
 			},
 		},
 		.tx = {
-			.channel = DMA1_Stream5,
+			.channel = DMA1_Stream7,
 			.init = {
 				.DMA_Channel            = DMA_Channel_0,
 				.DMA_PeripheralBaseAddr = (uint32_t) & (SPI3->DR),
@@ -1786,7 +1786,7 @@ const struct pios_usb_hid_cfg pios_usb_hid_cfg = {
 
 static void PIOS_ADC_DMA_irq_handler(void);
 void DMA2_Stream4_IRQHandler(void) __attribute__((alias("PIOS_ADC_DMA_irq_handler")));
-struct pios_internal_adc_cfg pios_adc_cfg = {
+struct pios_internal_adc_cfg pios_adc_withdac_cfg = {
 	.adc_dev_master = ADC1,
 	.dma = {
 		.irq = {
@@ -1809,26 +1809,45 @@ struct pios_internal_adc_cfg pios_adc_cfg = {
 	.half_flag = DMA_IT_HTIF4,
 	.full_flag = DMA_IT_TCIF4,
 	.adc_pins = {                                                                               \
-		{GPIOC, GPIO_Pin_3,     ADC_Channel_13},                /* Current sensor */            \
-		{GPIOC, GPIO_Pin_2,     ADC_Channel_12},                /* Voltage sensor */            \
+		{GPIOC, GPIO_Pin_3,     ADC_Channel_13},                /* Voltage sensor */            \
+		{GPIOC, GPIO_Pin_2,     ADC_Channel_12},                /* Current sensor */            \
+		{GPIOA, GPIO_Pin_4,     ADC_Channel_4},                 /* DAC / ADC pins */            \
+		{NULL,  0,              ADC_Channel_Vrefint},           /* Voltage reference */         \
+		{NULL,  0,              ADC_Channel_TempSensor}         /* Temperature sensor */        \
+	},
+	.adc_pin_count = 5
+};
+
+struct pios_internal_adc_cfg pios_adc_withoutdac_cfg = {
+	.adc_dev_master = ADC1,
+	.dma = {
+		.irq = {
+			.flags   = (DMA_FLAG_TCIF4 | DMA_FLAG_TEIF4 | DMA_FLAG_HTIF4),
+			.init    = {
+				.NVIC_IRQChannel                   = DMA2_Stream4_IRQn,
+				.NVIC_IRQChannelPreemptionPriority = PIOS_IRQ_PRIO_LOW,
+				.NVIC_IRQChannelSubPriority        = 0,
+				.NVIC_IRQChannelCmd                = ENABLE,
+			},
+		},
+		.rx = {
+			.channel = DMA2_Stream4,
+			.init    = {
+				.DMA_Channel                    = DMA_Channel_0,
+				.DMA_PeripheralBaseAddr = (uint32_t) & ADC1->DR
+			},
+		}
+	},
+	.half_flag = DMA_IT_HTIF4,
+	.full_flag = DMA_IT_TCIF4,
+	.adc_pins = {                                                                               \
+		{GPIOC, GPIO_Pin_3,     ADC_Channel_13},                /* Voltage sensor */            \
+		{GPIOC, GPIO_Pin_2,     ADC_Channel_12},                /* Current sensor */            \
 		{NULL,  0,              ADC_Channel_Vrefint},           /* Voltage reference */         \
 		{NULL,  0,              ADC_Channel_TempSensor}         /* Temperature sensor */        \
 	},
 	.adc_pin_count = 4
 };
-
-struct stm32_gpio pios_current_sonar_pin ={
-    .gpio = GPIOA,
-			.init = {
-				.GPIO_Pin = GPIO_Pin_8,
-				.GPIO_Speed = GPIO_Speed_2MHz,
-				.GPIO_Mode  = GPIO_Mode_IN,
-				.GPIO_OType = GPIO_OType_OD,
-				.GPIO_PuPd  = GPIO_PuPd_NOPULL
-			},
-			.pin_source = GPIO_PinSource8,
-};
-
 static void PIOS_ADC_DMA_irq_handler(void)
 {
 	/* Call into the generic code to handle the IRQ for this specific device */

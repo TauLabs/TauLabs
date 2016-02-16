@@ -39,6 +39,7 @@ MODULES += Stabilization
 MODULES += Actuator
 MODULES += FirmwareIAP
 MODULES += Telemetry
+MODULES += DacBeepCodes # always try to run this, fails if not assigned port
 PYMODULES = 
 #FlightPlan
 

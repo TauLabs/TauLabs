@@ -45,6 +45,7 @@
 #include "modulesettings.h"
 #include <rfm22bstatus.h>
 #include <rfm22breceiver.h>
+#include <pios_dacbeep_priv.h>
 #include <pios_rfm22b_rcvr_priv.h>
 #include <pios_openlrs_rcvr_priv.h>
 
@@ -139,6 +140,8 @@ uintptr_t pios_waypoints_settings_fs_id;
 uintptr_t pios_can_id;
 
 uintptr_t streamfs_id;
+
+uintptr_t dacbeep_handle;
 
 /**
  * Indicate a target-specific error code when a component fails to initialize
@@ -672,13 +675,38 @@ void PIOS_Board_Init(void) {
 
 	PIOS_SENSORS_Init();
 
+	uint8_t dac_mode;
+	HwSparky2AdcDacGet(&dac_mode);
+	struct pios_internal_adc_cfg *adc_cfg = &pios_adc_withoutdac_cfg;
+
+	// Select what the ADC or DAC is used for
+	switch(dac_mode) {
+	case HWSPARKY2_ADCDAC_ADC:
+		adc_cfg = &pios_adc_withdac_cfg;
+		break;
+	case HWSPARKY2_ADCDAC_BEEP:
+#if defined(PIOS_INCLUDE_DAC_BEEPS)
+	{
+		uintptr_t dacbeep_id;
+		PIOS_DACBEEP_Init(&dacbeep_id);
+		dacbeep_handle = dacbeep_id;
+	}
+#endif /* PIOS_INCLUDE_DAC_BEEPS */
+		break;
+	case HWSPARKY2_ADCDAC_FSKTELEM:
+#if defined(PIOS_INCLUDE_FSK)
+	{
+		uintptr_t fskdac_com_id;
+		PIOS_FSKDAC_Init(&fskdac_com_id, &pios_fskdac_config);
+	}
+#endif /* PIOS_INCLUDE_FSK */
+		break;
+	}
+
 #if defined(PIOS_INCLUDE_ADC)
 	uint32_t internal_adc_id;
-	PIOS_INTERNAL_ADC_Init(&internal_adc_id, &pios_adc_cfg);
+	PIOS_INTERNAL_ADC_Init(&internal_adc_id, adc_cfg);
 	PIOS_ADC_Init(&pios_internal_adc_id, &pios_internal_adc_driver, internal_adc_id);
- 
-        // configure the pullup for PA8 (inhibit pullups from current/sonar shared pin)
-        GPIO_Init(pios_current_sonar_pin.gpio, &pios_current_sonar_pin.init);
 #endif
 
 #if defined(PIOS_INCLUDE_MS5611)
