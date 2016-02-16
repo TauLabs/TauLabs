@@ -37,7 +37,8 @@ namespace mapcontrol
     TLMapWidget::TLMapWidget(QWidget *parent, Configuration *config) : QGraphicsView(parent),
         configuration(config),UAV(0),GPS(0),Home(0),followmouse(true),
         compassRose(0),windCompass(0),showuav(false),showhome(false),
-        diagTimer(0),diagGraphItem(0),showDiag(false),overlayOpacity(1)
+        diagTimer(0),diagGraphItem(0),showDiag(false),overlayOpacity(1),
+        windspeedTxt(0)
     {
         setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
         this->setScene(new QGraphicsScene(this));
@@ -604,13 +605,17 @@ namespace mapcontrol
     void TLMapWidget::setWindVelocity(double windVelocity_NED[3])
     {
         double windAngle_D = atan2(windVelocity_NED[1], windVelocity_NED[0]) * RAD2DEG;
-        if (windAngle_D < 0) // Wrap to [0,360)
+        if (windAngle_D < 0) { // Wrap to [0,360)
             windAngle_D = windAngle_D + 360;
+        }
 
-        if (windspeedTxt != NULL)
+        if (windspeedTxt != NULL) {
             windspeedTxt->setPlainText(QString("%1%2 @ %3m/s\nsink: %4m/s").arg(windAngle_D, 3, 'f', 0, QChar(0x30)).arg(QChar(0x00B0)).arg(sqrt(pow(windVelocity_NED[0], 2) + pow(windVelocity_NED[1], 2)), 3, 'f', 1).arg(windVelocity_NED[2], 0, 'f', 1)); // 0x00B0 is unicode for the degree symbol.
+        }
 
-        windCompass->setRotation(windAngle_D);
+        if (windCompass != NULL) {
+            windCompass->setRotation(windAngle_D);
+        }
     }
 
 
