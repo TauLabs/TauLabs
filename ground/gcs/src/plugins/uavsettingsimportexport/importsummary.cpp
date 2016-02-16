@@ -48,14 +48,14 @@ ImportSummaryDialog::ImportSummaryDialog( QWidget *parent) :
    connect(ui->saveToFlash, SIGNAL(clicked()), this, SLOT(doTheSaving()));
 
    // Connect the Select All/None buttons
-   QSignalMapper* signalMapper = new QSignalMapper (this) ;
+   QSignalMapper* signalMapper = new QSignalMapper (this);
 
    connect(ui->btnSelectAll, SIGNAL(clicked()), signalMapper, SLOT(map()));
    connect(ui->btnSelectNone, SIGNAL(clicked()), signalMapper, SLOT(map()));
    signalMapper->setMapping(ui->btnSelectAll, 1);
    signalMapper->setMapping(ui->btnSelectNone, 0);
 
-   connect (signalMapper, SIGNAL(mapped(int)), this, SLOT(setCheckedState(int)));
+   connect(signalMapper, SIGNAL(mapped(int)), this, SLOT(setCheckedState(int)));
 
    // Connect the help button
    connect(ui->helpButton, SIGNAL(clicked()), this, SLOT(openHelp()));
@@ -109,8 +109,8 @@ void ImportSummaryDialog::addLine(QString uavObjectName, QString text, bool stat
   */
 void ImportSummaryDialog::setCheckedState(int state)
 {
-    for(int i=0; i < ui->importSummaryList->rowCount(); i++) {
-        QCheckBox *box = dynamic_cast<QCheckBox*>(ui->importSummaryList->cellWidget(i,0));
+    for(int i = 0; i < ui->importSummaryList->rowCount(); i++) {
+        QCheckBox *box = dynamic_cast<QCheckBox*>(ui->importSummaryList->cellWidget(i, 0));
         if(box->isEnabled())
             box->setChecked((state == 1 ? true : false));
     }
