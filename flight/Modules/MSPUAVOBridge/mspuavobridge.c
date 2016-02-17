@@ -54,310 +54,39 @@
 #include "gpsposition.h"
 #include "modulesettings.h"
 
+#include "msplib.h"
+
 #if defined(PIOS_INCLUDE_MSP_BRIDGE)
 
-#define MSP_SENSOR_ACC 1
-#define MSP_SENSOR_BARO 2
-#define MSP_SENSOR_MAG 4
-#define MSP_SENSOR_GPS 8
-
-// Magic numbers copied from mwosd
-#define  MSP_IDENT      100 // multitype + multiwii version + protocol version + capability variable
-#define  MSP_STATUS     101 // cycletime & errors_count & sensor present & box activation & current setting number
-#define  MSP_RAW_IMU    102 // 9 DOF
-#define  MSP_SERVO      103 // 8 servos
-#define  MSP_MOTOR      104 // 8 motors
-#define  MSP_RC         105 // 8 rc chan and more
-#define  MSP_RAW_GPS    106 // fix, numsat, lat, lon, alt, speed, ground course
-#define  MSP_COMP_GPS   107 // distance home, direction home
-#define  MSP_ATTITUDE   108 // 2 angles 1 heading
-#define  MSP_ALTITUDE   109 // altitude, variometer
-#define  MSP_ANALOG     110 // vbat, powermetersum, rssi if available on RX
-#define  MSP_RC_TUNING  111 // rc rate, rc expo, rollpitch rate, yaw rate, dyn throttle PID
-#define  MSP_PID        112 // P I D coeff (9 are used currently)
-#define  MSP_BOX        113 // BOX setup (number is dependant of your setup)
-#define  MSP_MISC       114 // powermeter trig
-#define  MSP_MOTOR_PINS 115 // which pins are in use for motors & servos, for GUI
-#define  MSP_BOXNAMES   116 // the aux switch names
-#define  MSP_PIDNAMES   117 // the PID names
-#define  MSP_BOXIDS     119 // get the permanent IDs associated to BOXes
-#define  MSP_NAV_STATUS 121 // Returns navigation status
-#define  MSP_CELLS      130 // FrSky SPort Telemtry
-#define  MSP_ALARMS     242 // Alarm request
-
-typedef enum {
-	MSP_BOX_ARM,
-	MSP_BOX_ANGLE,
-	MSP_BOX_HORIZON,
-	MSP_BOX_BARO,
-	MSP_BOX_VARIO,
-	MSP_BOX_MAG,
-	MSP_BOX_GPSHOME,
-	MSP_BOX_GPSHOLD,
-	MSP_BOX_LAST,
-} msp_box_t;
-
-const static struct {
-	msp_box_t mode;
-	uint8_t mwboxid;
-	FlightStatusFlightModeOptions tlmode;
-} msp_boxes[] = {
-	{ MSP_BOX_ARM, 0, 0 },
-	{ MSP_BOX_ANGLE, 1, FLIGHTSTATUS_FLIGHTMODE_LEVELING},
-	{ MSP_BOX_HORIZON, 2, FLIGHTSTATUS_FLIGHTMODE_HORIZON},
-	{ MSP_BOX_BARO, 3, FLIGHTSTATUS_FLIGHTMODE_ALTITUDEHOLD},
-	{ MSP_BOX_VARIO, 4, 0},
-	{ MSP_BOX_MAG, 5, 0},
-	{ MSP_BOX_GPSHOME, 10, FLIGHTSTATUS_FLIGHTMODE_RETURNTOHOME},
-	{ MSP_BOX_GPSHOLD, 11, FLIGHTSTATUS_FLIGHTMODE_POSITIONHOLD},
-	{ MSP_BOX_LAST, 0xff, 0},
-};
-
-typedef enum {
-	MSP_IDLE,
-	MSP_HEADER_START,
-	MSP_HEADER_M,
-	/* These states mean we are in a request or command packet */
-	MSP_HEADER_C_SIZE,
-	MSP_HEADER_C_CMD,
-	MSP_C_FILLBUF,
-	MSP_C_CHECKSUM,
-	/* These states mean we are in a response packet */
-	MSP_HEADER_R_SIZE,
-	MSP_HEADER_R_CMD,
-	MSP_HEADER_R_FILLBUF,
-	MSP_HEADER_R_CHECKSUM,
-	/* Throw away any bytes we can't consume */
-	MSP_DISCARD,
-} msp_state;
-
-struct msp_bridge {
-	uintptr_t com;
-
-	msp_state state;
-	uint8_t cmd_size;
-	uint8_t cmd_id;
-	uint8_t cmd_i;
-	uint8_t checksum;
-	union {
-		uint8_t data[0];
-		// Specific packed data structures go here.
-	} cmd_data;
-};
-
-#if defined(PIOS_MSP_STACK_SIZE)
-#define STACK_SIZE_BYTES PIOS_MSP_STACK_SIZE
-#else
-#define STACK_SIZE_BYTES 672
-#endif
+#define STACK_SIZE_BYTES 700
 #define TASK_PRIORITY               PIOS_THREAD_PRIO_LOW
-
-#define MAX_ALARM_LEN 30
-
-#define BOOT_DISPLAY_TIME_MS (10*1000)
 
 static bool module_enabled;
 extern uintptr_t pios_com_msp_id;
 static struct msp_bridge *msp;
 static int32_t MSPuavoBridgeInitialize(void);
 static void MSPuavoBridgeTask(void *parameters);
+static void setMSPSpeed(struct msp_bridge *m);
 
-//! Send response to a query packet
-static void msp_send_reponse(struct msp_bridge *m, uint8_t cmd, const uint8_t *data, size_t len)
+
+static void unpack_attitude(const struct msp_packet_attitude *attitude)
 {
-	uint8_t buf[5];
-	uint8_t cs = (uint8_t)(len) ^ cmd;
-
-	buf[0] = '$';
-	buf[1] = 'M';
-	buf[2] = '>';
-	buf[3] = (uint8_t)(len);
-	buf[4] = cmd;
-
-	PIOS_COM_SendBuffer(m->com, buf, sizeof(buf));
-	PIOS_COM_SendBuffer(m->com, data, len);
-
-	for (int i = 0; i < len; i++) {
-		cs ^= data[i];
-	}
-	cs ^= 0;
-
-	buf[0] = cs;
-	PIOS_COM_SendBuffer(m->com, buf, 1);
+	AttitudeActualData attActual;
+	AttitudeActualGet(&attActual);
+	attActual.Roll = attitude->x * 0.1f;
+	attActual.Pitch = attitude->y * -0.1f;
+	attActual.Yaw = attitude->h;
+	AttitudeActualSet(&attActual);
 }
 
-//! Query an update
-static void msp_send_request(struct msp_bridge *m, uint8_t type)
+static bool msp_response_cb(uint8_t cmd, const uint8_t *data, size_t len)
 {
-	const uint32_t REQUEST_PACKET_SIZE = 6;
+	union msp_data msp_data;
+	memcpy(msp_data.data, data, len);
 
-	uint8_t buf[REQUEST_PACKET_SIZE];
-	buf[0] = '$';
-	buf[1] = 'M';
-	buf[2] = '<';
-	buf[3] = 0;
-	buf[4] = type;
-	buf[5] = 0 ^ type; // calculate checksum
-
-	PIOS_COM_SendBuffer(m->com, buf, 6);
-}
-
-static msp_state msp_state_size(struct msp_bridge *m, uint8_t b)
-{
-	m->cmd_size = b;
-	m->checksum = b;
-
-	// Advance to next state but track if we are in a command or response
-	return (m->state == MSP_C_HEADER_SIZE) ? MSP_C_HEADER_CMD : MSP_R_HEADER_CMD;
-}
-
-static msp_state msp_state_cmd(struct msp_bridge *m, uint8_t b)
-{
-	m->cmd_i = 0;
-	m->cmd_id = b;
-	m->checksum ^= m->cmd_id;
-
-	if (m->cmd_size > sizeof(m->cmd_data)) {
-		// Too large a body.  Let's ignore it.
-		return MSP_DISCARD;
-	}
-
-	// Advance to next state but track if we are in a command or response
-	return m->cmd_size == 0 ? ((m->state == MSP_C_HEADER_CMD) MSP_C_CHECKSUM : MSP_R_CHECKSUM) : 
-	                          ((m->state == MSP_C_HEADER_CMD) MSP_C_FILLBUF : MSP_R_FILLBUF);
-}
-
-static msp_state msp_state_fill_buf(struct msp_bridge *m, uint8_t b)
-{
-	m->cmd_data.data[m->cmd_i++] = b;
-	m->checksum ^= b;
-
-	// Advance to next state but track if we are in a command or response
-	return m->cmd_i == m->cmd_size ? (m->state == MSP_C_HEADER_CMD) MSP_C_CHECKSUM : MSP_R_CHECKSUM) : m->state;
-}
-
-
-static msp_state msp_state_checksum(struct msp_bridge *m, uint8_t b)
-{
-	if ((m->checksum ^ b) != 0) {
-		return MSP_IDLE;
-	}
-
-	if (m->state == MSP_C_CHECKSUM) {
-		// Respond to requests/commands we support
-		switch (m->cmd_id) {
-		case MSP_IDENT:
-			msp_send_ident(m);
-			break;
-		case MSP_RAW_GPS:
-			msp_send_raw_gps(m);
-			break;
-		case MSP_COMP_GPS:
-			msp_send_comp_gps(m);
-			break;
-		case MSP_ALTITUDE:
-			msp_send_altitude(m);
-			break;
-		case MSP_ATTITUDE:
-			msp_send_attitude(m);
-			break;
-		case MSP_STATUS:
-			msp_send_status(m);
-			break;
-		case MSP_ANALOG:
-			msp_send_analog(m);
-			break;
-		case MSP_RC:
-			msp_send_channels(m);
-			break;
-		case MSP_BOXIDS:
-			msp_send_boxids(m);
-			break;
-		case MSP_ALARMS:
-			msp_send_alarms(m);
-			break;
-		}
-	} else {
-		switch (m->cmd_id) {
-		case MSP_IDENT:
-			msp_send_ident(m);
-			break;
-		case MSP_RAW_GPS:
-			msp_send_raw_gps(m);
-			break;
-		case MSP_COMP_GPS:
-			msp_send_comp_gps(m);
-			break;
-		case MSP_ALTITUDE:
-			msp_send_altitude(m);
-			break;
-		case MSP_ATTITUDE:
-			msp_send_attitude(m);
-			break;
-		case MSP_STATUS:
-			msp_send_status(m);
-			break;
-		case MSP_ANALOG:
-			msp_send_analog(m);
-			break;
-		case MSP_RC:
-			msp_send_channels(m);
-			break;
-		case MSP_BOXIDS:
-			msp_send_boxids(m);
-			break;
-		case MSP_ALARMS:
-			msp_send_alarms(m);
-			break;
-	}
-
-	return MSP_IDLE;
-}
-
-static msp_state msp_state_discard(struct msp_bridge *m, uint8_t b)
-{
-	return m->cmd_i++ == m->cmd_size ? MSP_IDLE : MSP_DISCARD;
-}
-
-/**
- * Process incoming bytes from an MSP packet
- * for the OSD this should mostly be responses to queries
- * we made
- * @param[in] b received byte
- * @return true if we should continue processing bytes
- */
-static bool msp_receive_byte(struct msp_bridge *m, uint8_t b)
-{
-	switch (m->state) {
-	case MSP_IDLE:
-		m->state = b == '$' ? MSP_HEADER_START : MSP_IDLE;
-		break;
-	case MSP_HEADER_START:
-		m->state = b == 'M' ? MSP_HEADER_M : MSP_IDLE;
-		break;
-	case MSP_HEADER_M:
-		m->state = b == '<' ? MSP_C_HEADER_SIZE : // command/request packet
-		           b == '>' ? MSP_R_HEADER_SIZE : // response packet
-		           MSP_IDLE;
-		break;
-	case MSP_C_HEADER_SIZE:
-	case MSP_R_HEADER_SIZE:
-		m->state = msp_state_size(m, b);
-		break;
-	case MSP_C_HEADER_CMD:
-	case MSP_R_HEADER_CMD:
-		m->state = msp_state_cmd(m, b);
-		break;
-	case MSP_C_FILLBUF:
-	case MSP_R_FILLBUF:
-		m->state = msp_state_fill_buf(m, b);
-		break;
-	case MSP_C_CHECKSUM:
-	case MSP_R_CHECKSUM:
-		m->state = msp_state_checksum(m, b);
-		break;
-	case MSP_DISCARD:
-		m->state = msp_state_discard(m, b);
+	switch(cmd) {
+	case MSP_ATTITUDE:
+		unpack_attitude(&msp_data.attitude);
 		break;
 	}
 
@@ -371,253 +100,68 @@ static bool msp_receive_byte(struct msp_bridge *m, uint8_t b)
 static int32_t MSPuavoBridgeStart(void)
 {
 	if (!module_enabled) {
-		// give port to telemetry if it doesn't have one
-		// stops board getting stuck in condition where it can't be connected to gcs
-		if(!PIOS_COM_TELEM_RF)
-			PIOS_COM_TELEM_RF = pios_com_msp_id;
-
 		return -1;
 	}
 
-	struct pios_thread *task = PIOS_Thread_Create(
-		MSPuavoBridgeTask, "uavoMSPBridge",
-		STACK_SIZE_BYTES, NULL, TASK_PRIORITY);
-	TaskMonitorAdd(TASKINFO_RUNNING_UAVOMSPBRIDGE,
-			task);
+	struct pios_thread *task = PIOS_Thread_Create(MSPuavoBridgeTask, "MSPuavoBridge",
+	                                              STACK_SIZE_BYTES, NULL, TASK_PRIORITY);
+	TaskMonitorAdd(TASKINFO_RUNNING_UAVOMSPBRIDGE, task);
 
 	return 0;
 }
 
-static void msp_send_attitude(struct msp_bridge *m)
+/**
+ * Module initialization routine
+ * @return 0 when initialization was successful
+ */
+static int32_t MSPuavoBridgeInitialize(void)
 {
-	union {
-		uint8_t buf[0];
-		struct {
-			int16_t x;
-			int16_t y;
-			int16_t h;
-		} att;
-	} data;
-	AttitudeActualData attActual;
+	uint8_t module_state[MODULESETTINGS_ADMINSTATE_NUMELEM];
+	ModuleSettingsAdminStateGet(module_state);
 
-	AttitudeActualGet(&attActual);
+#ifdef MODULE_MSPUAVOBridge_BUILTIN
+	module_enabled = true;
+#else
+	module_enabled = module_state[MODULESETTINGS_ADMINSTATE_UAVOMSPBRIDGE] == MODULESETTINGS_ADMINSTATE_ENABLED;
+#endif
 
-	// Roll and Pitch are in 10ths of a degree.
-	data.att.x = attActual.Roll * 10;
-	data.att.y = attActual.Pitch * -10;
-	// Yaw is just -180 -> 180
-	data.att.h = attActual.Yaw;
+	module_enabled &= (pios_com_msp_id != 0);
+	if (module_enabled) {
 
-	msp_send_reponse(m, MSP_ATTITUDE, data.buf, sizeof(data));
+		msp = msp_init(pios_com_msp_id);
+		if (msp != NULL) {
+			setMSPSpeed(msp);
+			msp_set_response_cb(msp, msp_response_cb);
+
+			return 0;
+		}
+	}
+
+	return -1;
 }
+MODULE_INITCALL(MSPuavoBridgeInitialize, MSPuavoBridgeStart)
 
-static void msp_send_status(struct msp_bridge *m)
+/**
+ * Main task routine
+ * @param[in] parameters parameter given by PIOS_Thread_Create()
+ */
+static void MSPuavoBridgeTask(void *parameters)
 {
-	union {
-		uint8_t buf[0];
-		struct {
-			uint16_t cycleTime;
-			uint16_t i2cErrors;
-			uint16_t sensors;
-			uint32_t flags;
-			uint8_t setting;
-		} __attribute__((packed)) status;
-	} data;
-	// TODO: https://github.com/TauLabs/TauLabs/blob/next/shared/uavobjectdefinition/actuatordesired.xml#L8
-	data.status.cycleTime = 0;
-	data.status.i2cErrors = 0;
-	data.status.sensors =
-		(PIOS_SENSORS_IsRegistered(PIOS_SENSOR_ACCEL) ? MSP_SENSOR_ACC : 0)
-		| (PIOS_SENSORS_IsRegistered(PIOS_SENSOR_BARO) ? MSP_SENSOR_BARO : 0)
-		| (PIOS_SENSORS_IsRegistered(PIOS_SENSOR_MAG) ? MSP_SENSOR_MAG : 0);
-	data.status.flags = 0;
-	data.status.setting = 0;
+	uint32_t i = 0;
 
-	if (FlightStatusHandle() != NULL) {
-		FlightStatusData flight_status;
-		FlightStatusGet(&flight_status);
+	while(1) {
+		uint8_t b = 0;
+		uint16_t count = PIOS_COM_ReceiveBuffer(msp->com, &b, 1, 1);
+		if (count) {
+			msp_receive_byte(msp, b);
+		}
 
-		data.status.flags = flight_status.Armed == FLIGHTSTATUS_ARMED_ARMED;
-
-		for (int i = 1; msp_boxes[i].mode != MSP_BOX_LAST; i++) {
-			if (flight_status.FlightMode == msp_boxes[i].tlmode) {
-				data.status.flags |= (1 << i);
+		if (msp->state == MSP_IDLE) {
+			if ((i++ % 20) == 0) {
+				msp_send_request(msp, MSP_ATTITUDE);
 			}
 		}
 	}
-
-	msp_send_reponse(m, MSP_STATUS, data.buf, sizeof(data));
-}
-
-static void msp_send_analog(struct msp_bridge *m)
-{
-	union {
-		uint8_t buf[0];
-		struct {
-			uint8_t vbat;
-			uint16_t powerMeterSum;
-			uint16_t rssi;
-			uint16_t current;
-		} __attribute__((packed)) status;
-	} data;
-	data.status.powerMeterSum = 0;
-
-	FlightBatterySettingsData batSettings = {};
-	FlightBatteryStateData batState = {};
-
-	if (FlightBatteryStateHandle() != NULL)
-		FlightBatteryStateGet(&batState);
-	if (FlightBatterySettingsHandle() != NULL) {
-		FlightBatterySettingsGet(&batSettings);
-	}
-
-	if (batSettings.VoltagePin != FLIGHTBATTERYSETTINGS_VOLTAGEPIN_NONE)
-		data.status.vbat = (uint8_t)lroundf(batState.Voltage * 10);
-
-	if (batSettings.CurrentPin != FLIGHTBATTERYSETTINGS_CURRENTPIN_NONE) {
-		data.status.current = lroundf(batState.Current * 100);
-		data.status.powerMeterSum = lroundf(batState.ConsumedEnergy);
-	}
-
-	ManualControlCommandData manualState;
-	ManualControlCommandGet(&manualState);
-
-	// MSP RSSI's range is 0-1023
-	data.status.rssi = (manualState.Rssi >= 0 && manualState.Rssi <= 100) ? manualState.Rssi * 10 : 0;
-
-	msp_send_reponse(m, MSP_ANALOG, data.buf, sizeof(data));
-}
-
-static void msp_send_ident(struct msp_bridge *m)
-{
-	// TODO
-}
-
-static void msp_send_raw_gps(struct msp_bridge *m)
-{
-	// TODO
-}
-
-static void msp_send_comp_gps(struct msp_bridge *m)
-{
-	// TODO
-}
-
-static void msp_send_altitude(struct msp_bridge *m)
-{
-	union {
-		uint8_t buf[0];
-		struct {
-			int32_t alt; // cm
-			uint16_t vario; // cm/s
-		} __attribute__((packed)) baro;
-	} data;
-
-	BaroAltitudeData baro;
-	if (BaroAltitudeHandle() != NULL)
-		BaroAltitudeGet(&baro);
-
-	data.baro.alt = (int32_t)roundf(baro.Altitude * 100.0f);
-
-	msp_send_reponse(m, MSP_ALTITUDE, data.buf, sizeof(data));
-}
-
-// Scale stick values whose input range is -1 to 1 to MSP's expected
-// PWM range of 1000-2000.
-static uint16_t msp_scale_rc(float percent) {
-	return percent*500 + 1500;
-}
-
-// Throttle maps to 1100-1900 and a bit differently as -1 == 1000 and
-// then jumps immediately to 0 -> 1 for the rest of the range.  MWOSD
-// can learn ranges as wide as they are sent, but defaults to
-// 1100-1900 so the throttle indicator will vary for the same stick
-// position unless we send it what it wants right away.
-static uint16_t msp_scale_rc_thr(float percent) {
-	return percent <= 0 ? 1100 : percent*800 + 1100;
-}
-
-// MSP RC order is Roll/Pitch/Yaw/Throttle/AUX1/AUX2/AUX3/AUX4
-static void msp_send_channels(struct msp_bridge *m)
-{
-	AccessoryDesiredData acc0, acc1, acc2;
-	ManualControlCommandData manualState;
-	ManualControlCommandGet(&manualState);
-	AccessoryDesiredInstGet(0, &acc0);
-	AccessoryDesiredInstGet(1, &acc1);
-	AccessoryDesiredInstGet(2, &acc2);
-
-	union {
-		uint8_t buf[0];
-		uint16_t channels[8];
-	} data = {
-		.channels = {
-			msp_scale_rc(manualState.Roll),
-			msp_scale_rc(manualState.Pitch * -1), // TL pitch is backwards
-			msp_scale_rc(manualState.Yaw),
-			msp_scale_rc_thr(manualState.Throttle),
-			msp_scale_rc(acc0.AccessoryVal),
-			msp_scale_rc(acc1.AccessoryVal),
-			msp_scale_rc(acc2.AccessoryVal),
-			1000, // no aux4
-		}
-	};
-
-	msp_send_reponse(m, MSP_RC, data.buf, sizeof(data));
-}
-
-static void msp_send_boxids(struct msp_bridge *m) {
-	uint8_t boxes[MSP_BOX_LAST];
-	int len = 0;
-
-	for (int i = 0; msp_boxes[i].mode != MSP_BOX_LAST; i++) {
-		boxes[len++] = msp_boxes[i].mwboxid;
-	}
-	msp_send_reponse(m, MSP_BOXIDS, boxes, len);
-}
-
-#define ALARM_OK 0
-#define ALARM_WARN 1
-#define ALARM_ERROR 2
-#define ALARM_CRIT 3
-
-static void msp_send_alarms(struct msp_bridge *m) {
-	union {
-		uint8_t buf[0];
-		struct {
-			uint8_t state;
-			char msg[MAX_ALARM_LEN];
-		} __attribute__((packed)) alarm;
-	} data;
-
-	SystemAlarmsData alarm;
-	SystemAlarmsGet(&alarm);
-
-	// Special case early boot times -- just report boot reason
-	if (PIOS_Thread_Systime() < BOOT_DISPLAY_TIME_MS) {
-		data.alarm.state = ALARM_CRIT;
-		const char *boot_reason = AlarmBootReason(alarm.RebootCause);
-		strncpy((char*)data.alarm.msg, boot_reason, MAX_ALARM_LEN);
-		data.alarm.msg[MAX_ALARM_LEN-1] = '\0';
-		msp_send_reponse(m, MSP_ALARMS, data.buf, strlen((char*)data.alarm.msg)+1);
-		return;
-	}
-
-	uint8_t state;
-	data.alarm.state = ALARM_OK;
-	int32_t len = AlarmString(&alarm, data.alarm.msg,
-				  sizeof(data.alarm.msg), false, &state);
-	switch (state) {
-	case SYSTEMALARMS_ALARM_WARNING:
-		data.alarm.state = ALARM_WARN;
-		break;
-	case SYSTEMALARMS_ALARM_ERROR:
-		break;
-	case SYSTEMALARMS_ALARM_CRITICAL:
-		data.alarm.state = ALARM_CRIT;;
-	}
-
-	msp_send_reponse(m, MSP_ALARMS, data.buf, len+1);
 }
 
 static void setMSPSpeed(struct msp_bridge *m)
@@ -648,58 +192,6 @@ static void setMSPSpeed(struct msp_bridge *m)
 		case MODULESETTINGS_MSPSPEED_115200:
 			PIOS_COM_ChangeBaud(m->com, 115200);
 			break;
-		}
-	}
-}
-
-/**
- * Module initialization routine
- * @return 0 when initialization was successful
- */
-static int32_t MSPuavoBridgeInitialize(void)
-{
-	uint8_t module_state[MODULESETTINGS_ADMINSTATE_NUMELEM];
-	ModuleSettingsAdminStateGet(module_state);
-
-	if (pios_com_msp_id && (module_state[MODULESETTINGS_ADMINSTATE_UAVOMSPBRIDGE]
-			== MODULESETTINGS_ADMINSTATE_ENABLED)) {
-
-		msp = PIOS_malloc(sizeof(*msp));
-		if (msp != NULL) {
-			memset(msp, 0x00, sizeof(*msp));
-
-			msp->com = pios_com_msp_id;
-
-			setMSPSpeed(msp);
-
-			module_enabled = true;
-			return 0;
-		}
-	}
-
-	module_enabled = false;
-
-	return -1;
-}
-MODULE_INITCALL(MSPuavoBridgeInitialize, MSPuavoBridgeStart)
-
-/**
- * Main task routine
- * @param[in] parameters parameter given by PIOS_Thread_Create()
- */
-static void MSPuavoBridgeTask(void *parameters)
-{
-	while (1) {
-		uint8_t b = 0;
-		uint16_t count = PIOS_COM_ReceiveBuffer(msp->com, &b, 1, PIOS_QUEUE_TIMEOUT_MAX);
-		if (count) {
-			if (!msp_receive_byte(msp, b)) {
-				// Returning is considered risky here as
-				// that's unusual and this is an edge case.
-				while (1) {
-					PIOS_Thread_Sleep(60*1000);
-				}
-			}
 		}
 	}
 }
