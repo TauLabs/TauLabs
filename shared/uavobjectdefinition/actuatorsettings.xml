@@ -3,9 +3,9 @@
         <description>Settings for the @ref ActuatorModule that controls the channel assignments for the mixer based on AircraftType</description>
         <field name="TimerUpdateFreq" units="Hz" type="uint16" elements="6" defaultvalue="50"/>
         <field name="TimerPwmResolution" units="" type="enum" elements="6" options="1MHz,12MHz" defaultvalue="1MHz"/>
-        <field name="ChannelMax" units="us" type="uint16" elements="10" defaultvalue="2000"/>
-        <field name="ChannelNeutral" units="us" type="uint16" elements="10" defaultvalue="1000"/>
-        <field name="ChannelMin" units="us" type="uint16" elements="10" defaultvalue="1000"/>
+        <field name="ChannelMax" units="us" type="uint16" elements="10" defaultvalue="0"/>
+        <field name="ChannelNeutral" units="us" type="uint16" elements="10" defaultvalue="0"/>
+        <field name="ChannelMin" units="us" type="uint16" elements="10" defaultvalue="0"/>
         <field name="ChannelType" units="" type="enum" elements="10" options="PWM,PWM Alarm,Arming LED,Info LED" defaultvalue="PWM"/>
         <field name="MotorsSpinWhileArmed" units="" type="enum" elements="1" options="FALSE,TRUE" defaultvalue="FALSE"/>
 
