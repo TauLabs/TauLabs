@@ -186,17 +186,14 @@ void ImportSummaryDialog::doTheApplySaving(int op)
         QCheckBox *box = dynamic_cast<QCheckBox*>(ui->importSummaryList->cellWidget(i,0));
         if (box->isChecked()) {
             UAVObject* importedObj = importedObjects->getObject(uavObjectName);
+            UAVObject* boardObj = boardObjManager->getObject(uavObjectName);
 
-            if(op & UAVSettingsAction::apply) {
-                UAVObject* boardObj = boardObjManager->getObject(uavObjectName);
+            quint8* data = new quint8[importedObj->getNumBytes()];
+            importedObj->pack(data);
+            boardObj->unpack(data);
+            delete data;
 
-                quint8* data = new quint8[importedObj->getNumBytes()];
-                importedObj->pack(data);
-                boardObj->unpack(data);
-                delete data;
-
-                boardObj->updated();
-            }
+            boardObj->updated();
 
             if(op & UAVSettingsAction::save) {
                 utilManager->saveObjectToFlash(importedObj);
