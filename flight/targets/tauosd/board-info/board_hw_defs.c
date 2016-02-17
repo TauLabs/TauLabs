@@ -257,7 +257,7 @@ static const struct pios_usart_cfg pios_main_usart_cfg = {
 	},
 	.irq = {
 		.init = {
-			.NVIC_IRQChannel = USART3_IRQn,
+			.NVIC_IRQChannel = USART1_IRQn,
 			.NVIC_IRQChannelPreemptionPriority = PIOS_IRQ_PRIO_HIGHEST,
 			.NVIC_IRQChannelSubPriority = 0,
 			.NVIC_IRQChannelCmd = ENABLE,
