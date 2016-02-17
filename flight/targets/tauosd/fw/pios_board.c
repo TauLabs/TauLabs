@@ -38,49 +38,18 @@
 #include "board_hw_defs.c"
 
 #include <pios.h>
+#include <pios_hal.h>
 #include <openpilot.h>
 #include <uavobjectsinit.h>
 #include <pios_dacbeep_priv.h>
 #include <pios_fskdac_priv.h>
 #include "flightbatterysettings.h"
 #include "hwtauosd.h"
-#include "manualcontrolsettings.h"
 #include "modulesettings.h"
 #include "onscreendisplaysettings.h"
 
-/* One slot per selectable receiver group.
- *  eg. PWM, PPM, GCS, SPEKTRUM1, SPEKTRUM2, SBUS
- * NOTE: No slot in this map for NONE.
- */
-uintptr_t pios_rcvr_group_map[MANUALCONTROLSETTINGS_CHANNELGROUPS_NONE];
-
-#define PIOS_COM_TELEM_RF_RX_BUF_LEN 512
-#define PIOS_COM_TELEM_RF_TX_BUF_LEN 512
-
-#define PIOS_COM_TELEM_USB_RX_BUF_LEN 65
-#define PIOS_COM_TELEM_USB_TX_BUF_LEN 65
-
-#define PIOS_COM_CAN_RX_BUF_LEN 256
-#define PIOS_COM_CAN_TX_BUF_LEN 256
-
 #define PIOS_COM_FSKDAC_BUF_LEN 19
-
-#define PIOS_COM_BRIDGE_RX_BUF_LEN 65
-#define PIOS_COM_BRIDGE_TX_BUF_LEN 12
-
-#if defined(PIOS_INCLUDE_DEBUG_CONSOLE)
-#define PIOS_COM_DEBUGCONSOLE_TX_BUF_LEN 40
-uintptr_t pios_com_debug_id;
-#endif	/* PIOS_INCLUDE_DEBUG_CONSOLE */
-
-uintptr_t pios_com_aux_id;
-uintptr_t pios_com_telem_usb_id;
-uintptr_t pios_com_telem_rf_id;
-uintptr_t pios_com_vcp_id;
-uintptr_t pios_com_lighttelemetry_id;
-uintptr_t pios_com_bridge_id;
-uintptr_t pios_com_can_id;
-
+ 
 uintptr_t pios_uavo_settings_fs_id;
 
 uintptr_t pios_can_id;
@@ -152,41 +121,6 @@ void OSD_configure_bw_levels(void)
 }
 #endif /* PIOS_INCLUDE_VIDEO */
 
-/*
- * Setup a com port based on the passed cfg, driver and buffer sizes. tx size of -1 make the port rx only
- */
-#if false && defined(PIOS_INCLUDE_USART) && defined(PIOS_INCLUDE_COM)
-static void PIOS_Board_configure_com (const struct pios_usart_cfg *usart_port_cfg, size_t rx_buf_len, size_t tx_buf_len,
-		const struct pios_com_driver *com_driver, uintptr_t *pios_com_id)
-{
-	uintptr_t pios_usart_id;
-	if (PIOS_USART_Init(&pios_usart_id, usart_port_cfg)) {
-		PIOS_Assert(0);
-	}
-
-	uint8_t * rx_buffer;
-	if (rx_buf_len > 0) {
-		rx_buffer = (uint8_t *) PIOS_malloc(rx_buf_len);
-		PIOS_Assert(rx_buffer);
-	} else {
-		rx_buffer = NULL;
-	}
-
-	uint8_t * tx_buffer;
-	if (tx_buf_len > 0) {
-		tx_buffer = (uint8_t *) PIOS_malloc(tx_buf_len);
-		PIOS_Assert(tx_buffer);
-	} else {
-		tx_buffer = NULL;
-	}
-
-	if (PIOS_COM_Init(pios_com_id, com_driver, pios_usart_id,
-				rx_buffer, rx_buf_len,
-				tx_buffer, tx_buf_len)) {
-		PIOS_Assert(0);
-	}
-}
-#endif	/* PIOS_INCLUDE_USART && PIOS_INCLUDE_COM */
 
 void video_input_select(uint8_t ch) {
 	GPIO_InitTypeDef GPIO_InitStructure;
@@ -215,22 +149,7 @@ void video_input_select(uint8_t ch) {
  * 6 pulses - CAN
  */
 void panic(int32_t code) {
-	while(1){
-		for (int32_t i = 0; i < code; i++) {
-			PIOS_WDG_Clear();
-			PIOS_LED_Toggle(PIOS_LED_ALARM);
-			PIOS_DELAY_WaitmS(200);
-			PIOS_WDG_Clear();
-			PIOS_LED_Toggle(PIOS_LED_ALARM);
-			PIOS_DELAY_WaitmS(200);
-		}
-		PIOS_WDG_Clear();
-		PIOS_DELAY_WaitmS(200);
-		PIOS_WDG_Clear();
-		PIOS_DELAY_WaitmS(200);
-		PIOS_WDG_Clear();
-		PIOS_DELAY_WaitmS(100);
-	}
+	PIOS_HAL_Panic(PIOS_LED_ALARM, code);
 }
 
 /**
@@ -466,7 +385,8 @@ void set_vtx_channel(HwTauOsdVTX_ChOptions channel)
 	}
 }
 
-void PIOS_Board_Init(void) {
+void PIOS_Board_Init(void)
+{
 
 	blank_osd();
 
@@ -586,69 +506,8 @@ void PIOS_Board_Init(void) {
 		hw_usb_vcpport = HWTAUOSD_USB_VCPPORT_DISABLED;
 	}
 
-	switch (hw_usb_vcpport) {
-	case HWTAUOSD_USB_VCPPORT_DISABLED:
-		break;
-	case HWTAUOSD_USB_VCPPORT_USBTELEMETRY:
-#if defined(PIOS_INCLUDE_COM)
-		{
-			uintptr_t pios_usb_cdc_id;
-			if (PIOS_USB_CDC_Init(&pios_usb_cdc_id, &pios_usb_cdc_cfg, pios_usb_id)) {
-				PIOS_Assert(0);
-			}
-			uint8_t * rx_buffer = (uint8_t *) PIOS_malloc(PIOS_COM_TELEM_USB_RX_BUF_LEN);
-			uint8_t * tx_buffer = (uint8_t *) PIOS_malloc(PIOS_COM_TELEM_USB_TX_BUF_LEN);
-			PIOS_Assert(rx_buffer);
-			PIOS_Assert(tx_buffer);
-			if (PIOS_COM_Init(&pios_com_telem_usb_id, &pios_usb_cdc_com_driver, pios_usb_cdc_id,
-						rx_buffer, PIOS_COM_TELEM_USB_RX_BUF_LEN,
-						tx_buffer, PIOS_COM_TELEM_USB_TX_BUF_LEN)) {
-				PIOS_Assert(0);
-			}
-		}
-#endif	/* PIOS_INCLUDE_COM */
-		break;
-	case HWTAUOSD_USB_VCPPORT_COMBRIDGE:
-#if defined(PIOS_INCLUDE_COM)
-		{
-			uintptr_t pios_usb_cdc_id;
-			if (PIOS_USB_CDC_Init(&pios_usb_cdc_id, &pios_usb_cdc_cfg, pios_usb_id)) {
-				PIOS_Assert(0);
-			}
-			uint8_t * rx_buffer = (uint8_t *) PIOS_malloc(PIOS_COM_BRIDGE_RX_BUF_LEN);
-			uint8_t * tx_buffer = (uint8_t *) PIOS_malloc(PIOS_COM_BRIDGE_TX_BUF_LEN);
-			PIOS_Assert(rx_buffer);
-			PIOS_Assert(tx_buffer);
-			if (PIOS_COM_Init(&pios_com_vcp_id, &pios_usb_cdc_com_driver, pios_usb_cdc_id,
-						rx_buffer, PIOS_COM_BRIDGE_RX_BUF_LEN,
-						tx_buffer, PIOS_COM_BRIDGE_TX_BUF_LEN)) {
-				PIOS_Assert(0);
-			}
-		}
-#endif	/* PIOS_INCLUDE_COM */
-		break;
-	case HWTAUOSD_USB_VCPPORT_DEBUGCONSOLE:
-#if defined(PIOS_INCLUDE_COM)
-#if defined(PIOS_INCLUDE_DEBUG_CONSOLE)
-		{
-			uintptr_t pios_usb_cdc_id;
-			if (PIOS_USB_CDC_Init(&pios_usb_cdc_id, &pios_usb_cdc_cfg, pios_usb_id)) {
-				PIOS_Assert(0);
-			}
-			uint8_t * tx_buffer = (uint8_t *) PIOS_malloc(PIOS_COM_DEBUGCONSOLE_TX_BUF_LEN);
-			PIOS_Assert(tx_buffer);
-			if (PIOS_COM_Init(&pios_com_debug_id, &pios_usb_cdc_com_driver, pios_usb_cdc_id,
-						NULL, 0,
-						tx_buffer, PIOS_COM_DEBUGCONSOLE_TX_BUF_LEN)) {
-				PIOS_Assert(0);
-			}
-		}
-#endif	/* PIOS_INCLUDE_DEBUG_CONSOLE */
-#endif	/* PIOS_INCLUDE_COM */
-
-		break;
-	}
-#endif	/* PIOS_INCLUDE_USB_CDC */
+	PIOS_HAL_ConfigureCDC(hw_usb_vcpport, pios_usb_id, &pios_usb_cdc_cfg);
+#endif /* PIOS_INCLUDE_USB_CDC */
 
 #if defined(PIOS_INCLUDE_USB_HID)
 	/* Configure the usb HID port */
@@ -659,37 +518,34 @@ void PIOS_Board_Init(void) {
 		/* Force HID port function to disabled if we haven't advertised HID in our USB descriptor */
 		hw_usb_hidport = HWTAUOSD_USB_HIDPORT_DISABLED;
 	}
-
-	switch (hw_usb_hidport) {
-	case HWTAUOSD_USB_HIDPORT_DISABLED:
-		break;
-	case HWTAUOSD_USB_HIDPORT_USBTELEMETRY:
-#if defined(PIOS_INCLUDE_COM)
-		{
-			uintptr_t pios_usb_hid_id;
-			if (PIOS_USB_HID_Init(&pios_usb_hid_id, &pios_usb_hid_cfg, pios_usb_id)) {
-				PIOS_Assert(0);
-			}
-			uint8_t * rx_buffer = (uint8_t *) PIOS_malloc(PIOS_COM_TELEM_USB_RX_BUF_LEN);
-			uint8_t * tx_buffer = (uint8_t *) PIOS_malloc(PIOS_COM_TELEM_USB_TX_BUF_LEN);
-			PIOS_Assert(rx_buffer);
-			PIOS_Assert(tx_buffer);
-			if (PIOS_COM_Init(&pios_com_telem_usb_id, &pios_usb_hid_com_driver, pios_usb_hid_id,
-						rx_buffer, PIOS_COM_TELEM_USB_RX_BUF_LEN,
-						tx_buffer, PIOS_COM_TELEM_USB_TX_BUF_LEN)) {
-				PIOS_Assert(0);
-			}
-		}
-#endif	/* PIOS_INCLUDE_COM */
-		break;
-	}
-
-#endif	/* PIOS_INCLUDE_USB_HID */
+	PIOS_HAL_ConfigureHID(hw_usb_hidport, pios_usb_id, &pios_usb_hid_cfg);
+#endif /* PIOS_INCLUDE_USB_HID */
 
 	if (usb_hid_present || usb_cdc_present) {
 		PIOS_USBHOOK_Activate();
 	}
-#endif	/* PIOS_INCLUDE_USB */
+
+#endif /* PIOS_INCLUDE_USB */
+
+	/* Configure main USART port */
+	uint8_t hw_mainport;
+	HwTauOsdMainPortGet(&hw_mainport);
+
+	PIOS_HAL_ConfigurePort(hw_mainport,          // port type protocol
+			&pios_main_usart_cfg,                // usart_port_cfg
+			&pios_main_usart_cfg,                // frsky usart_port_cfg
+			&pios_usart_com_driver,              // com_driver 
+			NULL,                                // i2c_id 
+			NULL,                                // i2c_cfg 
+			NULL,                                // i2c_cfg 
+			NULL,                                // pwm_cfg
+			PIOS_LED_ALARM,                      // led_id
+			NULL,                                // usart_dsm_hsum_cfg 
+			NULL,                                // dsm_cfg
+			(HwSharedDSMxModeOptions) 0,         // dsm_mode 
+			NULL,                                // sbus_rcvr_cfg 
+			NULL,                                // sbus_cfg 
+			false);                              // sbus_toggle
 
 #if defined(PIOS_INCLUDE_ADC)
 	uint32_t internal_adc_id;
@@ -773,9 +629,6 @@ void PIOS_Board_Init(void) {
 	uint8_t vtx_selection;
 	HwTauOsdVTX_ChGet(&vtx_selection);
 	set_vtx_channel(vtx_selection);
-
-	/* Make sure we have at least one telemetry link configured or else fail initialization */
-	PIOS_Assert(pios_com_telem_rf_id || pios_com_telem_usb_id);
 }
 
 /**

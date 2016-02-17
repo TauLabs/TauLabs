@@ -102,7 +102,7 @@ extern uint32_t pios_i2c_flexiport_adapter_id;
 //
 // See also pios_board.c
 //-------------------------
-extern uintptr_t pios_com_telem_rf_id;
+extern uintptr_t pios_com_telem_serial_id;
 extern uintptr_t pios_com_telem_usb_id;
 extern uintptr_t pios_com_bridge_id;
 extern uintptr_t pios_com_vcp_id;
@@ -112,7 +112,7 @@ extern uintptr_t pios_com_debug_id;
 extern uintptr_t pios_com_logging_id;
 
 #define PIOS_COM_TELEM_USB              (pios_com_telem_usb_id)
-#define PIOS_COM_TELEM_RF               (pios_com_telem_rf_id)
+#define PIOS_COM_TELEM_RF               (pios_com_telem_serial_id)
 #define PIOS_COM_BRIDGE                 (pios_com_bridge_id)
 #define PIOS_COM_VCP                    (pios_com_vcp_id)
 #define PIOS_COM_PICOC                  (pios_com_picoc_id)
