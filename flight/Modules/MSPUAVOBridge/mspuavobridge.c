@@ -68,6 +68,20 @@ static int32_t MSPuavoBridgeInitialize(void);
 static void MSPuavoBridgeTask(void *parameters);
 static void setMSPSpeed(struct msp_bridge *m);
 
+static void unpack_status(const struct msp_packet_status *status)
+{
+	FlightStatusArmedOptions armed = (status->flags & 0x01) ? FLIGHTSTATUS_ARMED_ARMED : FLIGHTSTATUS_ARMED_DISARMED;
+	FlightStatusArmedSet(&armed);
+
+	FlightStatusFlightModeOptions mode =  FLIGHTSTATUS_FLIGHTMODE_MANUAL;
+	for (uint32_t i = 1; msp_boxes[i].mode != MSP_BOX_LAST && i < NELEMENTS(msp_boxes); i++) {
+		if (status->flags & (1 << i)) {
+			mode = msp_boxes[i].tlmode;
+			FlightStatusFlightModeSet(&mode);
+			break;
+		}
+	}
+}
 
 static void unpack_attitude(const struct msp_packet_attitude *attitude)
 {
@@ -79,18 +93,69 @@ static void unpack_attitude(const struct msp_packet_attitude *attitude)
 	AttitudeActualSet(&attActual);
 }
 
+static void unpack_analog(const struct msp_packet_analog *analog)
+{
+	// Packet contains RSSI as 0 to 1023
+	int16_t rssi = analog->rssi / 10;
+	if (rssi > 100) rssi = 100;
+	ManualControlCommandRssiSet(&rssi);
+
+
+	if (FlightBatteryStateHandle() != NULL) {
+
+
+		const float voltage = analog->vbat * 0.1f;
+		const float current = analog->current * 0.01f;
+		const float consumed = analog->powerMeterSum;
+
+		FlightBatteryStateData flight_battery;
+		FlightBatteryStateGet(&flight_battery);
+		// If settings exist the module itself is running and we are measuring
+		// this and should not overwrite the voltage
+		if (FlightBatterySettingsHandle() == NULL)
+			flight_battery.Voltage = voltage;
+		flight_battery.Current = current;
+		flight_battery.ConsumedEnergy = consumed;
+		FlightBatteryStateSet(&flight_battery);
+	}
+}
+
+static void unpack_altitude(const struct msp_packet_altitude *altitude)
+{
+	float alt = altitude->alt * 0.01f;
+	if (BaroAltitudeHandle())
+		BaroAltitudeAltitudeSet(&alt);
+}
+
+/**
+ * Callback method when a response packet is received and has correct checksum
+ * unpacks the various data types into UAVOs so they can be visualized by OSD
+ * @param[in] cmd the packet type
+ * @param[in] data the packet data
+ * @param[in] len the payload length
+ @ return true if packet type known, false otherwise
+ */
 static bool msp_response_cb(uint8_t cmd, const uint8_t *data, size_t len)
 {
 	union msp_data msp_data;
 	memcpy(msp_data.data, data, len);
 
 	switch(cmd) {
+	case MSP_STATUS:
+		unpack_status(&msp_data.status);
+		return true;
 	case MSP_ATTITUDE:
 		unpack_attitude(&msp_data.attitude);
-		break;
+		return true;
+	case MSP_ANALOG:
+		unpack_analog(&msp_data.analog);
+		return true;
+	case MSP_ALTITUDE:
+		unpack_altitude(&msp_data.altitude);
+		return true;
 	}
 
-	return true;
+	return false;
 }
 
 /**
@@ -160,6 +225,16 @@ static void MSPuavoBridgeTask(void *parameters)
 			if ((i++ % 20) == 0) {
 				msp_send_request(msp, MSP_ATTITUDE);
 			}
+			else if (i % 50 == 0) {
+				msp_send_request(msp, MSP_ANALOG);
+			}
+			else if (i % 70 == 0) {
+				msp_send_request(msp, MSP_STATUS);
+			}
+			else if (i % 20 == 10) {
+				msp_send_request(msp, MSP_ALTITUDE);
+			}
+
 		}
 	}
 }
