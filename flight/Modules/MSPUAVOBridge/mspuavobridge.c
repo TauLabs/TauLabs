@@ -117,10 +117,17 @@ typedef enum {
 	MSP_IDLE,
 	MSP_HEADER_START,
 	MSP_HEADER_M,
-	MSP_HEADER_SIZE,
-	MSP_HEADER_CMD,
-	MSP_FILLBUF,
-	MSP_CHECKSUM,
+	/* These states mean we are in a request or command packet */
+	MSP_HEADER_C_SIZE,
+	MSP_HEADER_C_CMD,
+	MSP_C_FILLBUF,
+	MSP_C_CHECKSUM,
+	/* These states mean we are in a response packet */
+	MSP_HEADER_R_SIZE,
+	MSP_HEADER_R_CMD,
+	MSP_HEADER_R_FILLBUF,
+	MSP_HEADER_R_CHECKSUM,
+	/* Throw away any bytes we can't consume */
 	MSP_DISCARD,
 } msp_state;
 
@@ -155,6 +162,7 @@ static struct msp_bridge *msp;
 static int32_t MSPuavoBridgeInitialize(void);
 static void MSPuavoBridgeTask(void *parameters);
 
+//! Send response to a query packet
 static void msp_send_reponse(struct msp_bridge *m, uint8_t cmd, const uint8_t *data, size_t len)
 {
 	uint8_t buf[5];
@@ -178,11 +186,29 @@ static void msp_send_reponse(struct msp_bridge *m, uint8_t cmd, const uint8_t *d
 	PIOS_COM_SendBuffer(m->com, buf, 1);
 }
 
+//! Query an update
+static void msp_send_request(struct msp_bridge *m, uint8_t type)
+{
+	const uint32_t REQUEST_PACKET_SIZE = 6;
+
+	uint8_t buf[REQUEST_PACKET_SIZE];
+	buf[0] = '$';
+	buf[1] = 'M';
+	buf[2] = '<';
+	buf[3] = 0;
+	buf[4] = type;
+	buf[5] = 0 ^ type; // calculate checksum
+
+	PIOS_COM_SendBuffer(m->com, buf, 6);
+}
+
 static msp_state msp_state_size(struct msp_bridge *m, uint8_t b)
 {
 	m->cmd_size = b;
 	m->checksum = b;
-	return MSP_HEADER_CMD;
+
+	// Advance to next state but track if we are in a command or response
+	return (m->state == MSP_C_HEADER_SIZE) ? MSP_C_HEADER_CMD : MSP_R_HEADER_CMD;
 }
 
 static msp_state msp_state_cmd(struct msp_bridge *m, uint8_t b)
@@ -196,14 +222,170 @@ static msp_state msp_state_cmd(struct msp_bridge *m, uint8_t b)
 		return MSP_DISCARD;
 	}
 
-	return m->cmd_size == 0 ? MSP_CHECKSUM : MSP_FILLBUF;
+	// Advance to next state but track if we are in a command or response
+	return m->cmd_size == 0 ? ((m->state == MSP_C_HEADER_CMD) MSP_C_CHECKSUM : MSP_R_CHECKSUM) : 
+	                          ((m->state == MSP_C_HEADER_CMD) MSP_C_FILLBUF : MSP_R_FILLBUF);
 }
 
 static msp_state msp_state_fill_buf(struct msp_bridge *m, uint8_t b)
 {
 	m->cmd_data.data[m->cmd_i++] = b;
 	m->checksum ^= b;
-	return m->cmd_i == m->cmd_size ? MSP_CHECKSUM : MSP_FILLBUF;
+
+	// Advance to next state but track if we are in a command or response
+	return m->cmd_i == m->cmd_size ? (m->state == MSP_C_HEADER_CMD) MSP_C_CHECKSUM : MSP_R_CHECKSUM) : m->state;
+}
+
+
+static msp_state msp_state_checksum(struct msp_bridge *m, uint8_t b)
+{
+	if ((m->checksum ^ b) != 0) {
+		return MSP_IDLE;
+	}
+
+	if (m->state == MSP_C_CHECKSUM) {
+		// Respond to requests/commands we support
+		switch (m->cmd_id) {
+		case MSP_IDENT:
+			msp_send_ident(m);
+			break;
+		case MSP_RAW_GPS:
+			msp_send_raw_gps(m);
+			break;
+		case MSP_COMP_GPS:
+			msp_send_comp_gps(m);
+			break;
+		case MSP_ALTITUDE:
+			msp_send_altitude(m);
+			break;
+		case MSP_ATTITUDE:
+			msp_send_attitude(m);
+			break;
+		case MSP_STATUS:
+			msp_send_status(m);
+			break;
+		case MSP_ANALOG:
+			msp_send_analog(m);
+			break;
+		case MSP_RC:
+			msp_send_channels(m);
+			break;
+		case MSP_BOXIDS:
+			msp_send_boxids(m);
+			break;
+		case MSP_ALARMS:
+			msp_send_alarms(m);
+			break;
+		}
+	} else {
+		switch (m->cmd_id) {
+		case MSP_IDENT:
+			msp_send_ident(m);
+			break;
+		case MSP_RAW_GPS:
+			msp_send_raw_gps(m);
+			break;
+		case MSP_COMP_GPS:
+			msp_send_comp_gps(m);
+			break;
+		case MSP_ALTITUDE:
+			msp_send_altitude(m);
+			break;
+		case MSP_ATTITUDE:
+			msp_send_attitude(m);
+			break;
+		case MSP_STATUS:
+			msp_send_status(m);
+			break;
+		case MSP_ANALOG:
+			msp_send_analog(m);
+			break;
+		case MSP_RC:
+			msp_send_channels(m);
+			break;
+		case MSP_BOXIDS:
+			msp_send_boxids(m);
+			break;
+		case MSP_ALARMS:
+			msp_send_alarms(m);
+			break;
+	}
+
+	return MSP_IDLE;
+}
+
+static msp_state msp_state_discard(struct msp_bridge *m, uint8_t b)
+{
+	return m->cmd_i++ == m->cmd_size ? MSP_IDLE : MSP_DISCARD;
+}
+
+/**
+ * Process incoming bytes from an MSP packet
+ * for the OSD this should mostly be responses to queries
+ * we made
+ * @param[in] b received byte
+ * @return true if we should continue processing bytes
+ */
+static bool msp_receive_byte(struct msp_bridge *m, uint8_t b)
+{
+	switch (m->state) {
+	case MSP_IDLE:
+		m->state = b == '$' ? MSP_HEADER_START : MSP_IDLE;
+		break;
+	case MSP_HEADER_START:
+		m->state = b == 'M' ? MSP_HEADER_M : MSP_IDLE;
+		break;
+	case MSP_HEADER_M:
+		m->state = b == '<' ? MSP_C_HEADER_SIZE : // command/request packet
+		           b == '>' ? MSP_R_HEADER_SIZE : // response packet
+		           MSP_IDLE;
+		break;
+	case MSP_C_HEADER_SIZE:
+	case MSP_R_HEADER_SIZE:
+		m->state = msp_state_size(m, b);
+		break;
+	case MSP_C_HEADER_CMD:
+	case MSP_R_HEADER_CMD:
+		m->state = msp_state_cmd(m, b);
+		break;
+	case MSP_C_FILLBUF:
+	case MSP_R_FILLBUF:
+		m->state = msp_state_fill_buf(m, b);
+		break;
+	case MSP_C_CHECKSUM:
+	case MSP_R_CHECKSUM:
+		m->state = msp_state_checksum(m, b);
+		break;
+	case MSP_DISCARD:
+		m->state = msp_state_discard(m, b);
+		break;
+	}
+
+	return true;
+}
+
+/**
+ * Module start routine automatically called after initialization routine
+ * @return 0 when was successful
+ */
+static int32_t MSPuavoBridgeStart(void)
+{
+	if (!module_enabled) {
+		// give port to telemetry if it doesn't have one
+		// stops board getting stuck in condition where it can't be connected to gcs
+		if(!PIOS_COM_TELEM_RF)
+			PIOS_COM_TELEM_RF = pios_com_msp_id;
+
+		return -1;
+	}
+
+	struct pios_thread *task = PIOS_Thread_Create(
+		MSPuavoBridgeTask, "uavoMSPBridge",
+		STACK_SIZE_BYTES, NULL, TASK_PRIORITY);
+	TaskMonitorAdd(TASKINFO_RUNNING_UAVOMSPBRIDGE,
+			task);
+
+	return 0;
 }
 
 static void msp_send_attitude(struct msp_bridge *m)
@@ -436,116 +618,6 @@ static void msp_send_alarms(struct msp_bridge *m) {
 	}
 
 	msp_send_reponse(m, MSP_ALARMS, data.buf, len+1);
-}
-
-static msp_state msp_state_checksum(struct msp_bridge *m, uint8_t b)
-{
-	if ((m->checksum ^ b) != 0) {
-		return MSP_IDLE;
-	}
-
-	// Respond to interesting things.
-	switch (m->cmd_id) {
-	case MSP_IDENT:
-		msp_send_ident(m);
-		break;
-	case MSP_RAW_GPS:
-		msp_send_raw_gps(m);
-		break;
-	case MSP_COMP_GPS:
-		msp_send_comp_gps(m);
-		break;
-	case MSP_ALTITUDE:
-		msp_send_altitude(m);
-		break;
-	case MSP_ATTITUDE:
-		msp_send_attitude(m);
-		break;
-	case MSP_STATUS:
-		msp_send_status(m);
-		break;
-	case MSP_ANALOG:
-		msp_send_analog(m);
-		break;
-	case MSP_RC:
-		msp_send_channels(m);
-		break;
-	case MSP_BOXIDS:
-		msp_send_boxids(m);
-		break;
-	case MSP_ALARMS:
-		msp_send_alarms(m);
-		break;
-	}
-	return MSP_IDLE;
-}
-
-static msp_state msp_state_discard(struct msp_bridge *m, uint8_t b)
-{
-	return m->cmd_i++ == m->cmd_size ? MSP_IDLE : MSP_DISCARD;
-}
-
-/**
- * Process incoming bytes from an MSP packet
- * for the OSD this should mostly be responses to queries
- * we made
- * @param[in] b received byte
- * @return true if we should continue processing bytes
- */
-static bool msp_receive_byte(struct msp_bridge *m, uint8_t b)
-{
-	switch (m->state) {
-	case MSP_IDLE:
-		m->state = b == '$' ? MSP_HEADER_START : MSP_IDLE;
-		break;
-	case MSP_HEADER_START:
-		m->state = b == 'M' ? MSP_HEADER_M : MSP_IDLE;
-		break;
-	case MSP_HEADER_M:
-		m->state = b == '<' ? MSP_HEADER_SIZE : MSP_IDLE;
-		break;
-	case MSP_HEADER_SIZE:
-		m->state = msp_state_size(m, b);
-		break;
-	case MSP_HEADER_CMD:
-		m->state = msp_state_cmd(m, b);
-		break;
-	case MSP_FILLBUF:
-		m->state = msp_state_fill_buf(m, b);
-		break;
-	case MSP_CHECKSUM:
-		m->state = msp_state_checksum(m, b);
-		break;
-	case MSP_DISCARD:
-		m->state = msp_state_discard(m, b);
-		break;
-	}
-
-	return true;
-}
-
-/**
- * Module start routine automatically called after initialization routine
- * @return 0 when was successful
- */
-static int32_t MSPuavoBridgeStart(void)
-{
-	if (!module_enabled) {
-		// give port to telemetry if it doesn't have one
-		// stops board getting stuck in condition where it can't be connected to gcs
-		if(!PIOS_COM_TELEM_RF)
-			PIOS_COM_TELEM_RF = pios_com_msp_id;
-
-		return -1;
-	}
-
-	struct pios_thread *task = PIOS_Thread_Create(
-		MSPuavoBridgeTask, "uavoMSPBridge",
-		STACK_SIZE_BYTES, NULL, TASK_PRIORITY);
-	TaskMonitorAdd(TASKINFO_RUNNING_UAVOMSPBRIDGE,
-			task);
-
-	return 0;
 }
 
 static void setMSPSpeed(struct msp_bridge *m)
