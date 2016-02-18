@@ -8,7 +8,7 @@
 	<field name="Operation" units="" type="enum" elements="1" options="INITIALIZING, LOGGING, IDLE, DOWNLOAD, COMPLETE, FORMAT, ERROR"/>
 
 	<field name="FileRequest" units="" type="uint16" elements="1"/>
-	<field name="FileSectorNum" units="" type="uint16" elements="1"/>
+	<field name="FileSectorNum" units="" type="uint32" elements="1"/>
 	<field name="FileSector" units="" type="uint8" elements="128"/>
 
         <access gcs="readwrite" flight="readwrite"/>
