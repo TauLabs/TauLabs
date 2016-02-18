@@ -206,33 +206,75 @@ static int32_t MSPuavoBridgeInitialize(void)
 }
 MODULE_INITCALL(MSPuavoBridgeInitialize, MSPuavoBridgeStart)
 
+struct msp_message_scheduler {
+	uint32_t last_message_time;
+	uint32_t message_period;
+	uint8_t message_id;
+};
+
+//! Array of messages and their desired periods
+struct msp_message_scheduler msp_messages[] = {
+	{
+		.last_message_time = 0,
+		.message_period = 20,
+		.message_id = MSP_ATTITUDE,
+	},
+	{
+		.last_message_time = 0,
+		.message_period = 20,
+		.message_id = MSP_ALTITUDE,
+	},
+	{
+		.last_message_time = 0,
+		.message_period = 50,
+		.message_id = MSP_ANALOG,
+	},
+	{
+		.last_message_time = 0,
+		.message_period = 50,
+		.message_id = MSP_STATUS,
+	},
+};
+
+//! Return true if period has expired
+static bool time_expired(uint32_t last_time, uint32_t period)
+{
+	uint32_t time_since_idle_ms = PIOS_Thread_Systime() - last_time;
+	return time_since_idle_ms > period;
+}
+
 /**
  * Main task routine
  * @param[in] parameters parameter given by PIOS_Thread_Create()
  */
 static void MSPuavoBridgeTask(void *parameters)
 {
-	uint32_t i = 0;
+	const uint32_t MSP_IDLE_TIMEOUT = 100;
+
+	uint32_t last_idle_ms = PIOS_Thread_Systime();
 
 	while(1) {
 		uint8_t b = 0;
 		uint16_t count = PIOS_COM_ReceiveBuffer(msp->com, &b, 1, 1);
 		if (count) {
 			msp_receive_byte(msp, b);
+		} else if (msp->state == MSP_IDLE) {
+			// track last time we are in idle
+			last_idle_ms = PIOS_Thread_Systime();
+		} else if (time_expired(last_idle_ms, MSP_IDLE_TIMEOUT)) { 
+			// check if we seem to be stalled and reset MSP parser
+			msp->state = MSP_IDLE;
 		}
 
 		if (msp->state == MSP_IDLE) {
-			if ((i++ % 20) == 0) {
-				msp_send_request(msp, MSP_ATTITUDE);
-			}
-			else if (i % 50 == 0) {
-				msp_send_request(msp, MSP_ANALOG);
-			}
-			else if (i % 70 == 0) {
-				msp_send_request(msp, MSP_STATUS);
-			}
-			else if (i % 20 == 10) {
-				msp_send_request(msp, MSP_ALTITUDE);
+
+			for (int32_t i = 0; i < NELEMENTS(msp_messages); i++) {
+				// Find the first message that is scheduled to be requested and do so
+				if (time_expired(msp_messages[i].last_message_time, msp_messages[i].message_period)) {
+					msp_send_request(msp, msp_messages[i].message_id);
+					msp_messages[i].last_message_time = PIOS_Thread_Systime();
+					break;
+				}
 			}
 
 		}
