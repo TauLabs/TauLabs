@@ -820,9 +820,9 @@ static int32_t setNavigationRaw()
 		GPSPositionData gpsPosition;
 		GPSPositionGet(&gpsPosition);
 
-		if (gpsPosition.Satellites < 6)
+		if (gpsPosition.Satellites < insSettings.MinRNAVSatellites)
 			set_state_estimation_error(SYSTEMALARMS_STATEESTIMATION_TOOFEWSATELLITES);
-		else if (gpsPosition.PDOP > 4.0f)
+		else if (gpsPosition.PDOP > insSettings.MinRNAVPDOP)
 			set_state_estimation_error(SYSTEMALARMS_STATEESTIMATION_PDOPTOOHIGH);
 		else
 			set_state_estimation_error(SYSTEMALARMS_STATEESTIMATION_NONE);
@@ -1052,7 +1052,10 @@ static int32_t updateAttitudeINSGPS(bool first_run, bool outdoor_mode)
 	mag_updated &= !outdoor_mode || (homeLocation.Be[0] != 0 || homeLocation.Be[1] != 0 || homeLocation.Be[2]);
 
 	// A more stringent requirement for GPS to initialize the filter
-	bool gps_init_usable = gps_updated && (gpsData.Satellites >= 7) && (gpsData.PDOP <= 3.5f) && (homeLocation.Set == HOMELOCATION_SET_TRUE);
+	bool gps_init_usable = gps_updated &&
+	      (gpsData.Satellites >= insSettings.MinRNAVSatellites+1) &&
+	      (gpsData.PDOP <= insSettings.MinRNAVPDOP*.9f) &&
+	      (homeLocation.Set == HOMELOCATION_SET_TRUE);
 
 	// Set user-friendly alarms appropriately based on state
 	if (ins_state == INS_INIT) {
@@ -1065,10 +1068,10 @@ static int32_t updateAttitudeINSGPS(bool first_run, bool outdoor_mode)
 		else
 			set_state_estimation_error(SYSTEMALARMS_STATEESTIMATION_UNDEFINED);
 
-	} else if (outdoor_mode && (gpsData.Satellites < 6 || gpsData.PDOP > 4.0f)) {
-		if (gpsData.Satellites < 6)
+	} else if (outdoor_mode && (gpsData.Satellites < insSettings.MinRNAVSatellites || gpsData.PDOP > insSettings.MinRNAVPDOP)) {
+		if (gpsData.Satellites < insSettings.MinRNAVSatellites)
 			set_state_estimation_error(SYSTEMALARMS_STATEESTIMATION_TOOFEWSATELLITES);
-		else if (gpsData.PDOP > 4.0f)
+		else if (gpsData.PDOP > insSettings.MinRNAVPDOP)
 			set_state_estimation_error(SYSTEMALARMS_STATEESTIMATION_PDOPTOOHIGH);
 		else if (homeLocation.Set == HOMELOCATION_SET_FALSE)
 			set_state_estimation_error(SYSTEMALARMS_STATEESTIMATION_NOHOME);
@@ -1163,7 +1166,9 @@ static int32_t updateAttitudeINSGPS(bool first_run, bool outdoor_mode)
 	
 
 	// Have a minimum requirement for gps usage a little more liberal than during initialization
-	gps_updated &= (gpsData.Satellites >= 6) && (gpsData.PDOP <= 4.0f) && (homeLocation.Set == HOMELOCATION_SET_TRUE);
+	gps_updated &= (gpsData.Satellites >= insSettings.MinRNAVSatellites) &&
+	      (gpsData.PDOP <= insSettings.MinRNAVPDOP) &&
+	      (homeLocation.Set == HOMELOCATION_SET_TRUE);
 
 	dT = PIOS_DELAY_DiffuS(ins_last_time) / 1.0e6f;
 	ins_last_time = PIOS_DELAY_GetRaw();
@@ -1436,9 +1441,9 @@ static void check_home_location()
 	GPSTimeData gpsTime;
 	GPSTimeGet(&gpsTime);
 	
-	// Check for valid data for the calculation
-	if (gps.PDOP < 3.5f && 
-	     gps.Satellites >= 7 &&
+	// Check for valid data for the calculation. Use a more stringent requirement for GPS before setting the home location.
+	if (gps.PDOP < insSettings.MinRNAVPDOP*.9f &&
+	     gps.Satellites >= insSettings.MinRNAVSatellites+1 &&
 	     (gps.Status == GPSPOSITION_STATUS_FIX3D ||
 	     gps.Status == GPSPOSITION_STATUS_DIFF3D) &&
 	     gpsTime.Year >= 2000)
