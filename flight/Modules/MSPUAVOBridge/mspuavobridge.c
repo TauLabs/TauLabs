@@ -135,7 +135,7 @@ static void unpack_altitude(const struct msp_packet_altitude *altitude)
  * @param[in] len the payload length
  @ return true if packet type known, false otherwise
  */
-static bool msp_response_cb(uint8_t cmd, const uint8_t *data, size_t len)
+static bool msp_response_cb(struct msp_bridge *msp, uint8_t cmd, const uint8_t *data, size_t len)
 {
 	union msp_data msp_data;
 	memcpy(msp_data.data, data, len);
