@@ -162,6 +162,8 @@ SRC += $(FLIGHTLIB)/alarms.c
 SRC += $(OPUAVTALK)/uavtalk.c
 SRC += $(OPUAVOBJ)/uavobjectmanager.c
 SRC += $(OPUAVOBJ)/eventdispatcher.c
+SRC += $(FLIGHTLIB)/msplib.c
+
 else
 ## TESTCODE
 SRC += $(OPTESTS)/test_common.c

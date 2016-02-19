@@ -113,6 +113,7 @@ SRC += $(FLIGHTLIB)/insgps14state.c
 SRC += $(FLIGHTLIB)/taskmonitor.c
 SRC += $(FLIGHTLIB)/sanitycheck.c
 SRC += $(FLIGHTLIB)/frsky_packing.c
+SRC += $(FLIGHTLIB)/msplib.c
 SRC += $(MATHLIB)/coordinate_conversions.c
 SRC += $(MATHLIB)/misc_math.c
 SRC += $(MATHLIB)/pid.c
