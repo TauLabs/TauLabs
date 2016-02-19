@@ -6,7 +6,8 @@
  * @{
  *
  * @file       uavomspbridge.c
- * @author     Tau Labs, http://taulabs.org, Copyright (C) 2015
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2015-2016
+ * @author     dRonin, http://dronin.org Copyright (C) 2015-2016
  * @brief      Bridges selected UAVObjects to MSP for MWOSD and the like.
  *
  * @see        The GNU Public License (GPL) Version 3
