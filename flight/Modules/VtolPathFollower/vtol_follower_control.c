@@ -462,20 +462,20 @@ int32_t vtol_follower_control_attitude(float dT, const float *att_adj)
 	// Project the north and east acceleration signals into body frame
 	float yaw;
 	AttitudeActualYawGet(&yaw);
-	float forward_accel_desired = -northCommand * cosf(yaw * DEG2RAD) + -eastCommand * sinf(yaw * DEG2RAD);
-	float right_accel_desired = -northCommand * sinf(yaw * DEG2RAD) + eastCommand * cosf(yaw * DEG2RAD);
+	float forward_accel_desired =  northCommand * cosf(yaw * DEG2RAD) + eastCommand * sinf(yaw * DEG2RAD);
+	float right_accel_desired   = -northCommand * sinf(yaw * DEG2RAD) + eastCommand * cosf(yaw * DEG2RAD);
 
 	StabilizationDesiredData stabDesired;
 
 	// Set the angle that would achieve the desired acceleration given the thrust is enough for a hover
-	stabDesired.Pitch = bound_sym(RAD2DEG * atanf(forward_accel_desired / GRAVITY), guidanceSettings.MaxRollPitch) + att_adj[1];
-	stabDesired.Roll = bound_sym(RAD2DEG * atanf(right_accel_desired / GRAVITY), guidanceSettings.MaxRollPitch) + att_adj[0];
+	stabDesired.Pitch = bound_sym(RAD2DEG * atanf(-forward_accel_desired / GRAVITY), guidanceSettings.MaxRollPitch) + att_adj[1];
+	stabDesired.Roll  = bound_sym(RAD2DEG * atanf( right_accel_desired   / GRAVITY), guidanceSettings.MaxRollPitch) + att_adj[0];
 
 	// Re-bound based on maximum attitude settings
 	stabDesired.Pitch = bound_sym(stabDesired.Pitch, stabSet.PitchMax);
-	stabDesired.Roll = bound_sym(stabDesired.Roll, stabSet.RollMax);
+	stabDesired.Roll  = bound_sym(stabDesired.Roll,  stabSet.RollMax);
 	
-	stabDesired.StabilizationMode[STABILIZATIONDESIRED_STABILIZATIONMODE_ROLL] = STABILIZATIONDESIRED_STABILIZATIONMODE_ATTITUDE;
+	stabDesired.StabilizationMode[STABILIZATIONDESIRED_STABILIZATIONMODE_ROLL]  = STABILIZATIONDESIRED_STABILIZATIONMODE_ATTITUDE;
 	stabDesired.StabilizationMode[STABILIZATIONDESIRED_STABILIZATIONMODE_PITCH] = STABILIZATIONDESIRED_STABILIZATIONMODE_ATTITUDE;
 
 	// Calculate the throttle setting or use pass through from transmitter
