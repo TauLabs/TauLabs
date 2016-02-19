@@ -41,7 +41,7 @@ struct msp_bridge * msp_init(uintptr_t com)
 }
 
  //! Send response to a query packet
-void msp_send_reponse(struct msp_bridge *m, uint8_t cmd, const uint8_t *data, size_t len)
+void msp_send_response(struct msp_bridge *m, uint8_t cmd, const uint8_t *data, size_t len)
 {
 	uint8_t buf[5];
 	uint8_t cs = (uint8_t)(len) ^ cmd;
@@ -82,12 +82,12 @@ void msp_send_request(struct msp_bridge *m, uint8_t type)
 
 void msp_set_response_cb(struct msp_bridge *m, msp_cb response_cb)
 {
-	m->response_cb = response_cb;
+	m->response_cb = (msp_cb_store) response_cb;
 }
 
 void msp_set_request_cb(struct msp_bridge *m, msp_cb request_cb)
 {
-	m->request_cb = request_cb;
+	m->request_cb = (msp_cb_store) request_cb;
 }
 
 //! Receive the size of the next packet
@@ -137,12 +137,12 @@ static msp_state msp_state_checksum(struct msp_bridge *m, uint8_t b)
 	if (m->state == MSP_C_CHECKSUM) {
 		// Respond to requests/commands we support
 		if(m->request_cb) {
-			m->request_cb(m->cmd_id, m->cmd_data.data, m->cmd_size);
+			m->request_cb((void *)m, m->cmd_id, m->cmd_data.data, m->cmd_size);
 		}
 	} else if (m->state == MSP_R_CHECKSUM) {
 		// Respond to requests/commands we support
 		if(m->response_cb) {
-			m->response_cb(m->cmd_id, m->cmd_data.data, m->cmd_size);
+			m->response_cb((void *)m, m->cmd_id, m->cmd_data.data, m->cmd_size);
 		}
 	}
 

@@ -179,7 +179,7 @@ typedef enum {
 	MSP_DISCARD,
 } msp_state;
 
-typedef bool (*msp_cb)(uint8_t cmd, const uint8_t *data, size_t len);
+typedef bool (*msp_cb_store)(void *msp, uint8_t cmd, const uint8_t *data, size_t len);
 
 //! Track all the state information for the parser
 struct msp_bridge {
@@ -192,17 +192,22 @@ struct msp_bridge {
 	uint8_t cmd_i;
 	uint8_t checksum;
 
-	msp_cb response_cb;
-	msp_cb request_cb;
+	msp_cb_store response_cb;
+	msp_cb_store request_cb;
 
 	union msp_data cmd_data;
 };
+
+// We do a little dance here to have a nice clean function prototype for the outside
+// API but internally we have to have the first parameter as void* in order to avoid
+// a circular definition
+typedef bool (*msp_cb)(struct msp_bridge *msp, uint8_t cmd, const uint8_t *data, size_t len);
 
 //! Allocate memory for an MSP bridge
 struct msp_bridge * msp_init(uintptr_t com);
 
 //! Send response to a data request
-void msp_send_reponse(struct msp_bridge *m, uint8_t cmd, const uint8_t *data, size_t len);
+void msp_send_response(struct msp_bridge *m, uint8_t cmd, const uint8_t *data, size_t len);
 
 //! Send a request for a data update
 void msp_send_request(struct msp_bridge *m, uint8_t type);
