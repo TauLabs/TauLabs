@@ -14,6 +14,7 @@
 
 # /flight/Project/OpenPilotOSX/
 /flight/Project/OpenPilotOSX/build/
+/flight/Project/Qt\ Creator/flight.pro.user
 
 # /ground/
 /ground/Build
