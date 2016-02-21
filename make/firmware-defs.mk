@@ -198,7 +198,7 @@ define COMPILE_CXX_ARM_TEMPLATE
 $(OUTDIR)/$(notdir $(basename $(1))).o : $(1)
 $(OUTDIR)/$(notdir $(basename $(1))).o : EXTRA_FLAGS := $(2)
 	@echo $(MSG_COMPILINGCXX_ARM) $$(call toprel, $$<)
-	$(V1) $(CPP) -c $$(CFLAGS) $$(CPPFLAGS) $$(CXXFLAGS) $$(EXTRA_FLAGS) $$< -o $$@
+	$(V1) $(CXX) -c $$(CFLAGS) $$(CPPFLAGS) $$(CXXFLAGS) $$(EXTRA_FLAGS) $$< -o $$@
 endef
 
 # Link: create ELF output file from object files.
@@ -209,7 +209,7 @@ define LINK_TEMPLATE
 .PRECIOUS : $(2)
 $(1):  $(2)
 	@echo $(MSG_LINKING) $$(call toprel, $$@)
-	$(V1) $(CC) $(THUMB) $$(CFLAGS) $(2) --output $$@ $$(LDFLAGS)
+	$(V1) $(CXX) $(THUMB) $$(CFLAGS) $(2) --output $$@ $$(LDFLAGS)
 endef
 
 # Link: create ELF output file from object files.
