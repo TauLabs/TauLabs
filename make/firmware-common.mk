@@ -63,7 +63,7 @@ $(foreach src, $(ASRC), $(eval $(call ASSEMBLE_TEMPLATE, $(src))))
 $(foreach src, $(SRC), $(eval $(call COMPILE_C_TEMPLATE, $(src))))
 
 # Compile: create object files from C++ source files.
-$(foreach src, $(CPPSRC), $(eval $(call COMPILE_CPP_TEMPLATE, $(src))))
+$(foreach src, $(CPPSRC), $(eval $(call COMPILE_CXX_TEMPLATE, $(src))))
 
 # Compile: create assembler files from C source files. ARM/Thumb
 $(eval $(call PARTIAL_COMPILE_TEMPLATE, SRC))
