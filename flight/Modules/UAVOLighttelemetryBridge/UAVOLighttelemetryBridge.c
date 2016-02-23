@@ -91,30 +91,30 @@ static void send_LTM_Sframe();
  */
 int32_t uavoLighttelemetryBridgeInitialize()
 {
-	module_enabled = false;
-	
+#ifdef MODULE_UAVOLighttelemetryBridge_BUILTIN	
+	module_enabled = true;
+#else
+	uint8_t module_state[MODULESETTINGS_ADMINSTATE_NUMELEM]; 
+	ModuleSettingsAdminStateGet(module_state); 
+	module_enabled = module_state[MODULESETTINGS_ADMINSTATE_UAVOLIGHTTELEMETRYBRIDGE] == MODULESETTINGS_ADMINSTATE_ENABLED;
+#endif
+
 	lighttelemetryPort = PIOS_COM_LIGHTTELEMETRY;
+	module_enabled &= (lighttelemetryPort != 0);
 	
-	if ( lighttelemetryPort )
+	if (module_enabled)
 	{
-		uint8_t module_state[MODULESETTINGS_ADMINSTATE_NUMELEM]; 
-		ModuleSettingsAdminStateGet(module_state); 
-						  
-		if ( module_state[MODULESETTINGS_ADMINSTATE_UAVOLIGHTTELEMETRYBRIDGE] == MODULESETTINGS_ADMINSTATE_ENABLED ) 
-		{ 
-			// Update telemetry settings
-			ltm_scheduler = 1;
-			updateSettings();
-			uint8_t speed;
-			ModuleSettingsLightTelemetrySpeedGet(&speed);
-			if (speed == MODULESETTINGS_LIGHTTELEMETRYSPEED_1200)
-				ltm_slowrate = 1;
-			else 
-				ltm_slowrate = 0;
-	
-			module_enabled = true; 
-			return 0;
-		}
+		// Update telemetry settings
+		ltm_scheduler = 1;
+		updateSettings();
+		uint8_t speed;
+		ModuleSettingsLightTelemetrySpeedGet(&speed);
+		if (speed == MODULESETTINGS_LIGHTTELEMETRYSPEED_1200)
+			ltm_slowrate = 1;
+		else 
+			ltm_slowrate = 0;
+
+		return 0;
 	}
 	
 	return -1;
