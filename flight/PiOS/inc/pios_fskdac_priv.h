@@ -7,7 +7,7 @@
  * @{
  *
  * @file       pios_fskdac.h
- * @author     Tau Labs, http://taulabs.org, Copyright (C) 2015
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2015-2016
  * @brief      Generates Bel202 encoded serial data on the DAC channel
  * @see        The GNU Public License (GPL) Version 3
  *
@@ -42,3 +42,4 @@ extern int32_t PIOS_FSKDAC_Init(uintptr_t * fskdac_id);
 extern void PIOS_FSKDAC_DMA_irq_handler();
 
 #endif /* PIOS_FSKDADC_PRIV_H */
+
