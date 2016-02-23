@@ -15,6 +15,9 @@
 		<!-- These settings are related to how the sensors are post processed -->
 		<field name="MagBiasNullingRate" units="" type="float" elements="1" defaultvalue="0"/>
 
+		<field name="MinRNAVSatellites" units="" type="uint8" elements="1" defaultvalue="6"/>
+		<field name="MinRNAVPDOP" units="" type="float" elements="1" defaultvalue="4"/>
+
 		<access gcs="readwrite" flight="readwrite"/>
 		<telemetrygcs acked="true" updatemode="onchange" period="0"/>
 		<telemetryflight acked="true" updatemode="onchange" period="0"/>
