@@ -1,7 +1,7 @@
 /**
  ******************************************************************************
  * @file       physical_constants.h
- * @author     Tau Labs, http://ww.taulabs.org, Copyright (C) 2013
+ * @author     Tau Labs, http://ww.taulabs.org, Copyright (C) 2013-2016
  * @addtogroup Physical constants
  * @{
  * @addtogroup 
