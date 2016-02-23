@@ -212,9 +212,9 @@ static void msp_send_raw_gps(struct msp_bridge *m)
 		data.raw_gps.num_sat       = gps_data.Satellites;
 		data.raw_gps.lat           = gps_data.Latitude;
 		data.raw_gps.lon           = gps_data.Longitude;
-		data.raw_gps.alt           = (uint16_t)gps_data.Altitude;
-		data.raw_gps.speed         = (uint16_t)gps_data.Groundspeed;
-		data.raw_gps.ground_course = (int16_t)(gps_data.Heading * 10.0f);
+		data.raw_gps.alt           = gps_data.Altitude;
+		data.raw_gps.speed         = gps_data.Groundspeed;
+		data.raw_gps.ground_course = gps_data.Heading * 10;
 	}
 	else
 	{
@@ -244,14 +244,11 @@ static void msp_send_comp_gps(struct msp_bridge *m)
 	GPSPositionData gps_data   = {};
 	HomeLocationData home_data = {};
 	
-	if ((GPSPositionHandle() == NULL) || (HomeLocationHandle() == NULL))
-	{
+	if ((GPSPositionHandle() == NULL) || (HomeLocationHandle() == NULL)) {
 		data.comp_gps.distance_to_home    = 0;
 		data.comp_gps.direction_to_home   = 0;
 		data.comp_gps.home_position_valid = 0;  // Home distance and direction will not display on OSD
-	}
-	else
-	{
+	} else {
 		GPSPositionGet(&gps_data);
 		HomeLocationGet(&home_data);
 		
@@ -271,15 +268,15 @@ static void msp_send_comp_gps(struct msp_bridge *m)
 			float delta_y = (float)delta_lon * WGS84_RADIUS_EARTH_KM * DEG2RAD;  // KM * 1e7
 			float delta_x = (float)delta_lat * WGS84_RADIUS_EARTH_KM * DEG2RAD;  // KM * 1e7
 	
-			delta_y *= cosf((float)home_data.Latitude * 1e-7f * (float)DEG2RAD);  // Latitude compression correction
+			delta_y *= cosf(home_data.Latitude * 1e-7f * (float)DEG2RAD);  // Latitude compression correction
 	
 			data.comp_gps.distance_to_home  = (uint16_t)(sqrtf(delta_x * delta_x + delta_y * delta_y) * 1e-4f);  // meters
 	
 			if ((delta_lon == 0) && (delta_lat == 0))
 				data.comp_gps.direction_to_home = 0;
 			else
-				data.comp_gps.direction_to_home = (int16_t)(atan2f(delta_y, delta_x) * RAD2DEG); // degrees;
-		}			
+				data.comp_gps.direction_to_home = (int16_t)(atan2f(delta_y, delta_x) * RAD2DEG + 0.5f); // degrees;
+		}
 	}
 
 	msp_send_response(m, MSP_COMP_GPS, data.buf, sizeof(data));
