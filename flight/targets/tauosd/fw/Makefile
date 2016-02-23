@@ -36,6 +36,7 @@ MODULES += FirmwareIAP
 MODULES += Telemetry
 MODULES += OnScreenDisplay
 MODULES += OsdCan/OSD
+MODULES += DacBeepCodes # always try to run this, fails if not assigned port
 OPTMODULES += Battery
 
 # Paths

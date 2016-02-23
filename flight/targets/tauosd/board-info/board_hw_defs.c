@@ -6,7 +6,7 @@
  * @{
  *
  * @file       board_hw_defs.c
- * @author     Tau Labs, http://taulabs.org, Copyright (C) 2014
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2014-2016
  * @brief      The board specific initialization routines
  * @see        The GNU Public License (GPL) Version 3
  * 
@@ -360,18 +360,6 @@ struct pios_internal_adc_cfg pios_adc_cfg = {
 		{NULL,  0,              ADC_Channel_TempSensor}         /* Temperature sensor */        \
 	},
 	.adc_pin_count = 4
-};
-
-struct stm32_gpio pios_current_sonar_pin ={
-    .gpio = GPIOA,
-			.init = {
-				.GPIO_Pin = GPIO_Pin_8,
-				.GPIO_Speed = GPIO_Speed_2MHz,
-				.GPIO_Mode  = GPIO_Mode_IN,
-				.GPIO_OType = GPIO_OType_OD,
-				.GPIO_PuPd  = GPIO_PuPd_NOPULL
-			},
-			.pin_source = GPIO_PinSource8,
 };
 
 static void PIOS_ADC_DMA_irq_handler(void)

@@ -51,6 +51,8 @@
 			</options>
 		</field>
 
+		<field name="Dac" units="function" type="enum" elements="1" options="None,Beep,FSK Telem" defaultvalue="None"/>
+
 		<access gcs="readwrite" flight="readwrite"/>
 		<telemetrygcs acked="true" updatemode="onchange" period="0"/>
 		<telemetryflight acked="true" updatemode="onchange" period="0"/>

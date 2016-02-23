@@ -77,6 +77,8 @@
 #define PIOS_VIDEO_TIM4_COUNTER
 #define PIOS_INCLUDE_VIDEO
 
+#define PIOS_INCLUDE_DAC_BEEPS
+
 /* Other Interfaces */
 //#define PIOS_INCLUDE_I2C_ESC
 

@@ -6,7 +6,7 @@
  * @{
  *
  * @file       pios_board.c
- * @author     Tau Labs, http://taulabs.org, Copyright (C) 2014
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2014-2016
  * @brief      The board specific initialization routines
  * @see        The GNU Public License (GPL) Version 3
  * 
@@ -40,6 +40,7 @@
 #include <pios.h>
 #include <openpilot.h>
 #include <uavobjectsinit.h>
+#include <pios_dacbeep_priv.h>
 #include "flightbatterysettings.h"
 #include "hwtauosd.h"
 #include "manualcontrolsettings.h"
@@ -80,6 +81,8 @@ uintptr_t pios_uavo_settings_fs_id;
 
 uintptr_t pios_can_id;
 uintptr_t pios_internal_adc_id = 0;
+
+uintptr_t dacbeep_handle;
 
 
 /**
@@ -714,6 +717,32 @@ void PIOS_Board_Init(void) {
 		OSD_configure_bw_levels();
 	}
 #endif
+
+	uint8_t dac_mode;
+	HwTauOsdDacGet(&dac_mode);
+	
+	// Select what the DAC is used for
+	switch(dac_mode) {
+	case HWTAUOSD_DAC_NONE:
+		break;
+	case HWTAUOSD_DAC_BEEP:
+#if defined(PIOS_INCLUDE_DAC_BEEPS)
+	{
+		uintptr_t dacbeep_id;
+		PIOS_DACBEEP_Init(&dacbeep_id);
+		dacbeep_handle = dacbeep_id;
+	}
+#endif /* PIOS_INCLUDE_DAC_BEEPS */
+		break;
+	case HWTAUOSD_DAC_FSKTELEM:
+#if defined(PIOS_INCLUDE_FSK)
+	{
+		uintptr_t fskdac_com_id;
+		PIOS_FSKDAC_Init(&fskdac_com_id, &pios_fskdac_config);
+	}
+#endif /* PIOS_INCLUDE_FSK */
+		break;
+	}
 
 	PIOS_WDG_Clear();
 	PIOS_DELAY_WaitmS(200);
