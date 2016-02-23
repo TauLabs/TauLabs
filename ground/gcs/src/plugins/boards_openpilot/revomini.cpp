@@ -24,6 +24,10 @@
  * You should have received a copy of the GNU General Public License along
  * with this program; if not, write to the Free Software Foundation, Inc.,
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+ *
+ * Additional note on redistribution: The copyright and license notices above
+ * must be maintained in each individual source file that is a derivative work
+ * of this source file; otherwise redistribution is prohibited.
  */
 
 #include "revomini.h"
@@ -159,10 +163,17 @@ bool RevoMini::setInputOnPort(enum InputType type, int port_num)
 
     switch(type) {
     case INPUT_TYPE_PWM:
+<<<<<<< HEAD:ground/gcs/src/plugins/boards_openpilot/revomini.cpp
         settings.RcvrPort = HwRevoMini::RCVRPORT_PWM;
         break;
     case INPUT_TYPE_PPM:
         settings.RcvrPort = HwRevoMini::RCVRPORT_PPM;
+=======
+        settings.RxPort = HwRevolution::RXPORT_PWM;
+        break;
+    case INPUT_TYPE_PPM:
+        settings.RxPort = HwRevolution::RXPORT_PPM;
+>>>>>>> 85d329d... Revo: Flexi-Io Support:ground/gcs/src/plugins/boards_openpilot/revolution.cpp
         break;
     case INPUT_TYPE_SBUS:
         settings.FlexiPort = HwRevoMini::FLEXIPORT_TELEMETRY;
@@ -173,6 +184,9 @@ bool RevoMini::setInputOnPort(enum InputType type, int port_num)
         break;
     case INPUT_TYPE_HOTTSUMD:
         settings.FlexiPort = HwRevoMini::FLEXIPORT_HOTTSUMD;
+        break;
+    case INPUT_TYPE_HOTTSUMH:
+        settings.MainPort = HwRevolution::MAINPORT_HOTTSUMH;
         break;
     default:
         return false;
@@ -208,6 +222,8 @@ enum Core::IBoardType::InputType RevoMini::getInputOnPort(int port_num)
         return INPUT_TYPE_DSM;
     case HwRevoMini::FLEXIPORT_HOTTSUMD:
         return INPUT_TYPE_HOTTSUMD;
+    case HwRevolution::FLEXIPORT_HOTTSUMH:
+        return INPUT_TYPE_HOTTSUMH;
     default:
         break;
     }
@@ -215,14 +231,32 @@ enum Core::IBoardType::InputType RevoMini::getInputOnPort(int port_num)
     switch(settings.MainPort) {
     case HwRevoMini::MAINPORT_SBUS:
         return INPUT_TYPE_SBUS;
+    case HwRevolution::MAINPORT_DSM:
+        return INPUT_TYPE_DSM;
+    case HwRevolution::MAINPORT_HOTTSUMD:
+        return INPUT_TYPE_HOTTSUMD;
+    case HwRevolution::MAINPORT_HOTTSUMH:
+        return INPUT_TYPE_HOTTSUMH;
     default:
         break;
     }
 
+<<<<<<< HEAD:ground/gcs/src/plugins/boards_openpilot/revomini.cpp
     switch(settings.RcvrPort) {
     case HwRevoMini::RCVRPORT_PPM:
         return INPUT_TYPE_PPM;
     case HwRevoMini::RCVRPORT_PWM:
+=======
+    switch(settings.RxPort) {
+    case HwRevolution::RXPORT_PPM:
+    case HwRevolution::RXPORT_PPMPWM:
+    case HwRevolution::RXPORT_PPMOUTPUTS:
+    case HwRevolution::RXPORT_PPMUART:
+    case HwRevolution::RXPORT_PPMUARTOUTPUTS:
+    case HwRevolution::RXPORT_PPMFRSKY:
+        return INPUT_TYPE_PPM;
+    case HwRevolution::RXPORT_PWM:
+>>>>>>> 85d329d... Revo: Flexi-Io Support:ground/gcs/src/plugins/boards_openpilot/revolution.cpp
         return INPUT_TYPE_PWM;
     default:
         break;
@@ -252,7 +286,7 @@ int RevoMini::queryMaxGyroRate()
     case HwRevoMini::GYRORANGE_2000:
         return 2000;
     default:
-        return 500;
+        return 2000;
     }
 }
 
