@@ -216,8 +216,7 @@ void TIM4_IRQHandler(void) __attribute__((alias("PIOS_First_Line_ISR")));
  */
 void PIOS_First_Line_ISR(void)
 {
-	if(TIM_GetITStatus(dev_cfg->line_counter, TIM_IT_Update) && (active_line == 0))
-	{
+	if(TIM_GetITStatus(dev_cfg->line_counter, TIM_IT_Update) && (active_line == 0))	{
 		// Clear the interrupt flag
 		dev_cfg->line_counter->SR &= ~TIM_SR_UIF;
 

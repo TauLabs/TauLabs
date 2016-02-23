@@ -131,13 +131,6 @@ const char METRIC_DIST_UNIT_SHORT[] = "m";
 const char IMPERIAL_DIST_UNIT_LONG[] = "M";
 const char IMPERIAL_DIST_UNIT_SHORT[] = "ft";
 
-// Unit conversion constants
-#define MS_TO_KMH 3.6f
-#define MS_TO_MPH 2.23694f
-#define M_TO_FEET 3.28084f
-
-
-
 // ****************
 // Private variables
 static uint16_t frame_counter = 0;
@@ -1323,9 +1316,11 @@ static void onScreenDisplayTask(__attribute__((unused)) void *parameters)
 	uint8_t last_page = -1;
 
 	OnScreenDisplaySettingsGet(&osd_settings);
-	home_baro_altitude = 0.;
+	home_baro_altitude = 0.0f;
 
-	// blank
+	// Blank the OSD for a few seconds before showing logo
+	// to allow everything to power on and data comms to start
+	// syncing
 	while (PIOS_Thread_Systime() <= BLANK_TIME) {
 		PIOS_Thread_Sleep(20);
 		frame_counter++;
@@ -1377,7 +1372,7 @@ static void onScreenDisplayTask(__attribute__((unused)) void *parameters)
 
 				if (osd_settings.Units == ONSCREENDISPLAYSETTINGS_UNITS_IMPERIAL){
 					convert_distance = M_TO_FEET;
-					convert_distance_divider = 5280.f; // feet in a mile
+					convert_distance_divider = FEET_PER_MILE; // feet in a mile
 					convert_speed = MS_TO_MPH;
 					dist_unit_long = IMPERIAL_DIST_UNIT_LONG;
 					dist_unit_short = IMPERIAL_DIST_UNIT_SHORT;
