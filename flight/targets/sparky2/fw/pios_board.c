@@ -132,6 +132,8 @@ static const struct pios_hmc5883_cfg pios_hmc5883_external_cfg = {
 #define PIOS_COM_CAN_RX_BUF_LEN 256
 #define PIOS_COM_CAN_TX_BUF_LEN 256
 
+#define PIOS_COM_FSKDAC_BUF_LEN 19
+
 uintptr_t pios_com_spiflash_logging_id;
 uintptr_t pios_com_can_id;
 uintptr_t pios_internal_adc_id = 0;
@@ -701,11 +703,11 @@ void PIOS_Board_Init(void) {
 		PIOS_FSKDAC_Init(&fskdac_id);
 
 		uintptr_t fskdac_com_id;
-		uint8_t * tx_buffer = (uint8_t *) PIOS_malloc(PIOS_COM_CAN_TX_BUF_LEN);
+		uint8_t * tx_buffer = (uint8_t *) PIOS_malloc(PIOS_COM_FSKDAC_BUF_LEN);
 		PIOS_Assert(tx_buffer);
 		if (PIOS_COM_Init(&fskdac_com_id, &pios_fskdac_com_driver, fskdac_id,
 		                  NULL, 0,
-		                  tx_buffer, PIOS_COM_CAN_TX_BUF_LEN))
+		                  tx_buffer, PIOS_COM_FSKDAC_BUF_LEN))
 			panic(6);
 
 		/* TODO: make FSK DAC output selectable */
