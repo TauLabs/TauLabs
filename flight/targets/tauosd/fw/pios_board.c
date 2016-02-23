@@ -63,6 +63,8 @@ uintptr_t pios_rcvr_group_map[MANUALCONTROLSETTINGS_CHANNELGROUPS_NONE];
 #define PIOS_COM_CAN_RX_BUF_LEN 256
 #define PIOS_COM_CAN_TX_BUF_LEN 256
 
+#define PIOS_COM_FSKDAC_BUF_LEN 19
+
 #define PIOS_COM_BRIDGE_RX_BUF_LEN 65
 #define PIOS_COM_BRIDGE_TX_BUF_LEN 12
 
@@ -75,6 +77,7 @@ uintptr_t pios_com_aux_id;
 uintptr_t pios_com_telem_usb_id;
 uintptr_t pios_com_telem_rf_id;
 uintptr_t pios_com_vcp_id;
+uintptr_t pios_com_lighttelemetry_id;
 uintptr_t pios_com_bridge_id;
 uintptr_t pios_com_can_id;
 
@@ -738,8 +741,18 @@ void PIOS_Board_Init(void) {
 	case HWTAUOSD_DAC_FSKTELEM:
 #if defined(PIOS_INCLUDE_FSK)
 	{
+		uintptr_t fskdac_id;
+		PIOS_FSKDAC_Init(&fskdac_id);
+
 		uintptr_t fskdac_com_id;
-		PIOS_FSKDAC_Init(&fskdac_com_id);
+		uint8_t * tx_buffer = (uint8_t *) PIOS_malloc(PIOS_COM_FSKDAC_BUF_LEN);
+		PIOS_Assert(tx_buffer);
+		if (PIOS_COM_Init(&fskdac_com_id, &pios_fskdac_com_driver, fskdac_id,
+		                  NULL, 0,
+		                  tx_buffer, PIOS_COM_FSKDAC_BUF_LEN))
+			panic(6);
+
+		pios_com_lighttelemetry_id = fskdac_com_id; // send from light telemetry when enabled
 	}
 #endif /* PIOS_INCLUDE_FSK */
 		break;

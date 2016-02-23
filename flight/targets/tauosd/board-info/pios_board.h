@@ -107,6 +107,7 @@ extern uintptr_t pios_com_telem_usb_id;
 extern uintptr_t pios_com_bridge_id;
 extern uintptr_t pios_com_vcp_id;
 extern uintptr_t pios_com_picoc_id;
+extern uintptr_t pios_com_lighttelemetry_id;
 extern uintptr_t pios_com_debug_id;
 extern uintptr_t pios_com_logging_id;
 
@@ -115,6 +116,7 @@ extern uintptr_t pios_com_logging_id;
 #define PIOS_COM_BRIDGE                 (pios_com_bridge_id)
 #define PIOS_COM_VCP                    (pios_com_vcp_id)
 #define PIOS_COM_PICOC                  (pios_com_picoc_id)
+#define PIOS_COM_LIGHTTELEMETRY         (pios_com_lighttelemetry_id)
 #define PIOS_COM_DEBUG                  (pios_com_debug_id)
 #define PIOS_COM_LOGGING                (pios_com_logging_id)
 
