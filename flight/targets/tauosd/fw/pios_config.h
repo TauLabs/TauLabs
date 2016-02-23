@@ -78,7 +78,7 @@
 #define PIOS_INCLUDE_VIDEO
 
 #define PIOS_INCLUDE_DAC_BEEPS
-
+#define PIOS_INCLUDE_FSK
 /* Other Interfaces */
 //#define PIOS_INCLUDE_I2C_ESC
 

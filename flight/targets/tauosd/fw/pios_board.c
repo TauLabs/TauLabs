@@ -41,6 +41,7 @@
 #include <openpilot.h>
 #include <uavobjectsinit.h>
 #include <pios_dacbeep_priv.h>
+#include <pios_fskdac_priv.h>
 #include "flightbatterysettings.h"
 #include "hwtauosd.h"
 #include "manualcontrolsettings.h"
@@ -738,7 +739,7 @@ void PIOS_Board_Init(void) {
 #if defined(PIOS_INCLUDE_FSK)
 	{
 		uintptr_t fskdac_com_id;
-		PIOS_FSKDAC_Init(&fskdac_com_id, &pios_fskdac_config);
+		PIOS_FSKDAC_Init(&fskdac_com_id);
 	}
 #endif /* PIOS_INCLUDE_FSK */
 		break;
