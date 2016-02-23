@@ -117,11 +117,12 @@ ConfigAttitudeWidget::ConfigAttitudeWidget(QWidget *parent) :
     calibration.initialize(board_has_accelerometer, board_has_magnetometer);
 
     // Configure the calibration UI
-    m_ui->cbCalibrateAccels->setChecked(board_has_accelerometer);
-    m_ui->cbCalibrateMags->setChecked(board_has_magnetometer);
-    if (!board_has_accelerometer || !board_has_magnetometer) { // If both are not available, don't provide any choices.
-        m_ui->cbCalibrateAccels->setEnabled(false);
-        m_ui->cbCalibrateMags->setEnabled(false);
+    m_ui->cbCalibrateAccels->setEnabled(board_has_accelerometer);
+    m_ui->cbCalibrateMags->setEnabled(board_has_magnetometer);
+    if (board_has_accelerometer) {
+        m_ui->cbCalibrateAccels->setChecked(board_has_accelerometer);
+    } else if (board_has_magnetometer) {
+        m_ui->cbCalibrateMags->setChecked(board_has_magnetometer);
     }
 
     // Must connect the graphs to the calibration object to see the calibration results
