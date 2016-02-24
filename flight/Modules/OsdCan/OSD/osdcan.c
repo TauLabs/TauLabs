@@ -43,6 +43,7 @@
 #include "positionactual.h"
 #include "systemalarms.h"
 #include "taskinfo.h"
+#include "velocityactual.h"
 
 // Private constants
 #define MAX_QUEUE_SIZE 2
@@ -65,6 +66,7 @@ static struct pios_queue *queue_gps_altspeed;
 static struct pios_queue *queue_gps_fix;
 static struct pios_queue *queue_gps_vel;
 static struct pios_queue *queue_pos;
+static struct pios_queue *queue_vert;
 static struct pios_queue *queue_sysalarm;
 static struct pios_thread *taskHandle;
 
@@ -119,6 +121,7 @@ static int32_t OsdCanInitialize()
 	queue_gps_fix = PIOS_CAN_RegisterMessageQueue(pios_can_id, PIOS_CAN_GPS_FIX);
 	queue_gps_vel = PIOS_CAN_RegisterMessageQueue(pios_can_id, PIOS_CAN_GPS_VEL);
 	queue_pos = PIOS_CAN_RegisterMessageQueue(pios_can_id, PIOS_CAN_POS);
+	queue_vert = PIOS_CAN_RegisterMessageQueue(pios_can_id, PIOS_CAN_VERT);
 	queue_sysalarm = PIOS_CAN_RegisterMessageQueue(pios_can_id, PIOS_CAN_ALARM);
 
 	uavo_update_queue = PIOS_Queue_Create(3, sizeof(UAVObjEvent));
@@ -150,6 +153,7 @@ static void osdCanTask(void* parameters)
 		struct pios_can_gps_fix pios_can_gps_fix_message;
 		struct pios_can_gps_vel pios_can_gps_vel_message;
 		struct pios_can_pos pios_can_pos_message;
+		struct pios_can_vert pios_can_vert_message;
 		uint8_t buf[8];
 
 		// Wait for queue message
@@ -234,6 +238,19 @@ static void osdCanTask(void* parameters)
 			posActual.North = pios_can_pos_message.north;
 			posActual.East = pios_can_pos_message.east;
 			PositionActualSet(&posActual);
+		}
+
+		if (PIOS_Queue_Receive(queue_pos, &pios_can_pos_message, 0) == true) {
+			PositionActualData posActual;
+			PositionActualGet(&posActual);
+			posActual.North = pios_can_pos_message.north;
+			posActual.East = pios_can_pos_message.east;
+			PositionActualSet(&posActual);
+		}
+
+		if (PIOS_Queue_Receive(queue_vert, &pios_can_vert_message, 0) == true) {
+			PositionActualDownSet(&pios_can_vert_message.pos_down);
+			VelocityActualDownSet(&pios_can_vert_message.rate_down);
 		}
 
 		if (PIOS_Queue_Receive(queue_sysalarm, buf, 0) == true) {

@@ -43,6 +43,7 @@
 #include "manualcontrolcommand.h"
 #include "systemalarms.h"
 #include "taskinfo.h"
+#include "velocityactual.h"
 
 
 //
@@ -258,16 +259,29 @@ static void osdCanTask(void* parameters)
 		} else if (ev.obj == PositionActualHandle()) {
 
 			static uint32_t divider = 0;
-			if (divider++ % 100 != 0)
-				continue;
+			divider++;
 
-			PositionActualData posActual;
-			PositionActualGet(&posActual);
-			struct pios_can_pos pos = {
-				.north = posActual.North,
-				.east = posActual.East
-			};
-			PIOS_CAN_TxData(pios_can_id, PIOS_CAN_POS, (uint8_t *) &pos);
+			if (divider % 100 == 0) {
+				PositionActualData posActual;
+				PositionActualGet(&posActual);
+				struct pios_can_pos pos = {
+					.north = posActual.North,
+					.east = posActual.East
+				};
+				PIOS_CAN_TxData(pios_can_id, PIOS_CAN_POS, (uint8_t *) &pos);
+			}
+
+			if (divider % 100 == 50) {
+				float down;
+				PositionActualDownGet(&down);
+				float sinkrate;
+				VelocityActualDownGet(&sinkrate);
+				struct pios_can_vert vert = {
+					.pos_down = down,
+					.rate_down = sinkrate
+				};
+				PIOS_CAN_TxData(pios_can_id, PIOS_CAN_VERT, (uint8_t *) &vert);
+			}
 
 		} else if (ev.obj == ManualControlCommandHandle()) {
 
