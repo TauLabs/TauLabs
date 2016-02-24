@@ -73,7 +73,10 @@ extern uintptr_t pios_can_id;
  */
 int32_t OsdCanInitialize(void)
 {
-	module_enabled = true;
+	module_enabled = (pios_can_id != 0);
+
+	if (!module_enabled)
+		return -1;
 
 	// TODO: setting to enable or disable
 	queue = PIOS_Queue_Create(3, sizeof(UAVObjEvent));
