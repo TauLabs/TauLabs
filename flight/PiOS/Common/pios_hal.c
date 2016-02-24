@@ -742,28 +742,47 @@ void PIOS_HAL_ConfigureRFM22B(HwSharedRadioPortOptions radio_type,
 		rfm22bstatus.DeviceID = PIOS_RFM22B_DeviceID(pios_rfm22b_id);
 		rfm22bstatus.BoardRevision = PIOS_RFM22B_ModuleVersion(pios_rfm22b_id);
 
+		// Assign the RFM22b serial port as requested
+		uintptr_t *target = NULL;
 		switch(port_type) {
+		case HWSHARED_PORTTYPES_DISABLED:
+			// Counterintuitively when disabled we still create the COM port as the modem core
+			// might use it but it isn't mapped to any normal port. This path is used by the
+			// modem
+			PIOS_HAL_ConfigureCom(pios_rfm22b_id, PIOS_COM_RFM22B_RF_RX_BUF_LEN, PIOS_COM_RFM22B_RF_TX_BUF_LEN,
+			                          &pios_rfm22b_com_driver, &pios_com_rf_id);
+			break;
 		case HWSHARED_PORTTYPES_TELEMETRY:
-			PIOS_HAL_ConfigureUsart(pios_rfm22b_id, PIOS_COM_RFM22B_RF_RX_BUF_LEN, PIOS_COM_RFM22B_RF_TX_BUF_LEN, &pios_rfm22b_com_driver, &port_driver_id);
-			target = &pios_com_telem_serial_id;
+			PIOS_HAL_ConfigureCom(pios_rfm22b_id, PIOS_COM_RFM22B_RF_RX_BUF_LEN, PIOS_COM_RFM22B_RF_TX_BUF_LEN,
+			                          &pios_rfm22b_com_driver, &pios_com_rf_id);
+			/* Set Telemetry to use RFM22b if no other telemetry is configured (USB always overrides anyway) */
+			if (!pios_com_telem_serial_id) {
+				target = &pios_com_telem_serial_id;
+			}
 			break;
 		case HWSHARED_PORTTYPES_DEBUGCONSOLE:
 		#if defined(PIOS_INCLUDE_DEBUG_CONSOLE)
-			PIOS_HAL_ConfigureUsart(usart_port_cfg, 0, PIOS_COM_DEBUGCONSOLE_TX_BUF_LEN, com_driver, &port_driver_id);
+			PIOS_HAL_ConfigureCom(pios_rfm22b_id, 0, PIOS_COM_DEBUGCONSOLE_TX_BUF_LEN, &pios_rfm22b_com_driver, &pios_com_rf_id);
 			target = &pios_com_debug_id;
 		#endif  /* PIOS_INCLUDE_DEBUG_CONSOLE */
 			break;
+		case HWSHARED_PORTTYPES_PICOC:
+		#if defined(PIOS_INCLUDE_PICOC)
+			PIOS_HAL_ConfigureCom(pios_rfm22b_id, PIOS_COM_PICOC_RX_BUF_LEN, PIOS_COM_PICOC_TX_BUF_LEN, &pios_rfm22b_com_driver, &pios_com_rf_id);
+			target = &pios_com_picoc_id;
+		#endif /* PIOS_INCLUDE_PICOC */
+			break;
+		case HWSHARED_PORTTYPES_OPENLOG:
+		#if defined(PIOS_INCLUDE_OPENLOG)
+			PIOS_HAL_ConfigureCom(pios_rfm22b_id, 0, PIOS_COM_OPENLOG_TX_BUF_LEN, &pios_rfm22b_com_driver, &pios_com_rf_id);
+			target = &pios_com_openlog_logging_id;
+		#endif /* PIOS_INCLUDE_OPENLOG */
+			break;
+		default: // other types do nothing
+			break;
 		}
+		PIOS_HAL_SetTarget(target, pios_com_rf_id);
 
-		PIOS_HAL_ConfigureCom(pios_rfm22b_id, PIOS_COM_RFM22B_RF_RX_BUF_LEN, PIOS_COM_RFM22B_RF_TX_BUF_LEN,
-		                      &pios_rfm22b_com_driver, &pios_com_rf_id);
-	
-#ifndef PIOS_NO_TELEM_ON_RF
-		/* Set Telemetry to use RFM22b if no other telemetry is configured (USB always overrides anyway) */
-		if (!pios_com_telem_serial_id) {
-			pios_com_telem_serial_id = pios_com_rf_id;
-		}
-#endif
 		rfm22bstatus.LinkState = RFM22BSTATUS_LINKSTATE_ENABLED;
 
 		/* Set the radio configuration parameters. */
