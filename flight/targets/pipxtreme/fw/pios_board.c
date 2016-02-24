@@ -304,13 +304,13 @@ void PIOS_Board_Init(void) {
     }
     case HWTAULINK_PPMPORT_SPORT:
 #if defined(PIOS_INCLUDE_TARANIS_SPORT)
-        PIOS_HAL_ConfigureCom(&pios_usart_sport_cfg, 0, PIOS_COM_FRSKYSPORT_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_frsky_sport_id);
+        PIOS_HAL_ConfigureUsart(&pios_usart_sport_cfg, 0, PIOS_COM_FRSKYSPORT_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_frsky_sport_id);
 #endif /* PIOS_INCLUDE_TARANIS_SPORT */
         break;
     case HWTAULINK_PPMPORT_PPMSPORT:
     {
-#if defined(PIOS_INCLUDE_TARANIS_SPORT)
-        PIOS_HAL_ConfigureCom(&pios_usart_sport_cfg, 0, PIOS_COM_FRSKYSPORT_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_frsky_sport_id);
+#if defined(PIOS_HAL_ConfigureUsart)
+        PIOS_HAL_ConfigureUsart(&pios_usart_sport_cfg, 0, PIOS_COM_FRSKYSPORT_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_frsky_sport_id);
 #endif /* PIOS_INCLUDE_TARANIS_SPORT */
 #if defined(PIOS_INCLUDE_PPM)
         /* PPM input is configured on the coordinator modem and sent in the RFM22BReceiver UAVO. */
