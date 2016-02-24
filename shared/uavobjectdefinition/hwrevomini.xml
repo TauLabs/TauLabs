@@ -63,6 +63,15 @@
 		<!--  2. Telem+PPM - telemetry and ppm -->
 		<!--  3. PPM - PPM only (one way connection) -->
 		<field name="Radio" units="" type="enum" elements="1" parent="HwShared.RadioPort" defaultvalue="Disabled"/>
+		<!-- what to map the serial port component to -->
+		<field name="RadioPort" units="function" type="enum" elements="1" parent="HwShared.PortTypes" defaultvalue="Telemetry">
+			<options>
+				<option>Disabled</option>
+				<option>Telemetry</option>
+				<option>DebugConsole</option>
+				<option>PicoC</option>
+			</options>
+		</field>
 		<!-- ID of the coordinator to allow binding to. 0 indicates allow all connections -->
 		<field name="CoordID" units="hex" type="uint32" elements="1" defaultvalue="0"/>
 

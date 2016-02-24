@@ -7,7 +7,7 @@
  *
  * @file       pios_board.c
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2011.
- * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2015
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2016
  * @brief      The board specific initialization routines
  * @see        The GNU Public License (GPL) Version 3
  * 
@@ -378,7 +378,8 @@ void PIOS_Board_Init(void) {
 			hwRevoMini.MaxRfPower, hwRevoMini.MaxRfSpeed,
 			hwRevoMini.RfBand,
 			openlrs_cfg, rfm22b_cfg, hwRevoMini.MinChannel,
-			hwRevoMini.MaxChannel, hwRevoMini.CoordID, 1);
+			hwRevoMini.MaxChannel, hwRevoMini.CoordID,
+			hwRevoMini.RadioPort, 1);
 #endif /* PIOS_INCLUDE_RFM22B */
 
 	/* Configure the receiver port*/
