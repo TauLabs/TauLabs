@@ -73,8 +73,6 @@
 				<option>MSP</option>
 				<option>OpenLog</option>
 				<option>PicoC</option>
-				<option>S.Bus</option>
-				<option>S.Bus Non Inverted</option>
 				<option>Telemetry</option>
 			</options>
 		</field>
