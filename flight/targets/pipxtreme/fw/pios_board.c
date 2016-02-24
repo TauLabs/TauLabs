@@ -193,7 +193,7 @@ void PIOS_Board_Init(void) {
 	    bdinfo->board_rev, hwTauLink.MaxRfPower,
 	    hwTauLink.MaxRfSpeed, hwTauLink.RfBand, NULL, rfm22b_cfg,
 	    hwTauLink.MinChannel, hwTauLink.MaxChannel,
-	    hwTauLink.CoordID, 0);
+	    hwTauLink.CoordID, HWSHARED_PORTTYPES_DISABLED, 0);
 
 	if (bdinfo->board_rev == TAULINK_VERSION_MODULE) {
 		// Configure the main serial port function
@@ -202,20 +202,7 @@ void PIOS_Board_Init(void) {
 		{
 			// Note: if the main port is also on telemetry the bluetooth
 			// port will take precedence
-			uintptr_t pios_usart2_id;
-			if (PIOS_USART_Init(&pios_usart2_id, &pios_usart_bluetooth_cfg)) {
-				PIOS_Assert(0);
-			}
-			uint8_t *rx_buffer = (uint8_t *)PIOS_malloc(PIOS_COM_TELEM_RX_BUF_LEN);
-			uint8_t *tx_buffer = (uint8_t *)PIOS_malloc(PIOS_COM_TELEM_TX_BUF_LEN);
-			PIOS_Assert(rx_buffer);
-			PIOS_Assert(tx_buffer);
-			if (PIOS_COM_Init(&pios_com_telem_uart_bluetooth_id, &pios_usart_com_driver, pios_usart2_id,
-			                  rx_buffer, PIOS_COM_TELEM_RX_BUF_LEN,
-			                  tx_buffer, PIOS_COM_TELEM_TX_BUF_LEN)) {
-				PIOS_Assert(0);
-			}
-
+			PIOS_HAL_ConfigureUsart(&pios_usart_bluetooth_cfg, PIOS_COM_TELEM_RX_BUF_LEN, PIOS_COM_TELEM_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_telem_uart_bluetooth_id);
 			PIOS_COM_ChangeBaud(pios_com_telem_uart_bluetooth_id, 9600);
 
 			// Note this doesn't actually send until RTOS is running
@@ -234,19 +221,7 @@ void PIOS_Board_Init(void) {
 		{
 			// Note: if the main port is also on telemetry the bluetooth
 			// port will take precedence
-			uintptr_t pios_usart2_id;
-			if (PIOS_USART_Init(&pios_usart2_id, &pios_usart_bluetooth_cfg)) {
-				PIOS_Assert(0);
-			}
-			uint8_t *rx_buffer = (uint8_t *)PIOS_malloc(PIOS_COM_TELEM_RX_BUF_LEN);
-			uint8_t *tx_buffer = (uint8_t *)PIOS_malloc(PIOS_COM_TELEM_TX_BUF_LEN);
-			PIOS_Assert(rx_buffer);
-			PIOS_Assert(tx_buffer);
-			if (PIOS_COM_Init(&pios_com_telem_uart_bluetooth_id, &pios_usart_com_driver, pios_usart2_id,
-			                  rx_buffer, PIOS_COM_TELEM_RX_BUF_LEN,
-			                  tx_buffer, PIOS_COM_TELEM_TX_BUF_LEN)) {
-				PIOS_Assert(0);
-			}
+			PIOS_HAL_ConfigureUsart(&pios_usart_bluetooth_cfg, PIOS_COM_TELEM_RX_BUF_LEN, PIOS_COM_TELEM_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_telem_uart_bluetooth_id);
 
 			// Since we don't expose the ModuleSettings object from TauLink to the GCS
 			// we just map the baud rate from HwTauLink into this object
