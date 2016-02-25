@@ -334,10 +334,10 @@ bool bl_xfer_wipe_partition(const struct msg_wipe_partition *wipe_partition)
 		flash_label = FLASH_PARTITION_LABEL_WAYPOINTS;
 		break;
 	case DFU_PARTITION_LOG:
-		flash_label = FLASH_PARTITION_LABEL_WAYPOINTS;
+		flash_label = FLASH_PARTITION_LABEL_LOG;
 		break;
 	case DFU_PARTITION_OTA:
-		flash_label = FLASH_PARTITION_LABEL_WAYPOINTS;
+		flash_label = FLASH_PARTITION_LABEL_OTA;
 		break;
 	default:
 		return false;
