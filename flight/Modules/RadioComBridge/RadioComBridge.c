@@ -294,7 +294,9 @@ static void updateRadioComBridgeStats()
 }
 
 /**
- * @brief Telemetry transmit task, regular priority
+ * @brief Telemetry transmit task. This inserts local modem UAVObject
+ * updates like RFM22BStatus and ObjectPersistence into the stream to
+ * the ground side.
  *
  * @param[in] parameters  The task parameters
  */
@@ -329,7 +331,11 @@ static void telemetryTxTask( __attribute__ ((unused))
 }
 
 /**
- * @brief Radio tx task.  Receive data packets from the com port and send to the radio.
+ * @brief Radio tx task. This inserts updates from the modem into the radio
+ * link side. Specifically, the RFM22B_RECEIVER object.
+ *
+ * @TODO: check if this task is deprecated as the PPM input task now uses
+ * PIOS_RFM22B_PPMSet to pass the data straight to the RFM22B driver
  *
  * @param[in] parameters  The task parameters
  */
@@ -372,7 +378,10 @@ static void radioTxTask( __attribute__ ((unused))
 }
 
 /**
- * @brief Radio rx task.  Receive data packets from the radio and pass them on.
+ * @brief radioRxTask Receive data packets from the radio and 
+ * passes them to the ground (telemetry) side. If data->parseUAVTalk
+ * is true then it passes it through @ref ProcessRadioStream which
+ * parses UAVTalk and only forwards validly formatted packets.
  *
  * @param[in] parameters  The task parameters
  */
@@ -425,7 +434,12 @@ static void radioRxTask( __attribute__ ((unused))
 }
 
 /**
- * @brief Receive telemetry from the USB/COM port.
+ * @brief telemetryRxTask pass data from the ground side (telemetry)
+ * and forward this to the radio link. Passes the data through @ref
+ * ProcessTelemetryStream which will only forward valid UAVTalk data
+ * and also responds to some events targeting the modem. It also
+ * extracts some data from the stream and stores it to allow it to
+ * reformatted and passed to other devices (e.g. Taranis)
  *
  * @param[in] parameters  The task parameters
  */
@@ -470,7 +484,8 @@ static void telemetryRxTask( __attribute__ ((unused))
 }
 
 /**
- * @brief Reads the PPM input device and sends out RFM22BReceiver objects.
+ * @brief PPMInputTask reads PPM input and forward to the
+ * connected device
  *
  * @param[in] parameters  The task parameters (unused)
  */
@@ -497,7 +512,9 @@ static void PPMInputTask( __attribute__ ((unused))
 }
 
 /**
- * @brief Receive raw serial data from the USB/COM port.
+ * @brief serialRxTask transparent sending from the ground side (telemetry)
+ * to the radio. This is used in place of @ref telemetryRxTask when not
+ * parsing out the UAVTalk.
  *
  * @param[in] parameters  The task parameters
  */
@@ -540,7 +557,8 @@ static void serialRxTask( __attribute__ ((unused))
 }
 
 /**
- * @brief Transmit data buffer to the com port.
+ * @brief UAVTalkSendHandler used by the telemUAVTalkCon UAVTalk
+ * to forward data to the ground side (telemetry).
  *
  * @param[in] buf Data buffer to send
  * @param[in] length Length of buffer
@@ -575,7 +593,8 @@ static int32_t UAVTalkSendHandler(uint8_t * buf, int32_t length)
 }
 
 /**
- * Transmit data buffer to the com port.
+ * @brief RadioSendHandler used by the radioUAVTalkCon UAVTalk
+ * to forward from to the radio link remote side.
  *
  * @param[in] buf Data buffer to send
  * @param[in] length Length of buffer
@@ -608,7 +627,8 @@ static int32_t RadioSendHandler(uint8_t * buf, int32_t length)
 
 #define MetaObjectId(x) (x+1)
 /**
- * @brief Process a byte of data received on the telemetry stream
+ * @brief Process a byte of data received on the telemetry stream and determine
+ * what to pass on (to the radio)
  *
  * @param[in] inConnectionHandle  The UAVTalk connection handle on the telemetry port
  * @param[in] outConnectionHandle  The UAVTalk connection handle on the radio port.
@@ -673,7 +693,8 @@ static void ProcessTelemetryStream(UAVTalkConnection inConnectionHandle,
 }
 
 /**
- * @brief Process a byte of data received on the radio data stream.
+ * @brief Process a byte of data received on the radio data stream and decide
+ * what to pass on (to the ground side)
  *
  * @param[in] inConnectionHandle  The UAVTalk connection handle on the radio port.
  * @param[in] outConnectionHandle  The UAVTalk connection handle on the telemetry port.
