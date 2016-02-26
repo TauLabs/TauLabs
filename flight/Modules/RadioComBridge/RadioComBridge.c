@@ -316,7 +316,7 @@ static void radioRxTask( __attribute__ ((unused))
 		PIOS_WDG_UpdateFlag(PIOS_WDG_RADIORX);
 #endif
 		if (PIOS_COM_RFM22B) {
-			uint8_t serial_data[1];
+			uint8_t serial_data[64];
 			uint16_t bytes_to_process =
 			    PIOS_COM_ReceiveBuffer(PIOS_COM_RFM22B, serial_data, sizeof(serial_data), MAX_PORT_DELAY);
 			if (bytes_to_process > 0) {
@@ -355,7 +355,7 @@ static void telemetryRxTask( __attribute__ ((unused))
 		PIOS_WDG_UpdateFlag(PIOS_WDG_TELEMETRYRX);
 #endif
 		if (inputPort) {
-			uint8_t serial_data[1];
+			uint8_t serial_data[64];
 			uint16_t bytes_to_process =
 			    PIOS_COM_ReceiveBuffer(inputPort, serial_data, sizeof(serial_data), MAX_PORT_DELAY);
 			if (bytes_to_process > 0) {
