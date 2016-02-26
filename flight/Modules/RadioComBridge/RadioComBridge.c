@@ -75,7 +75,6 @@ typedef struct {
 	struct pios_thread *telemetryRxTaskHandle;
 	struct pios_thread *radioRxTaskHandle;
 	struct pios_thread *PPMInputTaskHandle;
-	struct pios_thread *serialRxTaskHandle;
 
 	// The UAVTalk connection on the com side.
 	UAVTalkConnection telemUAVTalkCon;
@@ -99,7 +98,6 @@ typedef struct {
 
 static void telemetryTxTask(void *parameters);
 static void telemetryRxTask(void *parameters);
-static void serialRxTask(void *parameters);
 static void radioRxTask(void *parameters);
 static void PPMInputTask(void *parameters);
 static int32_t UAVTalkSendHandler(uint8_t * buf, int32_t length);
@@ -160,13 +158,6 @@ static int32_t RadioComBridgeStart(void)
 			PIOS_WDG_RegisterFlag(PIOS_WDG_PPMINPUT);
 #endif
 			data->PPMInputTaskHandle = PIOS_Thread_Create(PPMInputTask, "PPMInputTask",STACK_SIZE_BYTES, NULL, TASK_PRIORITY);
-		}
-		if (!data->parseUAVTalk) {
-#ifdef PIOS_INCLUDE_WDG
-			PIOS_WDG_RegisterFlag(PIOS_WDG_SERIALRX);
-#endif
-			// If the user wants raw serial communication, we need to spawn another thread to handle it.
-			data->serialRxTaskHandle = PIOS_Thread_Create(serialRxTask, "serialRxTask", STACK_SIZE_BYTES, NULL, TASK_PRIORITY);
 		}
 		data->radioRxTaskHandle = PIOS_Thread_Create(radioRxTask, "radioRxTask", STACK_SIZE_BYTES, NULL, TASK_PRIORITY);
 
@@ -348,8 +339,7 @@ static void telemetryRxTask( __attribute__ ((unused))
 {
 	// Task loop
 	while (1) {
-		uint32_t inputPort =
-		    data->parseUAVTalk ? PIOS_COM_TELEMETRY : 0;
+		uint32_t inputPort = PIOS_COM_TELEMETRY;
 #ifdef PIOS_INCLUDE_WDG
 		PIOS_WDG_UpdateFlag(PIOS_WDG_TELEMETRYRX);
 #endif
@@ -365,8 +355,12 @@ static void telemetryRxTask( __attribute__ ((unused))
 			    PIOS_COM_ReceiveBuffer(inputPort, serial_data, sizeof(serial_data), MAX_PORT_DELAY);
 			if (bytes_to_process > 0) {
 				PIOS_LED_Toggle(PIOS_LED_RX);
-				for (uint8_t i = 0; i < bytes_to_process; i++) {
-					ProcessTelemetryStream(data->telemUAVTalkCon, data->radioUAVTalkCon, serial_data[i]);
+				if (data->parseUAVTalk) {
+					for (uint8_t i = 0; i < bytes_to_process; i++) {
+						ProcessTelemetryStream(data->telemUAVTalkCon, data->radioUAVTalkCon, serial_data[i]);
+					}
+				} else if (PIOS_COM_RFM22B) {
+					PIOS_COM_SendBufferNonBlocking(PIOS_COM_RFM22B, serial_data, bytes_to_process);
 				}
 			}
 		} else {
@@ -400,36 +394,6 @@ static void PPMInputTask( __attribute__ ((unused))
 
 		// Pass the channel values to the radio device.
 		PIOS_RFM22B_PPMSet(pios_rfm22b_id, channels);
-	}
-}
-
-/**
- * @brief serialRxTask transparent sending from the ground side (telemetry)
- * to the radio. This is used in place of @ref telemetryRxTask when not
- * parsing out the UAVTalk.
- *
- * @param[in] parameters  The task parameters
- */
-static void serialRxTask( __attribute__ ((unused))
-			 void *parameters)
-{
-	// Task loop
-	while (1) {
-		uint32_t inputPort = PIOS_COM_TELEMETRY;
-#ifdef PIOS_INCLUDE_WDG
-		PIOS_WDG_UpdateFlag(PIOS_WDG_SERIALRX);
-#endif
-		if (inputPort && PIOS_COM_RFM22B) {
-			// Receive some data.
-			uint16_t bytes_to_process =
-			    PIOS_COM_ReceiveBuffer(inputPort, data->serialRxBuf, sizeof(data->serialRxBuf), MAX_PORT_DELAY);
-
-			if (bytes_to_process > 0) {
-			    PIOS_COM_SendBufferNonBlocking(PIOS_COM_RFM22B, data->serialRxBuf, bytes_to_process);
-			}
-		} else {
-			PIOS_Thread_Sleep(5);
-		}
 	}
 }
 
