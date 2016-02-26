@@ -1,9 +1,6 @@
 BOARD_TYPE          := 0x09
 BOARD_REVISION      := 0x03
-# Previous version was 0x081, 0x082 introduces partition extensions
-# and forced boot from bkp registers; 0x83 changed bootdelay to 2ms for dsm bind
-# 0x84 increases firmware to 384k
-BOOTLOADER_VERSION  := 0x84
+BOOTLOADER_VERSION  := 0x85
 HW_TYPE             := 0x00
 
 MCU                 := cortex-m4
