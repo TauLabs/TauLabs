@@ -285,6 +285,16 @@ static void telemetryTxTask( __attribute__ ((unused))
 	}
 }
 
+uintptr_t select_telemetry_port()
+{
+	uintptr_t port = PIOS_COM_TELEMETRY;
+#if defined(PIOS_INCLUDE_USB)
+	// Use USB if connected
+	port = PIOS_USB_CheckAvailable(PIOS_COM_TELEM_USB) ? PIOS_COM_TELEM_USB : port;
+#endif /* PIOS_INCLUDE_USB */
+	return port;
+}
+
 /**
  * @brief radioRxTask Receive data packets from the radio and 
  * passes them to the ground (telemetry) side. If data->parseUAVTalk
@@ -311,8 +321,8 @@ static void radioRxTask( __attribute__ ((unused))
 					for (uint8_t i = 0; i < bytes_to_process; i++) {
 						ProcessRadioStream(data->radioUAVTalkCon, data->telemUAVTalkCon, serial_data[i]);
 					}
-				} else if (PIOS_COM_TELEMETRY) {
-				    PIOS_COM_SendBufferNonBlocking(PIOS_COM_TELEMETRY, serial_data, bytes_to_process);
+				} else if (select_telemetry_port()) {
+				    PIOS_COM_SendBufferNonBlocking(select_telemetry_port(), serial_data, bytes_to_process);
 				}
 			}
 		} else {
@@ -336,16 +346,10 @@ static void telemetryRxTask( __attribute__ ((unused))
 {
 	// Task loop
 	while (1) {
-		uint32_t inputPort = PIOS_COM_TELEMETRY;
+		uint32_t inputPort = select_telemetry_port();
 #ifdef PIOS_INCLUDE_WDG
 		PIOS_WDG_UpdateFlag(PIOS_WDG_TELEMETRYRX);
 #endif
-#if defined(PIOS_INCLUDE_USB)
-		// Determine output port (USB takes priority over telemetry port)
-		if (PIOS_USB_CheckAvailable(PIOS_COM_TELEM_USB)) {
-			inputPort = PIOS_COM_TELEM_USB;
-		}
-#endif /* PIOS_INCLUDE_USB */
 		if (inputPort) {
 			uint8_t serial_data[1];
 			uint16_t bytes_to_process =
@@ -406,14 +410,8 @@ static void PPMInputTask( __attribute__ ((unused))
 static int32_t UAVTalkSendHandler(uint8_t * buf, int32_t length)
 {
 	int32_t ret;
-	uint32_t outputPort = PIOS_COM_TELEMETRY;
+	uint32_t outputPort = select_telemetry_port();
 
-#if defined(PIOS_INCLUDE_USB)
-	// Determine output port (USB takes priority over telemetry port)
-	if (PIOS_COM_Available(PIOS_COM_TELEM_USB)) {
-		outputPort = PIOS_COM_TELEM_USB;
-	}
-#endif /* PIOS_INCLUDE_USB */
 	if (outputPort) {
 	    PIOS_COM_SendBufferNonBlocking(outputPort, buf, length);
 	} else {
