@@ -152,9 +152,8 @@ static int32_t RadioComBridgeStart(void)
 					   EV_UPDATED | EV_UPDATED_MANUAL | EV_UPDATE_REQ);
 		}
 
-		if (data->isCoordinator) {
-			registerObject(RadioComBridgeStatsHandle());
-		}
+		registerObject(RadioComBridgeStatsHandle());
+
 		// Configure the UAVObject callbacks
 		ObjectPersistenceConnectCallback(&objectPersistenceUpdatedCb);
 
