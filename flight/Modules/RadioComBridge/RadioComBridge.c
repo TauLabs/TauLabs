@@ -326,7 +326,7 @@ static void radioRxTask( __attribute__ ((unused))
 						ProcessRadioStream(data->radioUAVTalkCon, data->telemUAVTalkCon, serial_data[i]);
 					}
 				} else if (select_telemetry_port()) {
-				    PIOS_COM_SendBufferNonBlocking(select_telemetry_port(), serial_data, bytes_to_process);
+				    PIOS_COM_SendBuffer(select_telemetry_port(), serial_data, bytes_to_process);
 				}
 			}
 		} else {
@@ -365,7 +365,7 @@ static void telemetryRxTask( __attribute__ ((unused))
 						ProcessTelemetryStream(data->telemUAVTalkCon, data->radioUAVTalkCon, serial_data[i]);
 					}
 				} else if (PIOS_COM_RFM22B) {
-					PIOS_COM_SendBufferNonBlocking(PIOS_COM_RFM22B, serial_data, bytes_to_process);
+					PIOS_COM_SendBuffer(PIOS_COM_RFM22B, serial_data, bytes_to_process);
 				}
 			}
 		} else {
