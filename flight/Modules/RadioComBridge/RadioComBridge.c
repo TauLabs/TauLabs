@@ -280,7 +280,9 @@ static void telemetryTxTask( __attribute__ ((unused))
 			if (ev.obj == RadioComBridgeStatsHandle()) {
 				updateRadioComBridgeStats();
 			}
-			UAVTalkSendObject(data->telemUAVTalkCon, ev.obj, ev.instId, 0, RETRY_TIMEOUT_MS);
+			if (data->parseUAVTalk) {
+				UAVTalkSendObject(data->telemUAVTalkCon, ev.obj, ev.instId, 0, RETRY_TIMEOUT_MS);
+			}
 		}
 	}
 }
