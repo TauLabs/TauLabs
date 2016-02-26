@@ -127,9 +127,6 @@ static int32_t RadioComBridgeStart(void)
 		// Check if this is the coordinator modem
 		data->isCoordinator = PIOS_RFM22B_IsCoordinator(PIOS_COM_RFM22B);
 
-		// Parse UAVTalk out of the link
-		data->parseUAVTalk = true;
-
 		// Configure our UAVObjects for updates.
 		UAVObjConnectQueue(UAVObjGetByID(RFM22BSTATUS_OBJID), data->uavtalkEventQueue,
 				   EV_UPDATED | EV_UPDATED_MANUAL | EV_UPDATE_REQ);
