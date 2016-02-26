@@ -73,7 +73,6 @@ typedef struct {
 	// The task handles.
 	struct pios_thread *telemetryTxTaskHandle;
 	struct pios_thread *telemetryRxTaskHandle;
-	struct pios_thread *radioTxTaskHandle;
 	struct pios_thread *radioRxTaskHandle;
 	struct pios_thread *PPMInputTaskHandle;
 	struct pios_thread *serialRxTaskHandle;
@@ -84,7 +83,6 @@ typedef struct {
 
 	// Queue handles.
 	struct pios_queue *uavtalkEventQueue;
-	struct pios_queue *radioEventQueue;
 
 	// The raw serial Rx buffer
 	uint8_t serialRxBuf[SERIAL_RX_BUF_LEN];
@@ -102,7 +100,6 @@ typedef struct {
 static void telemetryTxTask(void *parameters);
 static void telemetryRxTask(void *parameters);
 static void serialRxTask(void *parameters);
-static void radioTxTask(void *parameters);
 static void radioRxTask(void *parameters);
 static void PPMInputTask(void *parameters);
 static int32_t UAVTalkSendHandler(uint8_t * buf, int32_t length);
@@ -140,14 +137,7 @@ static int32_t RadioComBridgeStart(void)
 				   EV_UPDATED | EV_UPDATED_MANUAL | EV_UPDATE_REQ);
 		UAVObjConnectQueue(UAVObjGetByID(OBJECTPERSISTENCE_OBJID), data->uavtalkEventQueue,
 				   EV_UPDATED | EV_UPDATED_MANUAL);
-		if (data->isCoordinator) {
-			UAVObjConnectQueue(UAVObjGetByID(RFM22BRECEIVER_OBJID), data->radioEventQueue,
-					   EV_UPDATED | EV_UPDATED_MANUAL | EV_UPDATE_REQ);
-		} else {
-			UAVObjConnectQueue(UAVObjGetByID(RFM22BRECEIVER_OBJID), data->uavtalkEventQueue,
-					   EV_UPDATED | EV_UPDATED_MANUAL | EV_UPDATE_REQ);
-		}
-
+	
 		registerObject(RadioComBridgeStatsHandle());
 
 		// Configure the UAVObject callbacks
@@ -178,7 +168,6 @@ static int32_t RadioComBridgeStart(void)
 			// If the user wants raw serial communication, we need to spawn another thread to handle it.
 			data->serialRxTaskHandle = PIOS_Thread_Create(serialRxTask, "serialRxTask", STACK_SIZE_BYTES, NULL, TASK_PRIORITY);
 		}
-		data->radioTxTaskHandle = PIOS_Thread_Create(radioTxTask, "radioTxTask", STACK_SIZE_BYTES, NULL, TASK_PRIORITY);
 		data->radioRxTaskHandle = PIOS_Thread_Create(radioRxTask, "radioRxTask", STACK_SIZE_BYTES, NULL, TASK_PRIORITY);
 
 		return 0;
@@ -212,7 +201,6 @@ static int32_t RadioComBridgeInitialize(void)
 
 	// Initialize the queues.
 	data->uavtalkEventQueue = PIOS_Queue_Create(EVENT_QUEUE_SIZE, sizeof(UAVObjEvent));
-	data->radioEventQueue = PIOS_Queue_Create(EVENT_QUEUE_SIZE, sizeof(UAVObjEvent));
 
 	data->parseUAVTalk = true;
 
@@ -305,37 +293,6 @@ static void telemetryTxTask( __attribute__ ((unused))
 				updateRadioComBridgeStats();
 			}
 			UAVTalkSendObject(data->telemUAVTalkCon, ev.obj, ev.instId, 0, RETRY_TIMEOUT_MS);
-		}
-	}
-}
-
-/**
- * @brief Radio tx task. This inserts updates from the modem into the radio
- * link side. Specifically, the RFM22B_RECEIVER object.
- *
- * @TODO: check if this task is deprecated as the PPM input task now uses
- * PIOS_RFM22B_PPMSet to pass the data straight to the RFM22B driver
- *
- * @param[in] parameters  The task parameters
- */
-static void radioTxTask( __attribute__ ((unused))
-			void *parameters)
-{
-
-	// Task loop
-	while (1) {
-#ifdef PIOS_INCLUDE_WDG
-		PIOS_WDG_UpdateFlag(PIOS_WDG_RADIOTX);
-#endif
-
-		// Process the radio event queue, sending UAVObjects over the radio link as necessary.
-		UAVObjEvent ev;
-
-		// Wait for queue message
-		if (PIOS_Queue_Receive(data->radioEventQueue, &ev, 20)) {
-			if ((ev.event == EV_UPDATED) || (ev.event == EV_UPDATE_REQ)) {
-				UAVTalkSendObject(data->radioUAVTalkCon, ev.obj, ev.instId, 0, RETRY_TIMEOUT_MS);
-			}
 		}
 	}
 }
@@ -632,14 +589,6 @@ static void ProcessRadioStream(UAVTalkConnection inConnectionHandle,
 			// These objects are shadowed by the modem and are not transmitted to the telemetry port
 			// - RFM22BSTATUS_OBJID : ground station will receive the OPLM link status instead
 			// - HWTAULINK_OBJID : ground station will read and write the OPLM settings instead
-			break;
-		case RFM22BRECEIVER_OBJID:
-		case MetaObjectId(RFM22BRECEIVER_OBJID):
-			// Receive object locally
-			// These objects are received by the modem and are not transmitted to the telemetry port
-			// - RFM22BRECEIVER_OBJID : sent periodically from flight controller, not needed to echo
-			// some objects will send back a response to the remote modem
-			UAVTalkReceiveObject(inConnectionHandle);
 			break;
 		case FLIGHTBATTERYSTATE_OBJID:
 		case FLIGHTSTATUS_OBJID:
