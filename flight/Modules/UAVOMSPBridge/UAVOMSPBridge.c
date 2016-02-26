@@ -193,8 +193,8 @@ static void msp_send_raw_gps(struct msp_bridge *m)
 	union {
 		uint8_t buf[0];
 		struct {
-			uint8_t  fix;                 // 0 or 1
-			uint8_t  num_sat;
+			uint8_t fix;                 // 0 or 1
+			uint8_t num_sat;
 			int32_t lat;                  // 1 / 10 000 000 deg
 			int32_t lon;                  // 1 / 10 000 000 deg
 			uint16_t alt;                 // meter
@@ -205,8 +205,7 @@ static void msp_send_raw_gps(struct msp_bridge *m)
 	
 	GPSPositionData gps_data = {};
 	
-	if (GPSPositionHandle() != NULL)
-	{
+	if (GPSPositionHandle() != NULL) {
 		GPSPositionGet(&gps_data);
 		data.raw_gps.fix           = (gps_data.Status >= GPSPOSITION_STATUS_FIX2D ? 1 : 0);  // Data will display on OSD if 2D fix or better
 		data.raw_gps.num_sat       = gps_data.Satellites;
@@ -215,9 +214,7 @@ static void msp_send_raw_gps(struct msp_bridge *m)
 		data.raw_gps.alt           = gps_data.Altitude;
 		data.raw_gps.speed         = gps_data.Groundspeed;
 		data.raw_gps.ground_course = gps_data.Heading * 10;
-	}
-	else
-	{
+	} else {
 		data.raw_gps.fix           = 0;  // Data won't display on OSD
 		data.raw_gps.num_sat       = 0;
 		data.raw_gps.lat           = 0;
@@ -252,21 +249,18 @@ static void msp_send_comp_gps(struct msp_bridge *m)
 		GPSPositionGet(&gps_data);
 		HomeLocationGet(&home_data);
 		
-		if((gps_data.Status < GPSPOSITION_STATUS_FIX2D) || (home_data.Set == HOMELOCATION_SET_FALSE))
-		{
+		if((gps_data.Status < GPSPOSITION_STATUS_FIX2D) || (home_data.Set == HOMELOCATION_SET_FALSE)) {
 			data.comp_gps.distance_to_home    = 0;
 			data.comp_gps.direction_to_home   = 0;
 			data.comp_gps.home_position_valid = 0;  // Home distance and direction will not display on OSD
-		}
-		else
-		{
+		} else {
 			data.comp_gps.home_position_valid = 1;  // Home distance and direction will display on OSD
 			
 			int32_t delta_lon = (home_data.Longitude - gps_data.Longitude);  // degrees * 1e7
 			int32_t delta_lat = (home_data.Latitude  - gps_data.Latitude );  // degrees * 1e7
 	
-			float delta_y = (float)delta_lon * WGS84_RADIUS_EARTH_KM * DEG2RAD;  // KM * 1e7
-			float delta_x = (float)delta_lat * WGS84_RADIUS_EARTH_KM * DEG2RAD;  // KM * 1e7
+			float delta_y = delta_lon * WGS84_RADIUS_EARTH_KM * DEG2RAD;  // KM * 1e7
+			float delta_x = delta_lat * WGS84_RADIUS_EARTH_KM * DEG2RAD;  // KM * 1e7
 	
 			delta_y *= cosf(home_data.Latitude * 1e-7f * (float)DEG2RAD);  // Latitude compression correction
 	
