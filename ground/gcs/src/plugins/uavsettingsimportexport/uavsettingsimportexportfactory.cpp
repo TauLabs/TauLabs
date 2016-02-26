@@ -141,7 +141,7 @@ void UAVSettingsImportExportFactory::importUAVSettings()
 
     ExtensionSystem::PluginManager *pm = ExtensionSystem::PluginManager::instance();
     UAVObjectManager *boardObjManager = pm->getObject<UAVObjectManager>();
-    UAVObjectManager *importedObjectManager = new UAVObjectManager();
+    UAVObjectManager importedObjectManager;
 
     swui.show();
 
@@ -216,14 +216,14 @@ void UAVSettingsImportExportFactory::importUAVSettings()
                 } else {
                     swui.addLine(uavObjectName, "OK", true);
                 }
-                importedObjectManager->registerObject(newObj);
+                importedObjectManager.registerObject(newObj);
             }
         }
         node = node.nextSibling();
     }
-    qDebug() << "End import";
-    swui.setUAVOSettings(importedObjectManager);
+    swui.setUAVOSettings(&importedObjectManager);
     swui.exec();
+    qDebug() << "[Importer] End import";
 }
 
 

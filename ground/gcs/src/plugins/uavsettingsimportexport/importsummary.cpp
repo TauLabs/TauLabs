@@ -65,7 +65,6 @@ ImportSummaryDialog::ImportSummaryDialog( QWidget *parent) :
 ImportSummaryDialog::~ImportSummaryDialog()
 {
     delete ui;
-    delete importedObjects;
 }
 
 /*
