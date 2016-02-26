@@ -146,9 +146,12 @@ static int32_t RadioComBridgeStart(void)
 		PIOS_WDG_RegisterFlag(PIOS_WDG_RADIORX);
 #endif
 
-		// Start the primary tasks for receiving/sending UAVTalk packets from the GCS.
+		// Insert packets from the modem to the telemetry side
 		data->telemetryTxTaskHandle = PIOS_Thread_Create(telemetryTxTask, "telemetryTxTask", STACK_SIZE_BYTES, NULL, TASK_PRIORITY);
+		// Pass data from telemetry to the radio link
 		data->telemetryRxTaskHandle = PIOS_Thread_Create(telemetryRxTask, "telemetryRxTask", STACK_SIZE_BYTES, NULL, TASK_PRIORITY);
+		// Pass data from the radio link to the telemetry side
+		data->radioRxTaskHandle = PIOS_Thread_Create(radioRxTask, "radioRxTask", STACK_SIZE_BYTES, NULL, TASK_PRIORITY);
 			    
 		if (PIOS_PPM_RECEIVER != 0) {
 #ifdef PIOS_INCLUDE_WDG
@@ -156,7 +159,6 @@ static int32_t RadioComBridgeStart(void)
 #endif
 			data->PPMInputTaskHandle = PIOS_Thread_Create(PPMInputTask, "PPMInputTask",STACK_SIZE_BYTES, NULL, TASK_PRIORITY);
 		}
-		data->radioRxTaskHandle = PIOS_Thread_Create(radioRxTask, "radioRxTask", STACK_SIZE_BYTES, NULL, TASK_PRIORITY);
 
 		return 0;
 	}
