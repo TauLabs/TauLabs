@@ -43,7 +43,6 @@
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
 #include "openpilot.h"
-#include "modulesettings.h"
 
 #include "accels.h"
 #include "airspeedactual.h"
@@ -54,6 +53,7 @@
 #include "flightbatterysettings.h"
 #include "flightbatterystate.h"
 #include "manualcontrolcommand.h"
+#include "modulesettings.h"
 #include "positionactual.h"
 
 #include "pios_thread.h"

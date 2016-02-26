@@ -62,7 +62,7 @@ enum BYTE_TX_STATE {
 };
 
 struct pios_fskdac_dev {
-	enum pios_fskdac_dev_magic     magic;
+	enum pios_fskdac_dev_magic magic;
 
 	//! Track the state of sending an individual bit
 	enum BYTE_TX_STATE tx_state;
