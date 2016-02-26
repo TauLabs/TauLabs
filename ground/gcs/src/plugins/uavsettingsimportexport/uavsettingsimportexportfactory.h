@@ -30,8 +30,6 @@
 #include "uavobjectutil/uavobjectutilmanager.h"
 #include "../../../../../build/ground/gcs/gcsversioninfo.h"
 
-class QDomNode;
-
 class UAVSETTINGSIMPORTEXPORT_EXPORT UAVSettingsImportExportFactory : public QObject
 {
     Q_OBJECT
@@ -39,7 +37,6 @@ class UAVSETTINGSIMPORTEXPORT_EXPORT UAVSettingsImportExportFactory : public QOb
 public:
     UAVSettingsImportExportFactory(QObject *parent = 0);
     ~UAVSettingsImportExportFactory();
-    static bool updateObject(UAVObject *obj, QDomNode * node);
 
 private:
     enum storedData { Settings, Data, Both };

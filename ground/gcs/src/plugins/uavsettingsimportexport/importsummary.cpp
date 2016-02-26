@@ -27,10 +27,6 @@
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
 
-// for XML object
-#include <QDomDocument>
-#include <QXmlQuery>
-
 // for Parameterized slots
 #include <QSignalMapper>
 #include "importsummary.h"
@@ -107,7 +103,7 @@ void ImportSummaryDialog::setUAVOSettings(UAVObjectManager* objs)
   */
 void ImportSummaryDialog::openHelp()
 {
-    QDesktopServices::openUrl( QUrl("https://github.com/d-ronin/dRonin/wiki/OnlineHelp:-UAV-Settings-import-export", QUrl::StrictMode) );
+    QDesktopServices::openUrl( QUrl("https://github.com/TauLabs/TauLabs/wiki/OnlineHelp:-UAV-Settings-import-export", QUrl::StrictMode) );
 }
 
 /*
@@ -188,10 +184,9 @@ void ImportSummaryDialog::doTheApplySaving(int op)
             UAVObject* importedObj = importedObjects->getObject(uavObjectName);
             UAVObject* boardObj = boardObjManager->getObject(uavObjectName);
 
-            quint8* data = new quint8[importedObj->getNumBytes()];
+            quint8 data[importedObj->getNumBytes()];
             importedObj->pack(data);
             boardObj->unpack(data);
-            delete data;
 
             boardObj->updated();
 
