@@ -46,7 +46,8 @@ const uint32_t pios_can_message_stdid[PIOS_CAN_LAST] = {
 	[PIOS_CAN_GPS_FIX] = 0x2B3,
 	[PIOS_CAN_GPS_VEL] = 0x2B4,
 	[PIOS_CAN_POS] = 0x2B5,
-	[PIOS_CAN_ALARM] = 0x2B6,
+	[PIOS_CAN_VERT] = 0x2B6,
+	[PIOS_CAN_ALARM] = 0x2B7,
 };
 
 //! Map between message IDs and structures
@@ -78,6 +79,8 @@ int32_t get_message_size(uint32_t msg_id) {
 		return sizeof(struct pios_can_gps_vel);
 	case PIOS_CAN_POS:
 		return sizeof(struct pios_can_pos);
+	case PIOS_CAN_VERT:
+		return sizeof(struct pios_can_vert);
 	case PIOS_CAN_ALARM:
 		return sizeof(struct pios_can_alarm_message);
 	default:

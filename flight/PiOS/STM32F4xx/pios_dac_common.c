@@ -77,7 +77,7 @@ int32_t PIOS_DAC_COMMON_Init(void (*irq_cb_method)(void))
 	// Enable IRQ when DMA transfer is complete
 	NVIC_InitTypeDef NVIC_InitStructure;
 	NVIC_InitStructure.NVIC_IRQChannel = DMA1_Stream5_IRQn;
-	NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = PIOS_IRQ_PRIO_HIGH;
+	NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = PIOS_IRQ_PRIO_LOW;
 	NVIC_InitStructure.NVIC_IRQChannelSubPriority = 0;
 	NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
 	NVIC_Init(&NVIC_InitStructure);
@@ -94,6 +94,11 @@ void DMA1_Stream5_IRQHandler(void)
 
 	if (DMA_GetITStatus(DMA1_Stream5, DMA_IT_TCIF5)) {
 		DMA_ClearITPendingBit(DMA1_Stream5, DMA_IT_TCIF5);
+
+		// call the higher level IRQ callback
+		pios_dac_irq_cb();
+	} else if (DMA_GetITStatus(DMA1_Stream5, DMA_IT_HTIF5)) {
+		DMA_ClearITPendingBit(DMA1_Stream5, DMA_IT_HTIF5);
 
 		// call the higher level IRQ callback
 		pios_dac_irq_cb();

@@ -43,22 +43,24 @@
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
 #include "openpilot.h"
-#include "modulesettings.h"
+
+#include "accels.h"
+#include "airspeedactual.h"
 #include "attitudeactual.h"
-#include "gpsposition.h"
 #include "baroaltitude.h"
+#include "flightstatus.h"
+#include "gpsposition.h"
 #include "flightbatterysettings.h"
 #include "flightbatterystate.h"
-#include "gpsposition.h"
-#include "airspeedactual.h"
-#include "accels.h"
 #include "manualcontrolcommand.h"
-#include "flightstatus.h"
+#include "modulesettings.h"
+#include "positionactual.h"
+
 #include "pios_thread.h"
 
 #if defined(PIOS_INCLUDE_LIGHTTELEMETRY)
 // Private constants
-#define STACK_SIZE_BYTES 512
+#define STACK_SIZE_BYTES 600
 #define TASK_PRIORITY PIOS_THREAD_PRIO_LOW
 #define UPDATE_PERIOD 100
 
@@ -91,30 +93,30 @@ static void send_LTM_Sframe();
  */
 int32_t uavoLighttelemetryBridgeInitialize()
 {
-	module_enabled = false;
-	
+#ifdef MODULE_UAVOLighttelemetryBridge_BUILTIN	
+	module_enabled = true;
+#else
+	uint8_t module_state[MODULESETTINGS_ADMINSTATE_NUMELEM]; 
+	ModuleSettingsAdminStateGet(module_state); 
+	module_enabled = module_state[MODULESETTINGS_ADMINSTATE_UAVOLIGHTTELEMETRYBRIDGE] == MODULESETTINGS_ADMINSTATE_ENABLED;
+#endif
+
 	lighttelemetryPort = PIOS_COM_LIGHTTELEMETRY;
+	module_enabled &= (lighttelemetryPort != 0);
 	
-	if ( lighttelemetryPort )
+	if (module_enabled)
 	{
-		uint8_t module_state[MODULESETTINGS_ADMINSTATE_NUMELEM]; 
-		ModuleSettingsAdminStateGet(module_state); 
-						  
-		if ( module_state[MODULESETTINGS_ADMINSTATE_UAVOLIGHTTELEMETRYBRIDGE] == MODULESETTINGS_ADMINSTATE_ENABLED ) 
-		{ 
-			// Update telemetry settings
-			ltm_scheduler = 1;
-			updateSettings();
-			uint8_t speed;
-			ModuleSettingsLightTelemetrySpeedGet(&speed);
-			if (speed == MODULESETTINGS_LIGHTTELEMETRYSPEED_1200)
-				ltm_slowrate = 1;
-			else 
-				ltm_slowrate = 0;
-	
-			module_enabled = true; 
-			return 0;
-		}
+		// Update telemetry settings
+		ltm_scheduler = 1;
+		updateSettings();
+		uint8_t speed;
+		ModuleSettingsLightTelemetrySpeedGet(&speed);
+		if (speed == MODULESETTINGS_LIGHTTELEMETRYSPEED_1200)
+			ltm_slowrate = 1;
+		else 
+			ltm_slowrate = 0;
+
+		return 0;
 	}
 	
 	return -1;
@@ -182,22 +184,25 @@ static void uavoLighttelemetryBridgeTask(void *parameters)
 static void send_LTM_Gframe() 
 {
 	GPSPositionData pdata;
-	BaroAltitudeData bdata;
-	GPSPositionInitialize();
-	BaroAltitudeInitialize();
-	 //prepare data
-	GPSPositionGet(&pdata);
+
+	if (GPSPositionHandle() != NULL)
+		GPSPositionGet(&pdata);
 
 	int32_t lt_latitude = pdata.Latitude;
 	int32_t lt_longitude = pdata.Longitude;
 	uint8_t lt_groundspeed = (uint8_t)roundf(pdata.Groundspeed); //rounded m/s .
 	int32_t lt_altitude = 0;
-	if (BaroAltitudeHandle() != NULL) {
-		BaroAltitudeGet(&bdata);
-		lt_altitude = (int32_t)roundf(bdata.Altitude * 100.0f); //Baro alt in cm.
-	}
-	else if (GPSPositionHandle() != NULL)
+	if (PositionActualHandle() != NULL) {
+		float altitude;
+		PositionActualDownGet(&altitude);
+		lt_altitude = (int32_t)roundf(altitude * -100.0f);
+	} else if (BaroAltitudeHandle() != NULL) {
+		float altitude;
+		BaroAltitudeAltitudeGet(&altitude);
+		lt_altitude = (int32_t)roundf(altitude * 100.0f); //Baro alt in cm.
+	} else if (GPSPositionHandle() != NULL) {
 		lt_altitude = (int32_t)roundf(pdata.Altitude * 100.0f); //GPS alt in cm.
+	}
 	
 	uint8_t lt_gpsfix;
 	switch (pdata.Status) {
@@ -302,7 +307,12 @@ static void send_LTM_Sframe()
 		AirspeedActualData adata;
 		AirspeedActualGet (&adata);
 		lt_airspeed = (uint8_t)roundf(adata.TrueAirspeed);	  //Airspeed in m/s
+	} else if (GPSPositionHandle() != NULL) {
+		float groundspeed;
+		GPSPositionGroundspeedGet(&groundspeed);
+		lt_airspeed = (uint8_t)roundf(groundspeed);
 	}
+
 	FlightStatusData fdata;
 	FlightStatusGet(&fdata);
 	lt_arm = fdata.Armed;									  //Armed status
@@ -368,7 +378,7 @@ static void send_LTM_Packet(uint8_t *LTPacket, uint8_t LTPacket_size)
 	}
 	LTPacket[LTPacket_size-1] = LTCrc;
 	if (lighttelemetryPort) {
-		PIOS_COM_SendBuffer(lighttelemetryPort, LTPacket, LTPacket_size);
+		PIOS_COM_SendBufferNonBlocking(lighttelemetryPort, LTPacket, LTPacket_size);
 	}
 }
 

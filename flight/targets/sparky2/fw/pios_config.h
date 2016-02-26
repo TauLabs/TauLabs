@@ -6,7 +6,7 @@
  * @{
  *
  * @file       pios_config.h 
- * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2015
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2016
  * @brief      Board configuration file
  * @see        The GNU Public License (GPL) Version 3
  * 
@@ -88,11 +88,11 @@
 #define PIOS_INCLUDE_FRSKY_SENSOR_HUB
 #define PIOS_INCLUDE_FRSKY_SPORT_TELEMETRY
 #define PIOS_INCLUDE_SESSION_MANAGEMENT
-//#define PIOS_INCLUDE_LIGHTTELEMETRY
+#define PIOS_INCLUDE_LIGHTTELEMETRY
 #define PIOS_INCLUDE_PICOC
 #define PIOS_INCLUDE_FRSKY_SPORT_TELEMETRY
-//#define PIOS_INCLUDE_FSK
 #define PIOS_INCLUDE_DAC_BEEPS
+#define PIOS_INCLUDE_FSK
 
 /* Supported receiver interfaces */
 #define PIOS_INCLUDE_RCVR

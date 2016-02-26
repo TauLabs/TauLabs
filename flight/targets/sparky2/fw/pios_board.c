@@ -46,6 +46,7 @@
 #include <rfm22bstatus.h>
 #include <rfm22breceiver.h>
 #include <pios_dacbeep_priv.h>
+#include <pios_fskdac_priv.h>
 #include <pios_rfm22b_rcvr_priv.h>
 #include <pios_openlrs_rcvr_priv.h>
 
@@ -130,6 +131,8 @@ static const struct pios_hmc5883_cfg pios_hmc5883_external_cfg = {
 
 #define PIOS_COM_CAN_RX_BUF_LEN 256
 #define PIOS_COM_CAN_TX_BUF_LEN 256
+
+#define PIOS_COM_FSKDAC_BUF_LEN 19
 
 uintptr_t pios_com_spiflash_logging_id;
 uintptr_t pios_com_can_id;
@@ -696,8 +699,20 @@ void PIOS_Board_Init(void) {
 	case HWSPARKY2_ADCDAC_FSKTELEM:
 #if defined(PIOS_INCLUDE_FSK)
 	{
+		uintptr_t fskdac_id;
+		PIOS_FSKDAC_Init(&fskdac_id);
+
 		uintptr_t fskdac_com_id;
-		PIOS_FSKDAC_Init(&fskdac_com_id, &pios_fskdac_config);
+		uint8_t * tx_buffer = (uint8_t *) PIOS_malloc(PIOS_COM_FSKDAC_BUF_LEN);
+		PIOS_Assert(tx_buffer);
+		if (PIOS_COM_Init(&fskdac_com_id, &pios_fskdac_com_driver, fskdac_id,
+		                  NULL, 0,
+		                  tx_buffer, PIOS_COM_FSKDAC_BUF_LEN))
+			panic(6);
+
+		uint8_t baud = MODULESETTINGS_LIGHTTELEMETRYSPEED_1200;
+		ModuleSettingsLightTelemetrySpeedSet(&baud);
+		pios_com_lighttelemetry_id = fskdac_com_id; // send from light telemetry when enabled
 	}
 #endif /* PIOS_INCLUDE_FSK */
 		break;
