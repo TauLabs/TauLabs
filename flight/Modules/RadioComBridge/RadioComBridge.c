@@ -89,10 +89,6 @@ typedef struct {
 	// The raw serial Rx buffer
 	uint8_t serialRxBuf[SERIAL_RX_BUF_LEN];
 
-	// Error statistics.
-	uint32_t telemetryTxRetries;
-	uint32_t radioTxRetries;
-
 	// Is this modem the coordinator
 	bool isCoordinator;
 
@@ -218,10 +214,6 @@ static int32_t RadioComBridgeInitialize(void)
 	data->uavtalkEventQueue = PIOS_Queue_Create(EVENT_QUEUE_SIZE, sizeof(UAVObjEvent));
 	data->radioEventQueue = PIOS_Queue_Create(EVENT_QUEUE_SIZE, sizeof(UAVObjEvent));
 
-	// Initialize the statistics.
-	data->telemetryTxRetries = 0;
-	data->radioTxRetries = 0;
-
 	data->parseUAVTalk = true;
 
 	return 0;
@@ -269,9 +261,6 @@ static void updateRadioComBridgeStats()
 	// Get stats object data
 	RadioComBridgeStatsGet(&radioComBridgeStats);
 
-	radioComBridgeStats.TelemetryTxRetries = data->telemetryTxRetries;
-	radioComBridgeStats.RadioTxRetries = data->radioTxRetries;
-
 	// Update stats object
 	radioComBridgeStats.TelemetryTxBytes +=
 	    telemetryUAVTalkStats.txBytes;
@@ -315,17 +304,7 @@ static void telemetryTxTask( __attribute__ ((unused))
 			if (ev.obj == RadioComBridgeStatsHandle()) {
 				updateRadioComBridgeStats();
 			}
-			// Send update (with retries)
-			int32_t ret = -1;
-			uint32_t retries = 0;
-			while (retries <= MAX_RETRIES && ret == -1) {
-				ret = UAVTalkSendObject(data->telemUAVTalkCon, ev.obj, ev.instId, 0, RETRY_TIMEOUT_MS);
-				if (ret == -1) {
-					++retries;
-				}
-			}
-			// Update stats
-			data->telemetryTxRetries += retries;
+			UAVTalkSendObject(data->telemUAVTalkCon, ev.obj, ev.instId, 0, RETRY_TIMEOUT_MS);
 		}
 	}
 }
@@ -354,26 +333,10 @@ static void radioTxTask( __attribute__ ((unused))
 
 		// Wait for queue message
 		if (PIOS_Queue_Receive(data->radioEventQueue, &ev, 20)) {
-			if ((ev.event == EV_UPDATED)
-			    || (ev.event == EV_UPDATE_REQ)) {
-				// Send update (with retries)
-				int32_t ret = -1;
-				uint32_t retries = 0;
-				while (retries <= MAX_RETRIES && ret == -1) {
-					ret =
-					    UAVTalkSendObject(data->
-							      radioUAVTalkCon,
-							      ev.obj,
-							      ev.instId, 0,
-							      RETRY_TIMEOUT_MS);
-					if (ret == -1) {
-						++retries;
-					}
-				}
-				data->radioTxRetries += retries;
+			if ((ev.event == EV_UPDATED) || (ev.event == EV_UPDATE_REQ)) {
+				UAVTalkSendObject(data->radioUAVTalkCon, ev.obj, ev.instId, 0, RETRY_TIMEOUT_MS);
 			}
 		}
-
 	}
 }
 
@@ -396,35 +359,15 @@ static void radioRxTask( __attribute__ ((unused))
 		if (PIOS_COM_RFM22B) {
 			uint8_t serial_data[1];
 			uint16_t bytes_to_process =
-			    PIOS_COM_ReceiveBuffer(PIOS_COM_RFM22B,
-						   serial_data,
-						   sizeof(serial_data),
-						   MAX_PORT_DELAY);
+			    PIOS_COM_ReceiveBuffer(PIOS_COM_RFM22B, serial_data, sizeof(serial_data), MAX_PORT_DELAY);
 			if (bytes_to_process > 0) {
 				if (data->parseUAVTalk) {
 					// Pass the data through the UAVTalk parser.
-					for (uint8_t i = 0;
-					     i < bytes_to_process; i++) {
-						ProcessRadioStream(data->
-								   radioUAVTalkCon,
-								   data->
-								   telemUAVTalkCon,
-								   serial_data
-								   [i]);
+					for (uint8_t i = 0; i < bytes_to_process; i++) {
+						ProcessRadioStream(data->radioUAVTalkCon, data->telemUAVTalkCon, serial_data[i]);
 					}
 				} else if (PIOS_COM_TELEMETRY) {
-					// Send the data straight to the telemetry port.
-					// Following call can fail with -2 error code (buffer full) or -3 error code (could not acquire send mutex)
-					// It is the caller responsibility to retry in such cases...
-					int32_t ret = -2;
-					uint8_t count = 5;
-					while (count-- > 0 && ret < -1) {
-						ret =
-						    PIOS_COM_SendBufferNonBlocking
-						    (PIOS_COM_TELEMETRY,
-						     serial_data,
-						     bytes_to_process);
-					}
+				    PIOS_COM_SendBufferNonBlocking(PIOS_COM_TELEMETRY, serial_data, bytes_to_process);
 				}
 			}
 		} else {
@@ -462,19 +405,11 @@ static void telemetryRxTask( __attribute__ ((unused))
 		if (inputPort) {
 			uint8_t serial_data[1];
 			uint16_t bytes_to_process =
-			    PIOS_COM_ReceiveBuffer(inputPort, serial_data,
-						   sizeof(serial_data),
-						   MAX_PORT_DELAY);
+			    PIOS_COM_ReceiveBuffer(inputPort, serial_data, sizeof(serial_data), MAX_PORT_DELAY);
 			if (bytes_to_process > 0) {
 				PIOS_LED_Toggle(PIOS_LED_RX);
-				for (uint8_t i = 0; i < bytes_to_process;
-				     i++) {
-					ProcessTelemetryStream(data->
-							       telemUAVTalkCon,
-							       data->
-							       radioUAVTalkCon,
-							       serial_data
-							       [i]);
+				for (uint8_t i = 0; i < bytes_to_process; i++) {
+					ProcessTelemetryStream(data->telemUAVTalkCon, data->radioUAVTalkCon, serial_data[i]);
 				}
 			}
 		} else {
@@ -530,25 +465,10 @@ static void serialRxTask( __attribute__ ((unused))
 		if (inputPort && PIOS_COM_RFM22B) {
 			// Receive some data.
 			uint16_t bytes_to_process =
-			    PIOS_COM_ReceiveBuffer(inputPort,
-						   data->serialRxBuf,
-						   sizeof(data->
-							  serialRxBuf),
-						   MAX_PORT_DELAY);
+			    PIOS_COM_ReceiveBuffer(inputPort, data->serialRxBuf, sizeof(data->serialRxBuf), MAX_PORT_DELAY);
 
 			if (bytes_to_process > 0) {
-				// Send the data over the radio link.
-				// Following call can fail with -2 error code (buffer full) or -3 error code (could not acquire send mutex)
-				// It is the caller responsibility to retry in such cases...
-				int32_t ret = -2;
-				uint8_t count = 5;
-				while (count-- > 0 && ret < -1) {
-					ret =
-					    PIOS_COM_SendBufferNonBlocking
-					    (PIOS_COM_RFM22B,
-					     data->serialRxBuf,
-					     bytes_to_process);
-				}
+			    PIOS_COM_SendBufferNonBlocking(PIOS_COM_RFM22B, data->serialRxBuf, bytes_to_process);
 			}
 		} else {
 			PIOS_Thread_Sleep(5);
@@ -577,15 +497,7 @@ static int32_t UAVTalkSendHandler(uint8_t * buf, int32_t length)
 	}
 #endif /* PIOS_INCLUDE_USB */
 	if (outputPort) {
-		// Following call can fail with -2 error code (buffer full) or -3 error code (could not acquire send mutex)
-		// It is the caller responsibility to retry in such cases...
-		ret = -2;
-		uint8_t count = 5;
-		while (count-- > 0 && ret < -1) {
-			ret =
-			    PIOS_COM_SendBufferNonBlocking(outputPort, buf,
-							   length);
-		}
+	    PIOS_COM_SendBufferNonBlocking(outputPort, buf, length);
 	} else {
 		ret = -1;
 	}
