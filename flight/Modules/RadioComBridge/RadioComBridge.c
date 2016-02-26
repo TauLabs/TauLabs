@@ -406,7 +406,7 @@ static void PPMInputTask( __attribute__ ((unused))
 static int32_t UAVTalkSendHandler(uint8_t * buf, int32_t length)
 {
 	int32_t ret;
-	uint32_t outputPort = data->parseUAVTalk ? PIOS_COM_TELEMETRY : 0;
+	uint32_t outputPort = PIOS_COM_TELEMETRY;
 
 #if defined(PIOS_INCLUDE_USB)
 	// Determine output port (USB takes priority over telemetry port)
@@ -433,9 +433,6 @@ static int32_t UAVTalkSendHandler(uint8_t * buf, int32_t length)
  */
 static int32_t RadioSendHandler(uint8_t * buf, int32_t length)
 {
-	if (!data->parseUAVTalk) {
-		return length;
-	}
 	uint32_t outputPort = PIOS_COM_RFM22B;
 
 	// Don't send any data unless the radio port is available.
