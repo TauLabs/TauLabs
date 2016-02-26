@@ -4,6 +4,7 @@
  * @file       uavsettingsimportexportfactory.cpp
  * @author     (C) 2011 The OpenPilot Team, http://www.openpilot.org
  * @author     Tau Labs, http://taulabs.org, Copyright (C) 2014
+ * @author     dRonin, http://dRonin.org/, Copyright (C) 2016
  * @addtogroup GCSPlugins GCS Plugins
  * @{
  * @addtogroup UAVSettingsImportExport UAVSettings Import/Export Plugin
@@ -139,7 +140,9 @@ void UAVSettingsImportExportFactory::importUAVSettings()
     ImportSummaryDialog swui((QWidget*)Core::ICore::instance()->mainWindow());
 
     ExtensionSystem::PluginManager *pm = ExtensionSystem::PluginManager::instance();
-    UAVObjectManager *objManager = pm->getObject<UAVObjectManager>();
+    UAVObjectManager *boardObjManager = pm->getObject<UAVObjectManager>();
+    UAVObjectManager *importedObjectManager = new UAVObjectManager();
+
     swui.show();
 
     QDomNode node = root.firstChild();
@@ -152,7 +155,7 @@ void UAVSettingsImportExportFactory::importUAVSettings()
             uint uavObjectID = e.attribute("id").toUInt(NULL,16);
 
             // Sanity Check:
-            UAVObject *obj = objManager->getObject(uavObjectName);
+            UAVObject *obj = boardObjManager->getObject(uavObjectName);
             UAVDataObject *dobj = dynamic_cast<UAVDataObject*>(obj);
             if (obj == NULL) {
                 // This object is unknown!
@@ -163,13 +166,15 @@ void UAVSettingsImportExportFactory::importUAVSettings()
             } else {
                 //  - Update each field
                 //  - Issue and "updated" command
+                UAVDataObject *newObj = dobj->clone();
+
                 bool error = false;
                 bool setError = false;
                 QDomNode field = node.firstChild();
                 while(!field.isNull()) {
                     QDomElement f = field.toElement();
                     if (f.tagName() == "field") {
-                        UAVObjectField *uavfield = obj->getField(f.attribute("name"));
+                        UAVObjectField *uavfield = newObj->getField(f.attribute("name"));
                         if (uavfield) {
                             QStringList list = f.attribute("values").split(",");
                             if (list.length() == 1) {
@@ -199,23 +204,25 @@ void UAVSettingsImportExportFactory::importUAVSettings()
                     }
                     field = field.nextSibling();
                 }
-                obj->updated();
+                newObj->updated();
 
                 if (error) {
                     swui.addLine(uavObjectName, "Warning (Object field unknown)", true);
-                } else if (uavObjectID != obj->getObjID()) {
-                    qDebug() << "Mismatch for Object " << uavObjectName << uavObjectID << " - " << obj->getObjID();
+                } else if (uavObjectID != newObj->getObjID()) {
+                    qDebug() << "Mismatch for Object " << uavObjectName << uavObjectID << " - " << newObj->getObjID();
                     swui.addLine(uavObjectName, "Warning (ObjectID mismatch)", true);
                 } else if (setError) {
                     swui.addLine(uavObjectName, "Warning (Objects field value(s) invalid)", false);
                 } else {
                     swui.addLine(uavObjectName, "OK", true);
                 }
+                importedObjectManager->registerObject(newObj);
             }
         }
         node = node.nextSibling();
     }
     qDebug() << "End import";
+    swui.setUAVOSettings(importedObjectManager);
     swui.exec();
 }
 
