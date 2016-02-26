@@ -45,8 +45,6 @@ uintptr_t pios_uavo_settings_fs_id;
 
 #define PIOS_COM_TELEM_RX_BUF_LEN 256
 #define PIOS_COM_TELEM_TX_BUF_LEN 256
-#define PIOS_COM_RFM22B_RF_RX_BUF_LEN 256
-#define PIOS_COM_RFM22B_RF_TX_BUF_LEN 256
 #define PIOS_COM_FRSKYSPORT_TX_BUF_LEN 16
 
 /**
