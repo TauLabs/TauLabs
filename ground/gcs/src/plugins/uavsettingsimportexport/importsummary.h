@@ -65,8 +65,8 @@ public slots:
     void updateCompletion();
 
 private slots:
-    void doTheApplySaving(int op);
-    void setCheckedState(int state);
+    void doTheApplySaving();
+    void setCheckedState();
     void openHelp();
 
 };

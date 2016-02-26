@@ -2,7 +2,7 @@
  ******************************************************************************
  *
  * @file       importsummary.cpp
- * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013-2016
  * @author     dRonin, http://dRonin.org/, Copyright (C) 2015
  * @author     (C) 2011 The OpenPilot Team, http://www.openpilot.org
  * @addtogroup GCSPlugins GCS Plugins
@@ -27,17 +27,8 @@
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
 
-// for Parameterized slots
-#include <QSignalMapper>
 #include "importsummary.h"
 
-#define UAV_SETIMPEXP_APPLY 1
-#define UAV_SETIMPEXP_SAVE 2
-
-enum UAVSettingsAction{
-    apply = 1,
-    save = 2
-};
 
 ImportSummaryDialog::ImportSummaryDialog( QWidget *parent) :
     QDialog(parent),
@@ -58,26 +49,13 @@ ImportSummaryDialog::ImportSummaryDialog( QWidget *parent) :
 
    connect( ui->closeButton, SIGNAL(clicked()), this, SLOT(close()));
 
-   // Connect the Select All/None buttons
-   QSignalMapper* signalMapper = new QSignalMapper(this);
-
-   connect(ui->btnSaveToFlash, SIGNAL(clicked()), signalMapper, SLOT(map()));
-   connect(ui->btnApply, SIGNAL(clicked()), signalMapper, SLOT(map()));
-
-   signalMapper->setMapping(ui->btnSaveToFlash, UAVSettingsAction::save);
-   signalMapper->setMapping(ui->btnApply, UAVSettingsAction::apply);
-
-   connect(signalMapper, SIGNAL(mapped(int)), this, SLOT(doTheApplySaving(int)));
+   // Connect the Apply/Save buttons
+   connect(ui->btnSaveToFlash, SIGNAL(clicked()), this, SLOT(doTheApplySaving()));
+   connect(ui->btnApply, SIGNAL(clicked()), this, SLOT(doTheApplySaving()));
 
    // Connect the Select All/None buttons
-   signalMapper = new QSignalMapper (this);
-
-   connect(ui->btnSelectAll, SIGNAL(clicked()), signalMapper, SLOT(map()));
-   connect(ui->btnSelectNone, SIGNAL(clicked()), signalMapper, SLOT(map()));
-   signalMapper->setMapping(ui->btnSelectAll, 1);
-   signalMapper->setMapping(ui->btnSelectNone, 0);
-
-   connect(signalMapper, SIGNAL(mapped(int)), this, SLOT(setCheckedState(int)));
+   connect(ui->btnSelectAll, SIGNAL(clicked()), this, SLOT(setCheckedState()));
+   connect(ui->btnSelectNone, SIGNAL(clicked()), this, SLOT(setCheckedState()));
 
    // Connect the help button
    connect(ui->helpButton, SIGNAL(clicked()), this, SLOT(openHelp()));
@@ -139,19 +117,24 @@ void ImportSummaryDialog::addLine(QString uavObjectName, QString text, bool stat
 /*
   Sets or unsets every UAVObjet in the list
   */
-void ImportSummaryDialog::setCheckedState(int state)
+void ImportSummaryDialog::setCheckedState()
 {
     for(int i = 0; i < ui->importSummaryList->rowCount(); i++) {
         QCheckBox *box = dynamic_cast<QCheckBox*>(ui->importSummaryList->cellWidget(i, 0));
-        if(box->isEnabled())
-            box->setChecked((state == 1 ? true : false));
+        if(box->isEnabled()) {
+            if (sender() == ui->btnSelectAll) {
+                box->setChecked(true);
+            } else if (sender() == ui->btnSelectNone) {
+                box->setChecked(false);
+            }
+        }
     }
 }
 
 /*
   Apply or saves every checked UAVObjet in the list to Flash
   */
-void ImportSummaryDialog::doTheApplySaving(int op)
+void ImportSummaryDialog::doTheApplySaving()
 {
     if(!importedObjects)
         return;
@@ -190,7 +173,8 @@ void ImportSummaryDialog::doTheApplySaving(int op)
 
             boardObj->updated();
 
-            if(op & UAVSettingsAction::save) {
+            // If the save button was clicked, save the object to flash
+            if (sender() == ui->btnSaveToFlash) {
                 utilManager->saveObjectToFlash(importedObj);
             }
 
