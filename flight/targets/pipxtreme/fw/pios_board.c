@@ -133,6 +133,18 @@ void PIOS_Board_Init(void) {
 	HwTauLinkData hwTauLink;
 	HwTauLinkGet(&hwTauLink);
 
+	/* IAP System Setup */
+	PIOS_IAP_Init();
+	uint16_t boot_count = PIOS_IAP_ReadBootCount();
+	if (boot_count < 3) {
+		PIOS_IAP_WriteBootCount(++boot_count);
+		AlarmsClear(SYSTEMALARMS_ALARM_BOOTFAULT);
+	} else {
+		/* Too many failed boot attempts, force hw config to defaults */
+		HwTauLinkSetDefaults(HwTauLinkHandle(), 0);
+		AlarmsSet(SYSTEMALARMS_ALARM_BOOTFAULT, SYSTEMALARMS_ALARM_CRITICAL);
+	}
+
 	/*Initialize the USB device */
 	uintptr_t pios_usb_id;
 	PIOS_USB_Init(&pios_usb_id, &pios_usb_main_cfg);
