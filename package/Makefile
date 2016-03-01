@@ -47,7 +47,7 @@ endif
 USE_MSVC ?= NO
 
 # Set up targets
-ALL_BOARDS        := coptercontrol pipxtreme revomini sparky sparky2 sparkybgc quanton colibri flyingf3 flyingf4 aq32 naze32
+ALL_BOARDS        := coptercontrol pipxtreme revomini sparky sparky2 sparkybgc freedom quanton colibri flyingf3 flyingf4 aq32 naze32
 ALL_BOARDS_BU     := coptercontrol pipxtreme
 
 FW_BOARDS  := $(ALL_BOARDS)

@@ -1,11 +1,7 @@
 /**
  ******************************************************************************
- * @file       taulabsplugin.h
-<<<<<<< HEAD
+ * @file       freedom.h
  * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
-=======
- * @author     Tau Labs, http://github.com/TauLabs, Copyright (C) 2013.
->>>>>>> GCS: Add board plugin for taulabs
  *
  * @addtogroup GCSPlugins GCS Plugins
  * @{
@@ -28,24 +24,48 @@
  * with this program; if not, write to the Free Software Foundation, Inc.,
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
-#ifndef TAULABSPLUGIN_H
-#define TAULABSPLUGIN_H
+#ifndef FREEDOM_H
+#define FREEDOM_H
 
-#include <extensionsystem/iplugin.h>
+#include "hwfreedom.h"
+#include <coreplugin/iboardtype.h>
+#include <uavobjectutil/uavobjectutilmanager.h>
 
-class TauLabsPlugin : public ExtensionSystem::IPlugin
+class IBoardType;
+
+class Freedom : public Core::IBoardType
 {
-    Q_OBJECT
-    Q_PLUGIN_METADATA(IID "TauLabs.plugins.TauLabs" FILE "TauLabs.json")
-
 public:
-   TauLabsPlugin();
-   ~TauLabsPlugin();
+    Freedom();
+    virtual ~Freedom();
 
-   void extensionsInitialized();
-   bool initialize(const QStringList & arguments, QString * errorString);
-   void shutdown();
+    virtual QString shortName();
+    virtual QString boardDescription();
+    virtual bool queryCapabilities(BoardCapabilities capability);
+    virtual QStringList getSupportedProtocols();
+    virtual QPixmap getBoardPicture();
+    virtual QString getHwUAVO();
+    virtual int queryMaxGyroRate();
 
+    HwFreedom * getSettings();
+
+    /**
+     * Get the RFM22b device ID this modem
+     * @return RFM22B device ID or 0 if not supported
+     */
+    virtual quint32 getRfmID();
+
+    /**
+     * Set the coordinator ID. If set to zero this device will
+     * be a coordinator.
+     * @return true if successful or false if not
+     */
+    virtual bool bindRadio(quint32 id, quint32 baud_rate, float rf_power,
+                           Core::IBoardType::LinkMode linkMode, quint8 min, quint8 max);
+
+private:
+    UAVObjectUtilManager* uavoUtilManager;
 };
 
-#endif // TAULABSPLUGIN_H
+
+#endif // FREEDOM_H

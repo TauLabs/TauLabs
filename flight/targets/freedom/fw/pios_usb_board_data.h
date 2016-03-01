@@ -1,17 +1,15 @@
 /**
  ******************************************************************************
- * @file       taulabsplugin.h
-<<<<<<< HEAD
- * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
-=======
- * @author     Tau Labs, http://github.com/TauLabs, Copyright (C) 2013.
->>>>>>> GCS: Add board plugin for taulabs
+ * @addtogroup TauLabsTargets Tau Labs Targets
+ * @{
+ * @addtogroup Freedom Tau Labs Freedom support files
+ * @{
  *
- * @addtogroup GCSPlugins GCS Plugins
- * @{
- * @addtogroup Boards_TauLabsPlugin Tau Labs boards support Plugin
- * @{
- * @brief Plugin to support boards by the Tau Labs project
+ * @file       pios_usb_board_data.h
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2013
+ * @brief      Defines for board specific usb information
+ * @see        The GNU Public License (GPL) Version 3
+ * 
  *****************************************************************************/
 /*
  * This program is free software; you can redistribute it and/or modify
@@ -28,24 +26,22 @@
  * with this program; if not, write to the Free Software Foundation, Inc.,
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
-#ifndef TAULABSPLUGIN_H
-#define TAULABSPLUGIN_H
 
-#include <extensionsystem/iplugin.h>
+#ifndef PIOS_USB_BOARD_DATA_H
+#define PIOS_USB_BOARD_DATA_H
 
-class TauLabsPlugin : public ExtensionSystem::IPlugin
-{
-    Q_OBJECT
-    Q_PLUGIN_METADATA(IID "TauLabs.plugins.TauLabs" FILE "TauLabs.json")
+#define PIOS_USB_BOARD_CDC_DATA_LENGTH 64
+#define PIOS_USB_BOARD_CDC_MGMT_LENGTH 32
+#define PIOS_USB_BOARD_HID_DATA_LENGTH 64
 
-public:
-   TauLabsPlugin();
-   ~TauLabsPlugin();
+#define PIOS_USB_BOARD_EP_NUM 4
 
-   void extensionsInitialized();
-   bool initialize(const QStringList & arguments, QString * errorString);
-   void shutdown();
+#include "pios_usb_defs.h" 	/* USB_* macros */
 
-};
+#define PIOS_USB_BOARD_VENDOR_ID USB_VENDOR_ID_CLAYLOGIC
+#define PIOS_USB_BOARD_PRODUCT_ID USB_PRODUCT_ID_FREEDOM
 
-#endif // TAULABSPLUGIN_H
+#define PIOS_USB_BOARD_DEVICE_VER USB_OP_DEVICE_VER(0, USB_OP_BOARD_MODE_FW)
+#define PIOS_USB_BOARD_SN_SUFFIX "+FW"
+
+#endif	/* PIOS_USB_BOARD_DATA_H */
