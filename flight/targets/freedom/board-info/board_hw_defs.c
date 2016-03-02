@@ -512,6 +512,53 @@ const struct pios_rfm22b_cfg * PIOS_BOARD_HW_DEFS_GetRfm22Cfg (uint32_t board_re
 
 #endif /* PIOS_INCLUDE_RFM22B */
 
+#if defined(PIOS_INCLUDE_OPENLRS)
+
+#include <pios_openlrs_priv.h>
+
+static const struct pios_exti_cfg pios_exti_openlrs_cfg __exti_config = {
+	.vector = PIOS_OpenLRS_EXT_Int,
+	.line = EXTI_Line0,
+	.pin = {
+		.gpio = GPIOC,
+		.init = {
+			.GPIO_Pin = GPIO_Pin_0,
+			.GPIO_Speed = GPIO_Speed_100MHz,
+			.GPIO_Mode = GPIO_Mode_IN,
+			.GPIO_OType = GPIO_OType_OD,
+			.GPIO_PuPd = GPIO_PuPd_NOPULL,
+		},
+	},
+	.irq = {
+		.init = {
+			.NVIC_IRQChannel = EXTI0_IRQn,
+			.NVIC_IRQChannelPreemptionPriority = PIOS_IRQ_PRIO_LOW,
+			.NVIC_IRQChannelSubPriority = 0,
+			.NVIC_IRQChannelCmd = ENABLE,
+		},
+	},
+	.exti = {
+		.init = {
+			.EXTI_Line = EXTI_Line0, // matches above GPIO pin
+			.EXTI_Mode = EXTI_Mode_Interrupt,
+			.EXTI_Trigger = EXTI_Trigger_Falling,
+			.EXTI_LineCmd = ENABLE,
+		},
+	},
+};
+
+const struct pios_openlrs_cfg pios_openlrs_cfg = {
+	.spi_cfg = &pios_spi_telem_flash_cfg,
+	.exti_cfg = &pios_exti_openlrs_cfg,
+	.gpio_direction = GPIO0_TX_GPIO1_RX,
+};
+
+const struct pios_openlrs_cfg * PIOS_BOARD_HW_DEFS_GetOpenLRSCfg (uint32_t board_revision)
+{
+	return &pios_openlrs_cfg;
+}
+
+#endif /* PIOS_INCLUDE_OPENLRS */
 #endif /* PIOS_INCLUDE_SPI */
 
 #if defined(PIOS_INCLUDE_FLASH)
@@ -953,11 +1000,13 @@ static const struct pios_usart_cfg pios_usart_sbus_rcvr_cfg = {
 		  },
 	},
 	.rx = {
-		.gpio = GPIA,
+		.gpio = GPIOA,
 		.init = {
 			.GPIO_Pin   = GPIO_Pin_10,
 			.GPIO_Speed = GPIO_Speed_2MHz,
-			.GPIO_Mode  = GPIO_Mode_IPU,
+			.GPIO_Mode  = GPIO_Mode_AF,
+			.GPIO_OType = GPIO_OType_PP,
+			.GPIO_PuPd  = GPIO_PuPd_UP
 		},
 	},
 	.tx = {

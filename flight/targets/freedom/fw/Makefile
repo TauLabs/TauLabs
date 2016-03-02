@@ -123,8 +123,9 @@ SRC += $(FLIGHTLIB)/WorldMagModel.c
 SRC += $(FLIGHTLIB)/insgps14state.c
 SRC += $(FLIGHTLIB)/taskmonitor.c
 SRC += $(FLIGHTLIB)/sanitycheck.c
+SRC += $(FLIGHTLIB)/timeutils.c
+SRC += $(FLIGHTLIB)/frsky_packing.c
 SRC += $(MATHLIB)/coordinate_conversions.c
-SRC += $(MATHLIB)/sin_lookup.c
 SRC += $(MATHLIB)/pid.c
 SRC += $(MATHLIB)/misc_math.c
 SRC += $(MATHLIB)/atmospheric_math.c
@@ -151,11 +152,15 @@ SRC += $(PIOSCOMMON)/pios_hmc5883.c
 SRC += $(PIOSCOMMON)/pios_ms5611.c
 SRC += $(PIOSCOMMON)/pios_crc.c
 SRC += $(PIOSCOMMON)/pios_com.c
+SRC += $(PIOSCOMMON)/pios_rcvr.c
+SRC += $(PIOSCOMMON)/pios_dsm.c
+SRC += $(PIOSCOMMON)/pios_hsum.c
+SRC += $(PIOSCOMMON)/pios_sbus.c
 SRC += $(PIOSCOMMON)/pios_rfm22b.c
 SRC += $(PIOSCOMMON)/pios_rfm22b_com.c
 SRC += $(PIOSCOMMON)/pios_rfm22b_rcvr.c
-SRC += $(PIOSCOMMON)/pios_rcvr.c
-SRC += $(PIOSCOMMON)/pios_hsum.c
+SRC += $(PIOSCOMMON)/pios_openlrs.c
+SRC += $(PIOSCOMMON)/pios_openlrs_rcvr.c
 SRC += $(PIOSCOMMON)/pios_sensors.c
 SRC += $(PIOSCOMMON)/pios_flash_jedec.c
 SRC += $(PIOSCOMMON)/pios_flashfs_logfs.c
@@ -170,10 +175,7 @@ SRC += $(PIOSCOMMON)/pios_semaphore.c
 SRC += $(PIOSCOMMON)/pios_mutex.c
 SRC += $(PIOSCOMMON)/pios_thread.c
 SRC += $(PIOSCOMMON)/pios_queue.c
-
-
-include ./UAVObjects.inc
-SRC += $(UAVOBJSRC)
+SRC += $(PIOSCOMMON)/pios_hal.c
 
 # List C source files here which must be compiled in ARM-Mode (no -mthumb).
 # use file-extension c for "c-only"-files
@@ -364,6 +366,8 @@ ASFLAGS += $(patsubst %,-I%,$(EXTRAINCDIRS))
 
 MATH_LIB = -lm
 
+LIBS += $(UAVOBJLIB)
+
 # Linker flags.
 #  -Wl,...:     tell GCC to pass this to linker.
 #    -Map:      create map file
@@ -379,6 +383,10 @@ LDFLAGS += -Wl,--fatal-warnings
 
 #Linker scripts                                                                                                                                                                                                              
 LDFLAGS += $(addprefix -T,$(LINKER_SCRIPTS_APP))
+
+include ./UAVObjects.inc
+
+UAVO_NAV = YES
 
 include $(MAKE_INC_DIR)/firmware-common.mk
 

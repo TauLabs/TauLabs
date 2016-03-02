@@ -60,6 +60,7 @@
 #define PIOS_INCLUDE_RFM22B
 #define PIOS_INCLUDE_RFM22B_COM
 #define RFM22_EXT_INT_USE
+#define PIOS_INCLUDE_OPENLRS
  
 /* Select the sensors to include */
 #define PIOS_INCLUDE_HMC5883
@@ -93,7 +94,7 @@
 #define PIOS_INCLUDE_RCVR
 #define PIOS_INCLUDE_DSM
 #define PIOS_INCLUDE_HSUM
-//#define PIOS_INCLUDE_SBUS
+#define PIOS_INCLUDE_SBUS
 #define PIOS_INCLUDE_PPM
 #define PIOS_INCLUDE_PWM
 #define PIOS_INCLUDE_GCSRCVR
