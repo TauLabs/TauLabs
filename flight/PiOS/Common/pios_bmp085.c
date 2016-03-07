@@ -197,7 +197,7 @@ int32_t PIOS_BMP085_Init(const struct pios_bmp085_cfg *cfg, int32_t i2c_device)
 
 
 /**
- * Claim the MS5611 device semaphore.
+ * Claim the BMP085 device semaphore.
  * \return 0 if no error
  * \return -1 if timeout before claiming semaphore
  */
@@ -209,7 +209,7 @@ static int32_t PIOS_BMP085_ClaimDevice(void)
 }
 
 /**
- * Release the MS5611 device semaphore.
+ * Release the BMP085 device semaphore.
  * \return 0 if no error
  */
 static int32_t PIOS_BMP085_ReleaseDevice(void)
