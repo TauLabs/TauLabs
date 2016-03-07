@@ -218,13 +218,10 @@ static int32_t tabletInfo_to_ned(TabletInfoData *tabletInfo, float *NED)
 	// and https://code.google.com/p/android/issues/detail?id=53471
 	// This means that "(tabletInfo->Altitude + gpsPosition.GeoidSeparation - homeLocation.Altitude)"
 	// will be correct or incorrect depending on the device.
-	float dL[3] = {(tabletInfo->Latitude - homeLocation.Latitude) / 10.0e6f * DEG2RAD,
-		(tabletInfo->Longitude - homeLocation.Longitude) / 10.0e6f * DEG2RAD,
-		(tabletInfo->Altitude + gpsPosition.GeoidSeparation - homeLocation.Altitude)};
+	get_linearized_3D_transformation(tabletInfo->Latitude, tabletInfo->Longitude, tabletInfo->Altitude + gpsPosition.GeoidSeparation,
+	                                 homeLocation.Latitude, homeLocation.Longitude, homeLocation.Altitude,
+	                                 T, NED);
 
-	NED[0] = T[0] * dL[0];
-	NED[1] = T[1] * dL[1];
-	NED[2] = T[2] * dL[2];
 
 	return 0;
 }

@@ -75,7 +75,9 @@ void quat_mult(const float q1[4], const float q2[4], float qout[4]);
 void rot_mult(float R[3][3], const float vec[3], float vec_out[3], bool transpose);
 void LLA_linearization_float(int32_t home_latitude, float home_altitude, float T[]);
 void LLA_linearization_double(int32_t home_latitude, double home_altitude, double T[]);
-
+void get_linearized_3D_transformation(const int32_t current_lat, const int32_t current_lon, const float current_alt,
+                                      const int32_t home_lat, const int32_t home_lon, const float home_alt,
+                                      const float C[], float XYZ[]);
 #endif /* COORDINATECONVERSIONS_H_ */
 
 /**

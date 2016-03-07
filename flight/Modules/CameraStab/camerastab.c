@@ -59,6 +59,7 @@
 #include "positionactual.h"
 #include "tabletinfo.h"
 
+
 //
 // Configuration
 //
@@ -378,16 +379,17 @@ static void tablet_info_process() {
 		PoiLocationData poi;
 
 		float T[3];
-
 		LLA_linearization_float(homeLocation.Latitude, homeLocation.Altitude, T);
 
-		float dL[3] = {(tablet.Latitude - homeLocation.Latitude) / 10.0e6f * DEG2RAD,
-			(tablet.Longitude - homeLocation.Longitude) / 10.0e6f * DEG2RAD,
-			(tablet.Altitude)};
+		float NED[3];
+		get_linearized_3D_transformation(tablet.Latitude, tablet.Longitude, tablet.Altitude,
+                                         homeLocation.Latitude, homeLocation.Longitude, homeLocation.Altitude,
+		                                 T, NED);
 
-		poi.North = T[0] * dL[0];
-		poi.East = T[1] * dL[1];
-		poi.Down = T[2] * dL[2];
+
+		poi.North = NED[0];
+		poi.East  = NED[1];
+		poi.Down  = NED[2];
 		PoiLocationSet(&poi);
 	}
 }

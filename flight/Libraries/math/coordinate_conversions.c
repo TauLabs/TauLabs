@@ -371,13 +371,15 @@ void rot_mult(float R[3][3], const float vec[3], float vec_out[3], bool transpos
  * @param home_altitude
  * @param T is the linearized NED to LLA conversion
  */
-void LLA_linearization_float(int32_t home_latitude, float home_altitude, float T[])
+void LLA_linearization_float(int32_t home_latitude_1e7, float home_altitude, float T[])
 {
-	float lat = home_latitude / 10.0e6f * DEG2RAD;
+    float lat_rad = home_latitude_1e7 / 10.0e6f * DEG2RAD;
 	float alt = home_altitude;
 
-	T[0] = alt + WGS84_A*1000.0f;
-	T[1] = cosf(lat)*(alt + WGS84_A*1000.0f);
+	// T is the linearization factor from LLA [rad] to NED [meters] divided by a scaling factor of
+	// 1e7*DEG2RAD. By default, input units are stored as degrees times 1e7 to avoid precision loss.
+    T[0] = ((alt + WGS84_A*1000.0f) / 10e6f) * DEG2RAD;
+    T[1] = ((cosf(lat_rad)*(alt + WGS84_A*1000.0f)) / 10e6f) * DEG2RAD ;
 	T[2] = -1.0f;
 }
 
@@ -387,20 +389,50 @@ void LLA_linearization_float(int32_t home_latitude, float home_altitude, float T
  * @param home_altitude
  * @param T is the linearized NED to LLA conversion
  */
-void LLA_linearization_double(int32_t home_latitude, double home_altitude, double T[])
+void LLA_linearization_double(int32_t home_latitude_1e7, double home_altitude, double T[])
 {
-	double lat = home_latitude / 10.0e6 * ((double)DEG2RAD);
+    double lat_rad = home_latitude_1e7 / 10.0e6 * ((double)DEG2RAD);
 	double alt = home_altitude;
 
-	T[0] = alt + ((double)WGS84_A)*1000.0;
-	T[1] = cos(lat)*(alt + ((double)WGS84_A)*1000.0);
+	// T is the linearization factor from LLA [rad] to NED [meters] divided by a scaling factor of
+	// 1e7*DEG2RAD. By default, input units are stored as degrees times 1e7 to avoid precision loss.
+    T[0] = ((alt + ((double)WGS84_A)*1000.0) / 10.0e6) * ((double)DEG2RAD);
+    T[1] = ((cos(lat_rad)*(alt + ((double)WGS84_A)*1000.0)) / 10.0e6) * ((double)DEG2RAD);
 	T[2] = -1.0;
 }
 
-    T[0] = alt + ((double)WGS84_A)*1000.0;
-    T[1] = cos(lat)*(alt + ((double)WGS84_A)*1000.0);
-    T[2] = -1.0;
+/**
+ * @brief get_linearized_3D_transformation Map position from one coordinate system to
+ * another, linearized around the origin in the original coordinate system. For instance,
+ * this can be used to map from Lattitude-Longitude-Altitude to North-East-Down.
+ *
+ * Note that the scale of the input units is not important, as that is included in
+ * the mapping coefficients. For example, if we use decimal degrees * 1e7, then the
+ * mapping coefficient includes a division by 1e7.
+ *
+ * Current position:
+ * @param [in] theta_prime (typically latitude * 1e7), as an int32_t
+ * @param [in] phi_prime   (typically longitude * 1e7), as an int32_t
+ * @param [in] r_prime     (typically altitude), as a float
+ * Home position:
+ * @param [in] theta
+ * @param [in] phi
+ * @param [in] r
+ * Scale factors and outputs:
+ * @param [in] C mapping coefficient
+ * @param [out] XYZ output coordinates
+ */
+void get_linearized_3D_transformation(const int32_t theta_prime, const int32_t phi_prime, const float r_prime,
+                                      const int32_t theta, const int32_t phi, const float r,
+                                      const float C[], float XYZ[])
+{
+	int32_t dTheta = theta_prime - theta;
+	int32_t dPhi = phi_prime - phi;
+	float dR = r_prime - r;
 
+	XYZ[0] = C[0] * dTheta;
+	XYZ[1] = C[1] * dPhi;
+	XYZ[2] = C[2] * dR;
 }
 /**
  * @}
