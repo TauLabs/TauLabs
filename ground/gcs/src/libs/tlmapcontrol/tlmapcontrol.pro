@@ -53,7 +53,8 @@ SOURCES += mapwidget/mapgraphicitem.cpp \
 # order of linking matters
 include(../utils/utils.pri)
 
-HEADERS += mapwidget/mapgraphicitem.h \
+HEADERS += tlmapcontrol.h \
+    mapwidget/mapgraphicitem.h \
     mapwidget/configuration.h \
     mapwidget/mappointitem.h \
     mapwidget/waypointitem.h \
@@ -107,7 +108,7 @@ HEADERS += mapwidget/mapgraphicitem.h \
     internals/projections/mercatorprojectionyandex.h \
     internals/projections/platecarreeprojection.h \
     internals/projections/platecarreeprojectionpergo.h \
-    core/corecommon.h
+    core/corecommon.h \
 
 QT += network
 QT += sql
@@ -119,4 +120,6 @@ RESOURCES += mapwidget/mapresources.qrc
 
 FORMS += \
     mapwidget/mapripform.ui
+
+OTHER_FILES += README \
 
