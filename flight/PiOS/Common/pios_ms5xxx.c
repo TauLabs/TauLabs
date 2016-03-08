@@ -146,8 +146,14 @@ int32_t PIOS_MS5XXX_Init(const struct pios_ms5xxx_cfg *cfg)
 	// Set the pointer to the configuration struct. Note that it is not deep copied.
 	dev->cfg = cfg;
 
-	if (PIOS_MS5XXX_WriteCommand(MS5XXX_RESET) != 0)
+	// Check that a model of the chip was chosen
+	if (cfg->pios_ms5xxx_model == 0) {
 		return -2;
+	}
+
+	if (PIOS_MS5XXX_WriteCommand(MS5XXX_RESET) != 0) {
+		return -3;
+	}
 
 	PIOS_DELAY_WaitmS(20);
 

@@ -52,7 +52,7 @@ enum pios_ms5xxx_osr {
 
 //! The valid MS5XXX models
 enum PIOS_MS5XXX_MODEL {
-	PIOS_MS5M_MS5611,
+	PIOS_MS5M_MS5611 = 0x01, // Start at 1 so that 0 is undefined. This will be used as a trap for unconfigured config structs.
 	PIOS_MS5M_MS5637,
 	PIOS_MS5M_MS5803_01,
 	PIOS_MS5M_MS5803_02,
