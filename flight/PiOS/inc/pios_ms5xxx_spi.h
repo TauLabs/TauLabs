@@ -2,14 +2,14 @@
  ******************************************************************************
  * @addtogroup PIOS PIOS Core hardware abstraction layer
  * @{
- * @addtogroup PIOS_MS5611 MS5611 Functions
+ * @addtogroup PIOS_MS5XXX MS5XXX Functions
  * @brief Hardware functions to deal with the altitude pressure sensor
  * @{
  *
- * @file       pios_ms5611_spi.h
+ * @file       pios_ms5xxx_spi.h
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2012.
  * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2013
- * @brief      MS5611 functions header.
+ * @brief      MS5XXX functions header.
  * @see        The GNU Public License (GPL) Version 3
  *
  *****************************************************************************/
@@ -29,15 +29,15 @@
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
 
-#ifndef PIOS_MS5611_SPI_H
-#define PIOS_MS5611_SPI_H
+#ifndef PIOS_MS5XXX_SPI_H
+#define PIOS_MS5XXX_SPI_H
 
 #include <stdint.h>
 
 /* Public Functions */
-extern int32_t PIOS_MS5611_SPI_Test(void);
+extern int32_t PIOS_MS5xxx_SPI_Test(void);
 
-#endif /* PIOS_MS5611_SPI_H */
+#endif /* PIOS_MS5XXX_SPI_H */
 
 /**
   * @}

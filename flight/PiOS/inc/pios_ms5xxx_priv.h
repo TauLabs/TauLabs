@@ -2,13 +2,13 @@
  ******************************************************************************
  * @addtogroup PIOS PIOS Core hardware abstraction layer
  * @{
- * @addtogroup PIOS_MS5611 MS5611 Functions
+ * @addtogroup PIOS_MS5XXX MS5XXX Functions
  * @brief Hardware functions to deal with the altitude pressure sensor
  * @{
  *
- * @file       pios_ms5611_priv.h  
+ * @file       pios_ms5xxx_priv.h
  * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2013
- * @brief      MS5611 functions header.
+ * @brief      MS5XXX functions header.
  * @see        The GNU Public License (GPL) Version 3
  *
  *****************************************************************************/
@@ -28,23 +28,33 @@
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
 
-#ifndef PIOS_MS5611_PRIV_H
-#define PIOS_MS5611_PRIV_H
+#ifndef PIOS_MS5XXX_PRIV_H
+#define PIOS_MS5XXX_PRIV_H
+
+#define MS5XXX_RESET            0x1E
+#define MS5XXX_CALIB_ADDR       0xA2  /* First sample is factory stuff */
+#define MS5XXX_CALIB_LEN        16
+#define MS5XXX_ADC_READ         0x00
+#define MS5XXX_PRES_ADDR        0x40
+#define MS5XXX_TEMP_ADDR        0x50
+#define MS5XXX_ADC_MSB          0xF6
+
+//#define PIOS_MS5XXX_OVERSAMPLING oversampling
 
 //! The valid oversampling rates
-enum pios_ms5611_osr {
-	MS5611_OSR_256   = 0,
-	MS5611_OSR_512   = 2,
-	MS5611_OSR_1024  = 4,
-	MS5611_OSR_2048  = 6,
-	MS5611_OSR_4096  = 8,
+enum pios_ms5xxx_osr {
+	MS5XXX_OSR_256   = 0,
+	MS5XXX_OSR_512   = 2,
+	MS5XXX_OSR_1024  = 4,
+	MS5XXX_OSR_2048  = 6,
+	MS5XXX_OSR_4096  = 8,
 };
 
-//! Configuration structure for the MS5611 driver
-struct pios_ms5611_cfg {
+//! Configuration structure for the MS5XXX driver
+struct pios_ms5xxx_cfg {
 	//! The oversampling setting for the baro, higher produces
 	//! less frequenct cleaner data
-	enum pios_ms5611_osr oversampling;
+	enum pios_ms5xxx_osr oversampling;
 
 	//! How many samples of pressure for each temperature measurement
 	uint32_t temperature_interleaving;
@@ -53,10 +63,10 @@ struct pios_ms5611_cfg {
 	uint8_t use_0x76_address;
 };
 
-int32_t PIOS_MS5611_Init(const struct pios_ms5611_cfg * cfg, int32_t i2c_device);
-int32_t PIOS_MS5611_SPI_Init(uint32_t spi_id, uint32_t slave_num, const struct pios_ms5611_cfg *cfg);
+int32_t PIOS_MS5XXX_Init(const struct pios_ms5xxx_cfg * cfg, int32_t i2c_device);
+int32_t PIOS_MS5XXX_SPI_Init(uint32_t spi_id, uint32_t slave_num, const struct pios_ms5xxx_cfg *cfg);
 
-#endif /* PIOS_MS5611_PRIV_H */
+#endif /* PIOS_MS5XXX_PRIV_H */
 
 /** 
   * @}

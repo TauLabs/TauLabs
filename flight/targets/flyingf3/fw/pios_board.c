@@ -682,19 +682,19 @@ void PIOS_Board_Init(void) {
 		if (PIOS_SPI_Init(&pios_spi_3_id, &pios_spi_3_rcflyer_external_cfg)) {
 			PIOS_DEBUG_Assert(0);
 		}
-#if defined(PIOS_INCLUDE_MS5611_SPI)
-		if (PIOS_MS5611_SPI_Init(pios_spi_2_id, 1, &pios_ms5611_cfg) != 0) {
+#if defined(PIOS_INCLUDE_MS5XXX_SPI)
+		if (PIOS_MS5XXX_SPI_Init(pios_spi_2_id, 1, &pios_ms5xxx_cfg) != 0) {
 			PIOS_Assert(0);
 		}
-#endif	/* PIOS_INCLUDE_MS5611_SPI */
+#endif	/* PIOS_INCLUDE_MS5XXX_SPI */
 #endif	/* PIOS_INCLUDE_SPI */
 		break;
 	case HWFLYINGF3_SHIELD_CHEBUZZ:
-#if defined(PIOS_INCLUDE_I2C) && defined(PIOS_INCLUDE_MS5611)
-		if (PIOS_MS5611_Init(&pios_ms5611_cfg, pios_i2c_external_id) != 0) {
+#if defined(PIOS_INCLUDE_I2C) && defined(PIOS_INCLUDE_MS5XXX)
+		if (PIOS_MS5XXX_Init(&pios_ms5xxx_cfg, pios_i2c_external_id) != 0) {
 			PIOS_Assert(0);
 		}
-#endif	/* PIOS_INCLUDE_I2C && PIOS_INCLUDE_MS5611 */
+#endif	/* PIOS_INCLUDE_I2C && PIOS_INCLUDE_MS5XXX */
 #if defined(PIOS_INCLUDE_SPI)
 		if (PIOS_SPI_Init(&pios_spi_2_id, &pios_spi_2_chebuzz_external_cfg)) {
 			PIOS_DEBUG_Assert(0);

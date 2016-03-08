@@ -2,14 +2,14 @@
  ******************************************************************************
  * @addtogroup PIOS PIOS Core hardware abstraction layer
  * @{
- * @addtogroup PIOS_MS5611 MS5611 Functions
+ * @addtogroup PIOS_MS5XXX MS5XXX Functions
  * @brief Hardware functions to deal with the altitude pressure sensor
  * @{
  *
- * @file       pios_ms5611.c
+ * @file       pios_ms5xxx.c
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2012.
  * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2014
- * @brief      MS5611 Pressure Sensor Routines
+ * @brief      MS5XXX Pressure Sensor Routines
  * @see        The GNU Public License (GPL) Version 3
  *
  ******************************************************************************/
@@ -32,44 +32,37 @@
 /* Project Includes */
 #include "pios.h"
 
-#if defined(PIOS_INCLUDE_MS5611)
+#if defined(PIOS_INCLUDE_MS5XXX)
 
-#include "pios_ms5611_priv.h"
+#include "pios_ms5xxx_priv.h"
 #include "pios_semaphore.h"
 #include "pios_thread.h"
 #include "pios_queue.h"
 
-/* Private constants */
-#define PIOS_MS5611_OVERSAMPLING oversampling
-#define MS5611_TASK_PRIORITY	PIOS_THREAD_PRIO_HIGHEST
-#define MS5611_TASK_STACK_BYTES	512
+#include "physical_constants.h"
 
-/* MS5611 Addresses */
-#define MS5611_I2C_ADDR_0x76    0x76
-#define MS5611_I2C_ADDR_0x77    0x77
-#define MS5611_RESET            0x1E
-#define MS5611_CALIB_ADDR       0xA2  /* First sample is factory stuff */
-#define MS5611_CALIB_LEN        16
-#define MS5611_ADC_READ         0x00
-#define MS5611_PRES_ADDR        0x40
-#define MS5611_TEMP_ADDR        0x50
-#define MS5611_ADC_MSB          0xF6
-#define MS5611_P0               101.3250f
+/* Private constants */
+#define MS5XXX_TASK_PRIORITY	PIOS_THREAD_PRIO_HIGHEST
+#define MS5XXX_TASK_STACK_BYTES	512
+
+/* MS5xxx Addresses */
+#define MS5XXX_I2C_ADDR_0x76    0x76
+#define MS5XXX_I2C_ADDR_0x77    0x77
 
 /* Private Variables */
-uint8_t ms5611_i2c_addr;
+uint8_t ms5xxx_i2c_addr;
 
 /* Private methods */
-static int32_t PIOS_MS5611_Read(uint8_t address, uint8_t * buffer, uint8_t len);
-static int32_t PIOS_MS5611_WriteCommand(uint8_t command);
-static void PIOS_MS5611_Task(void *parameters);
+static int32_t PIOS_MS5XXX_Read(uint8_t address, uint8_t * buffer, uint8_t len);
+static int32_t PIOS_MS5XXX_WriteCommand(uint8_t command);
+static void PIOS_MS5XXX_Task(void *parameters);
 
 /* Private types */
 
 /* Local Types */
 
-enum pios_ms5611_dev_magic {
-	PIOS_MS5611_DEV_MAGIC = 0xefba8e1d,
+enum PIOS_MS5XXX_DEV_MAGIC {
+	PIOS_MS5XXX_DEV_MAGIC = 0x1c50bcf2, // md5 of `PIOS_MS5XXX_DEV_MAGIC`
 };
 
 enum conversion_type {
@@ -77,8 +70,8 @@ enum conversion_type {
 	TEMPERATURE_CONV
 };
 
-struct ms5611_dev {
-	const struct pios_ms5611_cfg * cfg;
+struct ms5xxx_dev {
+	const struct pios_ms5xxx_cfg * cfg;
 	uint32_t i2c_id;
 	struct pios_thread *task;
 	struct pios_queue *queue;
@@ -87,49 +80,50 @@ struct ms5611_dev {
 	int64_t temperature_unscaled;
 	uint16_t calibration[6];
 	enum conversion_type current_conversion_type;
-	enum pios_ms5611_dev_magic magic;
+	enum PIOS_MS5XXX_DEV_MAGIC magic;
 
 	struct pios_semaphore *busy;
 };
 
-static struct ms5611_dev *dev;
+static struct ms5xxx_dev *dev;
 
 /**
  * @brief Allocate a new device
  */
-static struct ms5611_dev * PIOS_MS5611_alloc(void)
+static struct ms5xxx_dev * PIOS_MS5XXX_alloc(void)
 {
-	struct ms5611_dev *ms5611_dev;
+	struct ms5xxx_dev *ms5xxx_dev;
 
-	ms5611_dev = (struct ms5611_dev *)PIOS_malloc(sizeof(*ms5611_dev));
-	if (!ms5611_dev)
+	ms5xxx_dev = (struct ms5xxx_dev *)PIOS_malloc(sizeof(*ms5xxx_dev));
+	if (!ms5xxx_dev) {
 		return (NULL);
+	}
 
-	memset(ms5611_dev, 0, sizeof(*ms5611_dev));
+	memset(ms5xxx_dev, 0, sizeof(*ms5xxx_dev));
 
-	ms5611_dev->queue = PIOS_Queue_Create(1, sizeof(struct pios_sensor_baro_data));
-	if (ms5611_dev->queue == NULL) {
-		PIOS_free(ms5611_dev);
+	ms5xxx_dev->queue = PIOS_Queue_Create(1, sizeof(struct pios_sensor_baro_data));
+	if (ms5xxx_dev->queue == NULL) {
+		PIOS_free(ms5xxx_dev);
 		return NULL;
 	}
 
-	ms5611_dev->magic = PIOS_MS5611_DEV_MAGIC;
+	ms5xxx_dev->magic = PIOS_MS5XXX_DEV_MAGIC;
 
-	ms5611_dev->busy = PIOS_Semaphore_Create();
-	PIOS_Assert(ms5611_dev->busy != NULL);
+	ms5xxx_dev->busy = PIOS_Semaphore_Create();
+	PIOS_Assert(ms5xxx_dev->busy != NULL);
 
-	return ms5611_dev;
+	return ms5xxx_dev;
 }
 
 /**
  * @brief Validate the handle to the i2c device
  * @returns 0 for valid device or <0 otherwise
  */
-static int32_t PIOS_MS5611_Validate(struct ms5611_dev *dev)
+static int32_t PIOS_MS5XXX_Validate(struct ms5xxx_dev *dev)
 {
 	if (dev == NULL)
 		return -1;
-	if (dev->magic != PIOS_MS5611_DEV_MAGIC)
+	if (dev->magic != PIOS_MS5XXX_DEV_MAGIC)
 		return -2;
 	if (dev->i2c_id == 0)
 		return -3;
@@ -137,11 +131,11 @@ static int32_t PIOS_MS5611_Validate(struct ms5611_dev *dev)
 }
 
 /**
- * Initialise the MS5611 sensor
+ * Initialise the MS5XXX sensor
  */
-int32_t PIOS_MS5611_Init(const struct pios_ms5611_cfg *cfg, int32_t i2c_device)
+int32_t PIOS_MS5XXX_Init(const struct pios_ms5xxx_cfg *cfg, int32_t i2c_device)
 {
-	dev = (struct ms5611_dev *)PIOS_MS5611_alloc();
+	dev = (struct ms5xxx_dev *)PIOS_MS5XXX_alloc();
 	if (dev == NULL)
 		return -1;
 
@@ -150,11 +144,11 @@ int32_t PIOS_MS5611_Init(const struct pios_ms5611_cfg *cfg, int32_t i2c_device)
 
 	/* Which I2C address is being used? */
 	if (dev->cfg->use_0x76_address == true)
-		ms5611_i2c_addr = MS5611_I2C_ADDR_0x76;
+		ms5xxx_i2c_addr = MS5XXX_I2C_ADDR_0x76;
 	else
-		ms5611_i2c_addr = MS5611_I2C_ADDR_0x77;
+		ms5xxx_i2c_addr = MS5XXX_I2C_ADDR_0x77;
 
-	if (PIOS_MS5611_WriteCommand(MS5611_RESET) != 0)
+	if (PIOS_MS5XXX_WriteCommand(MS5XXX_RESET) != 0)
 		return -2;
 
 	PIOS_DELAY_WaitmS(20);
@@ -163,38 +157,38 @@ int32_t PIOS_MS5611_Init(const struct pios_ms5611_cfg *cfg, int32_t i2c_device)
 
 	/* Calibration parameters */
 	for (int i = 0; i < NELEMENTS(dev->calibration); i++) {
-		PIOS_MS5611_Read(MS5611_CALIB_ADDR + i * 2, data, 2);
+		PIOS_MS5XXX_Read(MS5XXX_CALIB_ADDR + i * 2, data, 2);
 		dev->calibration[i] = (data[0] << 8) | data[1];
 	}
 
 	PIOS_SENSORS_Register(PIOS_SENSOR_BARO, dev->queue);
 
 	dev->task = PIOS_Thread_Create(
-			PIOS_MS5611_Task, "pios_ms5611", MS5611_TASK_STACK_BYTES, NULL, MS5611_TASK_PRIORITY);
+			PIOS_MS5XXX_Task, "pios_ms5xxx", MS5XXX_TASK_STACK_BYTES, NULL, MS5XXX_TASK_PRIORITY);
 	PIOS_Assert(dev->task != NULL);
 
 	return 0;
 }
 
 /**
- * Claim the MS5611 device semaphore.
+ * Claim the MS5XXX device semaphore.
  * \return 0 if no error
  * \return -1 if timeout before claiming semaphore
  */
-static int32_t PIOS_MS5611_ClaimDevice(void)
+static int32_t PIOS_MSXXX_ClaimDevice(void)
 {
-	PIOS_Assert(PIOS_MS5611_Validate(dev) == 0);
+	PIOS_Assert(PIOS_MS5XXX_Validate(dev) == 0);
 
 	return PIOS_Semaphore_Take(dev->busy, PIOS_SEMAPHORE_TIMEOUT_MAX) == true ? 0 : 1;
 }
 
 /**
- * Release the MS5611 device semaphore.
+ * Release the MS5XXX device semaphore.
  * \return 0 if no error
  */
-static int32_t PIOS_MS5611_ReleaseDevice(void)
+static int32_t PIOS_MS5XXX_ReleaseDevice(void)
 {
-	PIOS_Assert(PIOS_MS5611_Validate(dev) == 0);
+	PIOS_Assert(PIOS_MS5XXX_Validate(dev) == 0);
 
 	return PIOS_Semaphore_Give(dev->busy) == true ? 0 : 1;
 }
@@ -204,19 +198,19 @@ static int32_t PIOS_MS5611_ReleaseDevice(void)
 * \param[in] PRESSURE_CONV or TEMPERATURE_CONV to select which measurement to make
 * \return 0 for success, -1 for failure (conversion completed and not read)
 */
-static int32_t PIOS_MS5611_StartADC(enum conversion_type type)
+static int32_t PIOS_MS5XXX_StartADC(enum conversion_type type)
 {
-	if (PIOS_MS5611_Validate(dev) != 0)
+	if (PIOS_MS5XXX_Validate(dev) != 0)
 		return -1;
 
 	/* Start the conversion */
 	switch (type) {
 	case TEMPERATURE_CONV:
-		while (PIOS_MS5611_WriteCommand(MS5611_TEMP_ADDR + dev->cfg->oversampling) != 0)
+		while (PIOS_MS5XXX_WriteCommand(MS5XXX_TEMP_ADDR + dev->cfg->oversampling) != 0)
 			continue;
 		break;
 	case PRESSURE_CONV:
-		while (PIOS_MS5611_WriteCommand(MS5611_PRES_ADDR + dev->cfg->oversampling) != 0)
+		while (PIOS_MS5XXX_WriteCommand(MS5XXX_PRES_ADDR + dev->cfg->oversampling) != 0)
 			continue;
 		break;
 	default:
@@ -231,21 +225,21 @@ static int32_t PIOS_MS5611_StartADC(enum conversion_type type)
 /**
  * @brief Return the delay for the current osr
  */
-static int32_t PIOS_MS5611_GetDelay()
+static int32_t PIOS_MS5XXX_GetDelay()
 {
-	if (PIOS_MS5611_Validate(dev) != 0)
+	if (PIOS_MS5XXX_Validate(dev) != 0)
 		return 100;
 
 	switch(dev->cfg->oversampling) {
-	case MS5611_OSR_256:
+	case MS5XXX_OSR_256:
 		return 2;
-	case MS5611_OSR_512:
+	case MS5XXX_OSR_512:
 		return 2;
-	case MS5611_OSR_1024:
+	case MS5XXX_OSR_1024:
 		return 3;
-	case MS5611_OSR_2048:
+	case MS5XXX_OSR_2048:
 		return 5;
-	case MS5611_OSR_4096:
+	case MS5XXX_OSR_4096:
 		return 10;
 	default:
 		break;
@@ -257,9 +251,9 @@ static int32_t PIOS_MS5611_GetDelay()
 * Read the ADC conversion value (once ADC conversion has completed)
 * \return 0 if successfully read the ADC, -1 if failed
 */
-static int32_t PIOS_MS5611_ReadADC(void)
+static int32_t PIOS_MS5XXX_ReadADC(void)
 {
-	if (PIOS_MS5611_Validate(dev) != 0)
+	if (PIOS_MS5XXX_Validate(dev) != 0)
 		return -1;
 
 	uint8_t data[3];
@@ -271,7 +265,7 @@ static int32_t PIOS_MS5611_ReadADC(void)
 	if (dev->current_conversion_type == TEMPERATURE_CONV) {
 		uint32_t raw_temperature;
 		/* Read the temperature conversion */
-		if (PIOS_MS5611_Read(MS5611_ADC_READ, data, 3) != 0)
+		if (PIOS_MS5XXX_Read(MS5XXX_ADC_READ, data, 3) != 0)
 			return -1;
 
 		raw_temperature = (data[0] << 16) | (data[1] << 8) | data[2];
@@ -290,7 +284,7 @@ static int32_t PIOS_MS5611_ReadADC(void)
 		uint32_t raw_pressure;
 
 		/* Read the pressure conversion */
-		if (PIOS_MS5611_Read(MS5611_ADC_READ, data, 3) != 0)
+		if (PIOS_MS5XXX_Read(MS5XXX_ADC_READ, data, 3) != 0)
 			return -1;
 
 		raw_pressure = (data[0] << 16) | (data[1] << 8) | (data[2] << 0);
@@ -324,22 +318,22 @@ static int32_t PIOS_MS5611_ReadADC(void)
 * \return -1 if dev is invalid
 * \return -2 if error during I2C transfer
 */
-static int32_t PIOS_MS5611_Read(uint8_t address, uint8_t *buffer, uint8_t len)
+static int32_t PIOS_MS5XXX_Read(uint8_t address, uint8_t *buffer, uint8_t len)
 {
-	if (PIOS_MS5611_Validate(dev) != 0)
+	if (PIOS_MS5XXX_Validate(dev) != 0)
 		return -1;
 
 	const struct pios_i2c_txn txn_list[] = {
 		{
 			.info = __func__,
-			.addr = ms5611_i2c_addr,
+			.addr = ms5xxx_i2c_addr,
 			.rw = PIOS_I2C_TXN_WRITE,
 			.len = 1,
 			.buf = &address,
 		},
 		{
 			.info = __func__,
-			.addr = ms5611_i2c_addr,
+			.addr = ms5xxx_i2c_addr,
 			.rw = PIOS_I2C_TXN_READ,
 			.len = len,
 			.buf = buffer,
@@ -350,22 +344,22 @@ static int32_t PIOS_MS5611_Read(uint8_t address, uint8_t *buffer, uint8_t len)
 }
 
 /**
-* Writes one or more bytes to the MS5611
+* Writes one or more bytes to the MS5XXX
 * \param[in] address Register address
 * \param[in] buffer source buffer
 * \return 0 if operation was successful
 * \return -1 if dev is invalid
 * \return -2 if error during I2C transfer
 */
-static int32_t PIOS_MS5611_WriteCommand(uint8_t command)
+static int32_t PIOS_MS5XXX_WriteCommand(uint8_t command)
 {
-	if (PIOS_MS5611_Validate(dev) != 0)
+	if (PIOS_MS5XXX_Validate(dev) != 0)
 		return -1;
 
 	const struct pios_i2c_txn txn_list[] = {
 		{
 			.info = __func__,
-			.addr = ms5611_i2c_addr,
+			.addr = ms5xxx_i2c_addr,
 			.rw = PIOS_I2C_TXN_WRITE,
 			.len = 1,
 			.buf = &command,
@@ -379,22 +373,22 @@ static int32_t PIOS_MS5611_WriteCommand(uint8_t command)
 * @brief Run self-test operation.
 * \return 0 if self-test succeed, -1 if failed
 */
-int32_t PIOS_MS5611_Test()
+int32_t PIOS_MS5XXX_Test()
 {
-	if (PIOS_MS5611_Validate(dev) != 0)
+	if (PIOS_MS5XXX_Validate(dev) != 0)
 		return -1;
 
-	PIOS_MS5611_ClaimDevice();
-	PIOS_MS5611_StartADC(TEMPERATURE_CONV);
-	PIOS_DELAY_WaitmS(PIOS_MS5611_GetDelay());
-	PIOS_MS5611_ReadADC();
-	PIOS_MS5611_ReleaseDevice();
+	PIOS_MSXXX_ClaimDevice();
+	PIOS_MS5XXX_StartADC(TEMPERATURE_CONV);
+	PIOS_DELAY_WaitmS(PIOS_MS5XXX_GetDelay());
+	PIOS_MS5XXX_ReadADC();
+	PIOS_MS5XXX_ReleaseDevice();
 
-	PIOS_MS5611_ClaimDevice();
-	PIOS_MS5611_StartADC(PRESSURE_CONV);
-	PIOS_DELAY_WaitmS(PIOS_MS5611_GetDelay());
-	PIOS_MS5611_ReadADC();
-	PIOS_MS5611_ReleaseDevice();
+	PIOS_MSXXX_ClaimDevice();
+	PIOS_MS5XXX_StartADC(PRESSURE_CONV);
+	PIOS_DELAY_WaitmS(PIOS_MS5XXX_GetDelay());
+	PIOS_MS5XXX_ReadADC();
+	PIOS_MS5XXX_ReleaseDevice();
 
 	// check range for sanity according to datasheet
 	if (dev->temperature_unscaled < -4000 ||
@@ -406,7 +400,7 @@ int32_t PIOS_MS5611_Test()
 	return 0;
 }
 
-static void PIOS_MS5611_Task(void *parameters)
+static void PIOS_MS5XXX_Task(void *parameters)
 {
 	// init this to 1 in order to force a temperature read on the first run
 	uint32_t temp_press_interleave_count = 1;
@@ -420,11 +414,11 @@ static void PIOS_MS5611_Task(void *parameters)
 		if (temp_press_interleave_count == 0)
 		{
 			// Update the temperature data
-			PIOS_MS5611_ClaimDevice();
-			PIOS_MS5611_StartADC(TEMPERATURE_CONV);
-			PIOS_Thread_Sleep(PIOS_MS5611_GetDelay());
-			read_adc_result = PIOS_MS5611_ReadADC();
-			PIOS_MS5611_ReleaseDevice();
+			PIOS_MSXXX_ClaimDevice();
+			PIOS_MS5XXX_StartADC(TEMPERATURE_CONV);
+			PIOS_Thread_Sleep(PIOS_MS5XXX_GetDelay());
+			read_adc_result = PIOS_MS5XXX_ReadADC();
+			PIOS_MS5XXX_ReleaseDevice();
 
 			temp_press_interleave_count = dev->cfg->temperature_interleaving;
 			if (temp_press_interleave_count == 0)
@@ -432,17 +426,17 @@ static void PIOS_MS5611_Task(void *parameters)
 		}
 
 		// Update the pressure data
-		PIOS_MS5611_ClaimDevice();
-		PIOS_MS5611_StartADC(PRESSURE_CONV);
-		PIOS_Thread_Sleep(PIOS_MS5611_GetDelay());
-		read_adc_result = PIOS_MS5611_ReadADC();
-		PIOS_MS5611_ReleaseDevice();
+		PIOS_MSXXX_ClaimDevice();
+		PIOS_MS5XXX_StartADC(PRESSURE_CONV);
+		PIOS_Thread_Sleep(PIOS_MS5XXX_GetDelay());
+		read_adc_result = PIOS_MS5XXX_ReadADC();
+		PIOS_MS5XXX_ReleaseDevice();
 
 		// Compute the altitude from the pressure and temperature and send it out
 		struct pios_sensor_baro_data data;
 		data.temperature = ((float) dev->temperature_unscaled) / 100.0f;
 		data.pressure = ((float) dev->pressure_unscaled) / 1000.0f;
-		data.altitude = 44330.0f * (1.0f - powf(data.pressure / MS5611_P0, (1.0f / 5.255f)));
+		data.altitude = 44330.0f * (1.0f - powf(data.pressure / (STANDARD_AIR_SEA_LEVEL_PRESSURE/1000.0f), (1.0f / 5.255f)));
 
 		if (read_adc_result == 0) {
 			PIOS_Queue_Send(dev->queue, &data, 0);

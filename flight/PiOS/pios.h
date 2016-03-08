@@ -147,11 +147,11 @@
 #if defined(PIOS_INCLUDE_LSM303)
 #include <pios_lsm303.h>
 #endif
-#if defined(PIOS_INCLUDE_MS5611)
-#include <pios_ms5611.h>
+#if defined(PIOS_INCLUDE_MS5XXX)
+#include <pios_ms5xxx.h>
 #endif
-#if defined(PIOS_INCLUDE_MS5611_SPI)
-#include <pios_ms5611_spi.h>
+#if defined(PIOS_INCLUDE_MS5XXX_SPI)
+#include <pios_ms5xxx_spi.h>
 #endif
 #if defined(PIOS_INCLUDE_IAP)
 #include <pios_iap.h>

@@ -98,13 +98,13 @@ static const struct pios_hmc5883_cfg pios_hmc5883_cfg = {
 /**
  * Configuration for the MS5611 chip
  */
-#if defined(PIOS_INCLUDE_MS5611)
-#include "pios_ms5611_priv.h"
-static const struct pios_ms5611_cfg pios_ms5611_cfg = {
-	.oversampling = MS5611_OSR_1024,
+#if defined(PIOS_INCLUDE_MS5XXX)
+#include "pios_ms5xxx_priv.h"
+static const struct pios_ms5xxx_cfg pios_ms5xxx_cfg = {
+	.oversampling = MS5XXX_OSR_1024,
 	.temperature_interleaving = 1,
 };
-#endif /* PIOS_INCLUDE_MS5611 */
+#endif /* PIOS_INCLUDE_MS5XXX */
 
 
 /**
@@ -500,8 +500,8 @@ void PIOS_Board_Init(void) {
 	PIOS_HMC5883_Init(PIOS_I2C_MAIN_ADAPTER, &pios_hmc5883_cfg);
 #endif
 	
-#if defined(PIOS_INCLUDE_MS5611)
-	PIOS_MS5611_Init(&pios_ms5611_cfg, pios_i2c_mag_pressure_adapter_id);
+#if defined(PIOS_INCLUDE_MS5XXX)
+	PIOS_MS5XXX_Init(&pios_ms5xxx_cfg, pios_i2c_mag_pressure_adapter_id);
 #endif
 
 #if defined(PIOS_INCLUDE_MPU6000)
