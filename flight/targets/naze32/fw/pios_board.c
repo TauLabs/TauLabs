@@ -130,6 +130,7 @@ static /*const*/ struct pios_hmc5883_cfg pios_hmc5883_cfg = {
 static const struct pios_ms5xxx_cfg pios_ms5xxx_cfg = {
 	.oversampling = MS5XXX_OSR_512,
 	.temperature_interleaving = 1,
+	.pios_ms5xxx_model = PIOS_MS5M_MS5611,
 };
 #endif /* PIOS_INCLUDE_MS5XXX */
 

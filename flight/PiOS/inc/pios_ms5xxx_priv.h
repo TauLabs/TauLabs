@@ -50,6 +50,14 @@ enum pios_ms5xxx_osr {
 	MS5XXX_OSR_4096  = 8,
 };
 
+//! The valid MS5XXX models
+enum PIOS_MS5XXX_MODEL {
+	PIOS_MS5M_MS5611,
+	PIOS_MS5M_MS5637,
+	PIOS_MS5M_MS5803_01,
+	PIOS_MS5M_MS5803_02,
+};
+
 //! Valid MS5xxx Addresses
 enum MS5XXX_I2C_ADDRESS {
 	MS5XXX_I2C_ADDR_0x76 = 0x76,
@@ -65,6 +73,8 @@ struct pios_ms5xxx_cfg {
 	//! How many samples of pressure for each temperature measurement
 	uint32_t temperature_interleaving;
 	
+	//! MS5XXX model
+	enum PIOS_MS5XXX_MODEL pios_ms5xxx_model;
 };
 
 /* Public Functions */

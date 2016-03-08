@@ -149,6 +149,19 @@ static const struct pios_bmp085_cfg pios_bmp085_cfg = {
 };
 #endif /* PIOS_INCLUDE_BMP085 */
 
+/**
+ * Configuration for the MS5611 chip on SPI
+ */
+#if defined(PIOS_INCLUDE_MS5XXX_SPI) || defined(PIOS_INCLUDE_MS5XXX)
+#include "pios_ms5xxx_priv.h"
+static const struct pios_ms5xxx_cfg pios_ms5xxx_cfg = {
+	.oversampling             = MS5XXX_OSR_4096,
+	.temperature_interleaving = 1,
+	.pios_ms5xxx_model = PIOS_MS5M_MS5611,
+};
+#endif /* PIOS_INCLUDE_MS5XXX_SPI */
+
+
 #define PIOS_COM_CAN_RX_BUF_LEN 256
 #define PIOS_COM_CAN_TX_BUF_LEN 256
 
