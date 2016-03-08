@@ -118,7 +118,7 @@ IUAVGadgetConfiguration * OPMapGadgetConfiguration::clone()
 
     return m;
 }
-void OPMapGadgetConfiguration::saveConfig() const {
+void OPMapGadgetConfiguration::saveMapConfig() const {
     if(!m_settings)
         return;
    m_settings->setValue("mapProvider", m_mapProvider);

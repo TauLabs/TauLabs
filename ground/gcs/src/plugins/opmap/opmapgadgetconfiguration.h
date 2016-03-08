@@ -69,7 +69,7 @@ public:
     QString uavSymbol() const { return m_uavSymbol; }
     int maxUpdateRate() const { return m_maxUpdateRate; }
     qreal opacity() const { return m_opacity; }
-    void saveConfig() const;
+    void saveMapConfig() const;
 
     QString getUserImageLocation(){return m_userImageLocation;}
     float getUserImageHorizontalScale(){return m_userImageHorizontalScale;}
