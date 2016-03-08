@@ -30,6 +30,7 @@ include $(BOARD_INFO_DIR)/board-info.mk
 # Set developer code and compile options
 # Set to YES for debugging
 DEBUG ?= NO
+RTOS ?= FREERTOS
 
 # List of modules to include
 MODULES += FirmwareIAP 
@@ -57,7 +58,6 @@ OPUAVOBJINC = $(OPUAVOBJ)/inc
 
 SRC = 
 # optional component libraries
-include $(PIOSCOMMONLIB)/FreeRTOS/library.mk
 include $(FLIGHTLIB)/CMSIS3/DSP_Lib/library.mk
 
 
@@ -85,9 +85,6 @@ SRC += $(MATHLIB)/misc_math.c
 
 SRC += $(FLIGHTLIB)/fifo_buffer.c
 SRC += $(FLIGHTLIB)/taskmonitor.c
-
-## PIOS Hardware (STM32F4xx)
-include $(PIOS)/STM32F4xx/library_fw.mk
 
 ## PIOS Hardware (Common)
 SRC += $(PIOSCOMMON)/pios_delay.c

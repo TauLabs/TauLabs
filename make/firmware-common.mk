@@ -1,3 +1,24 @@
+# Check for RTOS
+ifeq ($(RTOS), CHIBIOS)
+  CDEFS += -DPIOS_INCLUDE_CHIBIOS
+  include $(APPLIBDIR)/ChibiOS/library.mk
+  SRC += board.c
+else ifeq ($(RTOS), FREERTOS)
+  CDEFS += -DPIOS_INCLUDE_FREERTOS
+  include $(PIOSCOMMONLIB)/FreeRTOS/library.mk
+else ifeq ($(RTOS), UNDEFINED_FOR_UAVOBJECT_LIB)
+  # Do nothing here, it's only included as an escape for the
+else
+  $(error [RTOS]: $(RTOS) is not a valid RTOS. Choose between either CHIBIOS or FREERTOS)
+endif
+
+## PIOS Hardware (STM32F4xx)
+ifeq ($(RTOS), CHIBIOS)
+ include $(PIOSSTM32F4XX)/library_chibios.mk
+else ifeq ($(RTOS), FREERTOS)
+ include $(PIOSSTM32F4XX)/library_fw.mk
+endif
+
 FLOATABI ?= soft
 UAVOBJLIB := $(OUTDIR)/../uavobjects_arm$(FLOATABI)fp/libuavobject.a
 

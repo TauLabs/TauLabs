@@ -66,6 +66,9 @@ LDFLAGS += -Wl,--fatal-warnings
 SRC += $(filter-out $(OPUAVSYNTHDIR)/uavobjectsinit.c,$(wildcard $(OPUAVSYNTHDIR)/*.c))
 NO_AUTO_UAVO = YES
 
+# Override the local version of RTOS before entering firmware-common.mk
+override RTOS = UNDEFINED_FOR_UAVOBJECT_LIB
+
 include $(MAKE_INC_DIR)/firmware-common.mk
 
 $(OUTDIR)/libuavobject.a: $(ALLOBJ)

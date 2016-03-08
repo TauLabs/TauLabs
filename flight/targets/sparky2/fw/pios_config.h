@@ -32,7 +32,6 @@
 #define PIOS_CONFIG_H
 
 /* Major features */
-#define PIOS_INCLUDE_CHIBIOS
 #define PIOS_INCLUDE_BL_HELPER
 
 /* Enable/Disable PiOS Modules */

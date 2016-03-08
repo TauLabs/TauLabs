@@ -31,6 +31,7 @@ include $(BOARD_INFO_DIR)/board-info.mk
 # Set to YES for debugging
 DEBUG ?= NO
 ERASE_FLASH ?= NO
+RTOS ?= FREERTOS
 
 # List of modules to include
 MODULES = Sensors
@@ -88,7 +89,6 @@ MAVLINKINC = $(FLIGHTLIB)/mavlink/v1.0/common
 
 SRC = 
 # optional component libraries
-include $(PIOSCOMMONLIB)/FreeRTOS/library.mk
 include $(FLIGHTLIB)/CMSIS3/DSP_Lib/library.mk
 
 
@@ -129,9 +129,6 @@ SRC += $(RSCODE)/berlekamp.c
 SRC += $(RSCODE)/crcgen.c
 SRC += $(RSCODE)/galois.c
 SRC += $(RSCODE)/rs.c
-
-## PIOS Hardware (STM32F4xx)
-include $(PIOS)/STM32F4xx/library_fw.mk
 
 ## PIOS Hardware (Common)
 SRC += $(PIOSCOMMON)/pios_delay.c

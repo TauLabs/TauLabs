@@ -31,6 +31,7 @@ include $(BOARD_INFO_DIR)/board-info.mk
 # Set to YES for debugging
 DEBUG ?= NO
 ERASE_FLASH ?= NO
+RTOS ?= CHIBIOS
 
 # List of modules to include
 MODULES = Sensors
@@ -79,7 +80,6 @@ OPUAVOBJINC = $(OPUAVOBJ)/inc
 MAVLINKINC = $(FLIGHTLIB)/mavlink/v1.0/common
 
 # optional component libraries
-include $(APPLIBDIR)/ChibiOS/library.mk
 
 
 # List C source files here. (C dependencies are automatically generated.)
@@ -90,7 +90,6 @@ SRC += ${foreach MOD, ${MODULES} ${OPTMODULES}, ${wildcard ${OPMODULEDIR}/${MOD}
 ## OPENPILOT CORE:
 SRC += ${OPMODULEDIR}/System/systemmod.c
 SRC += main.c
-SRC += board.c
 SRC += pios_board.c
 SRC += pios_usb_board_data.c
 SRC += $(FLIGHTLIB)/alarms.c
@@ -118,9 +117,6 @@ SRC += $(MATHLIB)/coordinate_conversions.c
 SRC += $(MATHLIB)/misc_math.c
 SRC += $(MATHLIB)/atmospheric_math.c
 SRC += $(MATHLIB)/pid.c
-
-## PIOS Hardware (STM32F4xx)
-include $(PIOS)/STM32F4xx/library_chibios.mk
 
 ## PIOS Hardware (Common)
 SRC += $(PIOSCOMMON)/pios_delay.c
