@@ -12,12 +12,15 @@ else
   $(error [RTOS]: $(RTOS) is not a valid RTOS. Choose between either CHIBIOS or FREERTOS)
 endif
 
-## PIOS Hardware (STM32F4xx)
+## PIOS Hardware (STM32F3/4xx)
+ifdef PIOSSTM32FXXX
 ifeq ($(RTOS), CHIBIOS)
- include $(PIOSSTM32F4XX)/library_chibios.mk
+ include $(PIOSSTM32FXXX)/library_chibios.mk
 else ifeq ($(RTOS), FREERTOS)
- include $(PIOSSTM32F4XX)/library_fw.mk
+ include $(PIOSSTM32FXXX)/library_fw.mk
 endif
+endif
+
 
 FLOATABI ?= soft
 UAVOBJLIB := $(OUTDIR)/../uavobjects_arm$(FLOATABI)fp/libuavobject.a
