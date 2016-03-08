@@ -50,6 +50,12 @@ enum pios_ms5xxx_osr {
 	MS5XXX_OSR_4096  = 8,
 };
 
+//! Valid MS5xxx Addresses
+enum MS5XXX_I2C_ADDRESS {
+	MS5XXX_I2C_ADDR_0x76 = 0x76,
+	MS5XXX_I2C_ADDR_0x77 = 0x77,
+};
+
 //! Configuration structure for the MS5XXX driver
 struct pios_ms5xxx_cfg {
 	//! The oversampling setting for the baro, higher produces
@@ -59,12 +65,12 @@ struct pios_ms5xxx_cfg {
 	//! How many samples of pressure for each temperature measurement
 	uint32_t temperature_interleaving;
 	
-	//! I2C address can either be 0x76 or 0x77
-	uint8_t use_0x76_address;
 };
 
-int32_t PIOS_MS5XXX_Init(const struct pios_ms5xxx_cfg * cfg, int32_t i2c_device);
-int32_t PIOS_MS5XXX_SPI_Init(uint32_t spi_id, uint32_t slave_num, const struct pios_ms5xxx_cfg *cfg);
+/* Public Functions */
+int32_t PIOS_MS5XXX_Test(void);
+int32_t PIOS_MS5XXX_I2C_Init(int32_t i2c_bus_id, enum MS5XXX_I2C_ADDRESS i2c_address, const struct pios_ms5xxx_cfg *cfg);
+int32_t PIOS_MS5XXX_SPI_Init(uint32_t spi_bus_id, uint32_t slave_num, const struct pios_ms5xxx_cfg *cfg);
 
 #endif /* PIOS_MS5XXX_PRIV_H */
 

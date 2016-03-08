@@ -501,7 +501,7 @@ void PIOS_Board_Init(void) {
 #endif
 	
 #if defined(PIOS_INCLUDE_MS5XXX)
-	PIOS_MS5XXX_Init(&pios_ms5xxx_cfg, pios_i2c_mag_pressure_adapter_id);
+	PIOS_MS5XXX_I2C_Init(pios_i2c_mag_pressure_adapter_id, MS5XXX_I2C_ADDR_0x77, &pios_ms5xxx_cfg);
 #endif
 
 #if defined(PIOS_INCLUDE_MPU6000)

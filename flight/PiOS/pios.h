@@ -148,10 +148,10 @@
 #include <pios_lsm303.h>
 #endif
 #if defined(PIOS_INCLUDE_MS5XXX)
-#include <pios_ms5xxx.h>
+#include <pios_ms5xxx_priv.h>
 #endif
 #if defined(PIOS_INCLUDE_MS5XXX_SPI)
-#include <pios_ms5xxx_spi.h>
+#include <pios_ms5xxx_priv.h>
 #endif
 #if defined(PIOS_INCLUDE_IAP)
 #include <pios_iap.h>

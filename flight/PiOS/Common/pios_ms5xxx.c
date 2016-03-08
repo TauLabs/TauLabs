@@ -8,7 +8,7 @@
  *
  * @file       pios_ms5xxx.c
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2012.
- * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2014
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2016
  * @brief      MS5XXX Pressure Sensor Routines
  * @see        The GNU Public License (GPL) Version 3
  *
@@ -32,7 +32,7 @@
 /* Project Includes */
 #include "pios.h"
 
-#if defined(PIOS_INCLUDE_MS5XXX)
+#if defined(PIOS_INCLUDE_MS5XXX) || defined(PIOS_INCLUDE_MS5XXX_SPI)
 
 #include "pios_ms5xxx_priv.h"
 #include "pios_semaphore.h"
@@ -45,12 +45,7 @@
 #define MS5XXX_TASK_PRIORITY	PIOS_THREAD_PRIO_HIGHEST
 #define MS5XXX_TASK_STACK_BYTES	512
 
-/* MS5xxx Addresses */
-#define MS5XXX_I2C_ADDR_0x76    0x76
-#define MS5XXX_I2C_ADDR_0x77    0x77
-
 /* Private Variables */
-uint8_t ms5xxx_i2c_addr;
 
 /* Private methods */
 static int32_t PIOS_MS5XXX_Read(uint8_t address, uint8_t * buffer, uint8_t len);
@@ -58,6 +53,11 @@ static int32_t PIOS_MS5XXX_WriteCommand(uint8_t command);
 static void PIOS_MS5XXX_Task(void *parameters);
 
 /* Private types */
+//! The valid hardware buses
+enum PIOS_BUS_TYPE {
+	PIOS_SPI_BUS,
+	PIOS_I2C_BUS,
+};
 
 /* Local Types */
 
@@ -72,7 +72,10 @@ enum conversion_type {
 
 struct ms5xxx_dev {
 	const struct pios_ms5xxx_cfg * cfg;
-	uint32_t i2c_id;
+	enum PIOS_BUS_TYPE pios_bus_type; // Bus type can be either SPI or I2C
+	uint32_t dev_id; // Valid for both SPI and I2C
+	uint32_t slave_num; // Only used for SPI bus chip select
+	uint8_t ms5xxx_i2c_addr; // Only used for I2C 7-bit address
 	struct pios_thread *task;
 	struct pios_queue *queue;
 
@@ -116,7 +119,7 @@ static struct ms5xxx_dev * PIOS_MS5XXX_alloc(void)
 }
 
 /**
- * @brief Validate the handle to the i2c device
+ * @brief Validate the handle to the device
  * @returns 0 for valid device or <0 otherwise
  */
 static int32_t PIOS_MS5XXX_Validate(struct ms5xxx_dev *dev)
@@ -125,28 +128,23 @@ static int32_t PIOS_MS5XXX_Validate(struct ms5xxx_dev *dev)
 		return -1;
 	if (dev->magic != PIOS_MS5XXX_DEV_MAGIC)
 		return -2;
-	if (dev->i2c_id == 0)
+	if (dev->dev_id == 0)
 		return -3;
 	return 0;
 }
 
+
 /**
- * Initialise the MS5XXX sensor
+ * @brief PIOS_MS5XXX_Init Initializes the MS5xxx chip
+ * @param cfg Configuration structure. Note that it is not deep copied.
+ * @return 0 on success. -1 if the allocation fails, -2 if the board
+ * setup file does not define the model of chip, and -3 if the write
+ * command fails.
  */
-int32_t PIOS_MS5XXX_Init(const struct pios_ms5xxx_cfg *cfg, int32_t i2c_device)
+int32_t PIOS_MS5XXX_Init(const struct pios_ms5xxx_cfg *cfg)
 {
-	dev = (struct ms5xxx_dev *)PIOS_MS5XXX_alloc();
-	if (dev == NULL)
-		return -1;
-
-	dev->i2c_id = i2c_device;
+	// Set the pointer to the configuration struct. Note that it is not deep copied.
 	dev->cfg = cfg;
-
-	/* Which I2C address is being used? */
-	if (dev->cfg->use_0x76_address == true)
-		ms5xxx_i2c_addr = MS5XXX_I2C_ADDR_0x76;
-	else
-		ms5xxx_i2c_addr = MS5XXX_I2C_ADDR_0x77;
 
 	if (PIOS_MS5XXX_WriteCommand(MS5XXX_RESET) != 0)
 		return -2;
@@ -171,11 +169,48 @@ int32_t PIOS_MS5XXX_Init(const struct pios_ms5xxx_cfg *cfg, int32_t i2c_device)
 }
 
 /**
+ * Initialise the MS5XXX sensor
+ */
+int32_t PIOS_MS5XXX_SPI_Init(uint32_t spi_bus_id, uint32_t slave_num, const struct pios_ms5xxx_cfg *ms5xxx_cfg)
+{
+	// Allocate the memory
+	dev = (struct ms5xxx_dev *)PIOS_MS5XXX_alloc();
+	if (dev == NULL) {
+		return -1;
+	}
+
+	// Do a couple SPI specific things
+	dev->pios_bus_type = PIOS_SPI_BUS;
+	dev->dev_id = spi_bus_id;
+	dev->slave_num = slave_num;
+
+	// Go on to the generic initialization
+	return PIOS_MS5XXX_Init(ms5xxx_cfg);
+}
+
+int32_t PIOS_MS5XXX_I2C_Init(int32_t i2c_bus_id, enum MS5XXX_I2C_ADDRESS i2c_address, const struct pios_ms5xxx_cfg *ms5xxx_cfg)
+{
+	// Allocate the memory
+	dev = (struct ms5xxx_dev *)PIOS_MS5XXX_alloc();
+	if (dev == NULL) {
+		return -1;
+	}
+
+	// Do a couple I2C specific things
+	dev->pios_bus_type = PIOS_I2C_BUS;
+	dev->dev_id = i2c_bus_id;
+	dev->ms5xxx_i2c_addr = i2c_address;
+
+	// Go on to the generic initialization
+	return PIOS_MS5XXX_Init(ms5xxx_cfg);
+}
+
+/**
  * Claim the MS5XXX device semaphore.
  * \return 0 if no error
  * \return -1 if timeout before claiming semaphore
  */
-static int32_t PIOS_MSXXX_ClaimDevice(void)
+static int32_t PIOS_MSXXX_ClaimDeviceSemaphore(void)
 {
 	PIOS_Assert(PIOS_MS5XXX_Validate(dev) == 0);
 
@@ -186,11 +221,51 @@ static int32_t PIOS_MSXXX_ClaimDevice(void)
  * Release the MS5XXX device semaphore.
  * \return 0 if no error
  */
-static int32_t PIOS_MS5XXX_ReleaseDevice(void)
+static int32_t PIOS_MS5XXX_ReleaseDeviceSemaphore(void)
 {
 	PIOS_Assert(PIOS_MS5XXX_Validate(dev) == 0);
 
 	return PIOS_Semaphore_Give(dev->busy) == true ? 0 : 1;
+}
+
+/**
+ * @brief Claim the SPI bus for the baro communications and select this chip
+ * @return 0 if successful, -1 for invalid device, -2 if unable to claim bus
+ */
+static int32_t PIOS_MS5XXX_ClaimSPIBus(void)
+{
+#if defined(PIOS_INCLUDE_SPI)
+	if (PIOS_MS5XXX_Validate(dev) != 0) {
+		return -1;
+	} else if (PIOS_SPI_ClaimBus(dev->dev_id) != 0) {
+		return -2;
+	}
+
+	PIOS_SPI_RC_PinSet(dev->dev_id, dev->slave_num, 0);
+
+	return 0;
+#else
+	return -2;
+#endif
+}
+
+/**
+ * @brief Release the SPI bus for the baro communications and end the transaction
+ * @return 0 if successful
+ */
+static int32_t PIOS_MS5XXX_ReleaseSPIBus(void)
+{
+#if defined(PIOS_INCLUDE_SPI)
+	if (PIOS_MS5XXX_Validate(dev) != 0) {
+		return -1;
+	}
+
+	PIOS_SPI_RC_PinSet(dev->dev_id, dev->slave_num, 1);
+
+	return PIOS_SPI_ReleaseBus(dev->dev_id);
+#else
+	return -2;
+#endif
 }
 
 /**
@@ -320,27 +395,58 @@ static int32_t PIOS_MS5XXX_ReadADC(void)
 */
 static int32_t PIOS_MS5XXX_Read(uint8_t address, uint8_t *buffer, uint8_t len)
 {
-	if (PIOS_MS5XXX_Validate(dev) != 0)
+	if (PIOS_MS5XXX_Validate(dev) != 0) {
 		return -1;
+	}
 
-	const struct pios_i2c_txn txn_list[] = {
-		{
-			.info = __func__,
-			.addr = ms5xxx_i2c_addr,
-			.rw = PIOS_I2C_TXN_WRITE,
-			.len = 1,
-			.buf = &address,
-		},
-		{
-			.info = __func__,
-			.addr = ms5xxx_i2c_addr,
-			.rw = PIOS_I2C_TXN_READ,
-			.len = len,
-			.buf = buffer,
-		 }
-	};
+	int32_t rc = 0;
 
-	return PIOS_I2C_Transfer(dev->i2c_id, txn_list, NELEMENTS(txn_list));
+	switch (dev->pios_bus_type) {
+	case PIOS_SPI_BUS:
+	{
+		if (PIOS_MS5XXX_ClaimSPIBus() != 0) {
+			return -2;
+		}
+
+		if (PIOS_SPI_TransferByte(dev->dev_id, address) < 0) {
+			rc = -3;
+			goto out;
+		}
+
+		if (PIOS_SPI_TransferBlock(dev->dev_id, NULL, buffer, len, NULL) < 0) {
+			rc = -3;
+			goto out;
+		}
+
+	out:
+		PIOS_MS5XXX_ReleaseSPIBus();
+		break;
+	}
+	case PIOS_I2C_BUS:
+	{
+		const struct pios_i2c_txn txn_list[] = {
+			{
+				.info = __func__,
+					  .addr = dev->ms5xxx_i2c_addr,
+					  .rw = PIOS_I2C_TXN_WRITE,
+					  .len = 1,
+					  .buf = &address,
+			},
+			{
+				.info = __func__,
+					  .addr = dev->ms5xxx_i2c_addr,
+					  .rw = PIOS_I2C_TXN_READ,
+					  .len = len,
+					  .buf = buffer,
+			}
+		};
+
+		rc = PIOS_I2C_Transfer(dev->dev_id, txn_list, NELEMENTS(txn_list));
+		break;
+	}
+	}
+
+	return rc;
 }
 
 /**
@@ -349,24 +455,51 @@ static int32_t PIOS_MS5XXX_Read(uint8_t address, uint8_t *buffer, uint8_t len)
 * \param[in] buffer source buffer
 * \return 0 if operation was successful
 * \return -1 if dev is invalid
-* \return -2 if error during I2C transfer
+* \return -2 if failed to claim SPI bus
+* \return -3 if error during transfer
 */
 static int32_t PIOS_MS5XXX_WriteCommand(uint8_t command)
 {
-	if (PIOS_MS5XXX_Validate(dev) != 0)
+	if (PIOS_MS5XXX_Validate(dev) != 0) {
 		return -1;
+	}
 
-	const struct pios_i2c_txn txn_list[] = {
-		{
-			.info = __func__,
-			.addr = ms5xxx_i2c_addr,
-			.rw = PIOS_I2C_TXN_WRITE,
-			.len = 1,
-			.buf = &command,
-		 },
-	};
+	int32_t rc = 0;
 
-	return PIOS_I2C_Transfer(dev->i2c_id, txn_list, NELEMENTS(txn_list));
+	switch (dev->pios_bus_type) {
+	case PIOS_SPI_BUS:
+	{
+		if (PIOS_MS5XXX_ClaimSPIBus() != 0) {
+			return -2;
+		}
+
+		if (PIOS_SPI_TransferByte(dev->dev_id, command) < 0) {
+			rc = -3;
+			goto out;
+		}
+
+	out:
+		PIOS_MS5XXX_ReleaseSPIBus();
+		break;
+	}
+	case PIOS_I2C_BUS:
+	{
+		const struct pios_i2c_txn txn_list[] = {
+			{
+				.info = __func__,
+				.addr = dev->ms5xxx_i2c_addr,
+				.rw = PIOS_I2C_TXN_WRITE,
+				.len = 1,
+				.buf = &command,
+			 },
+		};
+
+		rc = PIOS_I2C_Transfer(dev->dev_id, txn_list, NELEMENTS(txn_list));
+		break;
+	}
+	}
+
+	return rc;
 }
 
 /**
@@ -375,20 +508,21 @@ static int32_t PIOS_MS5XXX_WriteCommand(uint8_t command)
 */
 int32_t PIOS_MS5XXX_Test()
 {
-	if (PIOS_MS5XXX_Validate(dev) != 0)
+	if (PIOS_MS5XXX_Validate(dev) != 0) {
 		return -1;
+	}
 
-	PIOS_MSXXX_ClaimDevice();
+	PIOS_MSXXX_ClaimDeviceSemaphore();
 	PIOS_MS5XXX_StartADC(TEMPERATURE_CONV);
 	PIOS_DELAY_WaitmS(PIOS_MS5XXX_GetDelay());
 	PIOS_MS5XXX_ReadADC();
-	PIOS_MS5XXX_ReleaseDevice();
+	PIOS_MS5XXX_ReleaseDeviceSemaphore();
 
-	PIOS_MSXXX_ClaimDevice();
+	PIOS_MSXXX_ClaimDeviceSemaphore();
 	PIOS_MS5XXX_StartADC(PRESSURE_CONV);
 	PIOS_DELAY_WaitmS(PIOS_MS5XXX_GetDelay());
 	PIOS_MS5XXX_ReadADC();
-	PIOS_MS5XXX_ReleaseDevice();
+	PIOS_MS5XXX_ReleaseDeviceSemaphore();
 
 	// check range for sanity according to datasheet
 	if (dev->temperature_unscaled < -4000 ||
@@ -414,11 +548,11 @@ static void PIOS_MS5XXX_Task(void *parameters)
 		if (temp_press_interleave_count == 0)
 		{
 			// Update the temperature data
-			PIOS_MSXXX_ClaimDevice();
+			PIOS_MSXXX_ClaimDeviceSemaphore();
 			PIOS_MS5XXX_StartADC(TEMPERATURE_CONV);
 			PIOS_Thread_Sleep(PIOS_MS5XXX_GetDelay());
 			read_adc_result = PIOS_MS5XXX_ReadADC();
-			PIOS_MS5XXX_ReleaseDevice();
+			PIOS_MS5XXX_ReleaseDeviceSemaphore();
 
 			temp_press_interleave_count = dev->cfg->temperature_interleaving;
 			if (temp_press_interleave_count == 0)
@@ -426,11 +560,11 @@ static void PIOS_MS5XXX_Task(void *parameters)
 		}
 
 		// Update the pressure data
-		PIOS_MSXXX_ClaimDevice();
+		PIOS_MSXXX_ClaimDeviceSemaphore();
 		PIOS_MS5XXX_StartADC(PRESSURE_CONV);
 		PIOS_Thread_Sleep(PIOS_MS5XXX_GetDelay());
 		read_adc_result = PIOS_MS5XXX_ReadADC();
-		PIOS_MS5XXX_ReleaseDevice();
+		PIOS_MS5XXX_ReleaseDeviceSemaphore();
 
 		// Compute the altitude from the pressure and temperature and send it out
 		struct pios_sensor_baro_data data;
