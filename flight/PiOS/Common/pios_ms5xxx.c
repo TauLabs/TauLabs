@@ -79,7 +79,7 @@ struct ms5xxx_dev {
 	struct pios_thread *task;
 	struct pios_queue *queue;
 
-	int64_t pressure_unscaled;
+	int64_t pressure;
 	int64_t temperature_unscaled;
 	uint16_t calibration[6];
 	enum conversion_type current_conversion_type;
@@ -472,7 +472,7 @@ void process_adc(uint8_t data[3], enum conversion_type current_conversion_type)
 			break;
 		}
 
-		dev->pressure_unscaled = ((((int64_t)raw_pressure * sens) >> 21) - offset) >> 15;
+		dev->pressure = ((((int64_t)raw_pressure * sens) >> 21) - offset) >> 15;
 	}
 }
 
@@ -682,8 +682,8 @@ static void PIOS_MS5XXX_Task(void *parameters)
 		// Compute the altitude from the pressure and temperature and send it out
 		struct pios_sensor_baro_data data;
 		data.temperature = ((float) dev->temperature_unscaled) / 100.0f;
-		data.pressure = ((float) dev->pressure_unscaled) / 1000.0f;
-		data.altitude = 44330.0f * (1.0f - powf(data.pressure / (STANDARD_AIR_SEA_LEVEL_PRESSURE/1000.0f), (1.0f / 5.255f)));
+		data.pressure = ((float) dev->pressure);
+		data.altitude = 44330.0f * (1.0f - powf(data.pressure / STANDARD_AIR_SEA_LEVEL_PRESSURE, (1.0f / 5.255f)));
 
 		if (read_adc_result == 0) {
 			PIOS_Queue_Send(dev->queue, &data, 0);
