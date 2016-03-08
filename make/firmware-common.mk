@@ -12,13 +12,14 @@ else
   $(error [RTOS]: $(RTOS) is not a valid RTOS. Choose between either CHIBIOS or FREERTOS)
 endif
 
-## PIOS Hardware (STM32F3/4xx)
-ifdef PIOSSTM32FXXX
-ifeq ($(RTOS), CHIBIOS)
- include $(PIOSSTM32FXXX)/library_chibios.mk
-else ifeq ($(RTOS), FREERTOS)
- include $(PIOSSTM32FXXX)/library_fw.mk
-endif
+## PIOS Hardware (STM32F1/3/4xx or POSIX)
+# `ifneq ($(or $(VAR1),$(VAR2)),)` is the Makefile code for `if defined(VAR1) || defined(VAR2)`
+ifneq ($(or $(PIOSSTM32FXXX),$(PIOSPOSIX)),)
+  ifeq ($(RTOS), CHIBIOS)
+    include $(PIOS)/$(TARGET_ARCHITECTURE)/library_chibios.mk
+  else ifeq ($(RTOS), FREERTOS)
+    include $(PIOS)/$(TARGET_ARCHITECTURE)/library_fw.mk
+  endif
 endif
 
 
