@@ -328,6 +328,8 @@ static int32_t PIOS_MS5XXX_GetDelay()
 	return 10;
 }
 
+void process_adc(uint8_t data[3], enum conversion_type current_conversion_type);
+
 /**
 * Read the ADC conversion value (once ADC conversion has completed)
 * \return 0 if successfully read the ADC, -1 if failed
@@ -339,55 +341,139 @@ static int32_t PIOS_MS5XXX_ReadADC(void)
 
 	uint8_t data[3];
 
+	// Read the ADC conversion. The data will be handled separately depending on which ADC capture was triggered.
+	if (PIOS_MS5XXX_Read(MS5XXX_ADC_READ, data, 3) != 0) {
+		return -1;
+	}
+
+	process_adc(data, dev->current_conversion_type);
+
+	return 0;
+}
+
+
+/**
+ * @brief process_adc
+ * @param data
+ * @param current_conversion_type
+ */
+void process_adc(uint8_t data[3], enum conversion_type current_conversion_type)
+{
 	static int64_t delta_temp;
 	static int64_t temperature;
 
-	/* Read and store the 16bit result */
-	if (dev->current_conversion_type == TEMPERATURE_CONV) {
-		uint32_t raw_temperature;
-		/* Read the temperature conversion */
-		if (PIOS_MS5XXX_Read(MS5XXX_ADC_READ, data, 3) != 0)
-			return -1;
+	// Evaluate the ADC data
+	if (current_conversion_type == TEMPERATURE_CONV) {
+		// Copy 24-bits into int32
+		int32_t raw_temperature = (data[0] << 16) | (data[1] << 8) | (data[2] << 0);
+		delta_temp = raw_temperature - (dev->calibration[4] << 8);
+		dev->temperature_unscaled = 2000 + ((delta_temp * dev->calibration[5]) >> 23);
 
-		raw_temperature = (data[0] << 16) | (data[1] << 8) | data[2];
-
-		delta_temp = (int32_t)raw_temperature - (dev->calibration[4] << 8);
-		temperature = 2000 + ((delta_temp * dev->calibration[5]) >> 23);
-		dev->temperature_unscaled = temperature;
-
-		// second order temperature compensation
-		if (temperature < 2000)
-			dev->temperature_unscaled -= (delta_temp * delta_temp) >> 31;
-
-	} else {
-		int64_t offset;
-		int64_t sens;
-		uint32_t raw_pressure;
-
-		/* Read the pressure conversion */
-		if (PIOS_MS5XXX_Read(MS5XXX_ADC_READ, data, 3) != 0)
-			return -1;
-
-		raw_pressure = (data[0] << 16) | (data[1] << 8) | (data[2] << 0);
-
-		offset = ((int64_t)dev->calibration[1] << 16) + (((int64_t)dev->calibration[3] * delta_temp) >> 7);
-		sens = (int64_t)dev->calibration[0] << 15;
-		sens = sens + ((((int64_t) dev->calibration[2]) * delta_temp) >> 8);
-
-		// second order temperature compensation
-		if (temperature < 2000) {
-			offset -= (5 * (temperature - 2000) * (temperature - 2000)) >> 1;
-			sens -= (5 * (temperature - 2000) * (temperature - 2000)) >> 2;
-
-			if (dev->temperature_unscaled < -1500) {
-				offset -= 7 * (temperature + 1500) * (temperature + 1500);
-				sens -= (11 * (temperature + 1500) * (temperature + 1500)) >> 1;
+		switch (dev->cfg->pios_ms5xxx_model) {
+		case PIOS_MS5M_MS5611:
+		case PIOS_MS5M_MS5803_01:
+		case PIOS_MS5M_MS5803_02:
+			// second order temperature compensation
+			if (temperature < 2000) {
+				dev->temperature_unscaled -= (delta_temp * delta_temp) >> 31;
 			}
+			break;
+		case PIOS_MS5M_MS5637:
+			// second order temperature compensation
+			if (temperature < 2000) {
+				dev->temperature_unscaled -= (3 * delta_temp * delta_temp) >> 33;
+			} else {
+				dev->temperature_unscaled -= (5 * delta_temp * delta_temp) >> 38;
+			}
+			break;
+		}
+	} else {
+		int64_t offset = 0;
+		int64_t sens = 0;
+
+		// Copy 24-bits into uint32
+		uint32_t raw_pressure = (data[0] << 16) | (data[1] << 8) | (data[2] << 0);
+
+		// Convert the data according to the math in the chip's documentation
+		switch (dev->cfg->pios_ms5xxx_model) {
+		case PIOS_MS5M_MS5611:
+			offset = ((int64_t)dev->calibration[1] << 16) + (((int64_t)dev->calibration[3] * delta_temp) >> 7);
+			sens = ((int64_t)dev->calibration[0] << 15) + ((((int64_t) dev->calibration[2]) * delta_temp) >> 8);
+
+			// second order temperature compensation
+			if (temperature < 2000) {
+				int32_t tmp_2000 = temperature - 2000;
+				offset -= (5 * tmp_2000 * tmp_2000) >> 1;
+				sens   -= (5 * tmp_2000 * tmp_2000) >> 2;
+
+				// It is correct to nest this if(), as per the docs
+				if (temperature < -1500) {
+					int32_t tmp_1500 = temperature + 1500;
+					offset -= 7 * tmp_1500 * tmp_1500;
+					sens   -= (11 * tmp_1500 * tmp_1500) >> 1;
+				}
+			}
+			break;
+		case PIOS_MS5M_MS5637:
+			offset = ((int64_t)dev->calibration[1] << 17) + (((int64_t)dev->calibration[3] * delta_temp) >> 6);
+			sens = ((int64_t)dev->calibration[0] << 16) + ((((int64_t) dev->calibration[2]) * delta_temp) >> 7);
+
+			// second order temperature compensation
+			if (temperature < 2000) {
+				int32_t tmp_2000 = temperature - 2000;
+				offset -= (61 * tmp_2000 * tmp_2000) >> 4;
+				sens   -= (29 * tmp_2000 * tmp_2000) >> 4;
+
+				// It is correct to nest this if(), as per the docs
+				if (temperature < -1500) {
+					int32_t tmp_1500 = temperature + 1500;
+					offset -= 17 * tmp_1500 * tmp_1500;
+					sens   -=  9 * tmp_1500 * tmp_1500;
+				}
+			}
+			break;
+		case PIOS_MS5M_MS5803_01:
+			offset = ((int64_t)dev->calibration[1] << 16) + (((int64_t)dev->calibration[3] * delta_temp) >> 7);
+			sens   = ((int64_t)dev->calibration[0] << 15) + (((int64_t)dev->calibration[2] * delta_temp) >> 8);
+
+			// second order temperature compensation
+			if (temperature < 2000) {
+				int32_t tmp_2000 = temperature - 2000;
+				offset -= 3 * (tmp_2000 * tmp_2000);
+				sens -= (7 * (tmp_2000 * tmp_2000)) >> 3;
+
+				// It is correct to nest this if(), as per the docs
+				if (temperature < -1500) {
+					int32_t tmp_1500 = temperature + 1500;
+					sens -= 2 * (tmp_1500 * tmp_1500);
+				}
+			} else if (temperature > 4500) {
+				int32_t tmp_4500 = (temperature - 4500);
+				sens += (tmp_4500*tmp_4500) >> 3;
+			}
+			break;
+		case PIOS_MS5M_MS5803_02:
+			offset = ((int64_t)dev->calibration[1] << 17) + (((int64_t)dev->calibration[3] * delta_temp) >> 6);
+			sens   = ((int64_t)dev->calibration[0] << 16) + (((int64_t)dev->calibration[2] * delta_temp) >> 7);
+
+			// second order temperature compensation
+			if (temperature < 2000) {
+				int32_t tmp_2000 = temperature - 2000;
+				offset -= (61 * (tmp_2000 * tmp_2000)) >> 4;
+				sens   -= ( 2 * (tmp_2000 * tmp_2000)) >> 0;
+
+				// It is correct to nest this if(), as per the docs
+				if (temperature < -1500) {
+					int32_t tmp_1500 = temperature + 1500;
+					offset -= 20 * (tmp_1500 * tmp_1500);
+					sens   -= 12 * (tmp_1500 * tmp_1500);
+				}
+			}
+			break;
 		}
 
 		dev->pressure_unscaled = ((((int64_t)raw_pressure * sens) >> 21) - offset) >> 15;
 	}
-	return 0;
 }
 
 /**
@@ -530,11 +616,32 @@ int32_t PIOS_MS5XXX_Test()
 	PIOS_MS5XXX_ReadADC();
 	PIOS_MS5XXX_ReleaseDeviceSemaphore();
 
+	// Define minimum as greater than maximum so that this will fail if they
+	// are not assigned in the switch()..case below
+	uint32_t min_pressure_1e3 = 1;
+	uint32_t max_pressure_1e3 = 0;
+
+	switch (dev->cfg->pios_ms5xxx_model) {
+	case PIOS_MS5M_MS5611:
+	case PIOS_MS5M_MS5637:
+		min_pressure_1e3 = 1000;
+		max_pressure_1e3 = 120000;
+		break;
+	case PIOS_MS5M_MS5803_01:
+		min_pressure_1e3 = 1000;
+		max_pressure_1e3 = 130000;
+		break;
+	case PIOS_MS5M_MS5803_02:
+		min_pressure_1e3 = 1000;
+		max_pressure_1e3 = 200000;
+		break;
+	}
+
 	// check range for sanity according to datasheet
 	if (dev->temperature_unscaled < -4000 ||
 		dev->temperature_unscaled > 8500 ||
-		dev->pressure_unscaled < 1000 ||
-		dev->pressure_unscaled > 120000)
+		dev->pressure < min_pressure_1e3 ||
+		dev->pressure > max_pressure_1e3)
 		return -1;
 
 	return 0;
