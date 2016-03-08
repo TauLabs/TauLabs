@@ -30,7 +30,7 @@
 
 #include "QList"
 #include <QImage>
-#include "../core/point.h"
+#include "core/point.h"
 #include <QMutex>
 #include <QDebug>
 #include "debugheader.h"

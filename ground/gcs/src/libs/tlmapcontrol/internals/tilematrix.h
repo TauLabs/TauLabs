@@ -31,7 +31,7 @@
 #include <QHash>
 #include "tile.h"
 #include <QList>
-#include "../core/point.h"
+#include "core/point.h"
 #include "debugheader.h"
 #include <QBuffer>
 namespace internals {

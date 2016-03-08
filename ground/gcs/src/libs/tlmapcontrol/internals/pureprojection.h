@@ -28,9 +28,9 @@
 #ifndef PUREPROJECTION_H
 #define PUREPROJECTION_H
 
-#include "../core/size.h"
-#include "../core/point.h"
-#include "../internals/pointlatlng.h"
+#include "core/size.h"
+#include "core/point.h"
+#include "internals/pointlatlng.h"
 #include "pointlatlng.h"
 #include "cmath"
 #include "rectlatlng.h"

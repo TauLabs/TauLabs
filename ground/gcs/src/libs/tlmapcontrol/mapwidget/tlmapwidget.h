@@ -28,11 +28,11 @@
 #ifndef TLMAPWIDGET_H
 #define TLMAPWIDGET_H
 
-#include "../mapwidget/mapgraphicitem.h"
-#include "../core/geodecoderstatus.h"
-#include "../core/maptype.h"
-#include "../core/languagetype.h"
-#include "../core/diagnostics.h"
+#include "mapwidget/mapgraphicitem.h"
+#include "core/geodecoderstatus.h"
+#include "core/maptype.h"
+#include "core/languagetype.h"
+#include "core/diagnostics.h"
 #include "configuration.h"
 #include <QObject>
 #include "waypointitem.h"
@@ -45,7 +45,7 @@
 #include "mapcircle.h"
 #include "waypointcurve.h"
 #include "waypointitem.h"
-#include "../core/corecommon.h"
+#include "core/corecommon.h"
 #include <QGraphicsView>
 
 namespace mapcontrol

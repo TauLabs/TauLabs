@@ -29,11 +29,11 @@
 #define MAPRIPPER_H
 
 #include <QThread>
-#include "../internals/core.h"
+#include "internals/core.h"
 #include "mapripform.h"
 #include <QObject>
 #include <QMessageBox>
-#include "../core/corecommon.h"
+#include "core/corecommon.h"
 
 namespace mapcontrol
 {

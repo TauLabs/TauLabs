@@ -28,7 +28,7 @@
 #ifndef MERCATORPROJECTIONYANDEX_H
 #define MERCATORPROJECTIONYANDEX_H
 
-#include "../pureprojection.h"
+#include "internals/pureprojection.h"
 
  
 namespace projections {

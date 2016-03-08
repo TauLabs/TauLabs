@@ -34,10 +34,10 @@
 #include <QPainter>
 #include <QPoint>
 
-#include "../internals/pointlatlng.h"
+#include "internals/pointlatlng.h"
 #include "mapgraphicitem.h"
 #include "physical_constants.h"
-#include "../core/corecommon.h"
+#include "core/corecommon.h"
 
 namespace mapcontrol
 {

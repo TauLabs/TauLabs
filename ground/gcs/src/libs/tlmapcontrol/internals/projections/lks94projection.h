@@ -29,7 +29,7 @@
 #define LKS94PROJECTION_H
 #include <QVector>
 #include "cmath"
-#include "../pureprojection.h"
+#include "internals/pureprojection.h"
 
 
 namespace projections {

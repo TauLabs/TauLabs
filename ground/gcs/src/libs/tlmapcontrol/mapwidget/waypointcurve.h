@@ -28,7 +28,7 @@
 #define WAYPOINTCURVE_H
 
 #include "waypointitem.h"
-#include "../core/corecommon.h"
+#include "core/corecommon.h"
 
 namespace mapcontrol
 {

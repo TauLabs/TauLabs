@@ -29,7 +29,7 @@
 #define LOADTASK_H
 
 #include <QString>
-#include "../core/point.h"
+#include "core/point.h"
 
 using namespace core;
 namespace internals

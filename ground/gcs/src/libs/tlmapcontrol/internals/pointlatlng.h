@@ -31,7 +31,7 @@
 #include <QHash>
 #include <QString>
 #include "sizelatlng.h"
-#include "../core/corecommon.h"
+#include "core/corecommon.h"
 
 namespace internals {
 struct TLMAPWIDGET_EXPORT PointLatLng

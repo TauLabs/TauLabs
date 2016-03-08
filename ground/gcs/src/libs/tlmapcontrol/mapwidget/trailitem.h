@@ -31,10 +31,10 @@
 #include <QGraphicsItem>
 #include <QPainter>
 #include <QLabel>
-#include "../internals/pointlatlng.h"
+#include "internals/pointlatlng.h"
 #include <QObject>
 #include "mapgraphicitem.h"
-#include "../core/corecommon.h"
+#include "core/corecommon.h"
 
 namespace mapcontrol
 {
