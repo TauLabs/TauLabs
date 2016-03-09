@@ -519,6 +519,5 @@ LDFLAGS += -Wl,--fatal-warnings
 LDFLAGS += -T$(LINKERSCRIPTPATH)/link_$(BOARD)_memory.ld
 LDFLAGS += -T$(LINKERSCRIPTPATH)/link_$(BOARD)_sections.ld
 
-include ./UAVObjects.inc
 include $(MAKE_INC_DIR)/firmware-common.mk
 

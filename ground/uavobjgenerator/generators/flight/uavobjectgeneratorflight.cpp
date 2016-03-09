@@ -56,9 +56,7 @@ bool UAVObjectGeneratorFlight::generate(UAVObjectParser* parser,QString template
     for (int objidx = 0; objidx < parser->getNumObjects(); ++objidx) {
         ObjectInfo* info=parser->getObjectByIndex(objidx);
         process_object(info);
-        flightObjInit.append("#ifdef UAVOBJ_INIT_" + info->namelc +"\r\n");
         flightObjInit.append("    " + info->name + "Initialize();\r\n");
-        flightObjInit.append("#endif\r\n");
         objInc.append("#include \"" + info->namelc + ".h\"\r\n");
 	objFileNames.append(" " + info->namelc);
 	objNames.append(" " + info->name);

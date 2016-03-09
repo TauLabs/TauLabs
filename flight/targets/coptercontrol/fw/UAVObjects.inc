@@ -1,1 +1,0 @@
-UAVOBJSRCFILENAMES += hwcoptercontrol

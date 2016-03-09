@@ -1,1 +1,0 @@
-UAVOBJSRCFILENAMES += hwnaze

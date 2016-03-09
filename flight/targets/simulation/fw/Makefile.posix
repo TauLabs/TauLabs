@@ -142,7 +142,6 @@ SRC += $(FLIGHTLIB)/alarms.c
 SRC += $(OPUAVTALK)/uavtalk.c
 SRC += $(OPUAVOBJ)/uavobjectmanager.c
 SRC += $(OPUAVOBJ)/eventdispatcher.c
-SRC += $(OPUAVSYNTHDIR)/uavobjectsinit.c
 
 ## Libraries for flight calculations
 SRC += $(FLIGHTLIB)/fifo_buffer.c
@@ -383,11 +382,7 @@ ${OUTDIR}/InitMods.c: Makefile.posix
 	@echo ${quote}${foreach MOD, ${MOD_GEN}, ${MOD}Start();}${quote}  >> ${OUTDIR}/InitMods.c
 	@echo ${quote}}${quote} >> ${OUTDIR}/InitMods.c
 
-include ./UAVObjects.inc
-
 BUILD_FWFILES=NO
-UAVO_NAV = YES
-BUILD_UAVO = YES
-
+BUILD_UAVO=YES
 
 include $(MAKE_INC_DIR)/firmware-common.mk
