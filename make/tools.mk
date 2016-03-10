@@ -109,7 +109,8 @@ ifdef WINDOWS
 	$(V1) ./downloads/qt-opensource-windows-x86-mingw492-5.5.0.exe
 endif
 
-	# Configure Qt Creator user project files
+	# Configure Qt Creator user project files (GCS and flight firmware)
+	$(V1) python make/scripts/qt_creator_gcs_configuration.py
 	$(V1) python make/scripts/qt_creator_flight_configuration.py --targets $(ALL_BOARDS) sim_posix
 
 .PHONY: qt_sdk_clean
