@@ -83,9 +83,9 @@ qt_sdk_install: QT_SDK_FILE := $(notdir $(QT_SDK_URL))
 # order-only prereq on directory existance:
 qt_sdk_install : | $(DL_DIR) $(TOOLS_DIR)
 qt_sdk_install: qt_sdk_clean
-        # download the source only if it's newer than what we already have
+	# download the source only if it's newer than what we already have
 	$(V1) wget -N -P "$(DL_DIR)" "$(QT_SDK_URL)"
-        # tell the user exactly which path they should select in the GUI
+	# tell the user exactly which path they should select in the GUI
 	$(V1) echo "*** NOTE NOTE NOTE ***"
 	$(V1) echo "*"
 	$(V1) echo "*  In the GUI, please use exactly this path as the installation path:"
@@ -108,6 +108,9 @@ endif
 ifdef WINDOWS
 	$(V1) ./downloads/qt-opensource-windows-x86-mingw492-5.5.0.exe
 endif
+
+	# Configure Qt Creator user project files
+	$(V1) python make/scripts/qt_creator_flight_configuration.py --targets $(ALL_BOARDS) sim_posix
 
 .PHONY: qt_sdk_clean
 qt_sdk_clean:
