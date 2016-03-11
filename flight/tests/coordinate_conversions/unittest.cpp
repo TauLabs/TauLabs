@@ -97,6 +97,7 @@ protected:
   }
 };
 
+//Following tests compare the ratio between expected and returned values, and not absolute differences.
 TEST_F(LLALineraization, Equator_float) {
   // Test location is Equator
   float homeLLA_D[] = {0, 0, 0};
@@ -272,11 +273,6 @@ TEST_F(LLALineraization, Equator_to_Takeoff) {
   get_linearized_3D_transformation(currentLLA_D[0], currentLLA_D[1], currentLLA_D[2],
                                    homeLLA_D[0], homeLLA_D[1], homeLLA_D[2],
                                    T, NED);
-
-  // 0.0110574275839048
-  // 0.0111319490810727
-  // -0.00100000016391277
-
   float eps = 0.000001f;
   ASSERT_NEAR(0, NED[0], eps);
   ASSERT_NEAR(0, NED[1], eps);

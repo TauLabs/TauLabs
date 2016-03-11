@@ -59,7 +59,6 @@
 #include "positionactual.h"
 #include "tabletinfo.h"
 
-
 //
 // Configuration
 //
@@ -383,7 +382,7 @@ static void tablet_info_process() {
 
 		float NED[3];
 		get_linearized_3D_transformation(tablet.Latitude, tablet.Longitude, tablet.Altitude,
-                                         homeLocation.Latitude, homeLocation.Longitude, homeLocation.Altitude,
+		                                 homeLocation.Latitude, homeLocation.Longitude, homeLocation.Altitude,
 		                                 T, NED);
 
 

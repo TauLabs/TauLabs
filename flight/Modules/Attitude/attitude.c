@@ -832,7 +832,7 @@ static int32_t setNavigationRaw()
 
 		// Get NED coordinates from LLA coordinates
 		get_linearized_3D_transformation(gpsPosition.Latitude,  gpsPosition.Longitude, gpsPosition.Altitude,
-                                         homeLocation.Latitude, homeLocation.Longitude,  homeLocation.Altitude,
+		                                 homeLocation.Latitude, homeLocation.Longitude,  homeLocation.Altitude,
 		                                 T, NED);
 
 
@@ -1059,8 +1059,8 @@ static int32_t updateAttitudeINSGPS(bool first_run, bool outdoor_mode)
 
         // A more stringent requirement for GPS to initialize the filter
 	bool gps_init_usable = gps_updated &&
-              (gpsPosition.Satellites >= insSettings.MinRNAVSatellites+1) &&
-              (gpsPosition.PDOP <= insSettings.MinRNAVPDOP*.9f) &&
+	      (gpsPosition.Satellites >= insSettings.MinRNAVSatellites+1) &&
+	      (gpsPosition.PDOP <= insSettings.MinRNAVPDOP*.9f) &&
 	      (homeLocation.Set == HOMELOCATION_SET_TRUE);
 
 	// Set user-friendly alarms appropriately based on state
@@ -1174,9 +1174,9 @@ static int32_t updateAttitudeINSGPS(bool first_run, bool outdoor_mode)
 	
 
 	// Have a minimum requirement for gps usage a little more liberal than during initialization
-        gps_updated &= (gpsPosition.Satellites >= insSettings.MinRNAVSatellites) &&
-              (gpsPosition.PDOP <= insSettings.MinRNAVPDOP) &&
-	      (homeLocation.Set == HOMELOCATION_SET_TRUE);
+	gps_updated &= (gpsPosition.Satellites >= insSettings.MinRNAVSatellites) &&
+		      (gpsPosition.PDOP <= insSettings.MinRNAVPDOP) &&
+		      (homeLocation.Set == HOMELOCATION_SET_TRUE);
 
 	dT = PIOS_DELAY_DiffuS(ins_last_time) / 1.0e6f;
 	ins_last_time = PIOS_DELAY_GetRaw();

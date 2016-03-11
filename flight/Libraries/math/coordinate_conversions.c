@@ -373,13 +373,13 @@ void rot_mult(float R[3][3], const float vec[3], float vec_out[3], bool transpos
  */
 void LLA_linearization_float(int32_t home_latitude_1e7, float home_altitude, float T[])
 {
-    float lat_rad = home_latitude_1e7 / 10.0e6f * DEG2RAD;
+	float lat_rad = home_latitude_1e7 / 10.0e6f * DEG2RAD;
 	float alt = home_altitude;
 
 	// T is the linearization factor from LLA [rad] to NED [meters] divided by a scaling factor of
 	// 1e7*DEG2RAD. By default, input units are stored as degrees times 1e7 to avoid precision loss.
-    T[0] = ((alt + WGS84_A*1000.0f) / 10e6f) * DEG2RAD;
-    T[1] = ((cosf(lat_rad)*(alt + WGS84_A*1000.0f)) / 10e6f) * DEG2RAD ;
+	T[0] = ((alt + WGS84_A*1000.0f) / 10e6f) * DEG2RAD;
+	T[1] = ((cosf(lat_rad)*(alt + WGS84_A*1000.0f)) / 10e6f) * DEG2RAD ;
 	T[2] = -1.0f;
 }
 
@@ -391,13 +391,13 @@ void LLA_linearization_float(int32_t home_latitude_1e7, float home_altitude, flo
  */
 void LLA_linearization_double(int32_t home_latitude_1e7, double home_altitude, double T[])
 {
-    double lat_rad = home_latitude_1e7 / 10.0e6 * ((double)DEG2RAD);
+	double lat_rad = home_latitude_1e7 / 10.0e6 * ((double)DEG2RAD);
 	double alt = home_altitude;
 
 	// T is the linearization factor from LLA [rad] to NED [meters] divided by a scaling factor of
 	// 1e7*DEG2RAD. By default, input units are stored as degrees times 1e7 to avoid precision loss.
-    T[0] = ((alt + ((double)WGS84_A)*1000.0) / 10.0e6) * ((double)DEG2RAD);
-    T[1] = ((cos(lat_rad)*(alt + ((double)WGS84_A)*1000.0)) / 10.0e6) * ((double)DEG2RAD);
+	T[0] = ((alt + ((double)WGS84_A)*1000.0) / 10.0e6) * ((double)DEG2RAD);
+	T[1] = ((cos(lat_rad)*(alt + ((double)WGS84_A)*1000.0)) / 10.0e6) * ((double)DEG2RAD);
 	T[2] = -1.0;
 }
 
