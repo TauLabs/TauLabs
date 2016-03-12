@@ -166,7 +166,7 @@ static int32_t setNavigationNone();
 //! Update the complementary filter attitude estimate
 static int32_t updateAttitudeComplementary(bool first_run, bool secondary, bool raw_gps);
 //! Set the @ref AttitudeActual to the complementary filter estimate
-static int32_t setAttitudeComplementary();
+static int32_t setAttitudeComplementary(AttitudeActualData *attitudeActual);
 
 static float calc_ned_accel(float *q, float *accels);
 static void cfvert_reset(struct cfvert *cf, float baro, float time_constant);
@@ -176,7 +176,7 @@ static void cfvert_update_baro(struct cfvert *cf, float baro, float dt);
 //! Update the INSGPS attitude estimate
 static int32_t updateAttitudeINSGPS(bool first_run, bool outdoor_mode);
 //! Set the attitude to the current INSGPS estimate
-static int32_t setAttitudeINSGPS();
+static int32_t setAttitudeINSGPS(AttitudeActualData *attitudeActual);
 //! Set the navigation to the current INSGPS estimate
 static int32_t setNavigationINSGPS();
 static void updateNedAccel();
@@ -311,6 +311,8 @@ static void AttitudeTask(void *parameters)
 	last_algorithm = 0xfffffff;
 	last_complementary = false;
 
+	AttitudeActualData attitudeActual;
+
 	// Main task loop
 	while (1) {
 
@@ -361,11 +363,11 @@ static void AttitudeTask(void *parameters)
 		// This  function blocks on data queue
 		switch (stateEstimation.AttitudeFilter ) {
 		case STATEESTIMATION_ATTITUDEFILTER_COMPLEMENTARY:
-			setAttitudeComplementary();
+			setAttitudeComplementary(&attitudeActual);
 			break;
 		case STATEESTIMATION_ATTITUDEFILTER_INSOUTDOOR:
 		case STATEESTIMATION_ATTITUDEFILTER_INSINDOOR:
-			setAttitudeINSGPS();
+			setAttitudeINSGPS(&attitudeActual);
 			break;
 		}
 
@@ -883,12 +885,11 @@ static int32_t setNavigationNone()
  * Set the @ref AttitudeActual UAVO to the complementary filter
  * estimate
  */
-static int32_t setAttitudeComplementary()
+static int32_t setAttitudeComplementary(AttitudeActualData *attitudeActual)
 {
-	AttitudeActualData attitude;
-	quat_copy(cf_q, &attitude.q1);
-	Quaternion2RPY(&attitude.q1,&attitude.Roll);
-	AttitudeActualSet(&attitude);
+	quat_copy(cf_q, &attitudeActual->q1);
+	Quaternion2RPY(&attitudeActual->q1, &attitudeActual->Roll);
+	AttitudeActualSet(attitudeActual);
 
 	return 0;
 }
@@ -1305,14 +1306,13 @@ static int32_t updateAttitudeINSGPS(bool first_run, bool outdoor_mode)
 }
 
 //! Set the attitude to the current INSGPS estimate
-static int32_t setAttitudeINSGPS()
+static int32_t setAttitudeINSGPS(AttitudeActualData *attitudeActual)
 {
 	float gyro_bias[3];
-	AttitudeActualData attitude;
 
-	INSGetState(NULL, NULL, &attitude.q1, gyro_bias, NULL);
-	Quaternion2RPY(&attitude.q1,&attitude.Roll);
-	AttitudeActualSet(&attitude);
+	INSGetState(NULL, NULL, &attitudeActual->q1, gyro_bias, NULL);
+	Quaternion2RPY(&attitudeActual->q1, &attitudeActual->Roll);
+	AttitudeActualSet(attitudeActual);
 
 	if (insSettings.ComputeGyroBias == INSSETTINGS_COMPUTEGYROBIAS_TRUE && 
 	    !gyroBiasSettingsUpdated) {
