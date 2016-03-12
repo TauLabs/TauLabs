@@ -27,7 +27,7 @@
 */
 #ifndef MERCATORPROJECTION_H
 #define MERCATORPROJECTION_H
-#include "../pureprojection.h"
+#include "internals/pureprojection.h"
 
 
 namespace projections {

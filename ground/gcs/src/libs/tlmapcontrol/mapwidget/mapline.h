@@ -30,7 +30,7 @@
 
 #include "mapgraphicitem.h"
 #include "mappointitem.h"
-#include "../core/corecommon.h"
+#include "core/corecommon.h"
 
 namespace mapcontrol
 {

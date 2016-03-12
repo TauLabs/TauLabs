@@ -28,8 +28,7 @@
 #ifndef RECTLATLNG_H
 #define RECTLATLNG_H
 
-//#include "pointlatlng.h"
-#include "../internals/pointlatlng.h"
+#include "internals/pointlatlng.h"
 #include "math.h"
 #include <QString>
 #include "sizelatlng.h"

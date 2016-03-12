@@ -28,7 +28,7 @@
 #ifndef PLATECARREEPROJECTION_H
 #define PLATECARREEPROJECTION_H
 
-#include "../pureprojection.h"
+#include "internals/pureprojection.h"
 
  
 namespace projections {

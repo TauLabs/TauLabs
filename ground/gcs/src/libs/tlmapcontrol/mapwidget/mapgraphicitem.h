@@ -29,8 +29,8 @@
 #define MAPGRAPHICITEM_H
 
 #include <QGraphicsItem>
-#include "../internals/core.h"
-#include "../core/diagnostics.h"
+#include "internals/core.h"
+#include "core/diagnostics.h"
 #include "configuration.h"
 #include <QtGui>
 #include <QTransform>
@@ -38,7 +38,7 @@
 #include <QBrush>
 #include <QFont>
 #include <QObject>
-#include "../core/corecommon.h"
+#include "core/corecommon.h"
 
 namespace mapcontrol
 {

@@ -32,10 +32,10 @@
 
 #include "pointlatlng.h"
 #include "mousewheelzoomtype.h"
-#include "../core/size.h"
-#include "../core/point.h"
+#include "core/size.h"
+#include "core/point.h"
 
-#include "../core/maptype.h"
+#include "core/maptype.h"
 #include "rectangle.h"
 #include "QThreadPool"
 #include "tilematrix.h"
@@ -48,16 +48,16 @@
 #include "projections/mercatorprojectionyandex.h"
 #include "projections/platecarreeprojection.h"
 #include "projections/platecarreeprojectionpergo.h"
-#include "../core/geodecoderstatus.h"
-#include "../core/tlmaps.h"
-#include "../core/diagnostics.h"
+#include "core/geodecoderstatus.h"
+#include "core/tlmaps.h"
+#include "core/diagnostics.h"
 
 #include <QSemaphore>
 #include <QThread>
 #include <QDateTime>
 
 #include <QObject>
-#include "../core/corecommon.h"
+#include "core/corecommon.h"
 
 namespace mapcontrol
 {

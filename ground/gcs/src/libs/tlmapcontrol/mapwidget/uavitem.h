@@ -35,7 +35,7 @@
 #include "uavtrailtype.h"
 #include "trailitem.h"
 #include "traillineitem.h"
-#include "../core/corecommon.h"
+#include "core/corecommon.h"
 
 namespace mapcontrol
 {

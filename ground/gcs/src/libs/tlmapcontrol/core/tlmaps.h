@@ -42,12 +42,12 @@
 #include "urlfactory.h"
 #include "diagnostics.h"
 
-#include "../internals/pureprojection.h"
-#include "../internals/projections/lks94projection.h"
-#include "../internals/projections/mercatorprojection.h"
-#include "../internals/projections/mercatorprojectionyandex.h"
-#include "../internals/projections/platecarreeprojection.h"
-#include "../internals/projections/platecarreeprojectionpergo.h"
+#include "internals/pureprojection.h"
+#include "internals/projections/lks94projection.h"
+#include "internals/projections/mercatorprojection.h"
+#include "internals/projections/mercatorprojectionyandex.h"
+#include "internals/projections/platecarreeprojection.h"
+#include "internals/projections/platecarreeprojectionpergo.h"
 
 namespace core {
     class TLMaps: public MemoryCache,public AllLayersOfType,public UrlFactory

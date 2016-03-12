@@ -33,10 +33,10 @@
 #include <QPen>
 #include <QString>
 #include <QFont>
-#include "../core/tlmaps.h"
-#include "../core/accessmode.h"
-#include "../core/cache.h"
-#include "../core/corecommon.h"
+#include "core/tlmaps.h"
+#include "core/accessmode.h"
+#include "core/cache.h"
+#include "core/corecommon.h"
 
 namespace mapcontrol
 {

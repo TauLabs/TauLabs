@@ -37,7 +37,7 @@
 #include <QCoreApplication>
 #include "providerstrings.h"
 #include "pureimagecache.h"
-#include "../internals/pointlatlng.h"
+#include "internals/pointlatlng.h"
 #include "geodecoderstatus.h"
 #include <QTime>
 #include "cache.h"
