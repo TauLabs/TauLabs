@@ -127,12 +127,15 @@ void USBMonitor::addDevice(USBPortInfo info) {
     QMutexLocker locker(listMutex);
     for( int i = 0; i < knowndevices.length(); i++) {
 
-        USBPortInfo port = knowndevices.at(i);
-        if(port.serialNumber == info.serialNumber) {
+        USBPortInfo existing = knowndevices.at(i);
+        if (existing.serialNumber.split("+").at(0) ==
+                info.serialNumber.split("+").at(0)) {
             // TODO: Fix hack; don't keep a parallel data structure, re-enumerate
-            qDebug() << "USBMonitor: Duplicate device detected: " << info.serialNumber;
-            emit deviceDiscovered(info);
-            return;
+            qDebug() << "USBMonitor: Duplicate device detected: " << info.serialNumber << " vs. existing: " << existing.serialNumber;
+            knowndevices.removeAt(i);
+            emit deviceRemoved(existing);
+
+            i--;
         }
     }
 
