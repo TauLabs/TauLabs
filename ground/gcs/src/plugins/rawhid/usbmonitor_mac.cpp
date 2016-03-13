@@ -129,7 +129,9 @@ void USBMonitor::addDevice(USBPortInfo info) {
 
         USBPortInfo port = knowndevices.at(i);
         if(port.serialNumber == info.serialNumber) {
+            // TODO: Fix hack; don't keep a parallel data structure, re-enumerate
             qDebug() << "USBMonitor: Duplicate device detected: " << info.serialNumber;
+            emit deviceDiscovered(info);
             return;
         }
     }
