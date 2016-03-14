@@ -326,8 +326,4 @@ LDFLAGS += -Wl,--fatal-warnings
 # Linker scripts
 LDFLAGS += $(addprefix -T,$(LINKER_SCRIPTS_APP))
 
-include ./UAVObjects.inc
-
-UAVO_NAV = YES
-
 include $(MAKE_INC_DIR)/firmware-common.mk

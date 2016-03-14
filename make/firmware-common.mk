@@ -1,108 +1,12 @@
 FLOATABI ?= soft
 UAVOBJLIB := $(OUTDIR)/../uavobjects_arm$(FLOATABI)fp/libuavobject.a
 
-ifneq ($(NO_AUTO_UAVO),YES)
-
-# Common UAVOs to all targets:
-
-UAVOBJSRCFILENAMES += accels
-UAVOBJSRCFILENAMES += firmwareiapobj
-UAVOBJSRCFILENAMES += flightstatus
-UAVOBJSRCFILENAMES += flighttelemetrystats
-UAVOBJSRCFILENAMES += gcsreceiver
-UAVOBJSRCFILENAMES += gcstelemetrystats
-UAVOBJSRCFILENAMES += modulesettings
-UAVOBJSRCFILENAMES += objectpersistence
-UAVOBJSRCFILENAMES += receiveractivity
-UAVOBJSRCFILENAMES += sessionmanaging
-UAVOBJSRCFILENAMES += systemalarms
-UAVOBJSRCFILENAMES += systemsettings
-UAVOBJSRCFILENAMES += systemstats
-UAVOBJSRCFILENAMES += taskinfo
-UAVOBJSRCFILENAMES += watchdogstatus
-
-ifneq ($(UAVO_MINIMAL),YES)
-# On all non-discovery board targets:
-
-UAVOBJSRCFILENAMES += accessorydesired
-UAVOBJSRCFILENAMES += actuatorcommand
-UAVOBJSRCFILENAMES += actuatordesired
-UAVOBJSRCFILENAMES += actuatorsettings
-UAVOBJSRCFILENAMES += airspeedactual
-UAVOBJSRCFILENAMES += attitudeactual
-UAVOBJSRCFILENAMES += attitudesettings
-UAVOBJSRCFILENAMES += baroaltitude
-UAVOBJSRCFILENAMES += cameradesired
-UAVOBJSRCFILENAMES += camerastabsettings
-UAVOBJSRCFILENAMES += fixedwingairspeeds
-UAVOBJSRCFILENAMES += fixedwingpathfollowerstatus
-UAVOBJSRCFILENAMES += flightbatterysettings
-UAVOBJSRCFILENAMES += flightbatterystate
-UAVOBJSRCFILENAMES += gpsposition
-UAVOBJSRCFILENAMES += gpsvelocity
-UAVOBJSRCFILENAMES += gyros
-UAVOBJSRCFILENAMES += homelocation
-UAVOBJSRCFILENAMES += manualcontrolcommand
-UAVOBJSRCFILENAMES += manualcontrolsettings
-UAVOBJSRCFILENAMES += mixersettings
-UAVOBJSRCFILENAMES += mixerstatus
-UAVOBJSRCFILENAMES += mwratesettings
-UAVOBJSRCFILENAMES += pathdesired
-UAVOBJSRCFILENAMES += pathstatus
-UAVOBJSRCFILENAMES += poilocation
-UAVOBJSRCFILENAMES += positionactual
-UAVOBJSRCFILENAMES += ratedesired
-UAVOBJSRCFILENAMES += sensorsettings
-UAVOBJSRCFILENAMES += stabilizationdesired
-UAVOBJSRCFILENAMES += stabilizationsettings
-UAVOBJSRCFILENAMES += systemident
-UAVOBJSRCFILENAMES += tabletinfo
-UAVOBJSRCFILENAMES += trimangles
-UAVOBJSRCFILENAMES += trimanglessettings
-UAVOBJSRCFILENAMES += txpidsettings
-UAVOBJSRCFILENAMES += ubloxinfo
-UAVOBJSRCFILENAMES += velocityactual
-
-ifeq ($(UAVO_NAV),YES)
-UAVOBJSRCFILENAMES += airspeedsettings
-UAVOBJSRCFILENAMES += altitudeholddesired
-UAVOBJSRCFILENAMES += altitudeholdsettings
-UAVOBJSRCFILENAMES += baroairspeed
-UAVOBJSRCFILENAMES += fixedwingpathfollowersettings
-UAVOBJSRCFILENAMES += gpssatellites
-UAVOBJSRCFILENAMES += gpstime
-UAVOBJSRCFILENAMES += gyrosbias
-UAVOBJSRCFILENAMES += inssettings
-UAVOBJSRCFILENAMES += insstate
-UAVOBJSRCFILENAMES += loitercommand
-UAVOBJSRCFILENAMES += magbias
-UAVOBJSRCFILENAMES += magnetometer
-UAVOBJSRCFILENAMES += nedaccel
-UAVOBJSRCFILENAMES += nedposition
-UAVOBJSRCFILENAMES += pathplannersettings
-UAVOBJSRCFILENAMES += rangefinderdistance
-UAVOBJSRCFILENAMES += stateestimation
-UAVOBJSRCFILENAMES += velocitydesired
-UAVOBJSRCFILENAMES += vibrationanalysisoutput
-UAVOBJSRCFILENAMES += vibrationanalysissettings
-UAVOBJSRCFILENAMES += vtolpathfollowersettings
-UAVOBJSRCFILENAMES += vtolpathfollowerstatus
-UAVOBJSRCFILENAMES += waypoint
-UAVOBJSRCFILENAMES += waypointactive
-endif # UAVO_NAV
-
-endif # !UAVO_MINIMAL
-
-endif # !NO_AUTO_UAVO
-
 # Define programs and commands.
 REMOVE  = rm -f
 
 ifeq ($(BUILD_UAVO), YES)
-SRC += $(foreach UAVOBJSRCFILE,$(UAVOBJSRCFILENAMES),$(OPUAVSYNTHDIR)/$(UAVOBJSRCFILE).c )
+SRC += $(wildcard $(OPUAVSYNTHDIR)/*.c )
 endif
-
-CFLAGS += $(foreach UAVOBJSRCFILE,$(UAVOBJSRCFILENAMES),-DUAVOBJ_INIT_$(UAVOBJSRCFILE) )
 
 # List of all source files.
 ALLSRC     =  $(ASRC) $(SRC) $(CPPSRC)
