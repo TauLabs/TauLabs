@@ -29,6 +29,7 @@
 #include "uavsettingsimportexport_global.h"
 #include "uavobjectutil/uavobjectutilmanager.h"
 #include "../../../../../build/ground/gcs/gcsversioninfo.h"
+
 class UAVSETTINGSIMPORTEXPORT_EXPORT UAVSettingsImportExportFactory : public QObject
 {
     Q_OBJECT

@@ -2,7 +2,8 @@
  ******************************************************************************
  *
  * @file       importsummary.cpp
- * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013-2016
+ * @author     dRonin, http://dRonin.org/, Copyright (C) 2015
  * @author     (C) 2011 The OpenPilot Team, http://www.openpilot.org
  * @addtogroup GCSPlugins GCS Plugins
  * @{
@@ -25,11 +26,14 @@
  * with this program; if not, write to the Free Software Foundation, Inc.,
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
+
 #include "importsummary.h"
+
 
 ImportSummaryDialog::ImportSummaryDialog( QWidget *parent) :
     QDialog(parent),
-    ui(new Ui::ImportSummaryDialog)
+    ui(new Ui::ImportSummaryDialog),
+    importedObjects(NULL)
 {
    ui->setupUi(this);
    setWindowTitle(tr("Import Summary"));
@@ -37,14 +41,21 @@ ImportSummaryDialog::ImportSummaryDialog( QWidget *parent) :
    ui->importSummaryList->setColumnCount(3);
    ui->importSummaryList->setRowCount(0);
    QStringList header;
-   header.append("Save");
+   header.append("Use");
    header.append("Name");
    header.append("Status");
    ui->importSummaryList->setHorizontalHeaderLabels(header);
    ui->progressBar->setValue(0);
 
    connect( ui->closeButton, SIGNAL(clicked()), this, SLOT(close()));
-   connect(ui->saveToFlash, SIGNAL(clicked()), this, SLOT(doTheSaving()));
+
+   // Connect the Apply/Save buttons
+   connect(ui->btnSaveToFlash, SIGNAL(clicked()), this, SLOT(doTheApplySaving()));
+   connect(ui->btnApply, SIGNAL(clicked()), this, SLOT(doTheApplySaving()));
+
+   // Connect the Select All/None buttons
+   connect(ui->btnSelectAll, SIGNAL(clicked()), this, SLOT(setCheckedState()));
+   connect(ui->btnSelectNone, SIGNAL(clicked()), this, SLOT(setCheckedState()));
 
    // Connect the help button
    connect(ui->helpButton, SIGNAL(clicked()), this, SLOT(openHelp()));
@@ -54,6 +65,14 @@ ImportSummaryDialog::ImportSummaryDialog( QWidget *parent) :
 ImportSummaryDialog::~ImportSummaryDialog()
 {
     delete ui;
+}
+
+/*
+  Stores the settings that were imported
+ */
+void ImportSummaryDialog::setUAVOSettings(UAVObjectManager* objs)
+{
+    importedObjects = objs;
 }
 
 /*
@@ -93,16 +112,37 @@ void ImportSummaryDialog::addLine(QString uavObjectName, QString text, bool stat
    this->showEvent(NULL);
 }
 
+
 /*
-  Saves every checked UAVObjet in the list to Flash
+  Sets or unsets every UAVObjet in the list
   */
-void ImportSummaryDialog::doTheSaving()
+void ImportSummaryDialog::setCheckedState()
 {
+    for(int i = 0; i < ui->importSummaryList->rowCount(); i++) {
+        QCheckBox *box = dynamic_cast<QCheckBox*>(ui->importSummaryList->cellWidget(i, 0));
+        if(box->isEnabled()) {
+            if (sender() == ui->btnSelectAll) {
+                box->setChecked(true);
+            } else if (sender() == ui->btnSelectNone) {
+                box->setChecked(false);
+            }
+        }
+    }
+}
+
+/*
+  Apply or saves every checked UAVObjet in the list to Flash
+  */
+void ImportSummaryDialog::doTheApplySaving()
+{
+    if(!importedObjects)
+        return;
+
     int itemCount=0;
     ExtensionSystem::PluginManager *pm = ExtensionSystem::PluginManager::instance();
-    UAVObjectManager *objManager = pm->getObject<UAVObjectManager>();
+    UAVObjectManager *boardObjManager = pm->getObject<UAVObjectManager>();
     UAVObjectUtilManager *utilManager = pm->getObject<UAVObjectUtilManager>();
-    connect(utilManager, SIGNAL(saveCompleted(int,bool)), this, SLOT(updateSaveCompletion()));
+    connect(utilManager, SIGNAL(saveCompleted(int,bool)), this, SLOT(updateCompletion()));
 
     for(int i=0; i < ui->importSummaryList->rowCount(); i++) {
         QCheckBox *box = dynamic_cast<QCheckBox*>(ui->importSummaryList->cellWidget(i,0));
@@ -112,30 +152,45 @@ void ImportSummaryDialog::doTheSaving()
     }
     if(itemCount==0)
         return;
+
+    ui->btnApply->setEnabled(false);
+    ui->btnSaveToFlash->setEnabled(false);
+    ui->closeButton->setEnabled(false);
+
     ui->progressBar->setMaximum(itemCount+1);
     ui->progressBar->setValue(1);
     for(int i=0; i < ui->importSummaryList->rowCount(); i++) {
         QString uavObjectName = ui->importSummaryList->item(i,1)->text();
         QCheckBox *box = dynamic_cast<QCheckBox*>(ui->importSummaryList->cellWidget(i,0));
         if (box->isChecked()) {
-            UAVObject* obj = objManager->getObject(uavObjectName);
-            utilManager->saveObjectToFlash(obj);
+            UAVObject* importedObj = importedObjects->getObject(uavObjectName);
+            UAVObject* boardObj = boardObjManager->getObject(uavObjectName);
+
+            quint8 data[importedObj->getNumBytes()];
+            importedObj->pack(data);
+            boardObj->unpack(data);
+
+            boardObj->updated();
+
+            // If the save button was clicked, save the object to flash
+            if (sender() == ui->btnSaveToFlash) {
+                utilManager->saveObjectToFlash(importedObj);
+            }
+
+            updateCompletion();
             this->repaint();
         }
     }
-
-    ui->saveToFlash->setEnabled(false);
-    ui->closeButton->setEnabled(false);
-
 }
 
 
-void ImportSummaryDialog::updateSaveCompletion()
+void ImportSummaryDialog::updateCompletion()
 {
     ui->progressBar->setValue(ui->progressBar->value()+1);
     if(ui->progressBar->value()==ui->progressBar->maximum())
     {
-        ui->saveToFlash->setEnabled(true);
+        ui->btnApply->setEnabled(true);
+        ui->btnSaveToFlash->setEnabled(true);
         ui->closeButton->setEnabled(true);
     }
 }
