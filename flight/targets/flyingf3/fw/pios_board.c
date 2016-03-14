@@ -152,14 +152,14 @@ static const struct pios_bmp085_cfg pios_bmp085_cfg = {
 /**
  * Configuration for the MS5611 chip on SPI
  */
-#if defined(PIOS_INCLUDE_MS5XXX_SPI) || defined(PIOS_INCLUDE_MS5XXX)
+#if defined(PIOS_INCLUDE_MS5XXX)
 #include "pios_ms5xxx_priv.h"
 static const struct pios_ms5xxx_cfg pios_ms5xxx_cfg = {
 	.oversampling             = MS5XXX_OSR_4096,
 	.temperature_interleaving = 1,
 	.pios_ms5xxx_model = PIOS_MS5M_MS5611,
 };
-#endif /* PIOS_INCLUDE_MS5XXX_SPI */
+#endif /* PIOS_INCLUDE_MS5XXX */
 
 
 #define PIOS_COM_CAN_RX_BUF_LEN 256
@@ -695,11 +695,11 @@ void PIOS_Board_Init(void) {
 		if (PIOS_SPI_Init(&pios_spi_3_id, &pios_spi_3_rcflyer_external_cfg)) {
 			PIOS_DEBUG_Assert(0);
 		}
-#if defined(PIOS_INCLUDE_MS5XXX_SPI)
+#if defined(PIOS_INCLUDE_MS5XXX)
 		if (PIOS_MS5XXX_SPI_Init(pios_spi_2_id, 1, &pios_ms5xxx_cfg) != 0) {
 			PIOS_Assert(0);
 		}
-#endif	/* PIOS_INCLUDE_MS5XXX_SPI */
+#endif	/* PIOS_INCLUDE_MS5XXX */
 #endif	/* PIOS_INCLUDE_SPI */
 		break;
 	case HWFLYINGF3_SHIELD_CHEBUZZ:

@@ -32,7 +32,7 @@
 /* Project Includes */
 #include "pios.h"
 
-#if defined(PIOS_INCLUDE_MS5XXX) || defined(PIOS_INCLUDE_MS5XXX_SPI)
+#if defined(PIOS_INCLUDE_MS5XXX)
 
 #include "pios_ms5xxx_priv.h"
 #include "pios_semaphore.h"
