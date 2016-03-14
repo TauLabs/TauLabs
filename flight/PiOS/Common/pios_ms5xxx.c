@@ -234,13 +234,13 @@ static int32_t PIOS_MS5XXX_ReleaseDeviceSemaphore(void)
 	return PIOS_Semaphore_Give(dev->busy) == true ? 0 : 1;
 }
 
+#if defined(PIOS_INCLUDE_SPI)
 /**
  * @brief Claim the SPI bus for the baro communications and select this chip
  * @return 0 if successful, -1 for invalid device, -2 if unable to claim bus
  */
 static int32_t PIOS_MS5XXX_ClaimSPIBus(void)
 {
-#if defined(PIOS_INCLUDE_SPI)
 	if (PIOS_MS5XXX_Validate(dev) != 0) {
 		return -1;
 	} else if (PIOS_SPI_ClaimBus(dev->dev_id) != 0) {
@@ -250,9 +250,6 @@ static int32_t PIOS_MS5XXX_ClaimSPIBus(void)
 	PIOS_SPI_RC_PinSet(dev->dev_id, dev->slave_num, 0);
 
 	return 0;
-#else
-	return -2;
-#endif
 }
 
 /**
@@ -261,7 +258,6 @@ static int32_t PIOS_MS5XXX_ClaimSPIBus(void)
  */
 static int32_t PIOS_MS5XXX_ReleaseSPIBus(void)
 {
-#if defined(PIOS_INCLUDE_SPI)
 	if (PIOS_MS5XXX_Validate(dev) != 0) {
 		return -1;
 	}
@@ -269,10 +265,8 @@ static int32_t PIOS_MS5XXX_ReleaseSPIBus(void)
 	PIOS_SPI_RC_PinSet(dev->dev_id, dev->slave_num, 1);
 
 	return PIOS_SPI_ReleaseBus(dev->dev_id);
-#else
-	return -2;
-#endif
 }
+#endif  // defined(PIOS_INCLUDE_SPI)
 
 /**
 * Start the ADC conversion
@@ -496,6 +490,7 @@ static int32_t PIOS_MS5XXX_Read(uint8_t address, uint8_t *buffer, uint8_t len)
 	switch (dev->pios_bus_type) {
 	case PIOS_SPI_BUS:
 	{
+#if defined(PIOS_INCLUDE_SPI)
 		if (PIOS_MS5XXX_ClaimSPIBus() != 0) {
 			return -2;
 		}
@@ -512,10 +507,12 @@ static int32_t PIOS_MS5XXX_Read(uint8_t address, uint8_t *buffer, uint8_t len)
 
 	out:
 		PIOS_MS5XXX_ReleaseSPIBus();
+#endif  // defined(PIOS_INCLUDE_SPI)
 		break;
 	}
 	case PIOS_I2C_BUS:
 	{
+#if defined(PIOS_INCLUDE_I2C)
 		const struct pios_i2c_txn txn_list[] = {
 			{
 				.info = __func__,
@@ -535,6 +532,7 @@ static int32_t PIOS_MS5XXX_Read(uint8_t address, uint8_t *buffer, uint8_t len)
 
 		rc = PIOS_I2C_Transfer(dev->dev_id, txn_list, NELEMENTS(txn_list));
 		break;
+#endif  // defined(PIOS_INCLUDE_I2C)
 	}
 	}
 
@@ -561,6 +559,7 @@ static int32_t PIOS_MS5XXX_WriteCommand(uint8_t command)
 	switch (dev->pios_bus_type) {
 	case PIOS_SPI_BUS:
 	{
+#if defined(PIOS_INCLUDE_SPI)
 		if (PIOS_MS5XXX_ClaimSPIBus() != 0) {
 			return -2;
 		}
@@ -572,10 +571,12 @@ static int32_t PIOS_MS5XXX_WriteCommand(uint8_t command)
 
 	out:
 		PIOS_MS5XXX_ReleaseSPIBus();
+#endif  // defined(PIOS_INCLUDE_SPI)
 		break;
 	}
 	case PIOS_I2C_BUS:
 	{
+#if defined(PIOS_INCLUDE_I2C)
 		const struct pios_i2c_txn txn_list[] = {
 			{
 				.info = __func__,
@@ -587,6 +588,7 @@ static int32_t PIOS_MS5XXX_WriteCommand(uint8_t command)
 		};
 
 		rc = PIOS_I2C_Transfer(dev->dev_id, txn_list, NELEMENTS(txn_list));
+#endif  // defined(PIOS_INCLUDE_I2C)
 		break;
 	}
 	}

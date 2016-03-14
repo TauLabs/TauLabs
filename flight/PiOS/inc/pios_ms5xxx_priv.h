@@ -79,8 +79,14 @@ struct pios_ms5xxx_cfg {
 
 /* Public Functions */
 int32_t PIOS_MS5XXX_Test(void);
+
+#if defined(PIOS_INCLUDE_I2C)
 int32_t PIOS_MS5XXX_I2C_Init(int32_t i2c_bus_id, enum MS5XXX_I2C_ADDRESS i2c_address, const struct pios_ms5xxx_cfg *cfg);
+#endif  // defined(PIOS_INCLUDE_I2C)
+
+#if defined(PIOS_INCLUDE_SPI)
 int32_t PIOS_MS5XXX_SPI_Init(uint32_t spi_bus_id, uint32_t slave_num, const struct pios_ms5xxx_cfg *cfg);
+#endif  // defined(PIOS_INCLUDE_SPI)
 
 #endif /* PIOS_MS5XXX_PRIV_H */
 
