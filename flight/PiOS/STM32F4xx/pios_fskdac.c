@@ -339,7 +339,7 @@ static void PIOS_FSKDAC_DMA_irq_cb()
 	}
 	
 #if defined(PIOS_INCLUDE_FREERTOS)
-	portEND_SWITCHING_ISR((rx_need_yield || tx_need_yield) ? pdTRUE : pdFALSE);
+	portEND_SWITCHING_ISR(tx_need_yield ? pdTRUE : pdFALSE);
 #endif	/* defined(PIOS_INCLUDE_FREERTOS) */
 
 }
