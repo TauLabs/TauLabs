@@ -58,8 +58,10 @@
 
 // Various navigation constants
 const static float RTH_MIN_ALTITUDE = 15.f;  //!< Hover at least 15 m above home */
-const static float RTH_ALT_ERROR    = 1.0f;  //!< The altitude to come within for RTH */
+const static float RTH_ALT_ERROR    = 0.8f;  //!< The altitude to come within for RTH */
+const static float RTH_MIN_RISE     = 1.5f;  //!< Always climb at least this much.
 const static float DT               = 0.05f; // TODO: make the self monitored
+const static float RTH_CLIMB_SPEED  = 1.0f;  //!< Climb at 1m/s 
 
 //! Events that can be be injected into the FSM and trigger state changes
 enum vtol_fsm_event {
@@ -83,7 +85,6 @@ enum vtol_fsm_state {
 	FSM_STATE_HOLDING,         /*!< Holding at current location */
 	FSM_STATE_FLYING_PATH,     /*!< Flying a path to a destination */
 	FSM_STATE_LANDING,         /*!< Landing at a destination */
-	FSM_STATE_PRE_RTH_HOLD,    /*!< Short hold before returning to home */
 	FSM_STATE_PRE_RTH_RISE,    /*!< Rise to 15 m before flying home */
 	FSM_STATE_POST_RTH_HOLD,   /*!< Hold at home before initiating landing */
 	FSM_STATE_DISARM,          /*!< Disarm the system after landing */
@@ -104,7 +105,6 @@ struct vtol_fsm_transition {
 // State transition methods, typically enabling for certain actions
 static void go_enable_hold_here(void);
 static void go_enable_fly_path(void);
-static void go_enable_pause_10s_here(void);
 static void go_enable_rise_here(void);
 static void go_enable_pause_home_10s(void);
 static void go_enable_fly_home(void);
@@ -175,25 +175,15 @@ const static struct vtol_fsm_transition fsm_follow_path[FSM_STATE_NUM_STATES] = 
 const static struct vtol_fsm_transition fsm_land_home[FSM_STATE_NUM_STATES] = {
 	[FSM_STATE_INIT] = {
 		.next_state = {
-			[FSM_EVENT_AUTO] = FSM_STATE_PRE_RTH_HOLD,
-		},
-	},
-	[FSM_STATE_PRE_RTH_HOLD] = {
-		.entry_fn = go_enable_pause_10s_here,
-		.static_fn = do_hold,
-		.timeout = 10 * MILLI,
-		.next_state = {
-			[FSM_EVENT_TIMEOUT] = FSM_STATE_PRE_RTH_RISE,
-			[FSM_EVENT_HIT_TARGET] = FSM_STATE_UNCHANGED,
-			[FSM_EVENT_LEFT_TARGET] = FSM_STATE_UNCHANGED,
+			[FSM_EVENT_AUTO] = FSM_STATE_PRE_RTH_RISE,
 		},
 	},
 	[FSM_STATE_PRE_RTH_RISE] = {
 		.entry_fn = go_enable_rise_here,
 		.static_fn = do_ph_climb,
-		.timeout = 10 * MILLI,	/* Not sure this is good */
+		.timeout = 8 * MILLI,	// Spend at least 8s in this state
 		.next_state = {
-			[FSM_EVENT_TIMEOUT] = FSM_STATE_FLYING_PATH,
+			[FSM_EVENT_TIMEOUT] = FSM_STATE_UNCHANGED,
 			[FSM_EVENT_HIT_TARGET] = FSM_STATE_FLYING_PATH,
 			[FSM_EVENT_LEFT_TARGET] = FSM_STATE_UNCHANGED,
 		},
@@ -532,6 +522,26 @@ static int32_t do_loiter()
 }
 
 /**
+ * Update control values to stay at selected hold location but climb slowly.
+ *
+ * This method uses the vtol follower library to calculate the control values.
+ * Desired location is stored in @ref vtol_hold_position_ned.
+ *
+ * @return 0 if successful, <0 if failure
+ */
+static int32_t do_slow_altitude_change(float descent_rate)
+{
+	if (vtol_follower_control_altrate(DT, vtol_hold_position_ned,
+				descent_rate) == 0) {
+		if (vtol_follower_control_attitude(DT, NULL) == 0) {
+			return 0;
+		}
+	}
+
+	return -1;
+}
+
+/**
  * Continue executing the current hold location and when
  * within a fixed distance of altitude fire a hit target
  * event.
@@ -541,11 +551,26 @@ static int32_t do_ph_climb()
 	float cur_down;
 	PositionActualDownGet(&cur_down);
 
-	int32_t ret_val = do_hold();
+	int32_t ret_val;
 
 	const float err = fabsf(cur_down - vtol_hold_position_ned[2]);
+
 	if (err < RTH_ALT_ERROR) {
-		vtol_fsm_inject_event(FSM_EVENT_HIT_TARGET);
+		// If we're close to desired altitude, use poshold logic
+		// until timer expires.
+		ret_val = do_hold();
+
+		if (vtol_fsm_timer_expired()) {
+			vtol_fsm_inject_event(FSM_EVENT_HIT_TARGET);
+		}
+	} else {
+		// If we are low, control for altitude change speed.
+		// If we are high, use the normal control loop.
+		if (cur_down > vtol_hold_position_ned[2]) {
+			ret_val = do_slow_altitude_change(-RTH_CLIMB_SPEED);
+		} else {
+			ret_val = do_hold();
+		}
 	}
 
 	return ret_val;
@@ -606,51 +631,23 @@ static void go_enable_fly_path()
 }
 
 /**
- * Enable holding position at current location for 10 s. 
- */
-static void go_enable_pause_10s_here()
-{
-	PositionActualData positionActual;
-	PositionActualGet(&positionActual);
-
-	// Previously this would climb all the way to the minimum altitude
-	// immediately.  IMO this doesn't match the intent of the initial RTH
-	// pause (rise is in the next state).  It has also caused issues
-	// when a burst of full throttle from the combined effect of altitude
-	// error and the impulse from application of the mode destabilized
-	// flaky quads.
-	//
-	// On the other hand, if we're too low, it's advantageous to rise
-	// at least a small amount immediately.  It's also good to not set our
-	// hold position too low from any immediate altimeter error.
-	// So climb 1.5m right away. -mpl
-
-	if (positionActual.Down > -RTH_MIN_ALTITUDE) {
-		positionActual.Down = fmaxf(-RTH_MIN_ALTITUDE,
-				positionActual.Down - 1.5f);
-	}
-
-	hold_position(positionActual.North, positionActual.East, positionActual.Down);
-}
-
-/**
  * Stay at current location but rise to a minimal location.
  */
 static void go_enable_rise_here()
 {
-	float down = vtol_hold_position_ned[2];
+	PositionActualData positionActual;
+	PositionActualGet(&positionActual);
 
-	// Make sure we return at a minimum of 15 m above home
+	float down = positionActual.Down;
+
+	// Set the target altitude for MIN_RISE above our current alt
+	down -= RTH_MIN_RISE;
+
+	// But also make sure we return at a minimum of 15 m above home
 	if (down > -RTH_MIN_ALTITUDE)
 		down = -RTH_MIN_ALTITUDE;
 
-	// If the new altitude is more than a meter away, activate it. Otherwise
-	// go straight to the next state
-	if (fabsf(down - vtol_hold_position_ned[2]) > RTH_ALT_ERROR) {
-		hold_position(vtol_hold_position_ned[0], vtol_hold_position_ned[1], down);
-	} else {
-		vtol_fsm_inject_event(FSM_EVENT_TIMEOUT);
-	}
+	hold_position(positionActual.North, positionActual.East, down);
 }
 
 /**
