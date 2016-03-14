@@ -3,6 +3,7 @@
  *
  * @file       usbmonitor_mac.cpp
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
+ * @author     dRonin, http://www.dronin.org Copyright (C) 2016.
  * @addtogroup GCSPlugins GCS Plugins
  * @{
  * @addtogroup RawHIDPlugin Raw HID Plugin
