@@ -147,7 +147,7 @@ static void uavoMavlinkBridgeTask(void *parameters) {
 	// Main task loop
 	lastSysTime = PIOS_Thread_Systime();
 
-	FlightBatterySettingsData batSettings = {};
+	FlightBatterySettingsData batSettings;
 
 	if (FlightBatterySettingsHandle() != NULL )
 		FlightBatterySettingsGet(&batSettings);
@@ -158,7 +158,7 @@ static void uavoMavlinkBridgeTask(void *parameters) {
 		PIOS_Thread_Sleep_Until(&lastSysTime, 1000 / TASK_RATE_HZ);
 
 		if (stream_trigger(MAV_DATA_STREAM_EXTENDED_STATUS)) {
-			FlightBatteryStateData batState = {};
+			FlightBatteryStateData batState;
 
 			if (FlightBatteryStateHandle() != NULL )
 				FlightBatteryStateGet(&batState);
@@ -248,8 +248,8 @@ static void uavoMavlinkBridgeTask(void *parameters) {
 		}
 
 		if (stream_trigger(MAV_DATA_STREAM_POSITION)) {
-			GPSPositionData gpsPosData = {};
-			HomeLocationData homeLocation = {};
+			GPSPositionData gpsPosData;
+			HomeLocationData homeLocation;
 			SystemStatsGet(&systemStats);
 
 			if (GPSPositionHandle() != NULL )
@@ -353,9 +353,9 @@ static void uavoMavlinkBridgeTask(void *parameters) {
 		if (stream_trigger(MAV_DATA_STREAM_EXTRA2)) {
 			ActuatorDesiredData actDesired;
 			AttitudeActualData attActual;
-			AirspeedActualData airspeedActual = {};
-			GPSPositionData gpsPosData = {};
-			BaroAltitudeData baroAltitude = {};
+			AirspeedActualData airspeedActual;
+			GPSPositionData gpsPosData;
+			BaroAltitudeData baroAltitude;
 			FlightStatusData flightStatus;
 
 			if (AirspeedActualHandle() != NULL )
