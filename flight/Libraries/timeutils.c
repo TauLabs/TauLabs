@@ -64,9 +64,6 @@ void date_from_timestamp(uint32_t timestamp, DateTimeT *date_time)
 	date_time->sec = rem % 60;
 	/* January 1, 1970 was a Thursday.  */
 	date_time->wday = (4 + days) % 7;
-	if (date_time->wday < 0){
-		date_time->wday += 7;
-	}
 	y = 1970;
 
 #define DIV(a, b) ((a) / (b) - ((a) % (b) < 0))

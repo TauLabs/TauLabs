@@ -746,7 +746,7 @@ enum LexToken LexGetRawToken(struct ParseState *Parser, struct Value **Value, in
 #ifdef DEBUG_LEXER
     printf("Got token=%02x inc=%d pos=%d\n", Token, IncPos, Parser->CharacterPos);
 #endif
-    assert(Token >= TokenNone && Token <= TokenEndOfFunction);
+    assert(Token+0 >= TokenNone && Token <= TokenEndOfFunction); // The `+0` ensures that this code doesn't fail -Wtype-limits due to a GCC bug that considers it impossible for Token to have a value other than in the enum range.
     return Token;
 }
 

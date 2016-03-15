@@ -575,8 +575,9 @@ enum ParseResult ParseStatement(struct ParseState *Parser, int CheckTrailingSemi
     enum LexToken Token;
     
     /* if we're debugging, check for a breakpoint */
-    if (Parser->DebugMode && Parser->Mode == RunModeRun)
+    if (Parser->DebugMode && Parser->Mode == RunModeRun) {
         DebugCheckStatement(Parser);
+    }
     
     /* take note of where we are and then grab a token to see what statement we have */   
     ParserCopy(&PreState, Parser);
