@@ -228,4 +228,12 @@ QWidget * SparkyBGC::getBoardConfiguration(QWidget *parent, bool connected)
 {
     Q_UNUSED(connected);
     return new SparkyBgcConfiguration(parent);
+
+}
+
+
+QStringList SparkyBGC::getAdcNames()
+{
+    // TODO: Confirm with @peabody124 if this is correct
+    return QStringList() << "VBAT" << "Current" << "RSSI";
 }
