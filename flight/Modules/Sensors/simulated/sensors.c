@@ -466,8 +466,8 @@ static void simulateModelQuadcopter()
 	static uint32_t last_gps_time = 0;
 	if(PIOS_DELAY_DiffuS(last_gps_time) / 1.0e6 > GPS_PERIOD) {
 		// Use double precision here as simulating what GPS produces
-		double T[3];
-		LLA_linearization_double(homeLocation.Latitude, homeLocation.Altitude, T);
+		double linearized_conversion_factor_d[3];
+		LLA_linearization_double(homeLocation.Latitude, homeLocation.Altitude, linearized_conversion_factor_d);
 
 		static float gps_drift[3] = {0,0,0};
 		gps_drift[0] = gps_drift[0] * 0.95 + rand_gauss() / 10.0;
@@ -476,9 +476,9 @@ static void simulateModelQuadcopter()
 
 		GPSPositionData gpsPosition;
 		GPSPositionGet(&gpsPosition);
-		gpsPosition.Latitude = homeLocation.Latitude + ((pos[0] + gps_drift[0]) / T[0]);
-		gpsPosition.Longitude = homeLocation.Longitude + ((pos[1] + gps_drift[1]) / T[1]);
-		gpsPosition.Altitude = homeLocation.Altitude + ((pos[2] + gps_drift[2]) / T[2]);
+		gpsPosition.Latitude = homeLocation.Latitude + ((pos[0] + gps_drift[0]) / linearized_conversion_factor_d[0]);
+		gpsPosition.Longitude = homeLocation.Longitude + ((pos[1] + gps_drift[1]) / linearized_conversion_factor_d[1]);
+		gpsPosition.Altitude = homeLocation.Altitude + ((pos[2] + gps_drift[2]) / linearized_conversion_factor_d[2]);
 		gpsPosition.Groundspeed = sqrtf(pow(vel[0] + gps_vel_drift[0],2) + pow(vel[1] + gps_vel_drift[1],2));
 		gpsPosition.Heading = 180 / M_PI * atan2f(vel[1] + gps_vel_drift[1],vel[0] + gps_vel_drift[0]);
 		gpsPosition.Satellites = 7;
@@ -765,8 +765,8 @@ static void simulateModelAirplane()
 	static uint32_t last_gps_time = 0;
 	if(PIOS_DELAY_DiffuS(last_gps_time) / 1.0e6 > GPS_PERIOD) {
 		// Use double precision here as simulating what GPS produces
-		double T[3];
-		LLA_linearization_double(homeLocation.Latitude, homeLocation.Altitude, T);
+		double linearized_conversion_factor_d[3];
+		LLA_linearization_double(homeLocation.Latitude, homeLocation.Altitude, linearized_conversion_factor_d);
 
 		static float gps_drift[3] = {0,0,0};
 		gps_drift[0] = gps_drift[0] * 0.95 + rand_gauss() / 10.0;
@@ -775,9 +775,9 @@ static void simulateModelAirplane()
 		
 		GPSPositionData gpsPosition;
 		GPSPositionGet(&gpsPosition);
-		gpsPosition.Latitude = homeLocation.Latitude + ((pos[0] + gps_drift[0]) / T[0]);
-		gpsPosition.Longitude = homeLocation.Longitude + ((pos[1] + gps_drift[1]) / T[1]);
-		gpsPosition.Altitude = homeLocation.Altitude + ((pos[2] + gps_drift[2]) / T[2]);
+		gpsPosition.Latitude = homeLocation.Latitude + ((pos[0] + gps_drift[0]) / linearized_conversion_factor_d[0]);
+		gpsPosition.Longitude = homeLocation.Longitude + ((pos[1] + gps_drift[1]) / linearized_conversion_factor_d[1]);
+		gpsPosition.Altitude = homeLocation.Altitude + ((pos[2] + gps_drift[2]) / linearized_conversion_factor_d[2]);
 		gpsPosition.Groundspeed = sqrtf(pow(vel[0] + gps_vel_drift[0],2) + pow(vel[1] + gps_vel_drift[1],2));
 		gpsPosition.Heading = 180 / M_PI * atan2f(vel[1] + gps_vel_drift[1],vel[0] + gps_vel_drift[0]);
 		gpsPosition.Satellites = 7;
@@ -1020,8 +1020,8 @@ static void simulateModelCar()
 	static uint32_t last_gps_time = 0;
 	if(PIOS_DELAY_DiffuS(last_gps_time) / 1.0e6 > GPS_PERIOD) {
 		// Use double precision here as simulating what GPS produces
-		double T[3];
-		LLA_linearization_double(homeLocation.Latitude, homeLocation.Altitude, T);
+		double linearized_conversion_factor_d[3];
+		LLA_linearization_double(homeLocation.Latitude, homeLocation.Altitude, linearized_conversion_factor_d);
 		
 		static float gps_drift[3] = {0,0,0};
 		gps_drift[0] = gps_drift[0] * 0.95 + rand_gauss() / 10.0;
@@ -1030,9 +1030,9 @@ static void simulateModelCar()
 		
 		GPSPositionData gpsPosition;
 		GPSPositionGet(&gpsPosition);
-		gpsPosition.Latitude = homeLocation.Latitude + ((pos[0] + gps_drift[0]) / T[0]);
-		gpsPosition.Longitude = homeLocation.Longitude + ((pos[1] + gps_drift[1]) / T[1]);
-		gpsPosition.Altitude = homeLocation.Altitude + ((pos[2] + gps_drift[2]) / T[2]);
+		gpsPosition.Latitude = homeLocation.Latitude + ((pos[0] + gps_drift[0]) / linearized_conversion_factor_d[0]);
+		gpsPosition.Longitude = homeLocation.Longitude + ((pos[1] + gps_drift[1]) / linearized_conversion_factor_d[1]);
+		gpsPosition.Altitude = homeLocation.Altitude + ((pos[2] + gps_drift[2]) / linearized_conversion_factor_d[2]);
 		gpsPosition.Groundspeed = sqrtf(pow(vel[0] + gps_vel_drift[0],2) + pow(vel[1] + gps_vel_drift[1],2));
 		gpsPosition.Heading = 180 / M_PI * atan2f(vel[1] + gps_vel_drift[1],vel[0] + gps_vel_drift[0]);
 		gpsPosition.Satellites = 7;

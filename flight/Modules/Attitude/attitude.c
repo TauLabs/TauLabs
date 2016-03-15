@@ -154,7 +154,7 @@ static const float zeros[3] = {0.0f, 0.0f, 0.0f};
 static struct complementary_filter_state complementary_filter_state;
 static struct cfvert cfvert; //!< State information for vertical filter
 
-static float T[3];
+static float linearized_conversion_factor_f[3];
 
 // Private functions
 static void AttitudeTask(void *parameters);
@@ -833,7 +833,7 @@ static int32_t setNavigationRaw()
 		// Get NED coordinates from LLA coordinates
 		get_linearized_3D_transformation(gpsPosition.Latitude,  gpsPosition.Longitude, gpsPosition.Altitude,
 		                                 homeLocation.Latitude, homeLocation.Longitude,  homeLocation.Altitude,
-		                                 T, NED);
+		                                 linearized_conversion_factor_f, NED);
 
 
 		NEDPositionData nedPosition;
@@ -1144,7 +1144,7 @@ static int32_t updateAttitudeINSGPS(bool first_run, bool outdoor_mode)
 			// Get NED coordinates from LLA
 			get_linearized_3D_transformation(gpsPosition.Latitude, gpsPosition.Longitude, gpsPosition.Altitude,
 			                                 homeLocation.Latitude, homeLocation.Longitude, homeLocation.Altitude,
-			                                 T, NED);
+			                                 linearized_conversion_factor_f, NED);
 
 			// Initialize barometric offset to current GPS NED coordinate
 			baro_offset = -baroData.Altitude;
@@ -1232,7 +1232,7 @@ static int32_t updateAttitudeINSGPS(bool first_run, bool outdoor_mode)
 		// Transform the GPS position into NED coordinates
 		get_linearized_3D_transformation(gpsPosition.Latitude,  gpsPosition.Longitude, gpsPosition.Altitude,
 		                                 homeLocation.Latitude, homeLocation.Longitude,  homeLocation.Altitude,
-		                                 T, NED);
+		                                 linearized_conversion_factor_f, NED);
 
 
 		// Store this for inspecting offline
@@ -1492,7 +1492,7 @@ static void settingsUpdatedCb(UAVObjEvent * ev)
 		if (armed == FLIGHTSTATUS_ARMED_DISARMED) {
 			HomeLocationGet(&homeLocation);
 			// Compute matrix to convert deltaLLA to NED
-			LLA_linearization_float(homeLocation.Latitude, homeLocation.Altitude, T);
+			LLA_linearization_float(homeLocation.Latitude, homeLocation.Altitude, linearized_conversion_factor_f);
 
 			home_location_updated = true;
 		}

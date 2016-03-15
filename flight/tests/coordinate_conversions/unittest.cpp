@@ -105,14 +105,14 @@ TEST_F(LLALineraization, Equator_float) {
   float dE = 0.0111319490793274;
   float dD = -1;
 
-  float T[3];
-  LLA_linearization_float(homeLLA_D[0], homeLLA_D[2], T);
+  float linearized_conversion_factor_f[3];
+  LLA_linearization_float(homeLLA_D[0], homeLLA_D[2], linearized_conversion_factor_f);
 
   float eps = 0.000001f;
 
-  ASSERT_NEAR(dN/T[0], 1, eps);
-  ASSERT_NEAR(dE/T[1], 1, eps);
-  ASSERT_NEAR(dD/T[2], 1, eps);
+  ASSERT_NEAR(dN/linearized_conversion_factor_f[0], 1, eps);
+  ASSERT_NEAR(dE/linearized_conversion_factor_f[1], 1, eps);
+  ASSERT_NEAR(dD/linearized_conversion_factor_f[2], 1, eps);
 
 };
 
@@ -123,14 +123,14 @@ TEST_F(LLALineraization, Aconagua_float) {
   float dE = 0.00938276913926;
   float dD = -1;
 
-  float T[3];
-  LLA_linearization_float(homeLLA_D[0], homeLLA_D[2], T);
+  float linearized_conversion_factor_f[3];
+  LLA_linearization_float(homeLLA_D[0], homeLLA_D[2], linearized_conversion_factor_f);
 
   float eps = 0.000001f;
 
-  ASSERT_NEAR(dN/T[0], 1, eps);
-  ASSERT_NEAR(dE/T[1], 1, eps);
-  ASSERT_NEAR(dD/T[2], 1, eps);
+  ASSERT_NEAR(dN/linearized_conversion_factor_f[0], 1, eps);
+  ASSERT_NEAR(dE/linearized_conversion_factor_f[1], 1, eps);
+  ASSERT_NEAR(dD/linearized_conversion_factor_f[2], 1, eps);
 
 };
 
@@ -141,14 +141,14 @@ TEST_F(LLALineraization, ChallengerDeep_float) {
   float dE = .0108936834557;
   float dD = -1;
 
-  float T[3];
-  LLA_linearization_float(homeLLA_D[0], homeLLA_D[2], T);
+  float linearized_conversion_factor_f[3];
+  LLA_linearization_float(homeLLA_D[0], homeLLA_D[2], linearized_conversion_factor_f);
 
   float eps = 0.000001f;
 
-  ASSERT_NEAR(dN/T[0], 1, eps);
-  ASSERT_NEAR(dE/T[1], 1, eps);
-  ASSERT_NEAR(dD/T[2], 1, eps);
+  ASSERT_NEAR(dN/linearized_conversion_factor_f[0], 1, eps);
+  ASSERT_NEAR(dE/linearized_conversion_factor_f[1], 1, eps);
+  ASSERT_NEAR(dD/linearized_conversion_factor_f[2], 1, eps);
 
 };
 
@@ -160,14 +160,14 @@ TEST_F(LLALineraization, Boston_float) {
   float dE = 0.00822438930622829;
   float dD = -1;
 
-  float T[3];
-  LLA_linearization_float(homeLLA_D[0], homeLLA_D[2], T);
+  float linearized_conversion_factor_f[3];
+  LLA_linearization_float(homeLLA_D[0], homeLLA_D[2], linearized_conversion_factor_f);
 
   float eps = 0.000001f;
 
-  ASSERT_NEAR(dN/T[0], 1, eps);
-  ASSERT_NEAR(dE/T[1], 1, eps);
-  ASSERT_NEAR(dD/T[2], 1, eps);
+  ASSERT_NEAR(dN/linearized_conversion_factor_f[0], 1, eps);
+  ASSERT_NEAR(dE/linearized_conversion_factor_f[1], 1, eps);
+  ASSERT_NEAR(dD/linearized_conversion_factor_f[2], 1, eps);
 
 };
 
@@ -178,14 +178,14 @@ TEST_F(LLALineraization, Sydney_float) {
   float dE = 0.00924400128736662;
   float dD = -1;
 
-  float T[3];
-  LLA_linearization_float(homeLLA_D[0], homeLLA_D[2], T);
+  float linearized_conversion_factor_f[3];
+  LLA_linearization_float(homeLLA_D[0], homeLLA_D[2], linearized_conversion_factor_f);
 
   float eps = 0.000001f;
 
-  ASSERT_NEAR(dN/T[0], 1, eps);
-  ASSERT_NEAR(dE/T[1], 1, eps);
-  ASSERT_NEAR(dD/T[2], 1, eps);
+  ASSERT_NEAR(dN/linearized_conversion_factor_f[0], 1, eps);
+  ASSERT_NEAR(dE/linearized_conversion_factor_f[1], 1, eps);
+  ASSERT_NEAR(dD/linearized_conversion_factor_f[2], 1, eps);
 
 };
 
@@ -196,13 +196,13 @@ TEST_F(LLALineraization, Equator_double) {
   double dE = 0.0111319490793274;
   double dD = -1;
 
-  double T[3];
-  LLA_linearization_double(homeLLA_D[0], homeLLA_D[2], T);
+  double linearized_conversion_factor_d[3];
+  LLA_linearization_double(homeLLA_D[0], homeLLA_D[2], linearized_conversion_factor_d);
 
   float eps = 0.0000001f;
-  ASSERT_NEAR(dN/T[0], 1, eps);
-  ASSERT_NEAR(dE/T[1], 1, eps);
-  ASSERT_NEAR(dD/T[2], 1, eps);
+  ASSERT_NEAR(dN/linearized_conversion_factor_d[0], 1, eps);
+  ASSERT_NEAR(dE/linearized_conversion_factor_d[1], 1, eps);
+  ASSERT_NEAR(dD/linearized_conversion_factor_d[2], 1, eps);
 
 };
 
@@ -213,13 +213,13 @@ TEST_F(LLALineraization, Boston_double) {
   double dE = 0.00822438930622829;
   double dD = -1;
 
-  double T[3];
-  LLA_linearization_double(homeLLA_D[0], homeLLA_D[2], T);
+  double linearized_conversion_factor_d[3];
+  LLA_linearization_double(homeLLA_D[0], homeLLA_D[2], linearized_conversion_factor_d);
 
   float eps = 0.0000001f;
-  ASSERT_NEAR(dN/T[0], 1, eps);
-  ASSERT_NEAR(dE/T[1], 1, eps);
-  ASSERT_NEAR(dD/T[2], 1, eps);
+  ASSERT_NEAR(dN/linearized_conversion_factor_d[0], 1, eps);
+  ASSERT_NEAR(dE/linearized_conversion_factor_d[1], 1, eps);
+  ASSERT_NEAR(dD/linearized_conversion_factor_d[2], 1, eps);
 
 };
 
@@ -230,13 +230,13 @@ TEST_F(LLALineraization, Sydney_double) {
   float dE = 0.00924400128736662;
   float dD = -1;
 
-  float T[3];
-  LLA_linearization_float(homeLLA_D[0], homeLLA_D[2], T);
+  float linearized_conversion_factor_f[3];
+  LLA_linearization_float(homeLLA_D[0], homeLLA_D[2], linearized_conversion_factor_f);
 
   float eps = 0.000001f;
-  ASSERT_NEAR(dN/T[0], 1, eps);
-  ASSERT_NEAR(dE/T[1], 1, eps);
-  ASSERT_NEAR(dD/T[2], 1, eps);
+  ASSERT_NEAR(dN/linearized_conversion_factor_f[0], 1, eps);
+  ASSERT_NEAR(dE/linearized_conversion_factor_f[1], 1, eps);
+  ASSERT_NEAR(dD/linearized_conversion_factor_f[2], 1, eps);
 
 };
 
@@ -246,13 +246,13 @@ TEST_F(LLALineraization, Equator_on_ground) {
   float homeLLA_D[] = {0, 0, 0};
   float currentLLA_D[] = {0, 0, 0};
 
-  float T[3];
-  LLA_linearization_float(homeLLA_D[0], homeLLA_D[2], T);
+  float linearized_conversion_factor_f[3];
+  LLA_linearization_float(homeLLA_D[0], homeLLA_D[2], linearized_conversion_factor_f);
 
   float NED[3];
   get_linearized_3D_transformation(currentLLA_D[0], currentLLA_D[1], currentLLA_D[2],
                                    homeLLA_D[0], homeLLA_D[1], homeLLA_D[2],
-                                   T, NED);
+                                   linearized_conversion_factor_f, NED);
   float eps = 0.000001f;
   ASSERT_NEAR(0, NED[0], eps);
   ASSERT_NEAR(0, NED[1], eps);
@@ -266,13 +266,13 @@ TEST_F(LLALineraization, Equator_to_Takeoff) {
   float currentLLA_D[] = {0, 0, 20};
 
 
-  float T[3];
-  LLA_linearization_float(homeLLA_D[0], homeLLA_D[2], T);
+  float linearized_conversion_factor_f[3];
+  LLA_linearization_float(homeLLA_D[0], homeLLA_D[2], linearized_conversion_factor_f);
 
   float NED[3];
   get_linearized_3D_transformation(currentLLA_D[0], currentLLA_D[1], currentLLA_D[2],
                                    homeLLA_D[0], homeLLA_D[1], homeLLA_D[2],
-                                   T, NED);
+                                   linearized_conversion_factor_f, NED);
   float eps = 0.000001f;
   ASSERT_NEAR(0, NED[0], eps);
   ASSERT_NEAR(0, NED[1], eps);
@@ -293,13 +293,13 @@ TEST_F(LLALineraization, Boston) {
   int32_t currentLon = (int32_t)homeLLA_D[1] + dLon;
   float currentAlt   = homeLLA_D[2] + dAlt;
 
-  float T[3];
-  LLA_linearization_float(homeLLA_D[0], homeLLA_D[2], T);
+  float linearized_conversion_factor_f[3];
+  LLA_linearization_float(homeLLA_D[0], homeLLA_D[2], linearized_conversion_factor_f);
 
   float NED[3];
   get_linearized_3D_transformation(currentLat, currentLon, currentAlt,
                                    homeLLA_D[0], homeLLA_D[1], homeLLA_D[2],
-                                   T, NED);
+                                   linearized_conversion_factor_f, NED);
 
   float eps = 0.003f;
 
@@ -326,13 +326,13 @@ TEST_F(LLALineraization, Aconagua) {
   int32_t currentLon = (int32_t)homeLLA_D[1] + dLon;
   float currentAlt   = homeLLA_D[2] + dAlt;
 
-  float T[3];
-  LLA_linearization_float(homeLLA_D[0], homeLLA_D[2], T);
+  float linearized_conversion_factor_f[3];
+  LLA_linearization_float(homeLLA_D[0], homeLLA_D[2], linearized_conversion_factor_f);
 
   float NED[3];
   get_linearized_3D_transformation(currentLat, currentLon, currentAlt,
                                    homeLLA_D[0], homeLLA_D[1], homeLLA_D[2],
-                                   T, NED);
+                                   linearized_conversion_factor_f, NED);
 
   float eps = 0.004f;
 
@@ -360,13 +360,13 @@ TEST_F(LLALineraization, ChallengerDeep) {
   int32_t currentLon = (int32_t)homeLLA_D[1] + dLon;
   float currentAlt   = homeLLA_D[2] + dAlt;
 
-  float T[3];
-  LLA_linearization_float(homeLLA_D[0], homeLLA_D[2], T);
+  float linearized_conversion_factor_f[3];
+  LLA_linearization_float(homeLLA_D[0], homeLLA_D[2], linearized_conversion_factor_f);
 
   float NED[3];
   get_linearized_3D_transformation(currentLat, currentLon, currentAlt,
                                    homeLLA_D[0], homeLLA_D[1], homeLLA_D[2],
-                                   T, NED);
+                                   linearized_conversion_factor_f, NED);
 
   float eps = 0.007f;
 

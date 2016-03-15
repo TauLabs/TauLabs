@@ -208,8 +208,8 @@ static int32_t tabletInfo_to_ned(TabletInfoData *tabletInfo, float *NED)
 	GPSPositionData gpsPosition;
 	GPSPositionGet(&gpsPosition);
 
-	float T[3];
-	LLA_linearization_float(homeLocation.Latitude, homeLocation.Altitude, T);
+	float linearized_conversion_factor_f[3];
+	LLA_linearization_float(homeLocation.Latitude, homeLocation.Altitude, linearized_conversion_factor_f);
 
 	// Tablet altitude is in WSG84 but we use height above the geoid elsewhere so use the
 	// GPS GeoidSeparation as a proxy
@@ -220,7 +220,7 @@ static int32_t tabletInfo_to_ned(TabletInfoData *tabletInfo, float *NED)
 	// will be correct or incorrect depending on the device.
 	get_linearized_3D_transformation(tabletInfo->Latitude, tabletInfo->Longitude, tabletInfo->Altitude + gpsPosition.GeoidSeparation,
 	                                 homeLocation.Latitude, homeLocation.Longitude, homeLocation.Altitude,
-	                                 T, NED);
+	                                 linearized_conversion_factor_f, NED);
 
 
 	return 0;
