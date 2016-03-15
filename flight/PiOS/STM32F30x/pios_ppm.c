@@ -96,7 +96,7 @@ static struct pios_ppm_dev * PIOS_PPM_alloc(void)
 
 static void PIOS_PPM_tim_overflow_cb (uintptr_t id, uintptr_t context, uint8_t channel, uint16_t count);
 static void PIOS_PPM_tim_edge_cb (uintptr_t id, uintptr_t context, uint8_t channel, uint16_t count);
-const static struct pios_tim_callbacks tim_callbacks = {
+static const struct pios_tim_callbacks tim_callbacks = {
 	.overflow = PIOS_PPM_tim_overflow_cb,
 	.edge     = PIOS_PPM_tim_edge_cb,
 };
