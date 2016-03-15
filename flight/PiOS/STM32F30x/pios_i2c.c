@@ -77,7 +77,7 @@ static bool i2c_adapter_fsm_terminated(struct pios_i2c_adapter *i2c_adapter);
 static void i2c_adapter_log_fault(struct pios_i2c_adapter *i2c_adapter, enum pios_i2c_error_type type);
 #endif
 
-const static struct i2c_adapter_transition i2c_adapter_transitions[I2C_STATE_NUM_STATES] = {
+static const struct i2c_adapter_transition i2c_adapter_transitions[I2C_STATE_NUM_STATES] = {
 	[I2C_STATE_FSM_FAULT] = {
 		.entry_fn = go_fsm_fault,
 		.next_state = {

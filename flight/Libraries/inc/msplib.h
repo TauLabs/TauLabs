@@ -144,7 +144,7 @@ union msp_data {
 };
 
 //! Map between our flight modes
-const static struct {
+static const struct {
 	msp_box_t mode;
 	uint8_t mwboxid;
 	FlightStatusFlightModeOptions tlmode;
