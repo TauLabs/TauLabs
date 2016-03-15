@@ -3,6 +3,7 @@
  * @file       configmodulewidget.cpp
  * @brief      Configure the optional modules
  * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
+ * @author     dRonin, http://dronin.org Copyright (C) 2015
  * @addtogroup GCSPlugins GCS Plugins
  * @{
  * @addtogroup ConfigPlugin Config Plugin
