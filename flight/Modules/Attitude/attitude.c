@@ -835,7 +835,6 @@ static int32_t setNavigationRaw()
 		                                 homeLocation.Latitude, homeLocation.Longitude,  homeLocation.Altitude,
 		                                 linearized_conversion_factor_f, NED);
 
-
 		NEDPositionData nedPosition;
 		NEDPositionGet(&nedPosition);
 		nedPosition.North = NED[0];
@@ -1234,7 +1233,6 @@ static int32_t updateAttitudeINSGPS(bool first_run, bool outdoor_mode)
 		                                 homeLocation.Latitude, homeLocation.Longitude,  homeLocation.Altitude,
 		                                 linearized_conversion_factor_f, NED);
 
-
 		// Store this for inspecting offline
 		NEDPositionData nedPos;
 		nedPos.North = NED[0];
@@ -1492,7 +1490,7 @@ static void settingsUpdatedCb(UAVObjEvent * ev)
 		if (armed == FLIGHTSTATUS_ARMED_DISARMED) {
 			HomeLocationGet(&homeLocation);
 			// Compute matrix to convert deltaLLA to NED
-			LLA_linearization_float(homeLocation.Latitude, homeLocation.Altitude, linearized_conversion_factor_f);
+			LLA2NED_linearization_float(homeLocation.Latitude, homeLocation.Altitude, linearized_conversion_factor_f);
 
 			home_location_updated = true;
 		}

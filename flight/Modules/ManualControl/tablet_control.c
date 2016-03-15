@@ -209,7 +209,7 @@ static int32_t tabletInfo_to_ned(TabletInfoData *tabletInfo, float *NED)
 	GPSPositionGet(&gpsPosition);
 
 	float linearized_conversion_factor_f[3];
-	LLA_linearization_float(homeLocation.Latitude, homeLocation.Altitude, linearized_conversion_factor_f);
+	LLA2NED_linearization_float(homeLocation.Latitude, homeLocation.Altitude, linearized_conversion_factor_f);
 
 	// Tablet altitude is in WSG84 but we use height above the geoid elsewhere so use the
 	// GPS GeoidSeparation as a proxy

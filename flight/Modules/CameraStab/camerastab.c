@@ -378,7 +378,7 @@ static void tablet_info_process() {
 		PoiLocationData poi;
 
 		float linearized_conversion_factor_f[3];
-		LLA_linearization_float(homeLocation.Latitude, homeLocation.Altitude, linearized_conversion_factor_f);
+		LLA2NED_linearization_float(homeLocation.Latitude, homeLocation.Altitude, linearized_conversion_factor_f);
 
 		float NED[3];
 		get_linearized_3D_transformation(tablet.Latitude, tablet.Longitude, tablet.Altitude,

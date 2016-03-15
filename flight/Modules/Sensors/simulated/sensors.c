@@ -467,7 +467,7 @@ static void simulateModelQuadcopter()
 	if(PIOS_DELAY_DiffuS(last_gps_time) / 1.0e6 > GPS_PERIOD) {
 		// Use double precision here as simulating what GPS produces
 		double linearized_conversion_factor_d[3];
-		LLA_linearization_double(homeLocation.Latitude, homeLocation.Altitude, linearized_conversion_factor_d);
+		LLA2NED_linearization_double(homeLocation.Latitude, homeLocation.Altitude, linearized_conversion_factor_d);
 
 		static float gps_drift[3] = {0,0,0};
 		gps_drift[0] = gps_drift[0] * 0.95 + rand_gauss() / 10.0;
@@ -766,7 +766,7 @@ static void simulateModelAirplane()
 	if(PIOS_DELAY_DiffuS(last_gps_time) / 1.0e6 > GPS_PERIOD) {
 		// Use double precision here as simulating what GPS produces
 		double linearized_conversion_factor_d[3];
-		LLA_linearization_double(homeLocation.Latitude, homeLocation.Altitude, linearized_conversion_factor_d);
+		LLA2NED_linearization_double(homeLocation.Latitude, homeLocation.Altitude, linearized_conversion_factor_d);
 
 		static float gps_drift[3] = {0,0,0};
 		gps_drift[0] = gps_drift[0] * 0.95 + rand_gauss() / 10.0;
@@ -1021,7 +1021,7 @@ static void simulateModelCar()
 	if(PIOS_DELAY_DiffuS(last_gps_time) / 1.0e6 > GPS_PERIOD) {
 		// Use double precision here as simulating what GPS produces
 		double linearized_conversion_factor_d[3];
-		LLA_linearization_double(homeLocation.Latitude, homeLocation.Altitude, linearized_conversion_factor_d);
+		LLA2NED_linearization_double(homeLocation.Latitude, homeLocation.Altitude, linearized_conversion_factor_d);
 		
 		static float gps_drift[3] = {0,0,0};
 		gps_drift[0] = gps_drift[0] * 0.95 + rand_gauss() / 10.0;

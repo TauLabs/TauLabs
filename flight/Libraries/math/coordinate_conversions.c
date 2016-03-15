@@ -366,12 +366,12 @@ void rot_mult(float R[3][3], const float vec[3], float vec_out[3], bool transpos
 }
 
 /**
- * @brief LLA_linearization_float calculates linearized NED to LLA conversion factors using floats
+ * @brief LLA2NED_linearization_float calculates linearized LLA to NED conversion factors using floats
  * @param home_latitude_1e7 is the home latitude times 1e7
  * @param home_altitude
- * @param linearized_conversion_factor_f is the linearized NED to LLA conversion factor
+ * @param linearized_conversion_factor_f is the linearized LLA to NED conversion factor
  */
-void LLA_linearization_float(int32_t home_latitude_1e7, float home_altitude, float linearized_conversion_factor_f[])
+void LLA2NED_linearization_float(int32_t home_latitude_1e7, float home_altitude, float linearized_conversion_factor_f[])
 {
 	float lat_rad = home_latitude_1e7 / 10.0e6f * DEG2RAD;
 	float alt = home_altitude;
@@ -385,12 +385,12 @@ void LLA_linearization_float(int32_t home_latitude_1e7, float home_altitude, flo
 
 
 /**
- * @brief LLA_linearization_double calculates linearized NED to LLA conversion using doubles (used in simulation)
+ * @brief LLA2NED_linearization_double calculates linearized LLA to NED conversion using doubles (used in simulation)
  * @param home_latitude_1e7 is the home latitude times 1e7
  * @param home_altitude
- * @param linearized_conversion_factor_d is the linearized NED to LLA conversion factor
+ * @param linearized_conversion_factor_d is the linearized LLA to NED conversion factor
  */
-void LLA_linearization_double(int32_t home_latitude_1e7, double home_altitude, double linearized_conversion_factor_d[])
+void LLA2NED_linearization_double(int32_t home_latitude_1e7, double home_altitude, double linearized_conversion_factor_d[])
 {
 	double lat_rad = home_latitude_1e7 / 10.0e6 * ((double)DEG2RAD);
 	double alt = home_altitude;

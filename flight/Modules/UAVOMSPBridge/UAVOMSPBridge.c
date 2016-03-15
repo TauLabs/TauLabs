@@ -48,6 +48,7 @@
 #include "baroaltitude.h"
 #include "pios_thread.h"
 #include "pios_sensors.h"
+#include "coordinate_conversions.h"
 
 #include "baroaltitude.h"
 #include "flightbatterysettings.h"
@@ -256,20 +257,20 @@ static void msp_send_comp_gps(struct msp_bridge *m)
 		} else {
 			data.comp_gps.home_position_valid = 1;  // Home distance and direction will display on OSD
 			
-			int32_t delta_lon = (home_data.Longitude - gps_data.Longitude);  // degrees * 1e7
-			int32_t delta_lat = (home_data.Latitude  - gps_data.Latitude );  // degrees * 1e7
+			float linearized_conversion_factor_f[3];
+			LLA2NED_linearization_float(home_data.Latitude, home_data.Altitude, linearized_conversion_factor_f);
+
+			float deltas[3];
+			get_linearized_3D_transformation(gps_data.Latitude, gps_data.Longitude, gps_data.Altitude,
+			                                 home_data.Latitude, home_data.Longitude, home_data.Altitude,
+			                                 linearized_conversion_factor_f, deltas);
 	
-			float delta_y = delta_lon * WGS84_RADIUS_EARTH_KM * DEG2RAD;  // KM * 1e7
-			float delta_x = delta_lat * WGS84_RADIUS_EARTH_KM * DEG2RAD;  // KM * 1e7
-	
-			delta_y *= cosf(home_data.Latitude * 1e-7f * (float)DEG2RAD);  // Latitude compression correction
-	
-			data.comp_gps.distance_to_home  = (uint16_t)(sqrtf(delta_x * delta_x + delta_y * delta_y) * 1e-4f);  // meters
-	
-			if ((delta_lon == 0) && (delta_lat == 0))
-				data.comp_gps.direction_to_home = 0;
+			data.comp_gps.distance_to_home  = (uint16_t)(sqrtf(deltas[0] * deltas [0] + deltas[1] * deltas[1]));  // meters
+
+			if ((deltas[0] == 0) && (deltas[1] == 0))
+			   data.comp_gps.direction_to_home = 0;
 			else
-				data.comp_gps.direction_to_home = (int16_t)(atan2f(delta_y, delta_x) * RAD2DEG + 0.5f); // degrees;
+			   data.comp_gps.direction_to_home = (int16_t)(atan2f(deltas[1], deltas[0]) * RAD2DEG + 0.5f); // degrees;
 		}
 	}
 
