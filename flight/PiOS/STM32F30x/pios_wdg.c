@@ -7,8 +7,8 @@
  * @{
  *
  * @file       pios_spi.c
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2016
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2012.
- * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2013
  * 	           Parts by Thorsten Klose (tk@midibox.org) (tk@midibox.org)
  * @brief      Hardware Abstraction Layer for SPI ports of STM32
  * @see        The GNU Public License (GPL) Version 3
