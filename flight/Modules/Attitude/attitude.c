@@ -281,10 +281,12 @@ int32_t AttitudeStart(void)
 	if (GPSVelocityHandle())
 		GPSVelocityConnectQueue(gpsVelQueue);
 
+	// Watchdog must be registered before starting task
+	PIOS_WDG_RegisterFlag(PIOS_WDG_ATTITUDE);
+
 	// Start main task
 	attitudeTaskHandle = PIOS_Thread_Create(AttitudeTask, "Attitude", STACK_SIZE_BYTES, NULL, TASK_PRIORITY);
 	TaskMonitorAdd(TASKINFO_RUNNING_ATTITUDE, attitudeTaskHandle);
-	PIOS_WDG_RegisterFlag(PIOS_WDG_ATTITUDE);
 
 	return 0;
 }

@@ -67,10 +67,12 @@ static void brushlessGimbalTask(void* parameters);
  */
 static int32_t BrushlessGimbalStart()
 {
+	// Watchdog must be registered before starting task
+	PIOS_WDG_RegisterFlag(PIOS_WDG_ACTUATOR);
+
 	// Start main task
 	taskHandle = PIOS_Thread_Create(brushlessGimbalTask, "BrushlessGimbal", STACK_SIZE_BYTES, NULL, TASK_PRIORITY);
 	TaskMonitorAdd(TASKINFO_RUNNING_ACTUATOR, taskHandle);
-	PIOS_WDG_RegisterFlag(PIOS_WDG_ACTUATOR);
 
 	return 0;
 }
