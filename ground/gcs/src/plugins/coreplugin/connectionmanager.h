@@ -40,6 +40,7 @@
 #include <QPushButton>
 #include <QComboBox>
 #include <QPointer>
+#include <QMessageBox>
 
 #include "core_global.h"
 #include <QTimer>
@@ -149,6 +150,8 @@ protected:
 
     //currently connected QIODevice
     QIODevice *m_ioDev;
+
+    QMessageBox msgFailedToConnect;
 
 private:
 	bool connectDevice();
