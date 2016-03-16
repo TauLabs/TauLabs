@@ -121,6 +121,11 @@ bool PIOS_WDG_RegisterFlag(uint16_t flag_requested)
  */
 bool PIOS_WDG_UpdateFlag(uint16_t flag) 
 {	
+	// Validate that the flag has been registered. If not, halt the program.
+	if ((wdg_configuration.used_flags & flag) == 0) {
+		PIOS_Assert(0);
+	}
+
 	// we can probably avoid using a semaphore here which will be good for
 	// efficiency and not blocking critical tasks.  race condition could 
 	// overwrite their flag update, but unlikely to block _all_ of them 
