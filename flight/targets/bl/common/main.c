@@ -49,7 +49,13 @@ extern void PIOS_Board_Init(void);
 #define BL_DETECT_BREAK_TO_BL_TIMER MSEC_TO_USEC(500)
 #endif
 
-#define BL_WAIT_FOR_DFU_TIMER SEC_TO_USEC(6)
+// allow altering bootloader delay
+#ifndef DFU_PAUSE_DELAY_MS
+#define DFU_PAUSE_DELAY_MS 6000
+#endif
+
+#define BL_WAIT_FOR_DFU_TIMER MSEC_TO_USEC(DFU_PAUSE_DELAY_MS)
+
 #define BL_RECOVER_FROM_FAULT_TIMER SEC_TO_USEC(10)
 
 enum bl_states {
