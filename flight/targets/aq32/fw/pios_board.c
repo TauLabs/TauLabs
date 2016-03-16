@@ -150,14 +150,14 @@ static const struct pios_hmc5883_cfg pios_hmc5883_external_cfg = {
 /**
  * Configuration for the MS5611 chip
  */
-#if defined(PIOS_INCLUDE_MS5611)
-#include "pios_ms5611_priv.h"
-static const struct pios_ms5611_cfg pios_ms5611_cfg = {
-    .oversampling             = MS5611_OSR_4096,
+#if defined(PIOS_INCLUDE_MS5XXX)
+#include "pios_ms5xxx_priv.h"
+static const struct pios_ms5xxx_cfg pios_ms5xxx_cfg = {
+    .oversampling             = MS5XXX_OSR_4096,
     .temperature_interleaving = 1,
-    .use_0x76_address         = true,
+    .pios_ms5xxx_model = PIOS_MS5M_MS5611,
 };
-#endif /* PIOS_INCLUDE_MS5611 */
+#endif /* PIOS_INCLUDE_MS5XXX */
 
 bool external_mag_fail;
 
@@ -179,8 +179,8 @@ uintptr_t pios_internal_adc_id;
  *  9 Not Used
  * 10 Not Used
  * 11 Not Used
- * 12 pulses: MS5611  - PIOS_MS5611_Init failed
- * 13 pulses: MS5611  - PIOS_MS5611_Test failed
+ * 12 pulses: MS5611  - PIOS_MS5XXX_I2C_Init failed
+ * 13 pulses: MS5611  - PIOS_MS5XXX_Test failed
  * 14 pulses: ADC     - PIOS_INTERNAL_ADC_Init failed
  * 15 pulses: ADC     - PIOS_ADC_Init failed
  */
@@ -675,10 +675,10 @@ void PIOS_Board_Init(void) {
     //I2C is slow, sensor init as well, reset watchdog to prevent reset here
     PIOS_WDG_Clear();
 
-#if defined(PIOS_INCLUDE_MS5611)
-    if (PIOS_MS5611_Init(&pios_ms5611_cfg, pios_i2c_internal_id) != 0)
+#if defined(PIOS_INCLUDE_MS5XXX)
+    if (PIOS_MS5XXX_I2C_Init(pios_i2c_internal_id, MS5XXX_I2C_ADDR_0x76, &pios_ms5xxx_cfg) != 0)
         panic(12);
-    if (PIOS_MS5611_Test() != 0)
+    if (PIOS_MS5XXX_Test() != 0)
         panic(13);
 #endif
 
