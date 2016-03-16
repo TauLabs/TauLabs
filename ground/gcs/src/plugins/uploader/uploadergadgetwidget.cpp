@@ -267,6 +267,7 @@ void UploaderGadgetWidget::FirmwareLoadedUpdate(QByteArray firmwareArray)
         m_widget->userDefined_LD_lbl->setVisible(false);
         return;
     }
+    setStatusInfo(tr("File loaded successfully"), uploader::STATUSICON_INFO);
     m_widget->builtForLD_lbl->setText(Core::IBoardType::getBoardNameFromID(firmware.boardID()));
     bool ok;
     currentBoard.max_code_size.toLong(&ok);
@@ -1098,7 +1099,9 @@ QString UploaderGadgetWidget::LoadFirmwareFileDialog(QString boardName)
     QString fileName = QFileDialog::getOpenFileName(this,
                                                     tr("Select firmware file"),
                                                     fwDirectoryStr,
-                                                    tr("Firmware Files (*.opfw *.tlfw *.bin)"),
+                                                    tr("Firmware (fw_*.tlfw);;"
+                                                       "Bootloader Update (bu_*.tlfw);;"
+                                                       "All (*.tlfw *.opfw *.bin)"),
                                                     &selectedFilter,
                                                     options);
     return fileName;
