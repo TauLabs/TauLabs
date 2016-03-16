@@ -193,10 +193,12 @@ static int32_t SensorsInitialize(void)
  */
 static int32_t SensorsStart(void)
 {
+	// Watchdog must be registered before starting task
+	PIOS_WDG_RegisterFlag(PIOS_WDG_SENSORS);
+
 	// Start main task
 	sensorsTaskHandle = PIOS_Thread_Create(SensorsTask, "Sensors", STACK_SIZE_BYTES, NULL, TASK_PRIORITY);
 	TaskMonitorAdd(TASKINFO_RUNNING_SENSORS, sensorsTaskHandle);
-	PIOS_WDG_RegisterFlag(PIOS_WDG_SENSORS);
 
 	return 0;
 }

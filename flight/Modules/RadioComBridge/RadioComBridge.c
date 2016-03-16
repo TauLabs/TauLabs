@@ -158,33 +158,34 @@ static int32_t RadioComBridgeStart(void)
 		// Configure the UAVObject callbacks
 		ObjectPersistenceConnectCallback(&objectPersistenceUpdatedCb);
 
-		// Start the primary tasks for receiving/sending UAVTalk packets from the GCS.
-		data->telemetryTxTaskHandle = PIOS_Thread_Create(telemetryTxTask, "telemetryTxTask", STACK_SIZE_BYTES, NULL, TASK_PRIORITY);
-		data->telemetryRxTaskHandle = PIOS_Thread_Create(telemetryRxTask, "telemetryRxTask", STACK_SIZE_BYTES, NULL, TASK_PRIORITY);
-			    
-		if (PIOS_PPM_RECEIVER != 0) {
-			data->PPMInputTaskHandle = PIOS_Thread_Create(PPMInputTask, "PPMInputTask",STACK_SIZE_BYTES, NULL, TASK_PRIORITY);
-#ifdef PIOS_INCLUDE_WDG
-			PIOS_WDG_RegisterFlag(PIOS_WDG_PPMINPUT);
-#endif
-		}
-		if (!data->parseUAVTalk) {
-			// If the user wants raw serial communication, we need to spawn another thread to handle it.
-			data->serialRxTaskHandle = PIOS_Thread_Create(serialRxTask, "serialRxTask", STACK_SIZE_BYTES, NULL, TASK_PRIORITY);
-#ifdef PIOS_INCLUDE_WDG
-			PIOS_WDG_RegisterFlag(PIOS_WDG_SERIALRX);
-#endif
-		}
-		data->radioTxTaskHandle = PIOS_Thread_Create(radioTxTask, "radioTxTask", STACK_SIZE_BYTES, NULL, TASK_PRIORITY);
-		data->radioRxTaskHandle = PIOS_Thread_Create(radioRxTask, "radioRxTask", STACK_SIZE_BYTES, NULL, TASK_PRIORITY);
-
-		// Register the watchdog timers.
+		// Watchdog must be registered before starting tasks
 #ifdef PIOS_INCLUDE_WDG
 		PIOS_WDG_RegisterFlag(PIOS_WDG_TELEMETRYTX);
 		PIOS_WDG_RegisterFlag(PIOS_WDG_TELEMETRYRX);
 		PIOS_WDG_RegisterFlag(PIOS_WDG_RADIOTX);
 		PIOS_WDG_RegisterFlag(PIOS_WDG_RADIORX);
 #endif
+
+		// Start the primary tasks for receiving/sending UAVTalk packets from the GCS.
+		data->telemetryTxTaskHandle = PIOS_Thread_Create(telemetryTxTask, "telemetryTxTask", STACK_SIZE_BYTES, NULL, TASK_PRIORITY);
+		data->telemetryRxTaskHandle = PIOS_Thread_Create(telemetryRxTask, "telemetryRxTask", STACK_SIZE_BYTES, NULL, TASK_PRIORITY);
+			    
+		if (PIOS_PPM_RECEIVER != 0) {
+#ifdef PIOS_INCLUDE_WDG
+			PIOS_WDG_RegisterFlag(PIOS_WDG_PPMINPUT);
+#endif
+			data->PPMInputTaskHandle = PIOS_Thread_Create(PPMInputTask, "PPMInputTask",STACK_SIZE_BYTES, NULL, TASK_PRIORITY);
+		}
+		if (!data->parseUAVTalk) {
+#ifdef PIOS_INCLUDE_WDG
+			PIOS_WDG_RegisterFlag(PIOS_WDG_SERIALRX);
+#endif
+			// If the user wants raw serial communication, we need to spawn another thread to handle it.
+			data->serialRxTaskHandle = PIOS_Thread_Create(serialRxTask, "serialRxTask", STACK_SIZE_BYTES, NULL, TASK_PRIORITY);
+		}
+		data->radioTxTaskHandle = PIOS_Thread_Create(radioTxTask, "radioTxTask", STACK_SIZE_BYTES, NULL, TASK_PRIORITY);
+		data->radioRxTaskHandle = PIOS_Thread_Create(radioRxTask, "radioRxTask", STACK_SIZE_BYTES, NULL, TASK_PRIORITY);
+
 		return 0;
 	}
 

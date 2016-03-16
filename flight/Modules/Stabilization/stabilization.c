@@ -147,10 +147,13 @@ int32_t StabilizationStart()
 	StabilizationSettingsConnectCallback(SettingsUpdatedCb);
 	TrimAnglesSettingsConnectCallback(SettingsUpdatedCb);
 
+	// Watchdog must be registered before starting task
+	PIOS_WDG_RegisterFlag(PIOS_WDG_STABILIZATION);
+
 	// Start main task
 	taskHandle = PIOS_Thread_Create(stabilizationTask, "Stabilization", STACK_SIZE_BYTES, NULL, TASK_PRIORITY);
 	TaskMonitorAdd(TASKINFO_RUNNING_STABILIZATION, taskHandle);
-	PIOS_WDG_RegisterFlag(PIOS_WDG_STABILIZATION);
+
 	return 0;
 }
 
