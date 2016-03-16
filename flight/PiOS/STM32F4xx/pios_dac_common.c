@@ -29,6 +29,11 @@
  */
 
 #include "pios.h"
+
+#if defined(PIOS_INCLUDE_FREERTOS)
+#include "FreeRTOS.h"
+#endif /* defined(PIOS_INCLUDE_FREERTOS) */
+
 #if defined(PIOS_INCLUDE_DAC_BEEPS) || defined(PIOS_INCLUDE_FSK)
 
 static void (*pios_dac_irq_cb)(void);
@@ -105,7 +110,7 @@ void DMA1_Stream5_IRQHandler(void)
 	}
 
 #if defined(PIOS_INCLUDE_FREERTOS)
-	portEND_SWITCHING_ISR((rx_need_yield || tx_need_yield) ? pdTRUE : pdFALSE);
+	portEND_SWITCHING_ISR(pdFALSE);
 #endif	/* defined(PIOS_INCLUDE_FREERTOS) */
 
 #if defined(PIOS_INCLUDE_CHIBIOS)

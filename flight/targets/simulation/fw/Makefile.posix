@@ -35,6 +35,8 @@ include $(BOARD_INFO_DIR)/board-info.mk
 # Set to YES to compile for debugging
 DEBUG ?= YES
 
+RTOS ?= CHIBIOS
+
 # Include objects that are just nice information to show
 STACK_DIAGNOSTICS ?= NO
 MIXERSTATUS_DIAGNOSTICS ?= NO
@@ -104,17 +106,17 @@ MODULES += SimVisualization
 MODULES += Telemetry
 
 # Paths
+TARGET_ARCHITECTURE = posix
 OPUAVTALKINC = $(OPUAVTALK)/inc
 OPUAVOBJINC = $(OPUAVOBJ)/inc
 PIOSINC = $(PIOS)/inc
 FLIGHTLIBINC = $(FLIGHTLIB)/inc
 MATHLIB = $(FLIGHTLIB)/math
 MATHLIBINC = $(MATHLIB)
-PIOSPOSIX = $(PIOS)/posix
+PIOSPOSIX = $(PIOS)/$(TARGET_ARCHITECTURE)
 PIOSCOMMON = $(ROOT_DIR)/flight/PiOS/Common
 PIOSCOMMONLIB = $(PIOSCOMMON)/Libraries
 PIOSBOARDS = $(PIOS)/Boards
-PIOSPOSIXLIB = $(PIOSPOSIX)/Libraries
 APPLIBDIR = $(PIOSPOSIX)/Libraries
 RTOSDIR = $(APPLIBDIR)/FreeRTOS
 RTOSSRCDIR = $(RTOSDIR)/Source
@@ -122,7 +124,6 @@ RTOSINCDIR = $(RTOSSRCDIR)/include
 DOXYGENDIR = ../Doc/Doxygen
 
 SRC = 
-include $(PIOSPOSIXLIB)/ChibiOS/library.mk
 include $(FLIGHTLIB)/CMSIS3/DSP_Lib/library.mk
 
 # List C source files here. (C dependencies are automatically generated.)
@@ -137,7 +138,6 @@ SRC += ${OUTDIR}/InitMods.c
 SRC += ${OPMODULEDIR}/System/systemmod.c
 SRC += main.c
 SRC += pios_board_sim.c
-SRC += board.c
 SRC += $(FLIGHTLIB)/alarms.c
 SRC += $(OPUAVTALK)/uavtalk.c
 SRC += $(OPUAVOBJ)/uavobjectmanager.c
@@ -154,9 +154,6 @@ SRC += $(FLIGHTLIB)/paths.c
 SRC += $(MATHLIB)/coordinate_conversions.c
 SRC += $(MATHLIB)/misc_math.c
 SRC += $(MATHLIB)/pid.c
-
-## PIOS Hardware (STM32F4xx)
-include $(PIOS)/posix/library_chibios.mk
 
 SRC += $(PIOSCOMMON)/pios_com.c
 SRC += $(PIOSCOMMON)/pios_crc.c

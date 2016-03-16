@@ -1,3 +1,28 @@
+# Check for RTOS
+ifeq ($(RTOS), CHIBIOS)
+  CDEFS += -DPIOS_INCLUDE_CHIBIOS
+  include $(APPLIBDIR)/ChibiOS/library.mk
+  SRC += board.c
+else ifeq ($(RTOS), FREERTOS)
+  CDEFS += -DPIOS_INCLUDE_FREERTOS
+  include $(PIOSCOMMONLIB)/FreeRTOS/library.mk
+else ifeq ($(RTOS), UNDEFINED_FOR_UAVOBJECT_LIB)
+  # Do nothing here, it's only included as an escape for the
+else
+  $(error [RTOS]: $(RTOS) is not a valid RTOS. Choose between either CHIBIOS or FREERTOS)
+endif
+
+## PIOS Hardware (STM32F1/3/4xx or POSIX)
+# `ifneq ($(or $(VAR1),$(VAR2)),)` is the Makefile code for `if defined(VAR1) || defined(VAR2)`
+ifneq ($(or $(PIOSSTM32FXXX),$(PIOSPOSIX)),)
+  ifeq ($(RTOS), CHIBIOS)
+    include $(PIOS)/$(TARGET_ARCHITECTURE)/library_chibios.mk
+  else ifeq ($(RTOS), FREERTOS)
+    include $(PIOS)/$(TARGET_ARCHITECTURE)/library_fw.mk
+  endif
+endif
+
+
 FLOATABI ?= soft
 UAVOBJLIB := $(OUTDIR)/../uavobjects_arm$(FLOATABI)fp/libuavobject.a
 
