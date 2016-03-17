@@ -1,5 +1,5 @@
 '''
-Overwrites the Qt Creator user project files to customize for the GCS build environment
+Overwrites the Qt Creator shared project files to customize for the GCS build environment
 '''
 
 # Imports
@@ -29,8 +29,8 @@ from os import getcwd
 qt_creator_ground_project_path = "ground/"
 root_directory = getcwd()
 
-file_template = path.join(qt_creator_ground_project_path, "ground.pro.user.template")
-file_out      = path.join(qt_creator_ground_project_path, "ground.pro.user")
+file_template = path.join(qt_creator_ground_project_path, "ground.pro.shared.template")
+file_out      = path.join(qt_creator_ground_project_path, "ground.pro.shared")
 
 # Template text to be replaced
 dummy_directory = "{ROOT REPOSITORY PATH}"

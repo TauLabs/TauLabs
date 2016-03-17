@@ -1,5 +1,5 @@
 '''
-Overwrites the Qt Creator user project files to customize for the firmware build environment
+Overwrites the Qt Creator shared project files to customize for the firmware build environment
 '''
 
 # Imports
@@ -29,8 +29,8 @@ if not targets:
 qt_creator_flight_project_path = "flight/Project/Qt Creator/"
 root_directory = getcwd()
 
-file_template = path.join(qt_creator_flight_project_path, "flight.pro.user.template")
-file_out      = path.join(qt_creator_flight_project_path, "flight.pro.user")
+file_template = path.join(qt_creator_flight_project_path, "flight.pro.shared.template")
+file_out      = path.join(qt_creator_flight_project_path, "flight.pro.shared")
 
 # Template text to be replaced
 dummy_directory = "{ROOT REPOSITORY PATH}"
