@@ -10,8 +10,8 @@ then
 	depends=(7z)
 fi
 
-pkgver=4.9_2015_q2_update
-pkgdate=20150609
+pkgver=4.9_2015_q1_update
+pkgdate=20150306
 _pkgver=${pkgver//_/-}
 _pkgvershort=${_pkgver%-*}
 _pkgvershort=${_pkgvershort/-q/q}
