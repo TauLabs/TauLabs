@@ -46,6 +46,7 @@
 #include "physical_constants.h"
 #include "pios_thread.h"
 #include "pios_can.h"
+#include "coordinate_conversions.h"
 
 #include "accessorydesired.h"
 #include "attitudeactual.h"
@@ -376,22 +377,18 @@ static void tablet_info_process() {
 
 		PoiLocationData poi;
 
-		float lat, alt;
-		lat = homeLocation.Latitude / 10.0e6f * DEG2RAD;
-		alt = homeLocation.Altitude;
+		float linearized_conversion_factor_f[3];
+		LLA2NED_linearization_float(homeLocation.Latitude, homeLocation.Altitude, linearized_conversion_factor_f);
 
-		float T[3];
-		T[0] = alt+6.378137E6f;
-		T[1] = cosf(lat)*(alt+6.378137E6f);
-		T[2] = -1.0f;
+		float NED[3];
+		get_linearized_3D_transformation(tablet.Latitude, tablet.Longitude, tablet.Altitude,
+		                                 homeLocation.Latitude, homeLocation.Longitude, homeLocation.Altitude,
+		                                 linearized_conversion_factor_f, NED);
 
-		float dL[3] = {(tablet.Latitude - homeLocation.Latitude) / 10.0e6f * DEG2RAD,
-			(tablet.Longitude - homeLocation.Longitude) / 10.0e6f * DEG2RAD,
-			(tablet.Altitude)};
 
-		poi.North = T[0] * dL[0];
-		poi.East = T[1] * dL[1];
-		poi.Down = T[2] * dL[2];
+		poi.North = NED[0];
+		poi.East  = NED[1];
+		poi.Down  = NED[2];
 		PoiLocationSet(&poi);
 	}
 }

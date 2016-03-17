@@ -33,6 +33,7 @@
 #include "tablet_control.h"
 #include "transmitter_control.h"
 #include "physical_constants.h"
+#include "coordinate_conversions.h"
 
 #include "flightstatus.h"
 #include "gpsposition.h"
@@ -207,13 +208,8 @@ static int32_t tabletInfo_to_ned(TabletInfoData *tabletInfo, float *NED)
 	GPSPositionData gpsPosition;
 	GPSPositionGet(&gpsPosition);
 
-	float lat = homeLocation.Latitude / 10.0e6f * DEG2RAD;
-	float alt = homeLocation.Altitude;
-
-	float T[3];
-	T[0] = alt+6.378137E6f;
-	T[1] = cosf(lat)*(alt+6.378137E6f);
-	T[2] = -1.0f;
+	float linearized_conversion_factor_f[3];
+	LLA2NED_linearization_float(homeLocation.Latitude, homeLocation.Altitude, linearized_conversion_factor_f);
 
 	// Tablet altitude is in WSG84 but we use height above the geoid elsewhere so use the
 	// GPS GeoidSeparation as a proxy
@@ -222,13 +218,10 @@ static int32_t tabletInfo_to_ned(TabletInfoData *tabletInfo, float *NED)
 	// and https://code.google.com/p/android/issues/detail?id=53471
 	// This means that "(tabletInfo->Altitude + gpsPosition.GeoidSeparation - homeLocation.Altitude)"
 	// will be correct or incorrect depending on the device.
-	float dL[3] = {(tabletInfo->Latitude - homeLocation.Latitude) / 10.0e6f * DEG2RAD,
-		(tabletInfo->Longitude - homeLocation.Longitude) / 10.0e6f * DEG2RAD,
-		(tabletInfo->Altitude + gpsPosition.GeoidSeparation - homeLocation.Altitude)};
+	get_linearized_3D_transformation(tabletInfo->Latitude, tabletInfo->Longitude, tabletInfo->Altitude + gpsPosition.GeoidSeparation,
+	                                 homeLocation.Latitude, homeLocation.Longitude, homeLocation.Altitude,
+	                                 linearized_conversion_factor_f, NED);
 
-	NED[0] = T[0] * dL[0];
-	NED[1] = T[1] * dL[1];
-	NED[2] = T[2] * dL[2];
 
 	return 0;
 }
