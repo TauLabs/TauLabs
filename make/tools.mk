@@ -45,10 +45,6 @@
 # 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 #
 
-ifndef TOP_LEVEL_MAKEFILE
-    $(error $(notdir $(lastword $(MAKEFILE_LIST))) should be included by the top level Makefile)
-endif
-
 ##############################
 #
 # Already installed tools modules
@@ -56,7 +52,7 @@ endif
 ##############################
 -include $(wildcard $(TOOLS_DIR)/*.mk)
 
-TOOL_INSTALL := $(ROOT_DIR)/tool_install.sh
+TOOL_INSTALL := $(ROOT_DIR)/make/tool_install.sh
 TOOL_TARGETS := gcc-arm-none-eabi
 
 TOOL_INSTALL_TARGETS       := $(addsuffix _install,$(TOOL_TARGETS))
@@ -91,14 +87,10 @@ ifeq ($(UNAME), Linux)
         QT_SDK_ARCH    := gcc_64
         QT_SDK_URL     := http://download.qt.io/official_releases/qt/5.5/5.5.1/qt-opensource-linux-x64-5.5.1.run
         QT_SDK_MD5_URL := http://download.qt.io/official_releases/qt/5.5/5.5.1/qt-opensource-linux-x64-5.5.1.run.md5
-        OSG_URL        := $(TOOLS_URL)/osg-3.5.1-linux-x64-qt-5.5.1.tar.gz
-        OSGEARTH_URL   := $(TOOLS_URL)/osgearth-2.7-linux-x64-qt-5.5.1.tar.gz
     else
         QT_SDK_ARCH    := gcc
         QT_SDK_URL     := http://download.qt.io/official_releases/qt/5.5/5.5.1/qt-opensource-linux-x86-5.5.1.run
         QT_SDK_MD5_URL := http://download.qt.io/official_releases/qt/5.5/5.5.1/qt-opensource-linux-x86-5.5.1.run.md5
-        OSG_URL        := $(TOOLS_URL)/osg-3.5.1-linux-x86-qt-5.5.1.tar.gz
-        OSGEARTH_URL   := $(TOOLS_URL)/osgearth-2.7-linux-x86-qt-5.5.1.tar.gz
     endif
     UNCRUSTIFY_URL := $(TOOLS_URL)/uncrustify-0.60.tar.gz
     DOXYGEN_URL    := $(TOOLS_URL)/doxygen-1.8.3.1.src.tar.gz
@@ -110,8 +102,6 @@ else ifeq ($(UNAME), Darwin)
     QT_SDK_MAINTENANCE_TOOL := /Volumes/qt-opensource-mac-x64-clang-5.5.1/qt-opensource-mac-x64-clang-5.5.1.app/Contents/MacOS/qt-opensource-mac-x64-clang-5.5.1
     UNCRUSTIFY_URL := $(TOOLS_URL)/uncrustify-0.60.tar.gz
     DOXYGEN_URL    := $(TOOLS_URL)/doxygen-1.8.3.1.src.tar.gz
-    OSG_URL        := $(TOOLS_URL)/osg-3.5.1-clang_64-qt-5.5.1.tar.gz
-    OSGEARTH_URL   := $(TOOLS_URL)/osgearth-2.7-clang_64-qt-5.5.1.tar.gz
 else ifeq ($(UNAME), Windows)
     QT_SDK_ARCH    := mingw492_32
     QT_SDK_URL     := http://download.qt.io/official_releases/qt/5.5/5.5.1/qt-opensource-windows-x86-mingw492-5.5.1.exe
@@ -133,18 +123,7 @@ DOXYGEN_DIR    := $(TOOLS_DIR)/doxygen-1.8.3.1
 GTEST_DIR      := $(TOOLS_DIR)/gtest-1.7.0
 CCACHE_DIR     := $(TOOLS_DIR)/ccache
 
-ifeq ($(UNAME), Linux)
-    ifeq ($(ARCH), x86_64)
-        OSG_SDK_DIR      := $(TOOLS_DIR)/osg-3.5.1-linux-x64-qt-$(QT_VERSION)
-        OSGEARTH_SDK_DIR := $(TOOLS_DIR)/osgearth-2.7-linux-x64-qt-$(QT_VERSION)
-    else
-        OSG_SDK_DIR      := $(TOOLS_DIR)/osg-3.5.1-linux-x86-qt-$(QT_VERSION)
-        OSGEARTH_SDK_DIR := $(TOOLS_DIR)/osgearth-2.7-linux-x86-qt-$(QT_VERSION)
-    endif
-else ifeq ($(UNAME), Darwin)
-    OSG_SDK_DIR      := $(TOOLS_DIR)/osg-3.5.1-clang_64-qt-$(QT_VERSION)
-    OSGEARTH_SDK_DIR := $(TOOLS_DIR)/osgearth-2.7-clang_64-qt-$(QT_VERSION)
-else ifeq ($(UNAME), Windows)
+ifeq ($(UNAME), Windows)
     ifeq ($(ARCH), x86_64)
         MINGW_DIR := /mingw64
     else
@@ -152,8 +131,6 @@ else ifeq ($(UNAME), Windows)
     endif
     # When changing PYTHON_DIR, you must also update it in ground/gcs/src/python.pri
     PYTHON_DIR   := $(MINGW_DIR)/bin
-    OSG_SDK_DIR  := $(MINGW_DIR)
-    OSGEARTH_SDK_DIR := $(MINGW_DIR)
     NSIS_DIR     := $(TOOLS_DIR)/nsis-2.46-unicode
     MESAWIN_DIR  := $(TOOLS_DIR)/mesawin
 endif
@@ -168,7 +145,7 @@ BUILD_SDK_TARGETS := arm_sdk
 ifeq ($(UNAME), Windows)
     BUILD_SDK_TARGETS += nsis mesawin
 else
-    BUILD_SDK_TARGETS += qt_sdk osg
+    BUILD_SDK_TARGETS += qt_sdk
 endif
 ALL_SDK_TARGETS := $(BUILD_SDK_TARGETS) gtest uncrustify doxygen
 
@@ -811,43 +788,6 @@ endef
 
 $(eval $(call TOOL_INSTALL_TEMPLATE,ccache,$(CCACHE_BUILD_DIR),$(CCACHE_URL),$(CCACHE_MD5_URL),$(notdir $(CCACHE_URL)),$(CCACHE_BUILD_TEMPLATE),$(CCACHE_CLEAN_TEMPLATE)))
 
-##############################
-#
-# osg
-#
-##############################
-
-$(eval $(call TOOL_INSTALL_TEMPLATE,osg,$(OSG_SDK_DIR),$(OSG_URL),,$(notdir $(OSG_URL))))
-
-ifeq ($(shell [ -d "$(OSG_SDK_DIR)" ] && $(ECHO) "exists"), exists)
-    export OSG_SDK_DIR := $(OSG_SDK_DIR)
-else
-    # not installed, hope it's in the path...
-    $(info $(EMPTY) WARNING     $(call toprel, $(OSG_SDK_DIR)) not found (make osg_install), using system PATH)
-endif
-
-.PHONY: osg_version
-osg_version:
-	-$(V1) $(ECHO) "`$(OSG_SDK_DIR)/bin/osgversion`"
-
-##############################
-#
-# osgearth
-#
-##############################
-
-$(eval $(call TOOL_INSTALL_TEMPLATE,osgearth,$(OSGEARTH_SDK_DIR),$(OSGEARTH_URL),,$(notdir $(OSGEARTH_URL))))
-
-ifeq ($(shell [ -d "$(OSGEARTH_SDK_DIR)" ] && $(ECHO) "exists"), exists)
-    export OSGEARTH_SDK_DIR := $(OSGEARTH_SDK_DIR)
-else
-    # not installed, hope it's in the path...
-    $(info $(EMPTY) WARNING     $(call toprel, $(OSGEARTH_SDK_DIR)) not found (make osgearth_install), using system PATH)
-endif
-
-.PHONY: osgearth_version
-osgearth_version:
-	-$(V1) $(ECHO) "`$(OSGEARTH_SDK_DIR)/bin/osgearth_version`"
 
 ##############################
 #

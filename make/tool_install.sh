@@ -6,7 +6,10 @@ set -e -u
 # make sure unmatched glob gives empty
 shopt -s nullglob
 
-root_dir=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
+# This isn't a great way to resolve the problem of moving the tools_install.sh file
+#root_dir=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
+root_dir=$(cd "$(dirname "${BASH_SOURCE[0]}")"/../ && pwd)
+
 tools_dir=${TOOLS_DIR:-${root_dir}/tools}
 downloads_dir=${DL_DIR:-${root_dir}/downloads}
 tool_overrides_dir=$root_dir/make/tool_install
