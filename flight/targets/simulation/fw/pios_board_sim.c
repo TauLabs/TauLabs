@@ -152,19 +152,11 @@ void PIOS_Board_Init(void) {
 	TaskMonitorInitialize();
 
 	/* Initialize UAVObject libraries */
-	EventDispatcherInitialize();
 	UAVObjInitialize();
 	UAVObjectsInitializeAll();
 
 	/* Initialize the alarms library */
 	AlarmsInitialize();
-
-	AccelsInitialize();
-	BaroAltitudeInitialize();
-	MagnetometerInitialize();
-	GPSPositionInitialize();
-	GyrosInitialize();
-	GyrosBiasInitialize();
 
 	/* Initialize the sparky object, because developers use this for dev
 	 * test. */

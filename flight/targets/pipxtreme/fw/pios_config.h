@@ -35,7 +35,6 @@
 #define PIOS_INCLUDE_DELAY
 #define PIOS_INCLUDE_IRQ
 #define PIOS_INCLUDE_LED
-#define PIOS_INCLUDE_IAP
 #define PIOS_INCLUDE_RFM22B
 #define PIOS_INCLUDE_RFM22B_COM
 #define PIOS_INCLUDE_RCVR
@@ -94,9 +93,6 @@
 #define PIOS_EVENTDISPATCHER_STACK_SIZE 520
 #define IDLE_COUNTS_PER_SEC_AT_NO_LOAD 1995998
 
-// This can't be too high to stop eventdispatcher thread overflowing
-#define PIOS_EVENTDISAPTCHER_QUEUE      10
-
 /* PIOS Initcall infrastructure */
 #define PIOS_INCLUDE_INITCALL
 
@@ -107,6 +103,10 @@
 
 /* Turn on debugging signals on the telemetry port */
 //#define PIOS_RFM22B_DEBUG_ON_TELEM
+
+#define NO_SENSORS
+
+#define PIPXTREME
 
 #endif /* PIOS_CONFIG_H */
 /**

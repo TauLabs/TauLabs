@@ -86,7 +86,6 @@ static float throt_curve(const float input, const float* curve, uint8_t num_poin
 static float collective_curve(const float input, const float* curve, uint8_t num_points);
 static bool set_channel(uint8_t mixer_channel, float value);
 static void actuator_update_rate_if_changed(bool force_update);
-static void settings_update_cb(UAVObjEvent * ev);
 float process_mixer(const int index, const float curve1, const float curve2,
 		ActuatorDesiredData *desired);
 static float mix_channel(int ct, ActuatorDesiredData *desired,
@@ -119,11 +118,11 @@ int32_t ActuatorInitialize()
 {
 	// Register for notification of changes to ActuatorSettings
 	ActuatorSettingsInitialize();
-	ActuatorSettingsConnectCallback(settings_update_cb);
+	ActuatorSettingsConnectCallbackCtx(UAVObjCbSetFlag, &settings_updated);
 
 	// Register for notification of changes to MixerSettings
 	MixerSettingsInitialize();
-	MixerSettingsConnectCallback(settings_update_cb);
+	MixerSettingsConnectCallbackCtx(UAVObjCbSetFlag, &settings_updated);
 
 	// Listen for ActuatorDesired updates (Primary input to this module)
 	ActuatorDesiredInitialize();
@@ -603,11 +602,6 @@ static void actuator_update_rate_if_changed(bool force_update)
 		PIOS_Servo_SetMode(actuatorSettings.TimerUpdateFreq, actuatorSettings.TimerPwmResolution,
 				ACTUATORSETTINGS_TIMERPWMRESOLUTION_NUMELEM);
 	}
-}
-
-static void settings_update_cb(UAVObjEvent * ev)
-{
-	settings_updated = true;
 }
 
 static float mix_channel(int ct, ActuatorDesiredData *desired,

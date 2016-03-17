@@ -47,7 +47,7 @@
 #define UAVOBJ_GCS_TELEMETRY_UPDATE_MODE_SHIFT 6
 #define UAVOBJ_UPDATE_MODE_MASK 0x3
 
-typedef void* UAVObjHandle;
+typedef struct UAVOBase * UAVObjHandle;
 
 /**
  * Object update mode, used by multiple modules (e.g. telemetry and logger)
@@ -124,7 +124,8 @@ typedef struct {
  * will be executed in the event task. The ev parameter should be copied if needed
  * after the function returns.
  */
-typedef void (*UAVObjEventCallback)(UAVObjEvent* ev);
+typedef void (*UAVObjEventCallback)(UAVObjEvent* ev, void* cb_ctx,
+	void *uavo_data, int uavo_len);
 
 /**
  * Callback used to initialize the object fields to their default values.
@@ -200,9 +201,9 @@ int8_t UAVObjReadOnly(UAVObjHandle obj);
 int32_t UAVObjConnectQueue(UAVObjHandle obj_handle, struct pios_queue *queue, uint8_t eventMask);
 int32_t UAVObjDisconnectQueue(UAVObjHandle obj_handle, struct pios_queue *queue);
 int32_t UAVObjConnectQueueThrottled(UAVObjHandle obj_handle, struct pios_queue *queue, uint8_t eventMask, uint16_t interval);
-int32_t UAVObjConnectCallback(UAVObjHandle obj_handle, UAVObjEventCallback cb, uint8_t eventMask);
-int32_t UAVObjConnectCallbackThrottled(UAVObjHandle obj_handle, UAVObjEventCallback cb, uint8_t eventMask, uint16_t interval);
-int32_t UAVObjDisconnectCallback(UAVObjHandle obj_handle, UAVObjEventCallback cb);
+int32_t UAVObjConnectCallback(UAVObjHandle obj_handle, UAVObjEventCallback cb, void *cbCtx, uint8_t eventMask);
+int32_t UAVObjConnectCallbackThrottled(UAVObjHandle obj_handle, UAVObjEventCallback cb, void *cbCtx, uint8_t eventMask, uint16_t interval);
+int32_t UAVObjDisconnectCallback(UAVObjHandle obj_handle, UAVObjEventCallback cb, void *cbCtx);
 void UAVObjRequestUpdate(UAVObjHandle obj);
 void UAVObjRequestInstanceUpdate(UAVObjHandle obj_handle, uint16_t instId);
 void UAVObjUpdated(UAVObjHandle obj);
@@ -211,6 +212,8 @@ void UAVObjIterate(void (*iterator)(UAVObjHandle obj));
 int32_t getEventMask(UAVObjHandle obj_handle, struct pios_queue *queue);
 uint8_t UAVObjCount();
 uint32_t UAVObjIDByIndex(uint8_t index);
+void UAVObjCbSetFlag(UAVObjEvent *objEv, void *ctx, void *obj, int len);
+void UAVObjCbCopyData(UAVObjEvent *objEv, void *ctx, void *obj, int len);
 
 #endif // UAVOBJECTMANAGER_H
 

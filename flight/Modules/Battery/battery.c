@@ -48,17 +48,16 @@ static bool module_enabled = false;
 static struct pios_thread *batteryTaskHandle;
 static int8_t voltageADCPin = -1; //ADC pin for voltage
 static int8_t currentADCPin = -1; //ADC pin for current
+static bool battery_settings_updated;
 
 // ****************
 // Private functions
 static void batteryTask(void * parameters);
-static void settingsUpdatedCb(UAVObjEvent * objEv);;
 
 static int32_t BatteryStart(void)
 {
 	if (module_enabled) {
-
-		FlightBatterySettingsConnectCallback(settingsUpdatedCb);
+		FlightBatterySettingsConnectCallbackCtx(UAVObjCbSetFlag, &battery_settings_updated);
 
 		// Start tasks
 		batteryTaskHandle = PIOS_Thread_Create(batteryTask, "batteryBridge", STACK_SIZE_BYTES, NULL, TASK_PRIORITY);
@@ -92,8 +91,6 @@ int32_t BatteryInitialize(void)
 }
 MODULE_INITCALL(BatteryInitialize, BatteryStart)
 
-static bool battery_settings_updated;
-
 /**
  * Main task. It does not return.
  */
@@ -101,7 +98,7 @@ static void batteryTask(void * parameters)
 {
 	const float dT = SAMPLE_PERIOD_MS / 1000.0f;
 
-	settingsUpdatedCb(NULL);
+	battery_settings_updated = true;
 
 	// Main task loop
 	uint32_t lastSysTime;
@@ -233,12 +230,6 @@ static void batteryTask(void * parameters)
 
 		FlightBatteryStateSet(&flightBatteryData);
 	}
-}
-
-//! Indicates the battery settings have been updated
-static void settingsUpdatedCb(UAVObjEvent * objEv)
-{
-	battery_settings_updated = true;
 }
 
 /**

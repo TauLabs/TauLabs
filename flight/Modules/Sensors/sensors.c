@@ -74,7 +74,7 @@ enum mag_calibration_algo {
 
 // Private functions
 static void SensorsTask(void *parameters);
-static void settingsUpdatedCb(UAVObjEvent * objEv);
+static void settingsUpdatedCb(UAVObjEvent * objEv, void *ctx, void *obj, int len);
 
 static void update_accels(struct pios_sensor_accel_data *accel);
 static void update_gyros(struct pios_sensor_gyro_data *gyro);
@@ -217,7 +217,7 @@ static void SensorsTask(void *parameters)
 	AlarmsSet(SYSTEMALARMS_ALARM_SENSORS, SYSTEMALARMS_ALARM_CRITICAL);
 
 	UAVObjEvent ev;
-	settingsUpdatedCb(&ev);
+	settingsUpdatedCb(&ev, NULL, NULL, 0);
 
 
 	// Main task loop
@@ -660,8 +660,10 @@ static void mag_calibration_fix_length(MagnetometerData *mag)
 /**
  * Locally cache some variables from the AtttitudeSettings object
  */
-static void settingsUpdatedCb(UAVObjEvent * objEv)
+static void settingsUpdatedCb(UAVObjEvent * objEv, void *ctx, void *obj, int len)
 {
+	(void) ctx; (void) obj; (void) len;
+
 	SensorSettingsData sensorSettings;
 	SensorSettingsGet(&sensorSettings);
 	INSSettingsGet(&insSettings);

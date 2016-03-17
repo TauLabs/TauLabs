@@ -77,7 +77,7 @@ int32_t SimVisualizationStart(void)
 	return 0;
 }
 
-MODULE_INITCALL(VisualizationInitialize, VisualizationStart)
+MODULE_INITCALL(SimVisualizationInitialize, SimVisualizationStart)
 
 struct uav_data {
 	double q[4];

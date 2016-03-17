@@ -95,7 +95,6 @@ void panic(int32_t code) {
 	TaskMonitorInitialize();
 
 	/* Initialize UAVObject libraries */
-	EventDispatcherInitialize();
 	UAVObjInitialize();
 
 	/* Initialize the alarms library. Reads RCC reset flags */
