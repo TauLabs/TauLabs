@@ -2,6 +2,7 @@
  ******************************************************************************
  * @file       aq32.cpp
  * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
+ * @author     dRonin, http://dronin.org Copyright (C) 2015
  *
  * @addtogroup GCSPlugins GCS Plugins
  * @{
@@ -135,4 +136,21 @@ int AQ32::queryMaxGyroRate()
     default:
         return 500;
     }
+}
+
+QStringList AQ32::getAdcNames()
+{
+    ExtensionSystem::PluginManager *pm = ExtensionSystem::PluginManager::instance();
+    UAVObjectManager *uavoManager = pm->getObject<UAVObjectManager>();
+    HwAQ32 *hwAQ32 = HwAQ32::GetInstance(uavoManager);
+    Q_ASSERT(hwAQ32);
+    if (!hwAQ32)
+        return QStringList();
+
+    HwAQ32::DataFields settings = hwAQ32->getData();
+    if (settings.ADCInputs == HwAQ32::ADCINPUTS_ENABLED) {
+        return QStringList() << "BM" << "Analog AI2" << "Analog AI4";
+    }
+
+    return QStringList() << "Disabled" << "Disabled" << "Disabled";
 }

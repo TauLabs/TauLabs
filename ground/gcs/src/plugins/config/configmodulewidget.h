@@ -68,6 +68,8 @@ private:
     void enableGeofenceTab(bool enabled);
     void enablePicoCTab(bool enabled);
 
+    void refreshAdcNames(void);
+
     static QString trueString;
     static QString falseString;
 

@@ -1,12 +1,41 @@
+/**
+ ******************************************************************************
+ *
+ * @file       inputchannelform.c
+ * @author     OpenPilot, http://openpilot.org, Copyright (C) 2012
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2015
+ * @author     dRonin, http://dronin.org Copyright (C) 2015
+ * @see        The GNU Public License (GPL) Version 3
+ *
+ *****************************************************************************/
+/*
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+ * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License
+ * for more details.
+ *
+ * You should have received a copy of the GNU General Public License along
+ * with this program; if not, write to the Free Software Foundation, Inc.,
+ * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+ */
+
 #include "inputchannelform.h"
 #include "ui_inputchannelform.h"
 
 #include "manualcontrolsettings.h"
 #include "gcsreceiver.h"
 
-inputChannelForm::inputChannelForm(QWidget *parent,bool showlegend,bool showSlider):
+#include <coreplugin/iboardtype.h>
+
+inputChannelForm::inputChannelForm(QWidget *parent, bool showlegend, bool showSlider, ChannelFunc chanType):
     ConfigTaskWidget(parent),
-    ui(new Ui::inputChannelForm)
+    ui(new Ui::inputChannelForm),
+    m_chanType(chanType)
 {
     ui->setupUi(this);
     
@@ -121,41 +150,103 @@ void inputChannelForm::groupUpdated()
 
     quint8 count = 0;
 
-    switch(ui->channelGroup->currentIndex()) {
-    case -1: // Nothing selected
-        count = 0;
+    switch (m_chanType) {
+
+    case inputChannelForm::CHANNELFUNC_RC:
+        {
+            switch (ui->channelGroup->currentIndex()) {
+            case -1: // Nothing selected
+                count = 0;
+                break;
+            case ManualControlSettings::CHANNELGROUPS_PWM:
+                count = 8; // Need to make this 6 for CC
+                break;
+            case ManualControlSettings::CHANNELGROUPS_PPM:
+            case ManualControlSettings::CHANNELGROUPS_DSM:
+                count = 12;
+                break;
+            case ManualControlSettings::CHANNELGROUPS_SBUS:
+                count = 18;
+                break;
+            case ManualControlSettings::CHANNELGROUPS_RFM22B:
+                count = 9;
+                break;
+            case ManualControlSettings::CHANNELGROUPS_OPENLRS:
+                count = 8;
+                break;
+            case ManualControlSettings::CHANNELGROUPS_GCS:
+                count = GCSReceiver::CHANNEL_NUMELEM;
+                break;
+            case ManualControlSettings::CHANNELGROUPS_HOTTSUM:
+                count = 32;
+                break;
+            case ManualControlSettings::CHANNELGROUPS_NONE:
+                count = 0;
+                break;
+            default:
+                Q_ASSERT(0);
+            }
+        }
         break;
-    case ManualControlSettings::CHANNELGROUPS_PWM:
-        count = 8; // Need to make this 6 for CC
+
+
+    case inputChannelForm::CHANNELFUNC_RSSI:
+        {
+            switch (ui->channelGroup->currentIndex()) {
+            case -1: // Nothing selected
+                count = 0;
+                break;
+            case ManualControlSettings::RSSITYPE_PWM:
+                count = 8;
+                break;
+            case ManualControlSettings::RSSITYPE_PPM:
+                count = 12;
+                break;
+            case ManualControlSettings::RSSITYPE_SBUS:
+                count = 18;
+                break;
+            case ManualControlSettings::RSSITYPE_ADC:
+                count = 9;
+                break;
+            case ManualControlSettings::RSSITYPE_OPENLRS:
+                count = 8;
+                break;
+            case ManualControlSettings::RSSITYPE_FRSKYPWM:
+                count = 1;
+                break;
+            case ManualControlSettings::RSSITYPE_NONE:
+                count = 0;
+                break;
+            default:
+                Q_ASSERT(0);
+            }
+        }
         break;
-    case ManualControlSettings::CHANNELGROUPS_PPM:
-    case ManualControlSettings::CHANNELGROUPS_DSM:
-        count = 12;
-        break;
-    case ManualControlSettings::CHANNELGROUPS_SBUS:
-        count = 18;
-        break;
-    case ManualControlSettings::CHANNELGROUPS_RFM22B:
-        count = 8;
-        break;
-    case ManualControlSettings::CHANNELGROUPS_OPENLRS:
-        count = 8;
-        break;
-    case ManualControlSettings::CHANNELGROUPS_GCS:
-        count = GCSReceiver::CHANNEL_NUMELEM;
-        break;
-    case ManualControlSettings::CHANNELGROUPS_HOTTSUM:
-        count = 32;
-        break;
-    case ManualControlSettings::CHANNELGROUPS_NONE:
-        count = 0;
-        break;
-    default:
-        Q_ASSERT(0);
+
     }
 
-    for (int i = 0; i < count; i++)
-        ui->channelNumberDropdown->addItem(QString(tr("Chan %1").arg(i+1)));
+    if (m_chanType == inputChannelForm::CHANNELFUNC_RSSI &&
+            ui->channelGroup->currentIndex() == ManualControlSettings::RSSITYPE_ADC) {
+        QStringList names;
+        Core::IBoardType *board = utilMngr->getBoardType();
+        if (board)
+            names = board->getAdcNames();
+
+        for (int i = 0; i < count; i++) {
+            QString name;
+            if (i < names.length())
+                name = names[i] + QString(" (ADC%1)").arg(i);
+            else if (names.isEmpty())
+                name = QString("ADC%1").arg(i);
+            else
+                name = QString("N/A (ADC%1)").arg(i);
+
+            ui->channelNumberDropdown->addItem(name);
+        }
+    } else {
+        for (int i = 0; i < count; i++)
+            ui->channelNumberDropdown->addItem(QString(tr("Chan %1").arg(i+1)));
+    }
 
     ui->channelNumber->setMaximum(count);
     ui->channelNumber->setMinimum(0);

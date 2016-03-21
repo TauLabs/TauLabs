@@ -3,6 +3,7 @@
  *
  * @file       open_naze.cpp
  * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
+ * @author     dRonin, http://dronin.org Copyright (C) 2015
  *
  * @addtogroup GCSPlugins GCS Plugins
  * @{
@@ -214,4 +215,23 @@ enum Core::IBoardType::InputType Naze::getInputOnPort(int port_num)
     default:
         return INPUT_TYPE_UNKNOWN;
     }
+}
+
+QStringList Naze::getAdcNames()
+{
+    ExtensionSystem::PluginManager *pm = ExtensionSystem::PluginManager::instance();
+    UAVObjectManager *uavoManager = pm->getObject<UAVObjectManager>();
+    HwNaze *hwNaze = HwNaze::GetInstance(uavoManager);
+    Q_ASSERT(hwNaze);
+    if (!hwNaze)
+        return QStringList();
+
+    QStringList names = QStringList() << "Batt" << "ADC/ADC5 Pad";
+    HwNaze::DataFields settings = hwNaze->getData();
+    if (settings.RcvrPort == HwNaze::RCVRPORT_PPM || settings.RcvrPort == HwNaze::RCVRPORT_PPMSERIAL || settings.RcvrPort == HwNaze::RCVRPORT_SERIAL)
+        names << "RC In 2" << "RC In 8";
+    else
+        names << "Disabled" << "Disabled";
+
+    return names;
 }

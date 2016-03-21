@@ -3,6 +3,7 @@
  * @file       configmodulewidget.cpp
  * @brief      Configure the optional modules
  * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013
+ * @author     dRonin, http://dronin.org Copyright (C) 2015
  * @addtogroup GCSPlugins GCS Plugins
  * @{
  * @addtogroup ConfigPlugin Config Plugin
@@ -28,6 +29,7 @@
 
 #include <extensionsystem/pluginmanager.h>
 #include <coreplugin/generalsettings.h>
+#include <coreplugin/iboardtype.h>
 
 
 #include "airspeedsettings.h"
@@ -472,18 +474,25 @@ void ConfigModuleWidget::objectUpdated(UAVObject * obj, bool success)
         return;
 
     QString objName = obj->getName();
-    if (objName.compare(AirspeedSettings::NAME) == 0)
+    if (objName.compare(AirspeedSettings::NAME) == 0) {
         enableAirspeedTab(success);
-    else if (objName.compare(FlightBatterySettings::NAME) == 0)
+    }
+    else if (objName.compare(FlightBatterySettings::NAME) == 0) {
         enableBatteryTab(success);
-    else if (objName.compare(VibrationAnalysisSettings::NAME) == 0)
+        refreshAdcNames();
+    }
+    else if (objName.compare(VibrationAnalysisSettings::NAME) == 0) {
         enableVibrationTab(success);
-    else if (objName.compare(HoTTSettings::NAME) == 0)
+    }
+    else if (objName.compare(HoTTSettings::NAME) == 0) {
         enableHoTTTelemetryTab(success);
-    else if (objName.compare(GeoFenceSettings::NAME) == 0)
+    }
+    else if (objName.compare(GeoFenceSettings::NAME) == 0) {
         enableGeofenceTab(success);
-    else if (objName.compare(PicoCSettings::NAME) == 0)
+    }
+    else if (objName.compare(PicoCSettings::NAME) == 0) {
         enablePicoCTab(success);
+    }
 }
 
 /**
@@ -710,6 +719,30 @@ void ConfigModuleWidget::enablePicoCTab(bool enabled)
 {
     int idx = ui->moduleTab->indexOf(ui->tabPicoC);
     ui->moduleTab->setTabEnabled(idx,enabled);
+}
+
+//! Replace ADC combobox names on battery tab with board specific ones
+void ConfigModuleWidget::refreshAdcNames(void)
+{
+    QStringList names;
+    Core::IBoardType *board = utilMngr->getBoardType();
+    if (board)
+        names = board->getAdcNames();
+    if (names.isEmpty())
+        return;
+
+    for (int i = 0; i <= 8; i++) {
+        QString name;
+        if (i < names.length())
+            name = names[i] + QString(" (ADC%1)").arg(i);
+        else
+            name = QString("N/A (ADC%1)").arg(i);
+
+        if (i < ui->cbVoltagePin->count())
+            ui->cbVoltagePin->setItemText(i, name);
+        if (i < ui->cbCurrentPin->count())
+            ui->cbCurrentPin->setItemText(i, name);
+    }
 }
 
 /**

@@ -63,6 +63,7 @@ public:
      * @return the currently selected input type
      */
     virtual enum InputType getInputOnPort(int port_num = 0);
+    virtual QStringList getAdcNames();
 };
 
 
