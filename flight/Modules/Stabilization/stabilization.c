@@ -51,6 +51,7 @@
 #include "gyros.h"
 #include "mwratesettings.h"
 #include "ratedesired.h"
+#include "ratetorquekf.h"
 #include "systemident.h"
 #include "stabilizationdesired.h"
 #include "stabilizationsettings.h"
@@ -61,6 +62,7 @@
 #include "coordinate_conversions.h"
 #include "pid.h"
 #include "misc_math.h"
+#include "rate_torque_kf.h"
 
 // Includes for various stabilization algorithms
 #include "virtualflybar.h"
@@ -71,7 +73,7 @@
 #if defined(PIOS_STABILIZATION_STACK_SIZE)
 #define STACK_SIZE_BYTES PIOS_STABILIZATION_STACK_SIZE
 #else
-#define STACK_SIZE_BYTES 800
+#define STACK_SIZE_BYTES 1200
 #endif
 
 #define TASK_PRIORITY PIOS_THREAD_PRIO_HIGHEST
@@ -120,6 +122,7 @@ bool lowThrottleZeroIntegral;
 float vbar_decay = 0.991f;
 float gyro_alpha = 0.6;
 struct pid pids[PID_MAX];
+float *rtkf_X, *rtkf_P;
 
 volatile bool gyro_filter_updated = false;
 
@@ -128,6 +131,7 @@ static void stabilizationTask(void* parameters);
 static void zero_pids(void);
 static void calculate_pids(void);
 static void SettingsUpdatedCb(UAVObjEvent * ev);
+static void update_rtkf(const float gyro[3], const float u[3], float dT);
 
 /**
  * Module initialization
@@ -171,6 +175,7 @@ int32_t StabilizationInitialize()
 #if defined(RATEDESIRED_DIAGNOSTICS)
 	RateDesiredInitialize();
 #endif
+	RateTorqueKFInitialize();
 
 	return 0;
 }
@@ -207,6 +212,8 @@ static void stabilizationTask(void* parameters)
 	uint32_t system_ident_timeval = PIOS_DELAY_GetRaw();
 
 	float dT_filtered = 0;
+
+	rtkf_init(&rtkf_X, &rtkf_P);
 
 	// Main task loop
 	zero_pids();
@@ -338,6 +345,10 @@ static void stabilizationTask(void* parameters)
 		// A flag to track which stabilization mode each axis is in
 		static uint8_t previous_mode[MAX_AXES] = {255,255,255};
 		bool error = false;
+
+		// Update the RTKF. Uses the actuator from the previous step and the
+		// latest gyro data
+		update_rtkf( (const float *) &gyrosData.x, (const float *) actuatorDesiredAxis, dT);
 
 		//Run the selected stabilization algorithm on each axis:
 		for(uint8_t i=0; i< MAX_AXES; i++)
@@ -796,6 +807,22 @@ static void stabilizationTask(void* parameters)
 	}
 }
 
+static void update_rtkf(const float gyro[3], const float u[3], float dT)
+{
+	if (SystemIdentHandle() == NULL)
+		return;
+
+	SystemIdentData systemIdent;
+	SystemIdentGet(&systemIdent);
+
+	rtkf_predict(rtkf_X, rtkf_P, u, gyro, (const float *) systemIdent.Beta, systemIdent.Tau, dT);
+
+	RateTorqueKFData rateTorque;
+	RateTorqueKFGet(&rateTorque);
+	rtkf_get_rate(rtkf_X, rateTorque.Rate);
+	rtkf_get_torque(rtkf_X, rateTorque.Torque);
+	RateTorqueKFSet(&rateTorque);
+}
 
 /**
  * Clear the accumulators and derivatives for all the axes
