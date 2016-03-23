@@ -340,6 +340,23 @@ void PIOS_Board_Init(void) {
 	HwFreedomDSMxModeOptions hw_DSMxMode;
 	HwFreedomDSMxModeGet(&hw_DSMxMode);
 
+	// Set the overo port to VCP com bridge to communicate with Overo
+	PIOS_HAL_ConfigurePort(HWSHARED_PORTTYPES_COMBRIDGE,          // port type protocol
+			&pios_usart_overo_cfg,               // usart_port_cfg
+			NULL,                                // frsky usart_port_cfg
+			&pios_usart_com_driver,              // com_driver 
+			NULL,                                // i2c_id 
+			NULL,                                // i2c_cfg 
+			NULL,                                // i2c_cfg 
+			NULL,                                // pwm_cfg
+			PIOS_LED_ALARM,                      // led_id
+			NULL,                                // usart_dsm_hsum_cfg 
+			NULL,                                // dsm_cfg
+			hw_DSMxMode,                         // dsm_mode 
+			NULL,                                // sbus_rcvr_cfg 
+			NULL,                                // sbus_cfg 
+			false);                              // sbus_toggle
+
 	/* Configure FlexiPort */
 	uint8_t hw_mainport;
 	HwFreedomMainPortGet(&hw_mainport);
