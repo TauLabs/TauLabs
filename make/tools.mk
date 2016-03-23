@@ -330,9 +330,13 @@ endif
 
 define DOWNLOAD_TEMPLATE
 @$(ECHO) $(MSG_VERIFYING) $$(call toprel, $(DL_DIR)/$(2))
+	$(V1) cd "$(DL_DIR)"
 	$(V1) ( \
-		cd "$(DL_DIR)" && \
-		$(CURL) $(CURL_OPTIONS) --silent -o "$(DL_DIR)/$(2).md5" "$(3)" && \
+		if ! [ -f "$(DL_DIR)/$(2).md5" ]; then \
+			$(V1) $(CURL) $(CURL_OPTIONS) --silent -o "$(DL_DIR)/$(2).md5" "$(3)"; \
+		fi; \
+	)
+	$(V1) ( \
 		if [ $(call MD5_CHECK_TEMPLATE,$(DL_DIR)/$(2),!=) ]; then \
 			$(ECHO) $(MSG_DOWNLOADING) $(1) && \
 			$(CURL) $(CURL_OPTIONS) -o "$(DL_DIR)/$(2)" "$(1)" && \
