@@ -2,6 +2,12 @@
 # Linux-specific packaging
 #
 
+ifdef AMD64
+	QT_PLUGINS_DIR = $(QT_SDK_DIR)/$(QT_VERSION_GENERAL)/gcc_64/plugins
+else
+	QT_PLUGINS_DIR = $(QT_SDK_DIR)/$(QT_VERSION_GENERAL)/gcc/plugins
+endif
+
 define CP_DEB_FILES_TEMPLATE
 .PHONY: $(2)/$(1)
 $(2)/$(1): $(3)/$(1)
