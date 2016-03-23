@@ -29,8 +29,11 @@
  */
 
 #include "openpilot.h"
+
+#include "flightstatus.h"
 #include "modulesettings.h"
 #include "overosync.h"
+#include "overosyncsettings.h"
 #include "overosyncstats.h"
 #include "systemstats.h"
 #include "pios_thread.h"
@@ -94,6 +97,7 @@ int32_t OveroSyncInitialize(void)
 	// Create object queues
 	queue = PIOS_Queue_Create(MAX_QUEUE_SIZE, sizeof(UAVObjEvent));
 	
+	OveroSyncSettingsInitialize();
 	OveroSyncStatsInitialize();
 
 	// Initialise UAVTalk
@@ -153,7 +157,16 @@ static void register_object(UAVObjHandle obj)
 static void send_settings(UAVObjHandle obj)
 {
 	if (UAVObjIsSettings(obj)) {
+
+		uint32_t last_bytes = overosync->sent_bytes;
 		UAVTalkSendObjectTimestamped(uavTalkCon, obj, 0, false, 0);
+		if (overosync->sent_bytes == last_bytes) {
+			// At this point buffer was full. We can stall here briefly
+			// since dropping some data below is preferable to missing
+			// some settings, but don't hang forever
+			PIOS_Thread_Sleep(10);
+			UAVTalkSendObjectTimestamped(uavTalkCon, obj, 0, false, 0);
+		}
 	}
 }
 
@@ -180,6 +193,7 @@ static void overoSyncTask(void *parameters)
 
 	bool initialized = false;
 	uint8_t last_connected = OVEROSYNCSTATS_CONNECTED_FALSE;
+	uint8_t last_armed = FLIGHTSTATUS_ARMED_DISARMED;
 
 	// Loop forever
 	while (1) {
@@ -227,6 +241,16 @@ static void overoSyncTask(void *parameters)
 					second_count = 0;
 				}
 				last_connected = syncStats.Connected;
+			}
+
+			uint8_t new_armed;
+			FlightStatusArmedGet(&new_armed);
+			if ((new_armed == FLIGHTSTATUS_ARMED_ARMED) && (new_armed != last_armed)) {
+				send_settings(OveroSyncSettingsHandle());
+
+				// When arming, send all objects, although this may drop some due to
+				// buffer overflow
+				UAVObjIterate(&send_settings);
 			}
 
 			// TODO: Check the receive buffer
