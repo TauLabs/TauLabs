@@ -94,14 +94,14 @@ QT_VERSION_GENERAL   := $(QT_MAJOR_VERSION).$(QT_MINOR_VERSION)
 
 ifeq ($(UNAME), Linux)
     ifeq ($(ARCH), x86_64)
-        QT_SDK_ARCH    := gcc_64
-        QT_SDK_URL     := http://download.qt.io/official_releases/qt/$(QT_VERSION_GENERAL)/$(QT_VERSION_EXACT)/qt-opensource-linux-x64-$(QT_VERSION_EXACT).run
-        QT_SDK_MD5_URL := http://download.qt.io/official_releases/qt/$(QT_VERSION_GENERAL)/$(QT_VERSION_EXACT)/qt-opensource-linux-x64-$(QT_VERSION_EXACT).run.md5
+        QT_SDK_ARCH      := gcc_64
+        QT_SDK_PROCESSOR := x64
     else
-        QT_SDK_ARCH    := gcc
-        QT_SDK_URL     := http://download.qt.io/official_releases/qt/$(QT_VERSION_GENERAL)/$(QT_VERSION_EXACT)/qt-opensource-linux-x86-$(QT_VERSION_EXACT).run
-        QT_SDK_MD5_URL := http://download.qt.io/official_releases/qt/$(QT_VERSION_GENERAL)/$(QT_VERSION_EXACT)/qt-opensource-linux-x86-$(QT_VERSION_EXACT).run.md5
+        QT_SDK_ARCH      := gcc
+        QT_SDK_PROCESSOR := x86
     endif
+    QT_SDK_URL     := http://download.qt.io/official_releases/qt/$(QT_VERSION_GENERAL)/$(QT_VERSION_EXACT)/qt-opensource-linux-$(QT_SDK_PROCESSOR)-$(QT_VERSION_EXACT).run
+    QT_SDK_MD5_URL := http://download.qt.io/official_releases/qt/$(QT_VERSION_GENERAL)/$(QT_VERSION_EXACT)/qt-opensource-linux-$(QT_SDK_PROCESSOR)-$(QT_VERSION_EXACT).run.md5
     UNCRUSTIFY_URL := $(TOOLS_URL)/uncrustify-0.60.tar.gz
     DOXYGEN_URL    := $(TOOLS_URL)/doxygen-1.8.3.1.src.tar.gz
 else ifeq ($(UNAME), Darwin)
