@@ -10,6 +10,9 @@ known issues:
  - cannot disable shortcuts creation
  - if user presses the 'Show Details' button then the installer does not end automatically
 */
+var qtMajorVersion;
+var qtMinorVersion;
+
 function Controller()
 {
     console.log("*** Silent Installer ***");
@@ -18,9 +21,14 @@ function Controller()
 
     var qtInstallTargetDir = installer.environmentVariable("QT_INSTALL_TARGET_DIR");
     if (qtInstallTargetDir == "") {
-        qtInstallTargetDir = installer.environmentVariable("PWD") + "/tools/qt-5.5.1";
+        qtInstallTargetDir = installer.environmentVariable("PWD") + "/tools/qt-" + qtMajorVersion + "." + qtMinorVersion + "." + qtPatchVersion;
         console.log("Environment variable QT_INSTALL_TARGET_DIR not set, using default " + qtInstallTargetDir);
     }
+
+    // Get the major and minor versions from the environment
+    qtMajorVersion = installer.environmentVariable("QT_MAJOR_VERSION");
+    qtMinorVersion = installer.environmentVariable("QT_MINOR_VERSION");
+
     installer.setValue("TargetDir", qtInstallTargetDir);
     console.log("Installing to " + installer.value("TargetDir"));
 
@@ -97,18 +105,18 @@ Controller.prototype.ComponentSelectionPageCallback = function()
     var page = gui.currentPageWidget();
     page.deselectAll()
     if (installer.value("os") == "win") {
-        selectComponent(page, "qt.55.win32_mingw492");
+        selectComponent(page, "qt." + qtMajorVersion + qtMinorVersion + ".win32_mingw492");
         selectComponent(page, "qt.tools.win32_mingw492");
     }
     else if (installer.value("os") == "x11") {
-        selectComponent(page, "qt.55.gcc");
-        selectComponent(page, "qt.55.gcc_64");
+        selectComponent(page, "qt." + qtMajorVersion + qtMinorVersion + ".gcc");
+        selectComponent(page, "qt." + qtMajorVersion + qtMinorVersion + ".gcc_64");
     }
     else if (installer.value("os") == "mac") {
-        selectComponent(page, "qt.55.clang_64");
+        selectComponent(page, "qt." + qtMajorVersion + qtMinorVersion + ".clang_64");
     }
-    selectComponent(page, "qt.55.qtquickcontrols");
-    selectComponent(page, "qt.55.qtscript");
+    selectComponent(page, "qt." + qtMajorVersion + qtMinorVersion + ".qtquickcontrols");
+    selectComponent(page, "qt." + qtMajorVersion + qtMinorVersion + ".qtscript");
 
     //installer.componentByName("qt.tools.qtcreator").setValue("ForcedInstallation", "false");
 

@@ -82,30 +82,40 @@ $(TOOL_REMOVE_TARGETS):
 
 TOOLS_URL := http://librepilot.github.io/tools
 
+QT_VERSION_EXACT     := 5.5.1
+
+# Extract the major-minor-patch numbers from a X.Y.Z formatted version. Hackish
+# approach that replaces the `.` by a space, and then looks for "words"
+tmp_string = $(subst ., ,$(QT_VERSION_EXACT))
+QT_MAJOR_VERSION = $(word 1, $(tmp_string))
+QT_MINOR_VERSION = $(word 2, $(tmp_string))
+QT_PATCH_VERSION = $(word 3, $(tmp_string))
+QT_VERSION_GENERAL   := $(QT_MAJOR_VERSION).$(QT_MINOR_VERSION)
+
 ifeq ($(UNAME), Linux)
     ifeq ($(ARCH), x86_64)
         QT_SDK_ARCH    := gcc_64
-        QT_SDK_URL     := http://download.qt.io/official_releases/qt/5.5/5.5.1/qt-opensource-linux-x64-5.5.1.run
-        QT_SDK_MD5_URL := http://download.qt.io/official_releases/qt/5.5/5.5.1/qt-opensource-linux-x64-5.5.1.run.md5
+        QT_SDK_URL     := http://download.qt.io/official_releases/qt/$(QT_VERSION_GENERAL)/$(QT_VERSION_EXACT)/qt-opensource-linux-x64-$(QT_VERSION_EXACT).run
+        QT_SDK_MD5_URL := http://download.qt.io/official_releases/qt/$(QT_VERSION_GENERAL)/$(QT_VERSION_EXACT)/qt-opensource-linux-x64-$(QT_VERSION_EXACT).run.md5
     else
         QT_SDK_ARCH    := gcc
-        QT_SDK_URL     := http://download.qt.io/official_releases/qt/5.5/5.5.1/qt-opensource-linux-x86-5.5.1.run
-        QT_SDK_MD5_URL := http://download.qt.io/official_releases/qt/5.5/5.5.1/qt-opensource-linux-x86-5.5.1.run.md5
+        QT_SDK_URL     := http://download.qt.io/official_releases/qt/$(QT_VERSION_GENERAL)/$(QT_VERSION_EXACT)/qt-opensource-linux-x86-$(QT_VERSION_EXACT).run
+        QT_SDK_MD5_URL := http://download.qt.io/official_releases/qt/$(QT_VERSION_GENERAL)/$(QT_VERSION_EXACT)/qt-opensource-linux-x86-$(QT_VERSION_EXACT).run.md5
     endif
     UNCRUSTIFY_URL := $(TOOLS_URL)/uncrustify-0.60.tar.gz
     DOXYGEN_URL    := $(TOOLS_URL)/doxygen-1.8.3.1.src.tar.gz
 else ifeq ($(UNAME), Darwin)
     QT_SDK_ARCH    := clang_64
-    QT_SDK_URL     := http://download.qt.io/official_releases/qt/5.5/5.5.1/qt-opensource-mac-x64-clang-5.5.1.dmg
-    QT_SDK_MD5_URL := http://download.qt.io/official_releases/qt/5.5/5.5.1/qt-opensource-mac-x64-clang-5.5.1.dmg.md5
-    QT_SDK_MOUNT_DIR        := /Volumes/qt-opensource-mac-x64-clang-5.5.1
-    QT_SDK_MAINTENANCE_TOOL := /Volumes/qt-opensource-mac-x64-clang-5.5.1/qt-opensource-mac-x64-clang-5.5.1.app/Contents/MacOS/qt-opensource-mac-x64-clang-5.5.1
+    QT_SDK_URL     := http://download.qt.io/official_releases/qt/$(QT_VERSION_GENERAL)/$(QT_VERSION_EXACT)/qt-opensource-mac-x64-clang-$(QT_VERSION_EXACT).dmg
+    QT_SDK_MD5_URL := http://download.qt.io/official_releases/qt/$(QT_VERSION_GENERAL)/$(QT_VERSION_EXACT)/qt-opensource-mac-x64-clang-$(QT_VERSION_EXACT).dmg.md5
+    QT_SDK_MOUNT_DIR        := /Volumes/qt-opensource-mac-x64-clang-$(QT_VERSION_EXACT)
+    QT_SDK_MAINTENANCE_TOOL := /Volumes/qt-opensource-mac-x64-clang-$(QT_VERSION_EXACT)/qt-opensource-mac-x64-clang-$(QT_VERSION_EXACT).app/Contents/MacOS/qt-opensource-mac-x64-clang-$(QT_VERSION_EXACT)
     UNCRUSTIFY_URL := $(TOOLS_URL)/uncrustify-0.60.tar.gz
     DOXYGEN_URL    := $(TOOLS_URL)/doxygen-1.8.3.1.src.tar.gz
 else ifeq ($(UNAME), Windows)
     QT_SDK_ARCH    := mingw492_32
-    QT_SDK_URL     := http://download.qt.io/official_releases/qt/5.5/5.5.1/qt-opensource-windows-x86-mingw492-5.5.1.exe
-    QT_SDK_MD5_URL := http://download.qt.io/official_releases/qt/5.5/5.5.1/qt-opensource-windows-x86-mingw492-5.5.1.exe.md5
+    QT_SDK_URL     := http://download.qt.io/official_releases/qt/$(QT_VERSION_GENERAL)/$(QT_VERSION_EXACT)/qt-opensource-windows-x86-mingw492-$(QT_VERSION_EXACT).exe
+    QT_SDK_MD5_URL := http://download.qt.io/official_releases/qt/$(QT_VERSION_GENERAL)/$(QT_VERSION_EXACT)/qt-opensource-windows-x86-mingw492-$(QT_VERSION_EXACT).exe.md5
     NSIS_URL       := $(TOOLS_URL)/nsis-2.46-unicode.tar.bz2
     MESAWIN_URL    := $(TOOLS_URL)/mesawin.tar.gz
     UNCRUSTIFY_URL := $(TOOLS_URL)/uncrustify-0.60-windows.tar.bz2
@@ -116,8 +126,7 @@ GTEST_URL 	   := $(TOOLS_URL)/gtest-1.7.0.zip
 CCACHE_URL     := http://samba.org/ftp/ccache/ccache-3.2.2.tar.bz2
 CCACHE_MD5_URL := $(TOOLS_URL)/ccache-3.2.2.tar.bz2.md5
 
-QT_VERSION     := 5.5.1
-QT_SDK_DIR     := $(TOOLS_DIR)/qt-$(QT_VERSION)
+QT_SDK_DIR     := $(TOOLS_DIR)/qt-$(QT_VERSION_EXACT)
 UNCRUSTIFY_DIR := $(TOOLS_DIR)/uncrustify-0.60
 DOXYGEN_DIR    := $(TOOLS_DIR)/doxygen-1.8.3.1
 GTEST_DIR      := $(TOOLS_DIR)/gtest-1.7.0
@@ -426,6 +435,8 @@ qt_sdk_install: qt_sdk_clean | $(DL_DIR) $(TOOLS_DIR)
 # Silently install Qt under tools directory
 	@$(ECHO) $(MSG_EXTRACTING) $(4) to $$(call toprel, $(1))
 	$(V1) ( export QT_INSTALL_TARGET_DIR=$(1) && \
+		export QT_MAJOR_VERSION=$(QT_MAJOR_VERSION) && \
+		export QT_MINOR_VERSION=$(QT_MINOR_VERSION) && \
 		chmod +x $(DL_DIR)/$(4) && \
 		$(DL_DIR)/$(4) --script $(ROOT_DIR)/make/tool_install/qt-install.qs ; \
 	)
@@ -468,6 +479,8 @@ qt_sdk_install: qt_sdk_clean | $(DL_DIR) $(TOOLS_DIR)
 # Silently install Qt under tools directory
 	@$(ECHO) $(MSG_EXTRACTING) $(4) to $$(call toprel, $(1))
 	$(V1) ( export QT_INSTALL_TARGET_DIR=$(1) && \
+		export QT_MAJOR_VERSION=$(QT_MAJOR_VERSION) && \
+		export QT_MINOR_VERSION=$(QT_MINOR_VERSION) && \
 		$(QT_SDK_MAINTENANCE_TOOL) --script $(ROOT_DIR)/make/tool_install/qt-install.qs ; \
 	)
 # Unmount the .dmg file
@@ -490,17 +503,17 @@ endef
 
 ifeq ($(UNAME), Windows)
 
-    QT_SDK_PREFIX := $(QT_SDK_DIR)/5.5/$(QT_SDK_ARCH)
+    QT_SDK_PREFIX := $(QT_SDK_DIR)/$(QT_VERSION_GENERAL)/$(QT_SDK_ARCH)
     $(eval $(call QT_INSTALL_TEMPLATE,$(QT_SDK_DIR),$(QT_SDK_URL),$(QT_SDK_MD5_URL),$(notdir $(QT_SDK_URL)),$(QT_SDK_ARCH)))
 
 else ifeq ($(UNAME), Linux)
 
-    QT_SDK_PREFIX := "$(QT_SDK_DIR)/5.5/$(QT_SDK_ARCH)"
+    QT_SDK_PREFIX := "$(QT_SDK_DIR)/$(QT_VERSION_GENERAL)/$(QT_SDK_ARCH)"
     $(eval $(call QT_INSTALL_TEMPLATE,$(QT_SDK_DIR),$(QT_SDK_URL),$(QT_SDK_MD5_URL),$(notdir $(QT_SDK_URL)),$(QT_SDK_ARCH)))
 
 else ifeq ($(UNAME), Darwin)
 
-    QT_SDK_PREFIX := "$(QT_SDK_DIR)/5.5/$(QT_SDK_ARCH)"
+    QT_SDK_PREFIX := "$(QT_SDK_DIR)/$(QT_VERSION_GENERAL)/$(QT_SDK_ARCH)"
     $(eval $(call MAC_QT_INSTALL_TEMPLATE,$(QT_SDK_DIR),$(QT_SDK_URL),$(QT_SDK_MD5_URL),$(notdir $(QT_SDK_URL)),$(QT_SDK_ARCH)))
 
 else
@@ -510,7 +523,7 @@ QT_SDK_PREFIX := $(QT_SDK_DIR)
 .PHONY: qt_sdk_install
 qt_sdk_install:
 	@$(ECHO) $(MSG_NOTICE) --------------------------------------------------------
-	@$(ECHO) $(MSG_NOTICE) Please install native Qt 5.5.x SDK using package manager
+	@$(ECHO) $(MSG_NOTICE) Please install native Qt $(QT_VERSION_EXACT) SDK using package manager
 	@$(ECHO) $(MSG_NOTICE) --------------------------------------------------------
 
 .PHONY: qt_sdk_clean
