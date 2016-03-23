@@ -82,7 +82,7 @@ $(TOOL_REMOVE_TARGETS):
 
 TOOLS_URL := http://librepilot.github.io/tools
 
-QT_VERSION_EXACT     := 5.5.1
+QT_VERSION_EXACT     := 5.5.0
 
 # Extract the major-minor-patch numbers from a X.Y.Z formatted version. Hackish
 # approach that replaces the `.` by a space, and then looks for "words"
