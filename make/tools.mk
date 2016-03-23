@@ -126,7 +126,7 @@ GTEST_URL 	   := $(TOOLS_URL)/gtest-1.7.0.zip
 CCACHE_URL     := http://samba.org/ftp/ccache/ccache-3.2.2.tar.bz2
 CCACHE_MD5_URL := $(TOOLS_URL)/ccache-3.2.2.tar.bz2.md5
 
-QT_SDK_DIR     := $(TOOLS_DIR)/qt-$(QT_VERSION_EXACT)
+QT_SDK_DIR     := $(TOOLS_DIR)/Qt$(QT_VERSION_EXACT)
 UNCRUSTIFY_DIR := $(TOOLS_DIR)/uncrustify-0.60
 DOXYGEN_DIR    := $(TOOLS_DIR)/doxygen-1.8.3.1
 GTEST_DIR      := $(TOOLS_DIR)/gtest-1.7.0
