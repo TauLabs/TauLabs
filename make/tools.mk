@@ -442,7 +442,7 @@ qt_sdk_install: qt_sdk_clean | $(DL_DIR) $(TOOLS_DIR)
 		export QT_MAJOR_VERSION=$(QT_MAJOR_VERSION) && \
 		export QT_MINOR_VERSION=$(QT_MINOR_VERSION) && \
 		chmod +x $(DL_DIR)/$(4) && \
-		$(DL_DIR)/$(4) --script $(ROOT_DIR)/make/tool_install/qt-install.qs ; \
+		$(DL_DIR)/$(4) --script --platform minimal $(ROOT_DIR)/make/tool_install/qt-install.qs ; \
 	)
 # Execute post build templates
 	$(6)
@@ -485,7 +485,7 @@ qt_sdk_install: qt_sdk_clean | $(DL_DIR) $(TOOLS_DIR)
 	$(V1) ( export QT_INSTALL_TARGET_DIR=$(1) && \
 		export QT_MAJOR_VERSION=$(QT_MAJOR_VERSION) && \
 		export QT_MINOR_VERSION=$(QT_MINOR_VERSION) && \
-		$(QT_SDK_MAINTENANCE_TOOL) --script $(ROOT_DIR)/make/tool_install/qt-install.qs ; \
+		$(QT_SDK_MAINTENANCE_TOOL) --script --platform minimal $(ROOT_DIR)/make/tool_install/qt-install.qs ; \
 	)
 # Unmount the .dmg file
 	$(V1) hdiutil detach $(QT_SDK_MOUNT_DIR)
