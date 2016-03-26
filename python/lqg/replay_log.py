@@ -2,10 +2,24 @@
 # call this from shell.py with
 # exec('lqg/replay_log.py')
 
+# the expected gyro noise, this can be measured from real flights
+SA = 2000.0
+
 from lqg.test import rtkf
 
 rtkf.init()
 rtkf.configure(tau=-3.05, gain=numpy.array([ 9.71691132,  9.64305401,  4.78812265], dtype=numpy.float64))
+
+# configure filter parameters
+  # qw is the amount of process noise in the rate parameter. this parameter also
+  #    interacts with the gyro noise parameter in that if we expect little noise
+  #    from the gyro then the estimate will be pulled more by the measurements
+  #    regardless of this parameter. so a low value pushes the rate to trust the
+  #    torque measurement more and a high value the gyro measurement more
+  # qu is the amount of drift in the torque measurement, so a low value will make
+  #    the torque more reflect the smoothed actuator input (and really slowly
+  #    changing bias)
+rtkf.configure(qw=1e0, qu=1e-5, qbias=1e-19, sa=SA)
 
 # to save time do not reparse variables if already done in parent
 # namespace

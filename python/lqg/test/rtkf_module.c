@@ -5,6 +5,7 @@
 #include "numpy/arrayobject.h"
 #include "numpy/ndarraytypes.h"
 
+#include <pios_heap.h>
 #include <rate_torque_kf.h>
 
 int not_doublevector(PyArrayObject *vec)
@@ -149,7 +150,7 @@ advance(PyObject* self, PyObject* args)
 	if (!parseFloatVec3(vec_control, control_data))
 		return NULL;
 
-	rtkf_predict(X,P,control_data,gyro_data,gain,tau,dT);
+	rtkf_predict(X,P,control_data,gyro_data,dT);
 
 	return pack_state(self);
 }
@@ -157,13 +158,17 @@ advance(PyObject* self, PyObject* args)
 static PyObject*
 configure(PyObject* self, PyObject* args, PyObject *kwarg)
 {
-	static char *kwlist[] = {"gain", "tau", NULL};
+	static char *kwlist[] = {"gain", "tau", "qw", "qu", "qbias", "sa", NULL};
 
 	PyArrayObject *gain_var = NULL;
-	float tau_var;
+	float tau_var = NAN;
+	float qw_var = NAN;
+	float qu_var = NAN;
+	float qbias_var = NAN;
+	float sa_var = NAN;
 
-	if (!PyArg_ParseTupleAndKeywords(args, kwarg, "|Of", kwlist,
-		 &gain_var, &tau_var)) {
+	if (!PyArg_ParseTupleAndKeywords(args, kwarg, "|Offfff", kwlist,
+		 &gain_var, &tau_var, &qw_var, &qu_var, &qbias_var, &sa_var)) {
 		return NULL;
 	}
 
@@ -173,10 +178,32 @@ configure(PyObject* self, PyObject* args, PyObject *kwarg)
 			return NULL;
 		for (int i = 0; i < 3; i++)
 			gain[i] = gain_new[i];
+		//printf("Setting gains\r\n");
 	}
 
-	if (tau_var != 0.0f) {
+	if (!isnan(tau_var)) {
 		tau = tau_var;
+		//printf("Setting tau\r\n");
+	}
+
+	if (!isnan(qw_var)) {
+		rtkf_set_qw(qw_var);
+		//printf("Setting QW\r\n");
+	}
+
+	if (!isnan(qu_var)) {
+		rtkf_set_qu(qu_var);
+		//printf("Setting QU\r\n");
+	}
+
+	if (!isnan(qbias_var)) {
+		rtkf_set_qbias(qbias_var);
+		//printf("Setting QB\r\n");
+	}
+
+	if (!isnan(sa_var)) {
+		rtkf_set_sa(sa_var);
+		//printf("Setting SA\r\n");
 	}
 
 	return Py_None;
