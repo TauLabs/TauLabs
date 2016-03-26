@@ -815,7 +815,12 @@ static void update_rtkf(const float gyro[3], const float u[3], float dT)
 	SystemIdentData systemIdent;
 	SystemIdentGet(&systemIdent);
 
-	rtkf_predict(rtkf_X, rtkf_P, u, gyro, (const float *) systemIdent.Beta, systemIdent.Tau, dT);
+	// Set parameters
+	rtkf_set_gains((const float *) systemIdent.Beta);
+	rtkf_set_tau(systemIdent.Tau);
+
+	// Advance KF
+	rtkf_predict(rtkf_X, rtkf_P, u, gyro, dT);
 
 	RateTorqueKFData rateTorque;
 	RateTorqueKFGet(&rateTorque);

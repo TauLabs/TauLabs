@@ -31,10 +31,20 @@
 #ifndef RATE_TORQUE_KF_H
 #define RATE_TORQUE_KF_H
 
+#include "stdbool.h"
+
+// Methods to configure RTKF parameters
+void rtkf_set_qw(const float qw_new);
+void rtkf_set_qu(const float qu_new);
+void rtkf_set_qbias(const float qbias_new);
+void rtkf_set_sa(const float sa_new);
+void rtkf_set_gains(const float gains_new[3]);
+void rtkf_set_tau(const float tau_new);
+
 void rtkf_get_rate(const float *X, float rate[3]);
 void rtkf_get_torque(const float *X, float torque[3]);
 void rtkf_get_bias(const float *X, float bias[3]);
-void rtkf_predict(float *X, float *P, const float u_in[3], const float gyro[3], const float gains[3], const float tau, const float dT_s);
+void rtkf_predict(float *X, float *P, const float u_in[3], const float gyro[3], const float dT_s);
 bool rtkf_init(float **X_in, float **P_in);
 
 #endif /* RATE_TORQUE_KF_H */

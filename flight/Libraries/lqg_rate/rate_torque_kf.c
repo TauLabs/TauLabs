@@ -35,6 +35,46 @@
 #define AF_NUMX 9
 #define AF_NUMP 18
 
+/**** filter parameters ****/
+static float q_w = 1e-4f;
+static float q_ud = 1e-6f;
+static float q_bias = 1e-19f;
+static float s_a = 30.0f;  // expected gyro noise
+static float gains[3] = {9.71691132,  9.64305401,  4.78812265};
+static float tau = -3.05f;
+
+void rtkf_set_qw(const float qw_new)
+{
+	q_w = qw_new;
+}
+
+void rtkf_set_qu(const float qu_new)
+{
+	q_ud = qu_new;
+}
+
+void rtkf_set_qbias(const float qbias_new)
+{
+	q_bias = qbias_new;
+}
+
+void rtkf_set_sa(const float sa_new)
+{
+	s_a = sa_new;
+}
+
+void rtkf_set_gains(const float gains_new[3])
+{
+	gains[0] = gains_new[0];
+	gains[1] = gains_new[1];
+	gains[2] = gains_new[2];
+}
+
+void rtkf_set_tau(const float tau_new)
+{
+	tau = tau_new;
+}
+
 /**
  * @param[in] X current state estimate
  * @param[out] rate store the current rate here
@@ -78,7 +118,7 @@ void rtkf_get_bias(const float X[AF_NUMX], float bias[3])
  * @param[in] tau the time constant from system identification
  * @param[in] dT_s the time step to advance at
  */
-void rtkf_predict(float *X, float *P, const float u_in[3], const float gyro[3], const float gains[3], const float tau, const float dT_s)
+void rtkf_predict(float *X, float *P, const float u_in[3], const float gyro[3], const float dT_s)
 {
 	const float Ts = dT_s;
 	const float Tsq = Ts * Ts;
@@ -118,12 +158,6 @@ void rtkf_predict(float *X, float *P, const float u_in[3], const float gyro[3], 
 	u2 = X[4] = (Ts*u2_in)/(Ts + e_tau) + (u2*e_tau)/(Ts + e_tau);
 	u3 = X[5] = (Ts*u3_in)/(Ts + e_tau) + (u3*e_tau)/(Ts + e_tau);
     // X[6] to X[8] unchanged
-
-	/**** filter parameters ****/
-	const float q_w = 1e-4f;
-	const float q_ud = 1e-4f;
-	const float q_bias = 1e-19f;
-	const float s_a = 30.0f;  // expected gyro noise
 
 	const float Q[AF_NUMX] = {q_w, q_w, q_w, q_ud, q_ud, q_ud, q_bias, q_bias, q_bias};
 
