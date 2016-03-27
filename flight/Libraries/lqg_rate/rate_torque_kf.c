@@ -38,7 +38,7 @@
 /**** filter parameters ****/
 static float q_w = 1e0f;
 static float q_ud = 1e-5f;
-static float q_bias = 1e-19f;
+static float q_bias = 1e-10f;
 static float s_a = 3000.0f;  // expected gyro noise
 static float gains[3] = {9.71691132,  9.64305401,  4.78812265};
 static float tau = -3.05f;
@@ -289,4 +289,4 @@ bool rtkf_init(float **X_in, float **P_in)
  * @}
  * @}
  */
- 
+

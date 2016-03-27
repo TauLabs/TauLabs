@@ -56,7 +56,7 @@ float rtlqr_calculate_axis(const float *rtkf_X, float rate_desired, uint32_t axi
 	// sign on the state through the rate_error calculation, but this is
 	// added explicitly for the torque component (analogous to normal
 	// derivative).
-	float desired = axis_L[axis] * rate_error - axis_L[axis + 3] * rtkf_X[axis + 3];
+	float desired = axis_L[axis] * rate_error - axis_L[axis + 3] * (rtkf_X[axis + 3] - rtkf_X[axis + 6]);
 
 	return desired;
 }
