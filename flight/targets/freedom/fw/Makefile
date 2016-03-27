@@ -95,6 +95,8 @@ MAVLINKINC = $(FLIGHTLIB)/mavlink/v1.0/common
 SRC = 
 # optional component libraries
 include $(FLIGHTLIB)/CMSIS3/DSP_Lib/library.mk
+INCLUDE_RT_LQG=YES
+include $(FLIGHTLIB)/lqg_rate/library.mk
 
 
 # List C source files here. (C dependencies are automatically generated.)
@@ -130,8 +132,6 @@ SRC += $(FLIGHTLIB)/sanitycheck.c
 SRC += $(FLIGHTLIB)/timeutils.c
 SRC += $(FLIGHTLIB)/frsky_packing.c
 SRC += $(FLIGHTLIB)/msplib.c
-SRC += $(FLIGHTLIB)/lqg_rate/rate_torque_kf.c
-SRC += $(FLIGHTLIB)/lqg_rate/rate_torque_lqr.c
 SRC += $(MATHLIB)/coordinate_conversions.c
 SRC += $(MATHLIB)/pid.c
 SRC += $(MATHLIB)/misc_math.c
