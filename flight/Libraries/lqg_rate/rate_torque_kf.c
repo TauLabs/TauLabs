@@ -36,11 +36,11 @@
 #define AF_NUMP 18
 
 /**** filter parameters ****/
-static float q_w = 1e0f;
+static float q_w = 1e1f;
 static float q_ud = 1e-5f;
-static float q_bias = 1e-10f;
-static float s_a = 3000.0f;  // expected gyro noise
-static float gains[3] = {9.71691132,  9.64305401,  4.78812265};
+static float q_bias = 1e-12f;
+static float s_a = 1000.0f;  // expected gyro noise
+static float gains[3] = {9.2516613f,  9.22609043f,  6.64852238f};
 static float tau = -3.05f;
 
 void rtkf_set_qw(const float qw_new)
