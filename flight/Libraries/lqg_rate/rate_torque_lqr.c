@@ -62,7 +62,7 @@ float rtlqr_calculate_axis(const float *rtkf_X, float rate_desired, uint32_t axi
 	// added explicitly for the torque component (analogous to normal
 	// derivative).
 	float desired = axis_L[axis] * rate_error                                 // "Proportional"
-	              - axis_L[axis + 3] * (rtkf_X[axis + 3] - rtkf_X[axis + 6])  // "Derivative"
+	              - axis_L[axis + 3] * rtkf_X[axis + 3]                       // "Derivative"
 	              + axis_L[axis + 6] * rtlqr_integral[axis];                  // "Integral"
 
 	return desired;
