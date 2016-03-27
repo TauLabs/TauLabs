@@ -43,9 +43,9 @@ D = zeros(3,3);
 % create cost matrices for LQR calculator. Note that we are using
 % 12 states here as it is an augmented state with an integral error
 
-q_rate = 1;
+q_rate = 10;
 q_torque = 1;
-q_integral = 10;
+q_integral = 1000;
 three = [1 1 1];
 Q = diag([three*q_rate three*q_torque three*q_integral]);  % const on state errors
 R = diag([1 1 1]*10000);     % const on inputs
