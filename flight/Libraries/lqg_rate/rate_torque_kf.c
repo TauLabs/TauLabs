@@ -163,19 +163,19 @@ void rtkf_predict(float *X, float *P, const float u_in[3], const float gyro[3], 
 	w3 = X[2] = w3 - Ts*bias3*e_b3 + Ts*u3*e_b3;
 	u1 = X[3] = (Ts*u1_in)/(Ts + e_tau) + (u1*e_tau)/(Ts + e_tau);
 	u2 = X[4] = (Ts*u2_in)/(Ts + e_tau) + (u2*e_tau)/(Ts + e_tau);
-	u3 = X[5] = (Ts*u3_in)/(Ts + e_tau_y) + (u3*e_tau)/(Ts + e_tau_y);
-    // X[6] to X[8] unchanged
+	u3 = X[5] = (Ts*u3_in)/(Ts + e_tau_y) + (u3*e_tau_y)/(Ts + e_tau_y);
+	// X[6] to X[8] unchanged
 
 	const float Q[AF_NUMX] = {q_w, q_w, q_w, q_ud, q_ud, q_ud, q_bias, q_bias, q_bias};
 
 	float D[AF_NUMP];
 	for (uint32_t i = 0; i < AF_NUMP; i++)
-        D[i] = P[i];
+		D[i] = P[i];
 
-    const float e_tau2    = e_tau * e_tau;
-    //const float Ts_e_tau2 = (Ts + e_tau) * (Ts + e_tau);
-    //const float e_tau_y2    = e_tau_y * e_tau_y;
-    const float Ts_e_tau_y2 = (Ts + e_tau_y) * (Ts + e_tau_y);
+	//const float e_tau2    = e_tau * e_tau;
+	//const float Ts_e_tau2 = (Ts + e_tau) * (Ts + e_tau);
+	//const float e_tau_y2    = e_tau_y * e_tau_y;
+	//const float Ts_e_tau_y2 = (Ts + e_tau_y) * (Ts + e_tau_y);
 
 	// covariance propagation - D is stored copy of covariance	
 	P[0] = D[0] + Q[0] + D[4]*Tsq*(e_b1*e_b1) - 2*D[10]*Tsq*(e_b1*e_b1) + D[11]*Tsq*(e_b1*e_b1) + 2*D[3]*Ts*e_b1 - 2*D[9]*Ts*e_b1;
@@ -185,8 +185,8 @@ void rtkf_predict(float *X, float *P, const float u_in[3], const float gyro[3], 
 	P[4] = Q[3] + D[4]*powf(Ts/(Ts + e_tau) - 1,2);
 	P[5] = (e_tau*(D[5] + D[6]*Ts*e_b2 - D[13]*Ts*e_b2))/(Ts + e_tau);
 	P[6] = Q[4] + D[6]*powf(Ts/(Ts + e_tau) - 1,2);
-	P[7] = (e_tau*(D[7] + D[8]*Ts*e_b3 - D[16]*Ts*e_b3))/(Ts + e_tau_y);
-	P[8] = Q[5] + (D[8]*e_tau2)/Ts_e_tau_y2;
+	P[7] = (e_tau_y*(D[7] + D[8]*Ts*e_b3 - D[16]*Ts*e_b3))/(Ts + e_tau_y);
+	P[8] = Q[5] + D[8]*powf(Ts/(Ts + e_tau_y) - 1,2);
 	P[9] = D[9] + D[10]*Ts*e_b1 - D[11]*Ts*e_b1;
 	P[10] = (D[10]*e_tau)/(Ts + e_tau);
 	P[11] = D[11] + Q[6];
@@ -194,12 +194,12 @@ void rtkf_predict(float *X, float *P, const float u_in[3], const float gyro[3], 
 	P[13] = (D[13]*e_tau)/(Ts + e_tau);
 	P[14] = D[14] + Q[7];
 	P[15] = D[15] + D[16]*Ts*e_b3 - D[17]*Ts*e_b3;
-	P[16] = (D[16]*e_tau)/(Ts + e_tau_y);
+	P[16] = (D[16]*e_tau_y)/(Ts + e_tau_y);
 	P[17] = D[17] + Q[8];
 
 	/********* this is the update part of the equation ***********/
 
-    float S[3] = {P[0] + s_a, P[1] + s_a, P[2] + s_a};
+	float S[3] = {P[0] + s_a, P[1] + s_a, P[2] + s_a};
 
 	X[0] = w1 + (P[0]*(gyro_x - w1))/S[0];
 	X[1] = w2 + (P[1]*(gyro_y - w2))/S[1];
@@ -213,8 +213,8 @@ void rtkf_predict(float *X, float *P, const float u_in[3], const float gyro[3], 
 
 	// update the duplicate cache
 	for (uint32_t i = 0; i < AF_NUMP; i++)
-        D[i] = P[i];
-    
+		D[i] = P[i];
+
 	// This is an approximation that removes some cross axis uncertainty but
 	// substantially reduces the number of calculations
 	P[0] = -D[0]*(D[0]/S[0] - 1);
