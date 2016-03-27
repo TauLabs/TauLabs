@@ -388,12 +388,14 @@ __attribute__((always_inline)) static inline void af_predict(float X[AF_NUMX], f
     // X[6] to X[12] unchanged
 
 	/**** filter parameters ****/
-	const float q_w = 1e-4f;
-	const float q_ud = 1e-4f;
-	const float q_B = 1e-5f;
-	const float q_tau = 1e-5f;
+	// core state variables, these were determined from offline analysis and replay of flights
+	const float q_w = 1e0f;
+	const float q_ud = 1e-5f;
 	const float q_bias = 1e-19f;
 	const float s_a = 3000.0f;  // expected gyro noise
+	// system identification parameters
+	const float q_B = 1e-5f;
+	const float q_tau = 1e-5f;
 
 	const float Q[AF_NUMX] = {q_w, q_w, q_w, q_ud, q_ud, q_ud, q_B, q_B, q_B, q_tau, q_bias, q_bias, q_bias};
 
