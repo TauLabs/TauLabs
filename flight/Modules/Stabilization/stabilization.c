@@ -373,7 +373,21 @@ static void stabilizationTask(void* parameters)
 					actuatorDesiredAxis[i] = bound_sym(actuatorDesiredAxis[i],1.0f);
 
 					break;
+				case STABILIZATIONDESIRED_STABILIZATIONMODE_LQG:
+					if(reinit)
+						pids[PID_GROUP_RATE + i].iAccumulator = 0;
 
+					// Store to rate desired variable for storing to UAVO
+					rateDesiredAxis[i] = bound_sym(stabDesiredAxis[i], settings.ManualRate[i]);
+					float rate_estimate[3];
+
+					rtkf_get_rate(rtkf_X, rate_estimate);
+
+					// Compute the inner loop
+					actuatorDesiredAxis[i] = pid_apply_setpoint(&pids[PID_GROUP_RATE + i],  rateDesiredAxis[i],  rate_estimate[i], dT);
+					actuatorDesiredAxis[i] = bound_sym(actuatorDesiredAxis[i],1.0f);
+
+					break;
 			case STABILIZATIONDESIRED_STABILIZATIONMODE_ACROPLUS:
 					// this implementation is based on the Openpilot/Librepilot Acro+ flightmode
 					// and our existing rate & MWRate flightmodes
