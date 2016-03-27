@@ -2,7 +2,7 @@
  ******************************************************************************
  * @addtogroup TauLabsModules Tau Labs Modules
  * @{
- * @addtogroup AutotuningModule Autotuning Module
+ * @addtogroup Rate Torque Linear Quadratic Gaussian controller
  * @{
  *
  * @file       rate_torque_kf.c
@@ -284,3 +284,9 @@ bool rtkf_init(float **X_in, float **P_in)
 
 	return true;
 }
+
+/**
+ * @}
+ * @}
+ */
+ 

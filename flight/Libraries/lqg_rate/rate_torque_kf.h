@@ -2,7 +2,7 @@
  ******************************************************************************
  * @addtogroup TauLabsModules Tau Labs Modules
  * @{
- * @addtogroup AutotuningModule Autotuning Module
+ * @addtogroup Rate Torque Linear Quadratic Gaussian controller
  * @{
  *
  * @file       rate_torque_kf.h
@@ -48,3 +48,9 @@ void rtkf_predict(float *X, float *P, const float u_in[3], const float gyro[3], 
 bool rtkf_init(float **X_in, float **P_in);
 
 #endif /* RATE_TORQUE_KF_H */
+
+/**
+ * @}
+ * @}
+ */
+ 
