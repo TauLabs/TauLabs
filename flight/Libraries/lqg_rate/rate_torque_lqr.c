@@ -34,11 +34,13 @@
 // based on the system dynamics (measured with system identification) and
 // the LQR cost matricies. Note all the zeros because there is no cross
 // axis cost (at least in this implementation).
-static const float L[3][6] = {
-  {0.012523f,0.000000f,0.000000f,4.827413f,0.000000f,0.000000f},
-  {0.000000f,0.012583f,0.000000f,0.000000f,4.639445f,0.000000f},
-  {0.000000f,0.000000f,0.013997f,0.000000f,0.000000f,0.410062f},
+static const float L[3][9] = {
+{0.095234f,0.000000f,0.000000f,14.028296f,0.000000f,0.000000f,2.199679f,0.000000f,0.000000f},
+{0.000000f,0.097160f,0.000000f,0.000000f,13.556888f,0.000000f,0.000000f,2.228610f,0.000000f},
+{0.000000f,0.000000f,0.336825f,0.000000f,0.000000f,2.018284f,0.000000f,0.000000f,3.006189f},
 };
+
+static float rtlqr_integral[3];
 
 /**
  * @brief LQR based controller using
@@ -47,20 +49,38 @@ static const float L[3][6] = {
  * @param[in] axis which axis to control
  * @returns the control signal for this axis
  */
-float rtlqr_calculate_axis(const float *rtkf_X, float rate_desired, uint32_t axis)
+float rtlqr_calculate_axis(const float *rtkf_X, float rate_desired, uint32_t axis, float dT)
 {
 	const float * axis_L = L[axis];
 	float rate_error = rate_desired - rtkf_X[axis];
+
+	// Update the integral
+	rtlqr_integral[axis] = rtlqr_integral[axis] + rate_error * dT;
 
 	// calculate the desired control signal. Note that there is a negative
 	// sign on the state through the rate_error calculation, but this is
 	// added explicitly for the torque component (analogous to normal
 	// derivative).
-	float desired = axis_L[axis] * rate_error - axis_L[axis + 3] * (rtkf_X[axis + 3] - rtkf_X[axis + 6]);
+	float desired = axis_L[axis] * rate_error                                 // "Proportional"
+	              - axis_L[axis + 3] * (rtkf_X[axis + 3] - rtkf_X[axis + 6])  // "Derivative"
+	              + axis_L[axis + 6] * rtlqr_integral[axis];                  // "Integral"
 
 	return desired;
 }
 
+void rtlqr_get_integral(float *integral)
+{
+	integral[0] = rtlqr_integral[0];
+	integral[1] = rtlqr_integral[1];
+	integral[2] = rtlqr_integral[2];
+}
+
+void rtlqr_init()
+{
+	rtlqr_integral[0] = 0.0f;
+	rtlqr_integral[1] = 0.0f;
+	rtlqr_integral[2] = 0.0f;
+}
 /**
  * @}
  * @}

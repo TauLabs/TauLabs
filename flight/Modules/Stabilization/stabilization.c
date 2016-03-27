@@ -375,15 +375,15 @@ static void stabilizationTask(void* parameters)
 
 					break;
 				case STABILIZATIONDESIRED_STABILIZATIONMODE_LQG:
+					if(reinit)
+						rtlqr_init();
 
 					// Store to rate desired variable for storing to UAVO
 					rateDesiredAxis[i] = bound_sym(stabDesiredAxis[i], settings.ManualRate[i]);
 
 					// Compute the inner loop
-					actuatorDesiredAxis[i] = rtlqr_calculate_axis(rtkf_X, rateDesiredAxis[i], i);
+					actuatorDesiredAxis[i] = rtlqr_calculate_axis(rtkf_X, rateDesiredAxis[i], i, dT);
 					actuatorDesiredAxis[i] = bound_sym(actuatorDesiredAxis[i],1.0f);
-
-					RateTorqueKFOutputSet(actuatorDesiredAxis);
 
 					break;
 			case STABILIZATIONDESIRED_STABILIZATIONMODE_ACROPLUS:
@@ -839,6 +839,7 @@ static void update_rtkf(const float gyro[3], const float u[3], float dT)
 	rtkf_get_rate(rtkf_X, rateTorque.Rate);
 	rtkf_get_torque(rtkf_X, rateTorque.Torque);
 	rtkf_get_bias(rtkf_X, rateTorque.Bias);
+	rtlqr_get_integral(rateTorque.Integral);
 	RateTorqueKFSet(&rateTorque);
 }
 

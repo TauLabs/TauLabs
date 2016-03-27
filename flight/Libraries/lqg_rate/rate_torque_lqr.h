@@ -33,7 +33,9 @@
 
 #include "stdint.h"
  
-float rtlqr_calculate_axis(const float *rtkf_X, float rate_desired, uint32_t axis);
+void rtlqr_init();
+void rtlqr_get_integral(float *integral);
+float rtlqr_calculate_axis(const float *rtkf_X, float rate_desired, uint32_t axis, float dT);
 
 #endif /* RATE_TORQUE_LQR_H */
  /**

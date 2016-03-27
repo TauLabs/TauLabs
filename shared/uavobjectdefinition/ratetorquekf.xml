@@ -4,7 +4,7 @@
 	<field name="Rate" units="" type="float" elementnames="Roll,Pitch,Yaw" defaultvalue="0"/>
 	<field name="Torque" units="" type="float" elementnames="Roll,Pitch,Yaw" defaultvalue="0"/>
 	<field name="Bias" units="" type="float" elementnames="Roll,Pitch,Yaw" defaultvalue="0"/>
-	<field name="Output" units="" type="float" elementnames="Roll,Pitch,Yaw" defaultvalue="0"/>
+	<field name="Integral" units="" type="float" elementnames="Roll,Pitch,Yaw" defaultvalue="0"/>
         <access gcs="readonly" flight="readwrite"/>
         <telemetrygcs acked="false" updatemode="manual" period="0"/>
         <telemetryflight acked="false" updatemode="throttled" period="100"/>
