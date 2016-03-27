@@ -939,7 +939,7 @@ static void update_stabilization_desired(ManualControlCommandData * cmd, ManualC
 	const uint8_t LQG_SETTINGS[3]      = {
 	                                    STABILIZATIONDESIRED_STABILIZATIONMODE_LQG,
 	                                    STABILIZATIONDESIRED_STABILIZATIONMODE_LQG,
-	                                    STABILIZATIONDESIRED_STABILIZATIONMODE_RATE};
+	                                    STABILIZATIONDESIRED_STABILIZATIONMODE_LQG};
 
 	const uint8_t * stab_settings;
 
