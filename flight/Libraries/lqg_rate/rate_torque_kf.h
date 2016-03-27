@@ -40,6 +40,7 @@ void rtkf_set_qbias(const float qbias_new);
 void rtkf_set_sa(const float sa_new);
 void rtkf_set_gains(const float gains_new[3]);
 void rtkf_set_tau(const float tau_new);
+void rtkf_set_tau_y(const float tau_new);
 
 void rtkf_get_rate(const float *X, float rate[3]);
 void rtkf_get_torque(const float *X, float torque[3]);
