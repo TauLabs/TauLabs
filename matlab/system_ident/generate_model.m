@@ -113,8 +113,11 @@ P([1 4 7 12],[2 3 5 6 8 9 13 14]) = 0;
 P([2 5 8 13],[1 3 4 6 7 9 12 14]) = 0;
 P([3 6 9 14],[1 2 4 5 7 8 12 13]) = 0;
 
-P(10,[3 6 9 14]) = 0;
-P(11,[1 2 4 5 7 8 12 13]) = 0;
+% do not cross couple the yaws
+P(10,[3 6 9 11 14]) = 0;
+P(11,[1 2 4 5 7 8 10 12 13]) = 0;
+P([3 6 9 11 14],10) = 0;
+P([1 2 4 5 7 8 10 12 13],11) = 0;
 
 % we can use this variable to reduce the unused terms out of the equations
 % below instead of storing all of the P values.
@@ -129,7 +132,7 @@ end
        
 Q = diag([Q_1 Q_2 Q_3 Q_4 Q_5 Q_6 Q_7 Q_8 Q_9 Q_10 Q_11 Q_12 Q_13 Q_14]);
 
-P2 = collect((F*P*F') + Q,Ts);
+P2 = simplify((F*P*F') + Q);
 
 % update equations
 R = diag([s_a s_a s_a]); 
@@ -339,7 +342,7 @@ for j = 1:length(P_idx)
     [k, l] = ind2sub([N N], P_idx(j));
     
     if k == l
-        s_out = sprintf('P[%d] = q_init[%d];',j-1, k);
+        s_out = sprintf('P[%d] = q_init[%d];',j-1, k-1);
     else
         s_out = sprintf('P[%d] = 0.0f;',j-1);
     end
