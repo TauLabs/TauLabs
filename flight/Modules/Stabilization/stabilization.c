@@ -62,8 +62,11 @@
 #include "coordinate_conversions.h"
 #include "pid.h"
 #include "misc_math.h"
+
+#ifdef INCLUDE_LQG
 #include "rate_torque_kf.h"
 #include "rate_torque_lqr.h"
+#endif
 
 // Includes for various stabilization algorithms
 #include "virtualflybar.h"
@@ -123,7 +126,6 @@ bool lowThrottleZeroIntegral;
 float vbar_decay = 0.991f;
 float gyro_alpha = 0.6;
 struct pid pids[PID_MAX];
-float *rtkf_X, *rtkf_P;
 
 volatile bool gyro_filter_updated = false;
 
@@ -132,7 +134,11 @@ static void stabilizationTask(void* parameters);
 static void zero_pids(void);
 static void calculate_pids(void);
 static void SettingsUpdatedCb(UAVObjEvent * ev);
+
+#ifdef INCLUDE_LQG
+static float *rtkf_X, *rtkf_P;
 static void update_rtkf(const float gyro[3], const float u[3], float dT);
+#endif
 
 /**
  * Module initialization
@@ -214,7 +220,9 @@ static void stabilizationTask(void* parameters)
 
 	float dT_filtered = 0;
 
+#ifdef INCLUDE_LQG
 	rtkf_init(&rtkf_X, &rtkf_P);
+#endif
 
 	// Main task loop
 	zero_pids();
@@ -347,9 +355,11 @@ static void stabilizationTask(void* parameters)
 		static uint8_t previous_mode[MAX_AXES] = {255,255,255};
 		bool error = false;
 
+#ifdef INCLUDE_LQG
 		// Update the RTKF. Uses the actuator from the previous step and the
 		// latest gyro data
 		update_rtkf( (const float *) &gyrosData.x, (const float *) actuatorDesiredAxis, dT);
+#endif
 
 		//Run the selected stabilization algorithm on each axis:
 		for(uint8_t i=0; i< MAX_AXES; i++)
@@ -375,6 +385,7 @@ static void stabilizationTask(void* parameters)
 
 					break;
 				case STABILIZATIONDESIRED_STABILIZATIONMODE_LQG:
+#ifdef INCLUDE_LQG
 					if(reinit)
 						rtlqr_init();
 
@@ -384,7 +395,7 @@ static void stabilizationTask(void* parameters)
 					// Compute the inner loop
 					actuatorDesiredAxis[i] = rtlqr_calculate_axis(rtkf_X, rateDesiredAxis[i], i, dT);
 					actuatorDesiredAxis[i] = bound_sym(actuatorDesiredAxis[i],1.0f);
-
+#endif
 					break;
 			case STABILIZATIONDESIRED_STABILIZATIONMODE_ACROPLUS:
 					// this implementation is based on the Openpilot/Librepilot Acro+ flightmode
@@ -819,6 +830,7 @@ static void stabilizationTask(void* parameters)
 	}
 }
 
+#ifdef INCLUDE_LQG
 static void update_rtkf(const float gyro[3], const float u[3], float dT)
 {
 	if (SystemIdentHandle() == NULL)
@@ -843,6 +855,7 @@ static void update_rtkf(const float gyro[3], const float u[3], float dT)
 	rtlqr_get_integral(rateTorque.Integral);
 	RateTorqueKFSet(&rateTorque);
 }
+#endif /* INCLUDE_LQG */
 
 /**
  * Clear the accumulators and derivatives for all the axes
