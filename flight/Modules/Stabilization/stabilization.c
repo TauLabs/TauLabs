@@ -383,6 +383,8 @@ static void stabilizationTask(void* parameters)
 					actuatorDesiredAxis[i] = rtlqr_calculate_axis(rtkf_X, rateDesiredAxis[i], i);
 					actuatorDesiredAxis[i] = bound_sym(actuatorDesiredAxis[i],1.0f);
 
+					RateTorqueKFOutputSet(actuatorDesiredAxis);
+
 					break;
 			case STABILIZATIONDESIRED_STABILIZATIONMODE_ACROPLUS:
 					// this implementation is based on the Openpilot/Librepilot Acro+ flightmode
@@ -836,6 +838,7 @@ static void update_rtkf(const float gyro[3], const float u[3], float dT)
 	RateTorqueKFGet(&rateTorque);
 	rtkf_get_rate(rtkf_X, rateTorque.Rate);
 	rtkf_get_torque(rtkf_X, rateTorque.Torque);
+	rtkf_get_bias(rtkf_X, rateTorque.Bias);
 	RateTorqueKFSet(&rateTorque);
 }
 
