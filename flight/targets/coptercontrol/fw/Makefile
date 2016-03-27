@@ -248,6 +248,8 @@ SRC += $(MATHLIB)/pid.c
 include $(PIOSCOMMONLIB)/CMSIS3/library.mk
 SRC += $(BOARD_INFO_DIR)/cmsis_system.c
 
+include $(FLIGHTLIB)/lqg_rate/library.mk
+
 ## Used parts of the STM-Library
 SRC += $(STMSPDSRCDIR)/stm32f10x_adc.c
 SRC += $(STMSPDSRCDIR)/stm32f10x_bkp.c
