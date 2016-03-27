@@ -131,6 +131,7 @@ SRC += $(FLIGHTLIB)/timeutils.c
 SRC += $(FLIGHTLIB)/frsky_packing.c
 SRC += $(FLIGHTLIB)/msplib.c
 SRC += $(FLIGHTLIB)/lqg_rate/rate_torque_kf.c
+SRC += $(FLIGHTLIB)/lqg_rate/rate_torque_lqr.c
 SRC += $(MATHLIB)/coordinate_conversions.c
 SRC += $(MATHLIB)/misc_math.c
 SRC += $(MATHLIB)/atmospheric_math.c

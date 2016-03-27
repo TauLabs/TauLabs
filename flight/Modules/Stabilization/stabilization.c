@@ -63,6 +63,7 @@
 #include "pid.h"
 #include "misc_math.h"
 #include "rate_torque_kf.h"
+#include "rate_torque_lqr.h"
 
 // Includes for various stabilization algorithms
 #include "virtualflybar.h"
@@ -374,17 +375,12 @@ static void stabilizationTask(void* parameters)
 
 					break;
 				case STABILIZATIONDESIRED_STABILIZATIONMODE_LQG:
-					if(reinit)
-						pids[PID_GROUP_RATE + i].iAccumulator = 0;
 
 					// Store to rate desired variable for storing to UAVO
 					rateDesiredAxis[i] = bound_sym(stabDesiredAxis[i], settings.ManualRate[i]);
-					float rate_estimate[3];
-
-					rtkf_get_rate(rtkf_X, rate_estimate);
 
 					// Compute the inner loop
-					actuatorDesiredAxis[i] = pid_apply_setpoint(&pids[PID_GROUP_RATE + i],  rateDesiredAxis[i],  rate_estimate[i], dT);
+					actuatorDesiredAxis[i] = rtlqr_calculate_axis(rtkf_X, rateDesiredAxis[i], i);
 					actuatorDesiredAxis[i] = bound_sym(actuatorDesiredAxis[i],1.0f);
 
 					break;
