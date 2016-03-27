@@ -12,19 +12,22 @@ Ts = 1/400; % the time step
 
 % rotation rate is slowly altered by torques and
 % torques stay the same without input
-b = 0.01;
-A = [1 0 0 b 0 0;
-     0 1 0 0 b 0;
-     0 0 1 0 0 b;
-     0 0 0 1 0 0;
-     0 0 0 0 1 0;
-     0 0 0 0 0 1];
+b1 = exp(9.72)*Ts;
+b2 = exp(9.64)*Ts;
+b3 = exp(4.78)*Ts;
+t1 = Ts/(exp(-3.05) + Ts);
+A = [1 0 0 b1 0  0;
+     0 1 0 0  b2 0;
+     0 0 1 0  0  b3;
+     0 0 0 1  0  0;
+     0 0 0 0  1  0;
+     0 0 0 0  0  1];
 B = [0 0 0;
      0 0 0;
      0 0 0;
-     Ts 0 0;
-     0 Ts 0;
-     0 0 Ts];
+     t1 0 0;
+     0 t1 0;
+     0 0 t1];
 C = [1 0 0 0 0 0;
      0 1 0 0 0 0;
      0 0 1 0 0 0];
@@ -32,7 +35,7 @@ D = zeros(3,3);
 
 % create cost matrices for LQR calculator
 Q = diag([1 1 1 1 1 1]);  % const on state errors
-R = diag([1 1 1]);        % const on inputs
+R = diag([1 1 1]*5000);        % const on inputs
 N = zeros(6,3);           % cross coupling costs between error and control
 
 % Calculate LQR control weights if we have full state knowledge
@@ -43,6 +46,8 @@ sys = ss(A,B,diag(ones(1,6)),[],Ts,...
     'StateName',{'wR','wP','wY','tR','tP','tY'}, ...
     'OutputName',{'wR','wP','wY','tR','tP','tY'});
 L = lqr(sys,Q,R,N);
+
+s = []; for i = 1:3; s1 = sprintf('%ff,',L(i,:)); s = [s '{' s1(1:end-1) sprintf('},\n')]; end; s
 
 %L = dlqr(A,B,Q,R,N)
 
