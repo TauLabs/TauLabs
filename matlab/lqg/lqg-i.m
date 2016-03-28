@@ -12,10 +12,11 @@ Ts = 1/400; % the time step
 
 % rotation rate is slowly altered by torques and
 % torques stay the same without input
-b1 = exp(9.72)*Ts;
-b2 = exp(9.64)*Ts;
-b3 = exp(4.78)*Ts;
-t1 = Ts/(exp(-3.05) + Ts);
+b1 = exp(9.46)*Ts;
+b2 = exp(9.21)*Ts;
+b3 = exp(7.52)*Ts;
+t1 = Ts/(exp(-3.3) + Ts);
+t2 = Ts/(exp(-7.3) + Ts);
 
 A = [1 0 0 b1 0  0  0 0 0;
      0 1 0 0  b2 0  0 0 0;
@@ -31,7 +32,7 @@ B = [0 0 0;
      0 0 0;
      t1 0 0;
      0 t1 0;
-     0 0 t1;
+     0 0 t2;
      0 0 0;
      0 0 0;
      0 0 0];
@@ -45,9 +46,9 @@ D = zeros(3,3);
 
 q_rate = 10;
 q_torque = 1;
-q_integral = 1000;
+q_integral = [10000 10000 1000];
 three = [1 1 1];
-Q = diag([three*q_rate three*q_torque three*q_integral]);  % const on state errors
+Q = diag([three*q_rate three*q_torque q_integral]);  % const on state errors
 R = diag([1 1 1]*10000);     % const on inputs
 N = zeros(9,3);            % cross coupling costs between error and control
 
@@ -62,18 +63,34 @@ L = lqr(sys,Q,R,N);
 
 L
 
-% s = []; for i = 1:3; s1 = sprintf('%ff,',L(i,:)); s = [s '{' s1(1:end-1) sprintf('},\n')]; end; s
+s = []; for i = 1:3; s1 = sprintf('%ff,',L(i,:)); s = [s '{' s1(1:end-1) sprintf('},\n')]; end; s
 
 %L = dlqr(A,B,Q,R,N)
 
 %% Construct state estimator
+
+Ak = [1 0 0 b1 0  0 ;
+     0 1 0 0  b2 0  ;
+     0 0 1 0  0  b3 ;
+     0 0 0 1  0  0  ;
+     0 0 0 0  1  0  ;
+     0 0 0 0  0  1  ];
+Bk = [0 0 0;
+     0 0 0;
+     0 0 0;
+     t1 0 0;
+     0 t1 0;
+     0 0 t2];
+Ck = [1 0 0 0 0 0;
+     0 1 0 0 0 0 ;
+     0 0 1 0 0 0 ];
 
 G = [zeros(3,3); diag([1 1 1])*0.001]; % process noise on states
 H = [zeros(3,3)];                      % noise on gyros
 
 % create a model of system with process noise on the
 % torque to account for model inaccuracies
-sys_pn = ss(A,[B G],C,[D H],Ts, ...
+sys_pn = ss(Ak,[Bk G],Ck,[D H],Ts, ...
     'InputName',{'uR', 'uP', 'uY', 'vtR', 'vtP', 'vtY'}, ...
     'StateName',{'wR','wP','wY','tR','tP','tY'}, ...
     'OutputName',{'gR','gP','gY'});
