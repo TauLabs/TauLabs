@@ -171,11 +171,11 @@ configure(PyObject* self, PyObject* args, PyObject *kwarg)
 	}
 
 	if (!isnan(tau_var)) {
-		X[9] = tau_var;
+		X[10] = tau_var;
 	}
 
 	if (!isnan(tau_y_var)) {
-		X[10] = tau_y_var;
+		X[11] = tau_y_var;
 	}
 
 	return Py_None;

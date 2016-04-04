@@ -31,8 +31,8 @@
 #ifndef RATE_TORQUE_SI_H
 #define RATE_TORQUE_SI_H
 
-#define RTSI_NUMX 14
-#define RTSI_NUMP 44
+#define RTSI_NUMX 15
+#define RTSI_NUMP 50
 
 void rtsi_predict(float X[RTSI_NUMX], float P[RTSI_NUMP], const float u_in[3], const float gyro[3], const float dT_s);
 void rtsi_init(float X[RTSI_NUMX], float P[RTSI_NUMP]);
