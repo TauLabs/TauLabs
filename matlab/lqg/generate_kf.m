@@ -19,11 +19,12 @@
 %   - b1 - roll gain
 %   - b2 - pitch gain
 %   - b3 - yaw gain
+%   - b3d - yaw gain direct (from motor torques)
 %   - tau
 
 % the actuator inputs (four motor speeds)
 
-syms b1 b2 b3 w1 w2 w3 u1 u2 u3  bias1 bias2 bias3 tau tau_y Ts real;
+syms b1 b2 b3 b3d w1 w2 w3 u1 u2 u3 bias1 bias2 bias3 tau Ts real;
 syms u1_in u2_in u3_in real;
 
 x = [w1 w2 w3 u1 u2 u3 bias1 bias2 bias3]';
@@ -36,7 +37,7 @@ A_w = [1 0 0   Ts*exp(b1)  0          0          ; ...
 
 A_u = [exp(tau)/(exp(tau) + Ts) 0 0; ...
        0 exp(tau)/(exp(tau) + Ts) 0; ...
-       0 0 exp(tau_y)/(exp(tau_y) + Ts)];
+       0 0 exp(tau)/(exp(tau) + Ts)];
 
 A_wb = [-Ts*exp(b1) 0 0;
         0 -Ts*exp(b2) 0;
@@ -47,10 +48,10 @@ A = [          A_w              A_wb; ...
      zeros(3,3)       A_u       zeros(3,3); ...
      zeros(3,6)                 diag([1 1 1])];
  
-B_u = [zeros(3,3); ...
+B_u = [diag([0 0 Ts*exp(b3d)]); ...
        Ts/(exp(tau) + Ts) 0 0; ...
        0 Ts/(exp(tau) + Ts) 0; ...
-       0 0 Ts/(exp(tau_y) + Ts); ...
+       0 0 Ts/(exp(tau) + Ts); ...
        zeros(3,3)];
 
 f = A * x + B_u * u_in
@@ -61,6 +62,7 @@ F = simplify(jacobian(f, x), 100)
 
 H = jacobian(h, x)
 
+N = length(x)
 
 %% generate the symbolic code
 
@@ -103,7 +105,7 @@ P([3 6 9],[1 2 4 5 7 8]) = 0;
 P_idx = find(P(:));
 
 % make it symmetrical
-for(i=2:9)
+for(i=2:N)
     for (j=1:i-1)
         P(i,j)=P(j,i);
     end
@@ -167,17 +169,15 @@ for Pnew = {P2, P3}
                 Pstrings{i,j} = strrep(Pstrings{i,j},'exp(b1)','e_b1');
                 Pstrings{i,j} = strrep(Pstrings{i,j},'exp(b2)','e_b2');
                 Pstrings{i,j} = strrep(Pstrings{i,j},'exp(b3)','e_b3');
+                Pstrings{i,j} = strrep(Pstrings{i,j},'exp(b3d)','e_b3d');
                 Pstrings{i,j} = strrep(Pstrings{i,j},'exp(2*b1)','(e_b1*e_b1)');
                 Pstrings{i,j} = strrep(Pstrings{i,j},'exp(2*b2)','(e_b2*e_b2)');
                 Pstrings{i,j} = strrep(Pstrings{i,j},'exp(2*b3)','(e_b3*e_b3)');
+                Pstrings{i,j} = strrep(Pstrings{i,j},'exp(2*b3d)','(e_b3d*e_b3d)');
                 Pstrings{i,j} = strrep(Pstrings{i,j},'exp(2*tau)','e_tau2');
                 Pstrings{i,j} = strrep(Pstrings{i,j},'exp(3*tau)','e_tau3');
                 Pstrings{i,j} = strrep(Pstrings{i,j},'exp(4*tau)','e_tau4');
                 Pstrings{i,j} = strrep(Pstrings{i,j},'exp(tau)','e_tau');
-                Pstrings{i,j} = strrep(Pstrings{i,j},'exp(2*tau_y)','e_tau_y2');
-                Pstrings{i,j} = strrep(Pstrings{i,j},'exp(3*tau_y)','e_tau_y3');
-                Pstrings{i,j} = strrep(Pstrings{i,j},'exp(4*tau_y)','e_tau_y4');
-                Pstrings{i,j} = strrep(Pstrings{i,j},'exp(tau_y)','e_tau_y');
                 Pstrings{i,j} = strrep(Pstrings{i,j},'s_a^2','s_a2');
                 Pstrings{i,j} = strrep(Pstrings{i,j},'s_a^3','s_a3');
                 Pstrings{i,j} = strrep(Pstrings{i,j},'u1^2','(u1*u1)');
@@ -192,20 +192,14 @@ for Pnew = {P2, P3}
                 Pstrings{i,j} = strrep(Pstrings{i,j},'(Ts + e_tau)^2','Ts_e_tau2');
                 Pstrings{i,j} = strrep(Pstrings{i,j},'(Ts + e_tau)^3','Ts_e_tau3');
                 Pstrings{i,j} = strrep(Pstrings{i,j},'(Ts + e_tau)^4','Ts_e_tau4');
-                Pstrings{i,j} = strrep(Pstrings{i,j},'(Ts + e_tau_y)^2','Ts_e_tau_y2');
-                Pstrings{i,j} = strrep(Pstrings{i,j},'(Ts + e_tau_y)^3','Ts_e_tau_y3');
-                Pstrings{i,j} = strrep(Pstrings{i,j},'(Ts + e_tau_y)^4','Ts_e_tau_y4');
                 Pstrings{i,j} = strrep(Pstrings{i,j},'exp(b1 + tau)','(e_b1*e_tau)');
                 Pstrings{i,j} = strrep(Pstrings{i,j},'exp(b2 + tau)','(e_b2*e_tau)');
-                Pstrings{i,j} = strrep(Pstrings{i,j},'exp(b3 + tau_y)','(e_b3*e_tau_y)');
                 Pstrings{i,j} = strrep(Pstrings{i,j},'exp(b1 + 2*tau)','(e_b1*e_tau2)');
                 Pstrings{i,j} = strrep(Pstrings{i,j},'exp(b2 + 2*tau)','(e_b2*e_tau2)');
                 Pstrings{i,j} = strrep(Pstrings{i,j},'exp(b3 + 2*tau)','(e_b3*e_tau2)');
-                Pstrings{i,j} = strrep(Pstrings{i,j},'exp(b3 + 2*tau_y)','(e_b3*e_tau_y2)');
                 Pstrings{i,j} = strrep(Pstrings{i,j},'(Ts/(Ts + e_tau) - 1)^2','powf(Ts/(Ts + e_tau) - 1,2)');
-                Pstrings{i,j} = strrep(Pstrings{i,j},'(Ts/(Ts + e_tau_y) - 1)^2','powf(Ts/(Ts + e_tau_y) - 1,2)');
                 
-                for n1 = 13:-1:1
+                for n1 = N:-1:1
                     Pstrings{i,j} = strrep(Pstrings{i,j},sprintf('Q_%d',n1),sprintf('Q[%d]', n1-1));
                     Pstrings{i,j} = strrep(Pstrings{i,j},sprintf('S_%d',n1),sprintf('S[%d]', n1-1));
                 end
@@ -253,8 +247,6 @@ fclose(fid);
 
 %% Create strings for update of x
 
-N = 9;
-
 fid = fopen('torque_kf_filter.c','a');
 
 for x = {f x_new}
@@ -268,6 +260,7 @@ for x = {f x_new}
         Pstrings2{i} = strrep(Pstrings2{i},'exp(b1)','e_b1');
         Pstrings2{i} = strrep(Pstrings2{i},'exp(b2)','e_b2');
         Pstrings2{i} = strrep(Pstrings2{i},'exp(b3)','e_b3');
+        Pstrings2{i} = strrep(Pstrings2{i},'exp(b3d)','e_b3d');
         Pstrings2{i} = strrep(Pstrings2{i},'exp(2*tau)','e_tau*e_tau');
         Pstrings2{i} = strrep(Pstrings2{i},'exp(2*tau_y)','e_tau_y*e_tau_y');
         Pstrings2{i} = strrep(Pstrings2{i},'exp(tau)','e_tau');
