@@ -149,33 +149,29 @@ predict(PyObject* self, PyObject* args)
 static PyObject*
 configure(PyObject* self, PyObject* args, PyObject *kwarg)
 {
-	static char *kwlist[] = {"gain", "tau", "tau_y", NULL};
+	static char *kwlist[] = {"gain", "tau", NULL};
 
 	PyArrayObject *gain_var = NULL;
 	float tau_var = NAN;
-	float tau_y_var = NAN;
 
-	if (!PyArg_ParseTupleAndKeywords(args, kwarg, "|Off", kwlist,
-		 &gain_var, &tau_var, &tau_y_var)) {
+	if (!PyArg_ParseTupleAndKeywords(args, kwarg, "|Of", kwlist,
+		 &gain_var, &tau_var)) {
 		return NULL;
 	}
 
 	if (gain_var) {
-		float gain_new[3];
-		if (!parseFloatVec3(gain_var, gain_new))
+		float gain_new[4];
+		if (!parseFloatVecN(gain_var, gain_new, 4))
 			return NULL;
 
 		X[6] = gain_new[0];
 		X[7] = gain_new[1];
 		X[8] = gain_new[2];
+		X[9] = gain_new[3];
 	}
 
 	if (!isnan(tau_var)) {
 		X[10] = tau_var;
-	}
-
-	if (!isnan(tau_y_var)) {
-		X[11] = tau_y_var;
 	}
 
 	return Py_None;
