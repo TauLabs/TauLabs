@@ -22,10 +22,10 @@
 
 % the actuator inputs (four motor speeds)
 
-syms b1 b2 b3 b3d w1 w2 w3 u1 u2 u3 bias1 bias2 bias3 tau tau_y Ts real;
+syms b1 b2 b3 b3d w1 w2 w3 u1 u2 u3 bias1 bias2 bias3 tau Ts real;
 syms u1_in u2_in u3_in real;
 
-x = [w1 w2 w3 u1 u2 u3 b1 b2 b3 b3d tau tau_y bias1 bias2 bias3]';
+x = [w1 w2 w3 u1 u2 u3 b1 b2 b3 b3d tau bias1 bias2 bias3]';
 u_in = [u1_in u2_in u3_in ]';
 
 % this is the mixer matrix (could be learned in more detail)
@@ -35,25 +35,25 @@ A_w = [1 0 0   Ts*exp(b1)  0          0          ; ...
 
 A_u = [exp(tau)/(exp(tau) + Ts) 0 0; ...
        0 exp(tau)/(exp(tau) + Ts) 0; ...
-       0 0 exp(tau_y)/(exp(tau_y) + Ts)];
+       0 0 exp(tau)/(exp(tau) + Ts)];
 
 A_wb = [-Ts*exp(b1) 0 0;
         0 -Ts*exp(b2) 0;
         0 0 -Ts*exp(b3)];
 
-A_p = diag([1 1 1 1 1 1]);
+A_p = diag([1 1 1 1 1]);
 
 %w1 w2 w3 u1 u2 u3 b1 b2 b3 tau tau_y bias1 bias2 bias3
-A = [          A_w              zeros(3,6)     A_wb; ...
-     zeros(3,3)       A_u       zeros(3,6)  zeros(3,3); ...
-     zeros(6,3)     zeros(6,3)  A_p         zeros(6,3); ...
-     zeros(3,12)                            [1 0 0; 0 1 0; 0 0 1]];
+A = [          A_w              zeros(3,5)     A_wb; ...
+     zeros(3,3)       A_u       zeros(3,5)  zeros(3,3); ...
+     zeros(5,3)     zeros(5,3)  A_p         zeros(5,3); ...
+     zeros(3,11)                            [1 0 0; 0 1 0; 0 0 1]];
  
-B_u = [diag([0 0 b3d]); ...
+B_u = [diag([0 0 Ts*exp(b3d)]); ...
        Ts/(exp(tau) + Ts) 0 0; ...
        0 Ts/(exp(tau) + Ts) 0; ...
-       0 0 Ts/(exp(tau_y) + Ts); ...
-       zeros(9,3)];
+       0 0 Ts/(exp(tau) + Ts); ...
+       zeros(8,3)];
 
 f = A * x + B_u * u_in
 
@@ -67,60 +67,52 @@ N = length(x)
 
 %% generate the symbolic code
 
-syms P_1_1 P_1_2 P_1_3 P_1_4 P_1_5 P_1_6 P_1_7 P_1_8 P_1_9 P_1_10 P_1_11 P_1_12 P_1_13 P_1_14 P_1_15 real
-syms P_2_2 P_2_3 P_2_4 P_2_5 P_2_6 P_2_7 P_2_8 P_2_9 P_2_10 P_2_11 P_2_12 P_2_13 P_2_14 P_2_15 real
-syms P_3_3 P_3_4 P_3_5 P_3_6 P_3_7 P_3_8 P_3_9 P_3_10 P_3_11 P_3_12 P_3_13 P_3_14 P_3_15 real
-syms P_4_4 P_4_5 P_4_6 P_4_7 P_4_8 P_4_9 P_4_10 P_4_11 P_4_12 P_4_13 P_4_14 P_4_15 real
-syms P_5_5 P_5_6 P_5_7 P_5_8 P_5_9 P_5_10 P_5_11 P_5_12 P_5_13 P_5_14 P_5_15 real
-syms P_6_6 P_6_7 P_6_8 P_6_9 P_6_10 P_6_11 P_6_12 P_6_13 P_6_14 P_6_15 real
-syms P_7_7 P_7_8 P_7_9 P_7_10 P_7_11 P_7_12 P_7_13 P_7_14 P_7_15 real
-syms P_8_8 P_8_9 P_8_10 P_8_11 P_8_12 P_8_13 P_8_14 P_8_15 real
-syms P_9_9 P_9_10 P_9_11 P_9_12 P_9_13 P_9_14 P_9_15 real
-syms P_10_10 P_10_11 P_10_12 P_10_13 P_10_14 P_10_15 real
-syms P_11_11 P_11_12 P_11_13  P_11_14 P_11_15 real
-syms P_12_12 P_12_13 P_12_14 P_12_15 real
-syms P_13_13 P_13_14 P_13_15 real
-syms P_14_14 P_14_15 real
-syms P_15_15
+syms P_1_1 P_1_2 P_1_3 P_1_4 P_1_5 P_1_6 P_1_7 P_1_8 P_1_9 P_1_10 P_1_11 P_1_12 P_1_13 P_1_14  real
+syms P_2_2 P_2_3 P_2_4 P_2_5 P_2_6 P_2_7 P_2_8 P_2_9 P_2_10 P_2_11 P_2_12 P_2_13 P_2_14  real
+syms P_3_3 P_3_4 P_3_5 P_3_6 P_3_7 P_3_8 P_3_9 P_3_10 P_3_11 P_3_12 P_3_13 P_3_14  real
+syms P_4_4 P_4_5 P_4_6 P_4_7 P_4_8 P_4_9 P_4_10 P_4_11 P_4_12 P_4_13 P_4_14  real
+syms P_5_5 P_5_6 P_5_7 P_5_8 P_5_9 P_5_10 P_5_11 P_5_12 P_5_13 P_5_14  real
+syms P_6_6 P_6_7 P_6_8 P_6_9 P_6_10 P_6_11 P_6_12 P_6_13 P_6_14  real
+syms P_7_7 P_7_8 P_7_9 P_7_10 P_7_11 P_7_12 P_7_13 P_7_14  real
+syms P_8_8 P_8_9 P_8_10 P_8_11 P_8_12 P_8_13 P_8_14  real
+syms P_9_9 P_9_10 P_9_11 P_9_12 P_9_13 P_9_14  real
+syms P_10_10 P_10_11 P_10_12 P_10_13 P_10_14  real
+syms P_11_11 P_11_12 P_11_13  P_11_14  real
+syms P_12_12 P_12_13 P_12_14  real
+syms P_13_13 P_13_14  real
+syms P_14_14  real
 
 syms s_a real
 
 syms gyro_x gyro_y gyro_z real
 
-syms Q_1 Q_2 Q_3 Q_4 Q_5 Q_6 Q_7 Q_8 Q_9 Q_10 Q_11 Q_12 Q_13 Q_14 Q_15 real
+syms Q_1 Q_2 Q_3 Q_4 Q_5 Q_6 Q_7 Q_8 Q_9 Q_10 Q_11 Q_12 Q_13 Q_14  real
 
 y = [gyro_x gyro_y gyro_z]' - h;
 
 P=[
-P_1_1 P_1_2 P_1_3 P_1_4 P_1_5 P_1_6 P_1_7 P_1_8 P_1_9 P_1_10 P_1_11 P_1_12 P_1_13 P_1_14 P_1_15;
-0     P_2_2 P_2_3 P_2_4 P_2_5 P_2_6 P_2_7 P_2_8 P_2_9 P_2_10 P_2_11 P_2_12 P_2_13 P_2_14 P_2_15;
-0     0     P_3_3 P_3_4 P_3_5 P_3_6 P_3_7 P_3_8 P_3_9 P_3_10 P_3_11 P_3_12 P_3_13 P_3_14 P_3_15;
-0     0     0     P_4_4 P_4_5 P_4_6 P_4_7 P_4_8 P_4_9 P_4_10 P_4_11 P_4_12 P_4_13 P_4_14 P_4_15;
-0     0     0     0     P_5_5 P_5_6 P_5_7 P_5_8 P_5_9 P_5_10 P_5_11 P_5_12 P_5_13 P_5_14 P_5_15;
-0     0     0     0     0     P_6_6 P_6_7 P_6_8 P_6_9 P_6_10 P_6_11 P_6_12 P_6_13 P_6_14 P_6_15;
-0     0     0     0     0     0     P_7_7 P_7_8 P_7_9 P_7_10 P_7_11 P_7_12 P_7_13 P_7_14 P_7_15;
-0     0     0     0     0     0     0     P_8_8 P_8_9 P_8_10 P_8_11 P_8_12 P_8_13 P_8_14 P_8_15;
-0     0     0     0     0     0     0     0     P_9_9 P_9_10 P_9_11 P_9_12 P_9_13 P_9_14 P_9_15;
-0     0     0     0     0     0     0     0     0     P_10_10 P_10_11 P_10_12 P_10_13 P_10_14 P_10_15;
-0     0     0     0     0     0     0     0     0     0       P_11_11 P_11_12 P_11_13 P_11_14 P_11_15;
-0     0     0     0     0     0     0     0     0     0       0       P_12_12 P_12_13 P_12_14 P_12_15;
-0     0     0     0     0     0     0     0     0     0       0       0       P_13_13 P_13_14 P_13_15;
-0     0     0     0     0     0     0     0     0     0       0       0       0       P_14_14 P_14_15;
-0     0     0     0     0     0     0     0     0     0       0       0       0       0       P_15_15;
+P_1_1 P_1_2 P_1_3 P_1_4 P_1_5 P_1_6 P_1_7 P_1_8 P_1_9 P_1_10 P_1_11 P_1_12 P_1_13 P_1_14 ;
+0     P_2_2 P_2_3 P_2_4 P_2_5 P_2_6 P_2_7 P_2_8 P_2_9 P_2_10 P_2_11 P_2_12 P_2_13 P_2_14 ;
+0     0     P_3_3 P_3_4 P_3_5 P_3_6 P_3_7 P_3_8 P_3_9 P_3_10 P_3_11 P_3_12 P_3_13 P_3_14 ;
+0     0     0     P_4_4 P_4_5 P_4_6 P_4_7 P_4_8 P_4_9 P_4_10 P_4_11 P_4_12 P_4_13 P_4_14 ;
+0     0     0     0     P_5_5 P_5_6 P_5_7 P_5_8 P_5_9 P_5_10 P_5_11 P_5_12 P_5_13 P_5_14 ;
+0     0     0     0     0     P_6_6 P_6_7 P_6_8 P_6_9 P_6_10 P_6_11 P_6_12 P_6_13 P_6_14 ;
+0     0     0     0     0     0     P_7_7 P_7_8 P_7_9 P_7_10 P_7_11 P_7_12 P_7_13 P_7_14 ;
+0     0     0     0     0     0     0     P_8_8 P_8_9 P_8_10 P_8_11 P_8_12 P_8_13 P_8_14 ;
+0     0     0     0     0     0     0     0     P_9_9 P_9_10 P_9_11 P_9_12 P_9_13 P_9_14 ;
+0     0     0     0     0     0     0     0     0     P_10_10 P_10_11 P_10_12 P_10_13 P_10_14 ;
+0     0     0     0     0     0     0     0     0     0       P_11_11 P_11_12 P_11_13 P_11_14 ;
+0     0     0     0     0     0     0     0     0     0       0       P_12_12 P_12_13 P_12_14 ;
+0     0     0     0     0     0     0     0     0     0       0       0       P_13_13 P_13_14 ;
+0     0     0     0     0     0     0     0     0     0       0       0       0       P_14_14 ;
 ];
 
-%x = [w1 w2 w3 u1 u2 u3 b1 b2 b3 b3d tau tau_y bias1 bias2 bias3]';
-% 10 and above increase
-% remove cross coupling terms in the covariance
-P([1 4 7 13],[2 3 5 6 8 9 10 12 14 15]) = 0;
-P([2 5 8 14],[1 3 4 6 7 9 10 12 13 15]) = 0;
-P([3 6 9 10 15],[1 2 4 5 7 8 11 13 14]) = 0;
+%x = [w1 w2 w3 u1 u2 u3 b1 b2 b3 b3d tau bias1 bias2 bias3]';
 
-% do not cross couple the yaws taus
-P(11,[3 6 9 12 15]) = 0;
-P(12,[1 2 4 5 7 8 11 13 14]) = 0;
-%%P([3 6 9 11 14],12) = 0;
-%%P([1 2 4 5 7 8 11 13 14],12) = 0;
+% remove cross coupling terms in the covariance
+P([1 4 7 12],[2 3 5 6 8 9 10 13 14]) = 0;
+P([2 5 8 13],[1 3 4 6 7 9 10 12 14]) = 0;
+P([3 6 9 10 14],[1 2 4 5 7 8 12 13]) = 0;
 
 % we can use this variable to reduce the unused terms out of the equations
 % below instead of storing all of the P values.
@@ -133,7 +125,7 @@ for(i=2:N)
     end
 end
        
-Q = diag([Q_1 Q_2 Q_3 Q_4 Q_5 Q_6 Q_7 Q_8 Q_9 Q_10 Q_11 Q_12 Q_13 Q_14 Q_15]);
+Q = diag([Q_1 Q_2 Q_3 Q_4 Q_5 Q_6 Q_7 Q_8 Q_9 Q_10 Q_11 Q_12 Q_13 Q_14]);
 
 P2 = simplify((F*P*F') + Q);
 
@@ -189,9 +181,11 @@ for Pnew = {P2, P3}
                 Pstrings{i,j} = strrep(Pstrings{i,j},'exp(b1)','e_b1');
                 Pstrings{i,j} = strrep(Pstrings{i,j},'exp(b2)','e_b2');
                 Pstrings{i,j} = strrep(Pstrings{i,j},'exp(b3)','e_b3');
+                Pstrings{i,j} = strrep(Pstrings{i,j},'exp(b3d)','e_b3d');
                 Pstrings{i,j} = strrep(Pstrings{i,j},'exp(2*b1)','(e_b1*e_b1)');
                 Pstrings{i,j} = strrep(Pstrings{i,j},'exp(2*b2)','(e_b2*e_b2)');
                 Pstrings{i,j} = strrep(Pstrings{i,j},'exp(2*b3)','(e_b3*e_b3)');
+                Pstrings{i,j} = strrep(Pstrings{i,j},'exp(2*b3d)','(e_b3d*e_b3d)');
                 Pstrings{i,j} = strrep(Pstrings{i,j},'exp(2*tau)','e_tau2');
                 Pstrings{i,j} = strrep(Pstrings{i,j},'exp(3*tau)','e_tau3');
                 Pstrings{i,j} = strrep(Pstrings{i,j},'exp(4*tau)','e_tau4');
@@ -286,10 +280,10 @@ for x = {f x_new}
         Pstrings2{i} = strrep(Pstrings2{i},'exp(b1)','e_b1');
         Pstrings2{i} = strrep(Pstrings2{i},'exp(b2)','e_b2');
         Pstrings2{i} = strrep(Pstrings2{i},'exp(b3)','e_b3');
+        Pstrings2{i} = strrep(Pstrings2{i},'exp(b3d)','e_b3d');
         Pstrings2{i} = strrep(Pstrings2{i},'exp(2*tau)','e_tau*e_tau');
         Pstrings2{i} = strrep(Pstrings2{i},'exp(2*tau_y)','e_tau_y*e_tau_y');
         Pstrings2{i} = strrep(Pstrings2{i},'exp(tau)','e_tau');
-        Pstrings2{i} = strrep(Pstrings2{i},'exp(tau_y)','e_tau_y');
         Pstrings2{i} = strrep(Pstrings2{i},'s_a^2','s_a2');
         Pstrings2{i} = strrep(Pstrings2{i},'s_a^3','s_a3');
         Pstrings2{i} = strrep(Pstrings2{i},'(Ts + e_tau)^2','Ts_e_tau2');
