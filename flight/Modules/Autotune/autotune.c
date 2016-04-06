@@ -112,14 +112,14 @@ MODULE_INITCALL(AutotuneInitialize, AutotuneStart)
 static void UpdateSystemIdent(const float *X, const float *noise,
 		float dT_s, uint32_t predicts) {
 	SystemIdentData relay;
-	relay.Beta[SYSTEMIDENT_BETA_ROLL]    = X[6];
-	relay.Beta[SYSTEMIDENT_BETA_PITCH]   = X[7];
-	relay.Beta[SYSTEMIDENT_BETA_YAW]     = X[8];
-	relay.Tau                            = X[9];
-	relay.TauYaw                         = X[10];
-	relay.Bias[SYSTEMIDENT_BIAS_ROLL]    = X[11];
-	relay.Bias[SYSTEMIDENT_BIAS_PITCH]   = X[12];
-	relay.Bias[SYSTEMIDENT_BIAS_YAW]     = X[13];
+	relay.Beta[SYSTEMIDENT_BETA_ROLL]      = X[6];
+	relay.Beta[SYSTEMIDENT_BETA_PITCH]     = X[7];
+	relay.Beta[SYSTEMIDENT_BETA_YAW]       = X[8];
+	relay.Beta[SYSTEMIDENT_BETA_YAWDIRECT] = X[9];
+	relay.Tau                              = X[10];
+	relay.Bias[SYSTEMIDENT_BIAS_ROLL]      = X[11];
+	relay.Bias[SYSTEMIDENT_BIAS_PITCH]     = X[12];
+	relay.Bias[SYSTEMIDENT_BIAS_YAW]       = X[13];
 	if (noise) {
 		relay.Noise[SYSTEMIDENT_NOISE_ROLL]  = noise[0];
 		relay.Noise[SYSTEMIDENT_NOISE_PITCH] = noise[1];
