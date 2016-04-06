@@ -36,13 +36,12 @@
 #define AF_NUMP 18
 
 /**** filter parameters ****/
-static float q_w = 1e1f;
+static float q_w = 1e0f;
 static float q_ud = 1e-5f;
-static float q_bias = 1e-12f;
+static float q_bias = 1e-10f;
 static float s_a = 1000.0f;  // expected gyro noise
-static float gains[3] = {9.2516613f,  9.22609043f,  6.64852238f};
-static float tau = -3.05f;
-static float tau_y = -3.05f;
+static float gains[4] = {5.f,5.f,5.f,5.f};
+static float tau = -5.f;
 
 void rtkf_set_qw(const float qw_new)
 {
@@ -64,21 +63,17 @@ void rtkf_set_sa(const float sa_new)
 	s_a = sa_new;
 }
 
-void rtkf_set_gains(const float gains_new[3])
+void rtkf_set_gains(const float gains_new[4])
 {
 	gains[0] = gains_new[0];
 	gains[1] = gains_new[1];
 	gains[2] = gains_new[2];
+	gains[3] = gains_new[3];
 }
 
 void rtkf_set_tau(const float tau_new)
 {
 	tau = tau_new;
-}
-
-void rtkf_set_tau_y(const float tau_y_new)
-{
-	tau_y = tau_y_new;
 }
 
 /**
@@ -143,8 +138,8 @@ void rtkf_predict(float *X, float *P, const float u_in[3], const float gyro[3], 
 	const float e_b1 = expf(gains[0]);   // roll torque scale
 	const float e_b2 = expf(gains[1]);   // pitch torque scale
 	const float e_b3 = expf(gains[2]);   // yaw torque scale
+	const float e_b3d = expf(gains[3]);   // yaw torque scale
 	const float e_tau = expf(tau); // time response of the motors
-	const float e_tau_y = expf(tau_y); // time response of the motors
 
 	// inputs to the system (roll, pitch, yaw)
 	const float u1_in = u_in[0];
@@ -160,10 +155,10 @@ void rtkf_predict(float *X, float *P, const float u_in[3], const float gyro[3], 
 	// values below
 	w1 = X[0] = w1 - Ts*bias1*e_b1 + Ts*u1*e_b1;
 	w2 = X[1] = w2 - Ts*bias2*e_b2 + Ts*u2*e_b2;
-	w3 = X[2] = w3 - Ts*bias3*e_b3 + Ts*u3*e_b3;
+	w3 = X[2] = w3 - Ts*bias3*e_b3 + Ts*u3*e_b3 + Ts*u3_in*e_b3d;
 	u1 = X[3] = (Ts*u1_in)/(Ts + e_tau) + (u1*e_tau)/(Ts + e_tau);
 	u2 = X[4] = (Ts*u2_in)/(Ts + e_tau) + (u2*e_tau)/(Ts + e_tau);
-	u3 = X[5] = (Ts*u3_in)/(Ts + e_tau_y) + (u3*e_tau_y)/(Ts + e_tau_y);
+	u3 = X[5] = (Ts*u3_in)/(Ts + e_tau) + (u3*e_tau)/(Ts + e_tau);
 	// X[6] to X[8] unchanged
 
 	const float Q[AF_NUMX] = {q_w, q_w, q_w, q_ud, q_ud, q_ud, q_bias, q_bias, q_bias};
@@ -185,8 +180,8 @@ void rtkf_predict(float *X, float *P, const float u_in[3], const float gyro[3], 
 	P[4] = Q[3] + D[4]*powf(Ts/(Ts + e_tau) - 1,2);
 	P[5] = (e_tau*(D[5] + D[6]*Ts*e_b2 - D[13]*Ts*e_b2))/(Ts + e_tau);
 	P[6] = Q[4] + D[6]*powf(Ts/(Ts + e_tau) - 1,2);
-	P[7] = (e_tau_y*(D[7] + D[8]*Ts*e_b3 - D[16]*Ts*e_b3))/(Ts + e_tau_y);
-	P[8] = Q[5] + D[8]*powf(Ts/(Ts + e_tau_y) - 1,2);
+	P[7] = (e_tau*(D[7] + D[8]*Ts*e_b3 - D[16]*Ts*e_b3))/(Ts + e_tau);
+	P[8] = Q[5] + D[8]*powf(Ts/(Ts + e_tau) - 1,2);
 	P[9] = D[9] + D[10]*Ts*e_b1 - D[11]*Ts*e_b1;
 	P[10] = (D[10]*e_tau)/(Ts + e_tau);
 	P[11] = D[11] + Q[6];
@@ -194,7 +189,7 @@ void rtkf_predict(float *X, float *P, const float u_in[3], const float gyro[3], 
 	P[13] = (D[13]*e_tau)/(Ts + e_tau);
 	P[14] = D[14] + Q[7];
 	P[15] = D[15] + D[16]*Ts*e_b3 - D[17]*Ts*e_b3;
-	P[16] = (D[16]*e_tau_y)/(Ts + e_tau_y);
+	P[16] = (D[16]*e_tau)/(Ts + e_tau);
 	P[17] = D[17] + Q[8];
 
 	/********* this is the update part of the equation ***********/

@@ -173,10 +173,10 @@ configure(PyObject* self, PyObject* args, PyObject *kwarg)
 	}
 
 	if (gain_var) {
-		float gain_new[3];
-		if (!parseFloatVec3(gain_var, gain_new))
+		float gain_new[4];
+		if (!parseFloatVecN(gain_var, gain_new, 4))
 			return NULL;
-		for (int i = 0; i < 3; i++)
+		for (int i = 0; i < 4; i++)
 			gain[i] = gain_new[i];
 		//printf("Setting gains\r\n");
 	}
