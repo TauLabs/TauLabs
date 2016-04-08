@@ -46,6 +46,6 @@ calibration_misalignment(Vector3f& rotationVector,
 
 	// Run linear least squares over the result.
 	Vector3d result;
-	(X.transpose() * X).ldlt().solve(X.transpose()*y, &result);
+	result = X.transpose() * X).ldlt().solve(X.transpose()*y);
 	rotationVector = result.cast<float>();
 }
