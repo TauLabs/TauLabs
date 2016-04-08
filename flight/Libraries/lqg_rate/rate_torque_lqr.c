@@ -34,10 +34,10 @@
 // based on the system dynamics (measured with system identification) and
 // the LQR cost matricies. Note all the zeros because there is no cross
 // axis cost (at least in this implementation).
-static const float L[3][9] = {
-  {0.030625f,0.000000f,0.000000f,7.666974f,0.000000f,0.000000f,0.260407f,0.000000f,0.000000f},
-  {0.000000f,0.030992f,0.000000f,0.000000f,7.388925f,0.000000f,0.000000f,0.262287f,0.000000f},
-  {0.000000f,0.000000f,0.077515f,0.000000f,0.000000f,0.963848f,0.000000f,0.000000f,0.308677f},
+static float L[3][9] = {
+  {0.037116f,0.000000f,0.000000f,6.995101f,0.000000f,0.000000f,0.783025f,0.000000f,0.000000f},
+  {0.000000f,0.035699f,0.000000f,0.000000f,7.518292f,0.000000f,0.000000f,0.768337f,0.000000f},
+  {0.000000f,0.000000f,0.029410f,0.000000f,0.000000f,0.045482f,0.000000f,0.000000f,0.266737f},
 };
 
 static float rtlqr_integral[3];
@@ -81,6 +81,28 @@ void rtlqr_init()
 	rtlqr_integral[1] = 0.0f;
 	rtlqr_integral[2] = 0.0f;
 }
+
+void rtlqr_set_roll_gains(const float gains[3])
+{
+	L[0][0] = gains[0];
+	L[0][3] = gains[1];
+	L[0][6] = gains[2];
+}
+
+void rtlqr_set_pitch_gains(const float gains[3])
+{
+	L[1][1] = gains[0];
+	L[1][4] = gains[1];
+	L[1][7] = gains[2];
+}
+
+void rtlqr_set_yaw_gains(const float gains[3])
+{
+	L[2][2] = gains[0];
+	L[2][5] = gains[1];
+	L[2][8] = gains[2];
+}
+
 /**
  * @}
  * @}
