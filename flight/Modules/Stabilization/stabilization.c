@@ -49,6 +49,7 @@
 #include "cameradesired.h"
 #include "flightstatus.h"
 #include "gyros.h"
+#include "lqrsettings.h"
 #include "mwratesettings.h"
 #include "ratedesired.h"
 #include "ratetorquekf.h"
@@ -183,6 +184,7 @@ int32_t StabilizationInitialize()
 	RateDesiredInitialize();
 #endif
 	RateTorqueKFInitialize();
+	LqrSettingsInitialize();
 
 	return 0;
 }
@@ -853,6 +855,12 @@ static void update_rtkf(const float gyro[3], const float u[3], float dT)
 	rtkf_get_bias(rtkf_X, rateTorque.Bias);
 	rtlqr_get_integral(rateTorque.Integral);
 	RateTorqueKFSet(&rateTorque);
+
+	LqrSettingsData lqrSettings;
+	LqrSettingsGet(&lqrSettings);
+	rtlqr_set_roll_gains(lqrSettings.Roll);
+	rtlqr_set_pitch_gains(lqrSettings.Pitch);
+	rtlqr_set_yaw_gains(lqrSettings.Yaw);
 }
 #endif /* INCLUDE_LQG */
 

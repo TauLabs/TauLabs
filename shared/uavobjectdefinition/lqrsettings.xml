@@ -1,0 +1,13 @@
+<xml>
+    <object name="LqrSettings" singleinstance="true" settings="true">
+        <description>Gain settings used for the LQR controller</description>
+	<field name="Roll" units="" type="float" elementnames="Kr,Kt,Ki" defaultvalue="0.02,5,0.5" />
+	<field name="Pitch" units="" type="float" elementnames="Kr,Kt,Ki" defaultvalue="0.02,5,0.5" />
+	<field name="Yaw" units="" type="float" elementnames="Kr,Kt,Ki" defaultvalue="0.01,0.05,0.25" />
+  
+	<access gcs="readwrite" flight="readwrite"/>
+	<telemetrygcs acked="true" updatemode="onchange" period="0"/>
+	<telemetryflight acked="true" updatemode="onchange" period="0"/>
+	<logging updatemode="manual" period="0"/>
+    </object>
+</xml>
