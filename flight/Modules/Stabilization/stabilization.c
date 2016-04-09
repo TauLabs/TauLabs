@@ -386,7 +386,7 @@ static void stabilizationTask(void* parameters)
 					actuatorDesiredAxis[i] = bound_sym(actuatorDesiredAxis[i],1.0f);
 
 					break;
-				case STABILIZATIONDESIRED_STABILIZATIONMODE_LQG:
+				case STABILIZATIONDESIRED_STABILIZATIONMODE_LQGRATE:
 #ifdef INCLUDE_LQG
 					if(reinit)
 						rtlqr_init();
@@ -438,6 +438,15 @@ static void stabilizationTask(void* parameters)
 					actuatorDesiredAxis[i] = pid_apply_setpoint(&pids[PID_GROUP_RATE + i],  rateDesiredAxis[i],  gyro_filtered[i], dT);
 					actuatorDesiredAxis[i] = bound_sym(actuatorDesiredAxis[i],1.0f);
 
+					break;
+				case STABILIZATIONDESIRED_STABILIZATIONMODE_LQGANGLE:
+#ifdef INCLUDE_LQG
+					if(reinit)
+						rtlqr_init();
+
+					actuatorDesiredAxis[i] = rtlqr_angle_calculate_axis(rtkf_X, local_attitude_error[i], i, dT);
+					actuatorDesiredAxis[i] = bound_sym(actuatorDesiredAxis[i],1.0f);
+#endif /* INCLUDE_LQG */
 					break;
 
 				case STABILIZATIONDESIRED_STABILIZATIONMODE_VIRTUALBAR:
@@ -858,9 +867,12 @@ static void update_rtkf(const float gyro[3], const float u[3], float dT)
 
 	LqrSettingsData lqrSettings;
 	LqrSettingsGet(&lqrSettings);
-	rtlqr_rate_set_roll_gains(lqrSettings.Roll);
-	rtlqr_rate_set_pitch_gains(lqrSettings.Pitch);
-	rtlqr_rate_set_yaw_gains(lqrSettings.Yaw);
+	rtlqr_rate_set_roll_gains(lqrSettings.RollRate);
+	rtlqr_rate_set_pitch_gains(lqrSettings.PitchRate);
+	rtlqr_rate_set_yaw_gains(lqrSettings.YawRate);
+	rtlqr_angle_set_roll_gains(lqrSettings.RollAngle);
+	rtlqr_angle_set_pitch_gains(lqrSettings.PitchAngle);
+	rtlqr_angle_set_yaw_gains(lqrSettings.YawAngle);
 }
 #endif /* INCLUDE_LQG */
 

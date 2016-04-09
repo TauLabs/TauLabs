@@ -421,7 +421,8 @@ int32_t transmitter_control_select(bool reset_controller)
 		break;
 	case FLIGHTSTATUS_FLIGHTMODE_ACRO:
 	case FLIGHTSTATUS_FLIGHTMODE_ACROPLUS:
-	case FLIGHTSTATUS_FLIGHTMODE_LQG:
+	case FLIGHTSTATUS_FLIGHTMODE_LQGRATE:
+	case FLIGHTSTATUS_FLIGHTMODE_LQGANGLE:
 	case FLIGHTSTATUS_FLIGHTMODE_LEVELING:
 	case FLIGHTSTATUS_FLIGHTMODE_VIRTUALBAR:
 	case FLIGHTSTATUS_FLIGHTMODE_MWRATE:
@@ -936,10 +937,14 @@ static void update_stabilization_desired(ManualControlCommandData * cmd, ManualC
 	                                    STABILIZATIONDESIRED_STABILIZATIONMODE_ACROPLUS,
 	                                    STABILIZATIONDESIRED_STABILIZATIONMODE_ACROPLUS,
 	                                    STABILIZATIONDESIRED_STABILIZATIONMODE_RATE};
-	const uint8_t LQG_SETTINGS[3]      = {
-	                                    STABILIZATIONDESIRED_STABILIZATIONMODE_LQG,
-	                                    STABILIZATIONDESIRED_STABILIZATIONMODE_LQG,
-	                                    STABILIZATIONDESIRED_STABILIZATIONMODE_LQG};
+	const uint8_t LQG_RATE_SETTINGS[3] = {
+	                                    STABILIZATIONDESIRED_STABILIZATIONMODE_LQGRATE,
+	                                    STABILIZATIONDESIRED_STABILIZATIONMODE_LQGRATE,
+	                                    STABILIZATIONDESIRED_STABILIZATIONMODE_LQGRATE};
+	const uint8_t LQG_ANGLE_SETTINGS[3] = {
+	                                    STABILIZATIONDESIRED_STABILIZATIONMODE_LQGANGLE,
+	                                    STABILIZATIONDESIRED_STABILIZATIONMODE_LQGANGLE,
+	                                    STABILIZATIONDESIRED_STABILIZATIONMODE_LQGRATE};
 
 	const uint8_t * stab_settings;
 
@@ -968,8 +973,11 @@ static void update_stabilization_desired(ManualControlCommandData * cmd, ManualC
 		case FLIGHTSTATUS_FLIGHTMODE_AXISLOCK:
 			stab_settings = AXISLOCK_SETTINGS;
 			break;
-		case FLIGHTSTATUS_FLIGHTMODE_LQG:
-			stab_settings = LQG_SETTINGS;
+		case FLIGHTSTATUS_FLIGHTMODE_LQGRATE:
+			stab_settings = LQG_RATE_SETTINGS;
+			break;
+		case FLIGHTSTATUS_FLIGHTMODE_LQGANGLE:
+			stab_settings = LQG_ANGLE_SETTINGS;
 			break;
 		case FLIGHTSTATUS_FLIGHTMODE_STABILIZED1:
 			stab_settings = settings->Stabilization1Settings;
@@ -996,7 +1004,8 @@ static void update_stabilization_desired(ManualControlCommandData * cmd, ManualC
 	stabilization.Roll = (stab_settings[0] == STABILIZATIONDESIRED_STABILIZATIONMODE_NONE) ? cmd->Roll :
 	     (stab_settings[0] == STABILIZATIONDESIRED_STABILIZATIONMODE_RATE) ? expo3(cmd->Roll, stabSettings.RateExpo[STABILIZATIONSETTINGS_RATEEXPO_ROLL]) * stabSettings.ManualRate[STABILIZATIONSETTINGS_MANUALRATE_ROLL] :
 	     (stab_settings[0] == STABILIZATIONDESIRED_STABILIZATIONMODE_ACROPLUS) ? expo3(cmd->Roll, stabSettings.RateExpo[STABILIZATIONSETTINGS_RATEEXPO_ROLL]) :
-	     (stab_settings[0] == STABILIZATIONDESIRED_STABILIZATIONMODE_LQG) ? expo3(cmd->Roll, stabSettings.RateExpo[STABILIZATIONSETTINGS_RATEEXPO_ROLL]) * stabSettings.ManualRate[STABILIZATIONSETTINGS_MANUALRATE_ROLL] :
+	     (stab_settings[0] == STABILIZATIONDESIRED_STABILIZATIONMODE_LQGRATE) ? expo3(cmd->Roll, stabSettings.RateExpo[STABILIZATIONSETTINGS_RATEEXPO_ROLL]) * stabSettings.ManualRate[STABILIZATIONSETTINGS_MANUALRATE_ROLL] :
+	     (stab_settings[0] == STABILIZATIONDESIRED_STABILIZATIONMODE_LQGANGLE) ? expo3(cmd->Roll, stabSettings.AttitudeExpo[STABILIZATIONSETTINGS_ATTITUDEEXPO_ROLL]) * stabSettings.RollMax :
 	     (stab_settings[0] == STABILIZATIONDESIRED_STABILIZATIONMODE_WEAKLEVELING) ? expo3(cmd->Roll, stabSettings.RateExpo[STABILIZATIONSETTINGS_RATEEXPO_ROLL]) * stabSettings.ManualRate[STABILIZATIONSETTINGS_MANUALRATE_ROLL]:
 	     (stab_settings[0] == STABILIZATIONDESIRED_STABILIZATIONMODE_ATTITUDE) ? expo3(cmd->Roll, stabSettings.AttitudeExpo[STABILIZATIONSETTINGS_ATTITUDEEXPO_ROLL]) * stabSettings.RollMax :
 	     (stab_settings[0] == STABILIZATIONDESIRED_STABILIZATIONMODE_AXISLOCK) ? expo3(cmd->Roll, stabSettings.RateExpo[STABILIZATIONSETTINGS_RATEEXPO_ROLL]) * stabSettings.ManualRate[STABILIZATIONSETTINGS_MANUALRATE_ROLL] :
@@ -1010,7 +1019,8 @@ static void update_stabilization_desired(ManualControlCommandData * cmd, ManualC
 	stabilization.Pitch = (stab_settings[1] == STABILIZATIONDESIRED_STABILIZATIONMODE_NONE) ? cmd->Pitch :
 	     (stab_settings[1] == STABILIZATIONDESIRED_STABILIZATIONMODE_RATE) ? expo3(cmd->Pitch, stabSettings.RateExpo[STABILIZATIONSETTINGS_RATEEXPO_PITCH]) * stabSettings.ManualRate[STABILIZATIONSETTINGS_MANUALRATE_PITCH] :
 	     (stab_settings[1] == STABILIZATIONDESIRED_STABILIZATIONMODE_ACROPLUS) ? expo3(cmd->Pitch, stabSettings.RateExpo[STABILIZATIONSETTINGS_RATEEXPO_PITCH]) :
-	     (stab_settings[1] == STABILIZATIONDESIRED_STABILIZATIONMODE_LQG) ? expo3(cmd->Pitch, stabSettings.RateExpo[STABILIZATIONSETTINGS_RATEEXPO_PITCH]) * stabSettings.ManualRate[STABILIZATIONSETTINGS_MANUALRATE_PITCH] :
+	     (stab_settings[1] == STABILIZATIONDESIRED_STABILIZATIONMODE_LQGRATE) ? expo3(cmd->Pitch, stabSettings.RateExpo[STABILIZATIONSETTINGS_RATEEXPO_PITCH]) * stabSettings.ManualRate[STABILIZATIONSETTINGS_MANUALRATE_PITCH] :
+	     (stab_settings[1] == STABILIZATIONDESIRED_STABILIZATIONMODE_LQGANGLE) ? expo3(cmd->Pitch, stabSettings.AttitudeExpo[STABILIZATIONSETTINGS_ATTITUDEEXPO_PITCH]) * stabSettings.PitchMax :
 	     (stab_settings[1] == STABILIZATIONDESIRED_STABILIZATIONMODE_WEAKLEVELING) ? expo3(cmd->Pitch, stabSettings.RateExpo[STABILIZATIONSETTINGS_RATEEXPO_PITCH]) * stabSettings.ManualRate[STABILIZATIONSETTINGS_MANUALRATE_PITCH] :
 	     (stab_settings[1] == STABILIZATIONDESIRED_STABILIZATIONMODE_ATTITUDE) ? expo3(cmd->Pitch, stabSettings.AttitudeExpo[STABILIZATIONSETTINGS_ATTITUDEEXPO_PITCH]) * stabSettings.PitchMax :
 	     (stab_settings[1] == STABILIZATIONDESIRED_STABILIZATIONMODE_AXISLOCK) ? expo3(cmd->Pitch, stabSettings.RateExpo[STABILIZATIONSETTINGS_RATEEXPO_PITCH]) * stabSettings.ManualRate[STABILIZATIONSETTINGS_MANUALRATE_PITCH] :
@@ -1024,7 +1034,8 @@ static void update_stabilization_desired(ManualControlCommandData * cmd, ManualC
 	stabilization.Yaw = (stab_settings[2] == STABILIZATIONDESIRED_STABILIZATIONMODE_NONE) ? cmd->Yaw :
 	     (stab_settings[2] == STABILIZATIONDESIRED_STABILIZATIONMODE_RATE) ? expo3(cmd->Yaw, stabSettings.RateExpo[STABILIZATIONSETTINGS_RATEEXPO_YAW]) * stabSettings.ManualRate[STABILIZATIONSETTINGS_MANUALRATE_YAW] :
 	     (stab_settings[2] == STABILIZATIONDESIRED_STABILIZATIONMODE_ACROPLUS) ? expo3(cmd->Yaw, stabSettings.RateExpo[STABILIZATIONSETTINGS_RATEEXPO_YAW]) :
-	     (stab_settings[2] == STABILIZATIONDESIRED_STABILIZATIONMODE_LQG) ? expo3(cmd->Yaw, stabSettings.RateExpo[STABILIZATIONSETTINGS_RATEEXPO_YAW]) * stabSettings.ManualRate[STABILIZATIONSETTINGS_MANUALRATE_YAW] :
+	     (stab_settings[2] == STABILIZATIONDESIRED_STABILIZATIONMODE_LQGRATE) ? expo3(cmd->Yaw, stabSettings.RateExpo[STABILIZATIONSETTINGS_RATEEXPO_YAW]) * stabSettings.ManualRate[STABILIZATIONSETTINGS_MANUALRATE_YAW] :
+	     (stab_settings[2] == STABILIZATIONDESIRED_STABILIZATIONMODE_LQGANGLE) ? expo3(cmd->Yaw, stabSettings.AttitudeExpo[STABILIZATIONSETTINGS_ATTITUDEEXPO_YAW]) * stabSettings.YawMax :
 	     (stab_settings[2] == STABILIZATIONDESIRED_STABILIZATIONMODE_WEAKLEVELING) ? expo3(cmd->Yaw, stabSettings.RateExpo[STABILIZATIONSETTINGS_RATEEXPO_YAW]) * stabSettings.ManualRate[STABILIZATIONSETTINGS_MANUALRATE_YAW] :
 	     (stab_settings[2] == STABILIZATIONDESIRED_STABILIZATIONMODE_ATTITUDE) ? expo3(cmd->Yaw, stabSettings.AttitudeExpo[STABILIZATIONSETTINGS_ATTITUDEEXPO_YAW]) * stabSettings.YawMax :
 	     (stab_settings[2] == STABILIZATIONDESIRED_STABILIZATIONMODE_AXISLOCK) ? expo3(cmd->Yaw, stabSettings.RateExpo[STABILIZATIONSETTINGS_RATEEXPO_YAW]) * stabSettings.ManualRate[STABILIZATIONSETTINGS_MANUALRATE_YAW] :

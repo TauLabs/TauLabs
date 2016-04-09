@@ -23,7 +23,8 @@
 				<option>PathPlanner</option>
 				<option>TabletControl</option>
 				<option>AcroPlus</option>
-				<option>LQG</option>
+				<option>LQG Rate</option>
+				<option>LQG Angle</option>
 			</options>
 		</field>
 
