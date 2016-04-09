@@ -35,11 +35,17 @@
  
 void rtlqr_init();
 void rtlqr_get_integral(float *integral);
-float rtlqr_calculate_axis(const float *rtkf_X, float rate_desired, uint32_t axis, float dT);
+float rtlqr_rate_calculate_axis(const float *rtkf_X, float rate_desired, uint32_t axis, float dT);
+float rtlqr_angle_calculate_axis(const float *rtkf_X, float angle_error, uint32_t axis, float dT);
 
-void rtlqr_set_roll_gains(const float gains[3]);
-void rtlqr_set_pitch_gains(const float gains[3]);
-void rtlqr_set_yaw_gains(const float gains[3]);
+void rtlqr_rate_set_roll_gains(const float gains[3]);
+void rtlqr_rate_set_pitch_gains(const float gains[3]);
+void rtlqr_rate_set_yaw_gains(const float gains[3]);
+
+void rtlqr_angle_set_roll_gains(const float gains[3]);
+void rtlqr_angle_set_pitch_gains(const float gains[3]);
+void rtlqr_angle_set_yaw_gains(const float gains[3]);
+
 
 #endif /* RATE_TORQUE_LQR_H */
  /**

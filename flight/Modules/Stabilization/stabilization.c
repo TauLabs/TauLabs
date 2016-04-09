@@ -395,7 +395,7 @@ static void stabilizationTask(void* parameters)
 					rateDesiredAxis[i] = bound_sym(stabDesiredAxis[i], settings.ManualRate[i]);
 
 					// Compute the inner loop
-					actuatorDesiredAxis[i] = rtlqr_calculate_axis(rtkf_X, rateDesiredAxis[i], i, dT);
+					actuatorDesiredAxis[i] = rtlqr_rate_calculate_axis(rtkf_X, rateDesiredAxis[i], i, dT);
 					actuatorDesiredAxis[i] = bound_sym(actuatorDesiredAxis[i],1.0f);
 #endif
 					break;
@@ -858,9 +858,9 @@ static void update_rtkf(const float gyro[3], const float u[3], float dT)
 
 	LqrSettingsData lqrSettings;
 	LqrSettingsGet(&lqrSettings);
-	rtlqr_set_roll_gains(lqrSettings.Roll);
-	rtlqr_set_pitch_gains(lqrSettings.Pitch);
-	rtlqr_set_yaw_gains(lqrSettings.Yaw);
+	rtlqr_rate_set_roll_gains(lqrSettings.Roll);
+	rtlqr_rate_set_pitch_gains(lqrSettings.Pitch);
+	rtlqr_rate_set_yaw_gains(lqrSettings.Yaw);
 }
 #endif /* INCLUDE_LQG */
 
