@@ -8,6 +8,12 @@ SRC += $(LQGLIB)/rate_torque_kf.c
 SRC += $(LQGLIB)/rate_torque_lqr.c
 endif
 
+ifeq ($(INCLUDE_RT_LQR_SOLVER), YES)
+CDEFS += -DINCLUDE_LQG_SOLVER
+CPPSRC = $(LQGLIB)/rate_torque_lqr_optimize.cpp
+endif
+
+
 # for F3 targets include a stripped
 ifeq ($(MCU),cortex-m4)
 SRC += $(LQGLIB)/rate_torque_si.c

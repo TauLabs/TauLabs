@@ -40,6 +40,7 @@
 			<elementname>Logging</elementname>
 			<elementname>UAVOFrSkySPortBridge</elementname>
 			<elementname>FlightStats</elementname>
+			<elementname>LQRSolver</elementname>
 			<elementname>OnScreenDisplay</elementname>
 			<elementname>OnScreenDisplayCom</elementname>
 		</elementnames>
@@ -83,6 +84,7 @@
 			<elementname>Logging</elementname>
 			<elementname>UAVOFrSkySPortBridge</elementname>
 			<elementname>FlightStats</elementname>
+			<elementname>LQRSolver</elementname>
 			<elementname>OnScreenDisplay</elementname>
 			<elementname>OnScreenDisplayCom</elementname>
 		</elementnames>
@@ -130,6 +132,7 @@
 			<elementname>Logging</elementname>
 			<elementname>UAVOFrSkySPortBridge</elementname>
 			<elementname>FlightStats</elementname>
+			<elementname>LQRSolver</elementname>
 			<elementname>OnScreenDisplay</elementname>
 			<elementname>OnScreenDisplayCom</elementname>
 		</elementnames>

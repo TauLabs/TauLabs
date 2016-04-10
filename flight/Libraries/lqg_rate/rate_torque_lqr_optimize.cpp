@@ -29,11 +29,12 @@
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
 
-
 #include "Eigen/Dense"
 
 #define CONVERGE_ITERATIONS 10000
 #define CONVERGENCE_TOLERANCE 10.0
+
+void *__dso_handle = (void *)NULL;
 
 using Eigen::MatrixXd;
 
@@ -44,7 +45,7 @@ static MatrixXd A(NUMX,NUMX);
 static MatrixXd B(NUMX,NUMU);
 static MatrixXd Q(NUMX,NUMX);
 static MatrixXd R(NUMU,NUMU);
-MatrixXd K_dlqr(NUMU,NUMX);
+static MatrixXd K_dlqr(NUMU,NUMX);
 
 // Tracked for if we iteratively update the model
 static MatrixXd X_1(NUMX,NUMX);
@@ -56,7 +57,7 @@ static float Ts;
  * methods to be set at a minimum
  * @param new_Ts the time step this is called at (in seconds)
  */
-void rtlqro_init(float new_Ts)
+extern "C" void rtlqro_init(float new_Ts)
 {
 	A = MatrixXd::Identity(NUMX,NUMX);
 	B = MatrixXd::Constant(NUMX,NUMU,0);
@@ -77,7 +78,7 @@ void rtlqro_init(float new_Ts)
  * identification
  * @param[in] tau the time constant ln(seconds)
  */
-void rtlqro_set_tau(float tau)
+extern "C" void rtlqro_set_tau(float tau)
 {
 	float t1 = Ts/(expf(tau) + Ts);
 
@@ -91,7 +92,7 @@ void rtlqro_set_tau(float tau)
  * for yaw
  * @param[in] gains to be used
  */
-void rtlqro_set_gains(const float gain[4])
+extern "C" void rtlqro_set_gains(const float gain[4])
 {
 	A(0,3) = expf(gain[0])*Ts;
 	A(1,4) = expf(gain[1])*Ts;
@@ -108,7 +109,7 @@ void rtlqro_set_gains(const float gain[4])
  * @param[in] roll_pitch_input cost of using roll or pitch control
  * @param[in] yaw_input cost of using yaw control
  */
-void rtlqro_set_costs(float rate_error,
+extern "C" void rtlqro_set_costs(float rate_error,
 	float torque_error,
 	float integral_error,
 	float roll_pitch_input,
@@ -161,7 +162,7 @@ bool pseudoInverse(const _Matrix_Type_ &a, _Matrix_Type_ &result, double epsilon
  * for i=1:10000
  *     X=Q+A_t*(X^-1+B*R^-1*B_t)^-1*A
  */
-void rtlqro_solver()
+extern "C" void rtlqro_solver()
 {
 	MatrixXd X(NUMX,NUMX);
 	
@@ -214,21 +215,21 @@ void rtlqro_solver()
 	K_dlqr = R_inv * K_dlqr;      //cvMatMul(R_inv,K_dlqr,K_dlqr);
 }
 
-void rtlqro_get_roll_gain(float g[3])
+extern "C" void rtlqro_get_roll_gain(float g[3])
 {
 	g[0] = K_dlqr(0,0);
 	g[1] = K_dlqr(0,3);
 	g[2] = K_dlqr(0,6);
 }
 
-void rtlqro_get_pitch_gain(float g[3])
+extern "C" void rtlqro_get_pitch_gain(float g[3])
 {
 	g[0] = K_dlqr(1,1);
 	g[1] = K_dlqr(1,4);
 	g[2] = K_dlqr(1,7);
 }
 
-void rtlqro_get_yaw_gain(float g[3])
+extern "C" void rtlqro_get_yaw_gain(float g[3])
 {
 	g[0] = K_dlqr(2,2);
 	g[1] = K_dlqr(2,5);

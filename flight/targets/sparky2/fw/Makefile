@@ -44,6 +44,8 @@ MODULES += DacBeepCodes # always try to run this, fails if not assigned port
 PYMODULES = 
 #FlightPlan
 
+MODULES += LQRSolver
+
 OPTMODULES += GPS
 OPTMODULES += AltitudeHold 
 OPTMODULES += PathPlanner
@@ -189,7 +191,7 @@ SRCARM =
 
 # List C++ source files here.
 # use file-extension .cpp for C++-files (not .C)
-CPPSRC =
+#CPPSRC =
 
 # List C++ source files here which must be compiled in ARM-Mode.
 # use file-extension .cpp for C++-files (not .C)
