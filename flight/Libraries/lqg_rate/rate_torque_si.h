@@ -31,11 +31,14 @@
 #ifndef RATE_TORQUE_SI_H
 #define RATE_TORQUE_SI_H
 
-#define RTSI_NUMX 14
-#define RTSI_NUMP 49
+bool rtsi_alloc(uintptr_t *rtsi_state);
+void rtsi_predict(uintptr_t rtsi_handle, const float u_in[3], const float gyro[3], const float dT_s);
+void rtsi_init(uintptr_t rtsi_handle);
 
-void rtsi_predict(float X[RTSI_NUMX], float P[RTSI_NUMP], const float u_in[3], const float gyro[3], const float dT_s);
-void rtsi_init(float X[RTSI_NUMX], float P[RTSI_NUMP]);
+void rtsi_get_rates(uintptr_t rtsi_handle, float *rates);
+void rtsi_get_gains(uintptr_t rtsi_handle, float *gains);
+void rtsi_get_bias(uintptr_t rtsi_handle, float *bias);
+void rtsi_get_tau(uintptr_t rtsi_handle, float *tau);
 
 #endif /* RATE_TORQUE_SI_H */
  

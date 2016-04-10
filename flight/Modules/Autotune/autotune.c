@@ -109,17 +109,12 @@ int32_t AutotuneStart(void)
 
 MODULE_INITCALL(AutotuneInitialize, AutotuneStart)
 
-static void UpdateSystemIdent(const float *X, const float *noise,
+static void UpdateSystemIdent(uintptr_t rtsi_handle, const float *noise,
 		float dT_s, uint32_t predicts) {
 	SystemIdentData relay;
-	relay.Beta[SYSTEMIDENT_BETA_ROLL]      = X[6];
-	relay.Beta[SYSTEMIDENT_BETA_PITCH]     = X[7];
-	relay.Beta[SYSTEMIDENT_BETA_YAW]       = X[8];
-	relay.Beta[SYSTEMIDENT_BETA_YAWDIRECT] = X[9];
-	relay.Tau                              = X[10];
-	relay.Bias[SYSTEMIDENT_BIAS_ROLL]      = X[11];
-	relay.Bias[SYSTEMIDENT_BIAS_PITCH]     = X[12];
-	relay.Bias[SYSTEMIDENT_BIAS_YAW]       = X[13];
+	rtsi_get_gains(rtsi_handle, relay.Beta);
+	rtsi_get_tau(rtsi_handle, &relay.Tau);
+	rtsi_get_bias(rtsi_handle, relay.Bias);
 	if (noise) {
 		relay.Noise[SYSTEMIDENT_NOISE_ROLL]  = noise[0];
 		relay.Noise[SYSTEMIDENT_NOISE_PITCH] = noise[1];
@@ -175,11 +170,10 @@ static void AutotuneTask(void *parameters)
 
 	uint32_t lastUpdateTime = PIOS_Thread_Systime();
 
-	float X[RTSI_NUMX] = {0};
-	float P[RTSI_NUMP] = {0};
 	float noise[3] = {0};
 
-	rtsi_init(X,P);
+	uintptr_t rtsi_handle;
+	rtsi_alloc(&rtsi_handle);
 
 	uint32_t last_time = 0.0f;
 	const uint32_t DT_MS = 3;
@@ -222,9 +216,8 @@ static void AutotuneTask(void *parameters)
 				// Only start when armed and flying
 				if (flightStatus.Armed == FLIGHTSTATUS_ARMED_ARMED && throttle > 0) {
 
-					rtsi_init(X,P);
-
-					UpdateSystemIdent(X, NULL, 0.0f, 0);
+					rtsi_init(rtsi_handle);
+					UpdateSystemIdent(rtsi_handle, NULL, 0.0f, 0);
 
 					state = AT_START;
 
@@ -269,7 +262,12 @@ static void AutotuneTask(void *parameters)
 
 					float dT_s = PIOS_DELAY_DiffuS(last_time) * 1.0e-6f;
 
-					rtsi_predict(X,P,u,y, DT_MS * 0.001f);
+					rtsi_predict(rtsi_handle, u, y, DT_MS * 0.001f);
+
+					// Get current rate estimates to track noise around that
+					float X[3];
+					rtsi_get_rates(rtsi_handle, X);
+
 					for (uint32_t i = 0; i < 3; i++) {
 						const float NOISE_ALPHA = 0.9997f;  // 10 second time constant at 300 Hz
 						noise[i] = NOISE_ALPHA * noise[i] + (1-NOISE_ALPHA) * (y[i] - X[i]) * (y[i] - X[i]);
@@ -278,7 +276,7 @@ static void AutotuneTask(void *parameters)
 					// Update uavo every 256 cycles to avoid
 					// telemetry spam
 					if (!((updateCounter++) & 0xff)) {
-						UpdateSystemIdent(X, noise, dT_s, updateCounter);
+						UpdateSystemIdent(rtsi_handle, noise, dT_s, updateCounter);
 					}
 				}
 
@@ -295,7 +293,7 @@ static void AutotuneTask(void *parameters)
 
 				// Wait until disarmed and landed before saving the settings
 
-				UpdateSystemIdent(X, noise, 0, updateCounter);
+				UpdateSystemIdent(rtsi_handle, noise, 0, updateCounter);
 				if (flightStatus.Armed == FLIGHTSTATUS_ARMED_DISARMED && throttle <= 0)
 					state = AT_SET;
 
