@@ -29,10 +29,10 @@ A = [1 0 0 b1 0  0  0 0 0;
      0 0 Ts 0 0  0  0 0 1];
 B = [0 0 0;
      0 0 0;
-     0 0 0;
+     0 0 b3d;
      t1 0 0;
      0 t1 0;
-     0 0 t2;
+     0 0 t1;
      0 0 0;
      0 0 0;
      0 0 0];
@@ -46,10 +46,10 @@ D = zeros(3,3);
 
 q_rate = 10;
 q_torque = 1;
-q_integral = [10000 10000 1000];
+q_integral = [10000 10000 10000];
 three = [1 1 1];
 Q = diag([three*q_rate three*q_torque q_integral]);  % const on state errors
-R = diag([1 1 1]*10000);     % const on inputs
+R = diag([1e4 1e4 1e5]);     % const on inputs
 N = zeros(9,3);            % cross coupling costs between error and control
 
 % Calculate LQR control weights if we have full state knowledge
@@ -59,7 +59,7 @@ sys = ss(A,B,diag(ones(1,9)),[],Ts,...
     'InputName',{'uR', 'uP', 'uY'}, ...
     'StateName',{'wR','wP','wY','tR','tP','tY','iwR','iwP','iwY'}, ...
     'OutputName',{'wR','wP','wY','tR','tP','tY','iwR','iwP','iwY'});
-L = lqr(sys,Q,R,N);
+[L,S] = lqr(sys,Q,R,N);
 
 L
 
