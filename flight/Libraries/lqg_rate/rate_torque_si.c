@@ -30,7 +30,90 @@
 
 #include "math.h"
 #include "stdint.h"
+#include "pios_heap.h"
 #include "rate_torque_si.h"
+
+#define RTSI_NUMX 14
+#define RTSI_NUMP 49
+
+enum rtsi_state_magic {
+  RTSI_STATE_MAGIC = 0xa6a83bd9, // echo "rate_torque_si.c" | md5
+};
+
+
+struct rtsi_state {
+	float X[RTSI_NUMX];
+	float P[RTSI_NUMP];
+	enum rtsi_state_magic magic;
+};
+
+bool rtsi_alloc(uintptr_t *rtsi_handle)
+{
+	struct rtsi_state *rtsi_state = (struct rtsi_state *) PIOS_malloc(sizeof(struct rtsi_state));
+	if (rtsi_state == NULL)
+		return false;
+
+	rtsi_state->magic = RTSI_STATE_MAGIC;
+
+	rtsi_init((uintptr_t) rtsi_state);
+
+	(*rtsi_handle) = (uintptr_t) rtsi_state;
+
+	return true;
+}
+
+bool rtsi_validate(struct rtsi_state *rtsi_state)
+{
+	if (rtsi_state == NULL)
+		return false;
+
+	return (rtsi_state->magic == RTSI_STATE_MAGIC);
+}
+
+void rtsi_get_rates(uintptr_t rtsi_handle, float *rates)
+{
+	struct rtsi_state * rtsi_state= (struct rtsi_state *) rtsi_handle;
+	if (!rtsi_validate(rtsi_state))
+		return;
+
+	rates[0] = rtsi_state->X[0];
+	rates[1] = rtsi_state->X[1];
+	rates[2] = rtsi_state->X[2];
+}
+
+void rtsi_get_gains(uintptr_t rtsi_handle, float *gains)
+{
+	struct rtsi_state * rtsi_state= (struct rtsi_state *) rtsi_handle;
+	if (!rtsi_validate(rtsi_state))
+		return;
+
+	gains[0] = rtsi_state->X[6];
+	gains[1] = rtsi_state->X[7];
+	gains[2] = rtsi_state->X[8];
+	gains[3] = rtsi_state->X[9];
+}
+
+void rtsi_get_tau(uintptr_t rtsi_handle, float *tau)
+{
+	struct rtsi_state * rtsi_state= (struct rtsi_state *) rtsi_handle;
+	if (!rtsi_validate(rtsi_state))
+		return;
+
+	tau[0] = rtsi_state->X[10];
+}
+
+void rtsi_get_bias(uintptr_t rtsi_handle, float *bias)
+{
+	struct rtsi_state * rtsi_state= (struct rtsi_state *) rtsi_handle;
+	if (!rtsi_validate(rtsi_state))
+		return;
+
+	bias[0] = rtsi_state->X[11];
+	bias[1] = rtsi_state->X[12];
+	bias[2] = rtsi_state->X[13];
+}
+
+
 
  /**
  * Prediction step for EKF on control inputs to quad that
@@ -48,8 +131,14 @@
  * @param[in] the current control inputs (roll, pitch, yaw)
  * @param[in] the gyro measurements
  */
-void rtsi_predict(float X[RTSI_NUMX], float P[RTSI_NUMP], const float u_in[3], const float gyro[3], const float dT_s)
+void rtsi_predict(uintptr_t rtsi_handle, const float u_in[3], const float gyro[3], const float dT_s)
 {
+	struct rtsi_state * rtsi_state= (struct rtsi_state *) rtsi_handle;
+	if (!rtsi_validate(rtsi_state))
+		return;
+
+	float *X = rtsi_state->X;
+	float *P = rtsi_state->P;
 
 	const float Ts = dT_s;
 	const float Tsq = Ts * Ts;
@@ -102,7 +191,7 @@ void rtsi_predict(float X[RTSI_NUMX], float P[RTSI_NUMP], const float u_in[3], c
 	// core state variables, these were determined from offline analysis and replay of flights
 	const float q_w = 1e0f;
 	const float q_ud = 1e-5f;
-	const float q_bias = 1e-19f;
+	const float q_bias = 1e-10f;
 	const float s_a = 1000.0f;  // expected gyro noise
 	// system identification parameters
 	const float q_B = 1e-5f;
@@ -273,8 +362,15 @@ void rtsi_predict(float X[RTSI_NUMX], float P[RTSI_NUMP], const float u_in[3], c
  * Initialize the state variable and covariance matrix
  * for the system identification EKF
  */
-void rtsi_init(float X[RTSI_NUMX], float P[RTSI_NUMP])
+void rtsi_init(uintptr_t rtsi_handle)
 {
+	struct rtsi_state * rtsi_state= (struct rtsi_state *) rtsi_handle;
+	if (!rtsi_validate(rtsi_state))
+		return;
+
+	float *X = rtsi_state->X;
+	float *P = rtsi_state->P;
+
 	const float q_init[RTSI_NUMX] = {
 		1.0f, 1.0f, 1.0f,
 		1.0f, 1.0f, 1.0f,
