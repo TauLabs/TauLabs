@@ -8,7 +8,7 @@ SA = 1000.0
 from lqg.test import rtkf
 
 rtkf.init()
-rtkf.configure(tau=-3.39, gain=numpy.array([ 9.2516613 ,  9.22609043,  6.64852238], dtype=numpy.float64))
+rtkf.configure(tau=-4.0, gain=numpy.array([ 9.2516613 ,  9.22609043,  6.64852238], dtype=numpy.float64))
 
 # configure filter parameters
   # qw is the amount of process noise in the rate parameter. this parameter also
@@ -19,19 +19,18 @@ rtkf.configure(tau=-3.39, gain=numpy.array([ 9.2516613 ,  9.22609043,  6.6485223
   # qu is the amount of drift in the torque measurement, so a low value will make
   #    the torque more reflect the smoothed actuator input (and really slowly
   #    changing bias)
-rtkf.configure(qw=1e1, qu=1e-5, qbias=1e-12, sa=SA)
+rtkf.configure(qw=1e0, qu=1e-5, qbias=1e-12, sa=SA)
 
 # to save time do not reparse variables if already done in parent
 # namespace
 try:
+	actuator
+	ad
 	gyros
 except NameError:
-	gyros = uavo_list.as_numpy_array(UAVO_Gyros)
-
-try:
-	actuator
-except NameError:
 	actuator = uavo_list.as_numpy_array(UAVO_ActuatorDesired)
+	ad = uavo_list.as_numpy_array(UAVO_ActuatorDesired)
+	gyros = uavo_list.as_numpy_array(UAVO_Gyros)
 
 # find the time of the last gyro update before the last actuator update
 # to ensure we always have valid data for running
@@ -77,30 +76,51 @@ for idx in range(STEPS):
 
 if True:
 	clf()
-	ax1 = subplot(2,3,1)
-	plot(gyros['time'][g_idx],gyros['x'][g_idx,0],  times, history[:,0])
-	title('Rate')
 
-	ax2 = subplot(2,3,2,sharex=ax1)
-	plot(actuator['time'],actuator['Roll'], times, history[:,3])
-	title('Torque')
+	t1 = 90
+	t2 = 91
 
-	ax3 = subplot(2,3,3,sharex=ax1)
-	plot(times, history[:,7])
-	title('Bias')
+	def get_idx(uavo):
+		global t1
+		global t2
 
-	ax4 = subplot(2,3,4,sharex=ax1)
-	plot(gyros['time'][g_idx],gyros['y'][g_idx,0],  times, history[:,1])
-	title('Rate')
+		from matplotlib.mlab import find
+		from numpy import logical_and
+		return find(logical_and(uavo['time'] > t1, uavo['time'] < t2))
 
-	ax5 = subplot(2,3,5,sharex=ax1)
-	plot(actuator['time'],actuator['Pitch'], times, history[:,4])
-	title('Torque')
+	g_idx = get_idx(gyros)
+	ad_idx = get_idx(ad)
 
-	ax6 = subplot(2,3,6,sharex=ax1)
-	plot(times, history[:,8])
-	title('Bias')
+	kf_idx = find(logical_and(times > t1, times < t2))
 
-	xlim(t_start, t_end)
+	clf()
+	plot(gyros['time'][g_idx],gyros['z'][g_idx,0], times[kf_idx], history[kf_idx,2], times[kf_idx], history[kf_idx,5]*20, ad['time'][ad_idx], ad['Yaw'][ad_idx,0]*100)
+	legend(['Gyro','Rate','Torque','Actuator'])
+
+	# ax1 = subplot(2,3,1)
+	# plot(gyros['time'][g_idx],gyros['x'][g_idx,0],  times, history[:,0])
+	# title('Rate')
+
+	# ax2 = subplot(2,3,2,sharex=ax1)
+	# plot(actuator['time'],actuator['Roll'], times, history[:,3])
+	# title('Torque')
+
+	# ax3 = subplot(2,3,3,sharex=ax1)
+	# plot(times, history[:,7])
+	# title('Bias')
+
+	# ax4 = subplot(2,3,4,sharex=ax1)
+	# plot(gyros['time'][g_idx],gyros['y'][g_idx,0],  times, history[:,1])
+	# title('Rate')
+
+	# ax5 = subplot(2,3,5,sharex=ax1)
+	# plot(actuator['time'],actuator['Pitch'], times, history[:,4])
+	# title('Torque')
+
+	# ax6 = subplot(2,3,6,sharex=ax1)
+	# plot(times, history[:,8])
+	# title('Bias')
+
+	# xlim(t_start, t_end)
 
 print `mean(ll[:,0])` + " " + `mean(ll[:,1])`

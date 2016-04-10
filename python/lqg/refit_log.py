@@ -18,9 +18,15 @@ try:
 except NameError:
 	actuator = uavo_list.as_numpy_array(UAVO_ActuatorDesired)
 
+try:
+	fs
+except NameError:
+	fs = uavo_list.as_numpy_array(UAVO_FlightStatus)
+
 # find the time of the last gyro update before the last actuator update
 # to ensure we always have valid data for running
-t_start = actuator['time'][0]
+#t_start = actuator['time'][0]
+t_start = fs['time'][find(fs['FlightMode']==10)[0]]
 t_end = actuator['time'][-1]
 g_idx_end = find(gyros['time'] < t_end)[-1]
 g_idx_start = find(gyros['time'] > t_start)[0]
@@ -48,8 +54,6 @@ for idx in range(STEPS):
 	c = numpy.array([actuator['Roll'][c_idx,0],actuator['Pitch'][c_idx,0],actuator['Yaw'][c_idx,0]], dtype=numpy.float64)
 
 	state = rtsi.predict(g, c, dT)
-	if idx == 45000:
-		rtsi.configure(tau_y=-3)
 
 
 	history[idx,:] = state
@@ -59,13 +63,14 @@ if True:
 	clf()
 
 	ax1 = subplot(211)
-	plot(gyros['time'], gyros['z'], times,history[:,0:3])
+	plot(gyros['time'], gyros['z'], times,history[:,2])
 	ylabel('Rate (deg/s)')
 
 	subplot(212,sharex=ax1)
-	plot(times,history[:,3:6])
+	#plot(times,history[:,3:6], actuator['time'],actuator['Roll'],'k',actuator['time'],actuator['Pitch'],'k',actuator['time'],actuator['Yaw'],'k')
+	plot(times,history[:,5], actuator['time'],actuator['Yaw'],'k')
 	ylabel('Torque (deg/s^2)')
 
 	xlabel('Time (s)')
-	xlim(95,97)
+	#xlim(95,97)
 
