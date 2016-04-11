@@ -91,7 +91,6 @@ MAVLINKINC = $(FLIGHTLIB)/mavlink/v1.0/common
 SRC = 
 # optional component libraries
 include $(FLIGHTLIB)/CMSIS3/DSP_Lib/library.mk
-INCLUDE_RT_LQG=YES
 include $(FLIGHTLIB)/lqg_rate/library.mk
 
 
