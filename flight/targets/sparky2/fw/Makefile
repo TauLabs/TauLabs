@@ -57,7 +57,7 @@ OPTMODULES += Autotune
 OPTMODULES += TxPID
 OPTMODULES += Battery
 OPTMODULES += ComUsbBridge
-OPTMODULES += VibrationAnalysis
+#OPTMODULES += VibrationAnalysis
 OPTMODULES += UAVOMavlinkBridge
 OPTMODULES += UAVOMSPBridge
 OPTMODULES += UAVOLighttelemetryBridge
@@ -66,7 +66,7 @@ OPTMODULES += Airspeed/revolution
 OPTMODULES += UAVOHoTTBridge
 OPTMODULES += UAVOFrSKYSensorHubBridge
 OPTMODULES += UAVOFrSKYSPortBridge
-OPTMODULES += PicoC
+#OPTMODULES += PicoC
 OPTMODULES += Logging
 OPTMODULES += FlightStats
 OPTMODULES += OsdCan/FC
@@ -98,6 +98,7 @@ SRC =
 # optional component libraries
 include $(FLIGHTLIB)/CMSIS3/DSP_Lib/library.mk
 INCLUDE_RT_LQG=YES
+INCLUDE_RT_LQR_SOLVER=YES
 include $(FLIGHTLIB)/lqg_rate/library.mk
 
 # List C source files here. (C dependencies are automatically generated.)
