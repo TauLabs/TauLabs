@@ -40,7 +40,7 @@ void rtlqro_set_costs(float rate_error,
 void rtlqro_solver();
 void rtlqro_get_roll_gain(float g[3]);
 void rtlqro_get_pitch_gain(float g[3]);
-evoid rtlqro_get_yaw_gain(float g[3]);
+void rtlqro_get_yaw_gain(float g[3]);
 
 /**
  * @}
