@@ -62,7 +62,7 @@ static bool settings_updated;
 int32_t LQRSolverInitialize(void)
 {
 
-	LqrSettingsInitialize();
+	LQRSettingsInitialize();
 	LQRSolutionInitialize();
 	SystemIdentInitialize();
 
@@ -79,9 +79,8 @@ int32_t LQRSolverStart(void)
 	queue = PIOS_Queue_Create(1, sizeof(UAVObjEvent));
 
 	// Listen for updates.
-	LqrSettingsConnectCallback(settings_updated_cb);
+	LQRSettingsConnectCallback(settings_updated_cb);
 	SystemIdentConnectCallback(settings_updated_cb);
-	settings_updated = true;
 
 	// Start main task
 	struct pios_thread *taskHandle = PIOS_Thread_Create(lqrSolverTask, "LQRSolver", STACK_SIZE_BYTES, NULL, TASK_PRIORITY);
@@ -94,9 +93,11 @@ MODULE_INITCALL(LQRSolverInitialize, LQRSolverStart);
 
 static void lqrSolverTask(void *parameters)
 {
-	LqrSettingsData lqr_settings;
+	LQRSettingsData lqr_settings;
 	LQRSolutionData lqr;
 	SystemIdentData si;
+
+	settings_updated = true;
 
 	while(1) {
 
@@ -106,7 +107,7 @@ static void lqrSolverTask(void *parameters)
 			uintptr_t start_time = PIOS_Thread_Systime();
 
 			SystemIdentGet(&si);
-			LqrSettingsGet(&lqr_settings);
+			LQRSettingsGet(&lqr_settings);
 			LQRSolutionGet(&lqr);
 
 			rtlqro_init(1.0f/400.0f);

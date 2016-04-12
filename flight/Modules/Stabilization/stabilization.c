@@ -184,7 +184,7 @@ int32_t StabilizationInitialize()
 	RateDesiredInitialize();
 #endif
 	RateTorqueKFInitialize();
-	LqrSettingsInitialize();
+	LQRSettingsInitialize();
 
 	return 0;
 }
@@ -865,8 +865,8 @@ static void update_rtkf(const float gyro[3], const float u[3], float dT)
 	rtlqr_get_integral(rateTorque.Integral);
 	RateTorqueKFSet(&rateTorque);
 
-	LqrSettingsData lqrSettings;
-	LqrSettingsGet(&lqrSettings);
+	LQRSettingsData lqrSettings;
+	LQRSettingsGet(&lqrSettings);
 	rtlqr_rate_set_roll_gains(lqrSettings.RollRate);
 	rtlqr_rate_set_pitch_gains(lqrSettings.PitchRate);
 	rtlqr_rate_set_yaw_gains(lqrSettings.YawRate);

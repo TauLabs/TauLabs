@@ -1,5 +1,5 @@
 <xml>
-    <object name="LqrSettings" singleinstance="true" settings="true">
+    <object name="LQRSettings" singleinstance="true" settings="true">
         <description>Gain settings used for the LQR controller</description>
 
         <!-- parameters for angle controller -->
