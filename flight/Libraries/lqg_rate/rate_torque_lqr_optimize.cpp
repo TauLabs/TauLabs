@@ -32,23 +32,29 @@
 #include "Eigen/Dense"
 
 #define CONVERGE_ITERATIONS 10000
-#define CONVERGENCE_TOLERANCE 10.0
+#define CONVERGENCE_TOLERANCE 10.0f
 
 void *__dso_handle = (void *)NULL;
 
 using Eigen::MatrixXd;
+using Eigen::Matrix;
 
 #define NUMX 9
 #define NUMU 3
 
-static MatrixXd A(NUMX,NUMX);
-static MatrixXd B(NUMX,NUMU);
-static MatrixXd Q(NUMX,NUMX);
-static MatrixXd R(NUMU,NUMU);
-static MatrixXd K_dlqr(NUMU,NUMX);
+typedef Matrix <float, NUMX, NUMX> MXX;
+typedef Matrix <float, NUMX, NUMU> MXU;
+typedef Matrix <float, NUMU, NUMX> MUX;
+typedef Matrix <float, NUMU, NUMU> MUU;
 
-// Tracked for if we iteratively update the model
-static MatrixXd X_1(NUMX,NUMX);
+static MXX A;
+static MXU B;
+static MXX Q;
+static MUU R;
+static MUX K_dlqr;
+
+// // Tracked for if we iteratively update the model
+static Matrix <float, NUMX, NUMX> X_1;
 static float Ts;
 
 /**
@@ -59,12 +65,12 @@ static float Ts;
  */
 extern "C" void rtlqro_init(float new_Ts)
 {
-	A = MatrixXd::Identity(NUMX,NUMX);
-	B = MatrixXd::Constant(NUMX,NUMU,0);
-	Q = MatrixXd::Identity(NUMX,NUMX);
-	R = MatrixXd::Identity(NUMU,NUMU);
+	A = MXX::Identity();
+	B = MXU::Constant(0.0f);
+	Q = MXX::Identity();
+	R = MUU::Identity();
 
-	X_1 = MatrixXd::Constant(NUMX,NUMX,0);
+	X_1 = MXX::Constant(0.0f);
 
 	Ts = new_Ts;
 
@@ -149,6 +155,41 @@ bool pseudoInverse(const _Matrix_Type_ &a, _Matrix_Type_ &result, double epsilon
   return true;
 }
 
+bool pseudoInverseUU(const MUU &a, MUU &result, double epsilon = std::numeric_limits<MUU::Scalar>::epsilon())
+{
+	if(a.rows()<a.cols())
+		return false;
+
+	Eigen::JacobiSVD<MUU> svd = a.jacobiSvd(Eigen::ComputeFullU | Eigen::ComputeFullV);
+
+	MUU::Scalar tolerance = epsilon;
+	tolerance *= (MUU::Scalar) std::max(a.cols(), a.rows());
+	tolerance *= (MUU::Scalar) svd.singularValues().array().abs().maxCoeff();
+
+	result = svd.matrixV() * Matrix<float,NUMU,1>( (svd.singularValues().array().abs() > tolerance).select(svd.singularValues().
+	         array().inverse(), 0) ).asDiagonal() * svd.matrixU().adjoint();
+
+	return true;
+}
+
+
+bool pseudoInverseXX(const MXX &a, MXX &result, double epsilon = std::numeric_limits<MXX::Scalar>::epsilon())
+{
+	if(a.rows()<a.cols())
+		return false;
+
+	Eigen::JacobiSVD<MXX> svd = a.jacobiSvd(Eigen::ComputeFullU | Eigen::ComputeFullV);
+
+	MXX::Scalar tolerance = epsilon;
+	tolerance *= (MXX::Scalar) std::max(a.cols(), a.rows());
+	tolerance *= (MXX::Scalar) svd.singularValues().array().abs().maxCoeff();
+
+	result = svd.matrixV() *  Matrix<float,NUMX,1>( (svd.singularValues().array().abs() > tolerance).select(svd.singularValues().
+	         array().inverse(), 0) ).asDiagonal() * svd.matrixU().adjoint();
+
+	return true;
+}
+
 /**
  * @brief rtlqr_solver calculate the LQR gain matrix for the above settings
  * @param[out] K_dlqr the computed gain matrix
@@ -164,28 +205,28 @@ bool pseudoInverse(const _Matrix_Type_ &a, _Matrix_Type_ &result, double epsilon
  */
 extern "C" void rtlqro_solver()
 {
-	MatrixXd X(NUMX,NUMX);
+	MXX X;
 	
 	// Steal the previous value
 	X = X_1;
 
-	MatrixXd X_inv(NUMX,NUMX);
-	MatrixXd A_trnsp(NUMX,NUMX);
-	MatrixXd B_trnsp(NUMU,NUMX);
-	MatrixXd BR(NUMX,NUMU);
-	MatrixXd BRB(NUMX,NUMX);
-	MatrixXd tmp_inv(NUMX,NUMX);
-	MatrixXd R_inv(NUMU,NUMU);
+	MXX  X_inv;
+	MXX  A_trnsp;
+	MUX  B_trnsp;
+	MXU  BR;
+	MXX  BRB;
+	MXX  tmp_inv;
+	MUU  R_inv;
 
 	// Precalculate Matrices
 	A_trnsp = A.transpose();         //cvTranspose( A, A_trnsp );
 	B_trnsp = B.transpose();         //cvTranspose( B, B_trnsp );
-	pseudoInverse(R,R_inv);          //cvInvert( R, R_inv, CV_SVD_SYM );
+	pseudoInverseUU(R,R_inv);          //cvInvert( R, R_inv, CV_SVD_SYM );
 	BR = B * R_inv;                  //cvMatMul( B, R_inv, BR );
 	BRB = BR * B_trnsp;              //cvMatMul( BR, B_trnsp, BRB );
 
 	// Calculate X_1, the seeding value for the riccati eqn. solution.
-	pseudoInverse(BRB, tmp_inv);     //cvInvert( BRB, tmp_inv, CV_SVD );
+	pseudoInverseXX(BRB, tmp_inv);     //cvInvert( BRB, tmp_inv, CV_SVD );
 	tmp_inv = A_trnsp * tmp_inv;     //cvMatMul( A_trnsp, tmp_inv, tmp_inv );
 	tmp_inv = Q + (tmp_inv * A);     //cvMatMulAdd( tmp_inv, A, Q, tmp_inv );
 	X = tmp_inv;
@@ -193,9 +234,9 @@ extern "C" void rtlqro_solver()
 	// Calculate X_n, the convergent value for the riccati eqn. solution.
 	for (int i=0; i<CONVERGE_ITERATIONS; i++)
 	{
-		pseudoInverse(X, X_inv);            //cvInvert(X, X_inv, CV_SVD);
+		pseudoInverseXX(X, X_inv);            //cvInvert(X, X_inv, CV_SVD);
 		tmp_inv = BRB + X_inv;              //cvAdd(X_inv,BRB,tmp_inv);
-		pseudoInverse(tmp_inv, tmp_inv);    //cvInvert(tmp_inv, tmp_inv, CV_SVD);
+		pseudoInverseXX(tmp_inv, tmp_inv);    //cvInvert(tmp_inv, tmp_inv, CV_SVD);
 		tmp_inv = A_trnsp * tmp_inv;        //cvMatMul( A_trnsp, tmp_inv, tmp_inv );
 		X = Q + (tmp_inv * A);              //cvMatMulAdd( tmp_inv, A, Q, X );
 
@@ -211,7 +252,7 @@ extern "C" void rtlqro_solver()
 	K_dlqr = B_trnsp * tmp_inv;   //cvMatMul(B_trnsp,tmp_inv,K_dlqr);
 	BR = X * B;                   //cvMatMul(X,B,BR);
 	R_inv = R + (B_trnsp * BR);   //cvMatMulAdd(B_trnsp,BR,R,R_inv);
-	pseudoInverse(R_inv, R_inv);  //cvInvert(R_inv,R_inv, CV_SVD);
+	pseudoInverseUU(R_inv, R_inv);  //cvInvert(R_inv,R_inv, CV_SVD);
 	K_dlqr = R_inv * K_dlqr;      //cvMatMul(R_inv,K_dlqr,K_dlqr);
 }
 
