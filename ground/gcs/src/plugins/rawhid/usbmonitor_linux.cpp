@@ -33,11 +33,19 @@
 #include "usbmonitor.h"
 #include <QDebug>
 
-#define printf qDebug
+//#define USB_MON_DEBUG
+#ifdef USB_MON_DEBUG
+#define USB_MON_QXTLOG_DEBUG(...) qDebug()<<__VA_ARGS__
+#else  // USB_MON_DEBUG
+#define USB_MON_QXTLOG_DEBUG(...)
+#endif	// USB_MON_DEBUG
+
+#define printf USB_MON_QXTLOG_DEBUG
 
 
 void printPortInfo(struct udev_device *dev)
 {
+    Q_UNUSED(dev);
     printf("   Node: %s", udev_device_get_devnode(dev));
     printf("   Subsystem: %s", udev_device_get_subsystem(dev));
     printf("   Devtype: %s", udev_device_get_devtype(dev));

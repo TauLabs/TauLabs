@@ -41,6 +41,13 @@
 #include "usbmonitor.h"
 #include "usbdevice.h"
 
+//#define RAW_HID_DEBUG
+#ifdef RAW_HID_DEBUG
+#define RAW_HID_QXTLOG_DEBUG(...) qDebug()<<__VA_ARGS__
+#else  // RAW_HID_DEBUG
+#define RAW_HID_QXTLOG_DEBUG(...)
+#endif	// RAW_HID_DEBUG
+
 //helper classes
 class RawHIDReadThread;
 class RawHIDWriteThread;

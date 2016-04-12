@@ -32,11 +32,20 @@
 #include <QTimer>
 #include "usbmonitor.h"
 #include <QDebug>
-#define printf qDebug
+
+
+//#define USB_MON_DEBUG
+#ifdef USB_MON_DEBUG
+#define USB_MON_QXTLOG_DEBUG(...) qDebug()<<__VA_ARGS__
+#else  // USB_MON_DEBUG
+#define USB_MON_QXTLOG_DEBUG(...)
+#endif	// USB_MON_DEBUG
+
+#define printf USB_MON_QXTLOG_DEBUG
 
 void USBMonitor::deviceEventReceived() {
 
-    qDebug() << "Device event";
+    USB_MON_QXTLOG_DEBUG("Device event");
     // Dispatch and emit the signals here...
 
 }
@@ -78,32 +87,32 @@ USBMonitor::~USBMonitor()
 QList<USBPortInfo> USBMonitor::availableDevices(int vid, int pid, int bcdDeviceMSB, int bcdDeviceLSB)
 {
     QList<USBPortInfo> allPorts = availableDevices();
-    qDebug()<<"USBMonitor::availableDevices list off all ports:";
-    qDebug()<<"USBMonitor::availableDevices total ports:"<<allPorts.length();
+    USB_MON_QXTLOG_DEBUG("USBMonitor::availableDevices list off all ports:");
+    USB_MON_QXTLOG_DEBUG("USBMonitor::availableDevices total ports:", allPorts.length());
     foreach (USBPortInfo info, allPorts) {
-        qDebug()<<"----------";
-        qDebug()<<"bcdDevice:"<<info.bcdDevice;
-        qDebug()<<"devicePath:"<<info.devicePath;
-        qDebug()<<"product:"<<info.product;
+        USB_MON_QXTLOG_DEBUG("----------");
+        USB_MON_QXTLOG_DEBUG("bcdDevice:", info.bcdDevice);
+        USB_MON_QXTLOG_DEBUG("devicePath:", info.devicePath);
+        USB_MON_QXTLOG_DEBUG("product:", info.product);
     }
-    qDebug()<<"END OF LIST";
+    USB_MON_QXTLOG_DEBUG("END OF LIST");
     QList<USBPortInfo> thePortsWeWant;
-    qDebug()<<"USBMonitor::availableDevices bcdLSB="<<bcdDeviceLSB;
+    USB_MON_QXTLOG_DEBUG("USBMonitor::availableDevices bcdLSB=", bcdDeviceLSB);
     foreach (USBPortInfo port, allPorts) {
-        qDebug()<<"USBMonitorWin:Port VID="<<port.vendorID<<"PID="<<port.productID<<"bcddevice="<<port.bcdDevice;
+        USB_MON_QXTLOG_DEBUG("USBMonitorWin:Port VID=", port.vendorID, "PID=", port.productID, "bcddevice=", port.bcdDevice);
         if((port.vendorID==vid || vid==-1) && (port.productID==pid || pid==-1) && ((port.bcdDevice>>8)==bcdDeviceMSB || bcdDeviceMSB==-1) &&
                 ( (port.bcdDevice&0x00ff) ==bcdDeviceLSB || bcdDeviceLSB==-1))
             thePortsWeWant.append(port);
     }
-    qDebug()<<"USBMonitor::availableDevices list off matching ports vid pid bcdMSD bcdLSD:"<<vid<<pid<<bcdDeviceMSB<<bcdDeviceLSB;
-    qDebug()<<"USBMonitor::availableDevices total matching ports:"<<thePortsWeWant.length();
+    USB_MON_QXTLOG_DEBUG("USBMonitor::availableDevices list off matching ports vid pid bcdMSD bcdLSD:", vid, pid, bcdDeviceMSB, bcdDeviceLSB);
+    USB_MON_QXTLOG_DEBUG("USBMonitor::availableDevices total matching ports:", thePortsWeWant.length());
     foreach (USBPortInfo info, thePortsWeWant) {
-        qDebug()<<"----------";
-        qDebug()<<"bcdDevice:"<<info.bcdDevice;
-        qDebug()<<"devicePath:"<<info.devicePath;
-        qDebug()<<"product:"<<info.product;
+        USB_MON_QXTLOG_DEBUG(<<"----------");
+        USB_MON_QXTLOG_DEBUG("bcdDevice:", info.bcdDevice);
+        USB_MON_QXTLOG_DEBUG("devicePath:", info.devicePath);
+        USB_MON_QXTLOG_DEBUG("product:", info.product);
     }
-    qDebug()<<"END OF LIST";
+    USB_MON_QXTLOG_DEBUG("END OF LIST");
     return thePortsWeWant;
 }
 
@@ -179,7 +188,7 @@ bool USBRegistrationWidget::nativeEvent(const QByteArray & /*eventType*/, void *
 #endif
 bool USBMonitor::matchAndDispatchChangedDevice(const QString & deviceID, const GUID & guid, WPARAM wParam)
 {
-    qDebug()<<"USB_MONITOR matchAndDispatchChangedDevice deviceID="<<deviceID;
+    USB_MON_QXTLOG_DEBUG("USB_MONITOR matchAndDispatchChangedDevice deviceID=", deviceID);
     bool rv = false;
     DWORD dwFlag = (DBT_DEVICEARRIVAL == wParam) ? DIGCF_PRESENT : DIGCF_ALLCLASSES;
     HDEVINFO devInfo;
@@ -198,7 +207,7 @@ bool USBMonitor::matchAndDispatchChangedDevice(const QString & deviceID, const G
                 info.devicePath=deviceID;
                 if( wParam == DBT_DEVICEARRIVAL )
                 {
-                    qDebug()<<"USB_MONITOR INSERTION";
+                    USB_MON_QXTLOG_DEBUG("USB_MONITOR INSERTION");
                     if(infoFromHandle(guid,info,devInfo,i)!=1)
                     {
                         qDebug()<<"USB_MONITOR infoFromHandle failed on matchAndDispatchChangedDevice";
@@ -208,7 +217,7 @@ bool USBMonitor::matchAndDispatchChangedDevice(const QString & deviceID, const G
                     foreach (USBPortInfo m_info, knowndevices) {
                         if(m_info.serialNumber==info.serialNumber && m_info.productID==info.productID && m_info.bcdDevice==info.bcdDevice && m_info.devicePath==info.devicePath)
                         {
-                            qDebug()<<"USB_MONITOR device already present don't emit signal";
+                            USB_MON_QXTLOG_DEBUG("USB_MONITOR device already present don't emit signal");
                             m_break=true;
                         }
 
@@ -217,11 +226,11 @@ bool USBMonitor::matchAndDispatchChangedDevice(const QString & deviceID, const G
                         break;
                     if(info.bcdDevice==0 || info.product.isEmpty())
                     {
-                        qDebug()<<"USB_MONITOR empty information on device not emiting signal";
+                        USB_MON_QXTLOG_DEBUG("USB_MONITOR empty information on device not emiting signal");
                         break;
                     }
                     knowndevices.append(info);
-                    qDebug()<<"USB_MONITOR emit device discovered on device:"<<info.product<<info.bcdDevice;
+                    USB_MON_QXTLOG_DEBUG("USB_MONITOR emit device discovered on device:", info.product, info.bcdDevice);
                     emit deviceDiscovered(info);
                     break;
 
@@ -235,7 +244,7 @@ bool USBMonitor::matchAndDispatchChangedDevice(const QString & deviceID, const G
                         {
                             USBPortInfo temp=knowndevices.at(x);
                             knowndevices.removeAt(x);
-                            qDebug()<<"USB_MONITOR emit device removed on device:"<<temp.product<<temp.bcdDevice;
+                            USB_MON_QXTLOG_DEBUG("USB_MONITOR emit device removed on device:", temp.product, temp.bcdDevice);
                             emit deviceRemoved(temp);
                             found=true;
                             break;
@@ -273,7 +282,7 @@ QList<USBPortInfo> USBMonitor::availableDevices()
 {
     QList<USBPortInfo> ports;
     enumerateDevicesWin(guid_hid, &ports);
-    //qDebug()<<"USBMonitorWin availabledevices="<<ports.count();
+    //USB_MON_QXTLOG_DEBUG("USBMonitorWin availabledevices=", ports.count());
     return ports;
 }
 
@@ -281,10 +290,10 @@ void USBMonitor::enumerateDevicesWin( const GUID & guid, QList<USBPortInfo>* inf
 {
     HDEVINFO devInfo;
     USBPortInfo info;
-    //qDebug()<<"enumerateDevicesWin1";
+    //USB_MON_QXTLOG_DEBUG("enumerateDevicesWin1");
     if( (devInfo = SetupDiGetClassDevs(&guid, NULL, NULL, DIGCF_PRESENT | DIGCF_DEVICEINTERFACE)) != INVALID_HANDLE_VALUE)
     {
-        //qDebug()<<"enumerateDevicesWin2";
+        //USB_MON_QXTLOG_DEBUG("enumerateDevicesWin2");
         SP_DEVINFO_DATA devInfoData;
         devInfoData.cbSize = sizeof(SP_DEVINFO_DATA);
         for(DWORD i = 0; SetupDiEnumDeviceInfo(devInfo, i, &devInfoData); i++)
@@ -302,7 +311,7 @@ void USBMonitor::enumerateDevicesWin( const GUID & guid, QList<USBPortInfo>* inf
 
 int USBMonitor::infoFromHandle(const GUID & guid,USBPortInfo & info,HDEVINFO & devInfo,DWORD & index)
 {
-    //qDebug()<<"index0="<<index;
+    //USB_MON_QXTLOG_DEBUG("index0=", index);
     bool ret;
     HANDLE h;
     SP_DEVICE_INTERFACE_DATA iface;
@@ -316,11 +325,11 @@ int USBMonitor::infoFromHandle(const GUID & guid,USBPortInfo & info,HDEVINFO & d
 
     ret = SetupDiEnumDeviceInterfaces(devInfo, NULL, &guid, index, &iface);
     if (!ret) return 0;
-    //qDebug()<<"index1="<<index;
+    //USB_MON_QXTLOG_DEBUG("index1=", index);
     SetupDiGetInterfaceDeviceDetail(devInfo, &iface, NULL, 0, &reqd_size, NULL);
     details = (SP_DEVICE_INTERFACE_DETAIL_DATA *)malloc(reqd_size);
     if (details == NULL) return 2;
-    //qDebug()<<"index2="<<index;
+    //USB_MON_QXTLOG_DEBUG("index2=", index);
     memset(details, 0, reqd_size);
     details->cbSize = sizeof(SP_DEVICE_INTERFACE_DETAIL_DATA);
     ret = SetupDiGetDeviceInterfaceDetail(devInfo, &iface, details, reqd_size, NULL, NULL);
@@ -329,7 +338,7 @@ int USBMonitor::infoFromHandle(const GUID & guid,USBPortInfo & info,HDEVINFO & d
             free(details);
             return 2;
     }
-    //qDebug()<<"index3="<<index;
+    //USB_MON_QXTLOG_DEBUG("index3=", index);
     h = CreateFile(details->DevicePath, GENERIC_READ|GENERIC_WRITE, FILE_SHARE_READ|FILE_SHARE_WRITE, NULL, OPEN_EXISTING, FILE_FLAG_OVERLAPPED, NULL);
 
     if (h == INVALID_HANDLE_VALUE)
@@ -349,9 +358,9 @@ int USBMonitor::infoFromHandle(const GUID & guid,USBPortInfo & info,HDEVINFO & d
             free(details);
             return 2;
     }
-    //qDebug()<<"index4="<<index;
+    //USB_MON_QXTLOG_DEBUG("index4=", index);
     free(details);
-    //qDebug()<<"DETAILS???"<<QString().fromWCharArray(details->DevicePath).toUpper().replace("#", "\\");
+    //USB_MON_QXTLOG_DEBUG("DETAILS???", QString().fromWCharArray(details->DevicePath).toUpper().replace("#", "\\"));
     attrib.Size = sizeof(HIDD_ATTRIBUTES);
     ret = HidD_GetAttributes(h, &attrib);
     info.vendorID=attrib.VendorID;
@@ -364,14 +373,14 @@ int USBMonitor::infoFromHandle(const GUID & guid,USBPortInfo & info,HDEVINFO & d
             CloseHandle(h);
             return 2;
     }
-    //qDebug()<<"index5="<<index;
+    //USB_MON_QXTLOG_DEBUG("index5=", index);
     if (!HidP_GetCaps(hid_data, &capabilities))
     {
             HidD_FreePreparsedData(hid_data);
             CloseHandle(h);
             return 2;
     }
-    //qDebug()<<"index6="<<index;
+    //USB_MON_QXTLOG_DEBUG("index6=", index);
     info.UsagePage=capabilities.UsagePage;
     info.Usage=capabilities.Usage;
     HidD_FreePreparsedData(hid_data);
@@ -382,7 +391,7 @@ int USBMonitor::infoFromHandle(const GUID & guid,USBPortInfo & info,HDEVINFO & d
     info.manufacturer= QString().fromUtf16((ushort*)temp,-1);
     HidD_GetProductString(h, temp, sizeof(temp));
     info.product= QString().fromUtf16((ushort*)temp,-1);
-    //qDebug()<<"index="<<index<<"ProductID="<<info.product;
+    //USB_MON_QXTLOG_DEBUG("index=", index, "ProductID=", info.product);
     CloseHandle(h);
     h = NULL;
     return 1;

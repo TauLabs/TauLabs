@@ -72,7 +72,7 @@ void RawHIDConnection::onDeviceConnected()
   */
 void RawHIDConnection::onDeviceDisconnected()
 {
-    qDebug() << "onDeviceDisconnected()";
+    RAW_HID_QXTLOG_DEBUG("onDeviceDisconnected()");
     if (enablePolling)
         emit availableDevChanged(this);
 }
@@ -90,7 +90,7 @@ QList < Core::IDevice*> RawHIDConnection::availableDevices()
     Core::BoardManager* brdMgr = Core::ICore::instance()->boardManager();
     QList<int> brdVID = brdMgr->getKnownVendorIDs();
     foreach(int vendorID, brdVID) {
-        qDebug() << "[rawhidplugin] VendorID type known: " << vendorID;
+        RAW_HID_QXTLOG_DEBUG("[rawhidplugin] VendorID type known: ", vendorID);
         portsList = m_usbMonitor->availableDevices(vendorID, -1, -1,USBMonitor::Running);
         // We currently list devices by their serial number        
         USBDevice* dev = new USBDevice();
@@ -126,7 +126,7 @@ void RawHIDConnection::closeDevice(const QString &deviceName)
     Q_UNUSED(deviceName);
 	if (RawHidHandle)
 	{
-        qDebug() << "Closing the device here";
+        RAW_HID_QXTLOG_DEBUG("Closing the device here");
         RawHidHandle->close();
 		delete RawHidHandle;
 		RawHidHandle = NULL;
