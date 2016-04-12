@@ -34,19 +34,25 @@
 
 #include "rate_torque_lqr_optimize.h"
 
+#include "lqrsettings.h"
+#include "lqrsolution.h"
+#include "systemident.h"
+
 // Private constants
-#define STACK_SIZE_BYTES 3000
+#define STACK_SIZE_BYTES 10000
 #define TASK_PRIORITY PIOS_THREAD_PRIO_LOW
 
 // Private types
 
 // Private variables
+static struct pios_queue *queue;
 
 // Private functions
 static void lqrSolverTask(void *parameters);
+static void settings_updated_cb(UAVObjEvent * objEv);
 
 // Local variables
-
+static bool settings_updated;
 
 /**
  * Initialise the Logging module
@@ -55,6 +61,10 @@ static void lqrSolverTask(void *parameters);
  */
 int32_t LQRSolverInitialize(void)
 {
+
+	LqrSettingsInitialize();
+	LQRSolutionInitialize();
+	SystemIdentInitialize();
 
 	return 0;
 }
@@ -66,6 +76,13 @@ int32_t LQRSolverInitialize(void)
  */
 int32_t LQRSolverStart(void)
 {
+	queue = PIOS_Queue_Create(1, sizeof(UAVObjEvent));
+
+	// Listen for updates.
+	LqrSettingsConnectCallback(settings_updated_cb);
+	SystemIdentConnectCallback(settings_updated_cb);
+	settings_updated = true;
+
 	// Start main task
 	struct pios_thread *taskHandle = PIOS_Thread_Create(lqrSolverTask, "LQRSolver", STACK_SIZE_BYTES, NULL, TASK_PRIORITY);
 	TaskMonitorAdd(TASKINFO_RUNNING_LQRSOLVER, taskHandle);
@@ -77,14 +94,48 @@ MODULE_INITCALL(LQRSolverInitialize, LQRSolverStart);
 
 static void lqrSolverTask(void *parameters)
 {
-	static float g[4] = {9.67f, 9.84f, 5.2f, 8.29f};
+	LqrSettingsData lqr_settings;
+	LQRSolutionData lqr;
+	SystemIdentData si;
 
-	rtlqro_init(1.0f/400.0f);
-	rtlqro_set_tau(-3.39f);
-	rtlqro_set_gains(g);
-	rtlqro_set_costs(10, 1, 10000, 1e4, 1e5);
+	while(1) {
 
-	rtlqro_solver();
+		if (settings_updated) {
+			settings_updated = false;
+
+			uintptr_t start_time = PIOS_Thread_Systime();
+
+			SystemIdentGet(&si);
+			LqrSettingsGet(&lqr_settings);
+			LQRSolutionGet(&lqr);
+
+			rtlqro_init(1.0f/400.0f);
+			rtlqro_set_tau(si.Tau);
+			rtlqro_set_gains(si.Beta);
+			rtlqro_set_costs(lqr_settings.LqrRateParams[LQRSETTINGS_LQRRATEPARAMS_RATE],
+				lqr_settings.LqrRateParams[LQRSETTINGS_LQRRATEPARAMS_TORQUE], 
+				lqr_settings.LqrRateParams[LQRSETTINGS_LQRRATEPARAMS_INTEGRAL], 
+				lqr_settings.LqrRateParams[LQRSETTINGS_LQRRATEPARAMS_ROLLPITCH], 
+				lqr_settings.LqrRateParams[LQRSETTINGS_LQRRATEPARAMS_YAW]);
+
+			rtlqro_solver();
+
+			rtlqro_get_roll_gain(lqr.RollRate);
+			rtlqro_get_pitch_gain(lqr.PitchRate);
+			rtlqro_get_yaw_gain(lqr.YawRate);
+
+			lqr.SolutionTime = (PIOS_Thread_Systime() - start_time);
+
+			LQRSolutionSet(&lqr);
+		}
+
+		PIOS_Thread_Sleep(10);
+	}
+}
+
+static void settings_updated_cb(UAVObjEvent * objEv)
+{
+	settings_updated = true;
 }
 
 /**

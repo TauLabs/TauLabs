@@ -1,0 +1,22 @@
+<xml>
+    <object name="LQRSolution" singleinstance="true" settings="false">
+        <description>Solution from the LQR solver</description>
+
+        <field name="SolutionTime" units="" type="float" elements="1" defaultvalue="0" />
+
+        <!-- parameters for angle controller -->
+        <field name="RollAngle" units="" type="float" elementnames="Ka,Kr,Kt" defaultvalue="0.07,0.025,6" />
+        <field name="PitchAngle" units="" type="float" elementnames="Ka,Kr,Kt" defaultvalue="0.07,0.025,6" />
+        <field name="YawAngle" units="" type="float" elementnames="Ka,Kr,Kt" defaultvalue="0.03,0.01,0.04" />
+
+        <!-- paramaters for rate controller -->
+        <field name="RollRate" units="" type="float" elementnames="Kr,Kt,Ki" defaultvalue="0.02,5,0.5" />
+        <field name="PitchRate" units="" type="float" elementnames="Kr,Kt,Ki" defaultvalue="0.02,5,0.5" />
+        <field name="YawRate" units="" type="float" elementnames="Kr,Kt,Ki" defaultvalue="0.01,0.05,0.25" />
+
+        <access gcs="readonly" flight="readwrite"/>
+        <telemetrygcs acked="false" updatemode="manual" period="0"/>
+        <telemetryflight acked="false" updatemode="throttled" period="100"/>
+        <logging updatemode="manual" period="0"/>
+    </object>
+</xml>
