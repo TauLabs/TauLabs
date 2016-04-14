@@ -31,21 +31,23 @@
 #ifndef RATE_TORQUE_KF_H
 #define RATE_TORQUE_KF_H
 
+#include "stdint.h"
 #include "stdbool.h"
 
 // Methods to configure RTKF parameters
-void rtkf_set_qw(const float qw_new);
-void rtkf_set_qu(const float qu_new);
-void rtkf_set_qbias(const float qbias_new);
-void rtkf_set_sa(const float sa_new);
-void rtkf_set_gains(const float gains_new[4]);
-void rtkf_set_tau(const float tau_new);
+void rtkf_set_qw(uintptr_t rtkf_handle, const float qw_new);
+void rtkf_set_qu(uintptr_t rtkf_handle, const float qu_new);
+void rtkf_set_qbias(uintptr_t rtkf_handle, const float qbias_new);
+void rtkf_set_sa(uintptr_t rtkf_handle, const float sa_new);
+void rtkf_set_gains(uintptr_t rtkf_handle, const float gains_new[4]);
+void rtkf_set_tau(uintptr_t rtkf_handle, const float tau_new);
 
-void rtkf_get_rate(const float *X, float rate[3]);
-void rtkf_get_torque(const float *X, float torque[3]);
-void rtkf_get_bias(const float *X, float bias[3]);
-void rtkf_predict(float *X, float *P, const float u_in[3], const float gyro[3], const float dT_s);
-bool rtkf_init(float **X_in, float **P_in);
+void rtkf_get_rate(uintptr_t rtkf_handle, float rate[3]);
+void rtkf_get_torque(uintptr_t rtkf_handle, float torque[3]);
+void rtkf_get_bias(uintptr_t rtkf_handle, float bias[3]);
+void rtkf_predict(uintptr_t rtkf_handle, const float u_in[3], const float gyro[3], const float dT_s);
+bool rtkf_init(uintptr_t rtkf_handle);
+bool rtkf_alloc(uintptr_t *rtkf_handle);
 
 #endif /* RATE_TORQUE_KF_H */
 

@@ -32,95 +32,211 @@
 #include "math.h"
 #include "stdint.h"
 
+#include "rate_torque_kf.h"
+
 #define AF_NUMX 9
 #define AF_NUMP 18
 
-/**** filter parameters ****/
-static float q_w = 1e0f;
-static float q_ud = 1e-5f;
-static float q_bias = 1e-10f;
-static float s_a = 1000.0f;  // expected gyro noise
-static float gains[4] = {5.f,5.f,5.f,5.f};
-static float tau = -5.f;
+enum rtkf_state_magic {
+  RTKF_STATE_MAGIC = 0x17b0a57c, // echo "rate_torque_kf.c" | md5
+};
 
-void rtkf_set_qw(const float qw_new)
+struct rtkf_state {
+	float q_w;
+	float q_ud;
+	float q_bias;
+	float s_a;
+	float tau;
+	float gains[4];
+	float X[AF_NUMX];
+	float P[AF_NUMP];
+	enum rtkf_state_magic magic;
+};
+
+bool rtkf_alloc(uintptr_t *rtkf_handle)
 {
-	q_w = qw_new;
+	struct rtkf_state *rtkf_state = (struct rtkf_state *) PIOS_malloc(sizeof(struct rtkf_state));
+	if (rtkf_state == NULL)
+		return false;
+
+	rtkf_state->magic = RTKF_STATE_MAGIC;
+
+	// Use reasonable defaults
+	rtkf_state->q_w = 1e0f;
+	rtkf_state->q_ud = 1e-5f;
+	rtkf_state->q_bias = 1e-10f;
+	rtkf_state->s_a = 1000.0f;
+	rtkf_state->gains[0] = 5.f;
+	rtkf_state->gains[1] = 5.f;
+	rtkf_state->gains[2] = 5.f;
+	rtkf_state->gains[3] = 5.f;
+	rtkf_state->tau = -5.f;
+
+	rtkf_init((uintptr_t) rtkf_state);
+
+	(*rtkf_handle) = (uintptr_t) rtkf_state;
+
+	return true;
 }
 
-void rtkf_set_qu(const float qu_new)
+bool rtkf_validate(struct rtkf_state *rtkf_state)
 {
-	q_ud = qu_new;
-}
+	if (rtkf_state == NULL)
+		return false;
 
-void rtkf_set_qbias(const float qbias_new)
-{
-	q_bias = qbias_new;
-}
-
-void rtkf_set_sa(const float sa_new)
-{
-	s_a = sa_new;
-}
-
-void rtkf_set_gains(const float gains_new[4])
-{
-	gains[0] = gains_new[0];
-	gains[1] = gains_new[1];
-	gains[2] = gains_new[2];
-	gains[3] = gains_new[3];
-}
-
-void rtkf_set_tau(const float tau_new)
-{
-	tau = tau_new;
-}
-
-/**
- * @param[in] X current state estimate
- * @param[out] rate store the current rate here
- */
-void rtkf_get_rate(const float X[AF_NUMX], float rate[3])
-{
-	rate[0] = X[0];
-	rate[1] = X[1];
-	rate[2] = X[2];
-}
-
-/**
- * @param[in] X current state estimate
- * @param[out] rate store the current rate here
- */
-void rtkf_get_torque(const float X[AF_NUMX], float torque[3])
-{
-	torque[0] = X[3];
-	torque[1] = X[4];
-	torque[2] = X[5];
+	return (rtkf_state->magic == RTKF_STATE_MAGIC);
 }
 
 /**
- * @param[in] X current state estimate
+ * @param[in] rtkf_handle handle for estimation
+ * @param[in] qw process noise in the rate estimate
+ */
+void rtkf_set_qw(uintptr_t rtkf_handle, const float qw_new)
+{
+	struct rtkf_state * rtkf_state = (struct rtkf_state *) rtkf_handle;
+	if (!rtkf_validate(rtkf_state))
+		return;
+
+	rtkf_state->q_w = qw_new;
+}
+
+/**
+ * @param[in] rtkf_handle handle for estimation
+ * @param[in] qu process noise in the torque estimate
+ */
+void rtkf_set_qu(uintptr_t rtkf_handle, const float qu_new)
+{
+	struct rtkf_state * rtkf_state = (struct rtkf_state *) rtkf_handle;
+	if (!rtkf_validate(rtkf_state))
+		return;
+
+	rtkf_state->q_ud = qu_new;
+}
+
+/**
+ * @param[in] rtkf_handle handle for estimation
+ * @param[in] qbias process noise in the bias estimate
+ */
+void rtkf_set_qbias(uintptr_t rtkf_handle, const float qbias_new)
+{
+	struct rtkf_state * rtkf_state = (struct rtkf_state *) rtkf_handle;
+	if (!rtkf_validate(rtkf_state))
+		return;
+
+	rtkf_state->q_bias = qbias_new;
+}
+
+/**
+ * @param[in] rtkf_handle handle for estimation
+ * @param[in] sa the gyro noise variance
+ */
+void rtkf_set_sa(uintptr_t rtkf_handle, const float sa_new)
+{
+	struct rtkf_state * rtkf_state = (struct rtkf_state *) rtkf_handle;
+	if (!rtkf_validate(rtkf_state))
+		return;
+
+	rtkf_state->s_a = sa_new;
+}
+
+/**
+ * @param[in] rtkf_handle handle for estimation
+ * @param[in] gains the new gains
+ */
+void rtkf_set_gains(uintptr_t rtkf_handle, const float gains_new[4])
+{
+	struct rtkf_state * rtkf_state = (struct rtkf_state *) rtkf_handle;
+	if (!rtkf_validate(rtkf_state))
+		return;
+
+	rtkf_state->gains[0] = gains_new[0];
+	rtkf_state->gains[1] = gains_new[1];
+	rtkf_state->gains[2] = gains_new[2];
+	rtkf_state->gains[3] = gains_new[3];
+}
+
+/**
+ * @param[in] rtkf_handle handle for estimation
+ * @param[in] tau the new tau parameter
+ */
+void rtkf_set_tau(uintptr_t rtkf_handle, const float tau_new)
+{
+	struct rtkf_state * rtkf_state = (struct rtkf_state *) rtkf_handle;
+	if (!rtkf_validate(rtkf_state))
+		return;
+
+	rtkf_state->tau = tau_new;
+}
+
+/**
+ * @param[in] rtkf_handle handle for estimation
  * @param[out] rate store the current rate here
  */
-void rtkf_get_bias(const float X[AF_NUMX], float bias[3])
+void rtkf_get_rate(uintptr_t rtkf_handle, float rate[3])
 {
-	bias[0] = X[6];
-	bias[1] = X[7];
-	bias[2] = X[8];
+	struct rtkf_state * rtkf_state = (struct rtkf_state *) rtkf_handle;
+	if (!rtkf_validate(rtkf_state))
+		return;
+
+	rate[0] = rtkf_state->X[0];
+	rate[1] = rtkf_state->X[1];
+	rate[2] = rtkf_state->X[2];
+}
+
+/**
+ * @param[in] rtkf_handle handle for estimation
+ * @param[out] rate store the current rate here
+ */
+void rtkf_get_torque(uintptr_t rtkf_handle, float torque[3])
+{
+	struct rtkf_state * rtkf_state = (struct rtkf_state *) rtkf_handle;
+	if (!rtkf_validate(rtkf_state))
+		return;
+
+	torque[0] = rtkf_state->X[3];
+	torque[1] = rtkf_state->X[4];
+	torque[2] = rtkf_state->X[5];
+}
+
+/**
+ * @param[in] rtkf_handle handle for estimation
+ * @param[out] rate store the current rate here
+ */
+void rtkf_get_bias(uintptr_t rtkf_handle, float bias[3])
+{
+	struct rtkf_state * rtkf_state = (struct rtkf_state *) rtkf_handle;
+	if (!rtkf_validate(rtkf_state))
+		return;
+
+	bias[0] = rtkf_state->X[6];
+	bias[1] = rtkf_state->X[7];
+	bias[2] = rtkf_state->X[8];
 }
 
 /**
  * @brief Run a prediction step for the rate torque KF
- * @param X current state estimate
- * @param P current covariance estimate (active elements)
+ * @param[in] rtkf_handle handle for estimation
  * @param[in] u_in control input
  * @param[in] gyro gyro measurement
  * @param[in] gains gains from system identification estimate
  * @param[in] tau the time constant from system identification
  * @param[in] dT_s the time step to advance at
  */
-void rtkf_predict(float *X, float *P, const float u_in[3], const float gyro[3], const float dT_s)
+void rtkf_predict(uintptr_t rtkf_handle, const float u_in[3], const float gyro[3], const float dT_s)
 {
+	struct rtkf_state * rtkf_state = (struct rtkf_state *) rtkf_handle;
+	if (!rtkf_validate(rtkf_state))
+		return;
+
+	float *X = rtkf_state->X;
+	float *P = rtkf_state->P;
+	float *gains = rtkf_state->gains;
+	float tau = rtkf_state->tau;
+	float q_w = rtkf_state->q_w;
+	float q_ud = rtkf_state->q_ud;
+	float q_bias = rtkf_state->q_bias;
+	float s_a = rtkf_state->s_a;
+
 	const float Ts = dT_s;
 	const float Tsq = Ts * Ts;
 
@@ -236,21 +352,20 @@ void rtkf_predict(float *X, float *P, const float u_in[3], const float gyro[3], 
  * Initialize the state variable and covariance matrix
  * for the rate and torque KF. This also allocates the
  * memory
- * @param[out] X allocate and initialize state
- * @param[out] P allocate and initialize covariance
+ * @param[in] rtkf_handle handle for estimation
  * @returns true if successful
  */
-bool rtkf_init(float **X_in, float **P_in)
+bool rtkf_init(uintptr_t rtkf_handle)
 {
 	float *X;
 	float *P;
 
-	X = (float *) PIOS_malloc(sizeof(float) * AF_NUMX);
-	if (X == NULL)
+	struct rtkf_state * rtkf_state = (struct rtkf_state *) rtkf_handle;
+	if (!rtkf_validate(rtkf_state))
 		return false;
-	P = (float *) PIOS_malloc(sizeof(float) * AF_NUMP);
-	if (P == NULL)
-		return false;
+
+	X = rtkf_state->X;
+	P = rtkf_state->P;
 
 	const float q_init[AF_NUMX] = {
 		1.0f, 1.0f, 1.0f,
@@ -283,11 +398,9 @@ bool rtkf_init(float **X_in, float **P_in)
 	P[16] = 0.0f;
 	P[17] = q_init[8];
 
-	*X_in = X;
-	*P_in = P;
-
 	return true;
 }
+
 
 /**
  * @}
