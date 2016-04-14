@@ -662,18 +662,16 @@ static const struct pios_flash_partition pios_flash_partition_table[] = {
 		.size         = (1 - 0 + 1) * FLASH_SECTOR_16KB,
 	},
 
-	/* NOTE: sectors 2-4 of the internal flash are currently unallocated */
-
 	{
 		.label        = FLASH_PARTITION_LABEL_FW,
 		.chip_desc    = &pios_flash_chip_internal,
 		.first_sector = 5,
-		.last_sector  = 6,
+		.last_sector  = 8,
 		.chip_offset  = (4 * FLASH_SECTOR_16KB) + (1 * FLASH_SECTOR_64KB),
-		.size         = (6 - 5 + 1) * FLASH_SECTOR_128KB,
+		.size         = (8 - 5 + 1) * FLASH_SECTOR_128KB,
 	},
 
-	/* NOTE: sectors 7-11 of the internal flash are currently unallocated */
+	/* NOTE: sectors 8-11 of the internal flash are currently unallocated */
 
 #endif /* PIOS_INCLUDE_FLASH_INTERNAL */
 
@@ -682,13 +680,22 @@ static const struct pios_flash_partition pios_flash_partition_table[] = {
 		.label        = FLASH_PARTITION_LABEL_SETTINGS,
 		.chip_desc    = &pios_flash_chip_external,
 		.first_sector = 0,
-		.last_sector  = 15,
+		.last_sector  = 5,
 		.chip_offset  = 0,
-		.size         = (15 - 0 + 1) * FLASH_SECTOR_64KB,
+		.size         = (5 - 0 + 1) * FLASH_SECTOR_64KB,
 	},
 
 	{
 		.label        = FLASH_PARTITION_LABEL_WAYPOINTS,
+		.chip_desc    = &pios_flash_chip_external,
+		.first_sector = 6,
+		.last_sector  = 10,
+		.chip_offset  = (6 * FLASH_SECTOR_64KB),
+		.size         = (10 - 6 + 1) * FLASH_SECTOR_64KB,
+	},
+
+	{
+		.label        = FLASH_PARTITION_LABEL_LOG,
 		.chip_desc    = &pios_flash_chip_external,
 		.first_sector = 16,
 		.last_sector  = 31,

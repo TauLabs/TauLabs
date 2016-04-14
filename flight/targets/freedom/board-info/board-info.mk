@@ -1,7 +1,6 @@
 BOARD_TYPE          := 0x81
 BOARD_REVISION      := 0x02
-# Previous version was 0x081, 0x082 introduces partition extensions and forced boot from bkp registers
-BOOTLOADER_VERSION  := 0x82
+BOOTLOADER_VERSION  := 0x84
 HW_TYPE             := 0x00
 
 MCU                 := cortex-m4
@@ -17,18 +16,18 @@ OPENOCD_CONFIG      := stm32f4xx.stlink.cfg
 BL_BANK_BASE        := 0x08000000  # Start of bootloader flash
 BL_BANK_SIZE        := 0x00008000  # Should include BD_INFO region (32kb)
 
-EE_BANK_BASE        := 0x08008000  # EEPROM storage area
-EE_BANK_SIZE        := 0x00008000  # Size of EEPROM storage area
-
-# Leave the 64KB sector for other uses
+# Leave the remaining 16KB and 64KB sectors for other uses
 
 FW_BANK_BASE        := 0x08020000  # Start of firmware flash
-FW_BANK_SIZE        := 0x00040000  # Should include FW_DESC_SIZE (256kb)
+FW_BANK_SIZE        := 0x00080000  # Should include FW_DESC_SIZE (512kb)
 
 FW_DESC_SIZE        := 0x00000064
 
+EE_BANK_BASE        := 0x00000000
+EE_BANK_SIZE        := 0x00000000
+
 EF_BANK_BASE        := 0x08000000  # Start of entire flash image (usually start of bootloader as well)
-EF_BANK_SIZE        := 0x00060000  # Size of the entire flash image (from bootloader until end of firmware)
+EF_BANK_SIZE        := 0x00080000  # Size of the entire flash image (from bootloader until end of firmware)
 
 OSCILLATOR_FREQ     :=   8000000
 SYSCLK_FREQ         := 168000000

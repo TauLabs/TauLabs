@@ -55,12 +55,7 @@ void PIOS_Board_Init() {
 	PIOS_LED_Init(led_cfg);
 #endif	/* PIOS_INCLUDE_LED */
 
-	PWR_BackupAccessCmd(ENABLE);
-	RCC_LSEConfig(RCC_LSE_OFF);
-
 	PIOS_LED_On(PIOS_LED_HEARTBEAT);
-	PIOS_LED_On(PIOS_LED_ALARM);
-	PIOS_LED_On(PIOS_LED_LINK);
 
 #if defined(PIOS_INCLUDE_SPI)
 	/* Set up the SPI interface to the flash and rfm22b */
@@ -71,15 +66,14 @@ void PIOS_Board_Init() {
 
 #if defined(PIOS_INCLUDE_FLASH)
 	/* Inititialize all flash drivers */
-	PIOS_Flash_Internal_Init(&pios_internal_flash_id, &flash_internal_cfg);
-
-#if defined(PIOS_INCLUDE_SPI)
 	PIOS_Flash_Jedec_Init(&pios_external_flash_id, pios_spi_telem_flash_id, 1, &flash_m25p_cfg);
-#endif	/* PIOS_INCLUDE_SPI */
+	PIOS_Flash_Internal_Init(&pios_internal_flash_id, &flash_internal_cfg);
 
 	/* Register the partition table */
 	PIOS_FLASH_register_partition_table(pios_flash_partition_table, NELEMENTS(pios_flash_partition_table));
 #endif	/* PIOS_INCLUDE_FLASH */
+
+	PIOS_LED_On(PIOS_LED_ALARM);
 
 #if defined(PIOS_INCLUDE_USB)
 	/* Initialize board specific USB data */
@@ -100,6 +94,8 @@ void PIOS_Board_Init() {
 		PIOS_Assert(0);
 	}
 #endif	/* PIOS_INCLUDE_USB_HID && PIOS_INCLUDE_COM_MSG */
+
+	PIOS_LED_On(PIOS_LED_LINK);
 
 	PIOS_USBHOOK_Activate();
 
