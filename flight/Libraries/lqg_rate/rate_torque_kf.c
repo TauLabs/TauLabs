@@ -34,8 +34,8 @@
 
 #include "rate_torque_kf.h"
 
-#define AF_NUMX 9
-#define AF_NUMP 18
+#define AF_NUMX 3
+#define AF_NUMP 6
 
 enum rtkf_state_magic {
   RTKF_STATE_MAGIC = 0x17b0a57c, // echo "rate_torque_kf.c" | md5
@@ -48,8 +48,12 @@ struct rtkf_state {
 	float s_a;
 	float tau;
 	float gains[4];
-	float X[AF_NUMX];
-	float P[AF_NUMP];
+	float roll_X[AF_NUMX];
+	float roll_P[AF_NUMP];
+	float pitch_X[AF_NUMX];
+	float pitch_P[AF_NUMP];
+	float yaw_X[AF_NUMX];
+	float yaw_P[AF_NUMP];
 	enum rtkf_state_magic magic;
 };
 
@@ -178,9 +182,9 @@ void rtkf_get_rate(uintptr_t rtkf_handle, float rate[3])
 	if (!rtkf_validate(rtkf_state))
 		return;
 
-	rate[0] = rtkf_state->X[0];
-	rate[1] = rtkf_state->X[1];
-	rate[2] = rtkf_state->X[2];
+	rate[0] = rtkf_state->roll_X[0];
+	rate[1] = rtkf_state->pitch_X[0];
+	rate[2] = rtkf_state->yaw_X[0];
 }
 
 /**
@@ -193,9 +197,9 @@ void rtkf_get_torque(uintptr_t rtkf_handle, float torque[3])
 	if (!rtkf_validate(rtkf_state))
 		return;
 
-	torque[0] = rtkf_state->X[3];
-	torque[1] = rtkf_state->X[4];
-	torque[2] = rtkf_state->X[5];
+	torque[0] = rtkf_state->roll_X[1];
+	torque[1] = rtkf_state->pitch_X[1];
+	torque[2] = rtkf_state->yaw_X[1];
 }
 
 /**
@@ -208,9 +212,9 @@ void rtkf_get_bias(uintptr_t rtkf_handle, float bias[3])
 	if (!rtkf_validate(rtkf_state))
 		return;
 
-	bias[0] = rtkf_state->X[6];
-	bias[1] = rtkf_state->X[7];
-	bias[2] = rtkf_state->X[8];
+	bias[0] = rtkf_state->roll_X[2];
+	bias[1] = rtkf_state->pitch_X[2];
+	bias[2] = rtkf_state->yaw_X[2];
 }
 
 /**
@@ -222,130 +226,106 @@ void rtkf_get_bias(uintptr_t rtkf_handle, float bias[3])
  * @param[in] tau the time constant from system identification
  * @param[in] dT_s the time step to advance at
  */
-void rtkf_predict(uintptr_t rtkf_handle, const float u_in[3], const float gyro[3], const float dT_s)
+void rtkf_predict(uintptr_t rtkf_handle, const float control_in[3], const float gyros[3], const float dT_s)
 {
 	struct rtkf_state * rtkf_state = (struct rtkf_state *) rtkf_handle;
 	if (!rtkf_validate(rtkf_state))
 		return;
 
-	float *X = rtkf_state->X;
-	float *P = rtkf_state->P;
-	float *gains = rtkf_state->gains;
-	float tau = rtkf_state->tau;
-	float q_w = rtkf_state->q_w;
-	float q_ud = rtkf_state->q_ud;
-	float q_bias = rtkf_state->q_bias;
-	float s_a = rtkf_state->s_a;
-
 	const float Ts = dT_s;
 	const float Tsq = Ts * Ts;
 
-	// for convenience and clarity code below uses the named versions of
-	// the state variables
-	float w1 = X[0];           // roll rate estimate
-	float w2 = X[1];           // pitch rate estimate
-	float w3 = X[2];           // yaw rate estimate
-	float u1 = X[3];           // scaled roll torque 
-	float u2 = X[4];           // scaled pitch torque
-	float u3 = X[5];           // scaled yaw torque
-	const float bias1 = X[6];       // bias in the roll torque
-	const float bias2 = X[7];       // bias in the pitch torque
-	const float bias3 = X[8];       // bias in the yaw torque
-	const float e_b1 = expf(gains[0]);   // roll torque scale
-	const float e_b2 = expf(gains[1]);   // pitch torque scale
-	const float e_b3 = expf(gains[2]);   // yaw torque scale
-	const float e_b3d = expf(gains[3]);   // yaw torque scale
+	const float q_w = rtkf_state->q_w;
+	const float q_ud = rtkf_state->q_ud;
+	const float q_bias = rtkf_state->q_bias;
+	const float s_a = rtkf_state->s_a;
+
+	const float tau = rtkf_state->tau;
 	const float e_tau = expf(tau); // time response of the motors
 
-	// inputs to the system (roll, pitch, yaw)
-	const float u1_in = u_in[0];
-	const float u2_in = u_in[1];
-	const float u3_in = u_in[2];
+	float u_in;
+	float gyro;
 
-	// measurements from gyro
-	const float gyro_x = gyro[0];
-	const float gyro_y = gyro[1];
-	const float gyro_z = gyro[2];
+	float b;
+	float bd;
 
-	// update named variables because we want to use predicted
-	// values below
-	w1 = X[0] = w1 - Ts*bias1*e_b1 + Ts*u1*e_b1;
-	w2 = X[1] = w2 - Ts*bias2*e_b2 + Ts*u2*e_b2;
-	w3 = X[2] = w3 - Ts*bias3*e_b3 + Ts*u3*e_b3 + Ts*u3_in*e_b3d;
-	u1 = X[3] = (Ts*u1_in)/(Ts + e_tau) + (u1*e_tau)/(Ts + e_tau);
-	u2 = X[4] = (Ts*u2_in)/(Ts + e_tau) + (u2*e_tau)/(Ts + e_tau);
-	u3 = X[5] = (Ts*u3_in)/(Ts + e_tau) + (u3*e_tau)/(Ts + e_tau);
-	// X[6] to X[8] unchanged
+	// Update state for each axis
+	for (uint32_t i = 0; i < 3; i++) {
+		float *X;
+		float *P;
 
-	const float Q[AF_NUMX] = {q_w, q_w, q_w, q_ud, q_ud, q_ud, q_bias, q_bias, q_bias};
+		switch(i) {
+		case 0:       // roll
+			X = rtkf_state->roll_X;
+			P = rtkf_state->roll_P;
+			b = rtkf_state->gains[0];
+			bd = -100.0f;
+			u_in = control_in[0];
+			gyro = gyros[0];
+			break;
+		case 1:       // pitch
+			X = rtkf_state->pitch_X;
+			P = rtkf_state->pitch_P;
+			b = rtkf_state->gains[1];
+			bd = -100.0f;
+			u_in = control_in[1];
+			gyro = gyros[1];
+			break;
+		case 2:       // yaw
+			X = rtkf_state->yaw_X;
+			P = rtkf_state->yaw_P;
+			b = rtkf_state->gains[2];
+			bd = rtkf_state->gains[3];
+			u_in = control_in[2];
+			gyro = gyros[2];
+			break;
+		}
 
-	float D[AF_NUMP];
-	for (uint32_t i = 0; i < AF_NUMP; i++)
-		D[i] = P[i];
+		float w = X[0];
+		float u = X[1];
+		float bias = X[2];
 
-	//const float e_tau2    = e_tau * e_tau;
-	//const float Ts_e_tau2 = (Ts + e_tau) * (Ts + e_tau);
-	//const float e_tau_y2    = e_tau_y * e_tau_y;
-	//const float Ts_e_tau_y2 = (Ts + e_tau_y) * (Ts + e_tau_y);
+		const float e_b = expf(b);
+		const float e_bd = expf(bd);
 
-	// covariance propagation - D is stored copy of covariance	
-	P[0] = D[0] + Q[0] + D[4]*Tsq*(e_b1*e_b1) - 2*D[10]*Tsq*(e_b1*e_b1) + D[11]*Tsq*(e_b1*e_b1) + 2*D[3]*Ts*e_b1 - 2*D[9]*Ts*e_b1;
-	P[1] = D[1] + Q[1] + D[6]*Tsq*(e_b2*e_b2) - 2*D[13]*Tsq*(e_b2*e_b2) + D[14]*Tsq*(e_b2*e_b2) + 2*D[5]*Ts*e_b2 - 2*D[12]*Ts*e_b2;
-	P[2] = D[2] + Q[2] + D[8]*Tsq*(e_b3*e_b3) - 2*D[16]*Tsq*(e_b3*e_b3) + D[17]*Tsq*(e_b3*e_b3) + 2*D[7]*Ts*e_b3 - 2*D[15]*Ts*e_b3;
-	P[3] = (e_tau*(D[3] + D[4]*Ts*e_b1 - D[10]*Ts*e_b1))/(Ts + e_tau);
-	P[4] = Q[3] + D[4]*powf(Ts/(Ts + e_tau) - 1,2);
-	P[5] = (e_tau*(D[5] + D[6]*Ts*e_b2 - D[13]*Ts*e_b2))/(Ts + e_tau);
-	P[6] = Q[4] + D[6]*powf(Ts/(Ts + e_tau) - 1,2);
-	P[7] = (e_tau*(D[7] + D[8]*Ts*e_b3 - D[16]*Ts*e_b3))/(Ts + e_tau);
-	P[8] = Q[5] + D[8]*powf(Ts/(Ts + e_tau) - 1,2);
-	P[9] = D[9] + D[10]*Ts*e_b1 - D[11]*Ts*e_b1;
-	P[10] = (D[10]*e_tau)/(Ts + e_tau);
-	P[11] = D[11] + Q[6];
-	P[12] = D[12] + D[13]*Ts*e_b2 - D[14]*Ts*e_b2;
-	P[13] = (D[13]*e_tau)/(Ts + e_tau);
-	P[14] = D[14] + Q[7];
-	P[15] = D[15] + D[16]*Ts*e_b3 - D[17]*Ts*e_b3;
-	P[16] = (D[16]*e_tau)/(Ts + e_tau);
-	P[17] = D[17] + Q[8];
+		// X update
+		w = X[0] = w - Ts*bias*e_b + Ts*u*e_b + Ts*u_in*e_bd;
+		u = X[1] = (Ts*u_in)/(Ts + e_tau) + (u*e_tau)/(Ts + e_tau);
 
-	/********* this is the update part of the equation ***********/
+		const float Q[AF_NUMX] = {q_w, q_ud, q_bias};
 
-	float S[3] = {P[0] + s_a, P[1] + s_a, P[2] + s_a};
+		float D[AF_NUMP];
+		for (uint32_t i = 0; i < AF_NUMP; i++)
+			D[i] = P[i];
 
-	X[0] = w1 + (P[0]*(gyro_x - w1))/S[0];
-	X[1] = w2 + (P[1]*(gyro_y - w2))/S[1];
-	X[2] = w3 + (P[2]*(gyro_z - w3))/S[2];
-	X[3] = u1 + (P[3]*(gyro_x - w1))/S[0];
-	X[4] = u2 + (P[5]*(gyro_y - w2))/S[1];
-	X[5] = u3 + (P[7]*(gyro_z - w3))/S[2];
-	X[6] = bias1 + (P[9]*(gyro_x - w1))/S[0];
-	X[7] = bias2 + (P[12]*(gyro_y - w2))/S[1];
-	X[8] = bias3 + (P[15]*(gyro_z - w3))/S[2];
+		// Covariance calculation
+		P[0] = D[0] + Q[0] + D[2]*Tsq*(e_b*e_b) - 2*D[4]*Tsq*(e_b*e_b) + D[5]*Tsq*(e_b*e_b) + 2*D[1]*Ts*e_b - 2*D[3]*Ts*e_b;
+		P[1] = (e_tau*(D[1] + D[2]*Ts*e_b - D[4]*Ts*e_b))/(Ts + e_tau);
+		P[2] = Q[1] + D[2]*powf(Ts/(Ts + e_tau) - 1,2);
+		P[3] = D[3] + D[4]*Ts*e_b - D[5]*Ts*e_b;
+		P[4] = (D[4]*e_tau)/(Ts + e_tau);
+		P[5] = D[5] + Q[2];
 
-	// update the duplicate cache
-	for (uint32_t i = 0; i < AF_NUMP; i++)
-		D[i] = P[i];
+		/********* this is the update part of the equation ***********/
+		const float S = P[0] + s_a;
 
-	// This is an approximation that removes some cross axis uncertainty but
-	// substantially reduces the number of calculations
-	P[0] = -D[0]*(D[0]/S[0] - 1);
-	P[1] = -D[1]*(D[1]/S[1] - 1);
-	P[2] = -D[2]*(D[2]/S[2] - 1);
-	P[3] = -D[3]*(D[0]/S[0] - 1);
-	P[4] = D[4] - D[3]*D[3]/S[0];
-	P[5] = -D[5]*(D[1]/S[1] - 1);
-	P[6] = D[6] - D[5]*D[5]/S[1];
-	P[7] = -D[7]*(D[2]/S[2] - 1);
-	P[8] = D[8] - D[7]*D[7]/S[2];
-	P[9] = -D[9]*(D[0]/S[0] - 1);
-	P[10] = D[10] - (D[3]*D[9])/S[0];
-	P[11] = D[11] - D[9]*D[9]/S[0];
-	P[12] = -D[12]*(D[1]/S[1] - 1);
-	P[13] = D[13] - (D[5]*D[12])/S[1];
-	P[14] = D[14] - D[12]*D[12]/S[1];
-	P[15] = -D[15]*(D[2]/S[2] - 1);
-	P[16] = D[16] - (D[7]*D[15])/S[2];
-	P[17] = D[17] - D[15]*D[15]/S[2];
+		// X update
+		X[0] = w + (P[0]*(gyro - w))/S;
+		X[1] = u + (P[1]*(gyro - w))/S;
+		X[2] = bias + (P[3]*(gyro - w))/S;
+
+		for (uint32_t i = 0; i < AF_NUMP; i++)
+			D[i] = P[i];
+
+		// Covariance calculation
+		P[0] = -D[0]*(D[0]/S - 1);
+		P[1] = -D[1]*(D[0]/S - 1);
+		P[2] = D[2] - D[1]*D[1]/S;
+		P[3] = -D[3]*(D[0]/S - 1);
+		P[4] = D[4] - (D[1]*D[3])/S;
+		P[5] = D[5] - D[3]*D[3]/S;
+	}
+
 }
 
 /**
@@ -357,46 +337,43 @@ void rtkf_predict(uintptr_t rtkf_handle, const float u_in[3], const float gyro[3
  */
 bool rtkf_init(uintptr_t rtkf_handle)
 {
-	float *X;
-	float *P;
-
 	struct rtkf_state * rtkf_state = (struct rtkf_state *) rtkf_handle;
 	if (!rtkf_validate(rtkf_state))
 		return false;
 
-	X = rtkf_state->X;
-	P = rtkf_state->P;
+	const float q_init[AF_NUMX] = {1.0f, 1.0f, 0.05f};
 
-	const float q_init[AF_NUMX] = {
-		1.0f, 1.0f, 1.0f,
-		1.0f, 1.0f, 1.0f,
-		0.05f, 0.05f, 0.05f
-	};
+	for (uint32_t i = 0; i < 3; i++) {
+		float *X;
+		float *P;
 
-	X[0] = X[1] = X[2] = 0.0f;    // assume no rotation
-	X[3] = X[4] = X[5] = 0.0f;    // and no net torque
-	X[6] = X[7] = X[8] = 0.0f;    // zero bias
+		switch(i) {
+		case 0:       // roll
+			X = rtkf_state->roll_X;
+			P = rtkf_state->roll_P;
+			break;
+		case 1:       // pitch
+			X = rtkf_state->pitch_X;
+			P = rtkf_state->pitch_P;
+			break;
+		case 2:       // yaw
+			X = rtkf_state->yaw_X;
+			P = rtkf_state->yaw_P;
+			break;
+		}
 
-	// P initialization
-	// Could zero this like: *P = *((float [AF_NUMP]){});
-	P[0] = q_init[0];
-	P[1] = q_init[1];
-	P[2] = q_init[2];
-	P[3] = 0.0f;
-	P[4] = q_init[3];
-	P[5] = 0.0f;
-	P[6] = q_init[4];
-	P[7] = 0.0f;
-	P[8] = q_init[5];
-	P[9] = 0.0f;
-	P[10] = 0.0f;
-	P[11] = q_init[6];
-	P[12] = 0.0f;
-	P[13] = 0.0f;
-	P[14] = q_init[7];
-	P[15] = 0.0f;
-	P[16] = 0.0f;
-	P[17] = q_init[8];
+		X[0] = 0.0f;  // init no rotation
+		X[1] = 0.0f;  // init no torque
+		X[2] = 0.0f;  // init no bias
+
+		// P initialization
+		P[0] = q_init[0];
+		P[1] = 0.0f;
+		P[2] = q_init[1];
+		P[3] = 0.0f;
+		P[4] = 0.0f;
+		P[5] = q_init[2];
+	}
 
 	return true;
 }
