@@ -8,55 +8,30 @@
 % to converge.
 
 % state variables:
-%   - w1 - roll rotation
-%   - w2 - pitch rotation
-%   - w3 - yaw rotation
-%   - u1 - roll force
-%   - u2 - pitch force
-%   - u3 - yaw force
+%   - w - rotation
+%   - u - force
 
 % fixed parameters (learned by autotune using similar KF)
-%   - b1 - roll gain
-%   - b2 - pitch gain
-%   - b3 - yaw gain
-%   - b3d - yaw gain direct (from motor torques)
+%   - b - gain
+%   - bd - direct gain
 %   - tau
 
 % the actuator inputs (four motor speeds)
 
-syms b1 b2 b3 b3d w1 w2 w3 u1 u2 u3 bias1 bias2 bias3 tau Ts real;
-syms u1_in u2_in u3_in real;
+syms w u_in b bd tau bias Ts real;
 
-x = [w1 w2 w3 u1 u2 u3 bias1 bias2 bias3]';
-u_in = [u1_in u2_in u3_in ]';
+x = [w u bias]';
 
-% this is the mixer matrix (could be learned in more detail)
-A_w = [1 0 0   Ts*exp(b1)  0          0          ; ...
-       0 1 0   0           Ts*exp(b2) 0          ; ...
-       0 0 1   0           0          Ts*exp(b3)];
+% state transition matrix
+A = [1          Ts*exp(b)       -Ts*exp(b); ...
+     0   exp(tau)/(exp(tau)+Ts)     0; ...
+     0             0                1];
 
-A_u = [exp(tau)/(exp(tau) + Ts) 0 0; ...
-       0 exp(tau)/(exp(tau) + Ts) 0; ...
-       0 0 exp(tau)/(exp(tau) + Ts)];
+B = [Ts*exp(bd); Ts/(exp(tau) + Ts); 0];
 
-A_wb = [-Ts*exp(b1) 0 0;
-        0 -Ts*exp(b2) 0;
-        0 0 -Ts*exp(b3)];
+f = A * x + B * u_in;
 
-    %w1 w2 w3 u1 u2 u3 bias1 bias2 bias3
-A = [          A_w              A_wb; ...
-     zeros(3,3)       A_u       zeros(3,3); ...
-     zeros(3,6)                 diag([1 1 1])];
- 
-B_u = [diag([0 0 Ts*exp(b3d)]); ...
-       Ts/(exp(tau) + Ts) 0 0; ...
-       0 Ts/(exp(tau) + Ts) 0; ...
-       0 0 Ts/(exp(tau) + Ts); ...
-       zeros(3,3)];
-
-f = A * x + B_u * u_in
-
-h = [w1 w2 w3]'
+h = [w]'
 
 F = simplify(jacobian(f, x), 100)
 
@@ -66,39 +41,22 @@ N = length(x)
 
 %% generate the symbolic code
 
-syms P_1_1 P_1_2 P_1_3 P_1_4 P_1_5 P_1_6 P_1_7 P_1_8 P_1_9 real
-syms P_2_2 P_2_3 P_2_4 P_2_5 P_2_6 P_2_7 P_2_8 P_2_9 real
-syms P_3_3 P_3_4 P_3_5 P_3_6 P_3_7 P_3_8 P_3_9 real
-syms P_4_4 P_4_5 P_4_6 P_4_7 P_4_8 P_4_9 real
-syms P_5_5 P_5_6 P_5_7 P_5_8 P_5_9 real
-syms P_6_6 P_6_7 P_6_8 P_6_9 real
-syms P_7_7 P_7_8 P_7_9 real
-syms P_8_8 P_8_9 real
-syms P_9_9 real
+syms P_1_1 P_1_2 P_1_3  real
+syms P_2_2 P_2_3  real
+syms P_3_3  real
 
 syms s_a real
 
-syms gyro_x gyro_y gyro_z real
+syms gyro real
 
-syms Q_1 Q_2 Q_3 Q_4 Q_5 Q_6 Q_7 Q_8 Q_9 real
+syms Q_1 Q_2 Q_3 real
 
-y = [gyro_x gyro_y gyro_z]' - h;
+y = [gyro]' - h;
 
 P=[
-P_1_1 P_1_2 P_1_3 P_1_4 P_1_5 P_1_6 P_1_7 P_1_8 P_1_9 ;
-0     P_2_2 P_2_3 P_2_4 P_2_5 P_2_6 P_2_7 P_2_8 P_2_9 ;
-0     0     P_3_3 P_3_4 P_3_5 P_3_6 P_3_7 P_3_8 P_3_9 ;
-0     0     0     P_4_4 P_4_5 P_4_6 P_4_7 P_4_8 P_4_9 ;
-0     0     0     0     P_5_5 P_5_6 P_5_7 P_5_8 P_5_9 ;
-0     0     0     0     0     P_6_6 P_6_7 P_6_8 P_6_9 ;
-0     0     0     0     0     0     P_7_7 P_7_8 P_7_9 ;
-0     0     0     0     0     0     0     P_8_8 P_8_9 ;
-0     0     0     0     0     0     0     0     P_9_9 ];
-
-% remove cross coupling terms in the covariance
-P([1 4 7],[2 3 5 6 8 9]) = 0;
-P([2 5 8],[1 3 4 6 7 9]) = 0;
-P([3 6 9],[1 2 4 5 7 8]) = 0;
+P_1_1 P_1_2 P_1_3;
+0     P_2_2 P_2_3;
+0     0     P_3_3];
 
 % we can use this variable to reduce the unused terms out of the equations
 % below instead of storing all of the P values.
@@ -111,27 +69,20 @@ for(i=2:N)
     end
 end
        
-Q = diag([Q_1 Q_2 Q_3 Q_4 Q_5 Q_6 Q_7 Q_8 Q_9]);
+Q = diag([Q_1 Q_2 Q_3]);
 
 P2 = simplify((F*P*F') + Q);
 
 % update equations
-R = diag([s_a s_a s_a]); 
+R = diag([s_a]); 
 S = H*P*H' + R;
 
 % remove coupling between axes for efficiency. from the above equation
 % we can see that S_1 should be P[0][0] + s_a, S_2 is P[1][1] + s_a
 % etc
-syms S_1 S_2 S_3 real
-S = diag([S_1 S_2 S_3])
+syms S real
   
 K = P*H'/S;
-
-% go ahead and zero out gains across axes to reduce number
-% of calculations
-K([2 3 5 6 8 9],1) = 0;
-K([1 3 4 6 7 9],2) = 0;
-K([1 2 4 5 7 8],3) = 0;
 
 x_new = x + K*y;
 
@@ -139,8 +90,6 @@ I = eye(length(K));
 P3 = (I - K*H)*P;  % Output state covariance
 
 %% create strings for update equations
-
-N = 9;
 
 
 fid = fopen('torque_kf_filter.c','w');
@@ -166,14 +115,10 @@ for Pnew = {P2, P3}
                 Pstrings{i,j} = strrep(Pstrings{i,j},'Ts^3','Tsq3');
                 Pstrings{i,j} = strrep(Pstrings{i,j},'Ts^4','Tsq4');
                 Pstrings{i,j} = strrep(Pstrings{i,j},'P','D');
-                Pstrings{i,j} = strrep(Pstrings{i,j},'exp(b1)','e_b1');
-                Pstrings{i,j} = strrep(Pstrings{i,j},'exp(b2)','e_b2');
-                Pstrings{i,j} = strrep(Pstrings{i,j},'exp(b3)','e_b3');
-                Pstrings{i,j} = strrep(Pstrings{i,j},'exp(b3d)','e_b3d');
-                Pstrings{i,j} = strrep(Pstrings{i,j},'exp(2*b1)','(e_b1*e_b1)');
-                Pstrings{i,j} = strrep(Pstrings{i,j},'exp(2*b2)','(e_b2*e_b2)');
-                Pstrings{i,j} = strrep(Pstrings{i,j},'exp(2*b3)','(e_b3*e_b3)');
-                Pstrings{i,j} = strrep(Pstrings{i,j},'exp(2*b3d)','(e_b3d*e_b3d)');
+                Pstrings{i,j} = strrep(Pstrings{i,j},'exp(b)','e_b');
+                Pstrings{i,j} = strrep(Pstrings{i,j},'exp(bd)','e_bd');
+                Pstrings{i,j} = strrep(Pstrings{i,j},'exp(2*b)','(e_b*e_b)');
+                Pstrings{i,j} = strrep(Pstrings{i,j},'exp(2*bd)','(e_bd*e_bd)');
                 Pstrings{i,j} = strrep(Pstrings{i,j},'exp(2*tau)','e_tau2');
                 Pstrings{i,j} = strrep(Pstrings{i,j},'exp(3*tau)','e_tau3');
                 Pstrings{i,j} = strrep(Pstrings{i,j},'exp(4*tau)','e_tau4');
@@ -257,18 +202,13 @@ for x = {f x_new}
     for i=1:N
         Pstrings2{i} = char(x{1}(i));
         Pstrings2{i} = strrep(Pstrings2{i},'Ts^2','Tsq');
-        Pstrings2{i} = strrep(Pstrings2{i},'exp(b1)','e_b1');
-        Pstrings2{i} = strrep(Pstrings2{i},'exp(b2)','e_b2');
-        Pstrings2{i} = strrep(Pstrings2{i},'exp(b3)','e_b3');
-        Pstrings2{i} = strrep(Pstrings2{i},'exp(b3d)','e_b3d');
+        Pstrings2{i} = strrep(Pstrings2{i},'exp(b)','e_b');
+        Pstrings2{i} = strrep(Pstrings2{i},'exp(bd)','e_bd');
         Pstrings2{i} = strrep(Pstrings2{i},'exp(2*tau)','e_tau*e_tau');
-        Pstrings2{i} = strrep(Pstrings2{i},'exp(2*tau_y)','e_tau_y*e_tau_y');
         Pstrings2{i} = strrep(Pstrings2{i},'exp(tau)','e_tau');
-        Pstrings2{i} = strrep(Pstrings2{i},'exp(tau_y)','e_tau_y');
         Pstrings2{i} = strrep(Pstrings2{i},'s_a^2','s_a2');
         Pstrings2{i} = strrep(Pstrings2{i},'s_a^3','s_a3');
         Pstrings2{i} = strrep(Pstrings2{i},'(Ts + e_tau)^2','Ts_e_tau2');
-        Pstrings2{i} = strrep(Pstrings2{i},'(Ts + e_tau_y)^2','Ts_e_tau_y2');
         Pstrings2{i} = strrep(Pstrings2{i},'S_1','S[0]');
         Pstrings2{i} = strrep(Pstrings2{i},'S_2','S[1]');
         Pstrings2{i} = strrep(Pstrings2{i},'S_3','S[2]');
