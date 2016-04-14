@@ -28,6 +28,7 @@
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
 
+#include "rate_torque_kf.h"
 #include "rate_torque_lqr.h"
 
 // This is the LQR tuning matrix. This is currently calculated statically
@@ -56,17 +57,22 @@ static float rtlqr_integral[3];
  * @param[in] axis which axis to control
  * @returns the control signal for this axis
  */
-float rtlqr_angle_calculate_axis(const float *rtkf_X, float angle_error, uint32_t axis, float dT)
+float rtlqr_angle_calculate_axis(uintptr_t rtkf_handle, float angle_error, uint32_t axis, float dT)
 {
 	const float * axis_L = La[axis];
+
+	float rates[3];
+	float torques[3];
+	rtkf_get_rate(rtkf_handle, rates);
+	rtkf_get_torque(rtkf_handle, torques);
 
 	// calculate the desired control signal. Note that there is a negative
 	// sign on the state through the rate_error calculation, but this is
 	// added explicitly for the torque component (analogous to normal
 	// derivative).
-	float desired = axis_L[axis] * angle_error                                // "Proportional"
-	              - axis_L[axis + 3] * rtkf_X[axis + 0]                       // "Rate"
-	              - axis_L[axis + 6] * rtkf_X[axis + 3];                      // "Derivative"
+	float desired = axis_L[axis] * angle_error                             // "Proportional"
+	              - axis_L[axis + 3] * rates[axis]                         // "Rate"
+	              - axis_L[axis + 6] * torques[axis];                      // "Derivative"
 
 	return desired;
 }
@@ -78,10 +84,16 @@ float rtlqr_angle_calculate_axis(const float *rtkf_X, float angle_error, uint32_
  * @param[in] axis which axis to control
  * @returns the control signal for this axis
  */
-float rtlqr_rate_calculate_axis(const float *rtkf_X, float rate_desired, uint32_t axis, float dT)
+float rtlqr_rate_calculate_axis(uintptr_t rtkf_handle, float rate_desired, uint32_t axis, float dT)
 {
 	const float * axis_L = Lr[axis];
-	float rate_error = rate_desired - rtkf_X[axis];
+
+	float rates[3];
+	float torques[3];
+	rtkf_get_rate(rtkf_handle, rates);
+	rtkf_get_torque(rtkf_handle, torques);
+
+	float rate_error = rate_desired - rates[axis];
 
 	// Update the integral
 	rtlqr_integral[axis] = rtlqr_integral[axis] + rate_error * dT;
@@ -91,7 +103,7 @@ float rtlqr_rate_calculate_axis(const float *rtkf_X, float rate_desired, uint32_
 	// added explicitly for the torque component (analogous to normal
 	// derivative).
 	float desired = axis_L[axis] * rate_error                                 // "Proportional"
-	              - axis_L[axis + 3] * rtkf_X[axis + 3]                       // "Derivative"
+	              - axis_L[axis + 3] * torques[axis]                          // "Derivative"
 	              + axis_L[axis + 6] * rtlqr_integral[axis];                  // "Integral"
 
 	return desired;
