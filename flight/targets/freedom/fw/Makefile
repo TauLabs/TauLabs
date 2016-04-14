@@ -32,7 +32,7 @@ include $(BOARD_INFO_DIR)/board-info.mk
 # @optbrief Set to YES to compile for debugging
 DEBUG ?= NO
 ERASE_FLASH ?= NO
-RTOS ?= FREERTOS
+RTOS ?= CHIBIOS
 
 # @endgroup Compile Options
 # List of modules to include
@@ -82,7 +82,7 @@ RSCODEINC = $(FLIGHTLIB)/rscode
 PIOSSTM32FXXX = $(PIOS)/$(TARGET_ARCHITECTURE)
 PIOSCOMMON = $(PIOS)/Common
 PIOSCOMMONLIB = $(PIOSCOMMON)/Libraries
-APPLIBDIR = $(PIOSSTM32F4XX)/Libraries
+APPLIBDIR = $(PIOSSTM32FXXX)/Libraries
 STMLIBDIR = $(APPLIBDIR)
 STMSPDDIR = $(STMLIBDIR)/STM32F4xx_StdPeriph_Driver
 STMSPDSRCDIR = $(STMSPDDIR)/src
@@ -277,7 +277,7 @@ CDEFS += -DUNALIGNED_SUPPORT_DISABLE
 
 # This is not the best place for these.  Really should abstract out
 # to the board file or something
-CFLAGS += -DSTM32F4XX
+CDEFS += -DSTM32F40_41xxx
 CFLAGS += -DMEM_SIZE=1024000000
 
 # Output format. (can be ihex or binary or both)
@@ -381,6 +381,6 @@ LDFLAGS += -Wl,--warn-common
 LDFLAGS += -Wl,--fatal-warnings
 
 #Linker scripts                                                                                                                                                                                                              
-LDFLAGS += $(addprefix -T,$(LINKER_SCRIPTS_APP))
+LDFLAGS += -T memory.ld $(addprefix -T,$(LINKER_SCRIPTS_APP))
 
 include $(MAKE_INC_DIR)/firmware-common.mk
