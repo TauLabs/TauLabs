@@ -137,7 +137,7 @@ static void calculate_pids(void);
 static void SettingsUpdatedCb(UAVObjEvent * ev);
 
 #ifdef INCLUDE_LQG
-static float *rtkf_X, *rtkf_P;
+static uintptr_t rtkf_handle;;
 static void update_rtkf(const float gyro[3], const float u[3], float dT);
 #endif
 
@@ -223,7 +223,8 @@ static void stabilizationTask(void* parameters)
 	float dT_filtered = 0;
 
 #ifdef INCLUDE_LQG
-	rtkf_init(&rtkf_X, &rtkf_P);
+	rtkf_alloc(&rtkf_handle);
+	rtkf_init(rtkf_handle);
 #endif
 
 	// Main task loop
@@ -395,7 +396,7 @@ static void stabilizationTask(void* parameters)
 					rateDesiredAxis[i] = bound_sym(stabDesiredAxis[i], settings.ManualRate[i]);
 
 					// Compute the inner loop
-					actuatorDesiredAxis[i] = rtlqr_rate_calculate_axis(rtkf_X, rateDesiredAxis[i], i, dT);
+					actuatorDesiredAxis[i] = rtlqr_rate_calculate_axis(rtkf_handle, rateDesiredAxis[i], i, dT);
 					actuatorDesiredAxis[i] = bound_sym(actuatorDesiredAxis[i],1.0f);
 #endif
 					break;
@@ -444,7 +445,7 @@ static void stabilizationTask(void* parameters)
 					if(reinit)
 						rtlqr_init();
 
-					actuatorDesiredAxis[i] = rtlqr_angle_calculate_axis(rtkf_X, local_attitude_error[i], i, dT);
+					actuatorDesiredAxis[i] = rtlqr_angle_calculate_axis(rtkf_handle, local_attitude_error[i], i, dT);
 					actuatorDesiredAxis[i] = bound_sym(actuatorDesiredAxis[i],1.0f);
 #endif /* INCLUDE_LQG */
 					break;
@@ -851,17 +852,17 @@ static void update_rtkf(const float gyro[3], const float u[3], float dT)
 	SystemIdentGet(&systemIdent);
 
 	// Set parameters
-	rtkf_set_gains((const float *) systemIdent.Beta);
-	rtkf_set_tau(systemIdent.Tau);
+	rtkf_set_gains(rtkf_handle, (const float *) systemIdent.Beta);
+	rtkf_set_tau(rtkf_handle, systemIdent.Tau);
 
 	// Advance KF
-	rtkf_predict(rtkf_X, rtkf_P, u, gyro, dT);
+	rtkf_predict(rtkf_handle, u, gyro, dT);
 
 	RateTorqueKFData rateTorque;
 	RateTorqueKFGet(&rateTorque);
-	rtkf_get_rate(rtkf_X, rateTorque.Rate);
-	rtkf_get_torque(rtkf_X, rateTorque.Torque);
-	rtkf_get_bias(rtkf_X, rateTorque.Bias);
+	rtkf_get_rate(rtkf_handle, rateTorque.Rate);
+	rtkf_get_torque(rtkf_handle, rateTorque.Torque);
+	rtkf_get_bias(rtkf_handle, rateTorque.Bias);
 	rtlqr_get_integral(rateTorque.Integral);
 	RateTorqueKFSet(&rateTorque);
 
