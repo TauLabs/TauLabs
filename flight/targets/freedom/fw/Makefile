@@ -43,6 +43,7 @@ MODULES += ManualControl
 MODULES += Stabilization
 MODULES += FirmwareIAP
 MODULES += Telemetry
+MODULES += LQRSolver
 
 OPTMODULES += GPS
 OPTMODULES += AltitudeHold 
@@ -96,6 +97,7 @@ SRC =
 # optional component libraries
 include $(FLIGHTLIB)/CMSIS3/DSP_Lib/library.mk
 INCLUDE_RT_LQG=YES
+INCLUDE_RT_LQR_SOLVER=YES
 include $(FLIGHTLIB)/lqg_rate/library.mk
 
 
@@ -188,7 +190,7 @@ SRCARM =
 
 # List C++ source files here.
 # use file-extension .cpp for C++-files (not .C)
-CPPSRC =
+#CPPSRC =
 
 # List C++ source files here which must be compiled in ARM-Mode.
 # use file-extension .cpp for C++-files (not .C)
@@ -355,6 +357,9 @@ CFLAGS += -MD -MP -MF $(OUTDIR)/dep/$(@F).d
 #CONLYFLAGS += -Wnested-externs
 CONLYFLAGS += $(CSTANDARD)
 
+# flags for only CPP
+# CPPFLAGS += -std=c++11
+
 # Assembler flags.
 #  -Wa,...:    tell GCC to pass this to the assembler.
 #  -ahlns:     create listing
@@ -379,6 +384,7 @@ LDFLAGS += $(MATH_LIB)
 LDFLAGS += -lc -lgcc
 LDFLAGS += -Wl,--warn-common
 LDFLAGS += -Wl,--fatal-warnings
+LDFLAGS += -specs=nosys.specs
 
 #Linker scripts                                                                                                                                                                                                              
 LDFLAGS += -T memory.ld $(addprefix -T,$(LINKER_SCRIPTS_APP))
