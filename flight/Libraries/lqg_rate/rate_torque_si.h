@@ -36,6 +36,7 @@ void rtsi_predict(uintptr_t rtsi_handle, const float u_in[3], const float gyro[3
 void rtsi_init(uintptr_t rtsi_handle);
 
 void rtsi_get_rates(uintptr_t rtsi_handle, float *rates);
+void rtsi_get_torque(uintptr_t rtsi_handle, float *torque);
 void rtsi_get_gains(uintptr_t rtsi_handle, float *gains);
 void rtsi_get_bias(uintptr_t rtsi_handle, float *bias);
 void rtsi_get_tau(uintptr_t rtsi_handle, float *tau);

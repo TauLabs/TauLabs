@@ -81,6 +81,17 @@ void rtsi_get_rates(uintptr_t rtsi_handle, float *rates)
 	rates[2] = rtsi_state->X[2];
 }
 
+void rtsi_get_torque(uintptr_t rtsi_handle, float *torque)
+{
+	struct rtsi_state * rtsi_state= (struct rtsi_state *) rtsi_handle;
+	if (!rtsi_validate(rtsi_state))
+		return;
+
+	torque[0] = rtsi_state->X[3];
+	torque[1] = rtsi_state->X[4];
+	torque[2] = rtsi_state->X[5];
+}
+
 void rtsi_get_gains(uintptr_t rtsi_handle, float *gains)
 {
 	struct rtsi_state * rtsi_state= (struct rtsi_state *) rtsi_handle;
