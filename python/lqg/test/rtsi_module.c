@@ -91,10 +91,8 @@ static bool parseFloatVec3(PyArrayObject *vec_in, float *vec_out)
   return parseFloatVecN(vec_in, vec_out, 3);
 }
 
-//! State variable
-float X[RTSI_NUMX];
-//! Covariance
-float P[RTSI_NUMP];
+uintptr_t rtsi_handle;
+
 
 /**
  * pack_state put the state information into an array
@@ -102,7 +100,7 @@ float P[RTSI_NUMP];
 static PyObject*
 pack_state(PyObject* self)
 {
-	const int N = RTSI_NUMX;
+	const int N = 14;
 	int nd = 1;
 	int dims[1];
 	dims[0] = N;
@@ -111,8 +109,11 @@ pack_state(PyObject* self)
 	state = (PyArrayObject*) PyArray_FromDims(nd, dims, NPY_DOUBLE);
 	double *s = (double *) PyArray_DATA(state);
 
-	for (int i = 0; i < N; i++)
-		s[i] = X[i];
+	rtsi_get_rates(rtsi_handle, &s[0]);    // three elements
+	rtsi_get_torques(rtsi_handle, &s[3]);  // three elements
+	rtsi_get_gains(rtsi_handle, &s[6]);    // four elements
+	rtsi_get_tau(rtsi_handle, &s[10]);     // one element
+	rtsi_get_bias(rtsi_handle, &s[11]);    // three elements
 
 	return Py_BuildValue("O", state);
 }
@@ -120,7 +121,10 @@ pack_state(PyObject* self)
 static PyObject*
 init(PyObject* self, PyObject* args)
 {
-	rtsi_init(X, P);
+	if (rtsi_handle == 0)
+		rtsi_alloc(&rtsi_handle);
+
+	rtsi_init(rtsi_handle);
 	return pack_state(self);
 }
 
@@ -141,7 +145,7 @@ predict(PyObject* self, PyObject* args)
 	if (!parseFloatVec3(vec_control, control_data))
 		return NULL;
 
-	rtsi_predict(X,P,control_data,gyro_data,dT);
+	rtsi_predict(rtsi_handle,control_data,gyro_data,dT);
 
 	return pack_state(self);
 }
@@ -164,14 +168,11 @@ configure(PyObject* self, PyObject* args, PyObject *kwarg)
 		if (!parseFloatVecN(gain_var, gain_new, 4))
 			return NULL;
 
-		X[6] = gain_new[0];
-		X[7] = gain_new[1];
-		X[8] = gain_new[2];
-		X[9] = gain_new[3];
+		rtsi_set_gains(rtsi_handle, gain_new);
 	}
 
 	if (!isnan(tau_var)) {
-		X[10] = tau_var;
+		rtsi_set_tau(rtsi_handle, tau_var);
 	}
 
 	return Py_None;
