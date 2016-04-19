@@ -8,6 +8,9 @@
 #include <pios_heap.h>
 #include <rate_torque_kf.h>
 
+//! State variable
+uintptr_t rtkf_handle;
+
 int not_doublevector(PyArrayObject *vec)
 {
 	if (PyArray_TYPE(vec) != NPY_DOUBLE) {
@@ -91,15 +94,6 @@ static bool parseFloatVec3(PyArrayObject *vec_in, float *vec_out)
   return parseFloatVecN(vec_in, vec_out, 3);
 }
 
-//! State variable
-float *X;
-//! Covariance
-float *P;
-//! Gain
-float gain[3];
-//! Tau
-float tau;
-
 /**
  * pack_state put the state information into an array
  */
@@ -111,12 +105,23 @@ pack_state(PyObject* self)
 	int dims[1];
 	dims[0] = N;
 
+	float rate[3];
+	float torque[3];
+	float bias[3];
+
 	PyArrayObject *state;
 	state = (PyArrayObject*) PyArray_FromDims(nd, dims, NPY_DOUBLE);
 	double *s = (double *) PyArray_DATA(state);
 
-	for (int i = 0; i < N; i++)
-		s[i] = X[i];
+	rtkf_get_rate(rtkf_handle, rate);
+	rtkf_get_torque(rtkf_handle, torque);
+	rtkf_get_bias(rtkf_handle, bias);
+
+	for (int i = 0; i < 3; i++) {
+		s[i] = rate[i];
+		s[i+3] = torque[i];
+		s[i+6] = bias[i];
+	}
 
 	return Py_BuildValue("O", state);
 }
@@ -124,12 +129,10 @@ pack_state(PyObject* self)
 static PyObject*
 init(PyObject* self, PyObject* args)
 {
-	if (X != NULL)
-		PIOS_free(X);
-	if (P != NULL)
-		PIOS_free(P);
+	if (rtkf_handle == 0)
+		rtkf_alloc(&rtkf_handle);
 
-	rtkf_init(&X, &P);
+	rtkf_init(rtkf_handle);
 	return pack_state(self);
 }
 
@@ -150,7 +153,7 @@ advance(PyObject* self, PyObject* args)
 	if (!parseFloatVec3(vec_control, control_data))
 		return NULL;
 
-	rtkf_predict(X,P,control_data,gyro_data,dT);
+	rtkf_predict(rtkf_handle, control_data, gyro_data,dT);
 
 	return pack_state(self);
 }
@@ -176,33 +179,32 @@ configure(PyObject* self, PyObject* args, PyObject *kwarg)
 		float gain_new[4];
 		if (!parseFloatVecN(gain_var, gain_new, 4))
 			return NULL;
-		for (int i = 0; i < 4; i++)
-			gain[i] = gain_new[i];
+		rtkf_set_gains(rtkf_handle, gain_new);
 		//printf("Setting gains\r\n");
 	}
 
 	if (!isnan(tau_var)) {
-		tau = tau_var;
+		rtkf_set_tau(rtkf_handle, tau_var);
 		//printf("Setting tau\r\n");
 	}
 
 	if (!isnan(qw_var)) {
-		rtkf_set_qw(qw_var);
+		rtkf_set_qw(rtkf_handle, qw_var);
 		//printf("Setting QW\r\n");
 	}
 
 	if (!isnan(qu_var)) {
-		rtkf_set_qu(qu_var);
+		rtkf_set_qu(rtkf_handle, qu_var);
 		//printf("Setting QU\r\n");
 	}
 
 	if (!isnan(qbias_var)) {
-		rtkf_set_qbias(qbias_var);
+		rtkf_set_qbias(rtkf_handle, qbias_var);
 		//printf("Setting QB\r\n");
 	}
 
 	if (!isnan(sa_var)) {
-		rtkf_set_sa(sa_var);
+		rtkf_set_sa(rtkf_handle, sa_var);
 		//printf("Setting SA\r\n");
 	}
 
@@ -212,7 +214,7 @@ configure(PyObject* self, PyObject* args, PyObject *kwarg)
 static PyObject*
 set_state(PyObject* self, PyObject* args, PyObject *kwarg)
 {
-	static char *kwlist[] = {"rate", "torque", "bias", NULL};
+	/*static char *kwlist[] = {"rate", "torque", "bias", NULL};
 
 	PyArrayObject *vec_rate = NULL, *vec_torque = NULL, *vec_bias = NULL;
 
@@ -246,7 +248,7 @@ set_state(PyObject* self, PyObject* args, PyObject *kwarg)
 		X[7] = bias[1];
 		X[9] = bias[2];
 	}
-
+	*/
 	return pack_state(self);
 }
 
