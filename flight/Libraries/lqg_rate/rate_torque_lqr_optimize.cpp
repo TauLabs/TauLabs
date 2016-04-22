@@ -39,8 +39,8 @@ void *__dso_handle = (void *)NULL;
 using Eigen::MatrixXd;
 using Eigen::Matrix;
 
-#define NUMX 9
-#define NUMU 3
+#define NUMX 3
+#define NUMU 1
 
 typedef Matrix <float, NUMX, NUMX> MXX;
 typedef Matrix <float, NUMX, NUMU> MXU;
@@ -51,7 +51,29 @@ static MXX A;
 static MXU B;
 static MXX Q;
 static MUU R;
-static MUX K_dlqr;
+
+// one gain for roll and pitch and two for yaw
+static float gains[4];
+static float roll_pitch_cost;
+static float yaw_cost;
+
+// params for rate controller
+static float integral_cost;
+static float rate_cost;
+static float torque_cost;
+
+// this is for attitude controller
+static float attitude_cost;
+static float attitude_rate_cost;
+
+static struct computed_gains {
+	float roll_attitude_gains[3];
+	float roll_rate_gains[3];
+	float pitch_attitude_gains[3];
+	float pitch_rate_gains[3];
+	float yaw_attitude_gains[3];
+	float yaw_rate_gains[3];
+} computed_gains;
 
 // // Tracked for if we iteratively update the model
 static Matrix <float, NUMX, NUMX> X_1;
@@ -74,9 +96,7 @@ extern "C" void rtlqro_init(float new_Ts)
 
 	Ts = new_Ts;
 
-	A(6,0) = Ts;
-	A(7,1) = Ts;
-	A(8,2) = Ts;
+	A(0,1) = Ts;
 }
 
 /**
@@ -88,9 +108,7 @@ extern "C" void rtlqro_set_tau(float tau)
 {
 	float t1 = Ts/(expf(tau) + Ts);
 
-	B(3,0) = t1;
-	B(4,1) = t1;
-	B(5,2) = t1;
+	B(2,0) = t1;
 }
 
 /**
@@ -98,13 +116,10 @@ extern "C" void rtlqro_set_tau(float tau)
  * for yaw
  * @param[in] gains to be used
  */
-extern "C" void rtlqro_set_gains(const float gain[4])
+extern "C" void rtlqro_set_gains(const float new_gains[4])
 {
-	A(0,3) = expf(gain[0])*Ts;
-	A(1,4) = expf(gain[1])*Ts;
-	A(2,5) = expf(gain[2])*Ts;
-
-	B(2,2) = expf(gain[3])*Ts;
+	for (uint32_t i = 0; i < 4; i++)
+		gains[i] = new_gains[i];
 }
 
 /**
@@ -115,24 +130,23 @@ extern "C" void rtlqro_set_gains(const float gain[4])
  * @param[in] roll_pitch_input cost of using roll or pitch control
  * @param[in] yaw_input cost of using yaw control
  */
-extern "C" void rtlqro_set_costs(float rate_error,
+extern "C" void rtlqro_set_costs(float attitude_error,
+	float attitude_rate_error,
+	float rate_error,
 	float torque_error,
 	float integral_error,
 	float roll_pitch_input,
 	float yaw_input)
 {
-	Q(0,0) = rate_error;
-	Q(1,1) = rate_error;
-	Q(2,2) = rate_error;
-	Q(3,3) = torque_error;
-	Q(4,4) = torque_error;
-	Q(5,5) = torque_error;
-	Q(6,6) = integral_error;
-	Q(7,7) = integral_error;
-	Q(8,8) = integral_error;
-	R(0,0) = roll_pitch_input;
-	R(1,1) = roll_pitch_input;
-	R(2,2) = yaw_input;
+	roll_pitch_cost = roll_pitch_input;
+	yaw_cost = yaw_input;
+
+	attitude_cost = attitude_error;
+	attitude_rate_cost = attitude_rate_error;
+	
+	rate_cost = rate_error;
+	torque_cost = torque_error;
+	integral_cost = integral_error;
 }
 
 /*
@@ -203,8 +217,10 @@ bool pseudoInverseXX(const MXX &a, MXX &result, double epsilon = std::numeric_li
  * for i=1:10000
  *     X=Q+A_t*(X^-1+B*R^-1*B_t)^-1*A
  */
-extern "C" void rtlqro_solver()
+MUX rtlqro_gains_calculate()
 {
+	MUX K_dlqr;
+
 	MXX X;
 	
 	// Steal the previous value
@@ -254,27 +270,141 @@ extern "C" void rtlqro_solver()
 	R_inv = R + (B_trnsp * BR);   //cvMatMulAdd(B_trnsp,BR,R,R_inv);
 	pseudoInverseUU(R_inv, R_inv);  //cvInvert(R_inv,R_inv, CV_SVD);
 	K_dlqr = R_inv * K_dlqr;      //cvMatMul(R_inv,K_dlqr,K_dlqr);
+
+	return K_dlqr;
 }
 
-extern "C" void rtlqro_get_roll_gain(float g[3])
+static void rtlqro_solver_roll()
 {
-	g[0] = K_dlqr(0,0);
-	g[1] = K_dlqr(0,3);
-	g[2] = K_dlqr(0,6);
+	MUX K_dlqr;
+
+	// Set up dynamics with roll parameters
+	A(1,2) = expf(gains[0])*Ts;
+	B(0,1) = 0;
+	R(0,0) = roll_pitch_cost;
+
+	// Solve for the rate controller
+	Q(0,0) = integral_cost;
+	Q(1,1) = rate_cost;
+	Q(2,2) = torque_cost;
+
+	K_dlqr = rtlqro_gains_calculate();
+	computed_gains.roll_rate_gains[0] = K_dlqr(1,0); // rate term
+	computed_gains.roll_rate_gains[1] = K_dlqr(2,0); // torque term
+	computed_gains.roll_rate_gains[2] = K_dlqr(0,0); // integral term
+
+	// Solve for the attitude controller
+	Q(0,0) = attitude_cost;
+	Q(1,1) = attitude_rate_cost;
+	Q(2,2) = torque_cost;
+
+	K_dlqr = rtlqro_gains_calculate();
+	computed_gains.roll_attitude_gains[0] = K_dlqr(0,0); // attitude term
+	computed_gains.roll_attitude_gains[1] = K_dlqr(1,0); // rate term
+	computed_gains.roll_attitude_gains[2] = K_dlqr(2,0); // torque term
 }
 
-extern "C" void rtlqro_get_pitch_gain(float g[3])
+static void rtlqro_solver_pitch()
 {
-	g[0] = K_dlqr(1,1);
-	g[1] = K_dlqr(1,4);
-	g[2] = K_dlqr(1,7);
+	MUX K_dlqr;
+
+	// Set up dynamics with roll parameters
+	A(1,2) = expf(gains[1])*Ts;
+	B(0,1) = 0;
+	R(0,0) = roll_pitch_cost;
+
+	// Solve for the rate controller
+	Q(0,0) = integral_cost;
+	Q(1,1) = rate_cost;
+	Q(2,2) = torque_cost;
+
+	K_dlqr = rtlqro_gains_calculate();
+	computed_gains.pitch_rate_gains[0] = K_dlqr(1,0); // rate term
+	computed_gains.pitch_rate_gains[1] = K_dlqr(2,0); // torque term
+	computed_gains.pitch_rate_gains[2] = K_dlqr(0,0); // integral term
+
+	// Solve for the attitude controller
+	Q(0,0) = attitude_cost;
+	Q(1,1) = attitude_rate_cost;
+	Q(2,2) = torque_cost;
+
+	K_dlqr = rtlqro_gains_calculate();
+	computed_gains.pitch_attitude_gains[0] = K_dlqr(0,0); // attitude term
+	computed_gains.pitch_attitude_gains[1] = K_dlqr(1,0); // rate term
+	computed_gains.pitch_attitude_gains[2] = K_dlqr(2,0); // torque term
 }
 
-extern "C" void rtlqro_get_yaw_gain(float g[3])
+static void rtlqro_solver_yaw()
 {
-	g[0] = K_dlqr(2,2);
-	g[1] = K_dlqr(2,5);
-	g[2] = K_dlqr(2,8);
+	MUX K_dlqr;
+
+	// Set up dynamics with roll parameters
+	A(1,2) = expf(gains[2])*Ts;
+	B(0,1) = expf(gains[3])*Ts;
+	R(0,0) = yaw_cost;
+
+	// Solve for the rate controller
+	Q(0,0) = integral_cost;
+	Q(1,1) = rate_cost;
+	Q(2,2) = torque_cost;
+
+	K_dlqr = rtlqro_gains_calculate();
+	computed_gains.yaw_rate_gains[0] = K_dlqr(1,0); // rate term
+	computed_gains.yaw_rate_gains[1] = K_dlqr(2,0); // torque term
+	computed_gains.yaw_rate_gains[2] = K_dlqr(0,0); // integral term
+
+	// Solve for the attitude controller
+	Q(0,0) = attitude_cost;
+	Q(1,1) = attitude_rate_cost;
+	Q(2,2) = torque_cost;
+
+	K_dlqr = rtlqro_gains_calculate();
+	computed_gains.yaw_attitude_gains[0] = K_dlqr(0,0); // attitude term
+	computed_gains.yaw_attitude_gains[1] = K_dlqr(1,0); // rate term
+	computed_gains.yaw_attitude_gains[2] = K_dlqr(2,0); // torque term
+}
+
+extern "C" void rtlqro_solver()
+{
+	rtlqro_solver_roll();
+	rtlqro_solver_pitch();
+	rtlqro_solver_yaw();
+}
+
+extern "C" void rtlqro_get_roll_rate_gain(float g[3])
+{
+	for (uint32_t i = 0; i < 3; i++)
+		g[i] = computed_gains.roll_rate_gains[i];
+}
+
+extern "C" void rtlqro_get_pitch_rate_gain(float g[3])
+{
+	for (uint32_t i = 0; i < 3; i++)
+		g[i] = computed_gains.pitch_rate_gains[i];
+}
+
+extern "C" void rtlqro_get_yaw_rate_gain(float g[3])
+{
+	for (uint32_t i = 0; i < 3; i++)
+		g[i] = computed_gains.yaw_rate_gains[i];
+}
+
+extern "C" void rtlqro_get_roll_attitude_gain(float g[3])
+{
+	for (uint32_t i = 0; i < 3; i++)
+		g[i] = computed_gains.roll_attitude_gains[i];
+}
+
+extern "C" void rtlqro_get_pitch_attitude_gain(float g[3])
+{
+	for (uint32_t i = 0; i < 3; i++)
+		g[i] = computed_gains.pitch_attitude_gains[i];
+}
+
+extern "C" void rtlqro_get_yaw_attitude_gain(float g[3])
+{
+	for (uint32_t i = 0; i < 3; i++)
+		g[i] = computed_gains.yaw_attitude_gains[i];
 }
 
 /**

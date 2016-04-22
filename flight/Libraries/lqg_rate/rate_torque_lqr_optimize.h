@@ -32,15 +32,20 @@
 void rtlqro_init(float new_Ts);
 void rtlqro_set_tau(float tau);
 void rtlqro_set_gains(const float gain[4]);
-void rtlqro_set_costs(float rate_error,
+void rtlqro_set_costs(float attitude_error,
+	float attitude_rate_error,
+	float rate_error,
 	float torque_error,
 	float integral_error,
 	float roll_pitch_input,
 	float yaw_input);
 void rtlqro_solver();
-void rtlqro_get_roll_gain(float g[3]);
-void rtlqro_get_pitch_gain(float g[3]);
-void rtlqro_get_yaw_gain(float g[3]);
+void rtlqro_get_roll_rate_gain(float g[3]);
+void rtlqro_get_pitch_rate_gain(float g[3]);
+void rtlqro_get_yaw_rate_gain(float g[3]);
+void rtlqro_get_roll_attitude_gain(float g[3]);
+void rtlqro_get_pitch_attitude_gain(float g[3]);
+void rtlqro_get_yaw_attitude_gain(float g[3]);
 
 /**
  * @}
