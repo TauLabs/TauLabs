@@ -5,48 +5,55 @@ Ts = 1/400; % the time step
 % x[n+1] = A*x[n] + B*u
 
 % set up the dynamical model
-% x = [ax ay az wx wy wz tx wy tz]';  % angles, rates and torques
-% u = [ux uy uz]';           % desired (prescaled) torques
+% x = [a w t]';       % angles, rates and torques
+% u = [u]';           % desired (prescaled) torques
 
 % Discrete time dynamics
 
 % rotation rate is slowly altered by torques and
 % torques stay the same without input
-b1 = exp(10.15)*Ts;
-b2 = exp(9.63)*Ts;
-b3 = exp(2.16)*Ts;
-b3d = exp(7.69)*Ts;
-t1 = Ts/(exp(-2.92) + Ts);
+b = exp(10.15)*Ts;
+bd = exp(-10)*Ts;
+t = Ts/(exp(-2.92) + Ts);
 
-A = eye(9);
-A(1:3,4:6) = Ts * eye(3);
-A(4:6,7:9) = diag([b1 b2 b3]);
-B = [zeros(3,3); diag([0 0 b3d]); t1*eye(3)];
+A = [1 Ts 0; 0 1 b; 0 0 1];
+B = [0; bd; t];
 
-
-% create cost matrices for LQR calculator. Note that we are using
-% 12 states here as it is an augmented state with an integral error
+% create cost matrices for LQR calculator.
 
 q_angle = 500;
 q_rate = 1;
 q_torque = 1;
-three = [1 1 1];
-Q = diag([three*q_angle three*q_rate three*q_torque]);  % const on state errors
-R = diag([1e4 1e4 1e5]);     % const on inputs
-N = zeros(9,3);            % cross coupling costs between error and control
+Q = diag([q_angle q_rate q_torque]);  % const on state errors
+R = 1e4;                              % const on inputs
+N = zeros(3,1);                       % cross coupling costs between error and control
 
 % Calculate LQR control weights if we have full state knowledge
 % (which the corresponding kalman filter will provide)
 
-sys = ss(A,B,diag(ones(1,9)),[],Ts,...
-    'InputName',{'uR', 'uP', 'uY'}, ...
-    'StateName',{'aR','aP','aY','wR','wP','wY','tR','tP','tY'}, ...
-    'OutputName',{'aR','aP','aY','wR','wP','wY','tR','tP','tY'});
+sys = ss(A,B,diag(ones(1,3)),[],Ts,...
+    'InputName',{'u'}, ...
+    'StateName',{'a','w','t'}, ...
+    'OutputName',{'a','w','t'});
 [L,S] = lqr(sys,Q,R,N);
 
 L
 
 % format matrix for C code
-s = []; for i = 1:3; s1 = sprintf('%ff,',L(i,:)); s = [s '{' s1(1:end-1) sprintf('},\n')]; end; s
+s1 = sprintf('%ff,',L); s = ['{' s1(1:end-1) sprintf('},\n')]; s
 
 %L = dlqr(A,B,Q,R,N)
+
+%% can use same dynamics to calculate the controller for rate
+% here the integral error should be 0 (instead of setpoint as
+% attitude)
+
+q_rate = 10;
+q_torque = 1;
+q_integral = 10000;
+
+Q = diag([q_integral q_rate q_torque]);  % const on state errors
+R = 1e4;     % const on inputs
+
+[Lr,S] = lqr(sys,Q,R,N);
+s1 = sprintf('%ff,',Lr); s = ['{' s1(1:end-1) sprintf('},\n')]; s

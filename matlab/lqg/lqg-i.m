@@ -12,58 +12,34 @@ Ts = 1/400; % the time step
 
 % rotation rate is slowly altered by torques and
 % torques stay the same without input
-b1 = exp(9.46)*Ts;
-b2 = exp(9.21)*Ts;
-b3 = exp(7.52)*Ts;
-t1 = Ts/(exp(-3.3) + Ts);
-t2 = Ts/(exp(-7.3) + Ts);
+b = exp(10.15)*Ts;
+bd = exp(-10)*Ts;
+t = Ts/(exp(-2.92) + Ts);
 
-A = [1 0 0 b1 0  0  0 0 0;
-     0 1 0 0  b2 0  0 0 0;
-     0 0 1 0  0  b3 0 0 0;
-     0 0 0 1  0  0  0 0 0;
-     0 0 0 0  1  0  0 0 0;
-     0 0 0 0  0  1  0 0 0;
-     Ts 0 0 0 0  0  1 0 0;
-     0 Ts 0 0 0  0  0 1 0;
-     0 0 Ts 0 0  0  0 0 1];
-B = [0 0 0;
-     0 0 0;
-     0 0 b3d;
-     t1 0 0;
-     0 t1 0;
-     0 0 t1;
-     0 0 0;
-     0 0 0;
-     0 0 0];
-C = [1 0 0 0 0 0 0 0 0;
-     0 1 0 0 0 0 0 0 0;
-     0 0 1 0 0 0 0 0 0];
-D = zeros(3,3);
+A = [1  b  0; ...
+     0  1  0; ...
+     Ts 0  1]; % augmented state for integral error
+B = [bd; t; 0];
 
-% create cost matrices for LQR calculator. Note that we are using
-% 12 states here as it is an augmented state with an integral error
+% create cost matrices for LQR calculator.
 
 q_rate = 10;
 q_torque = 1;
-q_integral = [10000 10000 10000];
-three = [1 1 1];
-Q = diag([three*q_rate three*q_torque q_integral]);  % const on state errors
-R = diag([1e4 1e4 1e5]);     % const on inputs
-N = zeros(9,3);            % cross coupling costs between error and control
+q_integral = 10000;
+Q = diag([q_rate q_torque q_integral]);  % const on state errors
+R = 1e4;     % const on inputs
+N = zeros(3,1);            % cross coupling costs between error and control
 
 % Calculate LQR control weights if we have full state knowledge
 % (which the corresponding kalman filter will provide)
 
-sys = ss(A,B,diag(ones(1,9)),[],Ts,...
-    'InputName',{'uR', 'uP', 'uY'}, ...
-    'StateName',{'wR','wP','wY','tR','tP','tY','iwR','iwP','iwY'}, ...
-    'OutputName',{'wR','wP','wY','tR','tP','tY','iwR','iwP','iwY'});
+sys = ss(A,B,diag(ones(1,3)),[],Ts,...
+    'InputName',{'u'}, ...
+    'StateName',{'w','t','i'}, ...
+    'OutputName',{'w','t','i'});
 [L,S] = lqr(sys,Q,R,N);
 
 L
-
-s = []; for i = 1:3; s1 = sprintf('%ff,',L(i,:)); s = [s '{' s1(1:end-1) sprintf('},\n')]; end; s
 
 %L = dlqr(A,B,Q,R,N)
 
