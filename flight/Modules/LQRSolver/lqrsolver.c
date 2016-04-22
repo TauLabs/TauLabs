@@ -113,17 +113,23 @@ static void lqrSolverTask(void *parameters)
 			rtlqro_init(1.0f/400.0f);
 			rtlqro_set_tau(si.Tau);
 			rtlqro_set_gains(si.Beta);
-			rtlqro_set_costs(lqr_settings.LqrRateParams[LQRSETTINGS_LQRRATEPARAMS_RATE],
-				lqr_settings.LqrRateParams[LQRSETTINGS_LQRRATEPARAMS_TORQUE], 
-				lqr_settings.LqrRateParams[LQRSETTINGS_LQRRATEPARAMS_INTEGRAL], 
-				lqr_settings.LqrRateParams[LQRSETTINGS_LQRRATEPARAMS_ROLLPITCH], 
-				lqr_settings.LqrRateParams[LQRSETTINGS_LQRRATEPARAMS_YAW]);
+			rtlqro_set_costs(lqr_settings.AngleParams[LQRSETTINGS_ANGLEPARAMS_ANGLE],
+				lqr_settings.AngleParams[LQRSETTINGS_ANGLEPARAMS_RATE],
+				lqr_settings.RateParams[LQRSETTINGS_RATEPARAMS_RATE],
+				lqr_settings.RateParams[LQRSETTINGS_RATEPARAMS_TORQUE],
+				lqr_settings.RateParams[LQRSETTINGS_RATEPARAMS_INTEGRAL],
+				lqr_settings.InputCosts[LQRSETTINGS_INPUTCOSTS_ROLLPITCH],
+				lqr_settings.InputCosts[LQRSETTINGS_INPUTCOSTS_YAW]);
 
 			rtlqro_solver();
 
-			rtlqro_get_roll_gain(lqr.RollRate);
-			rtlqro_get_pitch_gain(lqr.PitchRate);
-			rtlqro_get_yaw_gain(lqr.YawRate);
+			rtlqro_get_roll_rate_gain(lqr.RollRate);
+			rtlqro_get_pitch_rate_gain(lqr.PitchRate);
+			rtlqro_get_yaw_rate_gain(lqr.YawRate);
+
+			rtlqro_get_roll_attitude_gain(lqr.RollAngle);
+			rtlqro_get_pitch_attitude_gain(lqr.PitchAngle);
+			rtlqro_get_yaw_attitude_gain(lqr.YawAngle);
 
 			lqr.SolutionTime = (PIOS_Thread_Systime() - start_time);
 
