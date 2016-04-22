@@ -30,6 +30,7 @@
  */
 
 #include "Eigen/Dense"
+#include "stdint.h"
 
 #define CONVERGE_ITERATIONS 10000
 #define CONVERGENCE_TOLERANCE 10.0f
@@ -143,7 +144,7 @@ extern "C" void rtlqro_set_costs(float attitude_error,
 
 	attitude_cost = attitude_error;
 	attitude_rate_cost = attitude_rate_error;
-	
+
 	rate_cost = rate_error;
 	torque_cost = torque_error;
 	integral_cost = integral_error;
@@ -289,8 +290,8 @@ static void rtlqro_solver_roll()
 	Q(2,2) = torque_cost;
 
 	K_dlqr = rtlqro_gains_calculate();
-	computed_gains.roll_rate_gains[0] = K_dlqr(1,0); // rate term
-	computed_gains.roll_rate_gains[1] = K_dlqr(2,0); // torque term
+	computed_gains.roll_rate_gains[0] = K_dlqr(0,1); // rate term
+	computed_gains.roll_rate_gains[1] = K_dlqr(0,2); // torque term
 	computed_gains.roll_rate_gains[2] = K_dlqr(0,0); // integral term
 
 	// Solve for the attitude controller
@@ -300,8 +301,8 @@ static void rtlqro_solver_roll()
 
 	K_dlqr = rtlqro_gains_calculate();
 	computed_gains.roll_attitude_gains[0] = K_dlqr(0,0); // attitude term
-	computed_gains.roll_attitude_gains[1] = K_dlqr(1,0); // rate term
-	computed_gains.roll_attitude_gains[2] = K_dlqr(2,0); // torque term
+	computed_gains.roll_attitude_gains[1] = K_dlqr(0,1); // rate term
+	computed_gains.roll_attitude_gains[2] = K_dlqr(0,2); // torque term
 }
 
 static void rtlqro_solver_pitch()
@@ -319,8 +320,8 @@ static void rtlqro_solver_pitch()
 	Q(2,2) = torque_cost;
 
 	K_dlqr = rtlqro_gains_calculate();
-	computed_gains.pitch_rate_gains[0] = K_dlqr(1,0); // rate term
-	computed_gains.pitch_rate_gains[1] = K_dlqr(2,0); // torque term
+	computed_gains.pitch_rate_gains[0] = K_dlqr(0,1); // rate term
+	computed_gains.pitch_rate_gains[1] = K_dlqr(0,2); // torque term
 	computed_gains.pitch_rate_gains[2] = K_dlqr(0,0); // integral term
 
 	// Solve for the attitude controller
@@ -330,8 +331,8 @@ static void rtlqro_solver_pitch()
 
 	K_dlqr = rtlqro_gains_calculate();
 	computed_gains.pitch_attitude_gains[0] = K_dlqr(0,0); // attitude term
-	computed_gains.pitch_attitude_gains[1] = K_dlqr(1,0); // rate term
-	computed_gains.pitch_attitude_gains[2] = K_dlqr(2,0); // torque term
+	computed_gains.pitch_attitude_gains[1] = K_dlqr(0,1); // rate term
+	computed_gains.pitch_attitude_gains[2] = K_dlqr(0,2); // torque term
 }
 
 static void rtlqro_solver_yaw()
@@ -349,8 +350,8 @@ static void rtlqro_solver_yaw()
 	Q(2,2) = torque_cost;
 
 	K_dlqr = rtlqro_gains_calculate();
-	computed_gains.yaw_rate_gains[0] = K_dlqr(1,0); // rate term
-	computed_gains.yaw_rate_gains[1] = K_dlqr(2,0); // torque term
+	computed_gains.yaw_rate_gains[0] = K_dlqr(0,1); // rate term
+	computed_gains.yaw_rate_gains[1] = K_dlqr(0,2); // torque term
 	computed_gains.yaw_rate_gains[2] = K_dlqr(0,0); // integral term
 
 	// Solve for the attitude controller
@@ -360,8 +361,8 @@ static void rtlqro_solver_yaw()
 
 	K_dlqr = rtlqro_gains_calculate();
 	computed_gains.yaw_attitude_gains[0] = K_dlqr(0,0); // attitude term
-	computed_gains.yaw_attitude_gains[1] = K_dlqr(1,0); // rate term
-	computed_gains.yaw_attitude_gains[2] = K_dlqr(2,0); // torque term
+	computed_gains.yaw_attitude_gains[1] = K_dlqr(0,1); // rate term
+	computed_gains.yaw_attitude_gains[2] = K_dlqr(0,2); // torque term
 }
 
 extern "C" void rtlqro_solver()
