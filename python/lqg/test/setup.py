@@ -14,8 +14,8 @@ module2 = Extension('rtsi',
     extra_compile_args=['-std=gnu99'],)
 
 module3 = Extension('rtlqr',
-	sources = ['rtlqr_module.c', '../dlqr_solver/dlqr.cpp', '../../../flight/Libraries/lqg_rate/rate_torque_lqr_optimize.cpp'],
-	include_dirs=['../../../flight/Libraries/lqg_rate', '../../../ground/gcs/src/libs/eigen/',numpy.get_include()],)
+	sources = ['rtlqr_module.c', '../../../flight/Libraries/lqg_rate/rate_torque_lqr_optimize.cpp'],
+	include_dirs=['../../../flight/Libraries/lqg_rate', '../../../flight/PiOS/inc', '../../../ground/gcs/src/libs/eigen/',numpy.get_include()],)
  
 setup (name = 'RateTorqueLQG',
         version = '1.0',
