@@ -34,6 +34,7 @@
 
 #include "rate_torque_lqr_optimize.h"
 
+#include "flightstatus.h"
 #include "lqrsettings.h"
 #include "lqrsolution.h"
 #include "systemident.h"
@@ -102,38 +103,47 @@ static void lqrSolverTask(void *parameters)
 	while(1) {
 
 		if (settings_updated) {
-			settings_updated = false;
 
-			uintptr_t start_time = PIOS_Thread_Systime();
+			FlightStatusData flightStatus;
+			FlightStatusGet(&flightStatus);
 
-			SystemIdentGet(&si);
-			LQRSettingsGet(&lqr_settings);
-			LQRSolutionGet(&lqr);
+			if (flightStatus.Armed == FLIGHTSTATUS_ARMED_DISARMED &&
+				flightStatus.FlightMode != FLIGHTSTATUS_FLIGHTMODE_AUTOTUNE) {
 
-			rtlqro_init(1.0f/400.0f);
-			rtlqro_set_tau(si.Tau);
-			rtlqro_set_gains(si.Beta);
-			rtlqro_set_costs(lqr_settings.AngleParams[LQRSETTINGS_ANGLEPARAMS_ANGLE],
-				lqr_settings.AngleParams[LQRSETTINGS_ANGLEPARAMS_RATE],
-				lqr_settings.RateParams[LQRSETTINGS_RATEPARAMS_RATE],
-				lqr_settings.RateParams[LQRSETTINGS_RATEPARAMS_TORQUE],
-				lqr_settings.RateParams[LQRSETTINGS_RATEPARAMS_INTEGRAL],
-				lqr_settings.InputCosts[LQRSETTINGS_INPUTCOSTS_ROLLPITCH],
-				lqr_settings.InputCosts[LQRSETTINGS_INPUTCOSTS_YAW]);
+				settings_updated = false;
 
-			rtlqro_solver();
+				uintptr_t start_time = PIOS_Thread_Systime();
 
-			rtlqro_get_roll_rate_gain(lqr.RollRate);
-			rtlqro_get_pitch_rate_gain(lqr.PitchRate);
-			rtlqro_get_yaw_rate_gain(lqr.YawRate);
+				SystemIdentGet(&si);
+				LQRSettingsGet(&lqr_settings);
+				LQRSolutionGet(&lqr);
 
-			rtlqro_get_roll_attitude_gain(lqr.RollAngle);
-			rtlqro_get_pitch_attitude_gain(lqr.PitchAngle);
-			rtlqro_get_yaw_attitude_gain(lqr.YawAngle);
+				rtlqro_init(1.0f/400.0f);
+				rtlqro_set_tau(si.Tau);
+				rtlqro_set_gains(si.Beta);
+				rtlqro_set_costs(lqr_settings.AngleParams[LQRSETTINGS_ANGLEPARAMS_ANGLE],
+					lqr_settings.AngleParams[LQRSETTINGS_ANGLEPARAMS_RATE],
+					lqr_settings.RateParams[LQRSETTINGS_RATEPARAMS_RATE],
+					lqr_settings.RateParams[LQRSETTINGS_RATEPARAMS_TORQUE],
+					lqr_settings.RateParams[LQRSETTINGS_RATEPARAMS_INTEGRAL],
+					lqr_settings.InputCosts[LQRSETTINGS_INPUTCOSTS_ROLLPITCH],
+					lqr_settings.InputCosts[LQRSETTINGS_INPUTCOSTS_YAW]);
 
-			lqr.SolutionTime = (PIOS_Thread_Systime() - start_time);
+				rtlqro_solver();
 
-			LQRSolutionSet(&lqr);
+				rtlqro_get_roll_rate_gain(lqr.RollRate);
+				rtlqro_get_pitch_rate_gain(lqr.PitchRate);
+				rtlqro_get_yaw_rate_gain(lqr.YawRate);
+
+				rtlqro_get_roll_attitude_gain(lqr.RollAngle);
+				rtlqro_get_pitch_attitude_gain(lqr.PitchAngle);
+				rtlqro_get_yaw_attitude_gain(lqr.YawAngle);
+
+				lqr.SolutionTime = (PIOS_Thread_Systime() - start_time);
+
+				LQRSolutionSet(&lqr);
+
+			}
 		}
 
 		PIOS_Thread_Sleep(10);
