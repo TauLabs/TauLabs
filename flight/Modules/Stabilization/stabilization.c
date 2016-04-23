@@ -49,7 +49,7 @@
 #include "cameradesired.h"
 #include "flightstatus.h"
 #include "gyros.h"
-#include "lqrsettings.h"
+#include "lqrsolution.h"
 #include "mwratesettings.h"
 #include "ratedesired.h"
 #include "ratetorquekf.h"
@@ -184,7 +184,7 @@ int32_t StabilizationInitialize()
 	RateDesiredInitialize();
 #endif
 	RateTorqueKFInitialize();
-	LQRSettingsInitialize();
+	LQRSolutionInitialize();
 
 	return 0;
 }
@@ -866,14 +866,14 @@ static void update_rtkf(const float gyro[3], const float u[3], float dT)
 	rtlqr_get_integral(rateTorque.Integral);
 	RateTorqueKFSet(&rateTorque);
 
-	LQRSettingsData lqrSettings;
-	LQRSettingsGet(&lqrSettings);
-	rtlqr_rate_set_roll_gains(lqrSettings.RollRate);
-	rtlqr_rate_set_pitch_gains(lqrSettings.PitchRate);
-	rtlqr_rate_set_yaw_gains(lqrSettings.YawRate);
-	rtlqr_angle_set_roll_gains(lqrSettings.RollAngle);
-	rtlqr_angle_set_pitch_gains(lqrSettings.PitchAngle);
-	rtlqr_angle_set_yaw_gains(lqrSettings.YawAngle);
+	LQRSolutionData lqrSolution;
+	LQRSolutionGet(&lqrSolution);
+	rtlqr_rate_set_roll_gains(lqrSolution.RollRate);
+	rtlqr_rate_set_pitch_gains(lqrSolution.PitchRate);
+	rtlqr_rate_set_yaw_gains(lqrSolution.YawRate);
+	rtlqr_angle_set_roll_gains(lqrSolution.RollAngle);
+	rtlqr_angle_set_pitch_gains(lqrSolution.PitchAngle);
+	rtlqr_angle_set_yaw_gains(lqrSolution.YawAngle);
 }
 #endif /* INCLUDE_LQG */
 
