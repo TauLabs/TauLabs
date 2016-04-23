@@ -281,7 +281,7 @@ static void rtlqro_solver_roll()
 
 	// Set up dynamics with roll parameters
 	A(1,2) = expf(gains[0])*Ts;
-	B(0,1) = 0;
+	B(1,0) = 0;
 	R(0,0) = roll_pitch_cost;
 
 	// Solve for the rate controller
@@ -311,7 +311,7 @@ static void rtlqro_solver_pitch()
 
 	// Set up dynamics with roll parameters
 	A(1,2) = expf(gains[1])*Ts;
-	B(0,1) = 0;
+	B(1,0) = 0;
 	R(0,0) = roll_pitch_cost;
 
 	// Solve for the rate controller
@@ -341,7 +341,7 @@ static void rtlqro_solver_yaw()
 
 	// Set up dynamics with roll parameters
 	A(1,2) = expf(gains[2])*Ts;
-	B(0,1) = expf(gains[3])*Ts;
+	B(1,0) = expf(gains[3])*Ts;
 	R(0,0) = yaw_cost;
 
 	// Solve for the rate controller
