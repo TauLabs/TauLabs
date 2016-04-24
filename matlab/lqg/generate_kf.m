@@ -18,12 +18,12 @@
 
 % the actuator inputs (four motor speeds)
 
-syms w u_in b bd tau bias Ts real;
+syms w u u_in b bd tau bias Ts real;
 
 x = [w u bias]';
 
 % state transition matrix
-A = [1          Ts*exp(b)       -Ts*exp(b); ...
+A = [1          Ts*exp(b)       -Ts*exp(b) - Ts*exp(bd); ...
      0   exp(tau)/(exp(tau)+Ts)     0; ...
      0             0                1];
 
