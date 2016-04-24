@@ -233,7 +233,6 @@ void rtkf_predict(uintptr_t rtkf_handle, const float control_in[3], const float 
 		return;
 
 	const float Ts = dT_s;
-	const float Tsq = Ts * Ts;
 
 	const float q_w = rtkf_state->q_w;
 	const float q_ud = rtkf_state->q_ud;
@@ -289,7 +288,7 @@ void rtkf_predict(uintptr_t rtkf_handle, const float control_in[3], const float 
 		const float e_bd = expf(bd);
 
 		// X update
-		w = X[0] = w - Ts*bias*e_b + Ts*u*e_b + Ts*u_in*e_bd;
+		w = X[0] = w - bias*Ts*(e_b + e_bd) + Ts*u*e_b + Ts*u_in*e_bd;
 		u = X[1] = (Ts*u_in)/(Ts + e_tau) + (u*e_tau)/(Ts + e_tau);
 
 		const float Q[AF_NUMX] = {q_w, q_ud, q_bias};
@@ -299,10 +298,10 @@ void rtkf_predict(uintptr_t rtkf_handle, const float control_in[3], const float 
 			D[i] = P[i];
 
 		// Covariance calculation
-		P[0] = D[0] + Q[0] + D[2]*Tsq*(e_b*e_b) - 2*D[4]*Tsq*(e_b*e_b) + D[5]*Tsq*(e_b*e_b) + 2*D[1]*Ts*e_b - 2*D[3]*Ts*e_b;
-		P[1] = (e_tau*(D[1] + D[2]*Ts*e_b - D[4]*Ts*e_b))/(Ts + e_tau);
+		P[0] = D[0] + Q[0] - Ts*(e_b + e_bd)*(D[3] + D[4]*Ts*e_b - D[5]*Ts*(e_b + e_bd)) + D[1]*Ts*e_b + Ts*e_b*(D[1] + D[2]*Ts*e_b - D[4]*Ts*(e_b + e_bd)) - D[3]*Ts*(e_b + e_bd);
+		P[1] = -(Ts/(Ts + e_tau) - 1)*(D[1] + D[2]*Ts*e_b - D[4]*Ts*(e_b + e_bd));
 		P[2] = Q[1] + D[2]*powf(Ts/(Ts + e_tau) - 1,2);
-		P[3] = D[3] + D[4]*Ts*e_b - D[5]*Ts*e_b;
+		P[3] = D[3] + D[4]*Ts*e_b - D[5]*Ts*(e_b + e_bd);
 		P[4] = (D[4]*e_tau)/(Ts + e_tau);
 		P[5] = D[5] + Q[2];
 
