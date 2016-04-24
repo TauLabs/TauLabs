@@ -76,8 +76,6 @@ static struct computed_gains {
 	float yaw_rate_gains[3];
 } computed_gains;
 
-// // Tracked for if we iteratively update the model
-static Matrix <float, NUMX, NUMX> X_1;
 static float Ts;
 
 /**
@@ -92,8 +90,6 @@ extern "C" void rtlqro_init(float new_Ts)
 	B = MXU::Constant(0.0f);
 	Q = MXX::Identity();
 	R = MUU::Identity();
-
-	X_1 = MXX::Constant(0.0f);
 
 	Ts = new_Ts;
 
@@ -222,11 +218,8 @@ MUX rtlqro_gains_calculate()
 {
 	MUX K_dlqr;
 
-	MXX X;
+	MXX X, X_1;
 	
-	// Steal the previous value
-	X = X_1;
-
 	MXX  X_inv;
 	MXX  A_trnsp;
 	MUX  B_trnsp;
@@ -247,6 +240,8 @@ MUX rtlqro_gains_calculate()
 	tmp_inv = A_trnsp * tmp_inv;     //cvMatMul( A_trnsp, tmp_inv, tmp_inv );
 	tmp_inv = Q + (tmp_inv * A);     //cvMatMulAdd( tmp_inv, A, Q, tmp_inv );
 	X = tmp_inv;
+
+	X_1 = X;
 
 	// Calculate X_n, the convergent value for the riccati eqn. solution.
 	for (int i=0; i<CONVERGE_ITERATIONS; i++)
