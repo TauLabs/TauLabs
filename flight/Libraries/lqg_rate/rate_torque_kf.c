@@ -68,7 +68,7 @@ bool rtkf_alloc(uintptr_t *rtkf_handle)
 	// Use reasonable defaults
 	rtkf_state->q_w = 1e0f;
 	rtkf_state->q_ud = 1e-5f;
-	rtkf_state->q_bias = 1e-10f;
+	rtkf_state->q_bias = 1e-7f;
 	rtkf_state->s_a = 1000.0f;
 	rtkf_state->gains[0] = 5.f;
 	rtkf_state->gains[1] = 5.f;
