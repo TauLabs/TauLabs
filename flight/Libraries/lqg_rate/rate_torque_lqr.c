@@ -63,8 +63,10 @@ float rtlqr_angle_calculate_axis(uintptr_t rtkf_handle, float angle_error, uint3
 
 	float rates[3];
 	float torques[3];
+	float bias[3];
 	rtkf_get_rate(rtkf_handle, rates);
 	rtkf_get_torque(rtkf_handle, torques);
+	rtkf_get_bias(rtkf_handle, bias);
 
 	// calculate the desired control signal. Note that there is a negative
 	// sign on the state through the rate_error calculation, but this is
@@ -72,7 +74,8 @@ float rtlqr_angle_calculate_axis(uintptr_t rtkf_handle, float angle_error, uint3
 	// derivative).
 	float desired = axis_L[axis] * angle_error                             // "Proportional"
 	              - axis_L[axis + 3] * rates[axis]                         // "Rate"
-	              - axis_L[axis + 6] * torques[axis];                      // "Derivative"
+	              - axis_L[axis + 6] * torques[axis]                       // "Derivative"
+	              + bias[axis];     // Add estimated bias so calculated output has desired influence
 
 	return desired;
 }
@@ -90,8 +93,10 @@ float rtlqr_rate_calculate_axis(uintptr_t rtkf_handle, float rate_desired, uint3
 
 	float rates[3];
 	float torques[3];
+	float bias[3];
 	rtkf_get_rate(rtkf_handle, rates);
 	rtkf_get_torque(rtkf_handle, torques);
+	rtkf_get_bias(rtkf_handle, bias);
 
 	float rate_error = rate_desired - rates[axis];
 
@@ -104,7 +109,8 @@ float rtlqr_rate_calculate_axis(uintptr_t rtkf_handle, float rate_desired, uint3
 	// derivative).
 	float desired = axis_L[axis] * rate_error                                 // "Proportional"
 	              - axis_L[axis + 3] * torques[axis]                          // "Derivative"
-	              + axis_L[axis + 6] * rtlqr_integral[axis];                  // "Integral"
+	              + axis_L[axis + 6] * rtlqr_integral[axis]                   // "Integral"
+	              + bias[axis];      // Add estimated bias so calculated output has desired influence
 
 	return desired;
 }
