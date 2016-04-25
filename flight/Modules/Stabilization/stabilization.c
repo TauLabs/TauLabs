@@ -863,7 +863,6 @@ static void update_rtkf(const float gyro[3], const float u[3], float dT)
 	rtkf_get_rate(rtkf_handle, rateTorque.Rate);
 	rtkf_get_torque(rtkf_handle, rateTorque.Torque);
 	rtkf_get_bias(rtkf_handle, rateTorque.Bias);
-	rtlqr_get_integral(rateTorque.Integral);
 	RateTorqueKFSet(&rateTorque);
 
 	LQRSolutionData lqrSolution;

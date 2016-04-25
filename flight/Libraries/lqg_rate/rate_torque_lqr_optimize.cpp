@@ -59,7 +59,6 @@ static float roll_pitch_cost;
 static float yaw_cost;
 
 // params for rate controller
-static float integral_cost;
 static float rate_cost;
 static float torque_cost;
 
@@ -131,7 +130,6 @@ extern "C" void rtlqro_set_costs(float attitude_error,
 	float attitude_rate_error,
 	float rate_error,
 	float torque_error,
-	float integral_error,
 	float roll_pitch_input,
 	float yaw_input)
 {
@@ -143,7 +141,6 @@ extern "C" void rtlqro_set_costs(float attitude_error,
 
 	rate_cost = rate_error;
 	torque_cost = torque_error;
-	integral_cost = integral_error;
 }
 
 /*
@@ -280,7 +277,7 @@ static void rtlqro_solver_roll()
 	R(0,0) = roll_pitch_cost;
 
 	// Solve for the rate controller
-	Q(0,0) = integral_cost;
+	Q(0,0) = 1e-5f;  // no integral component for rate is needed
 	Q(1,1) = rate_cost;
 	Q(2,2) = torque_cost;
 
@@ -310,7 +307,7 @@ static void rtlqro_solver_pitch()
 	R(0,0) = roll_pitch_cost;
 
 	// Solve for the rate controller
-	Q(0,0) = integral_cost;
+	Q(0,0) = 1e-5f;  // no integral component for rate is needed
 	Q(1,1) = rate_cost;
 	Q(2,2) = torque_cost;
 
@@ -340,7 +337,7 @@ static void rtlqro_solver_yaw()
 	R(0,0) = yaw_cost;
 
 	// Solve for the rate controller
-	Q(0,0) = integral_cost;
+	Q(0,0) = 1e-5f;  // no integral component for rate is needed
 	Q(1,1) = rate_cost;
 	Q(2,2) = torque_cost;
 

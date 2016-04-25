@@ -47,9 +47,6 @@ static float La[3][9] = {
   {0.000000f,0.000000f,0.029929f,0.000000f,0.000000f,0.010262f,0.000000f,0.000000f,0.045315f},
 };
 
-
-static float rtlqr_integral[3];
-
 /**
  * @brief LQR based attitude controller using
  * @param[in] rtkf_X the state estimate (from kalman filter)
@@ -100,33 +97,19 @@ float rtlqr_rate_calculate_axis(uintptr_t rtkf_handle, float rate_desired, uint3
 
 	float rate_error = rate_desired - rates[axis];
 
-	// Update the integral
-	rtlqr_integral[axis] = rtlqr_integral[axis] + rate_error * dT;
-
 	// calculate the desired control signal. Note that there is a negative
 	// sign on the state through the rate_error calculation, but this is
 	// added explicitly for the torque component (analogous to normal
 	// derivative).
 	float desired = axis_L[axis] * rate_error                                 // "Proportional"
 	              - axis_L[axis + 3] * torques[axis]                          // "Derivative"
-	              + axis_L[axis + 6] * rtlqr_integral[axis]                   // "Integral"
 	              + bias[axis];      // Add estimated bias so calculated output has desired influence
 
 	return desired;
 }
 
-void rtlqr_get_integral(float *integral)
-{
-	integral[0] = rtlqr_integral[0];
-	integral[1] = rtlqr_integral[1];
-	integral[2] = rtlqr_integral[2];
-}
-
 void rtlqr_init()
 {
-	rtlqr_integral[0] = 0.0f;
-	rtlqr_integral[1] = 0.0f;
-	rtlqr_integral[2] = 0.0f;
 }
 
 void rtlqr_rate_set_roll_gains(const float gains[3])

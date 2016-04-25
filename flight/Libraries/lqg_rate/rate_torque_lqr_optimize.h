@@ -36,7 +36,6 @@ void rtlqro_set_costs(float attitude_error,
 	float attitude_rate_error,
 	float rate_error,
 	float torque_error,
-	float integral_error,
 	float roll_pitch_input,
 	float yaw_input);
 void rtlqro_solver();

@@ -125,7 +125,6 @@ static void lqrSolverTask(void *parameters)
 					lqr_settings.AngleParams[LQRSETTINGS_ANGLEPARAMS_RATE],
 					lqr_settings.RateParams[LQRSETTINGS_RATEPARAMS_RATE],
 					lqr_settings.RateParams[LQRSETTINGS_RATEPARAMS_TORQUE],
-					lqr_settings.RateParams[LQRSETTINGS_RATEPARAMS_INTEGRAL],
 					lqr_settings.InputCosts[LQRSETTINGS_INPUTCOSTS_ROLLPITCH],
 					lqr_settings.InputCosts[LQRSETTINGS_INPUTCOSTS_YAW]);
 
