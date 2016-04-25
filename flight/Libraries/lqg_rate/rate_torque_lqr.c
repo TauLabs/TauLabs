@@ -35,16 +35,16 @@
 // based on the system dynamics (measured with system identification) and
 // the LQR cost matricies. Note all the zeros because there is no cross
 // axis cost (at least in this implementation).
-static float Lr[3][9] = {
-  {0.037116f,0.000000f,0.000000f,6.995101f,0.000000f,0.000000f,0.783025f,0.000000f,0.000000f},
-  {0.000000f,0.035699f,0.000000f,0.000000f,7.518292f,0.000000f,0.000000f,0.768337f,0.000000f},
-  {0.000000f,0.000000f,0.029410f,0.000000f,0.000000f,0.045482f,0.000000f,0.000000f,0.266737f},
+static float Lr[3][2] = {
+  {0.03f, 7.0f},
+  {0.03f, 7.0f},
+  {0.03f, 0.05f},
 };
 
-static float La[3][9] = {
-  {0.080852f,0.000000f,0.000000f,0.026854f,0.000000f,0.000000f,6.070598f,0.000000f,0.000000f},
-  {0.000000f,0.079358f,0.000000f,0.000000f,0.026281f,0.000000f,0.000000f,6.586221f,0.000000f},
-  {0.000000f,0.000000f,0.029929f,0.000000f,0.000000f,0.010262f,0.000000f,0.000000f,0.045315f},
+static float La[3][3] = {
+  {0.08f, 0.03f, 7.0f},
+  {0.08f, 0.03f, 7.0f},
+  {0.03f, 0.01f, 0.05f}
 };
 
 /**
@@ -69,9 +69,9 @@ float rtlqr_angle_calculate_axis(uintptr_t rtkf_handle, float angle_error, uint3
 	// sign on the state through the rate_error calculation, but this is
 	// added explicitly for the torque component (analogous to normal
 	// derivative).
-	float desired = axis_L[axis] * angle_error                             // "Proportional"
-	              - axis_L[axis + 3] * rates[axis]                         // "Rate"
-	              - axis_L[axis + 6] * torques[axis]                       // "Derivative"
+	float desired = axis_L[0] * angle_error                             // "Proportional"
+	              - axis_L[1] * rates[axis]                         // "Rate"
+	              - axis_L[2] * torques[axis]                       // "Derivative"
 	              + bias[axis];     // Add estimated bias so calculated output has desired influence
 
 	return desired;
@@ -101,8 +101,8 @@ float rtlqr_rate_calculate_axis(uintptr_t rtkf_handle, float rate_desired, uint3
 	// sign on the state through the rate_error calculation, but this is
 	// added explicitly for the torque component (analogous to normal
 	// derivative).
-	float desired = axis_L[axis] * rate_error                                 // "Proportional"
-	              - axis_L[axis + 3] * torques[axis]                          // "Derivative"
+	float desired = axis_L[0] * rate_error                                 // "Proportional"
+	              - axis_L[1] * torques[axis]                          // "Derivative"
 	              + bias[axis];      // Add estimated bias so calculated output has desired influence
 
 	return desired;
@@ -112,46 +112,43 @@ void rtlqr_init()
 {
 }
 
-void rtlqr_rate_set_roll_gains(const float gains[3])
+void rtlqr_rate_set_roll_gains(const float gains[2])
 {
 	Lr[0][0] = gains[0];
-	Lr[0][3] = gains[1];
-	Lr[0][6] = gains[2];
+	Lr[0][1] = gains[1];
 }
 
-void rtlqr_rate_set_pitch_gains(const float gains[3])
+void rtlqr_rate_set_pitch_gains(const float gains[2])
 {
-	Lr[1][1] = gains[0];
-	Lr[1][4] = gains[1];
-	Lr[1][7] = gains[2];
+	Lr[1][0] = gains[0];
+	Lr[1][1] = gains[1];
 }
 
-void rtlqr_rate_set_yaw_gains(const float gains[3])
+void rtlqr_rate_set_yaw_gains(const float gains[2])
 {
-	Lr[2][2] = gains[0];
-	Lr[2][5] = gains[1];
-	Lr[2][8] = gains[2];
+	Lr[2][0] = gains[0];
+	Lr[2][1] = gains[1];
 }
 
 void rtlqr_angle_set_roll_gains(const float gains[3])
 {
 	La[0][0] = gains[0];
-	La[0][3] = gains[1];
-	La[0][6] = gains[2];
+	La[0][1] = gains[1];
+	La[0][2] = gains[2];
 }
 
 void rtlqr_angle_set_pitch_gains(const float gains[3])
 {
-	La[1][1] = gains[0];
-	La[1][4] = gains[1];
-	La[1][7] = gains[2];
+	La[1][0] = gains[0];
+	La[1][1] = gains[1];
+	La[1][2] = gains[2];
 }
 
 void rtlqr_angle_set_yaw_gains(const float gains[3])
 {
-	La[2][2] = gains[0];
-	La[2][5] = gains[1];
-	La[2][8] = gains[2];
+	La[2][0] = gains[0];
+	La[2][1] = gains[1];
+	La[2][2] = gains[2];
 }
 
 /**

@@ -34,13 +34,12 @@
 #include "stdint.h"
  
 void rtlqr_init();
-void rtlqr_get_integral(float *integral);
 float rtlqr_rate_calculate_axis(uintptr_t rtkf_handle, float rate_desired, uint32_t axis, float dT);
 float rtlqr_angle_calculate_axis(uintptr_t rtkf_handle, float angle_error, uint32_t axis, float dT);
 
-void rtlqr_rate_set_roll_gains(const float gains[3]);
-void rtlqr_rate_set_pitch_gains(const float gains[3]);
-void rtlqr_rate_set_yaw_gains(const float gains[3]);
+void rtlqr_rate_set_roll_gains(const float gains[2]);
+void rtlqr_rate_set_pitch_gains(const float gains[2]);
+void rtlqr_rate_set_yaw_gains(const float gains[2]);
 
 void rtlqr_angle_set_roll_gains(const float gains[3]);
 void rtlqr_angle_set_pitch_gains(const float gains[3]);

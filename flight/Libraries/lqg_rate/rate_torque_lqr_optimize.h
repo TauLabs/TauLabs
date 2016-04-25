@@ -39,9 +39,9 @@ void rtlqro_set_costs(float attitude_error,
 	float roll_pitch_input,
 	float yaw_input);
 void rtlqro_solver();
-void rtlqro_get_roll_rate_gain(float g[3]);
-void rtlqro_get_pitch_rate_gain(float g[3]);
-void rtlqro_get_yaw_rate_gain(float g[3]);
+void rtlqro_get_roll_rate_gain(float g[2]);
+void rtlqro_get_pitch_rate_gain(float g[2]);
+void rtlqro_get_yaw_rate_gain(float g[2]);
 void rtlqro_get_roll_attitude_gain(float g[3]);
 void rtlqro_get_pitch_attitude_gain(float g[3]);
 void rtlqro_get_yaw_attitude_gain(float g[3]);

@@ -68,11 +68,11 @@ static float attitude_rate_cost;
 
 static struct computed_gains {
 	float roll_attitude_gains[3];
-	float roll_rate_gains[3];
+	float roll_rate_gains[2];
 	float pitch_attitude_gains[3];
-	float pitch_rate_gains[3];
+	float pitch_rate_gains[2];
 	float yaw_attitude_gains[3];
-	float yaw_rate_gains[3];
+	float yaw_rate_gains[2];
 } computed_gains;
 
 static float Ts;
@@ -282,9 +282,9 @@ static void rtlqro_solver_roll()
 	Q(2,2) = torque_cost;
 
 	K_dlqr = rtlqro_gains_calculate();
+	// K_dlqr(0,0) is integral which is unused for rate controller
 	computed_gains.roll_rate_gains[0] = K_dlqr(0,1); // rate term
 	computed_gains.roll_rate_gains[1] = K_dlqr(0,2); // torque term
-	computed_gains.roll_rate_gains[2] = K_dlqr(0,0); // integral term
 
 	// Solve for the attitude controller
 	Q(0,0) = attitude_cost;
@@ -312,9 +312,9 @@ static void rtlqro_solver_pitch()
 	Q(2,2) = torque_cost;
 
 	K_dlqr = rtlqro_gains_calculate();
+	// K_dlqr(0,0) is integral which is unused for rate controller
 	computed_gains.pitch_rate_gains[0] = K_dlqr(0,1); // rate term
 	computed_gains.pitch_rate_gains[1] = K_dlqr(0,2); // torque term
-	computed_gains.pitch_rate_gains[2] = K_dlqr(0,0); // integral term
 
 	// Solve for the attitude controller
 	Q(0,0) = attitude_cost;
@@ -342,9 +342,9 @@ static void rtlqro_solver_yaw()
 	Q(2,2) = torque_cost;
 
 	K_dlqr = rtlqro_gains_calculate();
+	// K_dlqr(0,0) is integral which is unused for rate controller
 	computed_gains.yaw_rate_gains[0] = K_dlqr(0,1); // rate term
 	computed_gains.yaw_rate_gains[1] = K_dlqr(0,2); // torque term
-	computed_gains.yaw_rate_gains[2] = K_dlqr(0,0); // integral term
 
 	// Solve for the attitude controller
 	Q(0,0) = attitude_cost;
@@ -364,21 +364,21 @@ extern "C" void rtlqro_solver()
 	rtlqro_solver_yaw();
 }
 
-extern "C" void rtlqro_get_roll_rate_gain(float g[3])
+extern "C" void rtlqro_get_roll_rate_gain(float g[2])
 {
-	for (uint32_t i = 0; i < 3; i++)
+	for (uint32_t i = 0; i < 2; i++)
 		g[i] = computed_gains.roll_rate_gains[i];
 }
 
-extern "C" void rtlqro_get_pitch_rate_gain(float g[3])
+extern "C" void rtlqro_get_pitch_rate_gain(float g[2])
 {
-	for (uint32_t i = 0; i < 3; i++)
+	for (uint32_t i = 0; i < 2; i++)
 		g[i] = computed_gains.pitch_rate_gains[i];
 }
 
-extern "C" void rtlqro_get_yaw_rate_gain(float g[3])
+extern "C" void rtlqro_get_yaw_rate_gain(float g[2])
 {
-	for (uint32_t i = 0; i < 3; i++)
+	for (uint32_t i = 0; i < 2; i++)
 		g[i] = computed_gains.yaw_rate_gains[i];
 }
 
