@@ -21,11 +21,11 @@ B = [0; bd; t];
 
 % create cost matrices for LQR calculator.
 
-q_angle = 500;
-q_rate = 1;
-q_torque = 1;
+q_angle = 1/(1)^2;
+q_rate = 1/(100)^2;
+q_torque = 1/(1e-2)^2;
 Q = diag([q_angle q_rate q_torque]);  % const on state errors
-R = 1e4;                              % const on inputs
+R = 1;                                % const on inputs
 N = zeros(3,1);                       % cross coupling costs between error and control
 
 % Calculate LQR control weights if we have full state knowledge
@@ -48,12 +48,13 @@ s1 = sprintf('%ff,',L); s = ['{' s1(1:end-1) sprintf('},\n')]; s
 % here the integral error should be 0 (instead of setpoint as
 % attitude)
 
-q_rate = 10;
-q_torque = 1;
-q_integral = 10000;
+q_rate = 1/(10)^2;
+q_torque = 1/(100)^2;
+q_integral = 1e-10;
 
 Q = diag([q_integral q_rate q_torque]);  % const on state errors
-R = 1e4;     % const on inputs
+R = 1;     % const on inputs
 
 [Lr,S] = lqr(sys,Q,R,N);
-s1 = sprintf('%ff,',Lr); s = ['{' s1(1:end-1) sprintf('},\n')]; s
+%s1 = sprintf('%ff,',Lr); s = ['{' s1(1:end-1) sprintf('},\n')]; s
+Lr
