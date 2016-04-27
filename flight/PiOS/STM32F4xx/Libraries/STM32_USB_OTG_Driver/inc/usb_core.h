@@ -2,13 +2,13 @@
   ******************************************************************************
   * @file    usb_core.h
   * @author  MCD Application Team
-  * @version V2.1.0
-  * @date    19-March-2012
+  * @version V2.2.0
+  * @date    09-November-2015
   * @brief   Header of the Core Layer
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; COPYRIGHT 2012 STMicroelectronics</center></h2>
+  * <h2><center>&copy; COPYRIGHT 2015 STMicroelectronics</center></h2>
   *
   * Licensed under MCD-ST Liberty SW License Agreement V2, (the "License");
   * You may not use this file except in compliance with the License.
@@ -194,18 +194,12 @@ typedef struct _Device_TypeDef
   const uint8_t  *(*GetProductStrDescriptor)( uint8_t speed , uint16_t *length);  
   const uint8_t  *(*GetSerialStrDescriptor)( uint8_t speed , uint16_t *length);  
   const uint8_t  *(*GetConfigurationStrDescriptor)( uint8_t speed , uint16_t *length);  
-  const uint8_t  *(*GetInterfaceStrDescriptor)( uint8_t speed , uint16_t *length);   
-} USBD_DEVICE, *pUSBD_DEVICE;
+  const uint8_t  *(*GetInterfaceStrDescriptor)( uint8_t speed , uint16_t *length); 
 
-//typedef struct USB_OTG_hPort
-//{
-//  void (*Disconnect) (void *phost);
-//  void (*Connect) (void *phost); 
-//  uint8_t ConnStatus;
-//  uint8_t DisconnStatus;
-//  uint8_t ConnHandled;
-//  uint8_t DisconnHandled;
-//} USB_OTG_hPort_TypeDef;
+#if (USBD_LPM_ENABLED == 1)
+  const uint8_t  *(*GetBOSDescriptor)( uint8_t speed , uint16_t *length); 
+#endif   
+} USBD_DEVICE, *pUSBD_DEVICE;
 
 typedef struct _Device_cb
 {
@@ -274,13 +268,13 @@ typedef struct _HCD
 {
   uint8_t                  Rx_Buffer [MAX_DATA_LENGTH];  
   __IO uint32_t            ConnSts;
+  __IO uint32_t            PortEnabled;
   __IO uint32_t            ErrCnt[USB_OTG_MAX_TX_FIFOS];
   __IO uint32_t            XferCnt[USB_OTG_MAX_TX_FIFOS];
   __IO HC_STATUS           HC_Status[USB_OTG_MAX_TX_FIFOS];  
   __IO URB_STATE           URB_State[USB_OTG_MAX_TX_FIFOS];
   USB_OTG_HC               hc [USB_OTG_MAX_TX_FIFOS];
   uint16_t                 channel [USB_OTG_MAX_TX_FIFOS];
-//  USB_OTG_hPort_TypeDef    *port_cb;  
 }
 HCD_DEV , *USB_OTG_USBH_PDEV;
 

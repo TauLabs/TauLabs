@@ -2,13 +2,13 @@
   ******************************************************************************
   * @file    usb_dcd.c
   * @author  MCD Application Team
-  * @version V2.1.0
-  * @date    19-March-2012
+  * @version V2.2.0
+  * @date    09-November-2015
   * @brief   Peripheral Device Interface Layer
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; COPYRIGHT 2012 STMicroelectronics</center></h2>
+  * <h2><center>&copy; COPYRIGHT 2015 STMicroelectronics</center></h2>
   *
   * Licensed under MCD-ST Liberty SW License Agreement V2, (the "License");
   * You may not use this file except in compliance with the License.
@@ -107,7 +107,7 @@ void DCD_Init(USB_OTG_CORE_HANDLE *pdev ,
     ep->is_in = 1;
     ep->num = i;
     ep->tx_fifo_num = i;
-    /* Control until ep is actvated */
+    /* Control until ep is activated */
     ep->type = EP_TYPE_CTRL;
     ep->maxpacket =  USB_OTG_MAX_EP0_SIZE;
     ep->xfer_buff = 0;
@@ -129,17 +129,27 @@ void DCD_Init(USB_OTG_CORE_HANDLE *pdev ,
   }
   
   USB_OTG_DisableGlobalInt(pdev);
+
+#if defined (STM32F446xx) || defined (STM32F469_479xx)
+  
+  /* Force Device Mode*/
+  USB_OTG_SetCurrentMode(pdev, DEVICE_MODE);
   
   /*Init the Core (common init.) */
   USB_OTG_CoreInit(pdev);
 
+#else
+  
+    /*Init the Core (common init.) */
+  USB_OTG_CoreInit(pdev);
 
   /* Force Device Mode*/
   USB_OTG_SetCurrentMode(pdev, DEVICE_MODE);
+
+#endif
   
   /* Init Device */
   USB_OTG_CoreInitDev(pdev);
-  
   
   /* Enable USB Global interrupt */
   USB_OTG_EnableGlobalInt(pdev);

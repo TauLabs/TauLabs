@@ -84,6 +84,7 @@ EXTRAINCDIRS  += $(BUCOMMONDIR)
 PAYLOAD_FILE = $(ROOT_DIR)/build/bl_$(BOARD_NAME)/bl_$(BOARD_NAME).bin
 # Place project-specific -D (define) and/or 
 # -U options for C here.
+CDEFS += -D$(STM32_TYPE)
 CDEFS += -DMEM_SIZE=$(FW_BANK_SIZE)
 CDEFS += -DUSE_$(BOARD)
 CDEFS += -DBU_PAYLOAD_FILE=$(PAYLOAD_FILE)

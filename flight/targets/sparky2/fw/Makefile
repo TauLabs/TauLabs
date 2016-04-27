@@ -278,7 +278,7 @@ CDEFS += -DUNALIGNED_SUPPORT_DISABLE
 
 # This is not the best place for these.  Really should abstract out
 # to the board file or something
-CDEFS += -DSTM32F40_41xxx
+CFLAGS += -D$(STM32_TYPE)
 CFLAGS += -DMEM_SIZE=1024000000
 
 # Output format. (can be ihex or binary or both)

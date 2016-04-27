@@ -2,13 +2,13 @@
   ******************************************************************************
   * @file    usb_dcd.h
   * @author  MCD Application Team
-  * @version V2.1.0
-  * @date    19-March-2012
+  * @version V2.2.0
+  * @date    09-November-2015
   * @brief   Peripheral Driver Header file
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; COPYRIGHT 2012 STMicroelectronics</center></h2>
+  * <h2><center>&copy; COPYRIGHT 2015 STMicroelectronics</center></h2>
   *
   * Licensed under MCD-ST Liberty SW License Agreement V2, (the "License");
   * You may not use this file except in compliance with the License.
@@ -150,7 +150,7 @@ void DCD_SetEPStatus (USB_OTG_CORE_HANDLE *pdev ,
 */ 
 
 
-#endif //__DCD_H__
+#endif /* __DCD_H__ */
 
 
 /**
