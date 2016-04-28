@@ -339,7 +339,8 @@ static void osdCanTask(void* parameters)
 
 		// If we receive an update here the OSD is in charge of monitoring battery voltage
 		struct pios_can_volt_message pios_can_volt_message;
-		if (PIOS_Queue_Receive(queue_battery_volt, &pios_can_volt_message, 0) == true) {
+		if (queue_battery_volt != NULL &&
+		    PIOS_Queue_Receive(queue_battery_volt, &pios_can_volt_message, 0) == true) {
 			FlightBatteryStateVoltageSet(&pios_can_volt_message.volt);
 		}
 
