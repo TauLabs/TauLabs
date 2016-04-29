@@ -1162,7 +1162,7 @@ void Calibration::updateTempCompCalibrationDisplay()
 
     Eigen::Matrix<double, 4, 3> result;
     // Use the cholesky-based Penrose pseudoinverse method.
-    (X.transpose() * X).ldlt().solve(X.transpose()*Y, &result);
+    result = (X.transpose() * X).ldlt().solve(X.transpose()*Y);
 
     QList<double> xCoeffs, yCoeffs, zCoeffs;
     xCoeffs.clear();
@@ -1230,7 +1230,7 @@ int Calibration::computeTempCal()
 
     Eigen::Matrix<double, 4, 3> result;
     // Use the cholesky-based Penrose pseudoinverse method.
-    (X.transpose() * X).ldlt().solve(X.transpose()*Y, &result);
+    result = (X.transpose() * X).ldlt().solve(X.transpose()*Y);
 
     //qDebug() << "Solution" << result;
     qDebug() << "Solution: ";
