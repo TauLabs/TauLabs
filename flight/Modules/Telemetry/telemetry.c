@@ -80,7 +80,8 @@ static void updateTelemetryStats();
 static void gcsTelemetryStatsUpdated();
 static void updateSettings();
 static uintptr_t getComPort();
-static void session_managing_updated(UAVObjEvent * ev);
+static void session_managing_updated(UAVObjEvent * ev, void *ctx, void *obj,
+	int len);
 static void update_object_instances(uint32_t obj_id, uint32_t inst_id);
 static void check_pause_periodic_updates_timeout();
 
@@ -94,6 +95,11 @@ int32_t TelemetryStart(void)
 	// Process all registered objects and connect queue for updates
 	UAVObjIterate(&registerObject);
     
+	// Create periodic event that will be used to update the telemetry stats
+	UAVObjEvent ev;
+	memset(&ev, 0, sizeof(UAVObjEvent));
+	EventPeriodicQueueCreate(&ev, priorityQueue, STATS_UPDATE_PERIOD_MS);
+
 	// Listen to objects of interest
 	GCSTelemetryStatsConnectQueue(priorityQueue);
     
@@ -136,13 +142,6 @@ int32_t TelemetryInitialize(void)
 	// Initialise UAVTalk
 	uavTalkCon = UAVTalkInitialize(&transmitData);
     
-	// Create periodic event that will be used to update the telemetry stats
-	txErrors = 0;
-	txRetries = 0;
-	UAVObjEvent ev;
-	memset(&ev, 0, sizeof(UAVObjEvent));
-	EventPeriodicQueueCreate(&ev, priorityQueue, STATS_UPDATE_PERIOD_MS);
-
 	SessionManagingInitialize();
 	SessionManagingConnectCallback(session_managing_updated);
 
@@ -613,11 +612,13 @@ static uintptr_t getComPort() {
 /**
  * SessionManaging object updated callback
  */
-static void session_managing_updated(UAVObjEvent * ev)
+static void session_managing_updated(UAVObjEvent * ev, void *ctx, void *obj, int len)
 {
-	SessionManagingData sessionManaging;
-	SessionManagingGet(&sessionManaging);
+	(void) ctx; (void) obj; (void) len;
 	if (ev->event == EV_UNPACKED) {
+		SessionManagingData sessionManaging;
+		SessionManagingGet(&sessionManaging);
+
 		if (sessionManaging.SessionID == 0) {
 			sessionManaging.ObjectID = 0;
 			sessionManaging.ObjectInstances = 0;

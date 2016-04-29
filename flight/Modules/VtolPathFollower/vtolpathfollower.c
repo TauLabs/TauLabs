@@ -134,7 +134,7 @@ static void vtolPathFollowerTask(void *parameters)
 
 	VtolPathFollowerSettingsConnectCallback(vtol_follower_control_settings_updated);
 	AltitudeHoldSettingsConnectCallback(vtol_follower_control_settings_updated);
-	vtol_follower_control_settings_updated(NULL);
+	vtol_follower_control_settings_updated(NULL, NULL, NULL, 0);
 	
 	VtolPathFollowerSettingsGet(&guidanceSettings);
 	

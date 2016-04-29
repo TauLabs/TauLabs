@@ -32,14 +32,6 @@
 #ifndef PIOS_INITCALL_H
 #define PIOS_INITCALL_H
 
-/**
- * Just a stub define to make things compile.
- * Automatically link based initialization currently doesn't work
- * since posix really runs on a multitude of architectures
- * and we cannot define a linker script for each of them atm
- */
-
-
 typedef int32_t (*initcall_t)(void);
 typedef struct {
 	initcall_t fn_minit;
@@ -47,23 +39,33 @@ typedef struct {
 } initmodule_t;
 
 /* Init module section */
-extern initmodule_t __module_initcall_start[], __module_initcall_end[];
+extern initmodule_t *__module_initcall_start, *__module_initcall_end;
 
-extern void InitModules();
-extern void StartModules();
+#define MODULE_INITCALL(ifn, sfn) \
+static void _add_init_fn(void) __attribute__((constructor)); \
+static void _add_init_fn(void) { \
+	__module_initcall_end->fn_minit = (ifn); \
+	__module_initcall_end->fn_tinit = (sfn); \
+	__module_initcall_end++; \
+}
 
-#define MODULE_INITCALL(ifn, sfn)
+#define MODULE_INITSYSTEM_DECLS \
+static initmodule_t __module_initcalls[256]; \
+initmodule_t *__module_initcall_start = __module_initcalls; \
+initmodule_t *__module_initcall_end = __module_initcalls;
 
-#define MODULE_TASKCREATE_ALL { \
-	/* Start all module threads */ \
-	StartModules(); \
-	}
+#define MODULE_INITIALISE_ALL(wdgfn)  { \
+	for (initmodule_t *fn = __module_initcall_start; fn < __module_initcall_end; fn++) { \
+		if (fn->fn_minit)                               \
+		(fn->fn_minit)();                       \
+		(wdgfn)();                                      \
+	}                                                       \
+}
 
-#define MODULE_INITIALISE_ALL(wdgfn) {		\
-	/* Initialize modules */ \
-	InitModules(); \
-	/* Initialize the system thread */ \
-	SystemModInitialize();}
+#define MODULE_TASKCREATE_ALL  { for (initmodule_t *fn = __module_initcall_start; fn < __module_initcall_end; fn++) \
+	if (fn->fn_tinit) \
+	(fn->fn_tinit)(); }
+
 
 #endif	/* PIOS_INITCALL_H */
 

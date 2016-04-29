@@ -107,9 +107,6 @@
 #define CPULOAD_LIMIT_WARNING		80
 #define CPULOAD_LIMIT_CRITICAL		95
 
-/* Task stack sizes */
-#define PIOS_EVENTDISPATCHER_STACK_SIZE	1024
-
 /*
  * This has been calibrated 2014/02/21 using chibios @ b89da8ac379646ac421bb65a209210e637bba223.
  * Calibration has been done by disabling the init task, breaking into debugger after

@@ -75,7 +75,16 @@ static inline int32_t $(NAME)InstSet(uint16_t instId, const $(NAME)Data *dataIn)
 
 static inline int32_t $(NAME)ConnectQueue(struct pios_queue *queue) { return UAVObjConnectQueue($(NAME)Handle(), queue, EV_MASK_ALL_UPDATES); }
 
-static inline int32_t $(NAME)ConnectCallback(UAVObjEventCallback cb) { return UAVObjConnectCallback($(NAME)Handle(), cb, EV_MASK_ALL_UPDATES); }
+static inline int32_t $(NAME)ConnectCallback(UAVObjEventCallback cb) { return UAVObjConnectCallback($(NAME)Handle(), cb, NULL, EV_MASK_ALL_UPDATES); }
+
+static inline int32_t $(NAME)ConnectCallbackCtx(UAVObjEventCallback cb, volatile void *ctx) { return UAVObjConnectCallback($(NAME)Handle(), cb, (void *)ctx, EV_MASK_ALL_UPDATES); }
+
+static inline int32_t $(NAME)ConnectCopy(volatile $(NAME)Data *dataOut) {
+	/* Get the thing once for free first-- no changes */
+	$(NAME)Get((void *) dataOut);
+
+	return UAVObjConnectCallback($(NAME)Handle(), UAVObjCbCopyData, (void *)dataOut, EV_MASK_ALL_UPDATES);
+}
 
 static inline uint16_t $(NAME)CreateInstance() { return UAVObjCreateInstance($(NAME)Handle(), &$(NAME)SetDefaults); }
 

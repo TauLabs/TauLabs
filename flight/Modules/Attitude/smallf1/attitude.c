@@ -76,7 +76,7 @@ static float gyro_correct_int[3] = {0,0,0};
 
 static int32_t updateSensorsDigital(AccelsData * accelsData, GyrosData * gyrosData);
 static void updateAttitude(AccelsData *, GyrosData *);
-static void settingsUpdatedCb(UAVObjEvent * objEv);
+static void settingsUpdatedCb(UAVObjEvent * objEv, void *ctx, void *obj, int len);
 static void update_accels(struct pios_sensor_accel_data *accels, AccelsData * accelsData);
 static void update_gyros(struct pios_sensor_gyro_data *gyros, GyrosData * gyrosData);
 static void updateTemperatureComp(float temperature, float *temp_bias);
@@ -173,7 +173,7 @@ static void AttitudeTask(void *parameters)
 	AlarmsClear(SYSTEMALARMS_ALARM_ATTITUDE);
 
 	// Force settings update to make sure rotation loaded
-	settingsUpdatedCb(AttitudeSettingsHandle());
+	settingsUpdatedCb(NULL, NULL, NULL, 0);
 	
 	enum complimentary_filter_status complimentary_filter_status;
 	complimentary_filter_status = CF_POWERON;
@@ -600,7 +600,9 @@ static void updateTemperatureComp(float temperature, float *temp_bias)
 	}
 }
 
-static void settingsUpdatedCb(UAVObjEvent * objEv) {
+static void settingsUpdatedCb(UAVObjEvent * objEv, void *ctx, void *obj, int len) {
+	(void) objEv; (void) ctx; (void) obj; (void) len;
+
 	AttitudeSettingsData attitudeSettings;
 	AttitudeSettingsGet(&attitudeSettings);
 	SensorSettingsGet(&sensorSettings);

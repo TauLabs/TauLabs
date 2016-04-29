@@ -58,7 +58,7 @@ const char DIGITS[16] = "0123456789abcdef";
 static UAVTalkConnection uavTalkCon;
 static struct pios_thread *loggingTaskHandle;
 static bool module_enabled;
-static LoggingSettingsData settings;
+static volatile LoggingSettingsData settings;
 static LoggingStatsData loggingData;
 struct pios_queue *logging_queue;
 static struct pios_recursive_mutex *mutex;
@@ -68,7 +68,6 @@ static void    loggingTask(void *parameters);
 static int32_t send_data(uint8_t *data, int32_t length);
 static void register_object(UAVObjHandle obj);
 static void logSettings(UAVObjHandle obj);
-static void SettingsUpdatedCb(UAVObjEvent * ev);
 static void writeHeader();
 
 // Local variables
@@ -175,9 +174,8 @@ static void loggingTask(void *parameters)
 	uint8_t read_data[LOGGINGSTATS_FILESECTOR_NUMELEM];
 #endif
 
-	// Get settings and connect callback
-	LoggingSettingsGet(&settings);
-	LoggingSettingsConnectCallback(SettingsUpdatedCb);
+	// Get settings automatically for now on
+	LoggingSettingsConnectCopy(&settings);
 
 	LoggingStatsGet(&loggingData);
 	loggingData.BytesLogged = 0;
@@ -372,6 +370,7 @@ static void logSettings(UAVObjHandle obj)
 	}
 }
 
+
 /**
  * Forward data from UAVTalk out the serial port
  * \param[in] data Data buffer to send
@@ -389,12 +388,15 @@ static int32_t send_data(uint8_t *data, int32_t length)
 	return length;
 }
 
+
 /**
  * @brief Callback for adding an object to the logging queue
  * @param ev the event
  */
-static void obj_updated_callback(UAVObjEvent * ev)
+static void obj_updated_callback(UAVObjEvent * ev, void* cb_ctx, void *uavo_data, int uavo_len)
 {
+	(void) cb_ctx; (void) uavo_data; (void) uavo_len;
+
 	if (loggingData.Operation != LOGGINGSTATS_OPERATION_LOGGING){
 		// We are not logging, so all events are discarded
 		return;
@@ -421,7 +423,7 @@ static void register_object(UAVObjHandle obj)
 	}
 
 	uint16_t interval = MAX(meta_data.loggingUpdatePeriod, LOGGING_PERIOD_MS);
-	UAVObjConnectCallbackThrottled(obj, obj_updated_callback, EV_UPDATED | EV_UNPACKED, interval);
+	UAVObjConnectCallbackThrottled(obj, obj_updated_callback, NULL, EV_UPDATED | EV_UNPACKED, interval);
 }
 
 
@@ -474,13 +476,6 @@ static void writeHeader()
 	send_data((uint8_t*)tmp_str, pos);
 }
 
-/**
- * Callback triggered when the module settings are updated
- */
-static void SettingsUpdatedCb(UAVObjEvent * ev)
-{
-	LoggingSettingsGet(&settings);
-}
 
 /**
   * @}

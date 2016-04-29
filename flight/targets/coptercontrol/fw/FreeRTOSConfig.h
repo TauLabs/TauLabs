@@ -81,7 +81,7 @@ NVIC value of 255. */
 
 /* Enable run time stats collection */
 #if defined(DIAG_TASKS)
-#define configCHECK_FOR_STACK_OVERFLOW	2
+#define configCHECK_FOR_STACK_OVERFLOW	0
 
 #define configGENERATE_RUN_TIME_STATS 1
 #define INCLUDE_uxTaskGetRunTime 1
@@ -92,7 +92,7 @@ do {\
 } while(0)
 #define portGET_RUN_TIME_COUNTER_VALUE() (*(unsigned long *)0xe0001004)/* DWT_CYCCNT */
 #else
-#define configCHECK_FOR_STACK_OVERFLOW	1
+#define configCHECK_FOR_STACK_OVERFLOW	0
 #endif
 
 
