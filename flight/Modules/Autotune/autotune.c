@@ -50,7 +50,12 @@
 #include "pios_thread.h"
 
 // Private constants
-#define STACK_SIZE_BYTES 1504
+#ifndef AUTOTUNE_STACK_SIZE
+#define STACK_SIZE_BYTES 1500
+#else
+#define STACK_SIZE_BYTES AUTOTUNE_STACK_SIZE
+#endif
+
 #define TASK_PRIORITY PIOS_THREAD_PRIO_NORMAL
 
 // Private types
@@ -59,6 +64,7 @@ enum AUTOTUNE_STATE {AT_INIT, AT_START, AT_RUN, AT_FINISHED, AT_SET};
 // Private variables
 static struct pios_thread *taskHandle;
 static bool module_enabled;
+static uintptr_t rtsi_handle;
 
 // Private functions
 static void AutotuneTask(void *parameters);
@@ -96,6 +102,11 @@ int32_t AutotuneStart(void)
 {
 	// Start main task if it is enabled
 	if(module_enabled) {
+
+		rtsi_alloc(&rtsi_handle);
+		if (rtsi_handle == 0)
+			return -1;
+
 		// Watchdog must be registered before starting task
 		PIOS_WDG_RegisterFlag(PIOS_WDG_AUTOTUNE);
 
@@ -172,15 +183,13 @@ static void AutotuneTask(void *parameters)
 
 	float noise[3] = {0};
 
-	uintptr_t rtsi_handle;
-	rtsi_alloc(&rtsi_handle);
-
 	uint32_t last_time = 0.0f;
 	const uint32_t DT_MS = 3;
 
 	while(1) {
 
 		PIOS_WDG_UpdateFlag(PIOS_WDG_AUTOTUNE);
+
 		// TODO:
 		// 1. get from queue
 		// 2. based on whether it is flightstatus or manualcontrol
