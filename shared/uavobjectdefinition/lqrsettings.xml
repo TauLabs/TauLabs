@@ -3,9 +3,9 @@
         <description>Gain settings used for the LQR controller</description>
 
 	<!-- parameters for the LQR rate solution -->
-	<field name="InputCosts" units="" type="float" elementnames="rollpitch,yaw" defaultvalue="1e4,1e5" />
-	<field name="RateParams" units="" type="float" elementnames="rate,torque" defaultvalue="10,1" />
-	<field name="AngleParams" units="" type="float" elementnames="angle,rate,torque" defaultvalue="100,1,1" />
+	<field name="InputCosts" units="" type="float" elementnames="rollpitch,yaw" defaultvalue="1e0,1e1" />
+	<field name="RateParams" units="" type="float" elementnames="rate,torque" defaultvalue="1e-3,1e-4" />
+	<field name="AngleParams" units="" type="float" elementnames="angle,rate,torque" defaultvalue="0.25,0.04,10000" />
   
 	<access gcs="readwrite" flight="readwrite"/>
 	<telemetrygcs acked="true" updatemode="onchange" period="0"/>
