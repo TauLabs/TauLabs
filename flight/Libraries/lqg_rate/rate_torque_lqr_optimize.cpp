@@ -65,6 +65,7 @@ static float torque_cost;
 // this is for attitude controller
 static float attitude_cost;
 static float attitude_rate_cost;
+static float attitude_torque_cost;
 
 static struct computed_gains {
 	float roll_attitude_gains[3];
@@ -128,6 +129,7 @@ extern "C" void rtlqro_set_gains(const float new_gains[4])
  */
 extern "C" void rtlqro_set_costs(float attitude_error,
 	float attitude_rate_error,
+	float attitude_torque_error,
 	float rate_error,
 	float torque_error,
 	float roll_pitch_input,
@@ -138,6 +140,7 @@ extern "C" void rtlqro_set_costs(float attitude_error,
 
 	attitude_cost = attitude_error;
 	attitude_rate_cost = attitude_rate_error;
+	attitude_torque_cost = attitude_torque_error;
 
 	rate_cost = rate_error;
 	torque_cost = torque_error;
@@ -289,7 +292,7 @@ static void rtlqro_solver_roll()
 	// Solve for the attitude controller
 	Q(0,0) = attitude_cost;
 	Q(1,1) = attitude_rate_cost;
-	Q(2,2) = torque_cost;
+	Q(2,2) = attitude_torque_cost;
 
 	K_dlqr = rtlqro_gains_calculate();
 	computed_gains.roll_attitude_gains[0] = K_dlqr(0,0); // attitude term
@@ -319,7 +322,7 @@ static void rtlqro_solver_pitch()
 	// Solve for the attitude controller
 	Q(0,0) = attitude_cost;
 	Q(1,1) = attitude_rate_cost;
-	Q(2,2) = torque_cost;
+	Q(2,2) = attitude_torque_cost;
 
 	K_dlqr = rtlqro_gains_calculate();
 	computed_gains.pitch_attitude_gains[0] = K_dlqr(0,0); // attitude term
@@ -349,7 +352,7 @@ static void rtlqro_solver_yaw()
 	// Solve for the attitude controller
 	Q(0,0) = attitude_cost;
 	Q(1,1) = attitude_rate_cost;
-	Q(2,2) = torque_cost;
+	Q(2,2) = attitude_torque_cost;
 
 	K_dlqr = rtlqro_gains_calculate();
 	computed_gains.yaw_attitude_gains[0] = K_dlqr(0,0); // attitude term

@@ -123,6 +123,7 @@ static void lqrSolverTask(void *parameters)
 				rtlqro_set_gains(si.Beta);
 				rtlqro_set_costs(lqr_settings.AngleParams[LQRSETTINGS_ANGLEPARAMS_ANGLE],
 					lqr_settings.AngleParams[LQRSETTINGS_ANGLEPARAMS_RATE],
+					lqr_settings.AngleParams[LQRSETTINGS_ANGLEPARAMS_TORQUE],
 					lqr_settings.RateParams[LQRSETTINGS_RATEPARAMS_RATE],
 					lqr_settings.RateParams[LQRSETTINGS_RATEPARAMS_TORQUE],
 					lqr_settings.InputCosts[LQRSETTINGS_INPUTCOSTS_ROLLPITCH],

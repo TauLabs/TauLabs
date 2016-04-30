@@ -34,6 +34,7 @@ void rtlqro_set_tau(float tau);
 void rtlqro_set_gains(const float gain[4]);
 void rtlqro_set_costs(float attitude_error,
 	float attitude_rate_error,
+	float attitude_torque_error,
 	float rate_error,
 	float torque_error,
 	float roll_pitch_input,
