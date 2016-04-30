@@ -165,6 +165,7 @@ static const struct pios_ms5xxx_cfg pios_ms5xxx_cfg = {
 #define PIOS_COM_CAN_RX_BUF_LEN 256
 #define PIOS_COM_CAN_TX_BUF_LEN 256
 
+uintptr_t pios_com_openlog_logging_id;
 uintptr_t pios_can_id;
 uintptr_t pios_com_can_id;
 uintptr_t pios_uavo_settings_fs_id;

@@ -50,7 +50,7 @@ OPTMODULES += AltitudeHold
 OPTMODULES += PathPlanner
 OPTMODULES += VtolPathFollower
 OPTMODULES += FixedWingPathFollower
-OPTMODULES += VibrationAnalysis
+#OPTMODULES += VibrationAnalysis
 OPTMODULES += UAVOMavlinkBridge
 OPTMODULES += UAVOMSPBridge
 OPTMODULES += UAVOLighttelemetryBridge 
@@ -61,6 +61,7 @@ OPTMODULES += UAVOHoTTBridge
 OPTMODULES += UAVOFrSKYSensorHubBridge
 OPTMODULES += UAVOFrSKYSPortBridge
 OPTMODULES += Geofence
+OPTMODULES += Logging
 
 # Paths
 TARGET_ARCHITECTURE = STM32F30x
@@ -112,6 +113,7 @@ SRC += $(FLIGHTLIB)/WorldMagModel.c
 SRC += $(FLIGHTLIB)/insgps14state.c
 SRC += $(FLIGHTLIB)/taskmonitor.c
 SRC += $(FLIGHTLIB)/sanitycheck.c
+SRC += $(FLIGHTLIB)/timeutils.c
 SRC += $(FLIGHTLIB)/frsky_packing.c
 SRC += $(FLIGHTLIB)/msplib.c
 SRC += $(MATHLIB)/coordinate_conversions.c

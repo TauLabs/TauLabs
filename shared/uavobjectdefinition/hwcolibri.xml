@@ -37,6 +37,7 @@
 				<option>MavLinkTX_GPS_RX</option>
 				<option>PicoC</option>
 				<option>Telemetry</option>
+				<option>OpenLog</option>
 			</options>
 		</field>
 
@@ -57,6 +58,7 @@
 				<option>PicoC</option>
 				<option>S.Bus</option>
 				<option>Telemetry</option>
+				<option>OpenLog</option>
 			</options>
 		</field>
 
@@ -77,6 +79,7 @@
 				<option>MavLinkTX_GPS_RX</option>
 				<option>PicoC</option>
 				<option>Telemetry</option>
+				<option>OpenLog</option>
 			</options>
 		</field>
 
@@ -96,6 +99,7 @@
 				<option>MavLinkTX_GPS_RX</option>
 				<option>PicoC</option>
 				<option>Telemetry</option>
+				<option>OpenLog</option>
 			</options>
 		</field>
 

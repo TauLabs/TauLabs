@@ -1,7 +1,8 @@
 /**
  ******************************************************************************
  * @file       pios_flashfs_streamfs.c
- * @author     Tau Labs, http://taulabs.org, Copyright (C) 2014
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2014-2016
+ * @author     dRonin, http://dronin.org Copyright (C) 2015
  * @addtogroup PIOS PIOS Core hardware abstraction layer
  * @{
  * @addtogroup PIOS_FLASHFS Flash Filesystem Function
@@ -809,7 +810,7 @@ int32_t PIOS_STREAMFS_Close(uintptr_t fs_id)
 		goto out_exit;
 	}
 
-	if (streamfs->active_file_segment != 0 && streamfs->active_file_arena_offset != 0) {
+	if (streamfs->active_file_arena_offset != 0) {
 		// Close segment when something has been written. This avoids creating
 		// null files with an open/close operation
 		if (streamfs_close_sector(streamfs) != 0) {
