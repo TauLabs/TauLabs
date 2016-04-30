@@ -226,7 +226,7 @@ void rtkf_get_bias(uintptr_t rtkf_handle, float bias[3])
  * @param[in] tau the time constant from system identification
  * @param[in] dT_s the time step to advance at
  */
-void rtkf_predict(uintptr_t rtkf_handle, const float control_in[3], const float gyros[3], const float dT_s)
+void rtkf_predict(uintptr_t rtkf_handle, float throttle, const float control_in[3], const float gyros[3], const float dT_s)
 {
 	struct rtkf_state * rtkf_state = (struct rtkf_state *) rtkf_handle;
 	if (!rtkf_validate(rtkf_state))
@@ -315,6 +315,12 @@ void rtkf_predict(uintptr_t rtkf_handle, const float control_in[3], const float 
 		X[0] = w + (P[0]*(gyro - w))/S;
 		X[1] = u + (P[1]*(gyro - w))/S;
 		X[2] = bias + (P[3]*(gyro - w))/S;
+
+		// If throttle is low don't allow bias or torque to wind up
+		if (throttle <= 0) {
+			X[1] = 0;
+			X[2] = 0;
+		}
 
 		for (uint32_t i = 0; i < AF_NUMP; i++)
 			D[i] = P[i];

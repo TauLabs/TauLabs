@@ -45,7 +45,7 @@ void rtkf_set_tau(uintptr_t rtkf_handle, const float tau_new);
 void rtkf_get_rate(uintptr_t rtkf_handle, float rate[3]);
 void rtkf_get_torque(uintptr_t rtkf_handle, float torque[3]);
 void rtkf_get_bias(uintptr_t rtkf_handle, float bias[3]);
-void rtkf_predict(uintptr_t rtkf_handle, const float u_in[3], const float gyro[3], const float dT_s);
+void rtkf_predict(uintptr_t rtkf_handle, float throttle, const float u_in[3], const float gyro[3], const float dT_s);
 bool rtkf_init(uintptr_t rtkf_handle);
 bool rtkf_alloc(uintptr_t *rtkf_handle);
 

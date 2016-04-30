@@ -138,7 +138,7 @@ static void SettingsUpdatedCb(UAVObjEvent * ev);
 
 #ifdef INCLUDE_LQG
 static uintptr_t rtkf_handle;;
-static void update_rtkf(const float gyro[3], const float u[3], float dT);
+static void update_rtkf(float throttle, const float gyro[3], const float u[3], float dT);
 #endif
 
 /**
@@ -361,7 +361,7 @@ static void stabilizationTask(void* parameters)
 #ifdef INCLUDE_LQG
 		// Update the RTKF. Uses the actuator from the previous step and the
 		// latest gyro data
-		update_rtkf( (const float *) &gyrosData.x, (const float *) actuatorDesiredAxis, dT);
+		update_rtkf( stabDesired.Throttle, (const float *) &gyrosData.x, (const float *) actuatorDesiredAxis, dT);
 #endif
 
 		//Run the selected stabilization algorithm on each axis:
@@ -843,7 +843,7 @@ static void stabilizationTask(void* parameters)
 }
 
 #ifdef INCLUDE_LQG
-static void update_rtkf(const float gyro[3], const float u[3], float dT)
+static void update_rtkf(float throttle, const float gyro[3], const float u[3], float dT)
 {
 	if (SystemIdentHandle() == NULL)
 		return;
@@ -856,7 +856,7 @@ static void update_rtkf(const float gyro[3], const float u[3], float dT)
 	rtkf_set_tau(rtkf_handle, systemIdent.Tau);
 
 	// Advance KF
-	rtkf_predict(rtkf_handle, u, gyro, dT);
+	rtkf_predict(rtkf_handle, throttle, u, gyro, dT);
 
 	RateTorqueKFData rateTorque;
 	RateTorqueKFGet(&rateTorque);
