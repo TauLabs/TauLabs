@@ -71,6 +71,10 @@ N = length(x)
 
 %% generate the symbolic code
 
+% this substitution cuts down on a ton of multiplications since
+% we are using discrete time and these are always multiplied
+syms Aeb1 Aeb2 Aeb3 Aeb3d real
+
 syms P_1_1 P_1_2 P_1_3 P_1_4 P_1_5 P_1_6 P_1_7 P_1_8 P_1_9 P_1_10 P_1_11 P_1_12 P_1_13 P_1_14  real
 syms P_2_2 P_2_3 P_2_4 P_2_5 P_2_6 P_2_7 P_2_8 P_2_9 P_2_10 P_2_11 P_2_12 P_2_13 P_2_14  real
 syms P_3_3 P_3_4 P_3_5 P_3_6 P_3_7 P_3_8 P_3_9 P_3_10 P_3_11 P_3_12 P_3_13 P_3_14  real
@@ -131,7 +135,14 @@ end
        
 Q = diag([Q_1 Q_2 Q_3 Q_4 Q_5 Q_6 Q_7 Q_8 Q_9 Q_10 Q_11 Q_12 Q_13 Q_14]);
 
-P2 = simplify((F*P*F') + Q);
+P2 = simplify((F*P*F') + Q, 'Criterion', 'preferReal', 'IgnoreAnalyticConstraints', true, 'Steps', 100);
+
+for i = 1:length(P_idx)
+    P2(P_idx(i)) = subs(subs(P2(P_idx(i)),exp(b1)*Ts,Aeb1),exp(2*b1)*Ts^2,Aeb1^2);
+    P2(P_idx(i)) = subs(subs(P2(P_idx(i)),exp(b2)*Ts,Aeb2),exp(2*b2)*Ts^2,Aeb2^2);
+    P2(P_idx(i)) = subs(subs(P2(P_idx(i)),exp(b3)*Ts,Aeb3),exp(2*b3)*Ts^2,Aeb3^2);
+    P2(P_idx(i)) = subs(subs(P2(P_idx(i)),exp(b3d)*Ts,Aeb3d),exp(2*b3d)*Ts^2,Aeb3d^2);
+end
 
 % update equations
 R = diag([s_a s_a s_a]); 
@@ -181,6 +192,10 @@ for Pnew = {P2, P3}
                 Pstrings{i,j} = strrep(Pstrings{i,j},'Ts^2','Tsq');
                 Pstrings{i,j} = strrep(Pstrings{i,j},'Ts^3','Tsq3');
                 Pstrings{i,j} = strrep(Pstrings{i,j},'Ts^4','Tsq4');
+                Pstrings{i,j} = strrep(Pstrings{i,j},'Aeb1^2','Aeb1_2');
+                Pstrings{i,j} = strrep(Pstrings{i,j},'Aeb2^2','Aeb2_2');
+                Pstrings{i,j} = strrep(Pstrings{i,j},'Aeb3^2','Aeb3_2');
+                Pstrings{i,j} = strrep(Pstrings{i,j},'Aeb3d^2','Aeb3d_2');
                 Pstrings{i,j} = strrep(Pstrings{i,j},'P','D');
                 Pstrings{i,j} = strrep(Pstrings{i,j},'exp(b1)','e_b1');
                 Pstrings{i,j} = strrep(Pstrings{i,j},'exp(b2)','e_b2');
