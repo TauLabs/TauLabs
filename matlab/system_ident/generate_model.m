@@ -37,15 +37,19 @@ A_u = [exp(tau)/(exp(tau) + Ts) 0 0; ...
        0 exp(tau)/(exp(tau) + Ts) 0; ...
        0 0 exp(tau)/(exp(tau) + Ts)];
 
-A_wb = [-Ts*exp(b1) 0 0;
-        0 -Ts*exp(b2) 0;
-        0 0 -Ts*exp(b3)];
+% when left to its own devices, torque will drift toward
+% the bias value
+A_ub = diag(-Ts/(exp(tau) + Ts) * ones(1,3));
+
+A_wb = [0 0 0;
+        0 0 0;
+        0 0 -Ts*exp(b3d)];
 
 A_p = diag([1 1 1 1 1]);
 
 %w1 w2 w3 u1 u2 u3 b1 b2 b3 tau tau_y bias1 bias2 bias3
 A = [          A_w              zeros(3,5)     A_wb; ...
-     zeros(3,3)       A_u       zeros(3,5)  zeros(3,3); ...
+     zeros(3,3)       A_u       zeros(3,5)     A_ub; ...
      zeros(5,3)     zeros(5,3)  A_p         zeros(5,3); ...
      zeros(3,11)                            [1 0 0; 0 1 0; 0 0 1]];
  
