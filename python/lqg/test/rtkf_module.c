@@ -153,7 +153,7 @@ advance(PyObject* self, PyObject* args)
 	if (!parseFloatVec3(vec_control, control_data))
 		return NULL;
 
-	rtkf_predict(rtkf_handle, control_data, gyro_data,dT);
+	rtkf_predict(rtkf_handle, 0.5f, control_data, gyro_data,dT);
 
 	return pack_state(self);
 }
