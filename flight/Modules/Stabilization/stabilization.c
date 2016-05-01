@@ -854,6 +854,7 @@ static void update_rtkf(float throttle, const float gyro[3], const float u[3], f
 	// Set parameters
 	rtkf_set_gains(rtkf_handle, (const float *) systemIdent.Beta);
 	rtkf_set_tau(rtkf_handle, systemIdent.Tau);
+	rtkf_set_init_bias(rtkf_handle, systemIdent.Bias);
 
 	// Advance KF
 	rtkf_predict(rtkf_handle, throttle, u, gyro, dT);

@@ -48,6 +48,7 @@ struct rtkf_state {
 	float s_a;
 	float tau;
 	float gains[4];
+	float init_bias[3];
 	float roll_X[AF_NUMX];
 	float roll_P[AF_NUMP];
 	float pitch_X[AF_NUMX];
@@ -319,7 +320,7 @@ void rtkf_predict(uintptr_t rtkf_handle, float throttle, const float control_in[
 		// If throttle is low don't allow bias or torque to wind up
 		if (throttle <= 0) {
 			X[1] = 0;
-			X[2] = 0;
+			X[2] = rtkf_state->init_bias[i];
 		}
 
 		for (uint32_t i = 0; i < AF_NUMP; i++)
@@ -334,6 +335,17 @@ void rtkf_predict(uintptr_t rtkf_handle, float throttle, const float control_in[
 		P[5] = D[5] - D[3]*D[3]/S;
 	}
 
+}
+
+void rtkf_set_init_bias(uintptr_t rtkf_handle, const float bias[3])
+{
+	struct rtkf_state * rtkf_state = (struct rtkf_state *) rtkf_handle;
+	if (!rtkf_validate(rtkf_state))
+		return;
+
+	rtkf_state->init_bias[0] = bias[0];
+	rtkf_state->init_bias[1] = bias[1];
+	rtkf_state->init_bias[2] = bias[2];
 }
 
 /**

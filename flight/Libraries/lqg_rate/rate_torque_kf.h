@@ -41,6 +41,7 @@ void rtkf_set_qbias(uintptr_t rtkf_handle, const float qbias_new);
 void rtkf_set_sa(uintptr_t rtkf_handle, const float sa_new);
 void rtkf_set_gains(uintptr_t rtkf_handle, const float gains_new[4]);
 void rtkf_set_tau(uintptr_t rtkf_handle, const float tau_new);
+void rtkf_set_init_bias(uintptr_t rtkf_handle, const float bias[3]);
 
 void rtkf_get_rate(uintptr_t rtkf_handle, float rate[3]);
 void rtkf_get_torque(uintptr_t rtkf_handle, float torque[3]);
