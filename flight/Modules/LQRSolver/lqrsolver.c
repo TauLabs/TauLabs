@@ -126,8 +126,8 @@ static void lqrSolverTask(void *parameters)
 					lqr_settings.AngleParams[LQRSETTINGS_ANGLEPARAMS_TORQUE],
 					lqr_settings.RateParams[LQRSETTINGS_RATEPARAMS_RATE],
 					lqr_settings.RateParams[LQRSETTINGS_RATEPARAMS_TORQUE],
-					lqr_settings.InputCosts[LQRSETTINGS_INPUTCOSTS_ROLLPITCH],
-					lqr_settings.InputCosts[LQRSETTINGS_INPUTCOSTS_YAW]);
+					lqr_settings.YawRateParams[LQRSETTINGS_YAWRATEPARAMS_RATE],
+					lqr_settings.YawRateParams[LQRSETTINGS_YAWRATEPARAMS_TORQUE]);
 
 				rtlqro_solver();
 

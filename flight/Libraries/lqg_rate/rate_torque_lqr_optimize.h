@@ -37,8 +37,8 @@ void rtlqro_set_costs(float attitude_error,
 	float attitude_torque_error,
 	float rate_error,
 	float torque_error,
-	float roll_pitch_input,
-	float yaw_input);
+	float yaw_rate_error,
+	float yaw_torque_error);
 void rtlqro_solver();
 void rtlqro_get_roll_rate_gain(float g[2]);
 void rtlqro_get_pitch_rate_gain(float g[2]);
