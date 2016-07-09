@@ -11,6 +11,7 @@ endif
 ifeq ($(INCLUDE_RT_LQR_SOLVER), YES)
 CDEFS += -DINCLUDE_LQG_SOLVER
 CPPSRC = $(LQGLIB)/rate_torque_lqr_optimize.cpp
+CPPSRC += $(LQGLIB)/dare.cpp
 endif
 
 
