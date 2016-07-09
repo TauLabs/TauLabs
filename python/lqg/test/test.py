@@ -11,8 +11,8 @@ class StaticTestFunctions(unittest.TestCase):
 
     def setUp(self):
         rtkf.init()
-        rtkf.configure(gain=numpy.array([7.0,7.0,3.0,7.0], dtype=numpy.float64))
         rtkf.configure(tau=-3.5)
+        rtkf.configure(gain=numpy.array([7.0,7.0,3.0,7.0], dtype=numpy.float64))
 
     def run_static(self,
         gyro=[0.0,0.0,0.0], control=[0.0,0.0,0.0],
@@ -62,13 +62,6 @@ class StaticTestFunctions(unittest.TestCase):
             plt.ylabel('deg/s/s')
             plt.xlabel('Time (s)')
 
-            ax[1][1].cla()
-            ax[1][1].plot(times[0:k:4],history[0:k:4,3:6]-history[0:k:4,6:])
-            ax[1][1].set_title('Net Torque')
-            plt.sca(ax[1][0])
-            plt.ylabel('deg/s/s')
-            plt.xlabel('Time (s)')
-
             plt.suptitle(unittest.TestCase.shortDescription(self))
             plt.show()
 
@@ -95,7 +88,7 @@ class StaticTestFunctions(unittest.TestCase):
         dT = 1. / 400.
         STEPS = int(5./dT)
         gyro = [0,0,0]
-        state, history, times = self.run_static(gyro=gyro, control=[0.1, -0.1, 0.05], STEPS=STEPS, dT=dT)
+        state, history, times = self.run_static(gyro=gyro, control=[0.01, -0.01, 0.005], STEPS=STEPS, dT=dT)
 
         self.check_gyro(gyro, state)
 
