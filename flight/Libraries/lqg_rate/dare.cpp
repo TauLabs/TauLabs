@@ -102,7 +102,6 @@ MXX dare_solve(MXX A, MXU B, MXX Q, MUU R)
 	
 	MXX  X_inv;
 	MXX  A_trnsp;
-	MUX  B_trnsp;
 	MXU  BR;
 	MXX  BRB;
 	MXX  tmp_inv;
@@ -110,16 +109,12 @@ MXX dare_solve(MXX A, MXU B, MXX Q, MUU R)
 
 	// Precalculate Matrices
 	A_trnsp = A.transpose();
-	B_trnsp = B.transpose();
 	pseudoInverseUU(R,R_inv);
-	BR = B * R_inv;
-	BRB = BR * B_trnsp;
+	BRB = B * R_inv * B.transpose();
 
 	// Calculate X_1, the seeding value for the riccati eqn. solution.
 	pseudoInverseXX(BRB, tmp_inv);
-	tmp_inv = A_trnsp * tmp_inv;
-	tmp_inv = Q + (tmp_inv * A);
-	X = tmp_inv;
+	X = Q + (A_trnsp * tmp_inv * A);
 
 	X_1 = X;
 
@@ -127,10 +122,8 @@ MXX dare_solve(MXX A, MXU B, MXX Q, MUU R)
 	for (int i=0; i<CONVERGE_ITERATIONS; i++)
 	{
 		pseudoInverseXX(X, X_inv);
-		tmp_inv = BRB + X_inv;
-		pseudoInverseXX(tmp_inv, tmp_inv);
-		tmp_inv = A_trnsp * tmp_inv;
-		X = Q + (tmp_inv * A);
+		pseudoInverseXX(BRB + X_inv, tmp_inv);
+		X = Q + (A_trnsp * tmp_inv * A);
 
 		// early stopping
 		if ( (X - X_1).squaredNorm() < CONVERGENCE_TOLERANCE) {
