@@ -35,7 +35,6 @@
 #include "rate_torque_kf.h"
 
 #define AF_NUMX 3
-#define AF_NUMP 6
 
 enum rtkf_state_magic {
   RTKF_STATE_MAGIC = 0x17b0a57c, // echo "rate_torque_kf.c" | md5
@@ -46,15 +45,28 @@ struct rtkf_state {
 	float q_ud;
 	float q_bias;
 	float s_a;
-	float tau;
-	float gains[4];
+
+	float Ts;      // The kalman filter time step
+	float tau_s;
+
 	float init_bias[3];
+
 	float roll_X[AF_NUMX];
-	float roll_P[AF_NUMP];
 	float pitch_X[AF_NUMX];
-	float pitch_P[AF_NUMP];
 	float yaw_X[AF_NUMX];
-	float yaw_P[AF_NUMP];
+
+	// intermediate parameters for the kalman filter
+	float ets;
+	float roll_ad12;
+	float roll_ad13;
+	float pitch_ad12;
+	float pitch_ad13;
+	float yaw_ad12;
+	float yaw_ad13;
+
+	// the calculated feedback gains for the kalman filter
+	float kalman_gains[3][3];
+
 	enum rtkf_state_magic magic;
 };
 
@@ -66,16 +78,32 @@ bool rtkf_alloc(uintptr_t *rtkf_handle)
 
 	rtkf_state->magic = RTKF_STATE_MAGIC;
 
-	// Use reasonable defaults
+	// Use reasonable defaults (currently unused -- but for kalman gains)
 	rtkf_state->q_w = 1e0f;
 	rtkf_state->q_ud = 1e-5f;
 	rtkf_state->q_bias = 1e-7f;
 	rtkf_state->s_a = 1000.0f;
-	rtkf_state->gains[0] = 5.f;
-	rtkf_state->gains[1] = 5.f;
-	rtkf_state->gains[2] = 5.f;
-	rtkf_state->gains[3] = 5.f;
-	rtkf_state->tau = -5.f;
+
+	rtkf_state->init_bias[0] = 0.0f;
+	rtkf_state->init_bias[1] = 0.0f;
+	rtkf_state->init_bias[2] = 0.0f;
+
+	rtkf_state->tau_s = 0.03f;
+	rtkf_state->Ts = 1.0f/400.0f;
+
+	// These will be calculated either offline or prior to flight
+	float K1 = 0.0439f;
+	float K2 = 0.0002f;
+	float K3 = -0.0001f;
+	rtkf_state->kalman_gains[0][0] = K1;
+	rtkf_state->kalman_gains[0][1] = K2;
+	rtkf_state->kalman_gains[0][2] = K3;
+	rtkf_state->kalman_gains[1][0] = K1;
+	rtkf_state->kalman_gains[1][1] = K2;
+	rtkf_state->kalman_gains[1][2] = K3;
+	rtkf_state->kalman_gains[2][0] = K1;
+	rtkf_state->kalman_gains[2][1] = K2;
+	rtkf_state->kalman_gains[2][2] = K3;
 
 	rtkf_init((uintptr_t) rtkf_state);
 
@@ -146,22 +174,6 @@ void rtkf_set_sa(uintptr_t rtkf_handle, const float sa_new)
 
 /**
  * @param[in] rtkf_handle handle for estimation
- * @param[in] gains the new gains
- */
-void rtkf_set_gains(uintptr_t rtkf_handle, const float gains_new[4])
-{
-	struct rtkf_state * rtkf_state = (struct rtkf_state *) rtkf_handle;
-	if (!rtkf_validate(rtkf_state))
-		return;
-
-	rtkf_state->gains[0] = gains_new[0];
-	rtkf_state->gains[1] = gains_new[1];
-	rtkf_state->gains[2] = gains_new[2];
-	rtkf_state->gains[3] = gains_new[3];
-}
-
-/**
- * @param[in] rtkf_handle handle for estimation
  * @param[in] tau the new tau parameter
  */
 void rtkf_set_tau(uintptr_t rtkf_handle, const float tau_new)
@@ -170,7 +182,31 @@ void rtkf_set_tau(uintptr_t rtkf_handle, const float tau_new)
 	if (!rtkf_validate(rtkf_state))
 		return;
 
-	rtkf_state->tau = tau_new;
+	rtkf_state->tau_s = expf(tau_new);
+	rtkf_state->ets = expf(-rtkf_state->Ts / rtkf_state->tau_s);
+}
+
+/**
+ * @param[in] rtkf_handle handle for estimation
+ * @param[in] gains the new gains
+ */
+void rtkf_set_gains(uintptr_t rtkf_handle, const float gains_new[4])
+{
+	struct rtkf_state * rtkf_state = (struct rtkf_state *) rtkf_handle;
+	if (!rtkf_validate(rtkf_state))
+		return;
+
+	// Handy variables (must be set properly before calling)
+	const float Ts = rtkf_state->Ts;
+	const float tau = rtkf_state->tau_s;
+	const float ets = rtkf_state->ets;
+
+	rtkf_state->roll_ad12 = expf(gains_new[0]) * (tau - tau * ets);
+	rtkf_state->roll_ad13 = -Ts * expf(gains_new[0]) + rtkf_state->roll_ad12;
+	rtkf_state->pitch_ad12 = expf(gains_new[1]) * (tau - tau * ets);
+	rtkf_state->pitch_ad13 = -Ts * expf(gains_new[1]) + rtkf_state->pitch_ad12;
+	rtkf_state->yaw_ad12 = (expf(gains_new[2]) - expf(gains_new[3]))* (tau - tau * ets);
+	rtkf_state->yaw_ad13 = -Ts * expf(gains_new[2]) + rtkf_state->yaw_ad12;
 }
 
 /**
@@ -233,106 +269,53 @@ void rtkf_predict(uintptr_t rtkf_handle, float throttle, const float control_in[
 	if (!rtkf_validate(rtkf_state))
 		return;
 
-	const float Ts = dT_s;
-	const float Tsq = Ts*Ts;
-
-	const float q_w = rtkf_state->q_w;
-	const float q_ud = rtkf_state->q_ud;
-	const float q_bias = rtkf_state->q_bias;
-	const float s_a = rtkf_state->s_a;
-
-	const float tau = rtkf_state->tau;
-	const float e_tau = expf(tau); // time response of the motors
-	const float e_tau2 = e_tau*e_tau;
-	const float Ts_e_tau2 = (Ts + e_tau) * (Ts + e_tau);
-
 	float u_in;
 	float gyro;
-
-	float b;
-	float bd;
+	const float ets = rtkf_state->ets;
 
 	// Update state for each axis
 	for (uint32_t i = 0; i < 3; i++) {
 		float *X;
-		float *P;
+		float *L;
+		float Ad12;
+		float Ad13;
 
 		switch(i) {
 		case 0:       // roll
 			X = rtkf_state->roll_X;
-			P = rtkf_state->roll_P;
-			b = rtkf_state->gains[0];
-			bd = -100.0f;
+			Ad12 = rtkf_state->roll_ad12;
+			Ad13 = rtkf_state->roll_ad13;
+			L = rtkf_state->kalman_gains[0];
 			u_in = control_in[0];
 			gyro = gyros[0];
 			break;
 		case 1:       // pitch
 			X = rtkf_state->pitch_X;
-			P = rtkf_state->pitch_P;
-			b = rtkf_state->gains[1];
-			bd = -100.0f;
+			Ad12 = rtkf_state->roll_ad12;
+			Ad13 = rtkf_state->roll_ad13;
+			L = rtkf_state->kalman_gains[1];
 			u_in = control_in[1];
 			gyro = gyros[1];
 			break;
 		case 2:       // yaw
 			X = rtkf_state->yaw_X;
-			P = rtkf_state->yaw_P;
-			b = rtkf_state->gains[2];
-			bd = rtkf_state->gains[3];
+			Ad12 = rtkf_state->roll_ad12;
+			Ad13 = rtkf_state->roll_ad13;
+			L = rtkf_state->kalman_gains[2];
 			u_in = control_in[2];
 			gyro = gyros[2];
 			break;
 		}
 
-		float w = X[0];
-		float u = X[1];
-		float bias = X[2];
+		const float w = X[0];
+		const float u = X[1];
+		const float bias = X[2];
 
-		const float e_b = expf(b);
-		const float e_bd = expf(bd);
+		const float err = (gyro-w);
 
-		// X update
-		w = X[0] = w - Ts*bias*e_bd + Ts*u*e_b + Ts*u_in*e_bd;
-		u = X[1] = (Ts*u_in)/(Ts + e_tau) - (Ts*bias)/(Ts + e_tau) + (u*e_tau)/(Ts + e_tau);
-
-		const float Q[AF_NUMX] = {q_w, q_ud, q_bias};
-
-		float D[AF_NUMP];
-		for (uint32_t i = 0; i < AF_NUMP; i++)
-			D[i] = P[i];
-
-		// Covariance calculation
-		P[0] = D[0] + Q[0] + D[2]*Tsq*(e_b*e_b) + D[5]*Tsq*(e_bd*e_bd) + 2*D[1]*Ts*e_b - 2*D[3]*Ts*e_bd - 2*D[4]*Tsq*e_b*e_bd;
-		P[1] = - (Ts/(Ts + e_tau) - 1)*(D[1] + D[2]*Ts*e_b - D[4]*Ts*e_bd) - (Ts*(D[3] + D[4]*Ts*e_b - D[5]*Ts*e_bd))/(Ts + e_tau);
-		P[2] = (D[5]*Tsq + Q[1]*Tsq + D[2]*e_tau2 + Q[1]*e_tau2 - 2*D[4]*Ts*e_tau + 2*Q[1]*Ts*e_tau)/Ts_e_tau2;
-		P[3] = D[3] + D[4]*Ts*e_b - D[5]*Ts*e_bd;
-		P[4] = -(D[5]*Ts - D[4]*e_tau)/(Ts + e_tau);
-		P[5] = D[5] + Q[2];
-	
-		/********* this is the update part of the equation ***********/
-		const float S = P[0] + s_a;
-
-		// X update
-		X[0] = w + (P[0]*(gyro - w))/S;
-		X[1] = u + (P[1]*(gyro - w))/S;
-		X[2] = bias + (P[3]*(gyro - w))/S;
-
-		// If throttle is low don't allow bias or torque to wind up
-		if (throttle <= 0) {
-			X[1] = 0;
-			X[2] = rtkf_state->init_bias[i];
-		}
-
-		for (uint32_t i = 0; i < AF_NUMP; i++)
-			D[i] = P[i];
-
-		// Covariance calculation
-		P[0] = -D[0]*(D[0]/S - 1);
-		P[1] = -D[1]*(D[0]/S - 1);
-		P[2] = D[2] - D[1]*D[1]/S;
-		P[3] = -D[3]*(D[0]/S - 1);
-		P[4] = D[4] - (D[1]*D[3])/S;
-		P[5] = D[5] - D[3]*D[3]/S;
+		X[0] = w + Ad12 * u + Ad13 * bias - Ad13 * u_in + L[0] * err;
+		X[1] = u * ets + (ets - 1) * bias + (1-ets) * u_in + L[1] * err;
+		X[2] = bias + L[2] * err;
 	}
 
 }
@@ -361,38 +344,24 @@ bool rtkf_init(uintptr_t rtkf_handle)
 	if (!rtkf_validate(rtkf_state))
 		return false;
 
-	const float q_init[AF_NUMX] = {1.0f, 1.0f, 0.05f};
-
 	for (uint32_t i = 0; i < 3; i++) {
 		float *X;
-		float *P;
 
 		switch(i) {
 		case 0:       // roll
 			X = rtkf_state->roll_X;
-			P = rtkf_state->roll_P;
 			break;
 		case 1:       // pitch
 			X = rtkf_state->pitch_X;
-			P = rtkf_state->pitch_P;
 			break;
 		case 2:       // yaw
 			X = rtkf_state->yaw_X;
-			P = rtkf_state->yaw_P;
 			break;
 		}
 
 		X[0] = 0.0f;  // init no rotation
 		X[1] = 0.0f;  // init no torque
-		X[2] = 0.0f;  // init no bias
-
-		// P initialization
-		P[0] = q_init[0];
-		P[1] = 0.0f;
-		P[2] = q_init[1];
-		P[3] = 0.0f;
-		P[4] = 0.0f;
-		P[5] = q_init[2];
+		X[2] = rtkf_state->init_bias[i];  // use initiation bias
 	}
 
 	return true;
