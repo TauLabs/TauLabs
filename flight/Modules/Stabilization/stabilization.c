@@ -53,6 +53,7 @@
 #include "mwratesettings.h"
 #include "ratedesired.h"
 #include "ratetorquekf.h"
+#include "ratetorquekfgains.h"
 #include "systemident.h"
 #include "stabilizationdesired.h"
 #include "stabilizationsettings.h"
@@ -158,6 +159,9 @@ int32_t StabilizationStart()
 	MWRateSettingsConnectCallback(SettingsUpdatedCb);
 	StabilizationSettingsConnectCallback(SettingsUpdatedCb);
 	TrimAnglesSettingsConnectCallback(SettingsUpdatedCb);
+#ifdef INCLUDE_LQG
+	RateTorqueKFGainsConnectCallback(SettingsUpdatedCb);
+#endif
 
 	// Watchdog must be registered before starting task
 	PIOS_WDG_RegisterFlag(PIOS_WDG_STABILIZATION);
@@ -183,7 +187,10 @@ int32_t StabilizationInitialize()
 #if defined(RATEDESIRED_DIAGNOSTICS)
 	RateDesiredInitialize();
 #endif
+#ifdef INCLUDE_LQG
 	RateTorqueKFInitialize();
+	RateTorqueKFGainsInitialize();
+#endif
 	LQRSolutionInitialize();
 
 	return 0;
@@ -1084,6 +1091,19 @@ static void SettingsUpdatedCb(UAVObjEvent * ev)
 
 		gyro_filter_updated = true;
 	}
+
+#ifdef INCLUDE_LQG
+	if (ev == NULL || ev->obj == RateTorqueKFGainsHandle())
+	{
+		if (rtkf_handle != 0) {
+			RateTorqueKFGainsData kf_gains;
+			RateTorqueKFGainsGet(&kf_gains);
+			rtkf_set_roll_kalman_gain(rtkf_handle, kf_gains.Roll);
+			rtkf_set_pitch_kalman_gain(rtkf_handle, kf_gains.Pitch);
+			rtkf_set_yaw_kalman_gain(rtkf_handle, kf_gains.Yaw);
+		}
+	}
+#endif
 
 	if (ev == NULL || ev->obj == MWRateSettingsHandle()) {
 		MWRateSettingsGet(&mwrate_settings);
