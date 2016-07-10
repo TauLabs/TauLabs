@@ -2,8 +2,8 @@
     <object name="RateTorqueKFGains" singleinstance="true" settings="false">
         <description>Gains for the rate torque kalman filter</description>
 	<field name="Roll" units="" type="float" elementnames="Rate,Torque,Bias" defaultvalue="0"/>
-	<field name="Yaw" units="" type="float" elementnames="Rate,Torque,Bias" defaultvalue="0"/>
 	<field name="Pitch" units="" type="float" elementnames="Rate,Torque,Bias" defaultvalue="0"/>
+	<field name="Yaw" units="" type="float" elementnames="Rate,Torque,Bias" defaultvalue="0"/>
         <access gcs="readonly" flight="readwrite"/>
         <telemetrygcs acked="false" updatemode="manual" period="0"/>
         <telemetryflight acked="false" updatemode="onchange" period="500"/>
