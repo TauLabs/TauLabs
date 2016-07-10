@@ -29,29 +29,9 @@
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
 
-#include "Eigen/Dense"
-#include "stdint.h"
+#include "dare.h"
 
-#define CONVERGE_ITERATIONS 10000
-#define CONVERGENCE_TOLERANCE 10.0f
-
-void *__dso_handle = (void *)NULL;
-
-using Eigen::MatrixXd;
 using Eigen::Matrix;
-
-#define NUMX 3
-#define NUMU 1
-
-typedef Matrix <float, NUMX, NUMX> MXX;
-typedef Matrix <float, NUMX, NUMU> MXU;
-typedef Matrix <float, NUMU, NUMX> MUX;
-typedef Matrix <float, NUMU, NUMU> MUU;
-
-static MXX A;
-static MXU B;
-static MXX Q;
-static MUU R;
 
 // one gain for roll and pitch and two for yaw
 static float gains[4];
@@ -78,7 +58,10 @@ static struct computed_gains {
 	float yaw_rate_gains[2];
 } computed_gains;
 
+// timing parameters
 static float Ts;
+static float tau;
+static float ets;
 
 /**
  * @brief rtlqr_init prepare the solver
@@ -88,14 +71,7 @@ static float Ts;
  */
 extern "C" void rtlqro_init(float new_Ts)
 {
-	A = MXX::Identity();
-	B = MXU::Constant(0.0f);
-	Q = MXX::Identity();
-	R = MUU::Identity();
-
 	Ts = new_Ts;
-
-	A(0,1) = Ts;
 }
 
 /**
@@ -103,11 +79,10 @@ extern "C" void rtlqro_init(float new_Ts)
  * identification
  * @param[in] tau the time constant ln(seconds)
  */
-extern "C" void rtlqro_set_tau(float tau)
+extern "C" void rtlqro_set_tau(float tau_new)
 {
-	float t1 = Ts/(expf(tau) + Ts);
-
-	B(2,0) = t1;
+	tau = expf(tau_new);
+	ets = expf(-Ts/tau);
 }
 
 /**
@@ -118,7 +93,7 @@ extern "C" void rtlqro_set_tau(float tau)
 extern "C" void rtlqro_set_gains(const float new_gains[4])
 {
 	for (uint32_t i = 0; i < 4; i++)
-		gains[i] = new_gains[i];
+		gains[i] = expf(new_gains[i]);
 }
 
 /**
@@ -152,128 +127,31 @@ extern "C" void rtlqro_set_costs(float attitude_error,
 	yaw_torque_cost = yaw_torque_error;
 }
 
-/*
- Pseudoinverse code taken from:
- http://eigen.tuxfamily.org/bz/show_bug.cgi?id=257
-*/
-template<typename _Matrix_Type_>
-bool pseudoInverse(const _Matrix_Type_ &a, _Matrix_Type_ &result, double epsilon = std::numeric_limits<typename _Matrix_Type_::Scalar>::epsilon())
+static MXX A;
+static MXU B;
+static MXX Q;
+static MUU R;
+
+
+static MXX rtlqro_construct_A(float b1, float b2)
 {
-  if(a.rows()<a.cols())
-      return false;
+	MXX A = MXX::Identity();
+	A(0,1) = Ts;
+	A(0,2) = tau * (b1 - b2) * (Ts  - tau + tau*ets);
+	A(1,2) = tau * (b1 - b2) * (1 - ets);
+	A(2,2) = ets;
 
-  Eigen::JacobiSVD< _Matrix_Type_ > svd = a.jacobiSvd(Eigen::ComputeFullU | Eigen::ComputeFullV);
-
-  typename _Matrix_Type_::Scalar tolerance = epsilon * std::max(a.cols(), a.rows()) * svd.singularValues().array().abs().maxCoeff();
-  
-  result = svd.matrixV() * _Matrix_Type_( (svd.singularValues().array().abs() > tolerance).select(svd.singularValues().
-      array().inverse(), 0) ).asDiagonal() * svd.matrixU().adjoint();
-
-  return true;
+	return A;
 }
 
-bool pseudoInverseUU(const MUU &a, MUU &result, double epsilon = std::numeric_limits<MUU::Scalar>::epsilon())
+static MXU rtlqro_construct_B(float b1, float b2)
 {
-	if(a.rows()<a.cols())
-		return false;
+	MXU B = MXU::Constant(0.0f);
+	B(0,0) = Ts * Ts * b1 / 2 - tau * (b1 - b2) * (Ts  - tau + tau*ets);
+	B(1,0) = Ts * b1 - tau * (b1 - b2) * (1 - ets);
+	B(2,0) = 1 - ets;
 
-	Eigen::JacobiSVD<MUU> svd = a.jacobiSvd(Eigen::ComputeFullU | Eigen::ComputeFullV);
-
-	MUU::Scalar tolerance = epsilon;
-	tolerance *= (MUU::Scalar) std::max(a.cols(), a.rows());
-	tolerance *= (MUU::Scalar) svd.singularValues().array().abs().maxCoeff();
-
-	result = svd.matrixV() * Matrix<float,NUMU,1>( (svd.singularValues().array().abs() > tolerance).select(svd.singularValues().
-	         array().inverse(), 0) ).asDiagonal() * svd.matrixU().adjoint();
-
-	return true;
-}
-
-
-bool pseudoInverseXX(const MXX &a, MXX &result, double epsilon = std::numeric_limits<MXX::Scalar>::epsilon())
-{
-	if(a.rows()<a.cols())
-		return false;
-
-	Eigen::JacobiSVD<MXX> svd = a.jacobiSvd(Eigen::ComputeFullU | Eigen::ComputeFullV);
-
-	MXX::Scalar tolerance = epsilon;
-	tolerance *= (MXX::Scalar) std::max(a.cols(), a.rows());
-	tolerance *= (MXX::Scalar) svd.singularValues().array().abs().maxCoeff();
-
-	result = svd.matrixV() *  Matrix<float,NUMX,1>( (svd.singularValues().array().abs() > tolerance).select(svd.singularValues().
-	         array().inverse(), 0) ).asDiagonal() * svd.matrixU().adjoint();
-
-	return true;
-}
-
-/**
- * @brief rtlqr_solver calculate the LQR gain matrix for the above settings
- * @param[out] K_dlqr the computed gain matrix
- *
- * The algorithm for solving the riccati eqn. comes from 
- * "NUMERICAL SOLUTION OF DISCRETE-TIME ALGEBRAIC RICCATI EQUATION" 
- * by Tan K. Nguyen
- *
- * adopted from an implementation written in CV by Kenn Sebestra that iterates:
- * X = Q+A_t*(B*R^-1*B_t)^-1*A 
- * for i=1:10000
- *     X=Q+A_t*(X^-1+B*R^-1*B_t)^-1*A
- */
-MUX rtlqro_gains_calculate()
-{
-	MUX K_dlqr;
-
-	MXX X, X_1;
-	
-	MXX  X_inv;
-	MXX  A_trnsp;
-	MUX  B_trnsp;
-	MXU  BR;
-	MXX  BRB;
-	MXX  tmp_inv;
-	MUU  R_inv;
-
-	// Precalculate Matrices
-	A_trnsp = A.transpose();         //cvTranspose( A, A_trnsp );
-	B_trnsp = B.transpose();         //cvTranspose( B, B_trnsp );
-	pseudoInverseUU(R,R_inv);          //cvInvert( R, R_inv, CV_SVD_SYM );
-	BR = B * R_inv;                  //cvMatMul( B, R_inv, BR );
-	BRB = BR * B_trnsp;              //cvMatMul( BR, B_trnsp, BRB );
-
-	// Calculate X_1, the seeding value for the riccati eqn. solution.
-	pseudoInverseXX(BRB, tmp_inv);     //cvInvert( BRB, tmp_inv, CV_SVD );
-	tmp_inv = A_trnsp * tmp_inv;     //cvMatMul( A_trnsp, tmp_inv, tmp_inv );
-	tmp_inv = Q + (tmp_inv * A);     //cvMatMulAdd( tmp_inv, A, Q, tmp_inv );
-	X = tmp_inv;
-
-	X_1 = X;
-
-	// Calculate X_n, the convergent value for the riccati eqn. solution.
-	for (int i=0; i<CONVERGE_ITERATIONS; i++)
-	{
-		pseudoInverseXX(X, X_inv);            //cvInvert(X, X_inv, CV_SVD);
-		tmp_inv = BRB + X_inv;              //cvAdd(X_inv,BRB,tmp_inv);
-		pseudoInverseXX(tmp_inv, tmp_inv);    //cvInvert(tmp_inv, tmp_inv, CV_SVD);
-		tmp_inv = A_trnsp * tmp_inv;        //cvMatMul( A_trnsp, tmp_inv, tmp_inv );
-		X = Q + (tmp_inv * A);              //cvMatMulAdd( tmp_inv, A, Q, X );
-
-		// early stopping
-		if ( (X - X_1).squaredNorm() < CONVERGENCE_TOLERANCE) {
-			break;
-		}
-		X_1 = X;
-	}
-	
-	// Calculate K_dlqr
-	tmp_inv = X * A;              //cvMatMul(X,A,tmp_inv);
-	K_dlqr = B_trnsp * tmp_inv;   //cvMatMul(B_trnsp,tmp_inv,K_dlqr);
-	BR = X * B;                   //cvMatMul(X,B,BR);
-	R_inv = R + (B_trnsp * BR);   //cvMatMulAdd(B_trnsp,BR,R,R_inv);
-	pseudoInverseUU(R_inv, R_inv);  //cvInvert(R_inv,R_inv, CV_SVD);
-	K_dlqr = R_inv * K_dlqr;      //cvMatMul(R_inv,K_dlqr,K_dlqr);
-
-	return K_dlqr;
+	return B;
 }
 
 static void rtlqro_solver_roll()
@@ -281,16 +159,16 @@ static void rtlqro_solver_roll()
 	MUX K_dlqr;
 
 	// Set up dynamics with roll parameters
-	A(1,2) = expf(gains[0])*Ts;
-	B(1,0) = 0;
-	R(0,0) = roll_pitch_cost;
+	MXX A = rtlqro_construct_A(gains[0], 0);
+	MXU B = rtlqro_construct_B(gains[0], 0);
 
 	// Solve for the rate controller
+	R(0,0) = roll_pitch_cost;
 	Q(0,0) = 1e-5f;  // no integral component for rate is needed
 	Q(1,1) = rate_cost;
 	Q(2,2) = torque_cost;
 
-	K_dlqr = rtlqro_gains_calculate();
+	K_dlqr = lqr_gain_solve(A,B,Q,R);
 	// K_dlqr(0,0) is integral which is unused for rate controller
 	computed_gains.roll_rate_gains[0] = K_dlqr(0,1); // rate term
 	computed_gains.roll_rate_gains[1] = K_dlqr(0,2); // torque term
@@ -300,7 +178,7 @@ static void rtlqro_solver_roll()
 	Q(1,1) = attitude_rate_cost;
 	Q(2,2) = attitude_torque_cost;
 
-	K_dlqr = rtlqro_gains_calculate();
+	K_dlqr = lqr_gain_solve(A,B,Q,R);
 	computed_gains.roll_attitude_gains[0] = K_dlqr(0,0); // attitude term
 	computed_gains.roll_attitude_gains[1] = K_dlqr(0,1); // rate term
 	computed_gains.roll_attitude_gains[2] = K_dlqr(0,2); // torque term
@@ -310,17 +188,17 @@ static void rtlqro_solver_pitch()
 {
 	MUX K_dlqr;
 
-	// Set up dynamics with roll parameters
-	A(1,2) = expf(gains[1])*Ts;
-	B(1,0) = 0;
-	R(0,0) = roll_pitch_cost;
+	// Set up dynamics with pitch parameters
+	MXX A = rtlqro_construct_A(gains[1], 0);
+	MXU B = rtlqro_construct_B(gains[1], 0);
 
 	// Solve for the rate controller
+	R(0,0) = roll_pitch_cost;
 	Q(0,0) = 1e-5f;  // no integral component for rate is needed
 	Q(1,1) = rate_cost;
 	Q(2,2) = torque_cost;
 
-	K_dlqr = rtlqro_gains_calculate();
+	K_dlqr = lqr_gain_solve(A,B,Q,R);
 	// K_dlqr(0,0) is integral which is unused for rate controller
 	computed_gains.pitch_rate_gains[0] = K_dlqr(0,1); // rate term
 	computed_gains.pitch_rate_gains[1] = K_dlqr(0,2); // torque term
@@ -330,7 +208,7 @@ static void rtlqro_solver_pitch()
 	Q(1,1) = attitude_rate_cost;
 	Q(2,2) = attitude_torque_cost;
 
-	K_dlqr = rtlqro_gains_calculate();
+	K_dlqr = lqr_gain_solve(A,B,Q,R);
 	computed_gains.pitch_attitude_gains[0] = K_dlqr(0,0); // attitude term
 	computed_gains.pitch_attitude_gains[1] = K_dlqr(0,1); // rate term
 	computed_gains.pitch_attitude_gains[2] = K_dlqr(0,2); // torque term
@@ -340,17 +218,18 @@ static void rtlqro_solver_yaw()
 {
 	MUX K_dlqr;
 
-	// Set up dynamics with roll parameters
-	A(1,2) = expf(gains[2])*Ts;
-	B(1,0) = expf(gains[3])*Ts;
-	R(0,0) = yaw_cost;
+	// Set up dynamics with yaw parameters
+	MXX A = rtlqro_construct_A(gains[1], 0);
+	MXU B = rtlqro_construct_B(gains[1], 0);
+
 
 	// Solve for the rate controller
+	R(0,0) = yaw_cost;
 	Q(0,0) = 1e-5f;  // no integral component for rate is needed
 	Q(1,1) = yaw_rate_cost;
 	Q(2,2) = yaw_torque_cost;
 
-	K_dlqr = rtlqro_gains_calculate();
+	K_dlqr = lqr_gain_solve(A,B,Q,R);
 	// K_dlqr(0,0) is integral which is unused for rate controller
 	computed_gains.yaw_rate_gains[0] = K_dlqr(0,1); // rate term
 	computed_gains.yaw_rate_gains[1] = K_dlqr(0,2); // torque term
@@ -360,7 +239,7 @@ static void rtlqro_solver_yaw()
 	Q(1,1) = attitude_rate_cost;
 	Q(2,2) = attitude_torque_cost;
 
-	K_dlqr = rtlqro_gains_calculate();
+	K_dlqr = lqr_gain_solve(A,B,Q,R);
 	computed_gains.yaw_attitude_gains[0] = K_dlqr(0,0); // attitude term
 	computed_gains.yaw_attitude_gains[1] = K_dlqr(0,1); // rate term
 	computed_gains.yaw_attitude_gains[2] = K_dlqr(0,2); // torque term
