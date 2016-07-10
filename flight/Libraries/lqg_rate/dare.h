@@ -38,10 +38,12 @@ using Eigen::Matrix;
 #define NUMX 3
 #define NUMU 1
 
-typedef Matrix <float, NUMX, NUMX> MXX;
-typedef Matrix <float, NUMX, NUMU> MXU;
-typedef Matrix <float, NUMU, NUMX> MUX;
-typedef Matrix <float, NUMU, NUMU> MUU;
+#define MAT_TYPE float
+
+typedef Matrix <MAT_TYPE, NUMX, NUMX> MXX;
+typedef Matrix <MAT_TYPE, NUMX, NUMU> MXU;
+typedef Matrix <MAT_TYPE, NUMU, NUMX> MUX;
+typedef Matrix <MAT_TYPE, NUMU, NUMU> MUU;
 
 MXX dare_solve(MXX A, MXU B, MXX Q, MUU R);
 MUX lqr_gain_solve(MXX A, MXU B, MXX Q, MUU R);

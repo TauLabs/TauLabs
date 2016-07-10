@@ -30,7 +30,7 @@
 
 #include "dare.h"
 
-#define CONVERGE_ITERATIONS 10000
+#define CONVERGE_ITERATIONS 1000000
 #define CONVERGENCE_TOLERANCE 0.0000001f
 
 void *__dso_handle = (void *)NULL;
@@ -40,7 +40,7 @@ void *__dso_handle = (void *)NULL;
  http://eigen.tuxfamily.org/bz/show_bug.cgi?id=257
 */
 
-bool pseudoInverseUU(const MUU &a, MUU &result, float epsilon = std::numeric_limits<MUU::Scalar>::epsilon())
+bool pseudoInverseUU(const MUU &a, MUU &result, MAT_TYPE epsilon = std::numeric_limits<MUU::Scalar>::epsilon())
 {
 	if(a.rows()<a.cols())
 		return false;
@@ -51,14 +51,14 @@ bool pseudoInverseUU(const MUU &a, MUU &result, float epsilon = std::numeric_lim
 	tolerance *= (MUU::Scalar) std::max(a.cols(), a.rows());
 	tolerance *= (MUU::Scalar) svd.singularValues().array().abs().maxCoeff();
 
-	result = svd.matrixV() * Matrix<float,NUMU,1>( (svd.singularValues().array().abs() > tolerance).select(svd.singularValues().
+	result = svd.matrixV() * Matrix<MAT_TYPE,NUMU,1>( (svd.singularValues().array().abs() > tolerance).select(svd.singularValues().
 	         array().inverse(), 0) ).asDiagonal() * svd.matrixU().adjoint();
 
 	return true;
 }
 
 
-bool pseudoInverseXX(const MXX &a, MXX &result, float epsilon = std::numeric_limits<MXX::Scalar>::epsilon())
+bool pseudoInverseXX(const MXX &a, MXX &result, MAT_TYPE epsilon = std::numeric_limits<MXX::Scalar>::epsilon())
 {
 	if(a.rows()<a.cols())
 		return false;
@@ -69,7 +69,7 @@ bool pseudoInverseXX(const MXX &a, MXX &result, float epsilon = std::numeric_lim
 	tolerance *= (MXX::Scalar) std::max(a.cols(), a.rows());
 	tolerance *= (MXX::Scalar) svd.singularValues().array().abs().maxCoeff();
 
-	result = svd.matrixV() *  Matrix<float,NUMX,1>( (svd.singularValues().array().abs() > tolerance).select(svd.singularValues().
+	result = svd.matrixV() *  Matrix<MAT_TYPE,NUMX,1>( (svd.singularValues().array().abs() > tolerance).select(svd.singularValues().
 	         array().inverse(), 0) ).asDiagonal() * svd.matrixU().adjoint();
 
 	return true;
