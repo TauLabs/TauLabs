@@ -33,10 +33,13 @@
 #include "pios_queue.h"
 
 #include "rate_torque_lqr_optimize.h"
+#include "rate_torque_kf_optimize.h"
+#include "rate_torque_kf.h"
 
 #include "flightstatus.h"
 #include "lqrsettings.h"
 #include "lqrsolution.h"
+#include "ratetorquekfgains.h"
 #include "systemident.h"
 
 // Private constants
@@ -65,6 +68,7 @@ int32_t LQRSolverInitialize(void)
 
 	LQRSettingsInitialize();
 	LQRSolutionInitialize();
+	RateTorqueKFGainsInitialize();
 	SystemIdentInitialize();
 
 	return 0;
@@ -96,6 +100,7 @@ static void lqrSolverTask(void *parameters)
 {
 	LQRSettingsData lqr_settings;
 	LQRSolutionData lqr;
+	RateTorqueKFGainsData kf_gains;
 	SystemIdentData si;
 
 	settings_updated = true;
@@ -118,7 +123,10 @@ static void lqrSolverTask(void *parameters)
 				LQRSettingsGet(&lqr_settings);
 				LQRSolutionGet(&lqr);
 
-				rtlqro_init(1.0f/400.0f);
+				// TODO: use the sensor rate
+				float Ts = 1.0f/400.0f;
+
+				rtlqro_init(Ts);
 				rtlqro_set_tau(si.Tau);
 				rtlqro_set_gains(si.Beta);
 				rtlqro_set_costs(lqr_settings.AngleParams[LQRSETTINGS_ANGLEPARAMS_ANGLE],
@@ -143,6 +151,18 @@ static void lqrSolverTask(void *parameters)
 
 				LQRSolutionSet(&lqr);
 
+				// Calculate kalman gains with system settings
+				float process[3] = {1e05, 1e-5f, 1e-7f};   // Pretty robust defaults
+				float gyro_noise = 1000.0f;                // Could take greatest value from SI
+				rtkfo_init(Ts);
+				rtkfo_set_tau(si.Tau);
+				rtkfo_set_gains(si.Beta);
+				rtkfo_set_noise(process, gyro_noise);
+				rtkfo_solver();
+				rtkfo_get_roll_gain(kf_gains.Roll);
+				rtkfo_get_pitch_gain(kf_gains.Pitch);
+				rtkfo_get_yaw_gain(kf_gains.Yaw);
+				RateTorqueKFGainsSet(&kf_gains);
 			}
 		}
 
