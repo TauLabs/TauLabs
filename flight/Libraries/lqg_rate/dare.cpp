@@ -30,7 +30,7 @@
 
 #include "dare.h"
 
-#define CONVERGE_ITERATIONS 1000000
+#define CONVERGE_ITERATIONS 10000
 #define CONVERGENCE_TOLERANCE 0.0000001f
 
 void *__dso_handle = (void *)NULL;
