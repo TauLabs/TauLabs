@@ -41,10 +41,6 @@ enum rtkf_state_magic {
 };
 
 struct rtkf_state {
-	float q_w;
-	float q_ud;
-	float q_bias;
-	float s_a;
 
 	float Ts;      // The kalman filter time step
 	float tau_s;
@@ -77,12 +73,6 @@ bool rtkf_alloc(uintptr_t *rtkf_handle)
 		return false;
 
 	rtkf_state->magic = RTKF_STATE_MAGIC;
-
-	// Use reasonable defaults (currently unused -- but for kalman gains)
-	rtkf_state->q_w = 1e0f;
-	rtkf_state->q_ud = 1e-5f;
-	rtkf_state->q_bias = 1e-7f;
-	rtkf_state->s_a = 1000.0f;
 
 	rtkf_state->init_bias[0] = 0.0f;
 	rtkf_state->init_bias[1] = 0.0f;
@@ -120,56 +110,37 @@ bool rtkf_validate(struct rtkf_state *rtkf_state)
 	return (rtkf_state->magic == RTKF_STATE_MAGIC);
 }
 
-/**
- * @param[in] rtkf_handle handle for estimation
- * @param[in] qw process noise in the rate estimate
- */
-void rtkf_set_qw(uintptr_t rtkf_handle, const float qw_new)
+void rtkf_set_roll_kalman_gain(uintptr_t rtkf_handle, const float kg[3])
 {
 	struct rtkf_state * rtkf_state = (struct rtkf_state *) rtkf_handle;
 	if (!rtkf_validate(rtkf_state))
 		return;
 
-	rtkf_state->q_w = qw_new;
+	rtkf_state->kalman_gains[0][0] = kg[0];
+	rtkf_state->kalman_gains[0][1] = kg[1];
+	rtkf_state->kalman_gains[0][2] = kg[2];
 }
 
-/**
- * @param[in] rtkf_handle handle for estimation
- * @param[in] qu process noise in the torque estimate
- */
-void rtkf_set_qu(uintptr_t rtkf_handle, const float qu_new)
+void rtkf_set_pitch_kalman_gain(uintptr_t rtkf_handle, const float kg[3])
 {
 	struct rtkf_state * rtkf_state = (struct rtkf_state *) rtkf_handle;
 	if (!rtkf_validate(rtkf_state))
 		return;
 
-	rtkf_state->q_ud = qu_new;
+	rtkf_state->kalman_gains[1][0] = kg[0];
+	rtkf_state->kalman_gains[1][1] = kg[1];
+	rtkf_state->kalman_gains[1][2] = kg[2];
 }
 
-/**
- * @param[in] rtkf_handle handle for estimation
- * @param[in] qbias process noise in the bias estimate
- */
-void rtkf_set_qbias(uintptr_t rtkf_handle, const float qbias_new)
+void rtkf_set_yaw_kalman_gain(uintptr_t rtkf_handle, const float kg[3])
 {
 	struct rtkf_state * rtkf_state = (struct rtkf_state *) rtkf_handle;
 	if (!rtkf_validate(rtkf_state))
 		return;
 
-	rtkf_state->q_bias = qbias_new;
-}
-
-/**
- * @param[in] rtkf_handle handle for estimation
- * @param[in] sa the gyro noise variance
- */
-void rtkf_set_sa(uintptr_t rtkf_handle, const float sa_new)
-{
-	struct rtkf_state * rtkf_state = (struct rtkf_state *) rtkf_handle;
-	if (!rtkf_validate(rtkf_state))
-		return;
-
-	rtkf_state->s_a = sa_new;
+	rtkf_state->kalman_gains[2][0] = kg[0];
+	rtkf_state->kalman_gains[2][1] = kg[1];
+	rtkf_state->kalman_gains[2][2] = kg[2];
 }
 
 /**

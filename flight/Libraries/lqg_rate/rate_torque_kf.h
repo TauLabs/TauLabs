@@ -35,10 +35,9 @@
 #include "stdbool.h"
 
 // Methods to configure RTKF parameters
-void rtkf_set_qw(uintptr_t rtkf_handle, const float qw_new);
-void rtkf_set_qu(uintptr_t rtkf_handle, const float qu_new);
-void rtkf_set_qbias(uintptr_t rtkf_handle, const float qbias_new);
-void rtkf_set_sa(uintptr_t rtkf_handle, const float sa_new);
+void rtkf_set_roll_kalman_gain(uintptr_t rtkf_handle, const float kg[3]);
+void rtkf_set_pitch_kalman_gain(uintptr_t rtkf_handle, const float kg[3]);
+void rtkf_set_yaw_kalman_gain(uintptr_t rtkf_handle, const float kg[3]);
 void rtkf_set_gains(uintptr_t rtkf_handle, const float gains_new[4]);
 void rtkf_set_tau(uintptr_t rtkf_handle, const float tau_new);
 void rtkf_set_init_bias(uintptr_t rtkf_handle, const float bias[3]);
