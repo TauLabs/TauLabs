@@ -7,6 +7,7 @@
 
 #include <pios_heap.h>
 #include <rate_torque_kf.h>
+#include <rate_torque_kf_optimize.h>
 
 //! State variable
 uintptr_t rtkf_handle;
@@ -161,17 +162,13 @@ advance(PyObject* self, PyObject* args)
 static PyObject*
 configure(PyObject* self, PyObject* args, PyObject *kwarg)
 {
-	static char *kwlist[] = {"gain", "tau", "qw", "qu", "qbias", "sa", NULL};
+	static char *kwlist[] = {"gain", "tau", NULL};
 
 	PyArrayObject *gain_var = NULL;
 	float tau_var = NAN;
-	float qw_var = NAN;
-	float qu_var = NAN;
-	float qbias_var = NAN;
-	float sa_var = NAN;
 
-	if (!PyArg_ParseTupleAndKeywords(args, kwarg, "|Offfff", kwlist,
-		 &gain_var, &tau_var, &qw_var, &qu_var, &qbias_var, &sa_var)) {
+	if (!PyArg_ParseTupleAndKeywords(args, kwarg, "|Of", kwlist,
+		 &gain_var, &tau_var)) {
 		return NULL;
 	}
 
@@ -188,68 +185,61 @@ configure(PyObject* self, PyObject* args, PyObject *kwarg)
 		//printf("Setting tau\r\n");
 	}
 
-	if (!isnan(qw_var)) {
-		rtkf_set_qw(rtkf_handle, qw_var);
-		//printf("Setting QW\r\n");
-	}
-
-	if (!isnan(qu_var)) {
-		rtkf_set_qu(rtkf_handle, qu_var);
-		//printf("Setting QU\r\n");
-	}
-
-	if (!isnan(qbias_var)) {
-		rtkf_set_qbias(rtkf_handle, qbias_var);
-		//printf("Setting QB\r\n");
-	}
-
-	if (!isnan(sa_var)) {
-		rtkf_set_sa(rtkf_handle, sa_var);
-		//printf("Setting SA\r\n");
-	}
-
 	return Py_None;
 }
 
 static PyObject*
-set_state(PyObject* self, PyObject* args, PyObject *kwarg)
+optimize(PyObject* self, PyObject* args, PyObject *kwarg)
 {
-	/*static char *kwlist[] = {"rate", "torque", "bias", NULL};
+	float Ts_var = NAN;
+	float tau_var = NAN;
+	float b1_var = NAN;
+	float b2_var = NAN;
 
-	PyArrayObject *vec_rate = NULL, *vec_torque = NULL, *vec_bias = NULL;
-
-	if (!PyArg_ParseTupleAndKeywords(args, kwarg, "|OOO", kwlist,
-		 &vec_rate, &vec_torque, &vec_bias)) {
+	if (!PyArg_ParseTuple(args, "ffff", &Ts_var, &tau_var, &b1_var, &b2_var)) {
 		return NULL;
 	}
 
-	// Overwrite state with any that were passed in
-	if (vec_rate) {
-		float rate[3];
-		if (!parseFloatVec3(vec_rate, rate))
-			return NULL;
-		X[0] = rate[0];
-		X[1] = rate[1];
-		X[2] = rate[2];
-	}
-	if (vec_torque) {
-		float torque[3];
-		if (!parseFloatVec3(vec_torque, torque))
-			return NULL;
-		X[3] = torque[0];
-		X[4] = torque[1];
-		X[5] = torque[2];
-	}
-	if (vec_bias) {
-		float bias[3];
-		if (!parseFloatVec3(vec_bias, bias))
-			return NULL;
-		X[6] = bias[0];
-		X[7] = bias[1];
-		X[9] = bias[2];
-	}
-	*/
-	return pack_state(self);
+	fprintf(stdout, "%f, %f, %f, %f\r\n", Ts_var, tau_var, b1_var, b2_var);
+
+	rtkfo_init(Ts_var);
+	rtkfo_set_tau(tau_var);
+
+	const float gain[4] = {b1_var, b1_var, b1_var, b2_var};
+	rtkfo_set_gains(gain);
+	
+	float process[3] = {1e0, 1e-5f, 1e-7f};   // Pretty robust defaults
+	float gyro_noise = 1000.0f;                // Could take greatest value from SI
+	rtkfo_set_noise(process, gyro_noise);
+
+	rtkfo_solver();
+
+	const int nd = 2;
+	int dims[nd] = {3,3};
+	PyArrayObject *calculated_x;
+	calculated_x = (PyArrayObject*) PyArray_FromDims(nd, dims, NPY_DOUBLE);
+	double *s = (double *) PyArray_DATA(calculated_x);
+
+	float f[3];
+
+	rtkfo_get_roll_gain(f);
+	s[0] = f[0];
+	s[1] = f[1];
+	s[2] = f[2];
+
+	rtkfo_get_roll_gain(f);
+	s[3] = f[0];
+	s[4] = f[1];
+	s[5] = f[2];
+
+	rtkfo_get_yaw_gain(f);
+	s[6] = f[0];
+	s[7] = f[1];
+	s[8] = f[1];
+
+	//fprintf(stdout, "Gains: %f, %f, %f\r\n", f[0], f[1], f[2]);
+
+	return Py_BuildValue("O", calculated_x);
 }
 
 static PyMethodDef RtkfMethods[] =
@@ -257,7 +247,7 @@ static PyMethodDef RtkfMethods[] =
 	{"init", init, METH_VARARGS, "Reset KF state."},
 	{"advance", advance, METH_VARARGS, "Advance state 1 time step."},
 	{"configure", (PyCFunction)configure, METH_VARARGS|METH_KEYWORDS, "Configure EKF parameters."},
-	{"set_state", (PyCFunction)set_state, METH_VARARGS|METH_KEYWORDS, "Set the KF state."},
+	{"optimize", (PyCFunction)optimize, METH_VARARGS|METH_KEYWORDS, "Compute Kalman gains."},
 	{NULL, NULL, 0, NULL}
 };
  

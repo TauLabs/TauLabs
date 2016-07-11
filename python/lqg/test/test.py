@@ -1,11 +1,12 @@
 
 import unittest
 import numpy
+import numpy.testing
 import math
 
 import rtkf
 
-VISUALIZE = True
+VISUALIZE = False
 
 class StaticTestFunctions(unittest.TestCase):
 
@@ -72,11 +73,21 @@ class StaticTestFunctions(unittest.TestCase):
         self.assertAlmostEqual(gyro_expected[1],state[1],places=1)
         self.assertAlmostEqual(gyro_expected[2],state[2],places=1)
 
+    def test_gains_1(self):
+        """ test solution to KF gain calculation """
+        gains = rtkf.optimize(1./400, -3.5, 9.5, 0)
+
+        L = numpy.asarray([[0.0475, 2.2430e-05, -9.2846e-06],[0.0475, 2.2430e-05, -9.2846e-06],[0.0475, 2.2430e-05, -9.2846e-06]], dtype=numpy.float64)
+
+        numpy.testing.assert_allclose(gains,L, rtol=1e-01)
+        
+        print `gains`
+
     def test_static(self):
         """ test stability no input """
 
         dT = 1. / 400.
-        STEPS = int(5./dT)
+        STEPS = int(15./dT)
         gyro = [10,-5,1]
         state, history, times = self.run_static(gyro=gyro, control=[0, 0, 0], STEPS=STEPS, dT=dT)
 
@@ -86,7 +97,7 @@ class StaticTestFunctions(unittest.TestCase):
         """ test stability with biased input """
 
         dT = 1. / 400.
-        STEPS = int(5./dT)
+        STEPS = int(25./dT)
         gyro = [0,0,0]
         state, history, times = self.run_static(gyro=gyro, control=[0.01, -0.01, 0.005], STEPS=STEPS, dT=dT)
 
@@ -96,7 +107,7 @@ class StaticTestFunctions(unittest.TestCase):
         """ test with constant rolling input """
 
         dT = 1. / 400.
-        STEPS = int(5./dT)
+        STEPS = int(25./dT)
         gyro = [0,0.1*math.exp(7)*dT,0]
         state, history, times = self.run_static(gyro=gyro, control=[0, 0.1, 0], STEPS=STEPS, dT=dT)
 
@@ -106,7 +117,7 @@ class StaticTestFunctions(unittest.TestCase):
         """ test with constant pitch input """
 
         dT = 1. / 400.
-        STEPS = int(5./dT)
+        STEPS = int(25./dT)
         gyro = [-0.2*math.exp(7)*dT,0,0]
         state, history, times = self.run_static(gyro=gyro, control=[-0.2, 0, 0], STEPS=STEPS, dT=dT)
 

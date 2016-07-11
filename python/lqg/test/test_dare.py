@@ -31,6 +31,26 @@ class StaticTestFunctions(unittest.TestCase):
 
         return None
 
+    def test_dare_2(self):
+        """ Verify solution to discrete riccati equation  """
+
+        A = numpy.asarray([[0.9990,       0,   0],
+                           [32.0221, 0.9205,   0],
+                           [1.3438, -0.0795,   1.0000]], dtype=numpy.float64)
+        B = numpy.asarray([1,32.0542,-1.3452], dtype=numpy.float64)
+        Q = numpy.asarray([[0.999, 0, 0], [0, 1e-5, 0], [0, 0, 1e-7]], dtype=numpy.float64)
+        R = 1001
+
+        P = numpy.asarray([[49.8590, 0.0235, -0.00974],
+                           [0.0235,  7.71e-5, -1.52e-5],
+                           [-0.00974,-1.52e-5, 1.82e-5]], dtype=numpy.float64)
+
+        X = dare.dare(A.transpose(),B,Q,R)
+
+        numpy.testing.assert_allclose(X,P, rtol=1e-01)
+
+        return None
+
     def test_kalman_1(self):
         """ Verify solution to steady state Kalman gains """
 
