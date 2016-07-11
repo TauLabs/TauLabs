@@ -126,7 +126,7 @@ MXX dare_solve(MXX A, MXU B, MXX Q, MUU R)
 		X = Q + (A_trnsp * tmp_inv * A);
 
 		// early stopping
-		if ( (X - X_1).squaredNorm() < CONVERGENCE_TOLERANCE) {
+		if ( (X - X_1).squaredNorm() < (MXX::Scalar) CONVERGENCE_TOLERANCE) {
 			break;
 		}
 		X_1 = X;

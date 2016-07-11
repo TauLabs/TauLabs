@@ -38,7 +38,7 @@ using Eigen::Matrix;
 #define NUMX 3
 #define NUMU 1
 
-#define MAT_TYPE float
+#define MAT_TYPE double
 
 typedef Matrix <MAT_TYPE, NUMX, NUMX> MXX;
 typedef Matrix <MAT_TYPE, NUMX, NUMU> MXU;

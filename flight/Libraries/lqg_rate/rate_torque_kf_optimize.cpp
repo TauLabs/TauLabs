@@ -103,7 +103,7 @@ static MXX rtlqro_construct_A(float b1, float b2)
 {
 	MXX A = MXX::Identity();
 	A(0,1) = (b1 - b2) * (tau - tau*ets);
-	A(0,2) = -Ts*b1 + A(0,1);
+	A(0,2) = A(0,1) - (MXX::Scalar) (Ts * b1) ;
 	A(1,1) = ets;
 	A(1,2) = ets-1;
 
