@@ -7,61 +7,44 @@
 % gain for each axis. it must be sufficiently excited by inputs
 % to converge.
 
-% state variables:
-%   - w1 - roll rotation
-%   - w2 - pitch rotation
-%   - w3 - yaw rotation
-%   - u1 - roll force
-%   - u2 - pitch force
-%   - u3 - yaw force
-%   - b1 - roll gain
-%   - b2 - pitch gain
-%   - b3 - yaw gain
-%   - b3d - yaw gain directly
-%   - tau
+% parameters
+syms br bp by1 by2 tau Ts real;
+% state variables
+syms wr wp wy nur nup nuy biasr biasp biasy real;
+% inputs
+syms ur up uy real;
 
-% the actuator inputs (four motor speeds)
+x = [wr nur biasr wp nup biasp wy nuy biasy br bp by1 by2 tau]';
+u_in = [ur up uy]';
 
-syms b1 b2 b3 b3d w1 w2 w3 u1 u2 u3 bias1 bias2 bias3 tau Ts real;
-syms u1_in u2_in u3_in real;
+% br, bp, by1, by2 and tau are all stored as log of those variables
+% to prevent them going negative. this is a helper variable for tau
+tau_s = exp(tau);
 
-x = [w1 w2 w3 u1 u2 u3 b1 b2 b3 b3d tau bias1 bias2 bias3]';
-u_in = [u1_in u2_in u3_in ]';
+% define continuous time dynamics for each of the axes
+Ac_r = [0 exp(br) 0; 0 -1/tau_s -1/tau_s; 0 0 0]; Bc_r = [0; 1/tau_s; 0];
+Ac_p = [0 exp(bp) 0; 0 -1/tau_s -1/tau_s; 0 0 0]; Bc_p = [0; 1/tau_s; 0];
+Ac_y = [0 exp(by1)-exp(by2) -exp(by2); 0 -1/tau_s -1/tau_s; 0 0 0]; Bc_y = [by2; 1/tau_s; 0];
 
-% this is the mixer matrix (could be learned in more detail)
-A_w = [1 0 0   Ts*exp(b1)  0          0          ; ...
-       0 1 0   0           Ts*exp(b2) 0          ; ...
-       0 0 1   0           0          Ts*exp(b3)];
+% convert to discrete time and get complete system dynamics. these would
+% be seperable except for the shared tau term
+R = expm([Ac_r Bc_r; 0 0 0 0]*Ts);
+A = R(1:3,1:3);
+B = R(1:3,4);
+R = expm([Ac_p Bc_p; 0 0 0 0]*Ts);
+A(4:6,4:6) = R(1:3,1:3);
+B(4:6,2) = R(1:3,4);
+R = expm([Ac_y Bc_y; 0 0 0 0]*Ts);
+A(7:9,7:9) = R(1:3,1:3);
+B(7:9,3) = R(1:3,4);
 
-A_u = [exp(tau)/(exp(tau) + Ts) 0 0; ...
-       0 exp(tau)/(exp(tau) + Ts) 0; ...
-       0 0 exp(tau)/(exp(tau) + Ts)];
+% parameters dynamics are to remain constant
+A(10:numel(x),10:numel(x)) = eye(5);
+B(10:numel(x),1) = zeros(5,1);
 
-% when left to its own devices, torque will drift toward
-% the bias value
-A_ub = diag(-Ts/(exp(tau) + Ts) * ones(1,3));
+f = A * x + B * u_in
 
-A_wb = [0 0 0;
-        0 0 0;
-        0 0 -Ts*exp(b3d)];
-
-A_p = diag([1 1 1 1 1]);
-
-%w1 w2 w3 u1 u2 u3 b1 b2 b3 tau tau_y bias1 bias2 bias3
-A = [          A_w              zeros(3,5)     A_wb; ...
-     zeros(3,3)       A_u       zeros(3,5)     A_ub; ...
-     zeros(5,3)     zeros(5,3)  A_p         zeros(5,3); ...
-     zeros(3,11)                            [1 0 0; 0 1 0; 0 0 1]];
- 
-B_u = [diag([0 0 Ts*exp(b3d)]); ...
-       Ts/(exp(tau) + Ts) 0 0; ...
-       0 Ts/(exp(tau) + Ts) 0; ...
-       0 0 Ts/(exp(tau) + Ts); ...
-       zeros(8,3)];
-
-f = A * x + B_u * u_in
-
-h = [w1 w2 w3]'
+h = [wr wp wy]'
 
 F = simplify(jacobian(f, x), 100)
 
@@ -69,11 +52,43 @@ H = jacobian(h, x)
 
 N = length(x)
 
-%% generate the symbolic code
+%% useful substitutions
 
-% this substitution cuts down on a ton of multiplications since
-% we are using discrete time and these are always multiplied
-syms Aeb1 Aeb2 Aeb3 Aeb3d real
+% because we represent so many parameters as exponentials we can
+% substitute that before expanding the following equations
+
+syms e_br e_bp e_by1 e_by2 e_tau ets s_ets s_eby2 real
+
+F2 = F;
+for i = 1:numel(F)
+    F2(i) = F(i);
+
+    F2(i) = subs(F2(i), exp(-Ts*exp(-tau)), ets);
+    F2(i) = subs(F2(i), exp(Ts*exp(-tau)),1/ets);
+     
+    F2(i) = subs(F2(i), exp(tau - (Ts*exp(-tau))/2), e_tau*s_ets);
+    F2(i) = subs(F2(i), exp(- tau - Ts*exp(-tau)), ets / e_tau);
+ 
+    F2(i) = subs(F2(i), sinh((Ts*exp(-tau))/2), (1-ets)/(2*s_ets));
+
+    F2(i) = subs(F2(i), sinh(by2/2), (e_by2-1)/(2*s_eby2));
+    F2(i) = subs(F2(i), exp(by2/2), s_eby2);
+
+    F2(i) = subs(F2(i), exp(br), e_br);
+    F2(i) = subs(F2(i), exp(bp), e_bp);
+    F2(i) = subs(F2(i), exp(by1), e_by1);
+    F2(i) = subs(F2(i), exp(by2), e_by2);
+    
+    F2(i) = subs(F2(i), exp(tau), e_tau);
+    F2(i) = subs(F2(i), exp(-tau), 1/e_tau);
+    
+    F2(i) = subs(F2(i), exp(br + tau), e_br*e_tau);
+    F2(i) = subs(F2(i), exp(bp + tau), e_bp*e_tau);
+    F2(i) = subs(F2(i), exp(by1 + tau), e_by1*e_tau);
+    F2(i) = subs(F2(i), exp(by2 + tau), e_by2*e_tau);
+end
+
+%% generate the symbolic code
 
 syms P_1_1 P_1_2 P_1_3 P_1_4 P_1_5 P_1_6 P_1_7 P_1_8 P_1_9 P_1_10 P_1_11 P_1_12 P_1_13 P_1_14  real
 syms P_2_2 P_2_3 P_2_4 P_2_5 P_2_6 P_2_7 P_2_8 P_2_9 P_2_10 P_2_11 P_2_12 P_2_13 P_2_14  real
@@ -115,16 +130,12 @@ P_1_1 P_1_2 P_1_3 P_1_4 P_1_5 P_1_6 P_1_7 P_1_8 P_1_9 P_1_10 P_1_11 P_1_12 P_1_1
 0     0     0     0     0     0     0     0     0     0       0       0       0       P_14_14 ;
 ];
 
-%x = [w1 w2 w3 u1 u2 u3 b1 b2 b3 b3d tau bias1 bias2 bias3]';
+x = [wr nur biasr wp nup biasp wy nuy biasy br bp by1 by2 tau]';
 
 % remove cross coupling terms in the covariance
-P([1 4 7 12],[2 3 5 6 8 9 10 13 14]) = 0;
-P([2 5 8 13],[1 3 4 6 7 9 10 12 14]) = 0;
-P([3 6 9 10 14],[1 2 4 5 7 8 12 13]) = 0;
-
-% we can use this variable to reduce the unused terms out of the equations
-% below instead of storing all of the P values.
-P_idx = find(P(:));
+P(1:3,[4:9 11:13]) = 0;
+P(4:6,[7:9 10 12:13]) = 0;
+P(7:9,[10:11]) = 0;
 
 % make it symmetrical
 for(i=2:N)
@@ -135,32 +146,32 @@ end
        
 Q = diag([Q_1 Q_2 Q_3 Q_4 Q_5 Q_6 Q_7 Q_8 Q_9 Q_10 Q_11 Q_12 Q_13 Q_14]);
 
-P2 = simplify((F*P*F') + Q, 'Criterion', 'preferReal', 'IgnoreAnalyticConstraints', true, 'Steps', 100);
+%P2 = simplify((F*P*F') + Q, 'Criterion', 'preferReal', 'IgnoreAnalyticConstraints', true, 'Steps', 100);
+P2 = F2*P*F2' + Q;
 
-for i = 1:length(P_idx)
-    P2(P_idx(i)) = subs(subs(P2(P_idx(i)),exp(b1)*Ts,Aeb1),exp(2*b1)*Ts^2,Aeb1^2);
-    P2(P_idx(i)) = subs(subs(P2(P_idx(i)),exp(b2)*Ts,Aeb2),exp(2*b2)*Ts^2,Aeb2^2);
-    P2(P_idx(i)) = subs(subs(P2(P_idx(i)),exp(b3)*Ts,Aeb3),exp(2*b3)*Ts^2,Aeb3^2);
-    P2(P_idx(i)) = subs(subs(P2(P_idx(i)),exp(b3d)*Ts,Aeb3d),exp(2*b3d)*Ts^2,Aeb3d^2);
-end
+% any variables that are not updated in the covariance propagation will
+% tend towards zero, also any assigned to zero need not be tracked.
+P_temp = triu(P);
+P2_temp = triu(P2);
+P_idx = find(P_temp ~= P2_temp & P_temp ~= 0);
+P_zero = find(P_temp == P2_temp | P_temp == 0);
+
+% zero out additional terms so they don't show up in equations
+P(P_zero) = 0; P = triu(P) + triu(P,1)';
+P2 = simplify((F2*P*F2') + Q);
+P2(P_zero) = 0; P2 = triu(P2) + triu(P2,1)';
 
 % update equations
 R = diag([s_a s_a s_a]); 
 S = H*P*H' + R;
 
 % remove coupling between axes for efficiency. from the above equation
-% we can see that S_1 should be P[0][0] + s_a, S_2 is P[1][1] + s_a
-% etc
+% we can see that S_1 should be P[0][0] + s_a, etc
 syms S_1 S_2 S_3 real
 S = diag([S_1 S_2 S_3])
   
 K = P*H'/S;
 
-% go ahead and zero out gains across axes to reduce number
-% of calculations
-%K([2 3 5 6 8 9 12 14 15],1) = 0;
-%K([1 3 4 6 7 9 12 13 15],2) = 0;
-%K([1 2 4 5 7 8 11 13 14],3) = 0;
 
 x_new = x + K*y;
 
@@ -189,54 +200,7 @@ for Pnew = {P2, P3}
             else           
                 % replace with lots of precalculated constants or invalid C
                 Pstrings{i,j} = char(Pnew(i,j));
-                Pstrings{i,j} = strrep(Pstrings{i,j},'Ts^2','Tsq');
-                Pstrings{i,j} = strrep(Pstrings{i,j},'Ts^3','Tsq3');
-                Pstrings{i,j} = strrep(Pstrings{i,j},'Ts^4','Tsq4');
-                Pstrings{i,j} = strrep(Pstrings{i,j},'Aeb1^2','Aeb1_2');
-                Pstrings{i,j} = strrep(Pstrings{i,j},'Aeb2^2','Aeb2_2');
-                Pstrings{i,j} = strrep(Pstrings{i,j},'Aeb3^2','Aeb3_2');
-                Pstrings{i,j} = strrep(Pstrings{i,j},'Aeb3d^2','Aeb3d_2');
                 Pstrings{i,j} = strrep(Pstrings{i,j},'P','D');
-                Pstrings{i,j} = strrep(Pstrings{i,j},'exp(b1)','e_b1');
-                Pstrings{i,j} = strrep(Pstrings{i,j},'exp(b2)','e_b2');
-                Pstrings{i,j} = strrep(Pstrings{i,j},'exp(b3)','e_b3');
-                Pstrings{i,j} = strrep(Pstrings{i,j},'exp(b3d)','e_b3d');
-                Pstrings{i,j} = strrep(Pstrings{i,j},'exp(2*b1)','(e_b1*e_b1)');
-                Pstrings{i,j} = strrep(Pstrings{i,j},'exp(2*b2)','(e_b2*e_b2)');
-                Pstrings{i,j} = strrep(Pstrings{i,j},'exp(2*b3)','(e_b3*e_b3)');
-                Pstrings{i,j} = strrep(Pstrings{i,j},'exp(2*b3d)','(e_b3d*e_b3d)');
-                Pstrings{i,j} = strrep(Pstrings{i,j},'exp(2*tau)','e_tau2');
-                Pstrings{i,j} = strrep(Pstrings{i,j},'exp(3*tau)','e_tau3');
-                Pstrings{i,j} = strrep(Pstrings{i,j},'exp(4*tau)','e_tau4');
-                Pstrings{i,j} = strrep(Pstrings{i,j},'exp(tau)','e_tau');
-                Pstrings{i,j} = strrep(Pstrings{i,j},'exp(2*tau_y)','e_tau_y2');
-                Pstrings{i,j} = strrep(Pstrings{i,j},'exp(3*tau_y)','e_tau_y3');
-                Pstrings{i,j} = strrep(Pstrings{i,j},'exp(4*tau_y)','e_tau_y4');
-                Pstrings{i,j} = strrep(Pstrings{i,j},'exp(tau_y)','e_tau_y');
-                Pstrings{i,j} = strrep(Pstrings{i,j},'s_a^2','s_a2');
-                Pstrings{i,j} = strrep(Pstrings{i,j},'s_a^3','s_a3');
-                Pstrings{i,j} = strrep(Pstrings{i,j},'u1^2','(u1*u1)');
-                Pstrings{i,j} = strrep(Pstrings{i,j},'u2^2','(u2*u2)');
-                Pstrings{i,j} = strrep(Pstrings{i,j},'u3^2','(u3*u3)');
-                Pstrings{i,j} = strrep(Pstrings{i,j},'bias1^2','(bias1*bias1)');
-                Pstrings{i,j} = strrep(Pstrings{i,j},'bias2^2','(bias2*bias2)');
-                Pstrings{i,j} = strrep(Pstrings{i,j},'bias3^2','(bias3*bias3)');
-                Pstrings{i,j} = strrep(Pstrings{i,j},'u1_in^2','(u1_in*u1_in)');
-                Pstrings{i,j} = strrep(Pstrings{i,j},'u2_in^2','(u2_in*u2_in)');
-                Pstrings{i,j} = strrep(Pstrings{i,j},'u3_in^2','(u3_in*u3_in)');
-                Pstrings{i,j} = strrep(Pstrings{i,j},'(Ts + e_tau)^2','Ts_e_tau2');
-                Pstrings{i,j} = strrep(Pstrings{i,j},'(Ts + e_tau)^3','Ts_e_tau3');
-                Pstrings{i,j} = strrep(Pstrings{i,j},'(Ts + e_tau)^4','Ts_e_tau4');
-                Pstrings{i,j} = strrep(Pstrings{i,j},'(Ts + e_tau_y)^2','Ts_e_tau_y2');
-                Pstrings{i,j} = strrep(Pstrings{i,j},'(Ts + e_tau_y)^3','Ts_e_tau_y3');
-                Pstrings{i,j} = strrep(Pstrings{i,j},'(Ts + e_tau_y)^4','Ts_e_tau_y4');
-                Pstrings{i,j} = strrep(Pstrings{i,j},'exp(b1 + tau)','(e_b1*e_tau)');
-                Pstrings{i,j} = strrep(Pstrings{i,j},'exp(b2 + tau)','(e_b2*e_tau)');
-                Pstrings{i,j} = strrep(Pstrings{i,j},'exp(b3 + tau_y)','(e_b3*e_tau_y)');
-                Pstrings{i,j} = strrep(Pstrings{i,j},'exp(b1 + 2*tau)','(e_b1*e_tau2)');
-                Pstrings{i,j} = strrep(Pstrings{i,j},'exp(b2 + 2*tau)','(e_b2*e_tau2)');
-                Pstrings{i,j} = strrep(Pstrings{i,j},'exp(b3 + 2*tau)','(e_b3*e_tau2)');
-                Pstrings{i,j} = strrep(Pstrings{i,j},'exp(b3 + 2*tau_y)','(e_b3*e_tau_y2)');
                 
                 for n1 = N:-1:1
                     Pstrings{i,j} = strrep(Pstrings{i,j},sprintf('Q_%d',n1),sprintf('Q[%d]', n1-1));
@@ -294,19 +258,15 @@ for x = {f x_new}
     
     Pstrings2=cell(N,1);
     for i=1:N
+        x{1}(i) = subs(x{1}(i), exp(br), e_br);
+        x{1}(i) = subs(x{1}(i), exp(bp), e_bp);
+        x{1}(i) = subs(x{1}(i), exp(by1), e_by1);
+        x{1}(i) = subs(x{1}(i), exp(by2), e_by2);
+        x{1}(i) = subs(x{1}(i), exp(tau), e_tau);
+        x{1}(i) = subs(x{1}(i), exp(-Ts*exp(-tau)), ets);
+
         Pstrings2{i} = char(x{1}(i));
-        Pstrings2{i} = strrep(Pstrings2{i},'Ts^2','Tsq');
-        Pstrings2{i} = strrep(Pstrings2{i},'exp(b1)','e_b1');
-        Pstrings2{i} = strrep(Pstrings2{i},'exp(b2)','e_b2');
-        Pstrings2{i} = strrep(Pstrings2{i},'exp(b3)','e_b3');
-        Pstrings2{i} = strrep(Pstrings2{i},'exp(b3d)','e_b3d');
-        Pstrings2{i} = strrep(Pstrings2{i},'exp(2*tau)','e_tau*e_tau');
-        Pstrings2{i} = strrep(Pstrings2{i},'exp(2*tau_y)','e_tau_y*e_tau_y');
-        Pstrings2{i} = strrep(Pstrings2{i},'exp(tau)','e_tau');
-        Pstrings2{i} = strrep(Pstrings2{i},'s_a^2','s_a2');
-        Pstrings2{i} = strrep(Pstrings2{i},'s_a^3','s_a3');
-        Pstrings2{i} = strrep(Pstrings2{i},'(Ts + e_tau)^2','Ts_e_tau2');
-        Pstrings2{i} = strrep(Pstrings2{i},'(Ts + e_tau_y)^2','Ts_e_tau_y2');
+
         Pstrings2{i} = strrep(Pstrings2{i},'S_1','S[0]');
         Pstrings2{i} = strrep(Pstrings2{i},'S_2','S[1]');
         Pstrings2{i} = strrep(Pstrings2{i},'S_3','S[2]');
