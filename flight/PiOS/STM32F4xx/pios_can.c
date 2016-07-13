@@ -236,6 +236,11 @@ static void PIOS_CAN_RegisterTxCallback(uintptr_t can_id, pios_com_callback tx_o
 //! The mapping of message types to CAN BUS StdID
 static struct pios_queue *pios_can_queues[PIOS_CAN_LAST];
 
+bool pios_can_valid_msg(enum pios_can_messages msg_id)
+{
+	return (msg_id >= 0 && msg_id < PIOS_CAN_LAST);
+}
+
 /**
  * Process received CAN messages and push them out any corresponding
  * queues. Called from ISR.
@@ -269,10 +274,11 @@ static bool process_received_message(CanRxMsg message)
  */
 struct pios_queue * PIOS_CAN_RegisterMessageQueue(uintptr_t id, enum pios_can_messages msg_id)
 {
+	if (! pios_can_valid_msg(msg_id))
+		return NULL;
+
 	// Fetch the size of this message type or error if unknown
 	int32_t bytes = get_message_size(msg_id);
-	if (msg_id < 0)
-		return NULL;
 
 	// Return existing queue if created
 	if (pios_can_queues[msg_id] != NULL)
@@ -442,10 +448,11 @@ static void PIOS_CAN_TxGeneric(void)
  */
 int32_t PIOS_CAN_TxData(uintptr_t id, enum pios_can_messages msg_id, uint8_t *data)
 {
+	if (! pios_can_valid_msg(msg_id))
+		return -1;
+
 	// Fetch the size of this message type or error if unknown
 	int32_t bytes = get_message_size(msg_id);
-	if (msg_id < 0)
-		return -1;
 
 	// Look up the CAN BUS Standard ID for this message type
 	uint32_t std_id = pios_can_message_stdid[msg_id];

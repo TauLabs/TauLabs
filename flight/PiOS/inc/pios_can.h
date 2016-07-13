@@ -35,7 +35,6 @@
 
 //! The set of CAN messages
 enum pios_can_messages {
-	PIOS_CAN_ERROR = -1,
 	PIOS_CAN_GIMBAL = 0,
 	PIOS_CAN_ATTITUDE_ROLL_PITCH = 1,
 	PIOS_CAN_ATTITUDE_YAW = 2,
