@@ -109,11 +109,26 @@ pack_state(PyObject* self)
 	state = (PyArrayObject*) PyArray_FromDims(nd, dims, NPY_DOUBLE);
 	double *s = (double *) PyArray_DATA(state);
 
-	rtsi_get_rates(rtsi_handle, &s[0]);    // three elements
-	rtsi_get_torques(rtsi_handle, &s[3]);  // three elements
-	rtsi_get_gains(rtsi_handle, &s[6]);    // four elements
-	rtsi_get_tau(rtsi_handle, &s[10]);     // one element
-	rtsi_get_bias(rtsi_handle, &s[11]);    // three elements
+	float f[4];
+	rtsi_get_rates(rtsi_handle, f);    // three elements
+	s[0] = f[0];
+	s[3] = f[1];
+	s[6] = f[2];
+	rtsi_get_torque(rtsi_handle, f);  // three elements
+	s[1] = f[0];
+	s[4] = f[1];
+	s[7] = f[2];
+	rtsi_get_bias(rtsi_handle, f);    // three elements
+	s[2] = f[0];
+	s[5] = f[1];
+	s[8] = f[2];
+	rtsi_get_gains(rtsi_handle, f);    // four elements
+	s[9] = f[0];
+	s[10] = f[1];
+	s[11] = f[2];
+	s[12] = f[3];
+	rtsi_get_tau(rtsi_handle, f);     // one element
+	s[13] = f[0];
 
 	return Py_BuildValue("O", state);
 }
@@ -150,39 +165,10 @@ predict(PyObject* self, PyObject* args)
 	return pack_state(self);
 }
 
-static PyObject*
-configure(PyObject* self, PyObject* args, PyObject *kwarg)
-{
-	static char *kwlist[] = {"gain", "tau", NULL};
-
-	PyArrayObject *gain_var = NULL;
-	float tau_var = NAN;
-
-	if (!PyArg_ParseTupleAndKeywords(args, kwarg, "|Of", kwlist,
-		 &gain_var, &tau_var)) {
-		return NULL;
-	}
-
-	if (gain_var) {
-		float gain_new[4];
-		if (!parseFloatVecN(gain_var, gain_new, 4))
-			return NULL;
-
-		rtsi_set_gains(rtsi_handle, gain_new);
-	}
-
-	if (!isnan(tau_var)) {
-		rtsi_set_tau(rtsi_handle, tau_var);
-	}
-
-	return Py_None;
-}
-
 static PyMethodDef RtsiMethods[] =
 {
 	{"init", init, METH_VARARGS, "Reset KF state."},
 	{"predict", predict, METH_VARARGS, "Advance state 1 time step."},
-	{"configure", (PyCFunction)configure, METH_VARARGS|METH_KEYWORDS, "Configure EKF parameters."},
 	{NULL, NULL, 0, NULL}
 };
  

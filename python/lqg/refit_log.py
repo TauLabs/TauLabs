@@ -26,7 +26,8 @@ except NameError:
 # find the time of the last gyro update before the last actuator update
 # to ensure we always have valid data for running
 #t_start = actuator['time'][0]
-t_start = fs['time'][find(fs['FlightMode']==10)[0]]
+#t_start = fs['time'][find(fs['FlightMode']==10)[0]]
+t_start = actuator['time'][find(actuator['Throttle']>0)[0]]
 t_end = actuator['time'][-1]
 g_idx_end = find(gyros['time'] < t_end)[-1]
 g_idx_start = find(gyros['time'] > t_start)[0]
@@ -62,14 +63,19 @@ for idx in range(STEPS):
 if True:
 	clf()
 
-	ax1 = subplot(211)
-	plot(gyros['time'], gyros['z'], times,history[:,2])
+	ax1 = subplot(311)
+	plot(gyros['time'], gyros['x'], times,history[:,0])
 	ylabel('Rate (deg/s)')
 
-	subplot(212,sharex=ax1)
-	#plot(times,history[:,3:6], actuator['time'],actuator['Roll'],'k',actuator['time'],actuator['Pitch'],'k',actuator['time'],actuator['Yaw'],'k')
-	plot(times,history[:,5], actuator['time'],actuator['Yaw'],'k')
+	subplot(312, sharex=ax1)
+	plot(times,history[:,1], actuator['time'],actuator['Roll'],'k')
 	ylabel('Torque (deg/s^2)')
+
+	subplot(313,sharex=ax1)
+	plot(times,history[:,9:])
+	legend(['r','p','y1','y2','tau'])
+	ylabel('Parameters');
+	xlabel('Time')
 
 	xlabel('Time (s)')
 	#xlim(95,97)
