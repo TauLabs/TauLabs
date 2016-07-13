@@ -856,8 +856,8 @@ void render_osd_menu()
 
 	ManualControlSettingsArmingGet(&tmp);
 	switch(tmp){
-		case MANUALCONTROLSETTINGS_ARMING_ROLLLEFT:
-		case MANUALCONTROLSETTINGS_ARMING_ROLLRIGHT:
+		case MANUALCONTROLSETTINGS_ARMING_ROLLLEFTTHROTTLE:
+		case MANUALCONTROLSETTINGS_ARMING_ROLLRIGHTTHROTTLE:
 			write_string("Do not use roll for arming.", GRAPHICS_X_MIDDLE, GRAPHICS_BOTTOM - 25, 0, 0, TEXT_VA_TOP, TEXT_HA_CENTER, 0, 2);
 			break;
 		default:
