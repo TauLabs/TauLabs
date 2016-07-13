@@ -138,6 +138,8 @@ ConfigInputWidget::ConfigInputWidget(QWidget *parent) : ConfigTaskWidget(parent)
     addUAVObjectToWidgetRelation("ManualControlSettings","Stabilization2Settings",m_config->fmsSsPos2Yaw,"Yaw");
     addUAVObjectToWidgetRelation("ManualControlSettings","Stabilization3Settings",m_config->fmsSsPos3Yaw,"Yaw");
 
+    // connect this before the widgets are populated to ensure it always fires
+    connect(m_config->armControl, SIGNAL(currentTextChanged(QString)), this, SLOT(checkArmingConfig(QString)));
     addUAVObjectToWidgetRelation("ManualControlSettings","Arming",m_config->armControl);
     addUAVObjectToWidgetRelation("ManualControlSettings","ArmedTimeout",m_config->armTimeout,0,1000);
     connect( ManualControlCommand::GetInstance(getObjectManager()),SIGNAL(objectUpdated(UAVObject*)),this,SLOT(moveFMSlider()));
@@ -1648,4 +1650,12 @@ void ConfigInputWidget::simpleCalibration(bool enable)
 
         disconnect(manualCommandObj, SIGNAL(objectUnpacked(UAVObject*)), this, SLOT(updateCalibration()));
     }
+}
+
+void ConfigInputWidget::checkArmingConfig(QString option)
+{
+    if(!m_config->armControl->isEnabled() || option.contains("+Throttle") || option == "Always Disarmed")
+        m_config->lblThrottleCheckWarn->hide();
+    else
+        m_config->lblThrottleCheckWarn->show();
 }
