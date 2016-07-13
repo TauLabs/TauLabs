@@ -1,0 +1,24 @@
+sudo: required
+dist: trusty
+language: mega
+before_install:
+  - sudo add-apt-repository --yes ppa:beineri/opt-qt551-trusty
+  - sudo add-apt-repository --yes ppa:team-gcc-arm-embedded/ppa
+  - sudo apt-get -qq update
+  - sudo apt-get install -y build-essential gdb wget debhelper
+  - sudo apt-get install -y libglib2.0-dev libSM-dev libxrender-dev libfontconfig1-dev libxext-dev libusb-1.0-0-dev libphonon-dev
+  - sudo apt-get install -y libsdl1.2-dev
+  - sudo apt-get install -y libjpeg8 libjpeg62
+  - sudo apt-get install -y libudev-dev
+  - sudo apt-get install -y python-lxml
+  - sudo apt-get install -y qt55-meta-full
+  - sudo apt-get install -y gcc-arm-embedded
+before_script:
+  - source /opt/qt55/bin/qt55-env.sh
+  - make arm_sdk_install
+  - make gtest_install
+script:
+  - make all_ut
+  - make python_ut_test
+  - make package
+
