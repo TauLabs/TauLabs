@@ -1,6 +1,8 @@
 sudo: required
 dist: trusty
 language: mega
+virtualenv:
+  system_site_packages: true
 before_install:
   - sudo add-apt-repository --yes ppa:beineri/opt-qt551-trusty
   - sudo add-apt-repository --yes ppa:team-gcc-arm-embedded/ppa
@@ -10,15 +12,18 @@ before_install:
   - sudo apt-get install -y libsdl1.2-dev
   - sudo apt-get install -y libjpeg8 libjpeg62
   - sudo apt-get install -y libudev-dev
-  - sudo apt-get install -y python-lxml
+  - sudo apt-get install -y python-lxml python-dev libxml2 libxml2-dev libxslt-dev
+  # note here we are installing via APT instead of the normal package
+  # installs through the makesfiles. It results in slightly different
+  # versions but speeds up travis.
   - sudo apt-get install -y qt55-meta-full
   - sudo apt-get install -y gcc-arm-embedded
 before_script:
   - source /opt/qt55/bin/qt55-env.sh
-  - make arm_sdk_install
   - make gtest_install
+  # make arm_sdk_install
+  # make qt_sdk_install # this requires UI
 script:
   - make all_ut
-  - make python_ut_test
   - make package
 
