@@ -35,5 +35,5 @@ before_script:
          ;
     fi
 script:
-  - make package
+  - make -j2 package
 
