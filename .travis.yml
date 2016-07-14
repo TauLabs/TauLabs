@@ -12,6 +12,7 @@ before_install:
       && sudo add-apt-repository --yes ppa:team-gcc-arm-embedded/ppa
       && sudo apt-get -qq update
       && sudo apt-get install -y build-essential gdb wget debhelper
+      && sudo apt-get install -y g++-multilib
       && sudo apt-get install -y libglib2.0-dev libSM-dev libxrender-dev libfontconfig1-dev libxext-dev libusb-1.0-0-dev libphonon-dev
       && sudo apt-get install -y libsdl1.2-dev
       && sudo apt-get install -y libjpeg8 libjpeg62
@@ -35,5 +36,5 @@ before_script:
          ;
     fi
 script:
-  - make -j2 package
+  - make -j2 gcs all_flight
 
