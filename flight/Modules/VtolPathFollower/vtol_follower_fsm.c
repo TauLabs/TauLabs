@@ -57,11 +57,11 @@
 #include "vtolpathfollowerstatus.h"
 
 // Various navigation constants
-const static float RTH_MIN_ALTITUDE = 15.f;  //!< Hover at least 15 m above home */
-const static float RTH_ALT_ERROR    = 0.8f;  //!< The altitude to come within for RTH */
-const static float RTH_MIN_RISE     = 1.5f;  //!< Always climb at least this much.
-const static float DT               = 0.05f; // TODO: make the self monitored
-const static float RTH_CLIMB_SPEED  = 1.0f;  //!< Climb at 1m/s 
+static const float RTH_MIN_ALTITUDE = 15.f;  //!< Hover at least 15 m above home */
+static const float RTH_ALT_ERROR    = 0.8f;  //!< The altitude to come within for RTH */
+static const float RTH_MIN_RISE     = 1.5f;  //!< Always climb at least this much.
+static const float DT               = 0.05f; // TODO: make the self monitored
+static const float RTH_CLIMB_SPEED  = 1.0f;  //!< Climb at 1m/s
 
 //! Events that can be be injected into the FSM and trigger state changes
 enum vtol_fsm_event {
@@ -127,7 +127,7 @@ static void hold_position(float north, float east, float down);
  * The state machine for landing at home does the following:
  * enable holding at the current location
  */
-const static struct vtol_fsm_transition fsm_hold_position[FSM_STATE_NUM_STATES] = {
+static const struct vtol_fsm_transition fsm_hold_position[FSM_STATE_NUM_STATES] = {
 	[FSM_STATE_INIT] = {
 		.next_state = {
 			[FSM_EVENT_AUTO] = FSM_STATE_HOLDING,
@@ -147,7 +147,7 @@ const static struct vtol_fsm_transition fsm_hold_position[FSM_STATE_NUM_STATES] 
  * The state machine for following the Path Planner:
  * enable following path segment
  */
-const static struct vtol_fsm_transition fsm_follow_path[FSM_STATE_NUM_STATES] = {
+static const struct vtol_fsm_transition fsm_follow_path[FSM_STATE_NUM_STATES] = {
 	[FSM_STATE_INIT] = {
 		.next_state = {
 			[FSM_EVENT_AUTO] = FSM_STATE_FLYING_PATH,
@@ -172,7 +172,7 @@ const static struct vtol_fsm_transition fsm_follow_path[FSM_STATE_NUM_STATES] = 
  * 5. descends to ground (This step currently does not complete)
  * 6. disarms the system
  */
-const static struct vtol_fsm_transition fsm_land_home[FSM_STATE_NUM_STATES] = {
+static const struct vtol_fsm_transition fsm_land_home[FSM_STATE_NUM_STATES] = {
 	[FSM_STATE_INIT] = {
 		.next_state = {
 			[FSM_EVENT_AUTO] = FSM_STATE_PRE_RTH_RISE,
@@ -272,7 +272,7 @@ static bool vtol_fsm_timer_expired() {
  */
 
 //! The currently selected goal FSM
-const static struct vtol_fsm_transition *current_goal;
+static const struct vtol_fsm_transition *current_goal;
 //! The current state within the goal fsm
 static enum vtol_fsm_state curr_state;
 

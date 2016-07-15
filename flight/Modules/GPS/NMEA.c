@@ -78,7 +78,7 @@ static bool nmeaProcessGPGSA(GPSPositionData * GpsData, bool* gpsDataUpdated, ch
 	static bool nmeaProcessGPGSV(GPSPositionData * GpsData, bool* gpsDataUpdated, char* param[], uint8_t nbParam);
 #endif //PIOS_GPS_MINIMAL
 
-const static struct nmea_parser nmea_parsers[] = {
+static const struct nmea_parser nmea_parsers[] = {
 	{
 		.prefix = "GGA",
 		.handler = nmeaProcessGPGGA,
@@ -189,7 +189,7 @@ int parse_nmea_stream (uint8_t c, char *gps_rx_buffer, GPSPositionData *GpsData,
 	return PARSER_INCOMPLETE;
 }
 
-const static struct nmea_parser *NMEA_find_parser_by_prefix(const char *prefix)
+static const struct nmea_parser *NMEA_find_parser_by_prefix(const char *prefix)
 {
 	if (!prefix) {
 		return (NULL);

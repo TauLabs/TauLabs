@@ -155,7 +155,7 @@ static void go_write_in_progress(struct bl_fsm_context * context);
 static void go_dfu_operation_ok(struct bl_fsm_context * context);
 static void go_dfu_operation_failed(struct bl_fsm_context * context);
 
-const static struct bl_transition bl_transitions[BL_STATE_NUM_STATES] = {
+static const struct bl_transition bl_transitions[BL_STATE_NUM_STATES] = {
 	[BL_STATE_FSM_FAULT] = {
 		.entry_fn = go_fsm_fault,
 		.next_state = {

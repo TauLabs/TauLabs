@@ -44,7 +44,7 @@ const struct pios_rcvr_driver pios_pwm_rcvr_driver = {
 
 /* Local Variables */
 /* 100 ms timeout without updates on channels */
-const static uint32_t PWM_SUPERVISOR_TIMEOUT = 100000;
+static const uint32_t PWM_SUPERVISOR_TIMEOUT = 100000;
 
 enum pios_pwm_dev_magic {
 	PIOS_PWM_DEV_MAGIC = 0xab30293c,
@@ -80,7 +80,7 @@ static struct pios_pwm_dev * PIOS_PWM_alloc(void)
 
 static void PIOS_PWM_tim_overflow_cb (uintptr_t id, uintptr_t context, uint8_t channel, uint16_t count);
 static void PIOS_PWM_tim_edge_cb (uintptr_t id, uintptr_t context, uint8_t channel, uint16_t count);
-const static struct pios_tim_callbacks tim_callbacks = {
+static const struct pios_tim_callbacks tim_callbacks = {
 	.overflow = PIOS_PWM_tim_overflow_cb,
 	.edge     = PIOS_PWM_tim_edge_cb,
 };

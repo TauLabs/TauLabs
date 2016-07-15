@@ -116,7 +116,7 @@ static void msp_send_status(struct msp_bridge *m)
 	data.status.cycleTime = 0;
 	data.status.i2cErrors = 0;
 	
-	GPSPositionData gpsData = {};
+	GPSPositionData gpsData;
 	
 	if (GPSPositionHandle() != NULL)
 		GPSPositionGet(&gpsData);
@@ -158,8 +158,8 @@ static void msp_send_analog(struct msp_bridge *m)
 	} data;
 	data.status.powerMeterSum = 0;
 
-	FlightBatterySettingsData batSettings = {};
-	FlightBatteryStateData batState = {};
+	FlightBatterySettingsData batSettings;
+	FlightBatteryStateData batState;
 
 	if (FlightBatteryStateHandle() != NULL)
 		FlightBatteryStateGet(&batState);
@@ -204,7 +204,7 @@ static void msp_send_raw_gps(struct msp_bridge *m)
 		} __attribute__((packed)) raw_gps;
 	} data;
 	
-	GPSPositionData gps_data = {};
+	GPSPositionData gps_data;
 	
 	if (GPSPositionHandle() != NULL) {
 		GPSPositionGet(&gps_data);
@@ -239,8 +239,8 @@ static void msp_send_comp_gps(struct msp_bridge *m)
 		} __attribute__((packed)) comp_gps;
 	} data;
 	
-	GPSPositionData gps_data   = {};
-	HomeLocationData home_data = {};
+	GPSPositionData gps_data;
+	HomeLocationData home_data;
 	
 	if ((GPSPositionHandle() == NULL) || (HomeLocationHandle() == NULL)) {
 		data.comp_gps.distance_to_home    = 0;
