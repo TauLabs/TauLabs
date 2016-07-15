@@ -34,6 +34,7 @@
 #include <modulesettings.h>
 #include <hwtaulink.h>
 #include <pios_hal.h>
+#include <pios_iap.h>
 #include <rfm22bstatus.h>
 
 uintptr_t pios_com_telem_uart_bluetooth_id;
@@ -79,6 +80,10 @@ void PIOS_Board_Init(void) {
 	/* Initialize UAVObject libraries */
 	EventDispatcherInitialize();
 	UAVObjInitialize();
+
+	/* Initialize the alarms library. Reads RCC reset flags */
+	AlarmsInitialize();
+	PIOS_RESET_Clear(); // Clear the RCC reset flags after use.
 
 	/* Set up the SPI interface to the rfm22b */
 	if (PIOS_SPI_Init(&pios_spi_rfm22b_id, &pios_spi_rfm22b_cfg)) {

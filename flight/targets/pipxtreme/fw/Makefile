@@ -93,6 +93,7 @@ SRC += ${foreach MOD, ${MODULES} ${OPTMODULES}, ${wildcard ${OPMODULEDIR}/${MOD}
 SRC += ${OPMODULEDIR}/PipXtreme/pipxtrememod.c
 SRC += main.c
 SRC += pios_board.c
+SRC += $(FLIGHTLIB)/alarms.c
 SRC += $(OPUAVTALK)/uavtalk.c
 SRC += $(OPUAVOBJ)/uavobjectmanager.c
 SRC += $(OPUAVOBJ)/eventdispatcher.c
@@ -120,6 +121,7 @@ SRC += $(OPUAVSYNTHDIR)/velocityactual.c
 endif
 
 ## PIOS Hardware (STM32F10x)
+SRC += $(PIOSSTM32F10X)/pios_iap.c
 SRC += $(PIOSSTM32F10X)/pios_sys.c
 SRC += $(PIOSSTM32F10X)/pios_led.c
 SRC += $(PIOSSTM32F10X)/pios_usart.c
