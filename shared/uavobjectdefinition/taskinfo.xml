@@ -40,6 +40,8 @@
 			<elementname>Logging</elementname>
 			<elementname>UAVOFrSkySPortBridge</elementname>
 			<elementname>FlightStats</elementname>
+			<elementname>OnScreenDisplay</elementname>
+			<elementname>OnScreenDisplayCom</elementname>
 		</elementnames>
 	</field> 
 	<field name="Running" units="bool" type="enum">
@@ -81,6 +83,8 @@
 			<elementname>Logging</elementname>
 			<elementname>UAVOFrSkySPortBridge</elementname>
 			<elementname>FlightStats</elementname>
+			<elementname>OnScreenDisplay</elementname>
+			<elementname>OnScreenDisplayCom</elementname>
 		</elementnames>
 		<options>
 			<option>False</option>
@@ -126,6 +130,8 @@
 			<elementname>Logging</elementname>
 			<elementname>UAVOFrSkySPortBridge</elementname>
 			<elementname>FlightStats</elementname>
+			<elementname>OnScreenDisplay</elementname>
+			<elementname>OnScreenDisplayCom</elementname>
 		</elementnames>
 	</field> 
 	<access gcs="readwrite" flight="readwrite"/>

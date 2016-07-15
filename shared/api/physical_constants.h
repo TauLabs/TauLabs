@@ -1,7 +1,7 @@
 /**
  ******************************************************************************
  * @file       physical_constants.h
- * @author     Tau Labs, http://ww.taulabs.org, Copyright (C) 2013
+ * @author     Tau Labs, http://ww.taulabs.org, Copyright (C) 2013-2016
  * @addtogroup Physical constants
  * @{
  * @addtogroup 
@@ -60,6 +60,10 @@
 #define KM_PER_HOUR2METERS_PER_SECOND (1.0f/3.6f)
 #define NM2DEG_LAT                         60.0f  // 60 nautical miles per degree latitude
 #define DEG_LAT2NM                     (1.0/60.f) // 1 degree latitude per 60 nautical miles
+#define MS_TO_KMH                      METERS_PER_SECOND2KM_PER_HOUR
+#define MS_TO_MPH                      2.23694f
+#define M_TO_FEET                      3.28084f
+#define FEET_PER_MILE                  5280.f
 
 // Standard atmospheric constants
 #define UNIVERSAL_GAS_CONSTANT           8.31447f // [J/(mol·K)]

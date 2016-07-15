@@ -30,7 +30,7 @@
 #include "sparky2.h"
 #include "sparkybgc.h"
 #include "taulink.h"
-
+#include "tauosd.h"
 
 TauLabsPlugin::TauLabsPlugin()
 {
@@ -66,6 +66,9 @@ void TauLabsPlugin::extensionsInitialized()
 
     TauLink* taulink = new TauLink();
     addAutoReleasedObject(taulink);
+
+    TauOsd* tauosd = new TauOsd();
+    addAutoReleasedObject(tauosd);
 }
 
 void TauLabsPlugin::shutdown()

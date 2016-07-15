@@ -222,6 +222,7 @@ static void PIOS_HAL_SetTarget(uintptr_t *target, uintptr_t value) {
 	}
 }
 
+#if defined(PIOS_INCLUDE_SBUS) || defined (PIOS_INCLUDE_PWM) || defined(PIOS_INCLUDE_DSM) || defined(PIOS_INCLUDE_PPM)
 /**
  * @brief Assign a device instance into the receiver map
  *
@@ -231,6 +232,7 @@ static void PIOS_HAL_SetTarget(uintptr_t *target, uintptr_t value) {
 static void PIOS_HAL_SetReceiver(int receiver_type, uintptr_t value) {
 	PIOS_HAL_SetTarget(pios_rcvr_group_map + receiver_type, value);
 }
+#endif
 
 #if defined(PIOS_INCLUDE_USART) && defined(PIOS_INCLUDE_COM)
 /**
