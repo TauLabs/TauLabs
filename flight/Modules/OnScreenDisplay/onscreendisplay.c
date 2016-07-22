@@ -1067,7 +1067,7 @@ void render_user_page(OnScreenDisplayPageSettingsData * page)
 	}
 
 	// G Force
-	if (page->GForce) {
+	if (page->GForce && AccelsHandle() != NULL) {
 		AccelsData accelsData;
 		AccelsGet(&accelsData);
 		tmp = sqrtf(powf(accelsData.x, 2.f) + powf(accelsData.y, 2.f) + powf(accelsData.z, 2.f)) / 9.81f;
