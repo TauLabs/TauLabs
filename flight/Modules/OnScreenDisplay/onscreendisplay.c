@@ -540,6 +540,12 @@ void draw_flight_mode(int x, int y, int xs, int ys, int va, int ha, int flags, i
 		case FLIGHTSTATUS_FLIGHTMODE_ACROPLUS:
 			write_string("ACRO PLUS", x, y, xs, ys, va, ha, flags, font);
 			break;
+		case FLIGHTSTATUS_FLIGHTMODE_LQGRATE:
+			write_string("LQG RATE", x, y, xs, ys, va, ha, flags, font);
+			break;
+		case FLIGHTSTATUS_FLIGHTMODE_LQGANGLE:
+			write_string("LQG ANGLE", x, y, xs, ys, va, ha, flags, font);
+			break;
 		case FLIGHTSTATUS_FLIGHTMODE_LEVELING:
 			write_string("LEVEL", x, y, xs, ys, va, ha, flags, font);
 			break;
