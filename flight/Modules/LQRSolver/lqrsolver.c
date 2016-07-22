@@ -115,11 +115,16 @@ static void lqrSolverTask(void *parameters)
 			if (flightStatus.Armed == FLIGHTSTATUS_ARMED_DISARMED &&
 				flightStatus.FlightMode != FLIGHTSTATUS_FLIGHTMODE_AUTOTUNE) {
 
-				settings_updated = false;
-
 				uintptr_t start_time = PIOS_Thread_Systime();
 
 				SystemIdentGet(&si);
+
+				if (si.Tau == 0 || si.Beta[SYSTEMIDENT_BETA_ROLL] < 6 || si.Beta[SYSTEMIDENT_BETA_PITCH] < 6) {
+					// System Ident has not actually been run so do not attempt to solve
+					// with these params
+					PIOS_Thread_Sleep(10);
+					continue;
+				}
 				LQRSettingsGet(&lqr_settings);
 				LQRSolutionGet(&lqr);
 
@@ -163,6 +168,8 @@ static void lqrSolverTask(void *parameters)
 				rtkfo_get_pitch_gain(kf_gains.Pitch);
 				rtkfo_get_yaw_gain(kf_gains.Yaw);
 				RateTorqueKFGainsSet(&kf_gains);
+
+				settings_updated = false;
 			}
 		}
 
