@@ -200,7 +200,7 @@ void rtsi_predict(uintptr_t rtsi_handle, const float u_in[3], const float gyro[3
 	const float q_w = 1e0f;
 	const float q_ud = 1e-5f;
 	const float q_bias = 1e-10f;
-	const float s_a = 1000.0f;  // expected gyro noise
+	const float s_a = 100.0f;  // expected gyro noise
 	// system identification parameters
 	const float q_B = 1e-5f;
 	const float q_tau = 1e-5f;
