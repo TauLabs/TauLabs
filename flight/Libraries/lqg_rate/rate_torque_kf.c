@@ -282,9 +282,14 @@ void rtkf_predict(uintptr_t rtkf_handle, float throttle, const float control_in[
 		const float u = X[1];
 		const float bias = X[2];
 
+		// Advance the state based on the natural dynamics and input
+		X[0] = w + Ad12 * u + Ad13 * bias - Ad13 * u_in;
+
+		// Calculate the error and correct state. Note that we do this in one step
+		// below as the error does not depend on these predictions
 		const float err = (gyro-w);
 
-		X[0] = w + Ad12 * u + Ad13 * bias - Ad13 * u_in + L[0] * err;
+		X[0] = X[0] + L[0] * err;
 		X[1] = u * ets + (ets - 1) * bias + (1-ets) * u_in + L[1] * err;
 		X[2] = bias + L[2] * err;
 	}
