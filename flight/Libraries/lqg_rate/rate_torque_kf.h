@@ -39,7 +39,7 @@ void rtkf_set_roll_kalman_gain(uintptr_t rtkf_handle, const float kg[3]);
 void rtkf_set_pitch_kalman_gain(uintptr_t rtkf_handle, const float kg[3]);
 void rtkf_set_yaw_kalman_gain(uintptr_t rtkf_handle, const float kg[3]);
 void rtkf_set_gains(uintptr_t rtkf_handle, const float gains_new[4]);
-void rtkf_set_tau(uintptr_t rtkf_handle, const float tau_new);
+void rtkf_set_tau(uintptr_t rtkf_handle, const float tau_new, const float Ts_new);
 void rtkf_set_init_bias(uintptr_t rtkf_handle, const float bias[3]);
 
 void rtkf_get_rate(uintptr_t rtkf_handle, float rate[3]);

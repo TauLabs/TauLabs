@@ -147,12 +147,13 @@ void rtkf_set_yaw_kalman_gain(uintptr_t rtkf_handle, const float kg[3])
  * @param[in] rtkf_handle handle for estimation
  * @param[in] tau the new tau parameter
  */
-void rtkf_set_tau(uintptr_t rtkf_handle, const float tau_new)
+void rtkf_set_tau(uintptr_t rtkf_handle, const float tau_new, const float Ts_new)
 {
 	struct rtkf_state * rtkf_state = (struct rtkf_state *) rtkf_handle;
 	if (!rtkf_validate(rtkf_state))
 		return;
 
+	rtkf_state->Ts = Ts_new;
 	rtkf_state->tau_s = expf(tau_new);
 	rtkf_state->ets = expf(-rtkf_state->Ts / rtkf_state->tau_s);
 }
