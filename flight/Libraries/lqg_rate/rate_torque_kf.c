@@ -262,16 +262,16 @@ void rtkf_predict(uintptr_t rtkf_handle, float throttle, const float control_in[
 			break;
 		case 1:       // pitch
 			X = rtkf_state->pitch_X;
-			Ad12 = rtkf_state->roll_ad12;
-			Ad13 = rtkf_state->roll_ad13;
+			Ad12 = rtkf_state->pitch_ad12;
+			Ad13 = rtkf_state->pitch_ad13;
 			L = rtkf_state->kalman_gains[1];
 			u_in = control_in[1];
 			gyro = gyros[1];
 			break;
 		case 2:       // yaw
 			X = rtkf_state->yaw_X;
-			Ad12 = rtkf_state->roll_ad12;
-			Ad13 = rtkf_state->roll_ad13;
+			Ad12 = rtkf_state->yaw_ad12;
+			Ad13 = rtkf_state->yaw_ad13;
 			L = rtkf_state->kalman_gains[2];
 			u_in = control_in[2];
 			gyro = gyros[2];
