@@ -157,12 +157,10 @@ static void lqrSolverTask(void *parameters)
 				LQRSolutionSet(&lqr);
 
 				// Calculate kalman gains with system settings
-				float process[3] = {1e0, 1e-5f, 1e-7f};   // Pretty robust defaults
-				float gyro_noise = 1000.0f;                // Could take greatest value from SI
 				rtkfo_init(Ts);
 				rtkfo_set_tau(si.Tau);
 				rtkfo_set_gains(si.Beta);
-				rtkfo_set_noise(process, gyro_noise);
+				rtkfo_set_noise(lqr_settings.KFProcessNoise, lqr_settings.KFGyroNoise);
 				rtkfo_solver();
 				rtkfo_get_roll_gain(kf_gains.Roll);
 				rtkfo_get_pitch_gain(kf_gains.Pitch);
