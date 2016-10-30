@@ -281,7 +281,7 @@ void rtkf_predict(uintptr_t rtkf_handle, float throttle, const float control_in[
 
 		const float w = X[0];
 		const float u = X[1];
-		const float bias = X[2];
+		const float bias = (throttle > 0) ? X[2] : rtkf_state->init_bias[i];
 
 		// Advance the state based on the natural dynamics and input
 		X[0] = w + Ad12 * u + Ad13 * bias - Ad13 * u_in;
