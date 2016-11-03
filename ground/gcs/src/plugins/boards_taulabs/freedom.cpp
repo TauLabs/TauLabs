@@ -87,6 +87,8 @@ bool Freedom::queryCapabilities(BoardCapabilities capability)
         return true;
     case BOARD_CAPABILITIES_RADIO:
         return true;
+    case BOARD_CAPABILITIES_OSD:
+        return false;
     }
     return false;
 }
