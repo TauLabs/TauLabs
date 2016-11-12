@@ -41,6 +41,7 @@ MODULES += ManualControl
 MODULES += Stabilization
 MODULES += FirmwareIAP
 MODULES += Telemetry
+MODULES += LQRSolver
 
 OPTMODULES += GPS
 OPTMODULES += AltitudeHold 
@@ -82,6 +83,7 @@ MAVLINKINC = $(FLIGHTLIB)/mavlink/v1.0/common
 
 # optional component libraries
 INCLUDE_RT_LQG=YES
+INCLUDE_RT_LQR_SOLVER=YES
 include $(FLIGHTLIB)/lqg_rate/library.mk
 
 # List C source files here. (C dependencies are automatically generated.)
@@ -151,7 +153,7 @@ SRC += $(PIOSCOMMON)/pios_hal.c
 
 # List C++ source files here.
 # use file-extension .cpp for C++-files (not .C)
-CPPSRC =
+#CPPSRC =
 
 # List any extra directories to look for include files here.
 #    Each directory must be seperated by a space.
@@ -164,6 +166,7 @@ EXTRAINCDIRS += $(OPUAVOBJ)
 EXTRAINCDIRS += $(OPUAVOBJINC)
 EXTRAINCDIRS += $(OPUAVSYNTHDIR)
 EXTRAINCDIRS += $(FLIGHTLIBINC)
+EXTRAINCDIRS += $(FLIGHTLIBINC)/../lqg_rate
 EXTRAINCDIRS += $(MATHLIBINC)
 EXTRAINCDIRS += $(RSCODEINC)
 EXTRAINCDIRS += $(PIOSSTM32FXXX)
@@ -290,6 +293,9 @@ CFLAGS += -MD -MP -MF $(OUTDIR)/dep/$(@F).d
 #CONLYFLAGS += -Wnested-externs
 CONLYFLAGS += $(CSTANDARD)
 
+# flags for only CPP
+CPPFLAGS += -std=c++11
+
 # Assembler flags.
 #  -Wa,...:    tell GCC to pass this to the assembler.
 #  -ahlns:     create listing
@@ -310,6 +316,7 @@ LDFLAGS += $(patsubst %,-l%,$(EXTRA_LIBS))
 LDFLAGS += -lc -lgcc -lm
 LDFLAGS += -Wl,--warn-common
 LDFLAGS += -Wl,--fatal-warnings
+LDFLAGS += -specs=nosys.specs
 
 # Linker scripts
 LDFLAGS += -T memory.ld $(addprefix -T,$(LINKER_SCRIPTS_APP))
