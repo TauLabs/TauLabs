@@ -1268,6 +1268,16 @@ static void pios_rfm22_task(void *parameters)
 	}
 }
 
+uint8_t PIOS_RFM22B_RSSI_Get(void)
+{
+	if (!PIOS_RFM22B_Validate(g_rfm22b_dev)) {
+		return 0;
+	}
+
+	// Converting the RSSI to the same scale as with OpenLRS
+	return (uint8_t) ((int32_t) g_rfm22b_dev->rssi_dBm) + 122 + 128;
+}
+
 /*****************************************************************************
 * The State Machine Functions
 *****************************************************************************/
