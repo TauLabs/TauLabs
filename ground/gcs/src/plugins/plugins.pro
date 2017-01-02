@@ -288,6 +288,14 @@ plugin_sysalarmsmessaging.depends += plugin_uavobjects
 plugin_sysalarmsmessaging.depends += plugin_uavtalk
 SUBDIRS += plugin_sysalarmsmessaging
 
+# Navigation Wizard plugin
+plugin_navwizard.subdir = navwizard
+plugin_navwizard.depends = plugin_coreplugin
+plugin_navwizard.depends += plugin_uavobjectutil
+plugin_navwizard.depends += plugin_config
+plugin_navwizard.depends += plugin_uploader
+SUBDIRS += plugin_navwizard
+
 ############################
 #  Board plugins
 # Those plugins define supported board models: each board manufacturer
