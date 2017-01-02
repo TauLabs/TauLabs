@@ -220,6 +220,11 @@ int32_t transmitter_control_update()
 			value = PIOS_FrSkyRssi_Get();
 #endif /* PIOS_INCLUDE_FRSKY_RSSI */
 			break;
+		case MANUALCONTROLSETTINGS_RSSITYPE_RFM22B:
+#if defined(PIOS_INCLUDE_RFM22B)
+			value = PIOS_RFM22B_RSSI_Get();
+#endif /* PIOS_INCLUDE_RFM22B */
+			break;
 		case MANUALCONTROLSETTINGS_RSSITYPE_SBUS:
 #if defined(PIOS_INCLUDE_SBUS)
 			value = PIOS_RCVR_Read(pios_rcvr_group_map[MANUALCONTROLSETTINGS_CHANNELGROUPS_SBUS], settings.RssiChannelNumber);
