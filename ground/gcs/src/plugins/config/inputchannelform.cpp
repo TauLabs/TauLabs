@@ -211,6 +211,9 @@ void inputChannelForm::groupUpdated()
             case ManualControlSettings::RSSITYPE_OPENLRS:
                 count = 8;
                 break;
+            case ManualControlSettings::RSSITYPE_RFM22B:
+                count = 1;
+                break;
             case ManualControlSettings::RSSITYPE_FRSKYPWM:
                 count = 1;
                 break;
