@@ -1274,7 +1274,16 @@ uint8_t PIOS_RFM22B_RSSI_Get(void)
 		return 0;
 	}
 
-	// Converting the RSSI to the same scale as with OpenLRS
+	// Use a similar metric to OpenLRS "Combined" RSSI. If link quality reflects
+	// missing packets that scale RSSI less than 128
+	if (g_rfm22b_dev->stats.link_quality != 127)
+		return g_rfm22b_dev->stats.link_quality;
+
+	// Converting the RSSI to the same scale as with OpenLRS so add back
+	// the 122 used to convert the raw register in half into dBm, and then
+	// add 128 because we use (128,255) as the range for good RSSI when LQ
+	// is perfect. At this point and RSSI of 150 reflects -100 dBm (very bad)
+	// and 230 reflects -20 dBm (max possible register)
 	return (uint8_t) ((int32_t) g_rfm22b_dev->rssi_dBm) + 122 + 128;
 }
 
