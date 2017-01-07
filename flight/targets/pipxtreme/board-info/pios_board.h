@@ -260,7 +260,6 @@ extern uintptr_t pios_com_frsky_sport_id;
 //-------------------------
 #define PIOS_GPIO_PORTS				{ }
 #define PIOS_GPIO_PINS				{ }
-#define PIOS_GPIO_CLKS				{ }
 #define PIOS_GPIO_NUM				0
 
 //-------------------------

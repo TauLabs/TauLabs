@@ -38,7 +38,6 @@
 /* Local Variables */
 static GPIO_TypeDef *GPIO_PORT[PIOS_GPIO_NUM] = PIOS_GPIO_PORTS;
 static const uint32_t GPIO_PIN[PIOS_GPIO_NUM] = PIOS_GPIO_PINS;
-static const uint32_t GPIO_CLK[PIOS_GPIO_NUM] = PIOS_GPIO_CLKS;
 
 /**
 * Initialises all the GPIO's
@@ -54,8 +53,6 @@ void PIOS_GPIO_Init(void)
 */
 void PIOS_GPIO_Enable(uint8_t Pin)
 {
-	//RCC_APB2PeriphClockCmd(GPIO_CLK[Pin], ENABLE);
-
 	GPIO_InitTypeDef GPIO_InitStructure;
 	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;
 	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_2MHz;
