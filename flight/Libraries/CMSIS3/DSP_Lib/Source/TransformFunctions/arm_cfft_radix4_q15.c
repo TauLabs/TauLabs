@@ -66,6 +66,11 @@
  * \image html CIFFTQ15.gif "Input and Output Formats for Q15 CIFFT"    
  */
 
+#if defined  (__GNUC__)
+  #pragma GCC diagnostic push
+  #pragma GCC diagnostic ignored "-Wstrict-aliasing"
+#endif
+
 void arm_cfft_radix4_q15(
   const arm_cfft_radix4_instance_q15 * S,
   q15_t * pSrc)
@@ -1892,5 +1897,9 @@ void arm_radix4_butterfly_inverse_q15(
   /* output is in 5.11(q11) format for the 16 point  */
 
 #endif /* #ifndef ARM_MATH_CM0 */
+
+#if defined  (__GNUC__)
+  #pragma GCC diagnostic pop
+#endif
 
 }

@@ -58,6 +58,11 @@
  * Results outside of the allowable Q15 range [0x8000 0x7FFF] will be saturated.    
  */
 
+#if defined  (__GNUC__)
+  #pragma GCC diagnostic push
+  #pragma GCC diagnostic ignored "-Wstrict-aliasing"
+#endif
+
 void arm_shift_q15(
   q15_t * pSrc,
   int8_t shiftBits,
@@ -237,6 +242,10 @@ void arm_shift_q15(
 #endif /* #ifndef ARM_MATH_CM0 */
 
 }
+
+#if defined  (__GNUC__)
+  #pragma GCC diagnostic pop
+#endif
 
 /**    
  * @} end of shift group    

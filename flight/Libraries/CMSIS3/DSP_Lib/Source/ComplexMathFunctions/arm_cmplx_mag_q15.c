@@ -41,6 +41,10 @@
  * @{    
  */
 
+#if defined  (__GNUC__)
+  #pragma GCC diagnostic push
+  #pragma GCC diagnostic ignored "-Wstrict-aliasing"
+#endif
 
 /**    
  * @brief  Q15 complex magnitude    
@@ -139,6 +143,10 @@ void arm_cmplx_mag_q15(
 #endif /* #ifndef ARM_MATH_CM0 */
 
 }
+
+#if defined  (__GNUC__)
+  #pragma GCC diagnostic pop
+#endif
 
 /**    
  * @} end of cmplx_mag group    
