@@ -95,7 +95,6 @@ static float accelKp = 0;
 static float accel_alpha = 0;
 static bool accel_filter_enabled = false;
 static float yawBiasRate = 0;
-static const float IDG_GYRO_GAIN = 0.42;
 static float q[4] = {1,0,0,0};
 static float Rsb[3][3]; // Rotation matrix which transforms from the body frame to the sensor board frame
 static int8_t rotate = 0;
