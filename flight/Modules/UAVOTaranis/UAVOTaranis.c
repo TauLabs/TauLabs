@@ -132,15 +132,18 @@ static bool frsky_encode_rssi(struct frsky_settings *frsky, uint32_t *value, boo
 	RFM22BStatusInstGet(1, &rfm22bStatus);
 
 	if (local_link_connected == RFM22BSTATUS_LINKSTATE_CONNECTED) {
-		// report whichever link quality is worse
-		*value = (rfm22bStatus.LinkQuality < local_link_quality) ? rfm22bStatus.LinkQuality : local_link_quality;
-		
-		// Rescale to values that match Taranis
-		if (*value < 64) {
-			*value = 0;
+
+		if (rfm22bStatus.LinkQuality == 127) {
+			// When we are receiving all the packets, then move the RSSI (originally
+			// in dBm ranging from -100 to -20) from 50% to 100%
+			*value = (rfm22bStatus.RSSI + 100) * 50 / 80 + 50;
 		} else {
-			*value = (*value - 64) * 100 / 64;
+			// If we are dropping packets then report the link quality, which will by
+			// be at maximum 50%
+			*value = (rfm22bStatus.LinkQuality * 100 / 256);
 		}
+
+
 	} else {
 		*value = 0;
 	}

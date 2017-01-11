@@ -110,6 +110,7 @@ extern pios_rfm22b_int_result PIOS_RFM22B_ProcessRx(uint32_t rfm22b_id);
 extern void PIOS_RFM22B_RegisterRcvr(uint32_t rfm22b_id, uintptr_t rfm22b_rcvr_id);
 extern void PIOS_RFM22B_PPMSet(uint32_t rfm22b_id, int16_t * channels);
 extern bool PIOS_RFM22B_IsCoordinator(uint32_t rfm22b_id);
+extern uint8_t PIOS_RFM22B_RSSI_Get(void);
 
 /* Global Variables */
 extern const struct pios_com_driver pios_rfm22b_com_driver;
