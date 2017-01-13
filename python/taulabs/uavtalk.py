@@ -123,6 +123,12 @@ def process_stream(uavo_defs, use_walltime=False, gcs_timestamps=False):
             # Trim off irrelevant stuff, loop and try again
             buf_offset = i
 
+            # If we are using the "GCS format" for timestamps, fetch the corresponding
+            # timestamp which comes from before the sync byte
+            if gcs_timestamps:
+                overrideTimestamp, logHdrLen = logheader_fmt.unpack_from(buf, buf_offset - logheader_fmt.size)
+                # print "Corrected time: " + `overrideTimestamp`
+
         (sync, pack_type, pack_len, objId) = header_fmt.unpack_from(buf, buf_offset)
 
         if (pack_type & TYPE_MASK) != TYPE_VER:
