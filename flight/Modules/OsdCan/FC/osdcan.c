@@ -79,6 +79,10 @@ int32_t OsdCanInitialize(void)
 	if (!module_enabled)
 		return -1;
 
+	// This module will source this if it is not already enabled. Make sure to initialize
+	// it at this point so telemetry registers it.
+	FlightBatteryStateInitialize();
+
 	// TODO: setting to enable or disable
 	queue = PIOS_Queue_Create(3, sizeof(UAVObjEvent));
 
@@ -117,7 +121,6 @@ int32_t OsdCanStart(void)
 			FlightBatteryStateConnectQueue(queue);
 		} else {
 			// Listen for battery voltage updates from the FC
-			FlightBatteryStateInitialize();
 			queue_battery_volt = PIOS_CAN_RegisterMessageQueue(pios_can_id, PIOS_CAN_BATTERY_VOLT);
 		}
 		PositionActualConnectQueue(queue);
