@@ -34,6 +34,7 @@
 #include <modulesettings.h>
 #include <hwtaulink.h>
 #include <pios_hal.h>
+#include <pios_iap.h>
 #include <rfm22bstatus.h>
 
 uintptr_t pios_com_telem_uart_bluetooth_id;
@@ -45,8 +46,6 @@ uintptr_t pios_uavo_settings_fs_id;
 
 #define PIOS_COM_TELEM_RX_BUF_LEN 256
 #define PIOS_COM_TELEM_TX_BUF_LEN 256
-#define PIOS_COM_RFM22B_RF_RX_BUF_LEN 256
-#define PIOS_COM_RFM22B_RF_TX_BUF_LEN 256
 #define PIOS_COM_FRSKYSPORT_TX_BUF_LEN 16
 
 /**
@@ -81,6 +80,10 @@ void PIOS_Board_Init(void) {
 	/* Initialize UAVObject libraries */
 	EventDispatcherInitialize();
 	UAVObjInitialize();
+
+	/* Initialize the alarms library. Reads RCC reset flags */
+	AlarmsInitialize();
+	PIOS_RESET_Clear(); // Clear the RCC reset flags after use.
 
 	/* Set up the SPI interface to the rfm22b */
 	if (PIOS_SPI_Init(&pios_spi_rfm22b_id, &pios_spi_rfm22b_cfg)) {
@@ -134,6 +137,18 @@ void PIOS_Board_Init(void) {
 	// Configure the main port
 	HwTauLinkData hwTauLink;
 	HwTauLinkGet(&hwTauLink);
+
+	/* IAP System Setup */
+	PIOS_IAP_Init();
+	uint16_t boot_count = PIOS_IAP_ReadBootCount();
+	if (boot_count < 3) {
+		PIOS_IAP_WriteBootCount(++boot_count);
+		AlarmsClear(SYSTEMALARMS_ALARM_BOOTFAULT);
+	} else {
+		/* Too many failed boot attempts, force hw config to defaults */
+		HwTauLinkSetDefaults(HwTauLinkHandle(), 0);
+		AlarmsSet(SYSTEMALARMS_ALARM_BOOTFAULT, SYSTEMALARMS_ALARM_CRITICAL);
+	}
 
 	/*Initialize the USB device */
 	uintptr_t pios_usb_id;
@@ -193,7 +208,7 @@ void PIOS_Board_Init(void) {
 	    bdinfo->board_rev, hwTauLink.MaxRfPower,
 	    hwTauLink.MaxRfSpeed, hwTauLink.RfBand, NULL, rfm22b_cfg,
 	    hwTauLink.MinChannel, hwTauLink.MaxChannel,
-	    hwTauLink.CoordID, 0);
+	    hwTauLink.CoordID, HWSHARED_PORTTYPES_DISABLED, 0);
 
 	if (bdinfo->board_rev == TAULINK_VERSION_MODULE) {
 		// Configure the main serial port function
@@ -202,20 +217,7 @@ void PIOS_Board_Init(void) {
 		{
 			// Note: if the main port is also on telemetry the bluetooth
 			// port will take precedence
-			uintptr_t pios_usart2_id;
-			if (PIOS_USART_Init(&pios_usart2_id, &pios_usart_bluetooth_cfg)) {
-				PIOS_Assert(0);
-			}
-			uint8_t *rx_buffer = (uint8_t *)PIOS_malloc(PIOS_COM_TELEM_RX_BUF_LEN);
-			uint8_t *tx_buffer = (uint8_t *)PIOS_malloc(PIOS_COM_TELEM_TX_BUF_LEN);
-			PIOS_Assert(rx_buffer);
-			PIOS_Assert(tx_buffer);
-			if (PIOS_COM_Init(&pios_com_telem_uart_bluetooth_id, &pios_usart_com_driver, pios_usart2_id,
-			                  rx_buffer, PIOS_COM_TELEM_RX_BUF_LEN,
-			                  tx_buffer, PIOS_COM_TELEM_TX_BUF_LEN)) {
-				PIOS_Assert(0);
-			}
-
+			PIOS_HAL_ConfigureUsart(&pios_usart_bluetooth_cfg, PIOS_COM_TELEM_RX_BUF_LEN, PIOS_COM_TELEM_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_telem_uart_bluetooth_id);
 			PIOS_COM_ChangeBaud(pios_com_telem_uart_bluetooth_id, 9600);
 
 			// Note this doesn't actually send until RTOS is running
@@ -234,19 +236,7 @@ void PIOS_Board_Init(void) {
 		{
 			// Note: if the main port is also on telemetry the bluetooth
 			// port will take precedence
-			uintptr_t pios_usart2_id;
-			if (PIOS_USART_Init(&pios_usart2_id, &pios_usart_bluetooth_cfg)) {
-				PIOS_Assert(0);
-			}
-			uint8_t *rx_buffer = (uint8_t *)PIOS_malloc(PIOS_COM_TELEM_RX_BUF_LEN);
-			uint8_t *tx_buffer = (uint8_t *)PIOS_malloc(PIOS_COM_TELEM_TX_BUF_LEN);
-			PIOS_Assert(rx_buffer);
-			PIOS_Assert(tx_buffer);
-			if (PIOS_COM_Init(&pios_com_telem_uart_bluetooth_id, &pios_usart_com_driver, pios_usart2_id,
-			                  rx_buffer, PIOS_COM_TELEM_RX_BUF_LEN,
-			                  tx_buffer, PIOS_COM_TELEM_TX_BUF_LEN)) {
-				PIOS_Assert(0);
-			}
+			PIOS_HAL_ConfigureUsart(&pios_usart_bluetooth_cfg, PIOS_COM_TELEM_RX_BUF_LEN, PIOS_COM_TELEM_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_telem_uart_bluetooth_id);
 
 			// Since we don't expose the ModuleSettings object from TauLink to the GCS
 			// we just map the baud rate from HwTauLink into this object
@@ -304,13 +294,13 @@ void PIOS_Board_Init(void) {
     }
     case HWTAULINK_PPMPORT_SPORT:
 #if defined(PIOS_INCLUDE_TARANIS_SPORT)
-        PIOS_HAL_ConfigureCom(&pios_usart_sport_cfg, 0, PIOS_COM_FRSKYSPORT_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_frsky_sport_id);
+        PIOS_HAL_ConfigureUsart(&pios_usart_sport_cfg, 0, PIOS_COM_FRSKYSPORT_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_frsky_sport_id);
 #endif /* PIOS_INCLUDE_TARANIS_SPORT */
         break;
     case HWTAULINK_PPMPORT_PPMSPORT:
     {
-#if defined(PIOS_INCLUDE_TARANIS_SPORT)
-        PIOS_HAL_ConfigureCom(&pios_usart_sport_cfg, 0, PIOS_COM_FRSKYSPORT_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_frsky_sport_id);
+#if defined(PIOS_HAL_ConfigureUsart)
+        PIOS_HAL_ConfigureUsart(&pios_usart_sport_cfg, 0, PIOS_COM_FRSKYSPORT_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_frsky_sport_id);
 #endif /* PIOS_INCLUDE_TARANIS_SPORT */
 #if defined(PIOS_INCLUDE_PPM)
         /* PPM input is configured on the coordinator modem and sent in the RFM22BReceiver UAVO. */

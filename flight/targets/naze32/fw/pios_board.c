@@ -365,12 +365,12 @@ void PIOS_Board_Init(void) {
 	switch (hw_mainport) {
 	case HWNAZE_MAINPORT_TELEMETRY:
 #if defined(PIOS_INCLUDE_TELEMETRY)
-		PIOS_HAL_ConfigureCom(&pios_usart_main_cfg, PIOS_COM_TELEM_RF_RX_BUF_LEN, PIOS_COM_TELEM_RF_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_telem_serial_id);
+		PIOS_HAL_ConfigureUsart(&pios_usart_main_cfg, PIOS_COM_TELEM_RF_RX_BUF_LEN, PIOS_COM_TELEM_RF_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_telem_serial_id);
 #endif /* PIOS_INCLUDE_TELEMETRY */
 		break;
 	case HWNAZE_MAINPORT_MSP:
 #if defined(PIOS_INCLUDE_MSP_BRIDGE)
-		PIOS_HAL_ConfigureCom(&pios_usart_main_cfg, PIOS_COM_TELEM_RF_RX_BUF_LEN, PIOS_COM_TELEM_RF_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_msp_id);
+		PIOS_HAL_ConfigureUsart(&pios_usart_main_cfg, PIOS_COM_TELEM_RF_RX_BUF_LEN, PIOS_COM_TELEM_RF_TX_BUF_LEN, &pios_usart_com_driver, &pios_com_msp_id);
 #endif /* PIOS_INCLUDE_MSP_BRIDGE */
 		break;
 	}

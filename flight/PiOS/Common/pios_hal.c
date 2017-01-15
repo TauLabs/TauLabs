@@ -234,25 +234,20 @@ static void PIOS_HAL_SetReceiver(int receiver_type, uintptr_t value) {
 }
 #endif
 
-#if defined(PIOS_INCLUDE_USART) && defined(PIOS_INCLUDE_COM)
+#if defined(PIOS_INCLUDE_COM)
 /**
- * @brief Configures USART and COM subsystems, allocates buffers.
+ * @brief Configures COM subsystems, allocates buffers.
  *
- * @param[in] usart_port_cfg USART configuration
+ * @param[in] subsys_id handle to subsystem support pios_com
  * @param[in] rx_buf_len receive buffer size
  * @param[in] tx_buf_len transmit buffer size
  * @param[in] com_driver communications driver
  * @param[out] com_id id of the PIOS_Com instance
  */
-void PIOS_HAL_ConfigureCom(const struct pios_usart_cfg *usart_port_cfg,
+void PIOS_HAL_ConfigureCom(uintptr_t subsys_id,
 		size_t rx_buf_len, size_t tx_buf_len,
 		const struct pios_com_driver *com_driver, uintptr_t *com_id)
 {
-	uintptr_t usart_id;
-	if (PIOS_USART_Init(&usart_id, usart_port_cfg)) {
-		PIOS_Assert(0);
-	}
-
 	uint8_t * rx_buffer;
 	if (rx_buf_len > 0) {
 		rx_buffer = (uint8_t *) PIOS_malloc(rx_buf_len);
@@ -269,11 +264,34 @@ void PIOS_HAL_ConfigureCom(const struct pios_usart_cfg *usart_port_cfg,
 		tx_buffer = NULL;
 	}
 
-	if (PIOS_COM_Init(com_id, com_driver, usart_id,
+	if (PIOS_COM_Init(com_id, com_driver, subsys_id,
 				rx_buffer, rx_buf_len,
 				tx_buffer, tx_buf_len)) {
 		PIOS_Assert(0);
 	}
+}
+#endif  /*  PIOS_INCLUDE_COM */
+
+#if defined(PIOS_INCLUDE_USART) && defined(PIOS_INCLUDE_COM)
+/**
+ * @brief Configures USART and COM subsystems, allocates buffers.
+ *
+ * @param[in] usart_port_cfg USART configuration
+ * @param[in] rx_buf_len receive buffer size
+ * @param[in] tx_buf_len transmit buffer size
+ * @param[in] com_driver communications driver
+ * @param[out] com_id id of the PIOS_Com instance
+ */
+void PIOS_HAL_ConfigureUsart(const struct pios_usart_cfg *usart_port_cfg,
+		size_t rx_buf_len, size_t tx_buf_len,
+		const struct pios_com_driver *com_driver, uintptr_t *com_id)
+{
+	uintptr_t usart_id;
+	if (PIOS_USART_Init(&usart_id, usart_port_cfg)) {
+		PIOS_Assert(0);
+	}
+
+	PIOS_HAL_ConfigureCom(usart_id, rx_buf_len, tx_buf_len, com_driver, com_id);
 }
 #endif  /* PIOS_INCLUDE_USART && PIOS_INCLUDE_COM */
 
@@ -436,11 +454,11 @@ void PIOS_HAL_ConfigurePort(HwSharedPortTypesOptions port_type,
 	case HWSHARED_PORTTYPES_DISABLED:
 		break;
 	case HWSHARED_PORTTYPES_TELEMETRY:
-		PIOS_HAL_ConfigureCom(usart_port_cfg, PIOS_COM_TELEM_RF_RX_BUF_LEN, PIOS_COM_TELEM_RF_TX_BUF_LEN, com_driver, &port_driver_id);
+		PIOS_HAL_ConfigureUsart(usart_port_cfg, PIOS_COM_TELEM_RF_RX_BUF_LEN, PIOS_COM_TELEM_RF_TX_BUF_LEN, com_driver, &port_driver_id);
 		target = &pios_com_telem_serial_id;
 		break;
 	case HWSHARED_PORTTYPES_GPS:
-		PIOS_HAL_ConfigureCom(usart_port_cfg, PIOS_COM_GPS_RX_BUF_LEN, PIOS_COM_GPS_TX_BUF_LEN, com_driver, &port_driver_id);
+		PIOS_HAL_ConfigureUsart(usart_port_cfg, PIOS_COM_GPS_RX_BUF_LEN, PIOS_COM_GPS_TX_BUF_LEN, com_driver, &port_driver_id);
 		target = &pios_com_gps_id;
 		break;
 	case HWSHARED_PORTTYPES_DSM:
@@ -492,66 +510,66 @@ void PIOS_HAL_ConfigurePort(HwSharedPortTypesOptions port_type,
 		break;
 	case HWSHARED_PORTTYPES_DEBUGCONSOLE:
 #if defined(PIOS_INCLUDE_DEBUG_CONSOLE)
-		PIOS_HAL_ConfigureCom(usart_port_cfg, 0, PIOS_COM_DEBUGCONSOLE_TX_BUF_LEN, com_driver, &port_driver_id);
+		PIOS_HAL_ConfigureUsart(usart_port_cfg, 0, PIOS_COM_DEBUGCONSOLE_TX_BUF_LEN, com_driver, &port_driver_id);
 		target = &pios_com_debug_id;
 #endif  /* PIOS_INCLUDE_DEBUG_CONSOLE */
 		break;
 	case HWSHARED_PORTTYPES_COMBRIDGE:
-		PIOS_HAL_ConfigureCom(usart_port_cfg, PIOS_COM_BRIDGE_RX_BUF_LEN, PIOS_COM_BRIDGE_TX_BUF_LEN, com_driver, &port_driver_id);
+		PIOS_HAL_ConfigureUsart(usart_port_cfg, PIOS_COM_BRIDGE_RX_BUF_LEN, PIOS_COM_BRIDGE_TX_BUF_LEN, com_driver, &port_driver_id);
 		target = &pios_com_bridge_id;
 		break;
 	case HWSHARED_PORTTYPES_MAVLINKTX:
 #if defined(PIOS_INCLUDE_MAVLINK)
-		PIOS_HAL_ConfigureCom(usart_port_cfg, 0, PIOS_COM_MAVLINK_TX_BUF_LEN, com_driver, &port_driver_id);
+		PIOS_HAL_ConfigureUsart(usart_port_cfg, 0, PIOS_COM_MAVLINK_TX_BUF_LEN, com_driver, &port_driver_id);
 		target = &pios_com_mavlink_id;
 #endif          /* PIOS_INCLUDE_MAVLINK */
 		break;
 	case HWSHARED_PORTTYPES_MSP:
 #if defined(PIOS_INCLUDE_MSP_BRIDGE)
-		PIOS_HAL_ConfigureCom(usart_port_cfg, PIOS_COM_MSP_RX_BUF_LEN, PIOS_COM_MSP_TX_BUF_LEN, com_driver, &port_driver_id);
+		PIOS_HAL_ConfigureUsart(usart_port_cfg, PIOS_COM_MSP_RX_BUF_LEN, PIOS_COM_MSP_TX_BUF_LEN, com_driver, &port_driver_id);
 		target = &pios_com_msp_id;
 #endif
 		break;
 	case HWSHARED_PORTTYPES_MAVLINKTX_GPS_RX:
 #if defined(PIOS_INCLUDE_MAVLINK)
-		PIOS_HAL_ConfigureCom(usart_port_cfg, PIOS_COM_GPS_RX_BUF_LEN, PIOS_COM_MAVLINK_TX_BUF_LEN, com_driver, &port_driver_id);
+		PIOS_HAL_ConfigureUsart(usart_port_cfg, PIOS_COM_GPS_RX_BUF_LEN, PIOS_COM_MAVLINK_TX_BUF_LEN, com_driver, &port_driver_id);
 		target = &pios_com_mavlink_id;
 		target2 = &pios_com_gps_id;
 #endif          /* PIOS_INCLUDE_MAVLINK */
 		break;
 	case HWSHARED_PORTTYPES_HOTTTELEMETRY:
 #if defined(PIOS_INCLUDE_HOTT)
-		PIOS_HAL_ConfigureCom(usart_port_cfg, PIOS_COM_HOTT_RX_BUF_LEN, PIOS_COM_HOTT_TX_BUF_LEN, com_driver, &port_driver_id);
+		PIOS_HAL_ConfigureUsart(usart_port_cfg, PIOS_COM_HOTT_RX_BUF_LEN, PIOS_COM_HOTT_TX_BUF_LEN, com_driver, &port_driver_id);
 		target = &pios_com_hott_id;
 #endif /* PIOS_INCLUDE_HOTT */
 		break;
 	case HWSHARED_PORTTYPES_FRSKYSENSORHUB:
 #if defined(PIOS_INCLUDE_FRSKY_SENSOR_HUB)
-		PIOS_HAL_ConfigureCom(usart_frsky_port_cfg, 0, PIOS_COM_FRSKYSENSORHUB_TX_BUF_LEN, com_driver, &port_driver_id);
+		PIOS_HAL_ConfigureUsart(usart_frsky_port_cfg, 0, PIOS_COM_FRSKYSENSORHUB_TX_BUF_LEN, com_driver, &port_driver_id);
 		target = &pios_com_frsky_sensor_hub_id;
 #endif /* PIOS_INCLUDE_FRSKY_SENSOR_HUB */
 		break;
 	case HWSHARED_PORTTYPES_FRSKYSPORTTELEMETRY:
 #if defined(PIOS_INCLUDE_FRSKY_SPORT_TELEMETRY)
-		PIOS_HAL_ConfigureCom(usart_frsky_port_cfg, PIOS_COM_FRSKYSPORT_RX_BUF_LEN, PIOS_COM_FRSKYSPORT_TX_BUF_LEN, com_driver, &port_driver_id);
+		PIOS_HAL_ConfigureUsart(usart_frsky_port_cfg, PIOS_COM_FRSKYSPORT_RX_BUF_LEN, PIOS_COM_FRSKYSPORT_TX_BUF_LEN, com_driver, &port_driver_id);
 		target = &pios_com_frsky_sport_id;
 #endif /* PIOS_INCLUDE_FRSKY_SPORT_TELEMETRY */
 		break;
 	case HWSHARED_PORTTYPES_LIGHTTELEMETRYTX:
 #if defined(PIOS_INCLUDE_LIGHTTELEMETRY)
-		PIOS_HAL_ConfigureCom(usart_port_cfg, 0, PIOS_COM_LIGHTTELEMETRY_TX_BUF_LEN, com_driver, &port_driver_id);
+		PIOS_HAL_ConfigureUsart(usart_port_cfg, 0, PIOS_COM_LIGHTTELEMETRY_TX_BUF_LEN, com_driver, &port_driver_id);
 		target = &pios_com_lighttelemetry_id;
 #endif
 		break;
 	case HWSHARED_PORTTYPES_PICOC:
 #if defined(PIOS_INCLUDE_PICOC)
-		PIOS_HAL_ConfigureCom(usart_port_cfg, PIOS_COM_PICOC_RX_BUF_LEN, PIOS_COM_PICOC_TX_BUF_LEN, com_driver, &port_driver_id);
+		PIOS_HAL_ConfigureUsart(usart_port_cfg, PIOS_COM_PICOC_RX_BUF_LEN, PIOS_COM_PICOC_TX_BUF_LEN, com_driver, &port_driver_id);
 		target = &pios_com_picoc_id;
 #endif /* PIOS_INCLUDE_PICOC */
 		break;
 	    case HWSHARED_PORTTYPES_OPENLOG:
 #if defined(PIOS_INCLUDE_OPENLOG)
-			PIOS_HAL_ConfigureCom(usart_port_cfg, 0, PIOS_COM_OPENLOG_TX_BUF_LEN, com_driver, &port_driver_id);
+			PIOS_HAL_ConfigureUsart(usart_port_cfg, 0, PIOS_COM_OPENLOG_TX_BUF_LEN, com_driver, &port_driver_id);
 			target = &pios_com_openlog_logging_id;
 			PIOS_COM_ChangeBaud(port_driver_id, 115200);
 #endif /* PIOS_INCLUDE_OPENLOG */
@@ -591,57 +609,23 @@ void PIOS_HAL_ConfigureCDC(HwSharedUSB_VCPPortOptions port_type,
 	case HWSHARED_USB_VCPPORT_DISABLED:
 		break;
 	case HWSHARED_USB_VCPPORT_USBTELEMETRY:
-	{
-		uint8_t * rx_buffer = (uint8_t *) PIOS_malloc(PIOS_COM_TELEM_USB_RX_BUF_LEN);
-		uint8_t * tx_buffer = (uint8_t *) PIOS_malloc(PIOS_COM_TELEM_USB_TX_BUF_LEN);
-		PIOS_Assert(rx_buffer);
-		PIOS_Assert(tx_buffer);
-		if (PIOS_COM_Init(&pios_com_telem_usb_id, &pios_usb_cdc_com_driver, pios_usb_cdc_id,
-						rx_buffer, PIOS_COM_TELEM_USB_RX_BUF_LEN,
-						tx_buffer, PIOS_COM_TELEM_USB_TX_BUF_LEN)) {
-			PIOS_Assert(0);
-		}
-	}
+		PIOS_HAL_ConfigureCom(pios_usb_cdc_id, PIOS_COM_TELEM_USB_RX_BUF_LEN, PIOS_COM_TELEM_USB_TX_BUF_LEN,
+		                      &pios_usb_cdc_com_driver, &pios_com_telem_usb_id);
 	break;
 	case HWSHARED_USB_VCPPORT_COMBRIDGE:
-	{
-		uint8_t * rx_buffer = (uint8_t *) PIOS_malloc(PIOS_COM_BRIDGE_RX_BUF_LEN);
-		uint8_t * tx_buffer = (uint8_t *) PIOS_malloc(PIOS_COM_BRIDGE_TX_BUF_LEN);
-		PIOS_Assert(rx_buffer);
-		PIOS_Assert(tx_buffer);
-		if (PIOS_COM_Init(&pios_com_vcp_id, &pios_usb_cdc_com_driver, pios_usb_cdc_id,
-						rx_buffer, PIOS_COM_BRIDGE_RX_BUF_LEN,
-						tx_buffer, PIOS_COM_BRIDGE_TX_BUF_LEN)) {
-			PIOS_Assert(0);
-		}
-	}
+		PIOS_HAL_ConfigureCom(pios_usb_cdc_id, PIOS_COM_BRIDGE_RX_BUF_LEN, PIOS_COM_BRIDGE_TX_BUF_LEN,
+		                      &pios_usb_cdc_com_driver, &pios_com_vcp_id);
 	break;
 	case HWSHARED_USB_VCPPORT_DEBUGCONSOLE:
 #if defined(PIOS_INCLUDE_DEBUG_CONSOLE)
-		{
-			uint8_t * tx_buffer = (uint8_t *) PIOS_malloc(PIOS_COM_DEBUGCONSOLE_TX_BUF_LEN);
-			PIOS_Assert(tx_buffer);
-			if (PIOS_COM_Init(&pios_com_debug_id, &pios_usb_cdc_com_driver, pios_usb_cdc_id,
-						NULL, 0,
-						tx_buffer, PIOS_COM_DEBUGCONSOLE_TX_BUF_LEN)) {
-				PIOS_Assert(0);
-			}
-		}
+		PIOS_HAL_ConfigureCom(pios_usb_cdc_id, 0, PIOS_COM_DEBUGCONSOLE_TX_BUF_LEN,
+		                      &pios_usb_cdc_com_driver, &pios_com_debug_id);
 #endif  /* PIOS_INCLUDE_DEBUG_CONSOLE */
 		break;
 	case HWSHARED_USB_VCPPORT_PICOC:
 #if defined(PIOS_INCLUDE_PICOC)
-		{
-			uint8_t * rx_buffer = (uint8_t *) PIOS_malloc(PIOS_COM_PICOC_RX_BUF_LEN);
-			uint8_t * tx_buffer = (uint8_t *) PIOS_malloc(PIOS_COM_PICOC_TX_BUF_LEN);
-			PIOS_Assert(rx_buffer);
-			PIOS_Assert(tx_buffer);
-			if (PIOS_COM_Init(&pios_com_picoc_id, &pios_usb_cdc_com_driver, pios_usb_cdc_id,
-						rx_buffer, PIOS_COM_PICOC_RX_BUF_LEN,
-						tx_buffer, PIOS_COM_PICOC_TX_BUF_LEN)) {
-				PIOS_Assert(0);
-			}
-		}
+		PIOS_HAL_ConfigureCom(pios_usb_cdc_id, PIOS_COM_PICOC_RX_BUF_LEN, PIOS_COM_PICOC_TX_BUF_LEN,
+		                      &pios_usb_cdc_com_driver, &pios_com_picoc_id);
 #endif  /* PIOS_INCLUDE_PICOC */
 		break;
 	}
@@ -667,17 +651,8 @@ void PIOS_HAL_ConfigureHID(HwSharedUSB_HIDPortOptions port_type,
 	case HWSHARED_USB_HIDPORT_DISABLED:
 		break;
 	case HWSHARED_USB_HIDPORT_USBTELEMETRY:
-	{
-		uint8_t * rx_buffer = (uint8_t *) PIOS_malloc(PIOS_COM_TELEM_USB_RX_BUF_LEN);
-		uint8_t * tx_buffer = (uint8_t *) PIOS_malloc(PIOS_COM_TELEM_USB_TX_BUF_LEN);
-		PIOS_Assert(rx_buffer);
-		PIOS_Assert(tx_buffer);
-		if (PIOS_COM_Init(&pios_com_telem_usb_id, &pios_usb_hid_com_driver, pios_usb_hid_id,
-						rx_buffer, PIOS_COM_TELEM_USB_RX_BUF_LEN,
-						tx_buffer, PIOS_COM_TELEM_USB_TX_BUF_LEN)) {
-			PIOS_Assert(0);
-		}
-	}
+		PIOS_HAL_ConfigureCom(pios_usb_hid_id, PIOS_COM_TELEM_USB_RX_BUF_LEN, PIOS_COM_TELEM_USB_TX_BUF_LEN,
+		                      &pios_usb_hid_com_driver, &pios_com_telem_usb_id);
 	break;
 	}
 }
@@ -707,6 +682,7 @@ void PIOS_HAL_ConfigureRFM22B(HwSharedRadioPortOptions radio_type,
 		const struct pios_openlrs_cfg *openlrs_cfg,
 		const struct pios_rfm22b_cfg *rfm22b_cfg,
 		uint8_t min_chan, uint8_t max_chan, uint32_t coord_id,
+		HwSharedPortTypesOptions port_type,
 		int status_inst)
 {
 	/* Initalize the RFM22B radio COM device. */
@@ -766,24 +742,47 @@ void PIOS_HAL_ConfigureRFM22B(HwSharedRadioPortOptions radio_type,
 		rfm22bstatus.DeviceID = PIOS_RFM22B_DeviceID(pios_rfm22b_id);
 		rfm22bstatus.BoardRevision = PIOS_RFM22B_ModuleVersion(pios_rfm22b_id);
 
-		/* Configure the radio com interface */
-		uint8_t *rx_buffer = (uint8_t *)PIOS_malloc(PIOS_COM_RFM22B_RF_RX_BUF_LEN);
-		uint8_t *tx_buffer = (uint8_t *)PIOS_malloc(PIOS_COM_RFM22B_RF_TX_BUF_LEN);
-
-		PIOS_Assert(rx_buffer);
-		PIOS_Assert(tx_buffer);
-		if (PIOS_COM_Init(&pios_com_rf_id, &pios_rfm22b_com_driver, pios_rfm22b_id,
-					rx_buffer, PIOS_COM_RFM22B_RF_RX_BUF_LEN,
-					tx_buffer, PIOS_COM_RFM22B_RF_TX_BUF_LEN)) {
-			PIOS_Assert(0);
+		// Assign the RFM22b serial port as requested
+		uintptr_t *target = NULL;
+		switch(port_type) {
+		case HWSHARED_PORTTYPES_DISABLED:
+			// Counterintuitively when disabled we still create the COM port as the modem core
+			// might use it but it isn't mapped to any normal port. This path is used by the
+			// modem
+			PIOS_HAL_ConfigureCom(pios_rfm22b_id, PIOS_COM_RFM22B_RF_RX_BUF_LEN, PIOS_COM_RFM22B_RF_TX_BUF_LEN,
+			                          &pios_rfm22b_com_driver, &pios_com_rf_id);
+			break;
+		case HWSHARED_PORTTYPES_TELEMETRY:
+			PIOS_HAL_ConfigureCom(pios_rfm22b_id, PIOS_COM_RFM22B_RF_RX_BUF_LEN, PIOS_COM_RFM22B_RF_TX_BUF_LEN,
+			                          &pios_rfm22b_com_driver, &pios_com_rf_id);
+			/* Set Telemetry to use RFM22b if no other telemetry is configured (USB always overrides anyway) */
+			if (!pios_com_telem_serial_id) {
+				target = &pios_com_telem_serial_id;
+			}
+			break;
+		case HWSHARED_PORTTYPES_DEBUGCONSOLE:
+		#if defined(PIOS_INCLUDE_DEBUG_CONSOLE)
+			PIOS_HAL_ConfigureCom(pios_rfm22b_id, 0, PIOS_COM_DEBUGCONSOLE_TX_BUF_LEN, &pios_rfm22b_com_driver, &pios_com_rf_id);
+			target = &pios_com_debug_id;
+		#endif  /* PIOS_INCLUDE_DEBUG_CONSOLE */
+			break;
+		case HWSHARED_PORTTYPES_PICOC:
+		#if defined(PIOS_INCLUDE_PICOC)
+			PIOS_HAL_ConfigureCom(pios_rfm22b_id, PIOS_COM_PICOC_RX_BUF_LEN, PIOS_COM_PICOC_TX_BUF_LEN, &pios_rfm22b_com_driver, &pios_com_rf_id);
+			target = &pios_com_picoc_id;
+		#endif /* PIOS_INCLUDE_PICOC */
+			break;
+		case HWSHARED_PORTTYPES_OPENLOG:
+		#if defined(PIOS_INCLUDE_OPENLOG)
+			PIOS_HAL_ConfigureCom(pios_rfm22b_id, 0, PIOS_COM_OPENLOG_TX_BUF_LEN, &pios_rfm22b_com_driver, &pios_com_rf_id);
+			target = &pios_com_openlog_logging_id;
+		#endif /* PIOS_INCLUDE_OPENLOG */
+			break;
+		default: // other types do nothing
+			break;
 		}
+		PIOS_HAL_SetTarget(target, pios_com_rf_id);
 
-#ifndef PIOS_NO_TELEM_ON_RF
-		/* Set Telemetry to use RFM22b if no other telemetry is configured (USB always overrides anyway) */
-		if (!pios_com_telem_serial_id) {
-			pios_com_telem_serial_id = pios_com_rf_id;
-		}
-#endif
 		rfm22bstatus.LinkState = RFM22BSTATUS_LINKSTATE_ENABLED;
 
 		/* Set the radio configuration parameters. */

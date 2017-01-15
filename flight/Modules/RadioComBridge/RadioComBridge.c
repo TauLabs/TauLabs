@@ -6,8 +6,8 @@
  * @{ 
  *
  * @file       RadioComBridge.c
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013-2016
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2012.
- * @author     Tau Labs, http://taulabs.org, Copyright (C) 2013-2014
  * @brief      Bridges from RFM22b comm channel to another PIOS_COM channel
  *             has the ability to hook and process UAVO packets for the radio
  *             board (e.g. TauLink)
@@ -73,10 +73,8 @@ typedef struct {
 	// The task handles.
 	struct pios_thread *telemetryTxTaskHandle;
 	struct pios_thread *telemetryRxTaskHandle;
-	struct pios_thread *radioTxTaskHandle;
 	struct pios_thread *radioRxTaskHandle;
 	struct pios_thread *PPMInputTaskHandle;
-	struct pios_thread *serialRxTaskHandle;
 
 	// The UAVTalk connection on the com side.
 	UAVTalkConnection telemUAVTalkCon;
@@ -84,14 +82,9 @@ typedef struct {
 
 	// Queue handles.
 	struct pios_queue *uavtalkEventQueue;
-	struct pios_queue *radioEventQueue;
 
 	// The raw serial Rx buffer
 	uint8_t serialRxBuf[SERIAL_RX_BUF_LEN];
-
-	// Error statistics.
-	uint32_t telemetryTxRetries;
-	uint32_t radioTxRetries;
 
 	// Is this modem the coordinator
 	bool isCoordinator;
@@ -105,8 +98,6 @@ typedef struct {
 
 static void telemetryTxTask(void *parameters);
 static void telemetryRxTask(void *parameters);
-static void serialRxTask(void *parameters);
-static void radioTxTask(void *parameters);
 static void radioRxTask(void *parameters);
 static void PPMInputTask(void *parameters);
 static int32_t UAVTalkSendHandler(uint8_t * buf, int32_t length);
@@ -136,25 +127,14 @@ static int32_t RadioComBridgeStart(void)
 		// Check if this is the coordinator modem
 		data->isCoordinator = PIOS_RFM22B_IsCoordinator(PIOS_COM_RFM22B);
 
-		// Parse UAVTalk out of the link
-		data->parseUAVTalk = true;
-
 		// Configure our UAVObjects for updates.
 		UAVObjConnectQueue(UAVObjGetByID(RFM22BSTATUS_OBJID), data->uavtalkEventQueue,
 				   EV_UPDATED | EV_UPDATED_MANUAL | EV_UPDATE_REQ);
 		UAVObjConnectQueue(UAVObjGetByID(OBJECTPERSISTENCE_OBJID), data->uavtalkEventQueue,
 				   EV_UPDATED | EV_UPDATED_MANUAL);
-		if (data->isCoordinator) {
-			UAVObjConnectQueue(UAVObjGetByID(RFM22BRECEIVER_OBJID), data->radioEventQueue,
-					   EV_UPDATED | EV_UPDATED_MANUAL | EV_UPDATE_REQ);
-		} else {
-			UAVObjConnectQueue(UAVObjGetByID(RFM22BRECEIVER_OBJID), data->uavtalkEventQueue,
-					   EV_UPDATED | EV_UPDATED_MANUAL | EV_UPDATE_REQ);
-		}
+	
+		registerObject(RadioComBridgeStatsHandle());
 
-		if (data->isCoordinator) {
-			registerObject(RadioComBridgeStatsHandle());
-		}
 		// Configure the UAVObject callbacks
 		ObjectPersistenceConnectCallback(&objectPersistenceUpdatedCb);
 
@@ -166,9 +146,12 @@ static int32_t RadioComBridgeStart(void)
 		PIOS_WDG_RegisterFlag(PIOS_WDG_RADIORX);
 #endif
 
-		// Start the primary tasks for receiving/sending UAVTalk packets from the GCS.
+		// Insert packets from the modem to the telemetry side
 		data->telemetryTxTaskHandle = PIOS_Thread_Create(telemetryTxTask, "telemetryTxTask", STACK_SIZE_BYTES, NULL, TASK_PRIORITY);
+		// Pass data from telemetry to the radio link
 		data->telemetryRxTaskHandle = PIOS_Thread_Create(telemetryRxTask, "telemetryRxTask", STACK_SIZE_BYTES, NULL, TASK_PRIORITY);
+		// Pass data from the radio link to the telemetry side
+		data->radioRxTaskHandle = PIOS_Thread_Create(radioRxTask, "radioRxTask", STACK_SIZE_BYTES, NULL, TASK_PRIORITY);
 			    
 		if (PIOS_PPM_RECEIVER != 0) {
 #ifdef PIOS_INCLUDE_WDG
@@ -176,15 +159,6 @@ static int32_t RadioComBridgeStart(void)
 #endif
 			data->PPMInputTaskHandle = PIOS_Thread_Create(PPMInputTask, "PPMInputTask",STACK_SIZE_BYTES, NULL, TASK_PRIORITY);
 		}
-		if (!data->parseUAVTalk) {
-#ifdef PIOS_INCLUDE_WDG
-			PIOS_WDG_RegisterFlag(PIOS_WDG_SERIALRX);
-#endif
-			// If the user wants raw serial communication, we need to spawn another thread to handle it.
-			data->serialRxTaskHandle = PIOS_Thread_Create(serialRxTask, "serialRxTask", STACK_SIZE_BYTES, NULL, TASK_PRIORITY);
-		}
-		data->radioTxTaskHandle = PIOS_Thread_Create(radioTxTask, "radioTxTask", STACK_SIZE_BYTES, NULL, TASK_PRIORITY);
-		data->radioRxTaskHandle = PIOS_Thread_Create(radioRxTask, "radioRxTask", STACK_SIZE_BYTES, NULL, TASK_PRIORITY);
 
 		return 0;
 	}
@@ -217,11 +191,6 @@ static int32_t RadioComBridgeInitialize(void)
 
 	// Initialize the queues.
 	data->uavtalkEventQueue = PIOS_Queue_Create(EVENT_QUEUE_SIZE, sizeof(UAVObjEvent));
-	data->radioEventQueue = PIOS_Queue_Create(EVENT_QUEUE_SIZE, sizeof(UAVObjEvent));
-
-	// Initialize the statistics.
-	data->telemetryTxRetries = 0;
-	data->radioTxRetries = 0;
 
 	data->parseUAVTalk = true;
 
@@ -270,9 +239,6 @@ static void updateRadioComBridgeStats()
 	// Get stats object data
 	RadioComBridgeStatsGet(&radioComBridgeStats);
 
-	radioComBridgeStats.TelemetryTxRetries = data->telemetryTxRetries;
-	radioComBridgeStats.RadioTxRetries = data->radioTxRetries;
-
 	// Update stats object
 	radioComBridgeStats.TelemetryTxBytes +=
 	    telemetryUAVTalkStats.txBytes;
@@ -295,7 +261,9 @@ static void updateRadioComBridgeStats()
 }
 
 /**
- * @brief Telemetry transmit task, regular priority
+ * @brief Telemetry transmit task. This inserts local modem UAVObject
+ * updates like RFM22BStatus and ObjectPersistence into the stream to
+ * the ground side.
  *
  * @param[in] parameters  The task parameters
  */
@@ -314,66 +282,28 @@ static void telemetryTxTask( __attribute__ ((unused))
 			if (ev.obj == RadioComBridgeStatsHandle()) {
 				updateRadioComBridgeStats();
 			}
-			// Send update (with retries)
-			int32_t ret = -1;
-			uint32_t retries = 0;
-			while (retries <= MAX_RETRIES && ret == -1) {
-				ret = UAVTalkSendObject(data->telemUAVTalkCon, ev.obj, ev.instId, 0, RETRY_TIMEOUT_MS);
-				if (ret == -1) {
-					++retries;
-				}
+			if (data->parseUAVTalk) {
+				UAVTalkSendObject(data->telemUAVTalkCon, ev.obj, ev.instId, 0, RETRY_TIMEOUT_MS);
 			}
-			// Update stats
-			data->telemetryTxRetries += retries;
 		}
 	}
 }
 
-/**
- * @brief Radio tx task.  Receive data packets from the com port and send to the radio.
- *
- * @param[in] parameters  The task parameters
- */
-static void radioTxTask( __attribute__ ((unused))
-			void *parameters)
+uintptr_t select_telemetry_port()
 {
-
-	// Task loop
-	while (1) {
-#ifdef PIOS_INCLUDE_WDG
-		PIOS_WDG_UpdateFlag(PIOS_WDG_RADIOTX);
-#endif
-
-		// Process the radio event queue, sending UAVObjects over the radio link as necessary.
-		UAVObjEvent ev;
-
-		// Wait for queue message
-		if (PIOS_Queue_Receive(data->radioEventQueue, &ev, 20)) {
-			if ((ev.event == EV_UPDATED)
-			    || (ev.event == EV_UPDATE_REQ)) {
-				// Send update (with retries)
-				int32_t ret = -1;
-				uint32_t retries = 0;
-				while (retries <= MAX_RETRIES && ret == -1) {
-					ret =
-					    UAVTalkSendObject(data->
-							      radioUAVTalkCon,
-							      ev.obj,
-							      ev.instId, 0,
-							      RETRY_TIMEOUT_MS);
-					if (ret == -1) {
-						++retries;
-					}
-				}
-				data->radioTxRetries += retries;
-			}
-		}
-
-	}
+	uintptr_t port = PIOS_COM_TELEMETRY;
+#if defined(PIOS_INCLUDE_USB)
+	// Use USB if connected
+	port = PIOS_USB_CheckAvailable(PIOS_COM_TELEM_USB) ? PIOS_COM_TELEM_USB : port;
+#endif /* PIOS_INCLUDE_USB */
+	return port;
 }
 
 /**
- * @brief Radio rx task.  Receive data packets from the radio and pass them on.
+ * @brief radioRxTask Receive data packets from the radio and 
+ * passes them to the ground (telemetry) side. If data->parseUAVTalk
+ * is true then it passes it through @ref ProcessRadioStream which
+ * parses UAVTalk and only forwards validly formatted packets.
  *
  * @param[in] parameters  The task parameters
  */
@@ -386,37 +316,17 @@ static void radioRxTask( __attribute__ ((unused))
 		PIOS_WDG_UpdateFlag(PIOS_WDG_RADIORX);
 #endif
 		if (PIOS_COM_RFM22B) {
-			uint8_t serial_data[1];
+			uint8_t serial_data[64];
 			uint16_t bytes_to_process =
-			    PIOS_COM_ReceiveBuffer(PIOS_COM_RFM22B,
-						   serial_data,
-						   sizeof(serial_data),
-						   MAX_PORT_DELAY);
+			    PIOS_COM_ReceiveBuffer(PIOS_COM_RFM22B, serial_data, sizeof(serial_data), MAX_PORT_DELAY);
 			if (bytes_to_process > 0) {
 				if (data->parseUAVTalk) {
 					// Pass the data through the UAVTalk parser.
-					for (uint8_t i = 0;
-					     i < bytes_to_process; i++) {
-						ProcessRadioStream(data->
-								   radioUAVTalkCon,
-								   data->
-								   telemUAVTalkCon,
-								   serial_data
-								   [i]);
+					for (uint8_t i = 0; i < bytes_to_process; i++) {
+						ProcessRadioStream(data->radioUAVTalkCon, data->telemUAVTalkCon, serial_data[i]);
 					}
-				} else if (PIOS_COM_TELEMETRY) {
-					// Send the data straight to the telemetry port.
-					// Following call can fail with -2 error code (buffer full) or -3 error code (could not acquire send mutex)
-					// It is the caller responsibility to retry in such cases...
-					int32_t ret = -2;
-					uint8_t count = 5;
-					while (count-- > 0 && ret < -1) {
-						ret =
-						    PIOS_COM_SendBufferNonBlocking
-						    (PIOS_COM_TELEMETRY,
-						     serial_data,
-						     bytes_to_process);
-					}
+				} else if (select_telemetry_port()) {
+				    PIOS_COM_SendBuffer(select_telemetry_port(), serial_data, bytes_to_process);
 				}
 			}
 		} else {
@@ -426,7 +336,12 @@ static void radioRxTask( __attribute__ ((unused))
 }
 
 /**
- * @brief Receive telemetry from the USB/COM port.
+ * @brief telemetryRxTask pass data from the ground side (telemetry)
+ * and forward this to the radio link. Passes the data through @ref
+ * ProcessTelemetryStream which will only forward valid UAVTalk data
+ * and also responds to some events targeting the modem. It also
+ * extracts some data from the stream and stores it to allow it to
+ * reformatted and passed to other devices (e.g. Taranis)
  *
  * @param[in] parameters  The task parameters
  */
@@ -435,33 +350,22 @@ static void telemetryRxTask( __attribute__ ((unused))
 {
 	// Task loop
 	while (1) {
-		uint32_t inputPort =
-		    data->parseUAVTalk ? PIOS_COM_TELEMETRY : 0;
+		uint32_t inputPort = select_telemetry_port();
 #ifdef PIOS_INCLUDE_WDG
 		PIOS_WDG_UpdateFlag(PIOS_WDG_TELEMETRYRX);
 #endif
-#if defined(PIOS_INCLUDE_USB)
-		// Determine output port (USB takes priority over telemetry port)
-		if (PIOS_USB_CheckAvailable(PIOS_COM_TELEM_USB)) {
-			inputPort = PIOS_COM_TELEM_USB;
-		}
-#endif /* PIOS_INCLUDE_USB */
 		if (inputPort) {
-			uint8_t serial_data[1];
+			uint8_t serial_data[64];
 			uint16_t bytes_to_process =
-			    PIOS_COM_ReceiveBuffer(inputPort, serial_data,
-						   sizeof(serial_data),
-						   MAX_PORT_DELAY);
+			    PIOS_COM_ReceiveBuffer(inputPort, serial_data, sizeof(serial_data), MAX_PORT_DELAY);
 			if (bytes_to_process > 0) {
 				PIOS_LED_Toggle(PIOS_LED_RX);
-				for (uint8_t i = 0; i < bytes_to_process;
-				     i++) {
-					ProcessTelemetryStream(data->
-							       telemUAVTalkCon,
-							       data->
-							       radioUAVTalkCon,
-							       serial_data
-							       [i]);
+				if (data->parseUAVTalk) {
+					for (uint8_t i = 0; i < bytes_to_process; i++) {
+						ProcessTelemetryStream(data->telemUAVTalkCon, data->radioUAVTalkCon, serial_data[i]);
+					}
+				} else if (PIOS_COM_RFM22B) {
+					PIOS_COM_SendBuffer(PIOS_COM_RFM22B, serial_data, bytes_to_process);
 				}
 			}
 		} else {
@@ -471,7 +375,8 @@ static void telemetryRxTask( __attribute__ ((unused))
 }
 
 /**
- * @brief Reads the PPM input device and sends out RFM22BReceiver objects.
+ * @brief PPMInputTask reads PPM input and forward to the
+ * connected device
  *
  * @param[in] parameters  The task parameters (unused)
  */
@@ -498,50 +403,8 @@ static void PPMInputTask( __attribute__ ((unused))
 }
 
 /**
- * @brief Receive raw serial data from the USB/COM port.
- *
- * @param[in] parameters  The task parameters
- */
-static void serialRxTask( __attribute__ ((unused))
-			 void *parameters)
-{
-	// Task loop
-	while (1) {
-		uint32_t inputPort = PIOS_COM_TELEMETRY;
-#ifdef PIOS_INCLUDE_WDG
-		PIOS_WDG_UpdateFlag(PIOS_WDG_SERIALRX);
-#endif
-		if (inputPort && PIOS_COM_RFM22B) {
-			// Receive some data.
-			uint16_t bytes_to_process =
-			    PIOS_COM_ReceiveBuffer(inputPort,
-						   data->serialRxBuf,
-						   sizeof(data->
-							  serialRxBuf),
-						   MAX_PORT_DELAY);
-
-			if (bytes_to_process > 0) {
-				// Send the data over the radio link.
-				// Following call can fail with -2 error code (buffer full) or -3 error code (could not acquire send mutex)
-				// It is the caller responsibility to retry in such cases...
-				int32_t ret = -2;
-				uint8_t count = 5;
-				while (count-- > 0 && ret < -1) {
-					ret =
-					    PIOS_COM_SendBufferNonBlocking
-					    (PIOS_COM_RFM22B,
-					     data->serialRxBuf,
-					     bytes_to_process);
-				}
-			}
-		} else {
-			PIOS_Thread_Sleep(5);
-		}
-	}
-}
-
-/**
- * @brief Transmit data buffer to the com port.
+ * @brief UAVTalkSendHandler used by the telemUAVTalkCon UAVTalk
+ * to forward data to the ground side (telemetry).
  *
  * @param[in] buf Data buffer to send
  * @param[in] length Length of buffer
@@ -551,24 +414,10 @@ static void serialRxTask( __attribute__ ((unused))
 static int32_t UAVTalkSendHandler(uint8_t * buf, int32_t length)
 {
 	int32_t ret;
-	uint32_t outputPort = data->parseUAVTalk ? PIOS_COM_TELEMETRY : 0;
+	uint32_t outputPort = select_telemetry_port();
 
-#if defined(PIOS_INCLUDE_USB)
-	// Determine output port (USB takes priority over telemetry port)
-	if (PIOS_COM_Available(PIOS_COM_TELEM_USB)) {
-		outputPort = PIOS_COM_TELEM_USB;
-	}
-#endif /* PIOS_INCLUDE_USB */
 	if (outputPort) {
-		// Following call can fail with -2 error code (buffer full) or -3 error code (could not acquire send mutex)
-		// It is the caller responsibility to retry in such cases...
-		ret = -2;
-		uint8_t count = 5;
-		while (count-- > 0 && ret < -1) {
-			ret =
-			    PIOS_COM_SendBufferNonBlocking(outputPort, buf,
-							   length);
-		}
+	    PIOS_COM_SendBufferNonBlocking(outputPort, buf, length);
 	} else {
 		ret = -1;
 	}
@@ -576,7 +425,8 @@ static int32_t UAVTalkSendHandler(uint8_t * buf, int32_t length)
 }
 
 /**
- * Transmit data buffer to the com port.
+ * @brief RadioSendHandler used by the radioUAVTalkCon UAVTalk
+ * to forward from to the radio link remote side.
  *
  * @param[in] buf Data buffer to send
  * @param[in] length Length of buffer
@@ -585,9 +435,6 @@ static int32_t UAVTalkSendHandler(uint8_t * buf, int32_t length)
  */
 static int32_t RadioSendHandler(uint8_t * buf, int32_t length)
 {
-	if (!data->parseUAVTalk) {
-		return length;
-	}
 	uint32_t outputPort = PIOS_COM_RFM22B;
 
 	// Don't send any data unless the radio port is available.
@@ -609,7 +456,8 @@ static int32_t RadioSendHandler(uint8_t * buf, int32_t length)
 
 #define MetaObjectId(x) (x+1)
 /**
- * @brief Process a byte of data received on the telemetry stream
+ * @brief Process a byte of data received on the telemetry stream and determine
+ * what to pass on (to the radio)
  *
  * @param[in] inConnectionHandle  The UAVTalk connection handle on the telemetry port
  * @param[in] outConnectionHandle  The UAVTalk connection handle on the radio port.
@@ -674,7 +522,8 @@ static void ProcessTelemetryStream(UAVTalkConnection inConnectionHandle,
 }
 
 /**
- * @brief Process a byte of data received on the radio data stream.
+ * @brief Process a byte of data received on the radio data stream and decide
+ * what to pass on (to the ground side)
  *
  * @param[in] inConnectionHandle  The UAVTalk connection handle on the radio port.
  * @param[in] outConnectionHandle  The UAVTalk connection handle on the telemetry port.
@@ -700,14 +549,6 @@ static void ProcessRadioStream(UAVTalkConnection inConnectionHandle,
 			// These objects are shadowed by the modem and are not transmitted to the telemetry port
 			// - RFM22BSTATUS_OBJID : ground station will receive the OPLM link status instead
 			// - HWTAULINK_OBJID : ground station will read and write the OPLM settings instead
-			break;
-		case RFM22BRECEIVER_OBJID:
-		case MetaObjectId(RFM22BRECEIVER_OBJID):
-			// Receive object locally
-			// These objects are received by the modem and are not transmitted to the telemetry port
-			// - RFM22BRECEIVER_OBJID : sent periodically from flight controller, not needed to echo
-			// some objects will send back a response to the remote modem
-			UAVTalkReceiveObject(inConnectionHandle);
 			break;
 		case FLIGHTBATTERYSTATE_OBJID:
 		case FLIGHTSTATUS_OBJID:

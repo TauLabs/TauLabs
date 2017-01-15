@@ -102,7 +102,6 @@
 
 #define PIOS_INCLUDE_DEBUG_CONSOLE
 
-#define PIOS_NO_TELEM_ON_RF
 #define PIOS_NO_ALARMS
 
 /* Turn on debugging signals on the telemetry port */
