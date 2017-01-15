@@ -221,10 +221,17 @@ help:
 	@echo "     uavobjects           - Generate source files from the UAVObject definition XML files"
 	@echo "     uavobjects_test      - parse xml-files - check for valid, duplicate ObjId's, ... "
 	@echo
-	@echo "   [Package]"
-	@echo "     package              - Executes a make all_clean and then generates a complete package build for"
-	@echo "     standalone           - Executes a make all_clean and compiles a package without packaging"
-	@echo "                            the GCS and all target board firmwares."
+	@echo "   [Packaging]"
+	@echo "     package_flight 			- Build and package the Tau Labs flight firmware only"
+	@echo "     package_ground 			- Build and package the Tau Labs ground software only"
+	@echo "     package_matlab 			- Build and package the Tau Labs matlab script only"
+	@echo "     package_all    			- Build and package all Tau Labs firmware and software"
+	@echo "     package_installer		- Builds a Tau Labs software installer"
+	@echo "     package_info    		- Creates a file with the package information"
+	@echo "     package_XXXX_compress   - Same as the targets above but compresses the package"	
+	@echo
+	@echo "   Notes:"
+	@echo "     - packages will be placed in $(PACKAGE_DIR)"
 	@echo
 	@echo "   [Misc]"
 	@echo "     astyle_flight FILE=<name>   - Executes the astyle code formatter to reformat"
@@ -1066,15 +1073,12 @@ endif
 # Packaging components
 #
 ##############################
-
-.PHONY: package
-package:
-	$(V1) cd $@ && $(MAKE) --no-print-directory $@
-
-.PHONY: standalone
-standalone:
+PACKAGE_TARGETS = package_ground package_flight package_installer package_matlab package_all standalone package_info
+PACKAGE_TARGETS += package_ground_compress package_flight_compress package_matlab_compress package_all_compress
+.PHONY: $(PACKAGE_TARGETS)
+$(PACKAGE_TARGETS):
 	$(V1) cd package && $(MAKE) --no-print-directory $@
-
+	
 .PHONY: package_resources
 package_resources:
 	$(V1) cd package && $(MAKE) --no-print-directory tlfw_resource

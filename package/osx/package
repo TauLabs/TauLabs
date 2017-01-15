@@ -3,13 +3,13 @@
 # Information about dmg generation: http://stackoverflow.com/questions/96882/how-do-i-create-a-nice-looking-dmg-for-mac-os-x-using-command-line-tools
 
 # the following environment variables must be set
-: ${ROOT_DIR?} ${BUILD_DIR?} ${PACKAGE_LBL?} ${PACKAGE_DIR?} ${FW_DIR?}
+: ${ROOT_DIR?} ${BUILD_DIR?} ${PACKAGE_LBL?} ${PACKAGE_DIR?} ${FW_DIR?} ${DMG_LBL?}
 
 # more variables
 APP_NAME="Tau Labs GCS.app"
 APP_PATH="${BUILD_DIR}/ground/gcs/bin/"
 TEMP_FILE="${PACKAGE_DIR}/TauLabs-temp.dmg.sparseimage"
-OUT_FILE="${PACKAGE_DIR}/TauLabs-${PACKAGE_LBL}.dmg"
+OUT_FILE="${PACKAGE_DIR}/${DMG_LBL}.dmg"
 ICON_FILE="${ROOT_DIR}/package/linux/taulabs.png"
 VOL_NAME="Tau Labs"
 
@@ -27,20 +27,20 @@ device=$(hdiutil attach  "${TEMP_FILE}" | \
 mkdir "/Volumes/${VOL_NAME}/Firmware"
 mkdir "/Volumes/${VOL_NAME}/Utilities"
 cp -r "${APP_PATH}/${APP_NAME}" "/Volumes/${VOL_NAME}"
-cp "${FW_DIR}/fw_quanton-${PACKAGE_LBL}.tlfw" "/Volumes/${VOL_NAME}/Firmware"
-cp "${FW_DIR}/fw_colibri-${PACKAGE_LBL}.tlfw" "/Volumes/${VOL_NAME}/Firmware"
-cp "${FW_DIR}/fw_flyingf3-${PACKAGE_LBL}.tlfw" "/Volumes/${VOL_NAME}/Firmware"
-cp "${FW_DIR}/fw_flyingf4-${PACKAGE_LBL}.tlfw" "/Volumes/${VOL_NAME}/Firmware"
-cp "${FW_DIR}/fw_coptercontrol-${PACKAGE_LBL}.tlfw" "/Volumes/${VOL_NAME}/Firmware"
-cp "${FW_DIR}/fw_revomini-${PACKAGE_LBL}.tlfw" "/Volumes/${VOL_NAME}/Firmware"
-cp "${FW_DIR}/fw_pipxtreme-${PACKAGE_LBL}.tlfw" "/Volumes/${VOL_NAME}/Firmware"
-cp "${FW_DIR}/fw_sparky-${PACKAGE_LBL}.tlfw" "/Volumes/${VOL_NAME}/Firmware"
-cp "${FW_DIR}/fw_sparkybgc-${PACKAGE_LBL}.tlfw" "/Volumes/${VOL_NAME}/Firmware"
-cp "${FW_DIR}/fw_sparky2-${PACKAGE_LBL}.tlfw" "/Volumes/${VOL_NAME}/Firmware"
-cp "${FW_DIR}/fw_naze32-${PACKAGE_LBL}.tlfw" "/Volumes/${VOL_NAME}/Firmware"
-cp "${FW_DIR}/fw_aq32-${PACKAGE_LBL}.tlfw" "/Volumes/${VOL_NAME}/Firmware"
+cp "${FW_DIR}/fw_quanton_${PACKAGE_LBL}.tlfw" "/Volumes/${VOL_NAME}/Firmware"
+cp "${FW_DIR}/fw_colibri_${PACKAGE_LBL}.tlfw" "/Volumes/${VOL_NAME}/Firmware"
+cp "${FW_DIR}/fw_flyingf3_${PACKAGE_LBL}.tlfw" "/Volumes/${VOL_NAME}/Firmware"
+cp "${FW_DIR}/fw_flyingf4_${PACKAGE_LBL}.tlfw" "/Volumes/${VOL_NAME}/Firmware"
+cp "${FW_DIR}/fw_coptercontrol_${PACKAGE_LBL}.tlfw" "/Volumes/${VOL_NAME}/Firmware"
+cp "${FW_DIR}/fw_revomini_${PACKAGE_LBL}.tlfw" "/Volumes/${VOL_NAME}/Firmware"
+cp "${FW_DIR}/fw_pipxtreme_${PACKAGE_LBL}.tlfw" "/Volumes/${VOL_NAME}/Firmware"
+cp "${FW_DIR}/fw_sparky_${PACKAGE_LBL}.tlfw" "/Volumes/${VOL_NAME}/Firmware"
+cp "${FW_DIR}/fw_sparkybgc_${PACKAGE_LBL}.tlfw" "/Volumes/${VOL_NAME}/Firmware"
+cp "${FW_DIR}/fw_sparky2_${PACKAGE_LBL}.tlfw" "/Volumes/${VOL_NAME}/Firmware"
+cp "${FW_DIR}/fw_naze32_${PACKAGE_LBL}.tlfw" "/Volumes/${VOL_NAME}/Firmware"
+cp "${FW_DIR}/fw_aq32_${PACKAGE_LBL}.tlfw" "/Volumes/${VOL_NAME}/Firmware"
 
-cp "${BUILD_DIR}/matlab/LogConvert.m" "/Volumes/${VOL_NAME}/Utilities/LogConvert-${PACKAGE_LBL}.m"
+cp "${FW_DIR}/../matlab-${PACKAGE_LBL}/LogConvert.m" "/Volumes/${VOL_NAME}/Utilities/LogConvert-${PACKAGE_LBL}.m"
 
 cp "${ROOT_DIR}/HISTORY.txt" "/Volumes/${VOL_NAME}"
 
