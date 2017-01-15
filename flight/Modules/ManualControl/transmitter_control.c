@@ -6,7 +6,8 @@
  * @{
  *
  * @file       transmitter_control.c
- * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2015
+ * @author     Tau Labs, http://taulabs.org, Copyright (C) 2012-2016
+ * @author     dRonin, http://dronin.org Copyright (C) 2015
  * @author     The OpenPilot Team, http://www.openpilot.org Copyright (C) 2010.
  * @brief      Handles R/C link and flight mode.
  *
@@ -612,7 +613,7 @@ static void process_transmitter_events(ManualControlCommandData * cmd, ManualCon
 
 	valid &= cmd->Connected == MANUALCONTROLCOMMAND_CONNECTED_TRUE;
 
-  	switch(arm_state) {
+	switch(arm_state) {
 	case ARM_STATE_DISARMED:
 	{
 		set_armed_if_changed(FLIGHTSTATUS_ARMED_DISARMED);
@@ -626,6 +627,12 @@ static void process_transmitter_events(ManualControlCommandData * cmd, ManualCon
 			if (!last_arm) {
 				armedDisarmStart = lastSysTime;
 				arm_state = ARM_STATE_ARMED;
+			}
+		} else if (arm && (settings->Arming == MANUALCONTROLSETTINGS_ARMING_SWITCHTHROTTLEDELAY ||
+				settings->Arming == MANUALCONTROLSETTINGS_ARMING_SWITCHDELAY)) {
+			if (!last_arm) {
+				armedDisarmStart = lastSysTime;
+				arm_state = ARM_STATE_ARMING;
 			}
 		} else if (arm) {
 			armedDisarmStart = lastSysTime;
@@ -646,7 +653,12 @@ static void process_transmitter_events(ManualControlCommandData * cmd, ManualCon
 			(settings->ArmTime == MANUALCONTROLSETTINGS_ARMTIME_1000) ? 1000 : \
 			(settings->ArmTime == MANUALCONTROLSETTINGS_ARMTIME_2000) ? 2000 : 1000;
 		if (arm && timeDifferenceMs(armedDisarmStart, lastSysTime) > arm_time) {
-			arm_state = ARM_STATE_ARMED_STILL_HOLDING;
+			if (settings->Arming == MANUALCONTROLSETTINGS_ARMING_SWITCHTHROTTLEDELAY ||
+					settings->Arming == MANUALCONTROLSETTINGS_ARMING_SWITCHDELAY) {
+				arm_state = ARM_STATE_ARMED;
+			} else {
+				arm_state = ARM_STATE_ARMED_STILL_HOLDING;
+			}
 		} else if (!arm) {
 			arm_state = ARM_STATE_DISARMED;
 		}
@@ -709,7 +721,14 @@ static void process_transmitter_events(ManualControlCommandData * cmd, ManualCon
 			(settings->DisarmTime == MANUALCONTROLSETTINGS_DISARMTIME_1000) ? 1000 : \
 			(settings->DisarmTime == MANUALCONTROLSETTINGS_DISARMTIME_2000) ? 2000 : 1000;
   		if (disarm && timeDifferenceMs(armedDisarmStart, lastSysTime) > disarm_time) {
-			arm_state = ARM_STATE_DISARMED_STILL_HOLDING;
+			if (settings->Arming == MANUALCONTROLSETTINGS_ARMING_SWITCH ||
+					settings->Arming == MANUALCONTROLSETTINGS_ARMING_SWITCHDELAY ||
+					settings->Arming == MANUALCONTROLSETTINGS_ARMING_SWITCHTHROTTLE ||
+					settings->Arming == MANUALCONTROLSETTINGS_ARMING_SWITCHTHROTTLEDELAY) {
+				arm_state = ARM_STATE_DISARMED;
+			} else {
+				arm_state = ARM_STATE_DISARMED_STILL_HOLDING;
+			}
   		} else if (!disarm) {
   			arm_state = ARM_STATE_ARMED;
   		}
