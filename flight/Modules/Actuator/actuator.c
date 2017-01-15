@@ -720,10 +720,11 @@ static MixerSettingsMixer1TypeOptions get_mixer_type(int idx)
 	case 9:
 		return mixerSettings.Mixer10Type;
 		break;
-	default:
-		// We can never get here unless there are mixer channels not handled in the above. Fail out.
-		PIOS_Assert(0);
 	}
+
+	// We can never get here unless there are mixer channels not handled in the above. Fail out.
+	PIOS_Assert(0);
+	return MIXERSETTINGS_MIXER1TYPE_DISABLED;
 }
 
 static typeof(mixerSettings.Mixer1Vector) *get_mixer_vec(int idx)
@@ -759,10 +760,11 @@ static typeof(mixerSettings.Mixer1Vector) *get_mixer_vec(int idx)
 	case 9:
 		return &mixerSettings.Mixer10Vector;
 		break;
-	default:
-		// We can never get here unless there are mixer channels not handled in the above. Fail out.
-		PIOS_Assert(0);
 	}
+
+	// We can never get here unless there are mixer channels not handled in the above. Fail out.
+	PIOS_Assert(0);
+	return (typeof(mixerSettings.Mixer1Vector) *) NULL;
 }
 
 #define OUTPUT_MODE_ASSUMPTIONS ( ( (int) PWM_MODE_1MHZ == ACTUATORSETTINGS_TIMERPWMRESOLUTION_1MHZ ) && \
