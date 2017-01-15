@@ -570,6 +570,12 @@ void PIOS_Board_Init(void) {
 	    (hw_mpu6000_samplerate == HWREVOMINI_MPU6000RATE_8000) ? 8000 : \
 	    pios_mpu6000_cfg.default_samplerate;
 	PIOS_MPU6000_SetSampleRate(mpu6000_samplerate);
+
+	uint8_t hw_gyro_downsampling[4];
+	HwRevoMiniGyroDownSamplingGet(&hw_gyro_downsampling[0]);
+	PIOS_MPU6000_SetGyroDownSamling(&hw_gyro_downsampling[0]);
+
+
 #endif
 
 }

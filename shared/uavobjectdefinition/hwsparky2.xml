@@ -77,9 +77,10 @@
 
 		<field name="GyroRange" units="deg/s" type="enum" elements="1" options="250,500,1000,2000" defaultvalue="2000"/>
 		<field name="AccelRange" units="*gravity m/s^2" type="enum" elements="1" options="2G,4G,8G,16G" defaultvalue="8G"/>
-		<field name="MPU9250Rate" units="Hz" type="enum" elements="1" options="200,250,333,500,1000" defaultvalue="500"/>
-		<field name="MPU9250GyroLPF" units="Hz" type="enum" elements="1" options="184,92,41,20,10,5" defaultvalue="184"/>
+		<field name="MPU9250Rate" units="Hz" type="enum" elements="1" options="200,250,333,500,1000,2000,4000,8000" defaultvalue="500"/>
+		<field name="MPU9250GyroLPF" units="Hz" type="enum" elements="1" options="250,184,92,41,20,10,5" defaultvalue="184"/>
 		<field name="MPU9250AccelLPF" units="Hz" type="enum" elements="1" options="460,184,92,41,20,10,5" defaultvalue="184"/>
+		<field name="GyroDownSampling" units="" type="uint8" elementnames="Drop,LPF,LPF_Order,LPF_DDelay" defaultvalue="1,1,0,1" limits="%BE:1:255,%BE:1:255,%BE:0:3,%BE:1:2"/>
 
 		<field name="VTX_Ch" units="Hz" type="enum" elements="1" defaultvalue="BoscamACh1 (5725)">
 			<options>
