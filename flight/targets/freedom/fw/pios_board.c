@@ -593,6 +593,8 @@ void PIOS_Board_Init(void) {
 	PIOS_ADC_Init(&pios_internal_adc_id, &pios_internal_adc_driver, internal_adc_id);
 #endif
 
+	PIOS_WDG_Clear();
+
 	PIOS_LED_On(0);
 #if defined(PIOS_INCLUDE_HMC5883)
 	if (PIOS_HMC5883_Init(pios_i2c_mag_pressure_adapter_id, &pios_hmc5883_cfg) != 0)
@@ -600,7 +602,8 @@ void PIOS_Board_Init(void) {
 #endif
 	PIOS_LED_On(1);
 
-	
+	PIOS_WDG_Clear();
+
 #if defined(PIOS_INCLUDE_MS5XXX)
 	if (PIOS_MS5XXX_I2C_Init(pios_i2c_mag_pressure_adapter_id, MS5XXX_I2C_ADDR_0x77, &pios_ms5xxx_cfg) != 0)
 		panic(4);
@@ -608,6 +611,8 @@ void PIOS_Board_Init(void) {
 		panic(4);
 #endif
 	PIOS_LED_On(2);
+
+	PIOS_WDG_Clear();
 }
 
 /**
