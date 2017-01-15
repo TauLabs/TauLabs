@@ -65,33 +65,33 @@ void ConfigGroundVehicleWidget::setupUI(SystemSettings::AirframeTypeOptions fram
 	m_aircraft->differentialSteeringMixBox->setHidden(true);			
 	//STILL NEEDS WORK
 	// Setup the UI
-    setComboCurrentIndex(m_aircraft->aircraftType, m_aircraft->aircraftType->findText("Ground"));
+//    setComboCurrentIndex(m_aircraft->aircraftType, m_aircraft->aircraftType->findText("Ground"));
 	
-	m_aircraft->gvEngineChannelBox->setEnabled(false);
+	m_aircraft->cb_gvEngineChannelBox->setEnabled(false);
 	m_aircraft->gvEngineLabel->setEnabled(false);
 
 	
-	m_aircraft->gvAileron1ChannelBox->setEnabled(false);
+	m_aircraft->cb_gvAileron1ChannelBox->setEnabled(false);
 	m_aircraft->gvAileron1Label->setEnabled(false);
 	
-	m_aircraft->gvAileron2ChannelBox->setEnabled(false);
+	m_aircraft->cb_gvAileron2ChannelBox->setEnabled(false);
 	m_aircraft->gvAileron2Label->setEnabled(false);
 	
     if (frameType == SystemSettings::AIRFRAMETYPE_GROUNDVEHICLEDIFFERENTIAL){ //Tank
-        setComboCurrentIndex(m_aircraft->groundVehicleType, m_aircraft->groundVehicleType->findText("Differential (tank)"));
-		m_aircraft->gvMotor1ChannelBox->setEnabled(true);
+//        setComboCurrentIndex(m_aircraft->groundVehicleType, m_aircraft->groundVehicleType->findText("Differential (tank)"));
+		m_aircraft->cb_gvMotor1ChannelBox->setEnabled(true);
 		m_aircraft->gvMotor1Label->setEnabled(true);
 		
-		m_aircraft->gvMotor2ChannelBox->setEnabled(true);
+		m_aircraft->cb_gvMotor2ChannelBox->setEnabled(true);
 		m_aircraft->gvMotor2Label->setEnabled(true);
 
 		m_aircraft->gvMotor1Label->setText("Left motor");
 		m_aircraft->gvMotor2Label->setText("Right motor");
 
-		m_aircraft->gvSteering1ChannelBox->setEnabled(false);
+		m_aircraft->cb_gvSteering1ChannelBox->setEnabled(false);
 		m_aircraft->gvSteering1Label->setEnabled(false);       
 		
-		m_aircraft->gvSteering2ChannelBox->setEnabled(false);
+		m_aircraft->cb_gvSteering2ChannelBox->setEnabled(false);
 		m_aircraft->gvSteering2Label->setEnabled(false);
 
 		m_aircraft->gvSteering2Label->setText("Rear steering");
@@ -103,20 +103,20 @@ void ConfigGroundVehicleWidget::setupUI(SystemSettings::AirframeTypeOptions fram
 
 	}
     else if (frameType == SystemSettings::AIRFRAMETYPE_GROUNDVEHICLEMOTORCYCLE){ //Motorcycle
-        setComboCurrentIndex(m_aircraft->groundVehicleType, m_aircraft->groundVehicleType->findText("Motorcycle"));
-		m_aircraft->gvMotor1ChannelBox->setEnabled(false);
+//        setComboCurrentIndex(m_aircraft->groundVehicleType, m_aircraft->groundVehicleType->findText("Motorcycle"));
+		m_aircraft->cb_gvMotor1ChannelBox->setEnabled(false);
 		m_aircraft->gvMotor1Label->setEnabled(false);
 
-		m_aircraft->gvMotor2ChannelBox->setEnabled(true);
+		m_aircraft->cb_gvMotor2ChannelBox->setEnabled(true);
 		m_aircraft->gvMotor2Label->setEnabled(true);
 
 		m_aircraft->gvMotor1Label->setText("Front motor");
 		m_aircraft->gvMotor2Label->setText("Rear motor");
 
-		m_aircraft->gvSteering1ChannelBox->setEnabled(true);
+		m_aircraft->cb_gvSteering1ChannelBox->setEnabled(true);
 		m_aircraft->gvSteering1Label->setEnabled(true);       
 		
-		m_aircraft->gvSteering2ChannelBox->setEnabled(true);
+		m_aircraft->cb_gvSteering2ChannelBox->setEnabled(true);
 		m_aircraft->gvSteering2Label->setEnabled(true);
 
 		m_aircraft->gvSteering2Label->setText("Balancing");
@@ -127,21 +127,21 @@ void ConfigGroundVehicleWidget::setupUI(SystemSettings::AirframeTypeOptions fram
 		m_aircraft->gvThrottleCurve2GroupBox->setTitle("Rear throttle curve");
 	}
 	else {//Car
-        setComboCurrentIndex(m_aircraft->groundVehicleType, m_aircraft->groundVehicleType->findText("Turnable (car)"));
+//        setComboCurrentIndex(m_aircraft->groundVehicleType, m_aircraft->groundVehicleType->findText("Turnable (car)"));
 		
-		m_aircraft->gvMotor1ChannelBox->setEnabled(true);
+		m_aircraft->cb_gvMotor1ChannelBox->setEnabled(true);
 		m_aircraft->gvMotor1Label->setEnabled(true);
 
-		m_aircraft->gvMotor2ChannelBox->setEnabled(true);
+		m_aircraft->cb_gvMotor2ChannelBox->setEnabled(true);
 		m_aircraft->gvMotor2Label->setEnabled(true);
 		
 		m_aircraft->gvMotor1Label->setText("Front motor");
 		m_aircraft->gvMotor2Label->setText("Rear motor");
 		
-		m_aircraft->gvSteering1ChannelBox->setEnabled(true);
+		m_aircraft->cb_gvSteering1ChannelBox->setEnabled(true);
 		m_aircraft->gvSteering1Label->setEnabled(true);       
 		
-		m_aircraft->gvSteering2ChannelBox->setEnabled(true);
+		m_aircraft->cb_gvSteering2ChannelBox->setEnabled(true);
 		m_aircraft->gvSteering2Label->setEnabled(true);
 		
 		m_aircraft->differentialSteeringMixBox->setHidden(true);			
@@ -205,17 +205,17 @@ SystemSettings::AirframeTypeOptions ConfigGroundVehicleWidget::updateConfigObjec
     setThrottleCurve(mixerSettings, MixerSettings::MIXER1VECTOR_THROTTLECURVE1, m_aircraft->groundVehicleThrottle1->getCurve() );
     setThrottleCurve(mixerSettings, MixerSettings::MIXER1VECTOR_THROTTLECURVE2, m_aircraft->groundVehicleThrottle2->getCurve() );
 
-	//All airframe types must start with "GroundVehicle"
-	if (m_aircraft->groundVehicleType->currentText() == "Turnable (car)" ) {
-        airframeType = SystemSettings::AIRFRAMETYPE_GROUNDVEHICLECAR;
-		setupGroundVehicleCar(airframeType);
-	} else if (m_aircraft->groundVehicleType->currentText() == "Differential (tank)") {
-        airframeType = SystemSettings::AIRFRAMETYPE_GROUNDVEHICLEDIFFERENTIAL;
-		setupGroundVehicleDifferential(airframeType);
-	} else { // "Motorcycle"
-        airframeType = SystemSettings::AIRFRAMETYPE_GROUNDVEHICLEMOTORCYCLE;
-		setupGroundVehicleMotorcycle(airframeType);
-	}
+//	//All airframe types must start with "GroundVehicle"
+//	if (m_aircraft->groundVehicleType->currentText() == "Turnable (car)" ) {
+//        airframeType = SystemSettings::AIRFRAMETYPE_GROUNDVEHICLECAR;
+//		setupGroundVehicleCar(airframeType);
+//	} else if (m_aircraft->groundVehicleType->currentText() == "Differential (tank)") {
+//        airframeType = SystemSettings::AIRFRAMETYPE_GROUNDVEHICLEDIFFERENTIAL;
+//		setupGroundVehicleDifferential(airframeType);
+//	} else { // "Motorcycle"
+//        airframeType = SystemSettings::AIRFRAMETYPE_GROUNDVEHICLEMOTORCYCLE;
+//		setupGroundVehicleMotorcycle(airframeType);
+//	}
 
 	return airframeType;
 }
@@ -234,17 +234,17 @@ void ConfigGroundVehicleWidget::refreshAirframeWidgetsValues(SystemSettings::Air
 
 	//THIS SECTION STILL NEEDS WORK. FOR THE MOMENT, USE THE FIXED-WING ONBOARD SETTING IN ORDER TO MINIMIZE CHANCES OF BOLLOXING REAL CODE
 	// Retrieve channel setup values
-    setComboCurrentIndex(m_aircraft->gvMotor1ChannelBox, config.ground.GroundVehicleThrottle1);
-    setComboCurrentIndex(m_aircraft->gvMotor2ChannelBox, config.ground.GroundVehicleThrottle2);
-    setComboCurrentIndex(m_aircraft->gvSteering1ChannelBox, config.ground.GroundVehicleSteering1);
-    setComboCurrentIndex(m_aircraft->gvSteering2ChannelBox, config.ground.GroundVehicleSteering2);
+    setComboCurrentIndex(m_aircraft->cb_gvMotor1ChannelBox, config.ground.GroundVehicleThrottle1);
+    setComboCurrentIndex(m_aircraft->cb_gvMotor2ChannelBox, config.ground.GroundVehicleThrottle2);
+    setComboCurrentIndex(m_aircraft->cb_gvSteering1ChannelBox, config.ground.GroundVehicleSteering1);
+    setComboCurrentIndex(m_aircraft->cb_gvSteering2ChannelBox, config.ground.GroundVehicleSteering2);
 
     if (frameType == SystemSettings::AIRFRAMETYPE_GROUNDVEHICLEDIFFERENTIAL) {
 		//CURRENTLY BROKEN UNTIL WE DECIDE HOW DIFFERENTIAL SHOULD BEHAVE
 		// If the vehicle type is "differential", restore the slider setting
 		
 		// Find the channel number for Motor1 
-        int channel = m_aircraft->gvMotor1ChannelBox->currentIndex()-1;
+        int channel = m_aircraft->cb_gvMotor1ChannelBox->currentIndex()-1;
         if (channel > -1) { // If for some reason the actuators were incoherent, we might fail here, hence the check.
 
             m_aircraft->differentialSteeringSlider1->setValue(getMixerVectorValue(mixerSettings,channel,MixerSettings::MIXER1VECTOR_ROLL)*100);
@@ -255,7 +255,7 @@ void ConfigGroundVehicleWidget::refreshAirframeWidgetsValues(SystemSettings::Air
 		//CURRENTLY BROKEN UNTIL WE DECIDE HOW MOTORCYCLE SHOULD BEHAVE
 //		obj = dynamic_cast<UAVDataObject*>(getObjectManager()->getObject(QString("MixerSettings")));
 //		Q_ASSERT(obj);
-//		int chMixerNumber = m_aircraft->gvMotor1ChannelBox->currentIndex()-1;
+//		int chMixerNumber = m_aircraft->cb_gvMotor1ChannelBox->currentIndex()-1;
 //		if (chMixerNumber >=0) {
 //			field = obj->getField(mixerVectors.at(chMixerNumber));
 //			int ti = field->getElementNames().indexOf("Yaw");
@@ -284,8 +284,8 @@ bool ConfigGroundVehicleWidget::setupGroundVehicleMotorcycle(SystemSettings::Air
     GUIConfigDataUnion config = GetConfigData();
     ResetActuators(&config);
 
-    config.ground.GroundVehicleThrottle1 = m_aircraft->gvMotor1ChannelBox->currentIndex();
-    config.ground.GroundVehicleThrottle2 = m_aircraft->gvMotor2ChannelBox->currentIndex();
+    config.ground.GroundVehicleThrottle1 = m_aircraft->cb_gvMotor1ChannelBox->currentIndex();
+    config.ground.GroundVehicleThrottle2 = m_aircraft->cb_gvMotor2ChannelBox->currentIndex();
 
     SetConfigData(config);
 	
@@ -294,19 +294,19 @@ bool ConfigGroundVehicleWidget::setupGroundVehicleMotorcycle(SystemSettings::Air
     resetMixers(mixerSettings);
 
     //motor
-    int channel = m_aircraft->gvMotor2ChannelBox->currentIndex()-1;
+    int channel = m_aircraft->cb_gvMotor2ChannelBox->currentIndex()-1;
     setMixerType(mixerSettings, channel, MixerSettings::MIXER1TYPE_MOTOR);
     setMixerVectorValue(mixerSettings, channel, MixerSettings::MIXER1VECTOR_THROTTLECURVE1, mixerRange);
     setMixerVectorValue(mixerSettings, channel, MixerSettings::MIXER1VECTOR_YAW, mixerRange);
 
     //steering
-    channel = m_aircraft->gvSteering1ChannelBox->currentIndex()-1;
+    channel = m_aircraft->cb_gvSteering1ChannelBox->currentIndex()-1;
     setMixerType(mixerSettings, channel, MixerSettings::MIXER1TYPE_SERVO);
     setMixerVectorValue(mixerSettings, channel, MixerSettings::MIXER1VECTOR_YAW, -mixerRange);
     setMixerVectorValue(mixerSettings, channel, MixerSettings::MIXER1VECTOR_ROLL, -mixerRange);
 
     //balance
-    channel = m_aircraft->gvSteering2ChannelBox->currentIndex()-1;
+    channel = m_aircraft->cb_gvSteering2ChannelBox->currentIndex()-1;
     setMixerType(mixerSettings, channel, MixerSettings::MIXER1TYPE_SERVO);
     setMixerVectorValue(mixerSettings, channel, MixerSettings::MIXER1VECTOR_YAW, mixerRange);
     setMixerVectorValue(mixerSettings, channel, MixerSettings::MIXER1VECTOR_ROLL, mixerRange);
@@ -335,8 +335,8 @@ bool ConfigGroundVehicleWidget::setupGroundVehicleDifferential(SystemSettings::A
     GUIConfigDataUnion config = GetConfigData();
     ResetActuators(&config);
 	
-    config.ground.GroundVehicleThrottle1 = m_aircraft->gvMotor1ChannelBox->currentIndex();
-    config.ground.GroundVehicleThrottle2 = m_aircraft->gvMotor2ChannelBox->currentIndex();
+    config.ground.GroundVehicleThrottle1 = m_aircraft->cb_gvMotor1ChannelBox->currentIndex();
+    config.ground.GroundVehicleThrottle2 = m_aircraft->cb_gvMotor2ChannelBox->currentIndex();
 
     SetConfigData((config));
 	
@@ -345,13 +345,13 @@ bool ConfigGroundVehicleWidget::setupGroundVehicleDifferential(SystemSettings::A
     resetMixers(mixerSettings);
 
     //left motor
-    int channel = m_aircraft->gvMotor1ChannelBox->currentIndex()-1;
+    int channel = m_aircraft->cb_gvMotor1ChannelBox->currentIndex()-1;
     setMixerType(mixerSettings, channel, MixerSettings::MIXER1TYPE_MOTOR);
     setMixerVectorValue(mixerSettings, channel, MixerSettings::MIXER1VECTOR_THROTTLECURVE1, mixerRange);
     setMixerVectorValue(mixerSettings, channel, MixerSettings::MIXER1VECTOR_YAW, mixerRange);
 
     //right motor
-    channel = m_aircraft->gvMotor2ChannelBox->currentIndex()-1;
+    channel = m_aircraft->cb_gvMotor2ChannelBox->currentIndex()-1;
     setMixerType(mixerSettings, channel, MixerSettings::MIXER1TYPE_MOTOR);
     setMixerVectorValue(mixerSettings, channel, MixerSettings::MIXER1VECTOR_THROTTLECURVE2, mixerRange);
     setMixerVectorValue(mixerSettings, channel, MixerSettings::MIXER1VECTOR_YAW, -mixerRange);
@@ -382,10 +382,10 @@ bool ConfigGroundVehicleWidget::setupGroundVehicleCar(SystemSettings::AirframeTy
     GUIConfigDataUnion config = GetConfigData();
     ResetActuators(&config);
 	
-    config.ground.GroundVehicleThrottle1 = m_aircraft->gvMotor1ChannelBox->currentIndex();
-    config.ground.GroundVehicleThrottle2 = m_aircraft->gvMotor2ChannelBox->currentIndex();
-    config.ground.GroundVehicleSteering1 = m_aircraft->gvSteering1ChannelBox->currentIndex();
-    config.ground.GroundVehicleSteering2 = m_aircraft->gvSteering2ChannelBox->currentIndex();
+    config.ground.GroundVehicleThrottle1 = m_aircraft->cb_gvMotor1ChannelBox->currentIndex();
+    config.ground.GroundVehicleThrottle2 = m_aircraft->cb_gvMotor2ChannelBox->currentIndex();
+    config.ground.GroundVehicleSteering1 = m_aircraft->cb_gvSteering1ChannelBox->currentIndex();
+    config.ground.GroundVehicleSteering2 = m_aircraft->cb_gvSteering2ChannelBox->currentIndex();
 
     SetConfigData(config);
 
@@ -393,19 +393,19 @@ bool ConfigGroundVehicleWidget::setupGroundVehicleCar(SystemSettings::AirframeTy
     Q_ASSERT(mixerSettings);
     resetMixers(mixerSettings);
 
-    int channel = m_aircraft->gvSteering1ChannelBox->currentIndex()-1;
+    int channel = m_aircraft->cb_gvSteering1ChannelBox->currentIndex()-1;
     setMixerType(mixerSettings,channel, MixerSettings::MIXER1TYPE_SERVO);
     setMixerVectorValue(mixerSettings, channel, MixerSettings::MIXER1VECTOR_YAW, mixerRange);
 
-    channel = m_aircraft->gvSteering2ChannelBox->currentIndex()-1;
+    channel = m_aircraft->cb_gvSteering2ChannelBox->currentIndex()-1;
     setMixerType(mixerSettings,channel, MixerSettings::MIXER1TYPE_SERVO);
     setMixerVectorValue(mixerSettings, channel, MixerSettings::MIXER1VECTOR_YAW, -mixerRange);
 
-    channel = m_aircraft->gvMotor1ChannelBox->currentIndex()-1;
+    channel = m_aircraft->cb_gvMotor1ChannelBox->currentIndex()-1;
     setMixerType(mixerSettings,channel, MixerSettings::MIXER1TYPE_MOTOR);
     setMixerVectorValue(mixerSettings, channel, MixerSettings::MIXER1VECTOR_THROTTLECURVE1, mixerRange);
 
-    channel = m_aircraft->gvMotor2ChannelBox->currentIndex()-1;
+    channel = m_aircraft->cb_gvMotor2ChannelBox->currentIndex()-1;
     setMixerType(mixerSettings,channel, MixerSettings::MIXER1TYPE_MOTOR);
     setMixerVectorValue(mixerSettings, channel, MixerSettings::MIXER1VECTOR_THROTTLECURVE2, mixerRange);
 
@@ -425,23 +425,23 @@ bool ConfigGroundVehicleWidget::throwConfigError(SystemSettings::AirframeTypeOpt
 
 	
 	//Create a red block. All combo boxes are the same size, so any one should do as a model
-	int size = m_aircraft->gvEngineChannelBox->style()->pixelMetric(QStyle::PM_SmallIconSize);
+	int size = m_aircraft->cb_gvEngineChannelBox->style()->pixelMetric(QStyle::PM_SmallIconSize);
 	QPixmap pixmap(size,size);
 	pixmap.fill(QColor("red"));
 	
     if (airframeType == SystemSettings::AIRFRAMETYPE_GROUNDVEHICLECAR ) { //Car
-		if(m_aircraft->gvMotor1ChannelBox->currentText() == "None" && m_aircraft->gvMotor2ChannelBox->currentText() == "None"){
+		if(m_aircraft->cb_gvMotor1ChannelBox->currentText() == "None" && m_aircraft->cb_gvMotor2ChannelBox->currentText() == "None"){
 			pixmap.fill(QColor("green"));
-			m_aircraft->gvMotor1ChannelBox->setItemData(0, pixmap, Qt::DecorationRole);//Set color palettes 
-			m_aircraft->gvMotor2ChannelBox->setItemData(0, pixmap, Qt::DecorationRole);//Set color palettes 
+			m_aircraft->cb_gvMotor1ChannelBox->setItemData(0, pixmap, Qt::DecorationRole);//Set color palettes
+			m_aircraft->cb_gvMotor2ChannelBox->setItemData(0, pixmap, Qt::DecorationRole);//Set color palettes
 //			m_aircraft->gvMotor1Label->setText("<font color='red'>" + m_aircraft->gvMotor1Label->text() + "</font>");
 //			m_aircraft->gvMotor2Label->setText("<font color='red'>" + m_aircraft->gvMotor2Label->text() + "</font>");
 			error=true;
 
 		}
 		else{
-			m_aircraft->gvMotor1ChannelBox->setItemData(0, 0, Qt::DecorationRole);//Reset color palettes 
-			m_aircraft->gvMotor2ChannelBox->setItemData(0, 0, Qt::DecorationRole);//Reset color palettes 
+			m_aircraft->cb_gvMotor1ChannelBox->setItemData(0, 0, Qt::DecorationRole);//Reset color palettes
+			m_aircraft->cb_gvMotor2ChannelBox->setItemData(0, 0, Qt::DecorationRole);//Reset color palettes
 //			QTextEdit* htmlText=new QTextEdit(m_aircraft->gvMotor1Label->text());  // HtmlText is any QString with html tags.
 //			m_aircraft->gvMotor1Label->setText(htmlText->toPlainText());
 //			delete htmlText;
@@ -450,17 +450,17 @@ bool ConfigGroundVehicleWidget::throwConfigError(SystemSettings::AirframeTypeOpt
 //			m_aircraft->gvMotor2Label->setText(htmlText->toPlainText());
 		}
 		
-		if (m_aircraft->gvSteering1ChannelBox->currentText() == "None" && m_aircraft->gvSteering2ChannelBox->currentText() == "None") {
-			m_aircraft->gvSteering1ChannelBox->setItemData(0, pixmap, Qt::DecorationRole);//Set color palettes 
-			m_aircraft->gvSteering2ChannelBox->setItemData(0, pixmap, Qt::DecorationRole);//Set color palettes 
+		if (m_aircraft->cb_gvSteering1ChannelBox->currentText() == "None" && m_aircraft->cb_gvSteering2ChannelBox->currentText() == "None") {
+			m_aircraft->cb_gvSteering1ChannelBox->setItemData(0, pixmap, Qt::DecorationRole);//Set color palettes
+			m_aircraft->cb_gvSteering2ChannelBox->setItemData(0, pixmap, Qt::DecorationRole);//Set color palettes
 //			m_aircraft->gvStatusLabel->setText("<font color='red'>ERROR: check steering channel assignment</font>");
 //			m_aircraft->gvSteering1Label->setText("<font color='red'>" + m_aircraft->gvSteering1Label->text() + "</font>");
 //			m_aircraft->gvSteering2Label->setText("<font color='red'>" + m_aircraft->gvSteering2Label->text() + "</font>");
 			error=true;
 		}
 		else{
-			m_aircraft->gvSteering1ChannelBox->setItemData(0, 0, Qt::DecorationRole);//Reset color palettes 
-			m_aircraft->gvSteering2ChannelBox->setItemData(0, 0, Qt::DecorationRole);//Reset color palettes 
+			m_aircraft->cb_gvSteering1ChannelBox->setItemData(0, 0, Qt::DecorationRole);//Reset color palettes
+			m_aircraft->cb_gvSteering2ChannelBox->setItemData(0, 0, Qt::DecorationRole);//Reset color palettes
 //			QTextEdit* htmlText=new QTextEdit(m_aircraft->gvSteering1Label->text());  // HtmlText is any QString with html tags.
 //			m_aircraft->gvSteering1Label->setText(htmlText->toPlainText());
 //			delete htmlText;
@@ -470,39 +470,39 @@ bool ConfigGroundVehicleWidget::throwConfigError(SystemSettings::AirframeTypeOpt
 		}
 		
     } else if (airframeType == SystemSettings::AIRFRAMETYPE_GROUNDVEHICLEDIFFERENTIAL){ //Tank
-		if(m_aircraft->gvMotor1ChannelBox->currentText() == "None" || m_aircraft->gvMotor2ChannelBox->currentText() == "None"){
-			m_aircraft->gvMotor1ChannelBox->setItemData(0, pixmap, Qt::DecorationRole);//Set color palettes 
-			m_aircraft->gvMotor2ChannelBox->setItemData(0, pixmap, Qt::DecorationRole);//Set color palettes 			
+		if(m_aircraft->cb_gvMotor1ChannelBox->currentText() == "None" || m_aircraft->cb_gvMotor2ChannelBox->currentText() == "None"){
+			m_aircraft->cb_gvMotor1ChannelBox->setItemData(0, pixmap, Qt::DecorationRole);//Set color palettes
+			m_aircraft->cb_gvMotor2ChannelBox->setItemData(0, pixmap, Qt::DecorationRole);//Set color palettes
 			error=true;
 		}
 		else{
-			m_aircraft->gvMotor1ChannelBox->setItemData(0, 0, Qt::DecorationRole);//Reset color palettes 
-			m_aircraft->gvMotor2ChannelBox->setItemData(0, 0, Qt::DecorationRole);//Reset color palettes 
+			m_aircraft->cb_gvMotor1ChannelBox->setItemData(0, 0, Qt::DecorationRole);//Reset color palettes
+			m_aircraft->cb_gvMotor2ChannelBox->setItemData(0, 0, Qt::DecorationRole);//Reset color palettes
 		}
 		
 		//Always reset
-		m_aircraft->gvSteering1ChannelBox->setItemData(0, 0, Qt::DecorationRole);//Reset color palettes 
-		m_aircraft->gvSteering2ChannelBox->setItemData(0, 0, Qt::DecorationRole);//Reset color palettes 
+		m_aircraft->cb_gvSteering1ChannelBox->setItemData(0, 0, Qt::DecorationRole);//Reset color palettes
+		m_aircraft->cb_gvSteering2ChannelBox->setItemData(0, 0, Qt::DecorationRole);//Reset color palettes
     } else if ( airframeType == SystemSettings::AIRFRAMETYPE_GROUNDVEHICLEMOTORCYCLE){ //Motorcycle
-		if(m_aircraft->gvMotor1ChannelBox->currentText() == "None" && m_aircraft->gvMotor2ChannelBox->currentText() == "None"){
-			m_aircraft->gvMotor2ChannelBox->setItemData(0, pixmap, Qt::DecorationRole);//Set color palettes 			
+		if(m_aircraft->cb_gvMotor1ChannelBox->currentText() == "None" && m_aircraft->cb_gvMotor2ChannelBox->currentText() == "None"){
+			m_aircraft->cb_gvMotor2ChannelBox->setItemData(0, pixmap, Qt::DecorationRole);//Set color palettes
 			error=true;
 		}
 		else{
-			m_aircraft->gvMotor2ChannelBox->setItemData(0, 0, Qt::DecorationRole);//Reset color palettes 
+			m_aircraft->cb_gvMotor2ChannelBox->setItemData(0, 0, Qt::DecorationRole);//Reset color palettes
 		}
 		
-		if (m_aircraft->gvSteering1ChannelBox->currentText() == "None" && m_aircraft->gvSteering2ChannelBox->currentText() == "None") {
-			m_aircraft->gvSteering1ChannelBox->setItemData(0, pixmap, Qt::DecorationRole);//Set color palettes 
+		if (m_aircraft->cb_gvSteering1ChannelBox->currentText() == "None" && m_aircraft->cb_gvSteering2ChannelBox->currentText() == "None") {
+			m_aircraft->cb_gvSteering1ChannelBox->setItemData(0, pixmap, Qt::DecorationRole);//Set color palettes
 			error=true;
 		}
 		else{
-			m_aircraft->gvSteering1ChannelBox->setItemData(0, 0, Qt::DecorationRole);//Reset color palettes 
+			m_aircraft->cb_gvSteering1ChannelBox->setItemData(0, 0, Qt::DecorationRole);//Reset color palettes
 		}
 		
 		//Always reset
-		m_aircraft->gvMotor1ChannelBox->setItemData(0, 0, Qt::DecorationRole);//Reset color palettes 
-		m_aircraft->gvSteering2ChannelBox->setItemData(0, 0, Qt::DecorationRole);//Reset color palettes 
+		m_aircraft->cb_gvMotor1ChannelBox->setItemData(0, 0, Qt::DecorationRole);//Reset color palettes
+		m_aircraft->cb_gvSteering2ChannelBox->setItemData(0, 0, Qt::DecorationRole);//Reset color palettes
 	}
 		
 	if (error){

@@ -57,7 +57,6 @@ private slots:
     void objectUpdated(UAVObject * obj, bool success);
 
 private:
-    QVariant getVariantFromWidget(QWidget * widget, double scale);
     bool setWidgetFromVariant(QWidget *widget, QVariant value, double scale);
 
     /* To activate the appropriate tabs */

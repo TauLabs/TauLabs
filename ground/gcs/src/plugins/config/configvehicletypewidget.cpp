@@ -106,16 +106,20 @@ ConfigVehicleTypeWidget::ConfigVehicleTypeWidget(QWidget *parent) : ConfigTaskWi
     m_aircraft->setupUi(this);
     
     ExtensionSystem::PluginManager *pm=ExtensionSystem::PluginManager::instance();
+    Q_ASSERT(pm);
+    UAVObjectManager *objMngr = pm->getObject<UAVObjectManager>();
+    Q_ASSERT(objMngr);
+
+    // Fetch UAVObject instance
+    systemSettings = SystemSettings::GetInstance(objMngr);
+    Q_ASSERT(systemSettings);
+
+    // If not using export mode, then hide "Apply" button so as not to confuse users.
     Core::Internal::GeneralSettings * settings=pm->getObject<Core::Internal::GeneralSettings>();
     if(!settings->useExpertMode())
         m_aircraft->saveAircraftToRAM->setVisible(false);
 
     addApplySaveButtons(m_aircraft->saveAircraftToRAM,m_aircraft->saveAircraftToSD);
-
-    addUAVObject("SystemSettings");
-    addUAVObject("MixerSettings");
-
-    addUAVObjectToWidgetRelation("MixerSettings","Curve2Source",m_aircraft->customThrottle2Curve->getCBCurveSource());
 
     //Generate lists of mixerTypeNames, mixerVectorNames, channelNames
     channelNames << "None";
@@ -126,6 +130,7 @@ ConfigVehicleTypeWidget::ConfigVehicleTypeWidget(QWidget *parent) : ConfigTaskWi
         channelNames << QString("Channel%1").arg(i+1);
     }
 
+/*
     // Set up vehicle type combobox
     m_aircraft->aircraftType->addItem("Fixed Wing", AIRFRAME_FIXED_WING);
     m_aircraft->aircraftType->addItem("Multirotor", AIRFRAME_MULTIROTOR);
@@ -147,28 +152,8 @@ ConfigVehicleTypeWidget::ConfigVehicleTypeWidget(QWidget *parent) : ConfigTaskWi
     m_aircraft->groundVehicleType->addItem("Differential (tank)", SystemSettings::AIRFRAMETYPE_GROUNDVEHICLEDIFFERENTIAL);
     m_aircraft->groundVehicleType->addItem("Motorcycle", SystemSettings::AIRFRAMETYPE_GROUNDVEHICLEMOTORCYCLE);
     m_aircraft->groundVehicleType->setCurrentIndex(0); //Set default model to "Turnable (car)"
+*/
 
-    // Setup multirotor combobox
-    m_aircraft->multirotorFrameType->addItem("Tricopter Y", SystemSettings::AIRFRAMETYPE_TRI);
-    m_aircraft->multirotorFrameType->addItem("Quad X", SystemSettings::AIRFRAMETYPE_QUADX);
-    m_aircraft->multirotorFrameType->addItem("Quad +", SystemSettings::AIRFRAMETYPE_QUADP);
-    m_aircraft->multirotorFrameType->addItem("Hexacopter", SystemSettings::AIRFRAMETYPE_HEXA);
-    m_aircraft->multirotorFrameType->addItem("Hexacopter X", SystemSettings::AIRFRAMETYPE_HEXAX);
-    m_aircraft->multirotorFrameType->addItem("Hexacopter Y6", SystemSettings::AIRFRAMETYPE_HEXACOAX);
-    m_aircraft->multirotorFrameType->addItem("Octocopter", SystemSettings::AIRFRAMETYPE_OCTO);
-    m_aircraft->multirotorFrameType->addItem("Octocopter V", SystemSettings::AIRFRAMETYPE_OCTOV);
-    m_aircraft->multirotorFrameType->addItem("Octocopter Coax +", SystemSettings::AIRFRAMETYPE_OCTOCOAXP);
-    m_aircraft->multirotorFrameType->addItem("Octocopter Coax X", SystemSettings::AIRFRAMETYPE_OCTOCOAXX);
-    m_aircraft->multirotorFrameType->setCurrentIndex(2); //Set default model to "Quad X"
-
-
-	//NEW STYLE: Loop through the widgets looking for all widgets that have "ChannelBox" in their name
-	//  The upshot of this is that ALL new ComboBox widgets for selecting the output channel must have "ChannelBox" in their name
-	foreach(QComboBox *combobox, this->findChildren<QComboBox*>(QRegExp("\\S+ChannelBo\\S+")))//FOR WHATEVER REASON, THIS DOES NOT WORK WITH ChannelBox. ChannelBo is sufficiently accurate
-	{
-        combobox->addItems(channelNames);
-    }
-	
     // Setup the Multirotor picture in the Quad settings interface
     m_aircraft->quadShape->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     m_aircraft->quadShape->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
@@ -201,7 +186,6 @@ ConfigVehicleTypeWidget::ConfigVehicleTypeWidget(QWidget *parent) : ConfigTaskWi
     m_multirotor = new ConfigMultiRotorWidget(m_aircraft);
     m_multirotor->quad = quad;
     m_multirotor->uiowner = this;
-    m_multirotor->setupUI(SystemSettings::AIRFRAMETYPE_QUADX);
 
     // create and setup a GroundVehicle config widget
     m_groundvehicle = new ConfigGroundVehicleWidget(m_aircraft);
@@ -215,17 +199,31 @@ ConfigVehicleTypeWidget::ConfigVehicleTypeWidget(QWidget *parent) : ConfigTaskWi
     m_heli = m_aircraft->helicopterLayout;
     m_heli->setupUI(SystemSettings::AIRFRAMETYPE_HELICP);
 
-	//Connect aircraft type selection dropbox to callback function
-    connect(m_aircraft->aircraftType, SIGNAL(currentIndexChanged(int)), this, SLOT(switchAirframeType(int)));
-	
-	//Connect airframe selection dropbox to callback functions
-    connect(m_aircraft->fixedWingType, SIGNAL(currentIndexChanged(int)), this, SLOT(doSetupAirframeUI(int)));
-    connect(m_aircraft->multirotorFrameType, SIGNAL(currentIndexChanged(int)), this, SLOT(doSetupAirframeUI(int)));
-    connect(m_aircraft->groundVehicleType, SIGNAL(currentIndexChanged(int)), this, SLOT(doSetupAirframeUI(int)));
-    //mdl connect(m_heli->m_ccpm->ccpmType, SIGNAL(currentIndexChanged(QString)), this, SLOT(setupAirframeUI(QString)));
+    // Setup MixerSettings to Curve2Source widget
+    addUAVObjectToWidgetRelation("MixerSettings","Curve2Source",m_aircraft->customThrottle2Curve->getCBCurveSource());
 
-    //Connect the multirotor motor reverse checkbox
-    connect(m_aircraft->MultirotorRevMixercheckBox, SIGNAL(clicked(bool)), this, SLOT(reverseMultirotorMotor()));
+    // Setup multirotor widgets
+    // XXX: Upgrade UAVObject generator to generate the strings, for example with multirotorAirframeSettings->getMotorChannelName();
+    // This will ensure compile-time failure.
+    MultirotorAirframeSettings *multirotorAirframeSettings = MultirotorAirframeSettings::GetInstance(objMngr);
+    addUAVObjectToWidgetRelation(multirotorAirframeSettings->getName(), "MultirotorType", m_aircraft->cb_multirotorFrameType);
+    addUAVObjectToWidgetRelation(multirotorAirframeSettings->getName(), "FirstMotorSense", m_aircraft->cb_multirotorReverseMixer);
+    addUAVObjectToWidgetRelation(multirotorAirframeSettings->getName(), "MotorChannel", m_aircraft->cb_triYawChannelBox, "TricopterYaw");
+    addUAVObjectToWidgetRelation(multirotorAirframeSettings->getName(), "MotorChannel", m_aircraft->cb_multiMotorChannelBox1, 0);
+    addUAVObjectToWidgetRelation(multirotorAirframeSettings->getName(), "MotorChannel", m_aircraft->cb_multiMotorChannelBox2, 1);
+    addUAVObjectToWidgetRelation(multirotorAirframeSettings->getName(), "MotorChannel", m_aircraft->cb_multiMotorChannelBox3, 2);
+    addUAVObjectToWidgetRelation(multirotorAirframeSettings->getName(), "MotorChannel", m_aircraft->cb_multiMotorChannelBox4, 3);
+    addUAVObjectToWidgetRelation(multirotorAirframeSettings->getName(), "MotorChannel", m_aircraft->cb_multiMotorChannelBox5, 4);
+    addUAVObjectToWidgetRelation(multirotorAirframeSettings->getName(), "MotorChannel", m_aircraft->cb_multiMotorChannelBox6, 5);
+    addUAVObjectToWidgetRelation(multirotorAirframeSettings->getName(), "MotorChannel", m_aircraft->cb_multiMotorChannelBox7, 6);
+    addUAVObjectToWidgetRelation(multirotorAirframeSettings->getName(), "MotorChannel", m_aircraft->cb_multiMotorChannelBox8, 7);
+    addUAVObjectToWidgetRelation(multirotorAirframeSettings->getName(), "MixerLevel", m_aircraft->sl_mrRollMixLevel,  0);
+    addUAVObjectToWidgetRelation(multirotorAirframeSettings->getName(), "MixerLevel", m_aircraft->sl_mrPitchMixLevel, 1);
+    addUAVObjectToWidgetRelation(multirotorAirframeSettings->getName(), "MixerLevel", m_aircraft->sl_mrYawMixLevel,   2);
+
+    // Set the true/false property strings
+    m_aircraft->cb_multirotorReverseMixer->setProperty(QString("FalseString").toLatin1(), "Clockwise");
+    m_aircraft->cb_multirotorReverseMixer->setProperty(QString("TrueString").toLatin1(), "Counterclockwise");
 
     // Connect actuator and level bias buttons to slots
     connect(m_aircraft->bnLevelTrim, SIGNAL(clicked()), this, SLOT(bnLevelTrim_clicked()));
@@ -299,9 +297,7 @@ QStringList ConfigVehicleTypeWidget::getChannelDescriptions()
         case SystemSettings::AIRFRAMETYPE_HEXAX:
         case SystemSettings::AIRFRAMETYPE_HEXACOAX:
         case SystemSettings::AIRFRAMETYPE_HEXA:
-        {
-            channelDesc = ConfigMultiRotorWidget::getChannelDescriptions();
-        }
+        // Do nothing
         break;
 
         // ground
@@ -332,6 +328,7 @@ QStringList ConfigVehicleTypeWidget::getChannelDescriptions()
   */
 void ConfigVehicleTypeWidget::switchAirframeType(int index)
 {
+/*
     m_aircraft->airframesWidget->setCurrentIndex(index);
     m_aircraft->quadShape->setSceneRect(quad->boundingRect());
     m_aircraft->quadShape->fitInView(quad, Qt::KeepAspectRatio);
@@ -351,11 +348,13 @@ void ConfigVehicleTypeWidget::switchAirframeType(int index)
         m_aircraft->bnServoTrim->setEnabled(false);
         break;
     }
+*/
 }
 
 
 /**
- WHAT DOES THIS DO???
+ * @brief ConfigVehicleTypeWidget::showEvent Reimplement QWidget::showEvent.
+ * @param event
  */
 void ConfigVehicleTypeWidget::showEvent(QShowEvent *event)
 {
@@ -391,10 +390,10 @@ void ConfigVehicleTypeWidget::resizeEvent(QResizeEvent* event)
 void ConfigVehicleTypeWidget::toggleAileron2(int index)
 {
     if (index) {
-        m_aircraft->fwAileron2ChannelBox->setEnabled(true);
+        m_aircraft->cb_fwAileron2ChannelBox->setEnabled(true);
         m_aircraft->fwAileron2Label->setEnabled(true);
     } else {
-        m_aircraft->fwAileron2ChannelBox->setEnabled(false);
+        m_aircraft->cb_fwAileron2ChannelBox->setEnabled(false);
         m_aircraft->fwAileron2Label->setEnabled(false);
     }
 }
@@ -402,10 +401,10 @@ void ConfigVehicleTypeWidget::toggleAileron2(int index)
 void ConfigVehicleTypeWidget::toggleElevator2(int index)
 {
     if (index) {
-        m_aircraft->fwElevator2ChannelBox->setEnabled(true);
+        m_aircraft->cb_fwElevator2ChannelBox->setEnabled(true);
         m_aircraft->fwElevator2Label->setEnabled(true);
     } else {
-        m_aircraft->fwElevator2ChannelBox->setEnabled(false);
+        m_aircraft->cb_fwElevator2ChannelBox->setEnabled(false);
         m_aircraft->fwElevator2Label->setEnabled(false);
     }
 }
@@ -413,10 +412,10 @@ void ConfigVehicleTypeWidget::toggleElevator2(int index)
 void ConfigVehicleTypeWidget::toggleRudder2(int index)
 {
     if (index) {
-        m_aircraft->fwRudder2ChannelBox->setEnabled(true);
+        m_aircraft->cb_fwRudder2ChannelBox->setEnabled(true);
         m_aircraft->fwRudder2Label->setEnabled(true);
     } else {
-        m_aircraft->fwRudder2ChannelBox->setEnabled(false);
+        m_aircraft->cb_fwRudder2ChannelBox->setEnabled(false);
         m_aircraft->fwRudder2Label->setEnabled(false);
     }
 }
@@ -497,12 +496,11 @@ void ConfigVehicleTypeWidget::refreshWidgetsValues(UAVObject * obj)
     case SystemSettings::AIRFRAMETYPE_OCTOV:
     case SystemSettings::AIRFRAMETYPE_OCTOCOAXP:
     case SystemSettings::AIRFRAMETYPE_OCTOCOAXX:
-        // Retrieve multirotor settings
-        m_multirotor->refreshAirframeWidgetsValues(frameType);
+        // Do nothing
         break;
     case SystemSettings::AIRFRAMETYPE_HELICP:
         // Retrieve helicopter settings
-        setComboCurrentIndex(m_aircraft->aircraftType, m_aircraft->aircraftType->findText("Helicopter"));
+//        setComboCurrentIndex(m_aircraft->aircraftType, m_aircraft->aircraftType->findText("Helicopter"));
         m_heli->refreshAirframeWidgetsValues(frameType);
         break;
     case SystemSettings::AIRFRAMETYPE_GROUNDVEHICLECAR:
@@ -513,7 +511,7 @@ void ConfigVehicleTypeWidget::refreshWidgetsValues(UAVObject * obj)
         break;
     default:
         // Retrieve custom settings
-        setComboCurrentIndex(m_aircraft->aircraftType, m_aircraft->aircraftType->findText("Custom"));
+//        setComboCurrentIndex(m_aircraft->aircraftType, m_aircraft->aircraftType->findText("Custom"));
         break;
     }
 
@@ -529,6 +527,7 @@ void ConfigVehicleTypeWidget::refreshWidgetsValues(UAVObject * obj)
  */
 void ConfigVehicleTypeWidget::doSetupAirframeUI(int comboboxIndex)
 {
+/*
     // Check which tab page is currently selected, and get the item data from the appropriate combobox
     if (m_aircraft->aircraftType->currentText() == "Multirotor"){
         frameType = (SystemSettings::AirframeTypeOptions) m_aircraft->multirotorFrameType->itemData(comboboxIndex).toUInt();
@@ -548,6 +547,7 @@ void ConfigVehicleTypeWidget::doSetupAirframeUI(int comboboxIndex)
 
     // Setup the
     setupAirframeUI(frameType);
+*/
 }
 
 
@@ -576,8 +576,7 @@ void ConfigVehicleTypeWidget::setupAirframeUI(SystemSettings::AirframeTypeOption
     case SystemSettings::AIRFRAMETYPE_OCTOV:
     case SystemSettings::AIRFRAMETYPE_OCTOCOAXP:
     case SystemSettings::AIRFRAMETYPE_OCTOCOAXX:
-        //Call multi-rotor setup UI
-        m_multirotor->setupUI(frameType);
+        // Do nothing
         break;
     case SystemSettings::AIRFRAMETYPE_HELICP:
         //Call helicopter setup UI
@@ -695,21 +694,21 @@ void ConfigVehicleTypeWidget::updateObjectsFromWidgets()
 
     QPointer<VehicleConfig> vconfig = new VehicleConfig();
 
-    frameType = SystemSettings::AIRFRAMETYPE_CUSTOM; //Set airframe type default to "Custom"
+    // Get current tab page
+    QWidget *currentWidget = m_aircraft->tw_platformChooser->currentWidget();
 
-    if (m_aircraft->aircraftType->currentText() == "Fixed Wing") {
+    if (currentWidget == m_aircraft->tab_multirotor) {
+        m_multirotor->updateConfigObjectsFromWidgets();
+    } else if (currentWidget == m_aircraft->tab_fixedWing) {
         frameType = m_fixedwing->updateConfigObjectsFromWidgets();
-    }
-    else if (m_aircraft->aircraftType->currentText() == "Multirotor") {
-         frameType = m_multirotor->updateConfigObjectsFromWidgets();
-    }
-    else if (m_aircraft->aircraftType->currentText() == "Helicopter") {
-         frameType = m_heli->updateConfigObjectsFromWidgets();
-    }
-    else if (m_aircraft->aircraftType->currentText() == "Ground") {
-         frameType = m_groundvehicle->updateConfigObjectsFromWidgets();
-    }
-    else {
+//        m_fixedwing->updateConfigObjectsFromWidgets();
+    } else if (currentWidget == m_aircraft->tab_helicopter) {
+        frameType = m_heli->updateConfigObjectsFromWidgets();
+//        m_heli->updateConfigObjectsFromWidgets();
+    } else if (currentWidget == m_aircraft->tab_groundVehicle) {
+        frameType = m_groundvehicle->updateConfigObjectsFromWidgets();
+//        m_groundvehicle->updateConfigObjectsFromWidgets();
+    } else if (currentWidget == m_aircraft->tab_custom) {
         vconfig->setThrottleCurve(mixerSettings, MixerSettings::MIXER1VECTOR_THROTTLECURVE1, m_aircraft->customThrottle1Curve->getCurve());
         vconfig->setThrottleCurve(mixerSettings, MixerSettings::MIXER1VECTOR_THROTTLECURVE2, m_aircraft->customThrottle2Curve->getCurve());
 
@@ -752,6 +751,9 @@ void ConfigVehicleTypeWidget::updateObjectsFromWidgets()
             vconfig->setMixerVectorValue(mixerSettings,channel,MixerSettings::MIXER1VECTOR_YAW,
                                             m_aircraft->customMixerTable->item(5,channel)->text().toDouble());
         }
+    } else {
+        // Should never get here. Will only happen if a new tab is created but not added to the list.
+        Q_ASSERT(0);
     }
 
     // set the airframe type
@@ -784,10 +786,6 @@ void ConfigVehicleTypeWidget::setComboCurrentIndex(QComboBox* box, int index)
 {
     if (index >= 0 && index < box->count())
         box->setCurrentIndex(index);
-}
-
-void ConfigVehicleTypeWidget::reverseMultirotorMotor(){
-    m_multirotor->drawAirframe(frameType);
 }
 
 
@@ -915,31 +913,17 @@ void ConfigVehicleTypeWidget::addToDirtyMonitor()
     addWidget(m_aircraft->customThrottle2Curve->getCurveWidget());
     addWidget(m_aircraft->multiThrottleCurve->getCurveWidget());
     addWidget(m_aircraft->fixedWingThrottle->getCurveWidget());
-    addWidget(m_aircraft->fixedWingType);
+    addWidget(m_aircraft->cb_fixedWingType);
     addWidget(m_aircraft->groundVehicleThrottle1->getCurveWidget());
     addWidget(m_aircraft->groundVehicleThrottle2->getCurveWidget());
-    addWidget(m_aircraft->groundVehicleType);
-    addWidget(m_aircraft->multirotorFrameType);
-    addWidget(m_aircraft->multiMotorChannelBox1);
-    addWidget(m_aircraft->multiMotorChannelBox2);
-    addWidget(m_aircraft->multiMotorChannelBox3);
-    addWidget(m_aircraft->multiMotorChannelBox4);
-    addWidget(m_aircraft->multiMotorChannelBox5);
-    addWidget(m_aircraft->multiMotorChannelBox6);
-    addWidget(m_aircraft->multiMotorChannelBox7);
-    addWidget(m_aircraft->multiMotorChannelBox8);
-    addWidget(m_aircraft->mrPitchMixLevel);
-    addWidget(m_aircraft->mrRollMixLevel);
-    addWidget(m_aircraft->mrYawMixLevel);
-    addWidget(m_aircraft->triYawChannelBox);
-    addWidget(m_aircraft->aircraftType);
-    addWidget(m_aircraft->fwEngineChannelBox);
-    addWidget(m_aircraft->fwAileron1ChannelBox);
-    addWidget(m_aircraft->fwAileron2ChannelBox);
-    addWidget(m_aircraft->fwElevator1ChannelBox);
-    addWidget(m_aircraft->fwElevator2ChannelBox);
-    addWidget(m_aircraft->fwRudder1ChannelBox);
-    addWidget(m_aircraft->fwRudder2ChannelBox);
+    addWidget(m_aircraft->cb_groundVehicleType);
+    addWidget(m_aircraft->cb_fwEngineChannelBox);
+    addWidget(m_aircraft->cb_fwAileron1ChannelBox);
+    addWidget(m_aircraft->cb_fwAileron2ChannelBox);
+    addWidget(m_aircraft->cb_fwElevator1ChannelBox);
+    addWidget(m_aircraft->cb_fwElevator2ChannelBox);
+    addWidget(m_aircraft->cb_fwRudder1ChannelBox);
+    addWidget(m_aircraft->cb_fwRudder2ChannelBox);
     addWidget(m_aircraft->elevonSlider1);
     addWidget(m_aircraft->elevonSlider2);
     addWidget(m_heli->m_ccpm->ccpmType);

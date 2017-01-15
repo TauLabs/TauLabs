@@ -31,6 +31,8 @@
 #include "../uavobjectwidgetutils/configtaskwidget.h"
 #include "cfg_vehicletypes/vehicleconfig.h"
 
+#include "multirotorairframesettings.h"
+
 #include "extensionsystem/pluginmanager.h"
 #include "uavobjectmanager.h"
 #include "uavobject.h"
@@ -57,27 +59,29 @@ private:
     QWidget *uiowner;
     QGraphicsSvgItem *quad;
 
-    bool setupQuad(bool pLayout);
-    bool setupHexa(bool pLayout);
+    MultirotorAirframeSettings *multirotorAirframeSettings;
+    MultirotorAirframeSettings::MultirotorTypeOptions multirotorSelector;
+
+    bool setupTri();
+    bool setupQuad();
+    bool setupHexa();
     bool setupOcto();
     bool setupMultiRotorMixer(double mixerFactors[8][3]);
-    void setupMotors(QList<QString> motorList);
-    void setupQuadMotor(int channel, double roll, double pitch, double yaw);
+    void assignOutputNames(QStringList motorList);
+    void setupMultirotorMotor(int channel, double roll, double pitch, double yaw);
+    bool throwConfigError();
 
-    float invertMotors;
+    float motorDirectionCoefficient;
 
-    virtual void ResetActuators(GUIConfigDataUnion* configData);
-    static QStringList getChannelDescriptions();
+    uint8_t numMotors;
     static const QString CHANNELBOXNAME;
-    void setYawMixLevel(int);
-
-    void drawAirframe(SystemSettings::AirframeTypeOptions multiRotorType);
+    static const uint8_t MAX_SUPPORTED_MULTIROTOR;
 
 private slots:
-    virtual void setupUI(SystemSettings::AirframeTypeOptions airframeType);
-    void refreshAirframeWidgetsValues(SystemSettings::AirframeTypeOptions frameType);
-    virtual SystemSettings::AirframeTypeOptions updateConfigObjectsFromWidgets();
-    virtual bool throwConfigError(int numMotors);
+    void setupUI();
+    void updateConfigObjectsFromWidgets();
+    void drawAirframe();
+    void updateOutputLabels();
 
 protected:
 

@@ -152,16 +152,16 @@ void MultiPage::updateImageAndDescription()
         elementId = "quad-plus";
         break;
     case SetupWizard::MULTI_ROTOR_HEXA:
-        elementId = "quad-hexa";
+        elementId = "hexa";
         break;
     case SetupWizard::MULTI_ROTOR_HEXA_COAX_Y:
         elementId = "hexa-coax";
         break;
     case SetupWizard::MULTI_ROTOR_HEXA_H:
-        elementId = "quad-hexa-H";
+        elementId = "hexa-H";
         break;
     case SetupWizard::MULTI_ROTOR_OCTO:
-        elementId = "quad-octo";
+        elementId = "octo";
         break;
     case SetupWizard::MULTI_ROTOR_OCTO_COAX_X:
         elementId = "octo-coax-X";
@@ -170,7 +170,7 @@ void MultiPage::updateImageAndDescription()
         elementId = "octo-coax-P";
         break;
     case SetupWizard::MULTI_ROTOR_OCTO_V:
-        elementId = "quad-octo-v";
+        elementId = "octo-v";
         break;
     default:
         elementId = "";

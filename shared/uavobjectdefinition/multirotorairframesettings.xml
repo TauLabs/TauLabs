@@ -1,0 +1,44 @@
+<xml>
+	<object name="MultirotorAirframeSettings" singleinstance="true" settings="true" category="Platform">
+		<description>Select airframe type.  Currently used by @ref ActuatorModule to choose mixing from @ref ActuatorDesired to @ref ActuatorCommand</description>
+		
+		<field name="MultirotorType" units="" type="enum" elements="1" options="Tri,QuadP,QuadX,HexaP,HexaX,HexaCoax,Octo,OctoV,OctoCoaxP,OctoCoaxX" defaultvalue="QuadX"/>
+		
+		<field name="MotorChannel" units="" type="enum" defaultvalue="None">
+			<elementnames>
+				<elementname>0</elementname>
+				<elementname>1</elementname>
+				<elementname>2</elementname>
+				<elementname>3</elementname>
+				<elementname>4</elementname>
+				<elementname>5</elementname>
+				<elementname>6</elementname>
+				<elementname>7</elementname>
+				<elementname>TricopterYaw</elementname>
+			</elementnames>
+			<options>
+				<option>None</option>
+				<option>Channel1</option>
+				<option>Channel2</option>
+				<option>Channel3</option>
+				<option>Channel4</option>
+				<option>Channel5</option>
+				<option>Channel6</option>
+				<option>Channel7</option>
+				<option>Channel8</option>
+				<option>Channel9</option>
+				<option>Channel10</option>
+			</options>
+
+		</field>
+
+		<field name="FirstMotorSense" units="" type="enum" elements="1" options="Clockwise,Counterclockwise" defaultvalue="Clockwise"/>
+		
+		<field name="MixerLevel" units="%" type="uint8" elementnames="Roll,Pitch,Yaw" defaultvalue="50"/>
+
+		<access gcs="readwrite" flight="readwrite"/>
+		<telemetrygcs acked="true" updatemode="onchange" period="0"/>
+		<telemetryflight acked="true" updatemode="onchange" period="0"/>
+		<logging updatemode="manual" period="0"/>
+	</object>
+</xml>

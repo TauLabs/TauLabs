@@ -151,6 +151,8 @@ public:
 
     virtual void tabSwitchingAway() {}
 
+    static QMap<int, QString> outputChannelDescription;
+
 public slots:
     void onAutopilotDisconnect();
     void onAutopilotConnect();

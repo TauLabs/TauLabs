@@ -37,6 +37,8 @@
 #include <QLineEdit>
 #include "uavsettingsimportexport/uavsettingsimportexportfactory.h"
 
+QMap<int, QString> ConfigTaskWidget::outputChannelDescription;
+
 /**
  * Constructor
  */
@@ -64,13 +66,19 @@ void ConfigTaskWidget::addWidget(QWidget * widget)
 }
 /**
  * Add an object to the management system
- * @param objectName name of the object to add to the management system
+ * @param objectName name of the UAVObject to add to the management system
+ * TODO: Better document what the "Management system" does.
  */
 void ConfigTaskWidget::addUAVObject(QString objectName,QList<int> * reloadGroups)
 {
     addUAVObjectToWidgetRelation(objectName,"",NULL,0,1,false,reloadGroups);
 }
 
+/**
+ * @brief ConfigTaskWidget::addUAVObject Add an object to the management system
+ * @param objectName UAVObject to add to the management system
+ * @param reloadGroups
+ */
 void ConfigTaskWidget::addUAVObject(UAVObject *objectName, QList<int> *reloadGroups)
 {
     QString objstr;
@@ -155,7 +163,7 @@ void ConfigTaskWidget::addUAVObjectToWidgetRelation(UAVObject * obj,UAVObjectFie
 }
 
 /**
- * Set a UAVObject as not mandatory, meaning that if it doesn't exist on the 
+ * Set a UAVObject as not mandatory, meaning that if it doesn't exist on the
  * hardware a failed upload or save will be marked as successfull
  */
 void ConfigTaskWidget::setNotMandatory(QString object)
@@ -1168,13 +1176,37 @@ QVariant ConfigTaskWidget::getVariantFromWidget(QWidget * widget,double scale)
     {
         return(double)(slider->value()* scale);
     }
-    else if(QGroupBox * groupBox=qobject_cast<QGroupBox *>(widget))
-    {
-        return (QString)(groupBox->isChecked() ? "TRUE":"FALSE");
-    }
-    else if(QCheckBox * checkBox=qobject_cast<QCheckBox *>(widget))
-    {
-        return (QString)(checkBox->isChecked() ? "TRUE":"FALSE");
+    else if(QGroupBox * groupBox=qobject_cast<QGroupBox *>(widget)) {
+        QString ret;
+        if (groupBox->property("TrueString").isValid() && groupBox->property("FalseString").isValid()) {
+            if(groupBox->isChecked())
+                ret = groupBox->property("TrueString").toString();
+            else
+                ret = groupBox->property("FalseString").toString();
+        } else {
+            if(groupBox->isChecked())
+                ret = "TRUE";
+            else
+                ret = "FALSE";
+        }
+
+        return ret;
+    } else if(QCheckBox * checkBox=qobject_cast<QCheckBox *>(widget)) {
+        QString ret;
+        if (checkBox->property("TrueString").isValid() && checkBox->property("FalseString").isValid()) {
+            if (checkBox->isChecked())
+                ret = checkBox->property("TrueString").toString();
+            else
+                ret = checkBox->property("FalseString").toString();
+        }
+        else {
+            if(checkBox->isChecked())
+                ret = "TRUE";
+            else
+                ret = "FALSE";
+        }
+
+        return ret;
     }
     else if(QLineEdit * lineEdit=qobject_cast<QLineEdit *>(widget))
     {
@@ -1220,15 +1252,24 @@ bool ConfigTaskWidget::setWidgetFromVariant(QWidget *widget, QVariant value, dou
         slider->setValue((int)qRound(value.toDouble()/scale));
         return true;
     }
-    else if(QGroupBox * groupBox=qobject_cast<QGroupBox *>(widget))
-    {
-        bool bvalue=value.toString()=="TRUE";
+    else if(QGroupBox * groupBox=qobject_cast<QGroupBox *>(widget)) {
+        bool bvalue;
+        if (groupBox->property("TrueString").isValid() && groupBox->property("FalseString").isValid()) {
+            bvalue = value.toString()==groupBox->property("TrueString").toString();
+        }
+        else{
+            bvalue = value.toString()=="TRUE";
+        }
         groupBox->setChecked(bvalue);
         return true;
-    }
-    else if(QCheckBox * checkBox=qobject_cast<QCheckBox *>(widget))
-    {
-        bool bvalue=value.toString()=="TRUE";
+    } else if(QCheckBox * checkBox=qobject_cast<QCheckBox *>(widget)) {
+        bool bvalue;
+        if (checkBox->property("TrueString").isValid() && checkBox->property("FalseString").isValid()) {
+            bvalue = value.toString()==checkBox->property("TrueString").toString();
+        }
+        else {
+            bvalue = value.toString()=="TRUE";
+        }
         checkBox->setChecked(bvalue);
         return true;
     }
@@ -1339,7 +1380,7 @@ void ConfigTaskWidget::checkWidgetsLimits(QWidget * widget,UAVObjectField * fiel
 }
 
 void ConfigTaskWidget::loadWidgetLimits(QWidget * widget,UAVObjectField * field,int index,bool hasLimits,double scale)
-{   
+{
     if(!widget || !field)
         return;
     if(QComboBox * cb=qobject_cast<QComboBox *>(widget))

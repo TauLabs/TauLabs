@@ -32,19 +32,25 @@
 #include "openpilot.h"
 #include "systemmod.h"
 #include "sanitycheck.h"
-#include "objectpersistence.h"
-#include "flightstatus.h"
-#include "manualcontrolsettings.h"
-#include "rfm22bstatus.h"
-#include "stabilizationsettings.h"
-#include "stateestimation.h"
-#include "systemstats.h"
-#include "systemsettings.h"
-#include "taskinfo.h"
-#include "watchdogstatus.h"
 #include "taskmonitor.h"
 #include "pios_thread.h"
 #include "pios_queue.h"
+
+#include "fixedwingairframesettings.h"
+#include "flightstatus.h"
+#include "groundvehicleplatformsettings.h"
+#include "helicopterairframesettings.h"
+#include "multirotorairframesettings.h"
+#include "manualcontrolsettings.h"
+#include "objectpersistence.h"
+#include "rfm22bstatus.h"
+#include "stabilizationsettings.h"
+#include "stateestimation.h"
+#include "systemsettings.h"
+#include "systemstats.h"
+#include "taskinfo.h"
+#include "watchdogstatus.h"
+
 
 //#define DEBUG_THIS_FILE
 
@@ -124,6 +130,29 @@ int32_t SystemModInitialize(void)
 	SystemStatsInitialize();
 	FlightStatusInitialize();
 	ObjectPersistenceInitialize();
+
+	uint8_t platformType;
+	SystemSettingsPlatformTypeGet(&platformType);
+
+	switch (platformType){
+	case SYSTEMSETTINGS_PLATFORMTYPE_MULTIROTOR:
+		MultirotorAirframeSettingsInitialize();
+		break;
+	case SYSTEMSETTINGS_PLATFORMTYPE_FIXEDWING:
+		FixedWingAirframeSettingsInitialize();
+		break;
+	case SYSTEMSETTINGS_PLATFORMTYPE_HELICOPTER:
+		HelicopterAirframeSettingsInitialize();
+		break;
+	case SYSTEMSETTINGS_PLATFORMTYPE_GROUNDVEHICLE:
+		GroundVehiclePlatformSettingsInitialize();
+		break;
+	case SYSTEMSETTINGS_PLATFORMTYPE_CUSTOM:
+		break;
+	}
+
+
+
 #if defined(DIAG_TASKS)
 	TaskInfoInitialize();
 #endif

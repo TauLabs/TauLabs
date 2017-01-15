@@ -1,0 +1,30 @@
+<xml>
+	<object name="GroundVehiclePlatformSettings" singleinstance="true" settings="true" category="Platform">
+		<description>Select airframe type.  Currently used by @ref ActuatorModule to choose mixing from @ref ActuatorDesired to @ref ActuatorCommand</description>
+		<field name="GroundVehicleType" units="" type="enum" elements="1" options="Car,Differential,Motorcycle" defaultvalue="Car"/>
+		
+		
+		<field name="ThrottleChannel" units="" type="enum" elements="2" defaultvalue="None">
+			<options>
+				<option>None</option>
+				<option>Channel1</option>
+				<option>Channel2</option>
+				<option>Channel3</option>
+				<option>Channel4</option>
+				<option>Channel5</option>
+				<option>Channel6</option>
+				<option>Channel7</option>
+				<option>Channel8</option>
+				<option>Channel9</option>
+				<option>Channel10</option>
+			</options>
+		</field>
+		
+		<field name="SteeringChannel" cloneof="ThrottleChannel"/>
+
+		<access gcs="readwrite" flight="readwrite"/>
+		<telemetrygcs acked="true" updatemode="onchange" period="0"/>
+		<telemetryflight acked="true" updatemode="onchange" period="0"/>
+		<logging updatemode="manual" period="0"/>
+	</object>
+</xml>

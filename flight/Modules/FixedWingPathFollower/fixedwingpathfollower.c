@@ -188,10 +188,7 @@ static void pathfollowerTask(void *parameters)
 		//    FlightMode is PathPlanner and PathDesired.Mode is Endpoint or Path
 
 		SystemSettingsGet(&systemSettings);
-		if ( (systemSettings.AirframeType != SYSTEMSETTINGS_AIRFRAMETYPE_FIXEDWING) &&
-			(systemSettings.AirframeType != SYSTEMSETTINGS_AIRFRAMETYPE_FIXEDWINGELEVON) &&
-			(systemSettings.AirframeType != SYSTEMSETTINGS_AIRFRAMETYPE_FIXEDWINGVTAIL) )
-		{
+		if (systemSettings.PlatformType != SYSTEMSETTINGS_PLATFORMTYPE_FIXEDWING) {
 			AlarmsSet(SYSTEMALARMS_ALARM_PATHFOLLOWER,SYSTEMALARMS_ALARM_CRITICAL);
 			PIOS_Thread_Sleep(1000);
 			continue;
