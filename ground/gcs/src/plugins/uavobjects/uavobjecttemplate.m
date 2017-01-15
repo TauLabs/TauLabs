@@ -30,6 +30,7 @@ str4=[];
 str5=[];
 multipleInstanceLookup = zeros(0,2);
 overo = false;
+onboardLogger = true;
 
 fprintf('\n\n***Tau Labs log parser***\n\n');
 global crc_table;
@@ -99,8 +100,9 @@ buffer=fread(fid,Inf,'uchar=>uchar');
 
 bufferIdx=1;
 
-correctMsgByte=hex2dec('20');
 correctSyncByte=hex2dec('3C');
+correctMsgByte=hex2dec('20');
+timestampedMsgByte=hex2dec('80');
 unknownObjIDList=zeros(1,2);
 
 % Parse log file, entry by entry
@@ -121,13 +123,17 @@ end
 timestampAccumulator = 0;
 lastTimestamp = 0;
 
-while bufferIdx < (length(buffer) - 20)
+buffer_len = length(buffer);
+
+while bufferIdx < (buffer_len - 20)
 	%% Read message header
 	% get sync field (0x3C, 1 byte)
-	if ~overo
-		sync = buffer(bufferIdx+12);
-	else
+	if onboardLogger
 		sync = buffer(bufferIdx);
+	elseif overo
+		sync = buffer(bufferIdx);
+	else
+		sync = buffer(bufferIdx+12);
 	end
 	
 	if sync ~= correctSyncByte
@@ -138,7 +144,54 @@ while bufferIdx < (length(buffer) - 20)
 		continue
 	end
 	
-	if ~overo
+	if overo
+		% For Overo logging the format is
+		% UAVTalk packet (with timestamped packet)
+		%     Sync val (0x3c)
+		%     Message type (1 byte, adds 0x80)
+		%     Length (2 bytes)
+		%     Object ID (4 bytes)
+		%     Instance ID (optional, 2 bytes)
+		%     Timestamp (2 bytes)
+		%     Data (variable length)
+		%     Checksum (1 byte)
+		
+		% Process header for overo
+		datasizeBufferIdx = bufferIdx + 2;
+		msgType = buffer(bufferIdx+1) - 128;
+		objID = typecast(buffer(bufferIdx+4:bufferIdx+ 4+4-1), 'uint32');
+		
+		singleInstance = multipleInstanceLookup(multipleInstanceLookup(:,1) == objID, 2);
+		if singleInstance
+			timestamp = double(typecast(buffer(bufferIdx+8:bufferIdx+10-1),'uint16'));
+		else
+			timestamp = double(typecast(buffer(bufferIdx+12:bufferIdx+14-1),'uint16'));
+		end
+		
+		% Advance buffer past header to where data is.  In the case of a
+		% multiple instance object this will be where the timstamp is but
+		% the parsing code will advance by two more.
+		bufferIdx = bufferIdx + 10;
+	elseif onboardLogger
+		% For onboard logging the format is as follows
+		% UAVTalk packet (always without timestamped packets)
+		%     Sync val (0x3c)
+		%     Message type (1 byte)
+		%     Length (2 bytes)
+		%     Object ID (4 bytes)
+		%     Instance ID (optional, 2 bytes)
+		%     Timestamp (optional, 2 bytes)
+		%     Data (variable length)
+		%     Checksum (1 byte)
+		
+		% Process header, if we are aligned
+		datasizeBufferIdx = bufferIdx; %Just grab the index. We'll do a typecast later, if necessary
+		msgType = buffer(bufferIdx+1); % get msg type (quint8 1 byte ) should be 0x20, ignore the rest?
+		objID = typecast(buffer(bufferIdx+4:bufferIdx + 4+4-1), 'uint32'); % get obj id (quint32 4 bytes)
+		
+		% Advance buffer past header to where data is (or instance ID)
+		bufferIdx=bufferIdx + 8;
+	else
 		% For GCS logging the format is as follows
 		% 4 bytes timestamp (milliseconds)
 		% 8 bytes data size
@@ -150,59 +203,38 @@ while bufferIdx < (length(buffer) - 20)
 		%     Instance ID (optional, 2 bytes)
 		%     Data (variable length)
 		%     Checksum (1 byte)
-	
-		% Process header, if we are aligned        
+		
+		% Process header, if we are aligned
 		datasizeBufferIdx = bufferIdx; %Just grab the index. We'll do a typecast later, if necessary
-		datasizeLength = 4;
 		msgType = buffer(bufferIdx+13); % get msg type (quint8 1 byte ) should be 0x20, ignore the rest?
 		objID = typecast(buffer(bufferIdx+16:bufferIdx+ 16+4-1), 'uint32'); % get obj id (quint32 4 bytes)
 		timestamp = double(typecast(buffer(bufferIdx:bufferIdx+4-1),'uint32'));
-
+		
 		% Advance buffer past header to where data is (or instance ID)
 		bufferIdx=bufferIdx + 20;
-	else
-		% For Overo logging the format is
-		% UAVTalk packet (with timestamped packet)
-		%     Sync val (0x3c)
-		%     Message type (1 byte, adds 0x80)
-		%     Length (2 bytes)
-		%     Object ID (4 bytes)
-		%     Instance ID (optional, 2 bytes)
-		%     Timestamp (2 bytes)
-		%     Data (variable length)
-		%     Checksum (1 byte)
-    
-		% Process header for overo
-		datasizeBufferIdx = bufferIdx + 2;
-		datasizeLength = 2;
-		msgType = buffer(bufferIdx+1) - 128;
-		objID = typecast(buffer(bufferIdx+4:bufferIdx+ 4+4-1), 'uint32');
-        
-		singleInstance = multipleInstanceLookup(multipleInstanceLookup(:,1) == objID, 2);
-		if singleInstance
-			timestamp = double(typecast(buffer(bufferIdx+8:bufferIdx+10-1),'uint16'));
-		else
-			timestamp = double(typecast(buffer(bufferIdx+12:bufferIdx+14-1),'uint16'));
-		end
-        
-		% Advance buffer past header to where data is.  In the case of a
-		% multiple instance object this will be where the timstamp is but
-		% the parsing code will advance by two more.
-		bufferIdx = bufferIdx + 10;
-
-    end
-
-	if timestamp < lastTimestamp
-		timestampAccumulator = timestampAccumulator + timestampWraparound;
 	end
-	lastTimestamp = timestamp;    
-	timestamp = timestamp + timestampAccumulator;
+
+	if ~onboardLogger
+		if timestamp < lastTimestamp
+			timestampAccumulator = timestampAccumulator + timestampWraparound;
+		end
+		lastTimestamp = timestamp;
+		timestamp = timestamp + timestampAccumulator;
+	end
 
 	%Check that message type is correct
-	if msgType ~= correctMsgByte
+	if bitand(msgType, 127) ~= correctMsgByte
 		wrongMessageByte = wrongMessageByte + 1;	
 		continue
 	end
+
+	%Check that message type is correct
+	if bitand(msgType, 128) == timestampedMsgByte
+		timestampedMsgOffset = 2;
+	else
+		timestampedMsgOffset = 0;
+	end
+
 	
 	if (isempty(objID))	%End of file
 		break;
@@ -246,10 +278,10 @@ $(SWITCHCODE)
 		str2=sprintf('wrongSyncByte instances:    % 10d\n', wrongSyncByte );
 		str3=sprintf('wrongMessageByte instances: % 10d\n\n', wrongMessageByte );
 		
-		str4=sprintf('Completed bytes: % 9d of % 9d\n', bufferIdx, length(buffer));
+		str4=sprintf('Completed bytes: % 9d of % 9d\n', bufferIdx, buffer_len);
 		
 		% Arbitrary times two so that it is at least as long	
-		estTimeRemaining=(length(buffer)-bufferIdx)/(bufferIdx/etime(clock,startTime)) * 2;
+		estTimeRemaining=(buffer_len-bufferIdx)/(bufferIdx/etime(clock,startTime)) * 2;
 		h=floor(estTimeRemaining/3600);
 		m=floor((estTimeRemaining-h*3600)/60);
 		s=ceil(estTimeRemaining-h*3600-m*60);
@@ -262,7 +294,7 @@ $(SWITCHCODE)
 	end
 
 	%Check if at end of file. If not, load next prebuffer
-	if bufferIdx+12-1 > length(buffer)
+	if bufferIdx+12-1 > buffer_len
 		break;
 	end
 %	bufferIdx=bufferIdx+12;
@@ -293,7 +325,7 @@ else
 $(EXPORTCSVCODE)
 end
 
-fprintf('%d records in %0.2f seconds.\n', length(buffer), etime(clock,startTime));
+fprintf('%d records in %0.2f seconds.\n', buffer_len, etime(clock,startTime));
 
 
 
@@ -357,4 +389,17 @@ function out=mcolon(inStart, inFinish)
 	for i=1:length(inStart)
 		out(idx:idx+diffIn(i))=inStart(i):inFinish(i);
 		idx=idx+diffIn(i)+1;
+	end
+
+function unwrapped_time = time_unwrap(x, T)
+%% Unwraps the time when a subsequent sample is earlier in time than the
+% prior sample. Note that this can only capture one wrapping period. If
+% there are multiple wrapping periods hidden inside the data, this will not
+% return an appropriately unwrapped timestamp.
+	unwrapped_time = x;
+	time_diff = diff(x) < 0;
+	for i=1:length(time_diff)
+		if time_diff(i) == true
+			unwrapped_time(i+1:end) = unwrapped_time(i+1:end) + T;
+		end
 	end

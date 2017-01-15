@@ -116,15 +116,19 @@ bool UAVObjectGeneratorMatlab::process_object(ObjectInfo* info, int numBytes)
     // Generate 'Switch:' code (will replace the $(SWITCHCODE) tag) //
     //==============================================================//
     matlabSwitchCode.append("\t\tcase " + objectTableName.toUpper() + "_OBJID\n");
-    matlabSwitchCode.append("\t\t\t" + tableIdxName + " = " + tableIdxName +" + 1;\n");
-    matlabSwitchCode.append("\t\t\t" + objectTableName + "FidIdx(" + tableIdxName + ") = bufferIdx; %#ok<*AGROW>\n");
-    matlabSwitchCode.append("\t\t\t" + objectTableName + ".timestamp(" + tableIdxName + ") = timestamp; %#ok<*AGROW>\n");
-    matlabSwitchCode.append("\t\t\tbufferIdx=bufferIdx + " +  objectTableName.toUpper() + "_NUMBYTES+1; %+1 is for CRC\n");
+    matlabSwitchCode.append("\t\t\tif buffer_len >= bufferIdx + " +  objectTableName.toUpper() + "_NUMBYTES+1;\n");
+    matlabSwitchCode.append("\t\t\t\t" + tableIdxName + " = " + tableIdxName +" + 1;\n");
+    matlabSwitchCode.append("\t\t\t\t" + objectTableName + "FidIdx(" + tableIdxName + ") = bufferIdx; %#ok<*AGROW>\n");
+    matlabSwitchCode.append("\t\t\t\tif ~onboardLogger\n");
+    matlabSwitchCode.append("\t\t\t\t\t" + objectTableName + ".timestamp(" + tableIdxName + ") = timestamp; %#ok<*AGROW>\n");
+    matlabSwitchCode.append("\t\t\t\tend\n");
+    matlabSwitchCode.append("\t\t\t\tbufferIdx=bufferIdx + " +  objectTableName.toUpper() + "_NUMBYTES + timestampedMsgOffset + 1; %+1 is for CRC\n");
     if(!info->isSingleInst){
-        matlabSwitchCode.append("\t\t\tbufferIdx = bufferIdx + 2; %An extra two bytes for the instance ID\n");
+        matlabSwitchCode.append("\t\t\t\tbufferIdx = bufferIdx + 2; %An extra two bytes for the instance ID\n");
     }
-    matlabSwitchCode.append("\t\t\tif " + tableIdxName + " >= length(" + objectTableName +"FidIdx) %Check to see if pre-allocated memory is exhausted\n");
-    matlabSwitchCode.append("\t\t\t\t" + objectTableName + "FidIdx(" + tableIdxName + "*2) = 0;\n");
+    matlabSwitchCode.append("\t\t\t\tif " + tableIdxName + " >= length(" + objectTableName +"FidIdx) %Check to see if pre-allocated memory is exhausted\n");
+    matlabSwitchCode.append("\t\t\t\t\t" + objectTableName + "FidIdx(" + tableIdxName + "*2) = 0;\n");
+    matlabSwitchCode.append("\t\t\t\tend\n");
     matlabSwitchCode.append("\t\t\tend\n");
 
 	
@@ -149,9 +153,14 @@ bool UAVObjectGeneratorMatlab::process_object(ObjectInfo* info, int numBytes)
                           ", " + objectName + "FidIdx  + instanceIdOffset + 2-1)), 'uint16'))';\n");
         currentIdx+=2;
     }
+    allocationFields.append("\tif onboardLogger\n");
+    allocationFields.append("\t\t" + objectName + ".timestamp = " +
+                      "time_unwrap(double(typecast(buffer(mcolon(" + objectName + "FidIdx" +
+                      ", 1+" + objectName + "FidIdx)), 'uint16'))', 2^16);\n");
+    allocationFields.append("\tend\n");
 
     for (int n = 0; n < info->fields.length(); ++n) {
-        // Determine variabel type
+        // Determine variable type
         type = fieldTypeStrMatlab[info->fields[n]->type];
 
         //Determine variable type length
@@ -159,13 +168,13 @@ bool UAVObjectGeneratorMatlab::process_object(ObjectInfo* info, int numBytes)
         // Append field
         if ( info->fields[n]->numElements > 1 ){
             allocationFields.append("\t" + objectName + "." + info->fields[n]->name + " = " +
-                              "reshape(double(typecast(buffer(mcolon(" + objectName + "FidIdx + " + QString("%1").arg(currentIdx) +
-                              ", " + objectName + "FidIdx + " + QString("%1").arg(currentIdx + size.toInt()*info->fields[n]->numElements - 1) + ")), '" + type + "')), "+ QString::number(info->fields[n]->numElements, 10) + ", [] );\n");
+                              "reshape(double(typecast(buffer(mcolon(2+" + objectName + "FidIdx + " + QString("%1").arg(currentIdx) +
+                              ", 2+" + objectName + "FidIdx + " + QString("%1").arg(currentIdx + size.toInt()*info->fields[n]->numElements - 1) + ")), '" + type + "')), "+ QString::number(info->fields[n]->numElements, 10) + ", [] );\n");
         }
         else{
             allocationFields.append("\t" + objectName + "." + info->fields[n]->name + " = " +
-                              "double(typecast(buffer(mcolon(" + objectName + "FidIdx + " + QString("%1").arg(currentIdx) +
-                              ", " + objectName + "FidIdx + " + QString("%1").arg(currentIdx + size.toInt() - 1) + ")), '" + type + "'))';\n");
+                              "double(typecast(buffer(mcolon(2+" + objectName + "FidIdx + " + QString("%1").arg(currentIdx) +
+                              ", 2+" + objectName + "FidIdx + " + QString("%1").arg(currentIdx + size.toInt() - 1) + ")), '" + type + "'))';\n");
         }
         currentIdx+=size.toInt()*info->fields[n]->numElements;
     }
