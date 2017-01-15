@@ -3,13 +3,16 @@
 		<description>Selection of optional hardware configurations.</description>
 
 		<field name="RcvrPort" units="function" type="enum" elements="1" defaultvalue="PWM">
-		<options>
-			 <option>Disabled</option>
-			 <option>PWM</option>
-			 <option>PPM</option>
-			 <option>PPM+PWM</option>
-			 <option>PPM+Outputs</option>
-			 <option>Outputs</option>
+			<options>
+				<option>Disabled</option>
+				<option>Outputs</option>
+				<option>PPM</option>
+				<option>PPM+FrSky</option>
+				<option>PPM+Outputs</option>
+				<option>PPM+PWM</option>
+				<option>PPM+UART</option>
+				<option>PWM</option>
+				<option>UART</option>
 		</options>
 		</field>		
 		<field name="MainPort" units="function" type="enum" elements="1"  parent="HwShared.PortTypes" defaultvalue="Telemetry">
@@ -50,6 +53,27 @@
 				<option>LighttelemetryTx</option>
 				<option>PicoC</option>
 				<option>FrSKY SPort Telemetry</option>
+			</options>
+		</field>
+		<field name="RcvrPortUsart" units="function" type="enum" elements="1" parent="HwShared.PortTypes" defaultvalue="Disabled">
+			<options>
+				<option>Disabled</option>
+				<option>ComBridge</option>
+				<option>DebugConsole</option>
+				<option>DSM</option>
+				<option>FrSKY Sensor Hub</option>
+				<option>FrSKY SPort Telemetry</option>
+				<option>GPS</option>
+				<option>HoTT SUMD</option>
+				<option>HoTT SUMH</option>
+				<option>HoTT Telemetry</option>
+				<option>LighttelemetryTx</option>
+				<option>MavLinkTX</option>
+				<option>MavLinkTX_GPS_RX</option>
+				<option>MSP</option>
+				<option>OpenLog</option>
+				<option>PicoC</option>
+				<option>Telemetry</option>
 			</options>
 		</field>
 

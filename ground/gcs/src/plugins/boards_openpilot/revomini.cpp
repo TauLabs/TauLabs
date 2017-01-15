@@ -24,6 +24,10 @@
  * You should have received a copy of the GNU General Public License along
  * with this program; if not, write to the Free Software Foundation, Inc.,
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+ *
+ * Additional note on redistribution: The copyright and license notices above
+ * must be maintained in each individual source file that is a derivative work
+ * of this source file; otherwise redistribution is prohibited.
  */
 
 #include "revomini.h"
@@ -160,11 +164,11 @@ bool RevoMini::setInputOnPort(enum InputType type, int port_num)
     settings.MainPort = HwRevoMini::MAINPORT_TELEMETRY;
 
     switch(type) {
-    case INPUT_TYPE_PWM:
-        settings.RcvrPort = HwRevoMini::RCVRPORT_PWM;
-        break;
     case INPUT_TYPE_PPM:
         settings.RcvrPort = HwRevoMini::RCVRPORT_PPM;
+        break;
+    case INPUT_TYPE_PWM:
+        settings.RcvrPort = HwRevoMini::RCVRPORT_PWM;
         break;
     case INPUT_TYPE_SBUS:
         settings.FlexiPort = HwRevoMini::FLEXIPORT_TELEMETRY;
@@ -175,6 +179,9 @@ bool RevoMini::setInputOnPort(enum InputType type, int port_num)
         break;
     case INPUT_TYPE_HOTTSUMD:
         settings.FlexiPort = HwRevoMini::FLEXIPORT_HOTTSUMD;
+        break;
+    case INPUT_TYPE_HOTTSUMH:
+        settings.MainPort = HwRevoMini::MAINPORT_HOTTSUMH;
         break;
     default:
         return false;
@@ -210,6 +217,8 @@ enum Core::IBoardType::InputType RevoMini::getInputOnPort(int port_num)
         return INPUT_TYPE_DSM;
     case HwRevoMini::FLEXIPORT_HOTTSUMD:
         return INPUT_TYPE_HOTTSUMD;
+    case HwRevoMini::FLEXIPORT_HOTTSUMH:
+        return INPUT_TYPE_HOTTSUMH;
     default:
         break;
     }
@@ -217,15 +226,22 @@ enum Core::IBoardType::InputType RevoMini::getInputOnPort(int port_num)
     switch(settings.MainPort) {
     case HwRevoMini::MAINPORT_SBUS:
         return INPUT_TYPE_SBUS;
+    case HwRevoMini::MAINPORT_HOTTSUMD:
+        return INPUT_TYPE_HOTTSUMD;
+    case HwRevoMini::MAINPORT_HOTTSUMH:
+        return INPUT_TYPE_HOTTSUMH;
     default:
         break;
     }
 
     switch(settings.RcvrPort) {
-    case HwRevoMini::RCVRPORT_PPM:
-        return INPUT_TYPE_PPM;
     case HwRevoMini::RCVRPORT_PWM:
         return INPUT_TYPE_PWM;
+    case HwRevoMini::RCVRPORT_PPM:
+    case HwRevoMini::RCVRPORT_PPMPWM:
+    case HwRevoMini::RCVRPORT_PPMUART:
+    case HwRevoMini::RCVRPORT_PPMFRSKY:
+        return INPUT_TYPE_PPM;
     default:
         break;
     }
@@ -254,7 +270,7 @@ int RevoMini::queryMaxGyroRate()
     case HwRevoMini::GYRORANGE_2000:
         return 2000;
     default:
-        return 500;
+        return 2000;
     }
 }
 
