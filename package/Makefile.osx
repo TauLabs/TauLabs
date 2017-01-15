@@ -9,6 +9,8 @@ OUT_FILE="${PACKAGE_DIR}/TauLabs-${PACKAGE_LBL}.dmg"
 ICON_FILE="${ROOT_DIR}/package/linux/taulabs.png"
 VOL_NAME="Tau Labs"
 
+export QT_SDK_BIN_PATH := $(QT_SDK_DIR)/$(QT_VERSION_GENERAL)/clang_64/bin
+
 # calls macdeployqt and bundles the extra libraries into .app
 standalone: gcs
 	"${ROOT_DIR}/package/osx/libraries" ${APP_PATH}/${APP_NAME}
