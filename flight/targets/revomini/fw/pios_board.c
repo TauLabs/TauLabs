@@ -93,6 +93,14 @@ static const struct pios_hmc5883_cfg pios_hmc5883_cfg = {
 	.Mode = PIOS_HMC5883_MODE_CONTINUOUS,
 	.Default_Orientation = PIOS_HMC5883_TOP_270DEG,
 };
+
+static const struct pios_hmc5883_cfg pios_hmc5883_external_cfg = {
+    .M_ODR               = PIOS_HMC5883_ODR_75,
+    .Meas_Conf           = PIOS_HMC5883_MEASCONF_NORMAL,
+    .Gain                = PIOS_HMC5883_GAIN_1_9,
+    .Mode                = PIOS_HMC5883_MODE_SINGLE,
+    .Default_Orientation = PIOS_HMC5883_TOP_270DEG,
+};
 #endif /* PIOS_INCLUDE_HMC5883 */
 
 /**
@@ -161,9 +169,25 @@ static const struct pios_mpu60x0_cfg pios_mpu6000_cfg = {
 uintptr_t pios_com_debug_id;
 #endif	/* PIOS_INCLUDE_DEBUG_CONSOLE */
 
+bool external_mag_fail;
+
 uintptr_t pios_internal_adc_id = 0;
 uintptr_t pios_uavo_settings_fs_id;
 uintptr_t pios_waypoints_settings_fs_id;
+
+enum pios_hal_panic {
+       // start at 2, so that panic codes are obvious to user
+       PIOS_HAL_PANIC_IMU  = 2,
+       PIOS_HAL_PANIC_MAG,
+       PIOS_HAL_PANIC_BARO,
+       PIOS_HAL_PANIC_FLASH,
+       PIOS_HAL_PANIC_FILESYS,
+       PIOS_HAL_PANIC_I2C_INT,
+       PIOS_HAL_PANIC_I2C_EXT,
+       PIOS_HAL_PANIC_SPI,
+       PIOS_HAL_PANIC_CAN,
+       PIOS_HAL_PANIC_ADC,
+};
 
 /**
  * PIOS_Board_Init()
@@ -323,10 +347,21 @@ void PIOS_Board_Init(void) {
 #endif	/* PIOS_INCLUDE_USB */
 
 	/* Configure IO ports */
+#if defined(PIOS_INCLUDE_I2C)
+	if (PIOS_I2C_Init(&pios_i2c_mag_pressure_adapter_id, &pios_i2c_mag_pressure_adapter_cfg))
+		PIOS_DEBUG_Assert(0);
+
+	if (PIOS_I2C_CheckClear(pios_i2c_mag_pressure_adapter_id) != 0)
+		PIOS_HAL_Panic(PIOS_LED_ALARM, PIOS_HAL_PANIC_I2C_INT);
+	else
+		AlarmsSet(SYSTEMALARMS_ALARM_I2C, SYSTEMALARMS_ALARM_OK);
+#endif  // PIOS_INCLUDE_I2C
+
 	HwRevoMiniDSMxModeOptions hw_DSMxMode;
 	HwRevoMiniDSMxModeGet(&hw_DSMxMode);
 	
 	/* Configure main USART port */
+
 	uint8_t hw_mainport;
 	HwRevoMiniMainPortGet(&hw_mainport);
 
@@ -480,30 +515,9 @@ void PIOS_Board_Init(void) {
 	PIOS_DEBUG_Init(&pios_tim_servo_all_channels, NELEMENTS(pios_tim_servo_all_channels));
 #endif
 	
-	if (PIOS_I2C_Init(&pios_i2c_mag_pressure_adapter_id, &pios_i2c_mag_pressure_adapter_cfg)) {
-		PIOS_DEBUG_Assert(0);
-	}
-	
 	PIOS_DELAY_WaitmS(50);
 
 	PIOS_SENSORS_Init();
-
-#if defined(PIOS_INCLUDE_ADC)
-	uint32_t internal_adc_id;
-	PIOS_INTERNAL_ADC_Init(&internal_adc_id, &pios_adc_cfg);
-	PIOS_ADC_Init(&pios_internal_adc_id, &pios_internal_adc_driver, internal_adc_id);
- 
-        // configure the pullup for PA8 (inhibit pullups from current/sonar shared pin)
-        GPIO_Init(pios_current_sonar_pin.gpio, &pios_current_sonar_pin.init);
-#endif
-
-#if defined(PIOS_INCLUDE_HMC5883)
-	PIOS_HMC5883_Init(PIOS_I2C_MAIN_ADAPTER, &pios_hmc5883_cfg);
-#endif
-	
-#if defined(PIOS_INCLUDE_MS5XXX)
-	PIOS_MS5XXX_I2C_Init(pios_i2c_mag_pressure_adapter_id, MS5XXX_I2C_ADDR_0x77, &pios_ms5xxx_cfg);
-#endif
 
 #if defined(PIOS_INCLUDE_MPU6000)
 	PIOS_MPU6000_Init(pios_spi_gyro_id,0, &pios_mpu6000_cfg);
@@ -570,6 +584,77 @@ void PIOS_Board_Init(void) {
 	    (hw_mpu6000_samplerate == HWREVOMINI_MPU6000RATE_8000) ? 8000 : \
 	    pios_mpu6000_cfg.default_samplerate;
 	PIOS_MPU6000_SetSampleRate(mpu6000_samplerate);
+#endif
+
+#if defined(PIOS_INCLUDE_I2C)
+#if defined(PIOS_INCLUDE_HMC5883)
+	PIOS_WDG_Clear();
+
+	uint8_t magnetometer;
+	HwRevoMiniMagnetometerGet(&magnetometer);
+
+	external_mag_fail = false;
+
+	if (magnetometer == HWREVOMINI_MAGNETOMETER_EXTERNALI2CFLEXIPORT)	{
+		if (PIOS_HMC5883_Init(pios_i2c_flexiport_adapter_id, &pios_hmc5883_external_cfg) == 0) {
+			if (PIOS_HMC5883_Test() == 0) {
+				// External mag configuration was successful
+
+				// setup sensor orientation
+				uint8_t ext_mag_orientation;
+				HwRevoMiniExtMagOrientationGet(&ext_mag_orientation);
+
+				enum pios_hmc5883_orientation hmc5883_externalOrientation = \
+					(ext_mag_orientation == HWREVOMINI_EXTMAGORIENTATION_TOP0DEGCW)      ? PIOS_HMC5883_TOP_0DEG      : \
+					(ext_mag_orientation == HWREVOMINI_EXTMAGORIENTATION_TOP90DEGCW)     ? PIOS_HMC5883_TOP_90DEG     : \
+					(ext_mag_orientation == HWREVOMINI_EXTMAGORIENTATION_TOP180DEGCW)    ? PIOS_HMC5883_TOP_180DEG    : \
+					(ext_mag_orientation == HWREVOMINI_EXTMAGORIENTATION_TOP270DEGCW)    ? PIOS_HMC5883_TOP_270DEG    : \
+					(ext_mag_orientation == HWREVOMINI_EXTMAGORIENTATION_BOTTOM0DEGCW)   ? PIOS_HMC5883_BOTTOM_0DEG   : \
+					(ext_mag_orientation == HWREVOMINI_EXTMAGORIENTATION_BOTTOM90DEGCW)  ? PIOS_HMC5883_BOTTOM_90DEG  : \
+					(ext_mag_orientation == HWREVOMINI_EXTMAGORIENTATION_BOTTOM180DEGCW) ? PIOS_HMC5883_BOTTOM_180DEG : \
+					(ext_mag_orientation == HWREVOMINI_EXTMAGORIENTATION_BOTTOM270DEGCW) ? PIOS_HMC5883_BOTTOM_270DEG : \
+					pios_hmc5883_external_cfg.Default_Orientation;
+				PIOS_HMC5883_SetOrientation(hmc5883_externalOrientation);
+			}
+			else
+				external_mag_fail = true;  // External HMC5883 Test Failed
+		}
+		else
+			external_mag_fail = true;  // External HMC5883 Init Failed
+	}
+
+	if (magnetometer == HWREVOMINI_MAGNETOMETER_INTERNAL)
+	{		
+		if (PIOS_HMC5883_Init(PIOS_I2C_MAIN_ADAPTER, &pios_hmc5883_cfg) != 0)
+			PIOS_HAL_Panic(PIOS_LED_ALARM, PIOS_HAL_PANIC_MAG);
+		if (PIOS_HMC5883_Test() != 0)
+			PIOS_HAL_Panic(PIOS_LED_ALARM, PIOS_HAL_PANIC_MAG);
+	}
+
+#endif  // PIOS_INCLUDE_HMC5883
+
+	//I2C is slow, sensor init as well, reset watchdog to prevent reset here
+    PIOS_WDG_Clear();
+
+#if defined(PIOS_INCLUDE_MS5611)
+	if (PIOS_MS5611_Init(&pios_ms5611_cfg, pios_i2c_mag_pressure_adapter_id) != 0)
+		PIOS_HAL_Panic(PIOS_LED_ALARM, PIOS_HAL_PANIC_BARO);
+	if (PIOS_MS5611_Test() != 0)
+		PIOS_HAL_Panic(PIOS_LED_ALARM, PIOS_HAL_PANIC_BARO);
+#endif
+
+    //I2C is slow, sensor init as well, reset watchdog to prevent reset here
+    PIOS_WDG_Clear();
+
+#endif    /* PIOS_INCLUDE_I2C */
+
+#if defined(PIOS_INCLUDE_ADC)
+	uint32_t internal_adc_id;
+	PIOS_INTERNAL_ADC_Init(&internal_adc_id, &pios_adc_cfg);
+	PIOS_ADC_Init(&pios_internal_adc_id, &pios_internal_adc_driver, internal_adc_id);
+
+        // configure the pullup for PA8 (inhibit pullups from current/sonar shared pin)
+        GPIO_Init(pios_current_sonar_pin.gpio, &pios_current_sonar_pin.init);
 #endif
 
 }
