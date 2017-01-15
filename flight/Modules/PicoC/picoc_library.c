@@ -194,93 +194,93 @@ struct LibraryFunction PlatformLibrary_string[] =
 #ifndef NO_DOUBLE_MATH
 void LibSin(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
 {
-	ReturnValue->Val->FP = sin(Param[0]->Val->FP);
+	ReturnValue->Val->FP = sinf(Param[0]->Val->FP);
 }
 
 void LibCos(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
 {
-	ReturnValue->Val->FP = cos(Param[0]->Val->FP);
+	ReturnValue->Val->FP = cosf(Param[0]->Val->FP);
 }
 
 void LibTan(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
 {
-	ReturnValue->Val->FP = tan(Param[0]->Val->FP);
+	ReturnValue->Val->FP = tanf(Param[0]->Val->FP);
 }
 
 void LibAsin(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
 {
-	ReturnValue->Val->FP = asin(Param[0]->Val->FP);
+	ReturnValue->Val->FP = asinf(Param[0]->Val->FP);
 }
 
 void LibAcos(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
 {
-	ReturnValue->Val->FP = acos(Param[0]->Val->FP);
+	ReturnValue->Val->FP = acosf(Param[0]->Val->FP);
 }
 
 void LibAtan(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
 {
-	ReturnValue->Val->FP = atan(Param[0]->Val->FP);
+	ReturnValue->Val->FP = atanf(Param[0]->Val->FP);
 }
 
 void LibSinh(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
 {
-	ReturnValue->Val->FP = sinh(Param[0]->Val->FP);
+	ReturnValue->Val->FP = sinhf(Param[0]->Val->FP);
 }
 
 void LibCosh(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
 {
-	ReturnValue->Val->FP = cosh(Param[0]->Val->FP);
+	ReturnValue->Val->FP = coshf(Param[0]->Val->FP);
 }
 
 void LibTanh(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
 {
-	ReturnValue->Val->FP = tanh(Param[0]->Val->FP);
+	ReturnValue->Val->FP = tanhf(Param[0]->Val->FP);
 }
 
 void LibExp(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
 {
-	ReturnValue->Val->FP = exp(Param[0]->Val->FP);
+	ReturnValue->Val->FP = expf(Param[0]->Val->FP);
 }
 
 void LibFabs(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
 {
-	ReturnValue->Val->FP = fabs(Param[0]->Val->FP);
+	ReturnValue->Val->FP = fabsf(Param[0]->Val->FP);
 }
 
 void LibLog(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
 {
-	ReturnValue->Val->FP = log(Param[0]->Val->FP);
+	ReturnValue->Val->FP = logf(Param[0]->Val->FP);
 }
 
 void LibLog10(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
 {
-	ReturnValue->Val->FP = log10(Param[0]->Val->FP);
+	ReturnValue->Val->FP = log10f(Param[0]->Val->FP);
 }
 
 void LibPow(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
 {
-	ReturnValue->Val->FP = pow(Param[0]->Val->FP, Param[1]->Val->FP);
+	ReturnValue->Val->FP = powf(Param[0]->Val->FP, Param[1]->Val->FP);
 }
 
 void LibSqrt(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
 {
-	ReturnValue->Val->FP = sqrt(Param[0]->Val->FP);
+	ReturnValue->Val->FP = sqrtf(Param[0]->Val->FP);
 }
 
 void LibRound(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
 {
 	/* this awkward definition of "round()" due to it being inconsistently declared in math.h */
-	ReturnValue->Val->FP = ceil(Param[0]->Val->FP - 0.5);
+	ReturnValue->Val->FP = ceilf(Param[0]->Val->FP - 0.5);
 }
 
 void LibCeil(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
 {
-	ReturnValue->Val->FP = ceil(Param[0]->Val->FP);
+	ReturnValue->Val->FP = ceilf(Param[0]->Val->FP);
 }
 
 void LibFloor(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
 {
-	ReturnValue->Val->FP = floor(Param[0]->Val->FP);
+	ReturnValue->Val->FP = floorf(Param[0]->Val->FP);
 }
 #endif /* NO_DOUBLE_MATH */
 
