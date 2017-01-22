@@ -10,8 +10,8 @@ BOARD               := STM32F30x_SPARKY
 MODEL               := HD
 MODEL_SUFFIX        := 
 
-OPENOCD_JTAG_CONFIG := stlink-v2.cfg
-OPENOCD_CONFIG      := stm32f3xx.stlink.cfg
+OPENOCD_JTAG_CONFIG ?= stlink-v2.cfg
+OPENOCD_CONFIG      := stm32f3x.cfg
 
 # Note: These must match the values in link_$(BOARD)_memory.ld
 BL_BANK_BASE        := 0x08000000  # Start of bootloader flash

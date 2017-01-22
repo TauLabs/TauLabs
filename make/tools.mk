@@ -158,7 +158,7 @@ ftd2xx_install: FTD2XX_FILE := CDM20817.zip
 ftd2xx_install: ftd2xx_clean
         # download the file only if it's newer than what we already have
 	$(V0) @echo " DOWNLOAD     $(FTD2XX_URL)"
-	$(V1) wget -q -N -P "$(DL_DIR)" "$(FTD2XX_URL)"
+	$(V1) curl -L -k -o "$(DL_DIR)/$(FTD2XX_FILE)" "$(FTD2XX_URL)"
 
         # extract the source
 	$(V0) @echo " EXTRACT      $(FTD2XX_FILE) -> $(FTD2XX_DIR)"
@@ -170,8 +170,6 @@ ftd2xx_clean:
 	$(V0) @echo " CLEAN        $(FTD2XX_DIR)"
 	$(V1) [ ! -d "$(FTD2XX_DIR)" ] || $(RM) -r "$(FTD2XX_DIR)"
 
-.PHONY: ftd2xx_install
-
 LIBUSB_WIN_DIR := $(DL_DIR)/libusb-win32-bin-1.2.6.0
 
 libusb_win_install: | $(DL_DIR)
@@ -180,7 +178,7 @@ libusb_win_install: LIBUSB_WIN_FILE := libusb-win32-bin-1.2.6.0.zip
 libusb_win_install: libusb_win_clean
         # download the file only if it's newer than what we already have
 	$(V0) @echo " DOWNLOAD     $(LIBUSB_WIN_URL)"
-	$(V1) wget -q -N -P "$(DL_DIR)" --trust-server-name "$(LIBUSB_WIN_URL)"
+	$(V1) curl -L -k -o "$(DL_DIR)/$(LIBUSB_WIN_FILE)" "$(LIBUSB_WIN_URL)"
 
         # extract the source
 	$(V0) @echo " EXTRACT      $(LIBUSB_WIN_FILE) -> $(LIBUSB_WIN_DIR)"
@@ -199,34 +197,27 @@ libusb_win_clean:
 .PHONY: openocd_win_install
 
 openocd_win_install: | $(DL_DIR) $(TOOLS_DIR)
-openocd_win_install: OPENOCD_URL  := git://git.code.sf.net/p/openocd/code
-openocd_win_install: OPENOCD_REV  := cf1418e9a85013bbf8dbcc2d2e9985695993d9f4
+openocd_win_install:     OPENOCD_URL     := git://git.code.sf.net/p/openocd/code
+openocd_win_install:     OPENOCD_TAG     := v0.9.0
 openocd_win_install: OPENOCD_OPTIONS := 
 
 ifeq ($(OPENOCD_FTDI), yes)
 openocd_win_install: OPENOCD_OPTIONS := $(OPENOCD_OPTIONS) --enable-ft2232_ftd2xx --with-ftd2xx-win32-zipdir=$(FTD2XX_DIR)
+openocd_win_install: ftd2xx_install
 endif
 
-openocd_win_install: openocd_win_clean libusb_win_install ftd2xx_install
+openocd_win_install: openocd_win_clean libusb_win_install
         # download the source
-	$(V0) @echo " DOWNLOAD     $(OPENOCD_URL) @ $(OPENOCD_REV)"
+	$(V0) @echo " DOWNLOAD     $(OPENOCD_URL) @ $(OPENOCD_TAG)"
 	$(V1) [ ! -d "$(OPENOCD_BUILD_DIR)" ] || $(RM) -rf "$(OPENOCD_BUILD_DIR)"
 	$(V1) mkdir -p "$(OPENOCD_BUILD_DIR)"
-	$(V1) git clone --no-checkout $(OPENOCD_URL) "$(DL_DIR)/openocd-build"
+	$(V1) git clone --no-checkout $(OPENOCD_URL) "$(OPENOCD_BUILD_DIR)"
 	$(V1) ( \
 	  cd $(OPENOCD_BUILD_DIR) ; \
-	  git checkout -q $(OPENOCD_REV) ; \
+	  git checkout -q tags/$(OPENOCD_TAG) ; \
 	)
 
-        # apply patches
-	$(V0) @echo " PATCH        $(OPENOCD_BUILD_DIR)"
-	$(V1) ( \
-	  cd $(OPENOCD_BUILD_DIR) ; \
-	  git apply < $(ROOT_DIR)/flight/Project/OpenOCD/0003-freertos-cm4f-fpu-support.patch ; \
-	  git apply < $(ROOT_DIR)/flight/Project/OpenOCD/0004-st-icdi-disable.patch ; \
-	)
-
-        # build and install
+	# build and install
 	$(V0) @echo " BUILD        $(OPENOCD_WIN_DIR)"
 	$(V1) mkdir -p "$(OPENOCD_WIN_DIR)"
 	$(V1) ( \
@@ -260,36 +251,39 @@ OPENOCD_BUILD_DIR := $(DL_DIR)/openocd-build
 
 openocd_install: | $(DL_DIR) $(TOOLS_DIR)
 openocd_install: OPENOCD_URL     := git://git.code.sf.net/p/openocd/code
-openocd_install: OPENOCD_REV     := cf1418e9a85013bbf8dbcc2d2e9985695993d9f4
+openocd_install: OPENOCD_TAG     := v0.9.0
 openocd_install: OPENOCD_OPTIONS := --enable-maintainer-mode --prefix="$(OPENOCD_DIR)" --enable-buspirate --enable-stlink
 
 ifeq ($(OPENOCD_FTDI), yes)
-openocd_install: OPENOCD_OPTIONS := $(OPENOCD_OPTIONS) --enable-ft2232_libftdi
+openocd_install: OPENOCD_OPTIONS := $(OPENOCD_OPTIONS) --enable-ftdi
 endif
 
 ifeq ($(UNAME), Darwin)
 openocd_install: OPENOCD_OPTIONS := $(OPENOCD_OPTIONS) --disable-option-checking
+openocd_install: OPENOCD_OPTIONS := MAKEINFO=true $(OPENOCD_OPTIONS)
 endif
 
 openocd_install: openocd_clean
-        # download the source
-	$(V0) @echo " DOWNLOAD     $(OPENOCD_URL) @ $(OPENOCD_REV)"
+	# download the source
+	$(V0) @echo " DOWNLOAD     $(OPENOCD_URL) @ $(OPENOCD_TAG)"
 	$(V1) [ ! -d "$(OPENOCD_BUILD_DIR)" ] || $(RM) -rf "$(OPENOCD_BUILD_DIR)"
 	$(V1) mkdir -p "$(OPENOCD_BUILD_DIR)"
 	$(V1) git clone --no-checkout $(OPENOCD_URL) "$(OPENOCD_BUILD_DIR)"
 	$(V1) ( \
 	  cd $(OPENOCD_BUILD_DIR) ; \
-	  git checkout -q $(OPENOCD_REV) ; \
+	  git checkout -q tags/$(OPENOCD_TAG) ; \
 	)
 
-        # apply patches
+ifeq ($(UNAME), Darwin)
+	# apply clang build patch
 	$(V0) @echo " PATCH        $(OPENOCD_DIR)"
 	$(V1) ( \
 	  cd $(OPENOCD_BUILD_DIR) ; \
-	  git apply < $(ROOT_DIR)/flight/Project/OpenOCD/0003-freertos-cm4f-fpu-support.patch ; \
+	  git apply < $(ROOT_DIR)/flight/Project/OpenOCD/0005-clang-fix-build.patch ; \
 	)
+endif
 
-        # build and install
+	# build and install
 	$(V0) @echo " BUILD        $(OPENOCD_DIR)"
 	$(V1) mkdir -p "$(OPENOCD_DIR)"
 	$(V1) ( \
@@ -300,7 +294,7 @@ openocd_install: openocd_clean
 	  $(MAKE) install ; \
 	)
 
-        # delete the extracted source when we're done
+	# delete the extracted source when we're done
 	$(V1) [ ! -d "$(OPENOCD_BUILD_DIR)" ] || $(RM) -rf "$(OPENOCD_BUILD_DIR)"
 
 .PHONY: openocd_clean
@@ -544,11 +538,20 @@ else
   ARM_SDK_PREFIX ?= arm-none-eabi-
 endif
 
-ifeq ($(shell [ -d "$(OPENOCD_DIR)" ] && echo "exists"), exists)
-  OPENOCD := $(OPENOCD_DIR)/bin/openocd
+# default to looking on path
+OPENOCD ?= openocd
+ifdef WINDOWS
+  ifeq ($(shell [ -d "$(OPENOCD_WIN_DIR)" ] && echo "exists"), exists)
+    OPENOCD := $(OPENOCD_WIN_DIR)/bin/openocd.exe
+  else
+    $(warning Warning: OpenOCD not found in tools (try make openocd_install))
+  endif
 else
-  # not installed, hope it's in the path...
-  OPENOCD ?= openocd
+  ifeq ($(shell [ -d "$(OPENOCD_DIR)" ] && echo "exists"), exists)
+    OPENOCD := $(OPENOCD_DIR)/bin/openocd
+  else
+    $(warning Warning: OpenOCD not found in tools (try make openocd_install))
+  endif
 endif
 
 ifeq ($(shell [ -d "$(ANDROID_SDK_DIR)" ] && echo "exists"), exists)

@@ -70,6 +70,7 @@ MSG_TLFIRMWARE       = ${quote} TLFW      $(MSG_EXTRA) ${quote}
 MSG_FWINFO           = ${quote} FWINFO    $(MSG_EXTRA) ${quote}
 MSG_JTAG_PROGRAM     = ${quote} JTAG-PGM  $(MSG_EXTRA) ${quote}
 MSG_JTAG_WIPE        = ${quote} JTAG-WIPE $(MSG_EXTRA) ${quote}
+MSG_JTAG_DEBUG       = ${quote} JTAG-DBG  $(MSG_EXTRA) ${quote}
 MSG_PADDING          = ${quote} PADDING   $(MSG_EXTRA) ${quote}
 MSG_FLASH_IMG        = ${quote} FLASH_IMG $(MSG_EXTRA) ${quote}
 MSG_GCOV             = ${quote} GCOV      $(MSG_EXTRA) ${quote}
@@ -268,11 +269,7 @@ program: $(1)
 	@echo $(MSG_JTAG_PROGRAM) $$(call toprel, $$<)
 	$(V1) $(OOCD_EXE) \
 		$$(OOCD_JTAG_SETUP) \
-		$$(OOCD_BOARD_RESET) \
-		-c "flash write_image erase $$< $(2) bin" \
-		-c "verify_image $$< $(2) bin" \
-		-c "reset run" \
-		-c "shutdown"
+		-c "program $$< verify reset exit"
 
 .PHONY: wipe
 wipe:
@@ -283,7 +280,16 @@ wipe:
 		-c "flash erase_address pad $(2) $(3)" \
 		-c "reset run" \
 		-c "shutdown"
-endef
+
+.PHONY: debug
+debug: $(1)
+	@echo $(MSG_JTAG_DEBUG) $$(call toprel, $$<)
+	$(V1) $(OOCD_EXE) \
+		$$(OOCD_JTAG_SETUP) \
+		-c "program $$< verify"
+		-c "reset init"
+
+endef # JTAG_TEMPLATE
 
 # Generate GCOV summary
 #  $(1) = name of source file to analyze with gcov
