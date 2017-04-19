@@ -136,14 +136,6 @@ int32_t PIOS_SYS_Reset(void)
 }
 
 /**
-* Returns the CPU's flash size (in bytes)
-*/
-uint32_t PIOS_SYS_getCPUFlashSize(void)
-{
-	return 1024000;
-}
-
-/**
 * Returns the serial number as a string
 * param[out] uint8_t pointer to a string which can store at least 12 bytes
 * (12 bytes returned for STM32)
