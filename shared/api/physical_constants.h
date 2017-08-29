@@ -48,8 +48,8 @@
 // Temperature and pressure conversions
 #define CELSIUS2KELVIN     273.15f
 #define INCHES_MERCURY2KPA  3.386f
-#define KPA2HECTAPASCAL     0.001f
-#define HECTAPASCAL2KPA     100.0f
+#define KPA2HECTAPASCAL     0.001f //this is incorrect. 1 kilopascal = 10 hectopascal ( ie 10.0f) do you mean Bar2hPa? (0.001f)
+#define HECTAPASCAL2KPA     100.0f //this is incorrect. 1 hectopascal = 0.1 kilopascal (ie 0.1f) do you mean hPa2Bar? (1000.0f)
 
 // Distance conversions
 #define FEET2MILES                       0.3048f
